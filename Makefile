@@ -101,10 +101,10 @@ deps:
 	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(JS_READ_ONLY)/ace
 
 	mkdir -p $(JS_READ_ONLY)/blockly
-	svn checkout http://blockly.googlecode.com/svn/trunk/core $(JS_READ_ONLY)/blockly/core
-	svn checkout http://blockly.googlecode.com/svn/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
-	svn checkout http://blockly.googlecode.com/svn/trunk/generators $(JS_READ_ONLY)/blockly/generators
-	svn checkout http://blockly.googlecode.com/svn/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
+ 	svn checkout https://github.com/google/blockly/trunk/core $(JS_READ_ONLY)/blockly/core
+ 	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
+ 	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
+ 	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
 
 clean: clean-languages clean-deps
 
