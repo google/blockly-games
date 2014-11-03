@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "OK",
+	"Games.puzzle": "Putlispæl",
+	"Puzzle.legsChoose": "vel...",
+	"Puzzle.error0": "Einastandandi!\nAllir %1 blokkar eru rættir.",
+	"Puzzle.error1": "Næstan! Ein blokkur er ikki rættur.",
+	"Puzzle.error2": "%1 blokkar eru ikki rættir.",
+	"Puzzle.tryAgain": "Tann upplýsti blokkurin er ikki rættur.\nRoyn aftur.",
+	"Games.help": "Hjálp",
+	"Puzzle.checkAnswers": "Hygg eftir svarunum"
+}

@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "ਠੀਕ ਹੈ।",
+	"Games.puzzle": "ਬੁਝਾਰਤ",
+	"Puzzle.legsChoose": "ਚੁਣੋ...",
+	"Puzzle.error0": "ਬਹੁਤ ਵਧੀਆ!\nਸਾਰੇ $1 ਬਲਾਕ ਸਹੀ ਹਨ।",
+	"Puzzle.error1": "ਬਸ ਹੋ ਗਿਆ ਸੀ! ਇੱਕ ਬਲਾਕ ਗ਼ਲਤ ਸੀ।",
+	"Puzzle.error2": "%1 ਬਲਾਕ ਗ਼ਲਤ ਹਨ।",
+	"Puzzle.tryAgain": "ਉੱਭਰਿਆ ਹੋਇਆ ਬਲਾਕ ਗ਼ਲਤ ਹੈ।\nਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਰਹੋ।",
+	"Games.help": "ਮਦਦ",
+	"Puzzle.checkAnswers": "ਜੁਆਬ ਚੈੱਕ ਕਰੋ"
+}

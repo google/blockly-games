@@ -1,0 +1,78 @@
+#blockly {
+  position: fixed;
+  bottom: 10px;
+}
+#visualization {
+  position: relative;
+}
+#displayLines {
+  position: absolute;
+  top: 0px;
+  width: 401px;
+}
+#charDisplay {
+  font-family: monospace;
+  font-size: 260%;
+  letter-spacing: 20px;
+  width: 400px;
+  height: 400px;
+  padding-left: 9px;
+  padding-top: 1px;
+}
+.char {
+  float: left;
+  position: absolute;
+}
+.matchedChar {
+  transition: background 0.5s linear;
+  background-color: #00FF00;
+}
+.shiftedChar {
+  transition-duration: 1s;
+  -webkit-transition-duration: 1s;
+  -webkit-transform: translateY(40px);
+  transform: translateY(40px);
+}
+.replacedChar {
+  transition: background 0.5s linear;
+}
+.edges, .edgeX, .edgeY {
+  stroke-width: 1;
+  stroke: #BBA;
+  fill: none;
+  font-family: sans-serif;
+  font-size: 10pt;
+  font-weight: 100;
+}
+.edgeX {
+  text-anchor: start;
+}
+
+/* Buttons */
+button.primary {
+  /* Can't use "text-align: start" due to IE. */
+  text-align: left;
+}
+button:disabled {
+  border: #888;
+  background-color: #888;
+}
+html[dir="RTL"] button.primary {
+  text-align: right;
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.link {
+  background-position: 0px 0px;
+}
+.run {
+  background-position: 0px -21px;
+}
+.stop {
+  background-position: -21px -21px;
+}

@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sahan.ssw"
+		]
+	},
+	"Games.runProgram": "මෘදුකාංගය ක්‍රියාත්මක කරන්න",
+	"Games.resetProgram": "නැවත සකසන්න",
+	"Games.dialogOk": "හරි",
+	"Games.dialogCancel": "අවලංගු කරන්න",
+	"Games.catLogic": "තර්කය",
+	"Games.catMath": "ගණිත",
+	"Games.catText": "පෙළ",
+	"Games.catLists": "ලැයිස්තු",
+	"Games.catColour": "වර්ණය",
+	"Games.catVariables": "විචල්‍යයන්",
+	"Games.catProcedures": "ශ්‍රිත",
+	"Games.httpRequestError": "ඉල්ලීමෙහි දෝෂයක් තිබුනි.",
+	"Games.listVariable": "ලැයිස්තුව",
+	"Games.textVariable": "පෙළ",
+	"Maze.moveForward": "ඉදිරියට යන්න",
+	"Maze.turnLeft": "වමට හැරෙන්න",
+	"Maze.turnRight": "දකුණට හැරෙන්න",
+	"Maze.doCode": "කරන්න",
+	"Maze.elseCode": "නැත්නම්",
+	"Puzzle.legsChoose": "තෝරන්න...",
+	"Puzzle.error0": "විශිෂ්ඨයි!\nසියලු %1 කොටස් නිවරදියි.",
+	"Puzzle.error1": "බොහෝ දුරට නිවරදියි!එක් කොටසක් වැරදියි.",
+	"Puzzle.error2": "%1 කොටස් වැරදියි.",
+	"Puzzle.tryAgain": "ඉස්මතු කල කොටස් වැරදියි.උත්සහ කරන්න.",
+	"Games.help": "උදව්",
+	"Puzzle.checkAnswers": "පිළිතුරු පරික්ෂා කරන්න",
+	"Turtle.print": "මුද්‍රණය කරන්න",
+	"Turtle.font": "අක්ෂර",
+	"Turtle.fontSize": "අකුරක විශාලත්‍වය",
+	"Turtle.fontNormal": "සාමාන්‍ය",
+	"Turtle.fontBold": "තදකුරු",
+	"Turtle.fontItalic": "ඇළ අකුරු"
+}

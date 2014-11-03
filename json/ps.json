@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ahmed-Najib-Biabani-Ibrahimkhel"
+		]
+	},
+	"Games.dialogOk": "ښه",
+	"Games.dialogCancel": "ناگارل",
+	"Games.catLogic": "منطق",
+	"Games.catText": "متن",
+	"Games.catLists": "لړليکونه",
+	"Games.catColour": "رنگ",
+	"Games.httpRequestError": "د دې غوښتنې سره يوه ستونزه رامېنځ ته شوه",
+	"Games.listVariable": "لړليک",
+	"Games.textVariable": "متن",
+	"Maze.turnLeft": "کيڼ تاوول",
+	"Maze.turnRight": "ښي تاوول",
+	"Maze.doCode": "کول",
+	"Puzzle.legsChoose": "ټاکل...",
+	"Puzzle.error0": "ډېر ښه!\nټول %1 بنديزونه سم دي.",
+	"Puzzle.error1": "نژدې دی! يو بنديز سم نه دی.",
+	"Puzzle.error2": "%1 بنديزونه سم نه دي.",
+	"Games.help": "لارښود",
+	"Puzzle.checkAnswers": "ځوابونه کره کول",
+	"Turtle.print": "چاپول",
+	"Turtle.font": "ليکبڼه",
+	"Turtle.fontSize": "د ليکبڼې کچه",
+	"Turtle.fontNormal": "نورمال",
+	"Turtle.fontBold": "زغرد",
+	"Turtle.fontItalic": "رېوند"
+}

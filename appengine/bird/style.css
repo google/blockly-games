@@ -1,0 +1,54 @@
+#blockly {
+  position: fixed;
+  bottom: 10px;
+}
+#visualization {
+  position: relative;
+}
+.edges, .edgeX, .edgeY {
+  stroke-width: 1;
+  stroke: #BBA;
+  fill: none;
+  font-family: sans-serif;
+  font-size: 10pt;
+  font-weight: 100;
+}
+.edgeX {
+  text-anchor: start;
+}
+
+#svgBird {
+  overflow: hidden;
+  direction: ltr;
+}
+
+img[src$="help_up.png"] {
+  margin: -20px 10px 0;
+  height: 64px;
+  width: 23px;
+}
+
+/* Buttons */
+button.primary {
+  /* Can't use "text-align: start" due to IE. */
+  text-align: left;
+}
+html[dir="RTL"] button.primary {
+  text-align: right;
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.link {
+  background-position: 0px 0px;
+}
+.run {
+  background-position: 0px -21px;
+}
+.stop {
+  background-position: -21px -21px;
+}

@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "ASSENTIOR",
+	"Games.puzzle": "Ludus",
+	"Puzzle.legsChoose": "elige...",
+	"Puzzle.error0": "Bene!\nOmnes %1 sectiones recte solvisti.",
+	"Puzzle.error1": "Paene! Una sectio vitiosa est.",
+	"Puzzle.error2": "%1 sectiones vitiosae sunt.",
+	"Puzzle.tryAgain": "Sectio excerpta vitiosa est.",
+	"Games.help": "Auxilium",
+	"Puzzle.checkAnswers": "Responsa examinare"
+}

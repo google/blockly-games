@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"P. S. F. Freitas"
+		]
+	},
+	"Games.linkTooltip": "Oñongatu ha ombojoaju vorekuéra.",
+	"Games.runProgram": "Pejapo pe Jejaporã",
+	"Games.resetProgram": "Ñepyrũ jey",
+	"Games.catLogic": "Kuaarape",
+	"Games.catLoops": "Tapykuegua",
+	"Games.catMath": "Papapykuaa",
+	"Games.catText": "Jehaipy",
+	"Games.catLists": "Tysýi",
+	"Games.catColour": "Sa'y",
+	"Games.catVariables": "Ñemoambuéva",
+	"Games.catProcedures": "Aporeko",
+	"Games.httpRequestError": "Peteĩ tekojepe'y ohechauka.",
+	"Games.linkAlert": "Temboja'o nde vorekuéra ko joaju ndie:\n\n%1",
+	"Games.listVariable": "tysýi",
+	"Games.textVariable": "jehaipy",
+	"Maze.doCode": "pejapo",
+	"Maze.elseCode": "térã",
+	"Puzzle.legsChoose": "jeporavo...",
+	"Puzzle.error0": "Iporãite!\nOpa %1 vorekuéra oĩ porã.",
+	"Puzzle.error1": "Haimete porã! Peteĩ vore oĩ vai.",
+	"Puzzle.error2": "%1 vorekuéra oĩ vai.",
+	"Turtle.penUp": "ejupi haiha",
+	"Turtle.penDown": "eguejy haiha",
+	"Turtle.font": "tai ysaja",
+	"Turtle.fontSize": "tai tuichakue",
+	"Turtle.fontNormal": "tai tee",
+	"Turtle.fontBold": "bold",
+	"Turtle.fontItalic": "italic",
+	"Games.turtle": "Karumbe"
+}

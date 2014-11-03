@@ -1,0 +1,57 @@
+body {
+  overflow-x: hidden;
+}
+
+h2 {
+  font-size: 120%;
+  font-weight: normal;
+}
+
+hr {
+  background-color: #ddd;
+  border: none;
+  height: 1px;
+}
+
+td, th {
+  padding: 0 6px;
+}
+
+pre, code {
+  font-size: large;
+}
+
+.spec {
+  padding: 1ex;
+  border-radius: 5px;
+}
+
+.pondSpec {
+  border: 2px solid rgb(133, 65, 155);
+  background: rgba(133, 65, 155, 0.2);
+}
+
+.logicSpec {
+  border: 2px solid rgb(74, 107, 153);
+  background: rgba(74, 107, 153, 0.2);
+}
+
+.loopsSpec {
+  border: 2px solid rgb(77, 154, 61);
+  background: rgba(77, 154, 61, 0.2);
+}
+
+.mathSpec {
+  border: 2px solid rgb(73, 80, 155);
+  background: rgba(73, 80, 155, 0.2);
+}
+
+.variablesSpec {
+  border: 2px solid rgb(147, 68, 111);
+  background: rgba(147, 68, 111, 0.2);
+}
+
+.functionsSpec {
+  border: 2px solid rgb(133, 65, 155);
+  background: rgba(133, 65, 155, 0.2);
+}

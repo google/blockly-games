@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "კარგი",
+	"Games.puzzle": "თავსატეხი",
+	"Puzzle.legsChoose": "აირჩიეთ...",
+	"Puzzle.error0": "ბრწყინვალეა!\nყველა %1 ბლოკი სწორია.",
+	"Puzzle.error1": "თითქმის! ერთი ბლოკი არასწორია.",
+	"Puzzle.error2": "%1 ბლოკი არასწორია.",
+	"Puzzle.tryAgain": "გამოყოფილი ბლოკი არასწორია.\nკიდევ სცადეთ.",
+	"Games.help": "დახმარება",
+	"Puzzle.checkAnswers": "პასუხების შემოწმება"
+}

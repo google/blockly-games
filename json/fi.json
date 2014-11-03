@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"Samoasambia",
+			"Silvonen"
+		]
+	},
+	"Games.runProgram": "Suorita ohjelma",
+	"Games.resetProgram": "Nollaa",
+	"Games.dialogOk": "OK",
+	"Games.dialogCancel": "Peruuta",
+	"Games.catLogic": "Kirjaudu",
+	"Games.catText": "Teksti",
+	"Games.catColour": "Väri",
+	"Games.catVariables": "Muuttujat",
+	"Games.textVariable": "teksti",
+	"Games.puzzle": "Palapeli",
+	"Maze.helpRun": "Suorita ohjelmasi nähdäksesi, mitä tapahtuu.",
+	"Maze.helpReset": "Ohjelmasi ei ratkaise sokkeloa. Paina \"Nollaa\" ja yritä uudelleen.",
+	"Puzzle.legsChoose": "valitse...",
+	"Puzzle.error0": "Hienoa!\nKaikki %1 lohkoa ovat oikein.",
+	"Puzzle.error1": "Lähes oikein! Vain yksi lohko on väärin.",
+	"Puzzle.error2": "%1 lohkoa ovat virheellisiä.",
+	"Puzzle.tryAgain": "Korostettu lohko ei ole oikein.\nYritä uudelleen.",
+	"Games.help": "Ohje",
+	"Puzzle.checkAnswers": "Tarkista vastaukset",
+	"Turtle.fontNormal": "normaali",
+	"Turtle.fontBold": "lihavoitu",
+	"Turtle.fontItalic": "kursivoitu"
+}

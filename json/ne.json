@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"सरोज कुमार ढकाल"
+		]
+	},
+	"Games.runProgram": "अनुप्रयोग चलाउने",
+	"Games.resetProgram": "रिसेट गर्नुहोस्",
+	"Games.dialogOk": "हुन्छ",
+	"Games.dialogCancel": "रद्द गर्ने",
+	"Games.catLogic": "लजिक",
+	"Games.catLoops": "लुपहरू",
+	"Games.catMath": "गणित",
+	"Games.catText": "पाठ",
+	"Games.catLists": "सूची",
+	"Games.catColour": "रंग",
+	"Games.catVariables": "चल राशी(variables)",
+	"Games.catProcedures": "अनुक्रियाहरु",
+	"Games.listVariable": "सूची",
+	"Games.textVariable": "पाठ",
+	"Maze.moveForward": "अघि बढ्ने",
+	"Maze.turnLeft": "बायाँ मोड्ने",
+	"Maze.turnRight": "दायाँ मोड्ने",
+	"Maze.doCode": "गर्ने",
+	"Maze.elseCode": "नत्र",
+	"Maze.helpIfElse": "यदि-नत्र ब्लकले पहिलो या दोस्रो कृयाकलाप छान्न सकिन्छ ।",
+	"Maze.pathAhead": "यदि सिधा बाटो छ भने",
+	"Maze.pathLeft": "यदि बायाँ तिर बाटो छ भने",
+	"Maze.pathRight": "यदि दाहिने तिर बाटो छ भने",
+	"Maze.repeatUntil": "यस सम्म दोहोर्‌याउने",
+	"Puzzle.legsChoose": "छान्ने...",
+	"Puzzle.error0": "उत्तम !\nसबै  %1 ब्लकहरू सहि छन्",
+	"Games.help": "सहायता",
+	"Turtle.print": "छाप्नुहोस्",
+	"Turtle.fontSize": "फन्ट आकार",
+	"Turtle.fontNormal": "सामान्य",
+	"Turtle.fontBold": "मोटो",
+	"Turtle.fontItalic": "छड्के"
+}

@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "خا",
+	"Games.puzzle": "پازل",
+	"Puzzle.legsChoose": "چینه...",
+	"Puzzle.error0": "خاره!\nتموم  %1 بلوک‌ها درست هسته.",
+	"Puzzle.error1": "تقریباً! اتا بلوک غلطه.",
+	"Puzzle.error2": " %1 بلوک‌ها غلط هستنه.",
+	"Puzzle.tryAgain": "پررنگ بلوک غلطه.\nاَی دِباره تِلاش هاکن.",
+	"Games.help": "کومک",
+	"Puzzle.checkAnswers": "جوابِ بررسی"
+}

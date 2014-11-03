@@ -1,0 +1,245 @@
+{namespace Pond.Basic.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pond-basic-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call Pond.soy.messages /}
+  <div style="display: none">
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {msg meaning="Games.pondBasic" desc="IBID"}Pond{/msg}
+            {/param}
+          {/call}
+          {call BlocklyGames.soy.levelLinks}
+            {param level: $ij.level /}
+            {param maxLevel: $ij.maxLevel /}
+            {param lang: $ij.lang /}
+            {param suffix}{/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+        &nbsp;
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
+        &nbsp;
+        <button id="helpButton">
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  {call Pond.soy.visualization /}
+
+  {call .toolbox /}
+  <div id="blockly"></div>
+
+  {call Pond.soy.playerTarget /}
+  {call Pond.soy.playerRabbit /}
+  {call Pond.soy.playerCounter /}
+  {call Pond.soy.playerRook /}
+  {call Pond.soy.playerSniper /}
+  {call Pond.soy.playerPendulum /}
+  {call Pond.soy.playerScared /}
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+
+  {if $ij.level == 3}
+    {call Pond.soy.helpUseScan /}
+  {/if}
+
+  <div id="help" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex">
+      {if $ij.level == 1}
+        {msg meaning="Pond.helpText1"
+             desc="Instructions. Do not translate the word 'cannon'."}
+          Use the 'cannon' command to hit the target.  The first parameter
+          is the angle, the second parameter is the range.  Find the right
+          combination.
+        {/msg}
+        <br><br><img src="pond/docs/cannon.png" height=41 width=213>
+      {elseif $ij.level == 2}
+        {msg meaning="Pond.helpText2"
+             desc="Instructions.  Do not translate 'while (true)'."}
+          This target needs to be hit many times.  Use a 'while (true)' loop
+          to do something indefinitely.
+        {/msg}
+        <br><br><img src="pond/docs/whiletrue.png" height=90 width=164>
+      {elseif $ij.level == 3}
+        {msg meaning="Pond.helpText3a"
+             desc="Instructions.  Do not translate 'scan'."}
+          This opponent moves back and forth, making it hard to hit.
+          The 'scan' expression returns the exact range to the opponent
+          in the specified direction.
+        {/msg}
+        <br><br><img src="pond/docs/scan.png" height=36 width=134>
+        <br><br>
+        {msg meaning="Pond.helpText3b"
+             desc="Instructions.  Do not translate 'cannon'."}
+          This range is exactly what the 'cannon' command needs to fire
+          accurately.
+        {/msg}
+      {elseif $ij.level == 4}
+        {msg meaning="Pond.helpText4"
+             desc="Instructions.  Do not translate the word 'swim'."}
+          This opponent is too far away to use the cannon (which has a limit of
+          70 meters).  Instead, use the 'swim' command to start swimming
+          towards the opponent and crash into it.
+        {/msg}
+        <br><br><img src="pond/docs/swim.png" height=41 width=131>
+      {elseif $ij.level == 5}
+        {msg meaning="Pond.helpText5"
+             desc="Instructions.  Do not translate the word 'stop'."}
+          This opponent is also too far away to use the cannon.  But you are
+          too weak to survive a collision.  Swim towards the opponent while
+          your horizontal location is less than than 50.  Then 'stop' and use
+          the cannon.
+        {/msg}
+        <br><br><img src="pond/docs/loc_x_50.png" height=37 width=191>
+      {elseif $ij.level == 6}
+        {msg meaning="Pond.helpText6"
+             desc="Instructions."}
+          This opponent will move away when it is hit.  Swim towards it if it
+          is out of range (70 meters).
+        {/msg}
+      {elseif $ij.level == 7}
+        {msg meaning="Pond.helpText7"
+             desc="Instructions.  Do not translate the word 'Rabbit'."}
+          Rabbit runs around randomly.  Can you hit it?
+        {/msg}
+      {elseif $ij.level == 8}
+        {msg meaning="Pond.helpText8"
+             desc="Instructions.  Do not translate the word 'Rook'."}
+          Rook fights back!  But it only looks north, south, east and west.
+        {/msg}
+      {elseif $ij.level == 9}
+        {msg meaning="Pond.helpText9"
+             desc="Instructions.  Do not translate the word 'Counter'."}
+          Counter looks in all directions.
+          Can you handle two opponents at once?
+        {/msg}
+      {elseif $ij.level == 10}
+        {msg meaning="Pond.helpText10"
+             desc="Instructions.  Do not translate the word 'Sniper'."}
+          Sniper hides in a corner looking for targets.  Good luck.  Seriously.
+        {/msg}
+      {/if}
+    </div>
+    {call BlocklyGames.soy.ok /}
+  </div>
+{/template}
+
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none;">
+    <category name="{msg meaning="Games.pondBasic" desc="IBID"}Pond{/msg}">
+      <block type="pond_cannon">
+        <value name="DEGREE">
+          <block type="pond_math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+        <value name="RANGE">
+          <block type="pond_math_number">
+            <field name="NUM">70</field>
+          </block>
+        </value>
+      </block>
+  {if $ij.level >= 3}
+      <block type="pond_scan">
+        <value name="DEGREE">
+          <block type="pond_math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+  {/if}
+  {if $ij.level >= 4}
+      <block type="pond_swim">
+        <value name="DEGREE">
+          <block type="pond_math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+  {/if}
+  {if $ij.level >= 5}
+      <block type="pond_stop"></block>
+  {/if}
+  {if $ij.level >= 5}
+      <block type="pond_loc_x"></block>
+      <block type="pond_loc_y"></block>
+  {/if}
+  {if $ij.level >= 8}
+      <block type="pond_speed"></block>
+      <block type="pond_health"></block>
+  {/if}
+    </category>
+{if $ij.level >= 2}
+    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+  {if $ij.level >= 5}
+      <block type="pond_controls_if"></block>
+      <block type="logic_compare"></block>
+  {/if}
+  {if $ij.level >= 7}
+      <block type="logic_operation"></block>
+  {/if}
+      <block type="logic_boolean"></block>
+    </category>
+    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+      <block type="pond_loops_while"></block>
+    </category>
+{/if}
+    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+      <block type="pond_math_number"></block>
+  {if $ij.level >= 7}
+      <block type="pond_math_arithmetic"></block>
+      <block type="pond_math_single"></block>
+      <block type="pond_math_change">
+        <value name="DELTA">
+          <block type="pond_math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+  {/if}
+    </category>
+{if $ij.level >= 7}
+    <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
+  {if $ij.level >= 8}
+    <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
+  {/if}
+{/if}
+  </xml>
+{/template}

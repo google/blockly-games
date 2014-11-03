@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "確定",
+	"Games.puzzle": "謎",
+	"Puzzle.legsChoose": "選擇…",
+	"Puzzle.error0": "雅好！\n所有%1其鎖定都正確去了。",
+	"Puzzle.error1": "基本完成！蜀萆鎖定𣍐正確。",
+	"Puzzle.error2": "%1其鎖定𣍐正確。",
+	"Puzzle.tryAgain": "強調其鎖定𣍐正確。\n保持試蜀試。",
+	"Games.help": "幫助",
+	"Puzzle.checkAnswers": "檢查答案"
+}

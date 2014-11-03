@@ -1,0 +1,104 @@
+#blockly {
+  position: fixed;
+  bottom: 10px;
+}
+#editor {
+  font-size: 16pt;
+  position: fixed !important;
+  height: auto !important;
+  bottom: 10px;
+  border: 1px solid #BBA;
+}
+#visualization {
+  position: relative;
+}
+#display {
+  border: 1px solid #BBA;
+  vertical-align: bottom;
+}
+
+#playerStatTable {
+  width: 406px;
+  max-width: 406px;
+  margin-left: -2px;
+  height: 20px;
+}
+
+#playerStatRow>td {
+  padding: 0;
+  border: 1px solid;
+  background: #ccc;
+  border-radius: 2px;
+}
+
+#playerStatRow>td>div:not(.playerStatHealth) {
+  padding: 1px;
+}
+
+.playerStatName {
+  position: absolute;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playerStatHealth {
+  position: absolute;
+}
+
+#help pre {
+  font-size: large;
+}
+
+/* Documentation frame. */
+#dialogDocs {
+  visibility: hidden;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: absolute;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px #888;
+  padding: 15px 0 5px;
+  top: 55px;
+  left: 5px;
+  width: 406px;
+  bottom: 10px;
+}
+
+#frameDocs {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#closeDocs {
+  position: absolute;
+  top: -5px;
+  left: 389px;
+  cursor: pointer;
+  opacity: .7;
+}
+
+#closeDocs:hover {
+  opacity: 1;
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.close {
+  background-position: -21px 0px;
+}
+.link {
+  background-position: 0px 0px;
+}
+.run {
+  background-position: 0px -21px;
+}
+.stop {
+  background-position: -21px -21px;
+}

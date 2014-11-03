@@ -1,0 +1,110 @@
+{namespace Pattern.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pattern-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    <span id="Regex_dot">.</span>
+    <span id="Regex_dotTooltip">{msg meaning="Pattern.regexDotTooltip" desc="This character when used in a regular expresion matches any character."}Matches any character.{/msg}</span>
+    // Regex_literal is a single ASCII character generated at runtime.
+    <span id="Regex_literal"></span>
+    <span id="Regex_literalTooltip">{msg meaning="Pattern.regexLiteralTooltip" desc="This character when used in a regular expresion matches a specific character."}Matches a specific character.{/msg}</span>
+    <span id="Regex_constructor">{msg meaning="Pattern.regexConstructor" desc="A regular expression object creator."}Regular Expression{/msg}</span>
+    <span id="Regex_constructorTooltip">{msg meaning="Pattern.regexConstructorTooltip" desc="A regular expression matches text according to a pattern."}Creates a regular expression out of the connected inputs.{/msg}</span>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {msg meaning="Pattern.pattern" desc="title - Specifies that this is Blockly's '''Pattern''' tutorial."}
+                Pattern
+              {/msg}
+            {/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+        &nbsp;
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <div id="visualization">
+    <div style="border: 1px black solid; width: 400px; height: 400px;">
+      <div id="charDisplay"></div>
+      <div id="displayLines"></div>
+    </div>
+  </div>
+
+  <table width="400">
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+      </td>
+      <td>
+        <button id="runButton" class="primary" title="{msg meaning="Pattern.runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the player through the level."}Makes the player do what the blocks say.{/msg}">
+          <img src="media/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div>
+          <span style="display: inline; font-size: 50px; padding-right: 3px;">/</span>
+          <textarea id="regexInput" style="width: 122px; height: 30px; font-size: 30px;
+          font-family: monospace; display: inline-table; margin-top: 30px;"></textarea>
+          <span style="display: inline; font-size: 50px; padding-left: 3px;">/g</span>
+        </div>
+      </td>
+    <tr>
+  </table>
+
+  {call .toolbox /}
+  <div id="blockly"></div>
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.storageDialog /}
+{/template}
+
+/**
+ * Toolboxes for each level.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none;">
+    <block type="regex_dot"></block>
+    <block type="regex_literal"></block>
+    <block type="regex_matchoneormore"></block>
+  </xml>
+{/template}
+
+/**
+ * Readonly Blockly in an iframe.
+ */
+{template .readonly}
+  {call .messages /}
+  <div id="blockly"></div>
+{/template}

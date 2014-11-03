@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Cekli829",
+			"Khan27",
+			"Mushviq Abdulla",
+			"Wertuose"
+		]
+	},
+	"Games.dialogOk": "TAMAM",
+	"Games.dialogCancel": "Ləğv et",
+	"Games.catText": "Mətn",
+	"Games.catLists": "Siyahılar",
+	"Games.catColour": "Rəng",
+	"Games.catVariables": "Dəyişənlər",
+	"Games.catProcedures": "Funksiyalar",
+	"Games.httpRequestError": "Sorğu ilə əlaqəli problem var.",
+	"Games.listVariable": "siyahı",
+	"Games.textVariable": "mətn",
+	"Games.puzzle": "Tapmaca",
+	"Games.maze": "Labirint",
+	"Maze.turnLeft": "sola dönün",
+	"Maze.turnRight": "sağa dönün",
+	"Puzzle.legsChoose": "seç...",
+	"Puzzle.error0": "Mükəmməl!\n%1 blokun hamısı doğrudur.",
+	"Puzzle.error1": "Demək olar ki! Bir blok səhvdir.",
+	"Puzzle.tryAgain": "Vurğulanan blok səhvdir.\nÇalışmağa davam.",
+	"Games.help": "Kömək",
+	"Puzzle.checkAnswers": "Cavabları Yoxla",
+	"Turtle.font": "şrift",
+	"Turtle.fontSize": "şriftin ölçüsü",
+	"Turtle.fontNormal": "normal"
+}

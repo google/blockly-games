@@ -1,0 +1,394 @@
+{namespace Movie.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make movie-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    // Block text and their associated tooltips and URLs (interleaved to
+    // assist with translation).
+    <span id="Movie_x">{msg meaning="Movie.x" desc="Label for an x-coordinate (horizontal) input."}x{/msg}</span>
+    <span id="Movie_y">{msg meaning="Movie.y" desc="Label for a y-coordinate (vertical) input."}y{/msg}</span>
+    <span id="Movie_x1">{msg meaning="Movie.x1" desc="Label for the x-coordinate of the start of a line."}start x{/msg}</span>
+    <span id="Movie_y1">{msg meaning="Movie.y1" desc="Label for the y-coordinate of the start of a line"}start y{/msg}</span>
+    <span id="Movie_x2">{msg meaning="Movie.x2" desc="Label for the x-coordinate of the end of a line."}end x{/msg}</span>
+    <span id="Movie_y2">{msg meaning="Movie.y2" desc="Label for the y-coordinate of the end of a line."}end y{/msg}</span>
+    <span id="Movie_radius">{msg meaning="Movie.radius" desc="Label for a circle's radius input."}radius{/msg}</span>
+    <span id="Movie_width">{msg meaning="Movie.width" desc="Label for a rectangle or line's width input."}width{/msg}</span>
+    <span id="Movie_height">{msg meaning="Movie.height" desc="Label for a rectangle's height input."}height{/msg}</span>
+    <span id="Movie_circleTooltip">{msg meaning="Movie.circleTooltip" desc="tooltip"}Draws a circle at the specified location and with the specified radius.{/msg}</span>
+    <span id="Movie_circleDraw">{msg meaning="Movie.circleDraw" desc="Command to draw a circle."}circle{/msg}</span>
+    <span id="Movie_rectTooltip">{msg meaning="Movie.rectTooltip" desc="tooltip"}Draws a rectangle at the specified location and with the specified width and height.{/msg}</span>
+    <span id="Movie_rectDraw">{msg meaning="Movie.rectDraw" desc="Command to draw a rectangle."}rectangle{/msg}</span>
+    <span id="Movie_lineTooltip">{msg meaning="Movie.lineTooltip" desc="tooltip"}Draws a line from one point to another with the specified width.{/msg}</span>
+    <span id="Movie_lineDraw">{msg meaning="Movie.lineDraw" desc="Command to draw a rectangle."}line{/msg}</span>
+
+    <span id="Movie_timeTooltip">{msg meaning="Movie.timeTooltip" desc="tooltip"}Returns the current time in the animation (0-100).{/msg}</span>
+
+    <span id="Movie_colourTooltip">{msg meaning="Movie.colourTooltip" desc="tooltip - Changes the colour of ink in the pen carried by the turtle."}Changes the colour of the pen.{/msg}</span>
+    <span id="Movie_setColour">{msg meaning="Movie.setColour" desc="block text - Infinitive or imperative of a verb to specify the colour of the lines that should be drawn in the future by an imaginary pen.  This is followed by a block showing the colour"}set colour to{/msg}</span>
+
+    <span id="Movie_submitDisabled">{msg meaning="Movie.submitDisabled" desc="Error message."}Your movie doesn't move.  Use blocks to make something interesting.  Then you may submit your movie to the gallery.{/msg}</span>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {msg meaning="Games.movie" desc="IBID"}Movie{/msg}
+            {/param}
+          {/call}
+          {call BlocklyGames.soy.levelLinks}
+            {param level: $ij.level /}
+            {param maxLevel: $ij.maxLevel /}
+            {param lang: $ij.lang /}
+            {param suffix}{/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+        &nbsp;
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
+        &nbsp;
+        <button id="helpButton">
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+        </button>
+      </td>
+    </tr>
+  </table>
+  <div id="visualization">
+    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+    <canvas id="hatching" width="400" height="400" style="display: none"></canvas>
+    <canvas id="axies" width="400" height="400" style="display: none"></canvas>
+    <canvas id="display" width="400" height="400" style="vertical-align: bottom"></canvas>
+  </div>
+  <svg
+      id="scrubber"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="1.1"
+      width="402"
+      height="24">
+    <image xlink:href="movie/youtube-bg.png" height=25 width=402 x=0 y=-1 />
+  </svg>
+  {if $ij.level == 10 and not $ij.html}
+  <table style="padding-top: 1em; width: 400px;">
+    <tr>
+      <td style="text-align: center;">
+        <form action="http://www.reddit.com/r/BlocklyGames/" target="gallery">
+          <button type="submit" title="{msg meaning="Movie.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of movies made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of movies on Reddit.{/msg}">
+            <img src="media/1x1.gif" class="reddit icon21"> {msg meaning="Movie.galleryMsg" desc="Label on a button that opens a gallery of movies made by other users."}See Gallery{/msg}
+          </button>
+        </form>
+      </td>
+      <td style="text-align: center;">
+        <button id="submitButton" title="{msg meaning="Movie.submitTooltip" desc="tooltip - Pressing this button causes the movie created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your movie to Reddit.{/msg}">
+          <img src="media/1x1.gif" class="camera icon21"> {msg meaning="Movie.submitMsg" desc="Label on a button that submits the user's movie to a public gallery."}Submit to Gallery{/msg}
+        </button>
+        <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
+        <form id="t2r_form" action="movie-reddit" method="POST" target="_blank"
+              style="display: none">
+          <input id="t2r_thumb" type="hidden" name="thumb">
+          <input id="t2r_xml" type="hidden" name="xml">
+        </form>
+      </td>
+    </tr>
+  {/if}
+
+  {call .toolbox /}
+  <div id="blockly"></div>
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.abortDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+
+  <div id="help" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex">
+      {if $ij.level == 1}
+        {msg meaning="Movie.helpText1" desc="Instructions."}
+          Use simple shapes to draw this person.
+        {/msg}
+      {elseif $ij.level == 2}
+        {msg meaning="Movie.helpText2a" desc="Instructions.  The play button looks like the video play button on YouTube."}
+          This level is a movie.  You want a red ball to roll across the screen.  Press the play button to see a preview.
+        {/msg}
+        <iframe style="height: 50px; width: 100%; border: none;" src="readonly.html?app=movie&lang={$ij.lang}&xml=%3Cblock+type%3D%22movie_time%22+x%3D%2215%22+y%3D%2210%22%3E%3C%2Fblock%3E"></iframe>
+        {msg meaning="Movie.helpText2b" desc="Instructions.  Do not translate the word 'time'."}
+          As the movie plays, the value of the 'time' block counts from 0 to 100.  Since you want the horizontal position of the red ball to start at 0 and go to 100 this should be easy.
+        {/msg}
+      {elseif $ij.level == 3}
+        {msg meaning="Movie.helpText3" desc="Instructions.  Do not translate the word 'time'."}
+          The 'time' block counts from 0 to 100.  But this time you want the horizontal position of the red ball to start at 100 and go to 0.  Can you figure out a simple mathematical formula that flips the direction?
+        {/msg}
+      {elseif $ij.level == 4}
+        {msg meaning="Movie.helpText4" desc="Instructions."}
+          Use what you learned in the previous level to make four green balls that move in all four directions.
+        {/msg}
+      {elseif $ij.level == 5}
+        {msg meaning="Movie.helpText5" desc="Instructions.  The goal is to draw a shape that looks a bit like Mickey Mouse or Deadmau5."}
+          Making the mouse's head move is easy.  Can you work out the math to make the ears move too?
+        {/msg}
+      {elseif $ij.level == 6}
+        {msg meaning="Movie.helpText6" desc="Instructions."}
+          Two simple lines.  Just figure out what the line ends are doing.
+        {/msg}
+      {elseif $ij.level == 7}
+        {msg meaning="Movie.helpText7" desc="Instructions."}
+          The mathematical formula for this falling ball is complicated.  Here's the answer:
+        {/msg}
+        <br><br>
+        <code style="font-size: 150%; margin: 0 1em;">y = 100 - (((time - 50) &divide; 5) ^ 2)</code>
+      {elseif $ij.level == 8}
+        {msg meaning="Movie.helpText8" desc="Instructions."}
+          Use the 'if' block to draw red and blue balls for the first half of the movie.  Then draw a green ball for the second half of the movie.
+        {/msg}
+      {elseif $ij.level == 9}
+        {msg meaning="Movie.helpText9" desc="Instructions."}
+          Can you make a ball that follows the wire?  The wire has already been drawn for you.  Once you can do this, you can do anything.
+        {/msg}
+      {elseif $ij.level == 10}
+        {msg meaning="Movie.helpText10" desc="Instructions."}
+          Make a movie of anything you want.  You've got a huge number of new blocks you can explore.  Have fun!
+        {/msg}
+        {if not $ij.html}
+          <br><br>
+          {msg meaning="Movie.helpText10Reddit" desc="Instructions on posting your movie to Reddit (a social website)."}
+            Use the "See Gallery" button to see movies that other people have made.  If you make an interesting movie, use the "Submit to Gallery" button to publish it.
+          {/msg}
+        {/if}
+      {/if}
+    </div>
+    {call BlocklyGames.soy.ok /}
+  </div>
+{/template}
+
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none">
+    <category name="{msg meaning="Games.movie" desc="IBID"}Movie{/msg}">
+      <block type="movie_circle">
+      {if $ij.level != 2}
+        <value name="X">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
+      {/if}
+        <value name="Y">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
+        <value name="RADIUS">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="movie_rect">
+        <value name="X">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
+        <value name="Y">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
+        <value name="WIDTH">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <value name="HEIGHT">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="movie_line">
+        <value name="X1">
+          <block type="math_number">
+            <field name="NUM">40</field>
+          </block>
+        </value>
+        <value name="Y1">
+          <block type="math_number">
+            <field name="NUM">40</field>
+          </block>
+        </value>
+        <value name="X2">
+          <block type="math_number">
+            <field name="NUM">60</field>
+          </block>
+        </value>
+        <value name="Y2">
+          <block type="math_number">
+            <field name="NUM">60</field>
+          </block>
+        </value>
+        <value name="WIDTH">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      {if $ij.level > 1}
+        <block type="movie_time"></block>
+      {/if}
+    </category>
+    <category name="{msg meaning="Games.catColour" desc="IBID"}Colour{/msg}">
+      <block type="movie_colour">
+        <value name="COLOUR">
+          <block type="colour_picker"></block>
+        </value>
+      </block>
+      <block type="colour_picker"></block>
+      {if $ij.level == 10}
+        <block type="colour_rgb">
+          <value name="RED">
+            <block type="math_number">
+              <field name="NUM">100</field>
+            </block>
+          </value>
+          <value name="GREEN">
+            <block type="math_number">
+              <field name="NUM">50</field>
+            </block>
+          </value>
+          <value name="BLUE">
+            <block type="math_number">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+        <block type="colour_blend">
+          <value name="COLOUR1">
+            <block type="colour_picker">
+              <field name="COLOUR">#ff0000</field>
+            </block>
+          </value>
+          <value name="COLOUR2">
+            <block type="colour_picker">
+              <field name="COLOUR">#3333ff</field>
+            </block>
+          </value>
+          <value name="RATIO">
+            <block type="math_number">
+              <field name="NUM">0.5</field>
+            </block>
+          </value>
+        </block>
+      {/if}
+    </category>
+    {if $ij.level > 7}
+      <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+        <block type="controls_if">
+        {if $ij.level < 10}
+          <mutation else="1"></mutation>
+        {/if}
+        </block>
+        <block type="logic_compare"></block>
+        {if $ij.level == 10}
+          <block type="logic_operation"></block>
+          <block type="logic_negate"></block>
+          <block type="logic_boolean"></block>
+          <block type="logic_ternary"></block>
+        {/if}
+      </category>
+    {/if}
+    {if $ij.level == 10}
+      <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <value name="FROM">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="TO">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+          <value name="BY">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_flow_statements"></block>
+      </category>
+    {/if}
+    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      {if $ij.level == 10}
+        <block type="math_single"></block>
+        <block type="math_trig"></block>
+        <block type="math_constant"></block>
+        <block type="math_number_property"></block>
+        <block type="math_change">
+          <value name="DELTA">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+        <block type="math_round"></block>
+        <block type="math_modulo"></block>
+        <block type="math_constrain">
+          <value name="LOW">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="HIGH">
+            <block type="math_number">
+              <field name="NUM">100</field>
+            </block>
+          </value>
+        </block>
+      {/if}
+    </category>
+    {if $ij.level == 10}
+      <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
+      <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
+    {/if}
+  </xml>
+{/template}
+
+/**
+ * Readonly Blockly in an iframe.
+ */
+{template .readonly}
+  {call .messages /}
+  <div id="blockly"></div>
+{/template}

@@ -1,0 +1,12 @@
+{
+	"@metadata": [],
+	"Games.dialogOk": "OK",
+	"Games.puzzle": "Legkaart",
+	"Puzzle.legsChoose": "kies...",
+	"Puzzle.error0": "Perfek!\nAl %1 blokke is korrek.",
+	"Puzzle.error1": "Byna! Eén blok is inkorrek.",
+	"Puzzle.error2": "%1 blokke is inkorrek.",
+	"Puzzle.tryAgain": "Die gemerkte blok is nie korrek nie.\nHou aan om te probeer.",
+	"Games.help": "Hulp",
+	"Puzzle.checkAnswers": "Kontroleer antwoorde"
+}
