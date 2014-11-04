@@ -14,7 +14,7 @@ SOY_EXTRACTOR = java -jar closure-templates-read-only/build/SoyMsgExtractor.jar
 # Rules
 ##############################
 
-all: deps languages
+all: deps languages zip
 
 index-en:
 	mkdir -p appengine/generated/en/
@@ -101,12 +101,41 @@ deps:
 	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(JS_READ_ONLY)/ace
 
 	mkdir -p $(JS_READ_ONLY)/blockly
- 	svn checkout https://github.com/google/blockly/trunk/core $(JS_READ_ONLY)/blockly/core
- 	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
- 	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
- 	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
+	svn checkout https://github.com/google/blockly/trunk/core $(JS_READ_ONLY)/blockly/core
+	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
+	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
+	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
 
-clean: clean-languages clean-deps
+zip: clean-zip
+	mkdir blockly-games
+	cp -r appengine/* blockly-games/
+	rm -rf blockly-games/.[a-zA-Z]*
+	rm -rf blockly-games/*/.[a-zA-Z]*
+	rm -rf blockly-games/*/*/.[a-zA-Z]*
+	rm -rf blockly-games/*/*/*/.[a-zA-Z]*
+	rm -rf blockly-games/*/*/*/*/.[a-zA-Z]*
+	rm -rf blockly-games/*/sources/
+	rm -rf blockly-games/js/
+	rm -rf blockly-games/*/js/
+	rm -rf blockly-games/*/*/js/
+	rm -rf blockly-games/js-read-only/blockly/
+	rm -rf blockly-games/js-read-only/goog/
+	rm -rf blockly-games/js-read-only/third_party_goog/
+	rm -rf blockly-games/js-read-only/JS-Interpreter/[!c]*
+	rm -f blockly-games/*.soy
+	rm -f blockly-games/*/*.soy
+	rm -f blockly-games/*/*/*.soy
+	rm -f blockly-games/generated/*/uncompressed.js
+	rm -f blockly-games/*/generated/*/uncompressed.js
+	rm -f blockly-games/*/*/generated/*/uncompressed.js
+	mkdir -p appengine/generated/
+	zip -rmq9 appengine/generated/blockly-games.zip blockly-games/
+
+clean: clean-zip clean-languages clean-deps
+
+clean-zip:
+	rm -rf blockly-games/
+	rm -f appengine/generated/blockly-games.zip
 
 clean-languages:
 	rm -rf appengine/$(ALL_JSON)/generated

@@ -147,3 +147,4 @@ skip_files:
 - ^js-read-only/third_party_goog/.*$
 - ^js-read-only/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$
+- ^.+\/uncompressed\.js$
