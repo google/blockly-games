@@ -51,7 +51,7 @@ class Reddit(webapp.RequestHandler):
       thumb = str(self.request.get("thumb"))
       uuid = storage.xmlToKey(xml)
       memcache.add("THUMB_" + uuid, thumb, 3600)
-      self.redirect("http://www.reddit.com/r/BlocklyGames/submit?url=%s?%s"
+      self.redirect("https://www.reddit.com/r/BlocklyGames/submit?url=%s?%s"
                     % (self.request.url, uuid))
 
 class Thumb(webapp.RequestHandler):
