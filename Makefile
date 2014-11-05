@@ -10,6 +10,8 @@ JS_READ_ONLY = appengine/js-read-only
 SOY_COMPILER = java -jar closure-templates-read-only/build/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces
 SOY_EXTRACTOR = java -jar closure-templates-read-only/build/SoyMsgExtractor.jar
 
+ZIPDIR = $(TMPDIR)/blockly-games
+
 ##############################
 # Rules
 ##############################
@@ -107,35 +109,38 @@ deps:
 	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
 
 zip: clean-zip
-	mkdir blockly-games
-	cp -r appengine/* blockly-games/
-	rm -rf blockly-games/.[a-zA-Z]*
-	rm -rf blockly-games/*/.[a-zA-Z]*
-	rm -rf blockly-games/*/*/.[a-zA-Z]*
-	rm -rf blockly-games/*/*/*/.[a-zA-Z]*
-	rm -rf blockly-games/*/*/*/*/.[a-zA-Z]*
-	rm -rf blockly-games/*/sources/
-	rm -rf blockly-games/js/
-	rm -rf blockly-games/*/js/
-	rm -rf blockly-games/*/*/js/
-	rm -rf blockly-games/js-read-only/blockly/
-	rm -rf blockly-games/js-read-only/goog/
-	rm -rf blockly-games/js-read-only/third_party_goog/
-	rm -rf blockly-games/js-read-only/JS-Interpreter/[!c]*
-	rm -f blockly-games/*.soy
-	rm -f blockly-games/*/*.soy
-	rm -f blockly-games/*/*/*.soy
-	rm -f blockly-games/generated/*/uncompressed.js
-	rm -f blockly-games/*/generated/*/uncompressed.js
-	rm -f blockly-games/*/*/generated/*/uncompressed.js
+	mkdir $(ZIPDIR)
+	cp -r appengine/* $(ZIPDIR)/
+	rm -rf $(ZIPDIR)/*.yaml
+	rm -rf $(ZIPDIR)/.[a-zA-Z]*
+	rm -rf $(ZIPDIR)/*/.[a-zA-Z]*
+	rm -rf $(ZIPDIR)/*/*/.[a-zA-Z]*
+	rm -rf $(ZIPDIR)/*/*/*/.[a-zA-Z]*
+	rm -rf $(ZIPDIR)/*/*/*/*/.[a-zA-Z]*
+	rm -rf $(ZIPDIR)/*/sources/
+	rm -rf $(ZIPDIR)/js/
+	rm -rf $(ZIPDIR)/*/js/
+	rm -rf $(ZIPDIR)/*/*/js/
+	rm -rf $(ZIPDIR)/js-read-only/blockly/
+	rm -rf $(ZIPDIR)/js-read-only/goog/
+	rm -rf $(ZIPDIR)/js-read-only/third_party_goog/
+	rm -rf $(ZIPDIR)/js-read-only/JS-Interpreter/[!c]*
+	rm -f $(ZIPDIR)/*.soy
+	rm -f $(ZIPDIR)/*/*.soy
+	rm -f $(ZIPDIR)/*/*/*.soy
+	rm -f $(ZIPDIR)/generated/*/uncompressed.js
+	rm -f $(ZIPDIR)/*/generated/*/uncompressed.js
+	rm -f $(ZIPDIR)/*/*/generated/*/uncompressed.js
 	mkdir -p appengine/generated/
-	zip -rmq9 appengine/generated/blockly-games.zip blockly-games/
+	echo "<html><head><meta http-equiv=refresh content='0; url=blockly-games/index.html' /></head></html>" > $(ZIPDIR)/../index.html
+	zip -rmq9 blockly-games.zip $(ZIPDIR)/ $(ZIPDIR)/../index.html
 
 clean: clean-zip clean-languages clean-deps
 
 clean-zip:
-	rm -rf blockly-games/
-	rm -f appengine/generated/blockly-games.zip
+	rm -rf $(ZIPDIR)/
+	rm -f $(ZIPDIR)/../index.html
+	rm -f blockly-games.zip
 
 clean-languages:
 	rm -rf appengine/$(ALL_JSON)/generated
