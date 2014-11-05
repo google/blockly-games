@@ -1,9 +1,6 @@
-![](https://blockly-games.appspot.com/index/title.png)
+![](https://blockly-games.appspot.com/index/title.png) Offline
 
-Google's Blockly Games is a series of educational games that teach programming.
-It is based on the [Blockly](https://developers.google.com/blockly/) library.
-All code is free and open source.
+This branch contians pre-compiled single-language bundles of Google's Blockly Games
+which may be downloaded and run offline.  For more information, see:
 
-**The games are at https://blockly-games.appspot.com/**
-
-**The developer's site is at https://github.com/google/blockly-games/wiki**
+**https://github.com/google/blockly-games/wiki/Offline**
