@@ -10,13 +10,13 @@ JS_READ_ONLY = appengine/js-read-only
 SOY_COMPILER = java -jar closure-templates-read-only/build/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces
 SOY_EXTRACTOR = java -jar closure-templates-read-only/build/SoyMsgExtractor.jar
 
-ZIPDIR = $(TMPDIR)/blockly-games
+BLOCKY_DIR = $(PWD)
 
 ##############################
 # Rules
 ##############################
 
-all: deps languages zip
+all: deps languages
 
 index-en:
 	mkdir -p appengine/generated/en/
@@ -108,39 +108,7 @@ deps:
 	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
 	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
 
-zip: clean-zip
-	mkdir $(ZIPDIR)
-	cp -r appengine/* $(ZIPDIR)/
-	rm -rf $(ZIPDIR)/*.yaml
-	rm -rf $(ZIPDIR)/.[a-zA-Z]*
-	rm -rf $(ZIPDIR)/*/.[a-zA-Z]*
-	rm -rf $(ZIPDIR)/*/*/.[a-zA-Z]*
-	rm -rf $(ZIPDIR)/*/*/*/.[a-zA-Z]*
-	rm -rf $(ZIPDIR)/*/*/*/*/.[a-zA-Z]*
-	rm -rf $(ZIPDIR)/*/sources/
-	rm -rf $(ZIPDIR)/js/
-	rm -rf $(ZIPDIR)/*/js/
-	rm -rf $(ZIPDIR)/*/*/js/
-	rm -rf $(ZIPDIR)/js-read-only/blockly/
-	rm -rf $(ZIPDIR)/js-read-only/goog/
-	rm -rf $(ZIPDIR)/js-read-only/third_party_goog/
-	rm -rf $(ZIPDIR)/js-read-only/JS-Interpreter/[!c]*
-	rm -f $(ZIPDIR)/*.soy
-	rm -f $(ZIPDIR)/*/*.soy
-	rm -f $(ZIPDIR)/*/*/*.soy
-	rm -f $(ZIPDIR)/generated/*/uncompressed.js
-	rm -f $(ZIPDIR)/*/generated/*/uncompressed.js
-	rm -f $(ZIPDIR)/*/*/generated/*/uncompressed.js
-	mkdir -p appengine/generated/
-	echo "<html><head><meta http-equiv=refresh content='0; url=blockly-games/index.html' /></head></html>" > $(ZIPDIR)/../index.html
-	zip -rmq9 blockly-games.zip $(ZIPDIR)/ $(ZIPDIR)/../index.html
-
-clean: clean-zip clean-languages clean-deps
-
-clean-zip:
-	rm -rf $(ZIPDIR)/
-	rm -f $(ZIPDIR)/../index.html
-	rm -f blockly-games.zip
+clean: clean-languages clean-deps
 
 clean-languages:
 	rm -rf appengine/$(ALL_JSON)/generated

@@ -86,8 +86,8 @@ BlocklyGames.LANGUAGE_NAME = {
   'pms': 'Piemontèis',
   'ps': 'پښتو',
   'pt': 'Português',
-  'ro': 'Română',
   'pt-br': 'Português Brasileiro',
+  'ro': 'Română',
   'ru': 'Русский',
   'sc': 'Sardu',
   'sco': 'Scots',
@@ -218,6 +218,10 @@ BlocklyGames.init = function() {
       option.selected = true;
     }
     languageMenu.options.add(option);
+  }
+  if (languageMenu.options.length <= 1) {
+    // No choices.  Hide the language menu.
+    languageMenu.style.display = 'none';
   }
 
   // Highlight levels that have been completed.

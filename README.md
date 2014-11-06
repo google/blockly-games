@@ -1,4 +1,4 @@
-![](https://blockly-games.appspot.com/index/title.png)
+![Blockly Games](https://raw.githubusercontent.com/wiki/google/blockly-games/title.png)
 
 Google's Blockly Games is a series of educational games that teach programming.
 It is based on the [Blockly](https://developers.google.com/blockly/) library.
