@@ -509,7 +509,7 @@ Maze.init = function() {
 
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
-      {'path': './',
+      {'media': 'media/',
        'maxBlocks': Maze.MAX_BLOCKS,
        'rtl': rtl,
        'toolbox': toolbox,

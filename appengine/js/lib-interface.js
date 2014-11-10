@@ -77,7 +77,7 @@ BlocklyInterface.initReadonly = function(content) {
   var div = document.getElementById('blockly');
   div.style.height = window.innerHeight + 'px';
   Blockly.inject(div,
-      {path: './',
+      {media: 'media/',
        readOnly: true,
        rtl: BlocklyGames.isRtl(),
        scrollbars: false});
