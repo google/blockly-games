@@ -39,7 +39,7 @@
     <span id="Movie_colourTooltip">{msg meaning="Movie.colourTooltip" desc="tooltip - Changes the colour of ink in the pen carried by the turtle."}Changes the colour of the pen.{/msg}</span>
     <span id="Movie_setColour">{msg meaning="Movie.setColour" desc="block text - Infinitive or imperative of a verb to specify the colour of the lines that should be drawn in the future by an imaginary pen.  This is followed by a block showing the colour"}set colour to{/msg}</span>
 
-    <span id="Movie_submitDisabled">{msg meaning="Movie.submitDisabled" desc="Error message."}Your movie doesn't move.  Use blocks to make something interesting.  Then you may submit your movie to the gallery.{/msg}</span>
+    <span id="Movie_submitDisabled">{msg meaning="Movie.submitDisabled" desc="Error message."}Your movie doesn't move. Use blocks to make something interesting. Then you may submit your movie to the gallery.{/msg}</span>
   </div>
 {/template}
 
@@ -134,15 +134,15 @@
         {/msg}
       {elseif $ij.level == 2}
         {msg meaning="Movie.helpText2a" desc="Instructions.  The play button looks like the video play button on YouTube."}
-          This level is a movie.  You want a red ball to roll across the screen.  Press the play button to see a preview.
+          This level is a movie. You want a red ball to roll across the screen. Press the play button to see a preview.
         {/msg}
         <iframe style="height: 50px; width: 100%; border: none;" src="readonly.html?app=movie&lang={$ij.lang}&xml=%3Cblock+type%3D%22movie_time%22+x%3D%2215%22+y%3D%2210%22%3E%3C%2Fblock%3E"></iframe>
         {msg meaning="Movie.helpText2b" desc="Instructions.  Do not translate the word 'time'."}
-          As the movie plays, the value of the 'time' block counts from 0 to 100.  Since you want the horizontal position of the red ball to start at 0 and go to 100 this should be easy.
+          As the movie plays, the value of the 'time' block counts from 0 to 100. Since you want the horizontal position of the red ball to start at 0 and go to 100 this should be easy.
         {/msg}
       {elseif $ij.level == 3}
         {msg meaning="Movie.helpText3" desc="Instructions.  Do not translate the word 'time'."}
-          The 'time' block counts from 0 to 100.  But this time you want the horizontal position of the red ball to start at 100 and go to 0.  Can you figure out a simple mathematical formula that flips the direction?
+          The 'time' block counts from 0 to 100. But this time you want the horizontal position of the red ball to start at 100 and go to 0. Can you figure out a simple mathematical formula that flips the direction?
         {/msg}
       {elseif $ij.level == 4}
         {msg meaning="Movie.helpText4" desc="Instructions."}
@@ -150,34 +150,34 @@
         {/msg}
       {elseif $ij.level == 5}
         {msg meaning="Movie.helpText5" desc="Instructions.  The goal is to draw a shape that looks a bit like Mickey Mouse or Deadmau5."}
-          Making the mouse's head move is easy.  Can you work out the math to make the ears move too?
+          Making the mouse's head move is easy. Can you work out the math to make the ears move too?
         {/msg}
       {elseif $ij.level == 6}
         {msg meaning="Movie.helpText6" desc="Instructions."}
-          Two simple lines.  Just figure out what the line ends are doing.
+          Two simple lines. Just figure out what the line ends are doing.
         {/msg}
       {elseif $ij.level == 7}
         {msg meaning="Movie.helpText7" desc="Instructions."}
-          The mathematical formula for this falling ball is complicated.  Here's the answer:
+          The mathematical formula for this falling ball is complicated. Here's the answer:
         {/msg}
         <br><br>
         <code style="font-size: 150%; margin: 0 1em;">y = 100 - (((time - 50) &divide; 5) ^ 2)</code>
       {elseif $ij.level == 8}
         {msg meaning="Movie.helpText8" desc="Instructions."}
-          Use the 'if' block to draw red and blue balls for the first half of the movie.  Then draw a green ball for the second half of the movie.
+          Use the 'if' block to draw red and blue balls for the first half of the movie. Then draw a green ball for the second half of the movie.
         {/msg}
       {elseif $ij.level == 9}
         {msg meaning="Movie.helpText9" desc="Instructions."}
-          Can you make a ball that follows the wire?  The wire has already been drawn for you.  Once you can do this, you can do anything.
+          Can you make a ball that follows the wire? The wire has already been drawn for you. Once you can do this, you can do anything.
         {/msg}
       {elseif $ij.level == 10}
         {msg meaning="Movie.helpText10" desc="Instructions."}
-          Make a movie of anything you want.  You've got a huge number of new blocks you can explore.  Have fun!
+          Make a movie of anything you want. You've got a huge number of new blocks you can explore. Have fun!
         {/msg}
         {if not $ij.html}
           <br><br>
           {msg meaning="Movie.helpText10Reddit" desc="Instructions on posting your movie to Reddit (a social website)."}
-            Use the "See Gallery" button to see movies that other people have made.  If you make an interesting movie, use the "Submit to Gallery" button to publish it.
+            Use the "See Gallery" button to see movies that other people have made. If you make an interesting movie, use the "Submit to Gallery" button to publish it.
           {/msg}
         {/if}
       {/if}

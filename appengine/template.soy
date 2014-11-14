@@ -46,24 +46,24 @@
     <span id="Games_dialogCancel">{{msg meaning="Games.dialogCancel" desc="Label on button for user to press when not wanting to proceed.\n{lb}{lb}Identical|Cancel{rb}{rb}"}}Cancel{{/msg}}</span>
 
     // Categories.  Games can use these names or their own.
-    <span id="Games_catLogic">{msg meaning="Games.catLogic" desc="category - Blocks related to [https://code.google.com/p/blockly/wiki/Logic logic]."}Logic{/msg}</span>
-    <span id="Games_catLoops">{msg meaning="Games.catLoops" desc="category - Blocks related to [http://en.wikipedia.org/wiki/Control_flow#Loops loops]."}Loops{/msg}</span>
+    <span id="Games_catLogic">{msg meaning="Games.catLogic" desc="category - Blocks related to [https://github.com/google/blockly/wiki/Logic logic]."}Logic{/msg}</span>
+    <span id="Games_catLoops">{msg meaning="Games.catLoops" desc="category - Blocks related to [https://en.wikipedia.org/wiki/Control_flow#Loops loops]."}Loops{/msg}</span>
     <span id="Games_catMath">{msg meaning="Games.catMath" desc="category - Blocks related to mathematics."}Math{/msg}</span>
-    <span id="Games_catText">{msg meaning="Games.catText" desc="category - Blocks related to [https://code.google.com/p/blockly/wiki/Text text processing]."}Text{/msg}</span>
-    <span id="Games_catLists">{msg meaning="Games.catLists" desc="category - Blocks related to [https://code.google.com/p/blockly/wiki/Lists lists]."}Lists{/msg}</span>
-    <span id="Games_catColour">{msg meaning="Games.catColour" desc="category - Blocks related to [https://code.google.com/p/blockly/wiki/Colour colour]."}Colour{/msg}</span>
-    <span id="Games_catVariables">{msg meaning="Games.catVariables" desc="category - Blocks related to [https://code.google.com/p/blockly/wiki/Variables variables]."}Variables{/msg}</span>
-    <span id="Games_catProcedures">{msg meaning="Games.catProcedures" desc="category - Blocks related to [http://en.wikipedia.org/wiki/Subroutine defining or using procedures/functions]."}Functions{/msg}</span>
+    <span id="Games_catText">{msg meaning="Games.catText" desc="category - Blocks related to [https://github.com/google/blockly/wiki/Text text processing]."}Text{/msg}</span>
+    <span id="Games_catLists">{msg meaning="Games.catLists" desc="category - Blocks related to [https://github.com/google/blockly/wiki/Lists lists]."}Lists{/msg}</span>
+    <span id="Games_catColour">{msg meaning="Games.catColour" desc="category - Blocks related to [https://github.com/google/blockly/wiki/Colour colour]."}Colour{/msg}</span>
+    <span id="Games_catVariables">{msg meaning="Games.catVariables" desc="category - Blocks related to [https://github.com/google/blockly/wiki/Variables variables]."}Variables{/msg}</span>
+    <span id="Games_catProcedures">{msg meaning="Games.catProcedures" desc="category - Blocks related to [https://en.wikipedia.org/wiki/Subroutine defining or using procedures/functions]."}Functions{/msg}</span>
 
     // Error messages related to loading/storing user programs.
     <span id="Games_httpRequestError">{msg meaning="Games.httpRequestError" desc="alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem."}There was a problem with the request.{/msg}</span>
     <span id="Games_linkAlert">{msg meaning="Games.linkAlert" desc="alert - After the user has pressed a button to save his/her program, this provides the URL (%1) to retrieve the program.  The characters '\n\n' indicate that a blank line will be displayed before the URL (in English).  Leave those in unless you move %1 to the beginning or middle of the text, in which case you should use your judgment about where blank lines would be most useful.\n\nParameters:\n* %1 - URL of saved program."}Share your blocks with this link:\n\n%1{/msg}</span>
     <span id="Games_hashError">{{msg meaning="Games.hashError" desc="alert - A request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL."}}Sorry, '%1' doesn't correspond with any saved program.{{/msg}}</span>
-    <span id="Games_xmlError">{msg meaning="Games.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be followed by technical information useful to engineers trying to understand the problem."}Could not load your saved file.  Perhaps it was created with a different version of Blockly?{/msg}</span>
+    <span id="Games_xmlError">{msg meaning="Games.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be followed by technical information useful to engineers trying to understand the problem."}Could not load your saved file. Perhaps it was created with a different version of Blockly?{/msg}</span>
 
     // Default variable names.
-    <span id="Games_listVariable">{msg meaning="Games.listVariable" desc="variable name - Default [https://code.google.com/p/blockly/wiki/Variables variable] representing a [https://code.google.com/p/blockly/wiki/Lists list].  This should be a single word, preferably short."}list{/msg}</span>
-    <span id="Games_textVariable">{msg meaning="Games.textVariable" desc="variable name - Default [https://code.google.com/p/blockly/wiki/Variables variable] representing a [https://code.google.com/p/blockly/wiki/Text piece of text].  This should be a single word, preferably short."}text{/msg}</span>
+    <span id="Games_listVariable">{msg meaning="Games.listVariable" desc="variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Lists list].  This should be a single word, preferably short."}list{/msg}</span>
+    <span id="Games_textVariable">{msg meaning="Games.textVariable" desc="variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Text piece of text].  This should be a single word, preferably short."}text{/msg}</span>
   </div>
 {/template}
 
@@ -141,7 +141,7 @@
 {template .abortDialog private="true"}
   <div id="dialogAbort" class="dialogHiddenContent">
     {msg meaning="Games.helpAbort" desc="callout - This dialog gives the user the option to skip this level."}
-      This level is extremely difficult.  Would you like to skip it and go onto the next game?  You can always come back later.
+      This level is extremely difficult. Would you like to skip it and go onto the next game? You can always come back later.
     {/msg}
     <div id="dialogAbortButtons" class="farSide" style="padding: 1ex 3ex 0">
       <button id="abortCancel">
