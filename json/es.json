@@ -6,7 +6,8 @@
 			"McDutchie",
 			"VegaDark",
 			"WeSiToS",
-			"Ricky <ricardo.barberis@gmail.com>"
+			"Ricky <ricardo.barberis@gmail.com>",
+			"Macofe"
 		]
 	},
 	"Games.name": "Blockly Games",
@@ -123,12 +124,15 @@
 	"Turtle.turtleVisibilityTooltip": "Hace a la tortuga (círculo y flecha) visible o invisible.",
 	"Turtle.hideTurtle": "ocultar la tortuga",
 	"Turtle.showTurtle": "mostrar la tortuga",
+	"Turtle.printHelpUrl": "https://es.wikipedia.org/wiki/Impresi%C3%B3n",
 	"Turtle.printTooltip": "Dibuja texto en la dirección de la tortuga en su ubicación.",
 	"Turtle.print": "imprimir",
+	"Turtle.fontHelpUrl": "https://es.wikipedia.org/wiki/Tipo_de_letra",
 	"Turtle.fontTooltip": "Define el tipo de letra utilizado por el bloque de impresión.",
 	"Turtle.font": "Tipo de letra",
 	"Turtle.fontSize": "tamaño de letra",
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "bold",
-	"Turtle.fontItalic": "italic"
+	"Turtle.fontItalic": "italic",
+	"Turtle.catTurtle": "Tortuga"
 }
