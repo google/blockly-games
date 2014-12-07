@@ -615,7 +615,7 @@ Maze.levelHelp = function() {
   }
   var userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
-  var toolbar = Blockly.mainWorkspace.flyout_.workspace_.getTopBlocks(true);
+  var toolbar = Blockly.mainWorkspace.toolbox_.flyout_.workspace_.getTopBlocks(true);
   var content = null;
   var origin = null;
   var style = null;
