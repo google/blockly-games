@@ -253,7 +253,7 @@ Turtle.categoryClicked_ = false;
  * @private
  */
 Turtle.watchCategories_ = function() {
-  if (Blockly.Toolbox.flyout_.isVisible()) {
+  if (Blockly.getMainWorkspace().toolbox_.flyout_.isVisible()) {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
   }
