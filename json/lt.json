@@ -4,14 +4,15 @@
 			"Eitvys200",
 			"Vilius2001",
 			"Garas",
-			"Jurgis"
+			"Jurgis",
+			"Gediminas"
 		]
 	},
 	"Games.puzzle": "Galvosūkis",
 	"Games.maze": "Labirintas",
 	"Games.turtle": "Vėžlys",
 	"Games.linkTooltip": "Išsaugoti (sugeneruoti URL nuorodą).",
-	"Games.runProgram": "Paleisti Programą",
+	"Games.runProgram": "Leisti programą",
 	"Games.resetProgram": "Atnaujinti",
 	"Games.help": "Pagalba",
 	"Games.dialogOk": "Gerai",
@@ -38,8 +39,8 @@
 	"Puzzle.checkAnswers": "Patikrinti Atsakymus",
 	"Puzzle.helpText": "Kiekvienai šaliai (žalia), pridėkite vėliavą, pasirinkite savo kalbą, ir padarykite savo miestų kaminą.",
 	"Maze.moveForward": "judėti į priekį",
-	"Maze.turnLeft": "Suk į kairę",
-	"Maze.turnRight": "Suk į dešinę",
+	"Maze.turnLeft": "sukti į kairę",
+	"Maze.turnRight": "sukti į dešinę",
 	"Maze.doCode": "daryti",
 	"Maze.elseCode": "kitas",
 	"Maze.helpIfElse": "Leidžia pasirinkti vieną iš dviejų variantų",
