@@ -109,6 +109,8 @@
 	"Bird.positionTooltip": "x e y marcant sa posidura de su pilloni. Candu x = 0 su pilloni est accanta a s'oru de manca, candu x = 100 est acanta a s'oru de deretta. Candu y = 0 est in basciu in basciu, candu y = 100 est in susu totu.",
 	"Bird.helpHeading": "Muda s'angulu a manera chi su pilloni ndi potzat pigai su bremi e lompi a su niu.",
 	"Bird.helpHasWorm": "Impera custu brocu po tirai a una parti si portas su bremi o a un'àtera si no ddu portas.",
+	"Bird.helpX": "'x' est sa posidura orizontali currenti. Impera custu brocu po tirai a una parti si 'x' est prus piticu de unu numeru o sinuncas a un'àtera.",
+	"Bird.helpElse": "Clica s'incona po mudai su brocu 'if'",
 	"Turtle.moveTooltip": "Movit su tostoinu ananti o asegus de su tanti inditau.",
 	"Turtle.moveForward": "movi ananti de",
 	"Turtle.moveBackward": "movi asegus de",
