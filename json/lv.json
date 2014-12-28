@@ -7,7 +7,10 @@
 	},
 	"Games.puzzle": "Saliekamattēls",
 	"Games.maze": "Labirints",
+	"Games.bird": "Putns",
 	"Games.turtle": "Bruņurupucis",
+	"Games.movie": "Filma",
+	"Games.pondBasic": "Dīķis",
 	"Games.linkTooltip": "Saglabāt un piesaistīt blokiem.",
 	"Games.runProgram": "Izpildīt programmu",
 	"Games.resetProgram": "Sākt no sākuma",
@@ -28,6 +31,11 @@
 	"Games.xmlError": "Nevaru ielādēt tavu saglabāto failu.  Iespējams, tas tika izveidots ar citu Blockly versiju?",
 	"Games.listVariable": "saraksts",
 	"Games.textVariable": "teksts",
+	"Puzzle.animal1": "Pīle",
+	"Puzzle.animal2": "Kaķis",
+	"Puzzle.animal3Trait1": "Medus",
+	"Puzzle.animal4": "Gliemezis",
+	"Puzzle.picture": "attēls:",
 	"Puzzle.legsChoose": "izvēlies...",
 	"Puzzle.error0": "Lieliski!\nVisi %1 bloki ir pareizi.",
 	"Puzzle.error1": "Gandrīz! Viens bloks nav pareizs.",
@@ -92,5 +100,6 @@
 	"Turtle.fontNormal": "normāls",
 	"Turtle.fontBold": "treknraksts (bold)",
 	"Turtle.fontItalic": "slīpraksts (italic)",
-	"Turtle.catTurtle": "Bruņurupucis"
+	"Turtle.catTurtle": "Bruņurupucis",
+	"Pond.rabbitName": "Trusis"
 }

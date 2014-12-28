@@ -5,7 +5,8 @@
 			"Espertus",
 			"Joseph",
 			"Kozlu",
-			"Trockya"
+			"Trockya",
+			"Ramona.Stewart"
 		]
 	},
 	"Games.puzzle": "Bulmaca",
@@ -31,6 +32,7 @@
 	"Games.xmlError": "Kaydedilen dosyanız yüklenemiyor\nBlockly'nin önceki sürümü ile kaydedilmiş olabilir mi?",
 	"Games.listVariable": "liste",
 	"Games.textVariable": "metin",
+	"Puzzle.animal1HelpUrl": "https://tr.wikipedia.org/wiki/Ördek",
 	"Puzzle.legsChoose": "seçim yapın...",
 	"Puzzle.error0": "Muhteşem!\n%1 bloğun hepsi de doğru.",
 	"Puzzle.error1": "Neredeyse oluyordu! Bir blok yanlış.",

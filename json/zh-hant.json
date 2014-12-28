@@ -2,11 +2,14 @@
 	"@metadata": {
 		"authors": [
 			"Gasolin",
-			"Justincheng12345"
+			"Justincheng12345",
+			"Liuxinyu970226"
 		]
 	},
+	"Games.name": "Blockly 遊戲",
 	"Games.puzzle": "拼圖",
 	"Games.maze": "迷宮",
+	"Games.bird": "鳥",
 	"Games.turtle": "烏龜",
 	"Games.linkTooltip": "儲存積木組並提供連結。",
 	"Games.runProgram": "執行程式",
@@ -18,7 +21,7 @@
 	"Games.catLoops": "迴圈",
 	"Games.catMath": "數學式",
 	"Games.catText": "文字",
-	"Games.catLists": "列表",
+	"Games.catLists": "清單",
 	"Games.catColour": "顏色",
 	"Games.catVariables": "變量",
 	"Games.catProcedures": "流程",
@@ -26,7 +29,7 @@
 	"Games.linkAlert": "透過此連結分享您的積木組：\n\n%1",
 	"Games.hashError": "對不起，「%1」並未對應任何已保存的程式。",
 	"Games.xmlError": "未能載入您保存的檔案。或許它是由其他版本的Blockly創建？",
-	"Games.listVariable": "列表",
+	"Games.listVariable": "清單",
 	"Games.textVariable": "文字",
 	"Puzzle.legsChoose": "請選擇…",
 	"Puzzle.error0": "完美！\n共%1塊積木皆正確。",
@@ -66,6 +69,7 @@
 	"Maze.helpIf": "'如果' 積木只有當條件成立時會執行。試著向左轉，如果左方有路。",
 	"Maze.helpMenu": "點選'如果' 積木中的 %1 以更改其狀態。",
 	"Maze.helpWallFollow": "你能解決這個複雜的迷宮嗎？請嘗試沿著左手邊的牆走。只有高級的程式設計師解得出來喔！",
+	"Bird.heading": "標題",
 	"Turtle.moveTooltip": "將烏龜向前或向後移動指定的量。",
 	"Turtle.moveForward": "向前移動",
 	"Turtle.moveBackward": "向後移動",
@@ -88,9 +92,10 @@
 	"Turtle.fontHelpUrl": "https://zh.wikipedia.org/wiki/字體",
 	"Turtle.fontTooltip": "設置列印模組使用的字型。",
 	"Turtle.font": "字型",
-	"Turtle.fontSize": "字體大小",
+	"Turtle.fontSize": "字型大小",
 	"Turtle.fontNormal": "一般",
 	"Turtle.fontBold": "粗體",
 	"Turtle.fontItalic": "斜體",
-	"Turtle.catTurtle": "烏龜"
+	"Turtle.catTurtle": "烏龜",
+	"Movie.lineDraw": "線"
 }
