@@ -222,13 +222,13 @@
 	"Pond.helpUseScan": "Din lösning fungerar, men du kan göra det bättre. Använd 'scan' för att tala om för kanonen hur långt den ska skjuta.",
 	"Pond.helpText1": "Använd kommandot 'cannon' för att träffa kanonen. Den första parametern är vinkeln, den andra parametern är räckvidden. Hitta den rätta kombinationen.",
 	"Pond.helpText2": "Detta mål behöver träffas flera gånger. Använd en 'while (true)'-loop för att göra någonting oändligt.",
-	"Pond.helpText3a": "Denna motståndare rör sig fram och tillbaka, vilket gör det svårt att träffa den. Uttrycket 'scan' returnerar det exakta räckvidden till motspelaren i den angivna riktningen.",
 	"Pond.helpText3b": "Denna räckvidd är vad kommandot 'cannon' precis behöver för att skjuta träffsäkert.",
 	"Pond.helpText4": "Denna användare är för långt borta för att använda kanonen (som har en räckvidd på 70 meter). Använd istället kommandot 'swim' för att börja simma mot motståndaren och krocka med den.",
 	"Pond.helpText5": "Denna motståndare är för långt borta för att använda kanonen. Men du är för svag för att överleva en kollision. Simma fram till motståndaren medan din horisontala position är mindre än 50. Använd kommandot 'stop' sedan och använd kanonen.",
 	"Pond.helpText6": "Denna motståndare förflyttar sig bortåt när den träffas. Simma framåt om den är utom räckhåll.",
 	"Pond.helpText7": "Kaninen springer runt slumpmässigt. Kan du träffa den?",
 	"Pond.helpText9": "Counter tittar i alla riktningar. Kan du hantera alla motståndare samtidigt?",
+	"Pond.helpText3a": "Den här motståndaren rör sig fram och tillbaka vilket gör det svårt att träffa. Kommandot 'scan' returnerar det exakta avståndet till en motståndare i den angivna riktningen.",
 	"Pond.helpText8": "Schacktornet skjuter tillbaka! Men den tittar bara norrut, söderut, österut och västerut.",
 	"Pond.helpText10": "Krypskytten gömmer sig i ett hörn och letar efter måltavlor. Lycka till. Vi menar det."
 }
