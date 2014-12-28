@@ -210,7 +210,7 @@
 	"Pond.pendulumName": "Pendel",
 	"Pond.scaredName": "Fegis",
 	"Pond.scanTooltip": "Sök efter fiender. Ange en riktning  (0-360). Returnerar avståndet till den närmaste fienden i den riktningen. Returnerar Oändligt om ingen fiende hittas.",
-	"Pond.cannonTooltip": "Avfyra kanonen. Ange en riktning (0-360) och en räckvidd (0-70).",
+	"Pond.cannonTooltip": "Skjut med kanonen. Ange en riktning (0-360) och ett avstånd (0-70).",
 	"Pond.swimTooltip": "Simma framåt. Ange en riktning (0-360).",
 	"Pond.stopTooltip": "Sluta simma. Spelaren kommer att bromsa tills den stannar.",
 	"Pond.healthTooltip": "Returnerar spelarens nuvarande hälsa (0 är död, 100 är frisk).",
