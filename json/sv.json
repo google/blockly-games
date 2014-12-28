@@ -206,7 +206,7 @@
 	"Pond.rabbitName": "Kanin",
 	"Pond.counterName": "Räknare",
 	"Pond.rookName": "Schacktorn",
-	"Pond.sniperName": "Krypskytte",
+	"Pond.sniperName": "Krypskytt",
 	"Pond.pendulumName": "Pendel",
 	"Pond.scaredName": "Fegis",
 	"Pond.scanTooltip": "Sök efter fiender. Ange en riktning  (0-360). Returnerar avståndet till den närmaste fienden i den riktningen. Returnerar Oändligt om ingen fiende hittas.",
@@ -230,5 +230,5 @@
 	"Pond.helpText7": "Kaninen springer runt slumpmässigt. Kan du träffa den?",
 	"Pond.helpText9": "Counter tittar i alla riktningar. Kan du hantera alla motståndare samtidigt?",
 	"Pond.helpText8": "Schacktornet skjuter tillbaka! Men den tittar bara norrut, söderut, österut och västerut.",
-	"Pond.helpText10": "Prickskytten gömmer sig i ett hörn och letar efter måltavlor. Lycka till. Vi menar det."
+	"Pond.helpText10": "Krypskytten gömmer sig i ett hörn och letar efter måltavlor. Lycka till. Vi menar det."
 }
