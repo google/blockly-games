@@ -212,7 +212,7 @@
 	"Pond.scanTooltip": "Rechercher des ennemis. Spécifier une direction (0-360). Renvoie la distance à l’ennemi le plus proche dans cette direction. Renvoie Infini si aucun ennemi n’a été trouvé.",
 	"Pond.cannonTooltip": "Tirer au canon. Spécifier une direction (0-360) et une portée (0-70).",
 	"Pond.swimTooltip": "Nager. Spécifier une direction (0-360).",
-	"Pond.stopTooltip": "Arrêter de nager. Le joueur ralentira pour s&arrêter.",
+	"Pond.stopTooltip": "Arrêter de nager. Le joueur ralentira pour arrêter.",
 	"Pond.healthTooltip": "Renvoie la santé actuelle du joueur (0 est mort, 100 est en pleine forme).",
 	"Pond.speedTooltip": "Renvoie la vitesse actuelle du joueur (0 est à l’arrêt, 100 est à pleine vitesse).",
 	"Pond.locXTooltip": "Renvoie la coordonnée X du joueur (0 est le bord gauche, 100 le bord droit).",
