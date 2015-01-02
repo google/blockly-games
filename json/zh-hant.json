@@ -31,6 +31,7 @@
 	"Games.xmlError": "未能載入您保存的檔案。或許它是由其他版本的Blockly創建？",
 	"Games.listVariable": "清單",
 	"Games.textVariable": "文字",
+	"Puzzle.picture": "圖片：",
 	"Puzzle.legsChoose": "請選擇…",
 	"Puzzle.error0": "完美！\n共%1塊積木皆正確。",
 	"Puzzle.error1": "差不多要完成了！只剩一塊不正確。",

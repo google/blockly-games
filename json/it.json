@@ -5,7 +5,8 @@
 			"Isiond",
 			"Nerimic",
 			"Gbonanome",
-			"Mario"
+			"Mario",
+			"Gianfranco"
 		]
 	},
 	"Games.name": "Giochi Blockly",
@@ -190,5 +191,29 @@
 	"Movie.galleryMsg": "Vedi la Galleria",
 	"Movie.submitTooltip": "Invia il tuo filmato a Reddit.",
 	"Movie.submitMsg": "Invia alla Galleria.",
-	"Pond.playerName": "Giocatore"
+	"Movie.helpText1": "Usa forme semplici per disegnare questa persona.",
+	"Movie.helpText2a": "Questo livello è un film. Vuoi una rossa palla che rotola attraverso la finestra. Premi il tasto play per vedere un'anteprima.",
+	"Movie.helpText2b": "Durante la riproduzione del filmato, il valore del blocco 'tempo' conta da 0 a 100. Poiché desideri che la posizione orizzontale della palla rossa inizi a 0 e finisca a 100, dovrebbe essere facile.",
+	"Movie.helpText3": "Il blocco 'tempo' conta da 0 a 100. Ma questa volta vuoi che la posizione orizzontale della palla rossa inizi a 100 e finisca a 0. Hai in mente una semplice formula matematica che inverta la direzione?",
+	"Movie.helpText4": "Utilizza quello che hai imparato nel livello precedente per fare quattro palline verdi che si muovono in tutte e quattro le direzioni.",
+	"Movie.helpText5": "Far muovere la testa del topo è facile. Puoi lavorare sulla matematica per far muovere anche le orecchie?",
+	"Movie.helpText6": "Due semplici righe. Prova a capire cosa stanno facendo gli estremi delle linee.",
+	"Movie.helpText7": "La formula matematica per questa palla che cade è complicata. Ecco la soluzione:",
+	"Movie.helpText9": "Riesci a fare una palla che segue il filo? Il cavo è già stato disegnato per te. Una volta che puoi fare questo, puoi fare di tutto.",
+	"Movie.helpText10": "Fai un film su qualunque cosa tu voglia. Hai un numero enorme di nuovi blocchi che puoi esplorare. Buon divertimento!",
+	"Pond.playerName": "Giocatore",
+	"Pond.targetName": "Obiettivo",
+	"Pond.rabbitName": "Coniglio",
+	"Pond.counterName": "Contatore",
+	"Pond.rookName": "Torre",
+	"Pond.sniperName": "Cecchino",
+	"Pond.pendulumName": "Pendolo",
+	"Pond.scaredName": "Terrorizzato",
+	"Pond.swimTooltip": "Nuotare in avanti. Specifica una direzione (0-360).",
+	"Pond.stopTooltip": "Smettere di nuotare. Il giocatore rallenterà sino a fermarsi.",
+	"Pond.docsTooltip": "Mostra la documentazione in lingua.",
+	"Pond.documentation": "Documentazione",
+	"Pond.helpUseScan": "La tua soluzione funziona, ma puoi fare di meglio. Usa 'scan' per dire al cannone quanto lontano deve sparare.",
+	"Pond.helpText7": "Il coniglio corre qua e là in modo casuale. Riesci a colpirlo?",
+	"Pond.helpText10": "Il cecchino si nasconde in un angolo in cerca di obiettivi. Buona fortuna. Sul serio."
 }
