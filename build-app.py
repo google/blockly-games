@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Compresses the core Blockly files into a single JavaScript file.
+# Compresses the files for one game into a single JavaScript file.
 #
 # Copyright 2013 Google Inc.
 # https://github.com/google/blockly-games
@@ -17,12 +17,11 @@
 # limitations under the License.
 
 # This script generates two files:
-#   blockly_compressed.js
-#   blockly_uncompressed.js
-# The compressed file is a concatenation of all of Blockly's core files which
-# have been run through Google's Closure Compiler.  This is done using the
-# online API (which takes a few seconds and requires an Internet connection).
-# The uncompressed file is a script that loads in each of Blockly's core files
+#   compressed.js
+#   uncompressed.js
+# The compressed file is a concatenation of all the relevant JavaScript which
+# has been run through Google's Closure Compiler.
+# The uncompressed file is a script that loads in each JavaScript file
 # one by one.  This takes much longer for a browser to load, but is useful
 # when debugging code since line numbers are meaningful and variables haven't
 # been renamed.  The uncompressed file also allows for a faster developement
@@ -77,6 +76,7 @@ CORE_LANGUAGE_MAP = {
   'zh-hant': 'Blockly.Msg.zh.hant'
 }
 
+# Define a warning message for all the generated files.
 WARNING = '// Automatically generated file.  Do not edit!\n'
 
 
@@ -158,7 +158,7 @@ def trim_licence(code):
  [\\w ]+
 
  (Copyright \\d+ Google Inc.)
- https://blockly.googlecode.com/
+ https://developers.google.com/blockly/
 
  Licensed under the Apache License, Version 2.0 \\(the "License"\\);
  you may not use this file except in compliance with the License.
