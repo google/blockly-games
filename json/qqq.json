@@ -1,13 +1,4 @@
 {
-	"@metadata": {
-		"authors": [
-			"Gbonanome",
-			"Liuxinyu970226",
-			"McDutchie",
-			"Nike",
-			"Robby"
-		]
-	},
 	"Games.name": "The project name.",
 	"Games.puzzle": "title - Specifies that this is Blockly's '''Puzzle''' game.  Use the word for a jigsaw puzzle.\n{{Identical|Puzzle}}",
 	"Games.maze": "title - Specifies that this is Blockly's '''Maze''' game.\n{{Identical|Maze}}",
@@ -164,7 +155,7 @@
 	"Turtle.helpText8": "Instructions.",
 	"Turtle.helpText9": "Instructions.",
 	"Turtle.helpText10": "Instructions.",
-	"Turtle.helpText10Reddit": "Instructions on posting your drawing to Reddit (a social website). \n& quot; is an html encoded character and should not be translated.",
+	"Turtle.helpText10Reddit": "Instructions on posting your drawing to Reddit (a social website).",
 	"Turtle.helpToolbox": "Instructions for accessing blocks that are hidden inside categories.",
 	"Turtle.catTurtle": "category - Blocks related to Turtle commands.",
 	"Movie.x": "Label for an x-coordinate (horizontal) input.",
@@ -202,7 +193,7 @@
 	"Movie.helpText9": "Instructions.",
 	"Movie.helpText10": "Instructions.",
 	"Movie.helpText10Reddit": "Instructions on posting your movie to Reddit (a social website).",
-	"Pond.playerName": "Generic name for the player of this video game - Blockly.\n{{Identical|Player}}",
+	"Pond.playerName": "Generic name for the player of this video game.\n{{Identical|Player}}",
 	"Pond.targetName": "Name for a player that does nothing.\n{{Identical|Target}}",
 	"Pond.rabbitName": "Name for a player that runs like a rabbit.\n{{Identical|Rabbit}}",
 	"Pond.counterName": "Name for a player that counts methodically.\n{{Identical|Counter}}",

@@ -35,7 +35,7 @@
       {else}
         <a href="about?lang={$ij.lang}">
       {/if}
-        {msg meaning="Index.moreInfo" desc="Brief description of Blockly Games."}More info...{/msg}
+        {{msg meaning="Index.moreInfo" desc="Brief description of Blockly Games.\n{lb}{lb}Identical|More information{rb}{rb}"}}More info...{{/msg}}
       </a>
     </div>
   </div>
@@ -112,7 +112,7 @@
   <p id="clearDataPara" style="visibility: hidden">
     {msg meaning="Index.startOver" desc="Label next to button for deleting all the user's data."}Want to start over?{/msg}
     <button class="secondary" id="clearData">
-      {msg meaning="Index.clearData" desc="Text on button for deleting all the user's data."}Clear data{/msg}</span>
+      {{msg meaning="Index.clearData" desc="Text on button for deleting all the user's data.\n{lb}{lb}Identical|Clear data{rb}{rb}"}}Clear data{{/msg}}</span>
     </button>
   </p>
 {/template}

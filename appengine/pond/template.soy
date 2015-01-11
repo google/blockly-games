@@ -16,14 +16,14 @@
 {template .messages}
   {call BlocklyGames.soy.messages /}
   <div style="display: none">
-    <span id="Pond_playerName">{msg meaning="Pond.playerName" desc="Generic name for the player."}Player{/msg}</span>
-    <span id="Pond_targetName">{msg meaning="Pond.targetName" desc="Name for a player that does nothing."}Target{/msg}</span>
-    <span id="Pond_rabbitName">{msg meaning="Pond.rabbitName" desc="Name for a player that runs like a rabbit."}Rabbit{/msg}</span>
-    <span id="Pond_counterName">{msg meaning="Pond.counterName" desc="Name for a player that counts methodically."}Counter{/msg}</span>
-    <span id="Pond_rookName">{msg meaning="Pond.rookName" desc="Name for a player that behaves like a rook (castle) in chess."}Rook{/msg}</span>
-    <span id="Pond_sniperName">{msg meaning="Pond.sniperName" desc="Name for a player that hides in a corner and shoots."}Sniper{/msg}</span>
-    <span id="Pond_pendulumName">{msg meaning="Pond.pendulumName" desc="Name for a player that moves back and forth."}Pendulum{/msg}</span>
-    <span id="Pond_scaredName">{msg meaning="Pond.scaredName" desc="Name for a player that is scared."}Scared{/msg}</span>
+    <span id="Pond_playerName">{{msg meaning="Pond.playerName" desc="Generic name for the player of this video game.\n{lb}{lb}Identical|Player{rb}{rb}"}}Player{{/msg}}</span>
+    <span id="Pond_targetName">{{msg meaning="Pond.targetName" desc="Name for a player that does nothing.\n{lb}{lb}Identical|Target{rb}{rb}"}}Target{{/msg}}</span>
+    <span id="Pond_rabbitName">{{msg meaning="Pond.rabbitName" desc="Name for a player that runs like a rabbit.\n{lb}{lb}Identical|Rabbit{rb}{rb}"}}Rabbit{{/msg}}</span>
+    <span id="Pond_counterName">{{msg meaning="Pond.counterName" desc="Name for a player that counts methodically.\n{lb}{lb}Identical|Counter{rb}{rb}"}}Counter{{/msg}}</span>
+    <span id="Pond_rookName">{{msg meaning="Pond.rookName" desc="Name for a player that behaves like a rook (castle) in chess.\n{lb}{lb}Identical|Rook{rb}{rb}"}}Rook{{/msg}}</span>
+    <span id="Pond_sniperName">{{msg meaning="Pond.sniperName" desc="Name for a player that hides in a corner and shoots.\n{lb}{lb}Identical|Sniper{rb}{rb}"}}Sniper{{/msg}}</span>
+    <span id="Pond_pendulumName">{{msg meaning="Pond.pendulumName" desc="Name for a player that moves back and forth.\n{lb}{lb}Identical|Pendulum{rb}{rb}"}}Pendulum{{/msg}}</span>
+    <span id="Pond_scaredName">{{msg meaning="Pond.scaredName" desc="Name for a player that is scared.\n{lb}{lb}Identical|Scared{rb}{rb}"}}Scared{{/msg}}</span>
 
     <span id="Pond_scanTooltip">{msg meaning="Pond.scanTooltip" desc="Tooltip for the block that allows players to scan for enemies."}Scan for enemies. Specify a direction (0-360). Returns the distance to the closest enemy in that direction. Returns Infinity if no enemy found.{/msg}</span>
     <span id="Pond_cannonTooltip">{msg meaning="Pond.cannonTooltip" desc="Tooltip for the block that allows players to shoot at other players."}Fire the cannon. Specify a direction (0-360) and a range (0-70).{/msg}</span>
@@ -55,7 +55,7 @@
     <tr>
       <td style="width: 190px; text-align: center; vertical-align: top;">
         <button id="docsButton" title="{msg meaning="Pond.docsTooltip" desc="Tooltip for the button that opens the language reference documentation."}Display the language documentation.{/msg}">
-          {msg meaning="Pond.documentation" desc="Text on the button that opens the language reference documentation."}Documentation{/msg}
+          {{msg meaning="Pond.documentation" desc="Text on the button that opens the language reference documentation.\n{lb}{lb}Identical|Documentation{rb}{rb}"}}Documentation{{/msg}}
         </button>
       </td>
       <td>

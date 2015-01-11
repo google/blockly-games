@@ -117,7 +117,7 @@ Puzzle.init = function() {
     var totalArea = 0;
     // Measure the surface area of each block.
     for (var i = 0, block; block = blocks[i]; i++) {
-      var blockBox = block.svg_.getRootElement().getBBox();
+      var blockBox = block.getSvgRoot().getBBox();
       block.cached_width_ = blockBox.width;
       block.cached_height_ = blockBox.height;
       block.cached_area_ = blockBox.width * blockBox.height;
@@ -131,7 +131,7 @@ Puzzle.init = function() {
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
     for (var i = 0, block; block = blocks[i]; i++) {
-      var blockBox = block.svg_.getRootElement().getBBox();
+      var blockBox = block.getSvgRoot().getBBox();
       // Spread the blocks horizontally, grouped by type.
       // Spacing is proportional to block's area.
       if (rtl) {
