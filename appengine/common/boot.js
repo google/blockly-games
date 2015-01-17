@@ -30,10 +30,11 @@
 
   // Supported languages (consistent across all apps).
   window['BlocklyGamesLanguages'] = [
-      'ar', 'be-tarask', 'br', 'ca', 'da', 'de', 'el', 'en', 'es', 'fa', 'fr',
-      'gl', 'he', 'hrx', 'hu', 'ia', 'is', 'it', 'ja', 'ko', 'lv', 'mk', 'ms',
-      'nb', 'nl', 'pl', 'pms', 'pt-br', 'ro', 'ru', 'sc', 'sco', 'sk', 'sv',
-      'th', 'tr', 'uk', 'vi', 'zh-hans', 'zh-hant'
+      'ar', 'be-tarask', 'br', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es',
+      'fa', 'fi', 'fr', 'gl', 'he', 'hrx', 'hu', 'ia', 'is', 'it', 'ja',
+      'ko', 'lt', 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'pms', 'pt-br',
+      'ro', 'ru', 'sc', 'sco', 'sk', 'sr', 'sv', 'th', 'tr', 'uk', 'vi',
+      'zh-hans', 'zh-hant'
       ];
 
   // Use a series of heuristics that determine the likely language of this user.
