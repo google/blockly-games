@@ -187,6 +187,7 @@
 	"Pond.sniperName": "Tarkka-ampuja",
 	"Pond.pendulumName": "Heiluri",
 	"Pond.scaredName": "Peloissaan",
+	"Pond.swimTooltip": "Ui eteenpäin. Määrittele suunta (0-360).",
 	"Pond.speedTooltip": "Palauttaa pelajaan nopeuden (0 tarkoittaa pysähtynyttä, 100 täyttä nopeutta).",
 	"Pond.docsTooltip": "Näytä kieliohje",
 	"Pond.documentation": "Ohjeet",

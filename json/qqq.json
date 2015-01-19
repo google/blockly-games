@@ -1,4 +1,13 @@
 {
+	"@metadata": {
+		"authors": [
+			"Gbonanome",
+			"Liuxinyu970226",
+			"McDutchie",
+			"Nike",
+			"Robby"
+		]
+	},
 	"Games.name": "The project name.",
 	"Games.puzzle": "title - Specifies that this is Blockly's '''Puzzle''' game.  Use the word for a jigsaw puzzle.\n{{Identical|Puzzle}}",
 	"Games.maze": "title - Specifies that this is Blockly's '''Maze''' game.\n{{Identical|Maze}}",
@@ -127,7 +136,7 @@
 	"Turtle.showTurtle": "block text - Infinitive or imperative of a verb telling a turtle to show itself (become visible after having been invisible).",
 	"Turtle.printHelpUrl": "URL - Information about printing or typography.",
 	"Turtle.printTooltip": "tooltip - Note that 'print' refers to displaying text on the screen, not on an external printer.",
-	"Turtle.print": "block text - Infinitive or imperative of a verb telling a turtle to display text on the screen.  This is always followed by a block indicating what should be printed.",
+	"Turtle.print": "block text - Infinitive or imperative of a verb telling a turtle to display text on the screen.  This is always followed by a block indicating what should be printed.\n{{Identical|Print}}",
 	"Turtle.fontHelpUrl": "URL - Information about typographic fonts.",
 	"Turtle.fontTooltip": "tooltip - This is shown on the block that lets the user specify the font [family], size, and style that should be used for subsequent displays of text.",
 	"Turtle.font": "block text - This precedes a dropdown menu specifying the typographic font [family] that should be used when displaying text.",
@@ -155,7 +164,7 @@
 	"Turtle.helpText8": "Instructions.",
 	"Turtle.helpText9": "Instructions.",
 	"Turtle.helpText10": "Instructions.",
-	"Turtle.helpText10Reddit": "Instructions on posting your drawing to Reddit (a social website).",
+	"Turtle.helpText10Reddit": "Instructions on posting your drawing to Reddit (a social website). \n& quot; is an html encoded character and should not be translated.",
 	"Turtle.helpToolbox": "Instructions for accessing blocks that are hidden inside categories.",
 	"Turtle.catTurtle": "category - Blocks related to Turtle commands.",
 	"Movie.x": "Label for an x-coordinate (horizontal) input.",
