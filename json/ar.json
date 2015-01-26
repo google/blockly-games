@@ -4,7 +4,8 @@
 			"Espertus",
 			"Kuwaity26",
 			"Meno25",
-			"Mgi92"
+			"Mgi92",
+			"Test Create account"
 		]
 	},
 	"Games.puzzle": "أحجية",
@@ -30,6 +31,10 @@
 	"Games.xmlError": "تعذر تحميل الملف المحفوظة الخاصة بك.  ربما تم إنشاؤه باستخدام إصدار مختلف من بلوكلي؟",
 	"Games.listVariable": "قائمة",
 	"Games.textVariable": "نص",
+	"Games.congratulations": "تهانينا!",
+	"Index.moreInfo": "المزيد من المعلومات...",
+	"Index.startOver": "هل ترغب في البدأ من جديد؟",
+	"Puzzle.picture": "الصورة:",
 	"Puzzle.legsChoose": "اختر...",
 	"Puzzle.error0": "ممتاز!\nكل المكعبات %1 صحيحة.",
 	"Puzzle.error1": "اقتربت! مكعّب واحد غير صحيح.",
@@ -94,5 +99,13 @@
 	"Turtle.fontNormal": "عادي",
 	"Turtle.fontBold": "غامق",
 	"Turtle.fontItalic": "مائل",
-	"Turtle.catTurtle": "السلحفاة"
+	"Turtle.catTurtle": "السلحفاة",
+	"Movie.width": "العرض",
+	"Movie.height": "الارتفاع",
+	"Movie.circleDraw": "دائرة",
+	"Movie.lineDraw": "خط",
+	"Movie.setColour": "تعيين اللون إلى",
+	"Pond.playerName": "اللاعب",
+	"Pond.targetName": "الهدف",
+	"Pond.rabbitName": "أرنب"
 }
