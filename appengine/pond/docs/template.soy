@@ -20,17 +20,17 @@
 
 <ul>
   <li><a href="#pond">Pond</a></li>
-{if $ij.level >= 2}
+{if $ij.level >= 3}
   <li><a href="#logic">Logic</a></li>
 {/if}
-{if $ij.level >= 2}
+{if $ij.level >= 3}
   <li><a href="#loops">Loops</a></li>
 {/if}
   <li><a href="#math">Math</a></li>
-{if $ij.level >= 7}
+{if $ij.level >= 11}
   <li><a href="#variables">Variables</a></li>
 {/if}
-{if $ij.level >= 8}
+{if $ij.level >= 11}
   <li><a href="#functions">Functions</a></li>
 {/if}
 </ul>
@@ -51,9 +51,9 @@ Angles wrap as expected: -90 is south, 450 is north.</p>
 
 <h2>Cannon</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/cannon.png" height="41" width="231"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">cannon(<i>angle</i>, <i>range</i>)</pre>
 {/if}
 
@@ -63,19 +63,19 @@ The range can be 0-70 metres, with greater ranges truncated to 70.</p>
 
 <p>The cannon takes about one second to reload after firing.
 If <code>cannon()</code> is called during this time, nothing happens.
-{if $ij.pond == 'advanced'}{sp}
+{if $ij.pond == 'js'}{sp}
   <code>cannon()</code> returns <code>true</code> if a cannonball was fired,
   or <code>false</code> if the cannon is reloading.
 {/if}
 </p>
 
 
-{if $ij.level >= 3}
+{if $ij.level >= 5}
 <h2>Scan</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/scan.png" height="36" width="134"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">scan(<i>angle</i>, <i>width</i>)</pre>
 {/if}
 
@@ -85,7 +85,7 @@ The angle is independent of the direction of the duck.  Sunk opponents are
 not detected.  If there is no opponent in that direction,
 then <code>Infinity</code> is returned.</p>
 
-{if $ij.pond == 'advanced'}
+{if $ij.pond == 'js'}
   <p>
     The second parameter of <code>scan()</code> specifies the width of the
     scanning beam.  This can be from 1 degree to 20 degrees.  Advanced players
@@ -96,19 +96,19 @@ then <code>Infinity</code> is returned.</p>
 {/if}
 
 
-{if $ij.level >= 4}
+{if $ij.level >= 7}
 <h2>Swim</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/swim.png" height="41" width="131"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">swim(<i>angle</i>, <i>speed</i>)</pre>
 {/if}
 
 <p>The <code>swim()</code> function starts the duck moving.  The duck will
 continue moving in the specified direction indefinitely.</p>
 
-{if $ij.pond == 'advanced'}
+{if $ij.pond == 'js'}
   <p>
     The second parameter of <code>swim()</code> specifies the speed.
     This can be from 0 (stopped) to 100 (fast).  Direction of movement may only
@@ -122,34 +122,34 @@ your speed.</p>
 {/if}
 
 
-{if $ij.level >= 5}
+{if $ij.level >= 9}
 <h2>Stop</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/stop.png" height="31" width="63"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">stop()</pre>
 {/if}
 
 <p>The <code>stop()</code> function stops the duck from moving.  The duck will
 take a moment to slow down before stopping completely.
-{if $ij.pond == 'advanced'}
+{if $ij.pond == 'js'}
   This is the same as calling <code>swim()</code> with a speed of zero.
 {/if}
 </p>
 {/if}
 
 
-{if $ij.level >= 5}
+{if $ij.level >= 9}
 <h2>Location</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/loc_x.png" height="26" width="74">
     {sp}&nbsp;{sp}
     <img src="docs/loc_y.png" height="26" width="74">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">loc_x()    loc_y()</pre>
 {/if}
 
@@ -161,14 +161,14 @@ starting from the lower-left corner.</p>
 {/if}
 
 
-{if $ij.level >= 8}
+{if $ij.level >= 11}
 <h2>Speed</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/speed.png" height="26" width="79">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">speed()</pre>
 {/if}
 
@@ -178,14 +178,14 @@ detect collisions (which instantly stop the duck).</p>
 {/if}
 
 
-{if $ij.level >= 8}
+{if $ij.level >= 11}
 <h2>Health</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/health.png" height="26" width="78">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="pondSpec spec">health()</pre>
 {/if}
 
@@ -198,18 +198,18 @@ health has decreased, thus indicating that the duck is under attack.</p>
 {/if}
 
 
-{if $ij.level >= 2}
+{if $ij.level >= 3}
 <hr>
 <!-- ---------------------------------------------------------------------- -->
 <h1 id="logic">Logic</h1>
 
 
-{if $ij.level >= 5}
+{if $ij.level >= 9}
 <h2>If</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/if.png" height="90" width="118"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="logicSpec spec">if (<i>condition</i>) {lb}{\n}
 {sp}{sp}<i>statements</i>{\n}
 {rb}{\n}
@@ -237,12 +237,12 @@ conditions were true.</p>
 {/if}
 
 
-{if $ij.level >= 5}
+{if $ij.level >= 9}
 <h2>Equality</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/equals.png" height="36" width="122"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="logicSpec spec">==    !=    &lt;    &lt;=    &gt;    &gt;=</pre>
 {/if}
 
@@ -291,7 +291,7 @@ The six available equality operators are:</p>
 fractions.  Consider this code that is designed to swim to 50 then stop:</p>
 
 <pre>while (loc_y() <b>!=</b> 50) {lb}{\n}
-{sp}{sp}swim(90{if $ij.pond == 'advanced'}, 50{/if});{\n}
+{sp}{sp}swim(90{if $ij.pond == 'js'}, 50{/if});{\n}
 {rb}{\n}
 stop();</pre>
 
@@ -300,21 +300,21 @@ execution, then 50.6 on the next execution.  Since the value was not seen at
 exactly 50, the loop continues forever.  Below is better code:</p>
 
 <pre>while (loc_y() <b>&lt;</b> 50) {lb}{\n}
-{sp}{sp}swim(90{if $ij.pond == 'advanced'}, 50{/if});{\n}
+{sp}{sp}swim(90{if $ij.pond == 'js'}, 50{/if});{\n}
 {rb}{\n}
 stop();</pre>
 
 {/if}
 
 
-{if $ij.level >= 7}
+{if $ij.level >= 11}
 <h2>And/Or</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/and.png" height="36" width="124">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="logicSpec spec">&&    ||</pre>
 {/if}
 
@@ -340,9 +340,9 @@ For example this code will stop if the duck is close to any wall:</p>
 
 <h2>Booleans</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/true.png" height="26" width="68"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="logicSpec spec">true    false</pre>
 {/if}
 
@@ -352,7 +352,7 @@ that executes forever.  The value <code>false</code> is also available.</p>
 {/if}
 
 
-{if $ij.level >= 2}
+{if $ij.level >= 3}
 <hr>
 <!-- ---------------------------------------------------------------------- -->
 <h1 id="loops">Loops</h1>
@@ -360,9 +360,9 @@ that executes forever.  The value <code>false</code> is also available.</p>
 
 <h2>While</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/while.png" height="90" width="118"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="loopsSpec spec">while (<i>condition</i>) {lb}{\n}
 {sp}{sp}<i>statements</i>{\n}
 {rb}</pre>
@@ -378,8 +378,8 @@ condition is true.  Thus, the following will fire the cannon west forever:</p>
 <p>Whereas the following will fire the canon west as long as an opponent is in
 range:</p>
 
-<pre>while (scan(180{if $ij.pond == 'advanced'}, 5{/if}) &lt;= 70) {lb}{\n}
-{sp}{sp}cannon(180, scan(180{if $ij.pond == 'advanced'}, 5{/if}));{\n}
+<pre>while (scan(180{if $ij.pond == 'js'}, 5{/if}) &lt;= 70) {lb}{\n}
+{sp}{sp}cannon(180, scan(180{if $ij.pond == 'js'}, 5{/if}));{\n}
 {rb}</pre>
 
 {/if}
@@ -392,9 +392,9 @@ range:</p>
 
 <h2>Number</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p><img src="docs/number.png" height="26" width="37"></p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="mathSpec spec">123</pre>
 {/if}
 
@@ -406,14 +406,14 @@ There is even a special number called <code>Infinity</code>.</p>
 <p>Do not use thousands separators (e.g. 9,000).</p>
 
 
-{if $ij.level >= 7}
+{if $ij.level >= 11}
 <h2>Arithmetic</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/plus.png" height="36" width="113">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="mathSpec spec">+    -    *    /</pre>
 {/if}
 
@@ -450,14 +450,14 @@ The four available arithmetic operators are:</p>
 {/if}
 
 
-{if $ij.level >= 7}
+{if $ij.level >= 11}
 <h2>Trigonometry</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/math_sqrt.png" height="36" width="164">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="mathSpec spec">Math.<i>operation</i>(<i>number</i>)</pre>
 {/if}
 
@@ -516,14 +516,14 @@ The eight available functions are:</p>
 {/if}
 
 
-{if $ij.level >= 7}
+{if $ij.level >= 11}
 <h2>Incrementing</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/increment.png" height="41" width="159">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="mathSpec spec"><i>name</i> += <i>number</i>;</pre>
 {/if}
 
@@ -538,14 +538,14 @@ If in doubt, assign the variable to 0 at the beginning of the program.</p>
 {/if}
 
 
-{if $ij.level >= 7}
+{if $ij.level >= 11}
 <h2>Random</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/math_random.png" height="26" width="124">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="mathSpec spec">Math.random()</pre>
 {/if}
 
@@ -557,7 +557,7 @@ Here's an example of getting a random angle:</p>
 {/if}
 
 
-{if $ij.level >= 7}
+{if $ij.level >= 11}
 <hr>
 <!-- ---------------------------------------------------------------------- -->
 <h1 id="variables">Variables</h1>
@@ -565,11 +565,11 @@ Here's an example of getting a random angle:</p>
 
 <h2>Assigning</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/var_set.png" height="40" width="165">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="variablesSpec spec">var <i>name</i> = <i>value</i>;</pre>
 {/if}
 
@@ -577,7 +577,7 @@ Here's an example of getting a random angle:</p>
 The name of the variable should be something that makes sense,
 such as <code>range</code> or <code>angle</code>.</p>
 
-{if $ij.pond == 'advanced'}
+{if $ij.pond == 'js'}
 <p>Note that variable names are case-sensitive,
 thus <code>angle</code> and <code>Angle</code> are two completely different
 variables.  Variable names must only use the English letters a-z, and numbers.
@@ -590,11 +590,11 @@ but there is no harm in using it.</p>
 
 <h2>Retrieving</h2>
 
-{if $ij.pond == 'basic'}
+{if $ij.pond == 'blocks'}
   <p>
     <img src="docs/var_get.png" height="26" width="79">
   </p>
-{elseif $ij.pond == 'advanced'}
+{elseif $ij.pond == 'js'}
   <pre class="variablesSpec spec"><i>name</i></pre>
 {/if}
 
@@ -604,7 +604,7 @@ to the named variable.</p>
 {/if}
 
 
-{if $ij.level >= 8}
+{if $ij.level >= 11}
 <hr>
 <!-- ---------------------------------------------------------------------- -->
 <h1 id="functions">Functions</h1>

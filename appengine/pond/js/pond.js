@@ -53,13 +53,6 @@ Pond.init = function() {
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
-
-  BlocklyGames.bindClick('helpButton', Pond.showHelp);
-  if (location.hash.length < 2 &&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
-                                         BlocklyGames.LEVEL)) {
-    setTimeout(Pond.showHelp, 1000);
-  }
 };
 
 /**
@@ -80,7 +73,7 @@ Pond.docsButtonClick = function() {
   var frame = document.getElementById('frameDocs');
   if (!frame.src) {
     frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-        '&app=' + BlocklyGames.NAME + '&level=' + BlocklyGames.LEVEL;
+        '&mode=' + BlocklyGames.LEVEL;
   }
 
   function endResult() {

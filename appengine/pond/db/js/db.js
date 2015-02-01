@@ -1,5 +1,5 @@
 /**
- * Blockly Games: Pond Advanced
+ * Blockly Games: Pond Database
  *
  * Copyright 2014 Google Inc.
  * https://github.com/google/blockly-games
@@ -23,26 +23,25 @@
  */
 'use strict';
 
-goog.provide('Pond.Advanced');
+goog.provide('Pond.Db');
 
 goog.require('Pond');
-goog.require('Pond.Advanced.soy');
+goog.require('Pond.Db.soy');
 goog.require('Pond.Battle');
-goog.require('Pond.Tutorial');
 goog.require('Pond.Visualization');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
 
-BlocklyGames.NAME = 'pond-advanced';
+BlocklyGames.NAME = 'pond-db';
 
 /**
  * Initialize Ace and the pond.  Called on page load.
  */
-Pond.Advanced.init = function() {
+Pond.Db.init = function() {
   // Render the Soy template.
-  document.body.innerHTML = Pond.Advanced.soy.start({}, null,
+  document.body.innerHTML = Pond.Db.soy.start({}, null,
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
@@ -81,7 +80,34 @@ Pond.Advanced.init = function() {
   window.addEventListener('resize', onresize);
   onresize();
 
-  for (var playerData, i = 0; playerData = Pond.Tutorial.PLAYERS[i]; i++) {
+  var players = [
+    {
+      start: new goog.math.Coordinate(20, 80),
+      damage: 0,
+      name: 'Pond_playerName',
+      code: null
+    },
+    {
+      start: new goog.math.Coordinate(80, 20),
+      damage: 0,
+      name: 'Pond_rookName',
+      code: 'playerRook'
+    },
+    {
+      start: new goog.math.Coordinate(20, 20),
+      damage: 0,
+      name: 'Pond_counterName',
+      code: 'playerCounter'
+    },
+    {
+      start: new goog.math.Coordinate(80, 80),
+      damage: 0,
+      name: 'Pond_sniperName',
+      code: 'playerSniper'
+    }
+  ];
+
+  for (var playerData, i = 0; playerData = players[i]; i++) {
     if (playerData.code) {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
@@ -94,4 +120,4 @@ Pond.Advanced.init = function() {
   Pond.reset();
 };
 
-window.addEventListener('load', Pond.Advanced.init);
+window.addEventListener('load', Pond.Db.init);

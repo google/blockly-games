@@ -128,12 +128,12 @@ a:hover > text {
   -webkit-animation-delay: 0.4s;
 }
 
-#icon-pond-basic {
+#icon-pond-tutor {
   animation-delay: 0.5s;
   -webkit-animation-delay: 0.5s;
 }
 
-#icon-pond-advanced {
+#icon-pond-db {
   animation-delay: 0.6s;
   -webkit-animation-delay: 0.6s;
 }
@@ -163,12 +163,12 @@ a:hover > text {
   -webkit-animation-delay: 0.7s;
 }
 
-#back-pond-basic {
+#back-pond-tutor {
   animation-delay: 0.8s;
   -webkit-animation-delay: 0.8s;
 }
 
-#back-pond-advanced {
+#back-pond-db {
   animation-delay: 0.9s;
   -webkit-animation-delay: 0.9s;
 }

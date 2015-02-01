@@ -1,0 +1,482 @@
+{namespace Pond.Db.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pond-db-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call Pond.soy.messages /}
+  <div style="display: none">
+    <span id="Pond_rabbitName">{{msg meaning="Pond.rabbitName" desc="Name for a player that runs like a rabbit.\n{lb}{lb}Identical|Rabbit{rb}{rb}"}}Rabbit{{/msg}}</span>
+    <span id="Pond_counterName">{{msg meaning="Pond.counterName" desc="Name for a player that counts methodically.\n{lb}{lb}Identical|Counter{rb}{rb}"}}Counter{{/msg}}</span>
+    <span id="Pond_rookName">{{msg meaning="Pond.rookName" desc="Name for a player that behaves like a rook (castle) in chess.\n{lb}{lb}Identical|Rook{rb}{rb}"}}Rook{{/msg}}</span>
+    <span id="Pond_sniperName">{{msg meaning="Pond.sniperName" desc="Name for a player that hides in a corner and shoots.\n{lb}{lb}Identical|Sniper{rb}{rb}"}}Sniper{{/msg}}</span>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+            {/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+        &nbsp;
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
+        &nbsp;
+        <button id="helpButton">
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  {call Pond.soy.visualization /}
+
+  <div id="editor"></div>
+
+  {call .playerRabbit /}
+  {call .playerCounter /}
+  {call .playerRook /}
+  {call .playerSniper /}
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+
+{/template}
+
+
+/**
+ * Rabbit.
+ */
+{template .playerRabbit}
+{literal}
+<div id="playerRabbit" style="display: none">
+/* rabbit */
+// rabbit runs around the field, randomly and never fires; use as a target.
+
+/* go - go to the point specified */
+function go (dest_x, dest_y) {
+  var course = plot_course(dest_x, dest_y);
+  while (distance(loc_x(), loc_y(), dest_x, dest_y) > 5) {
+    drive(course, 25);
+  }
+  while (speed() > 0) {
+    drive(course, 0);
+  }
+}
+
+/* distance forumula. */
+function distance(x1, y1, x2, y2) {
+  var x = x1 - x2;
+  var y = y1 - y2;
+  return Math.sqrt((x * x) + (y * y));
+}
+
+/* plot_course - figure out which heading to go. */
+function plot_course(xx, yy) {
+  var d;
+  var curx = loc_x();
+  var cury = loc_y();
+  var x = curx - xx;
+  var y = cury - yy;
+
+  if (x == 0) {
+    if (yy > cury) {
+      d = 90;
+    } else {
+      d = 270;
+    }
+  } else {
+    if (yy < cury) {
+      if (xx > curx) {
+        d = 360 + Math.atan_deg(y / x);
+      } else {
+        d = 180 + Math.atan_deg(y / x);
+      }
+    } else {
+      if (xx > curx) {
+        d = Math.atan_deg(y / x);
+      } else {
+        d = 180 + Math.atan_deg(y / x);
+      }
+    }
+  }
+  return d;
+}
+
+while (true) {
+  // Go somewhere in the field.
+  var x = Math.random() * 100;
+  var y = Math.random() * 100;
+  go(x, y);
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Counter.
+ */
+{template .playerCounter}
+{literal}
+<div id="playerCounter" style="display: none">
+/* counter */
+/* scan in a counter-clockwise direction (increasing degrees) */
+/* moves when hit */
+
+var range;
+var last_dir = 0;
+
+var res = 2;
+var d = damage();
+var angle = Math.random() * 360;
+while (true) {
+  while ((range = scan(angle, res)) != Infinity) {
+    if (range > 70) { /* out of range, head toward it */
+      drive(angle, 50);
+      var i = 1;
+      while (i++ < 50) /* use a counter to limit move time */
+        ;
+      drive (angle, 0);
+      if (d != damage()) {
+        d = damage();
+        run();
+      }
+      angle -= 3;
+    } else {
+      while (!cannon(angle, range))
+        ;
+      if (d != damage()) {
+        d = damage();
+        run();
+      }
+      angle -= 15;
+    }
+  }
+  if (d != damage()) {
+    d = damage();
+    run();
+  }
+  angle += res;
+  angle %= 360;
+}
+
+/* run moves around the center of the field */
+function run() {
+  var i = 0;
+  var x = loc_x();
+  var y = loc_y();
+
+  if (last_dir == 0) {
+    last_dir = 1;
+    if (y > 51) {
+      drive(270, 100);
+      while (y - 10 < loc_y() && i++ < 50)
+        ;
+      drive(270, 0);
+    } else {
+      drive(90, 100);
+      while (y + 10 > loc_y() && i++ < 50)
+        ;
+      drive(90, 0);
+    }
+  } else {
+    last_dir = 0;
+    if (x > 51) {
+      drive(180, 100);
+      while (x - 10 < loc_x() && i++ < 50)
+        ;
+      drive(180, 0);
+    } else {
+      drive(0, 100);
+      while (x + 10 > loc_x() && i++ < 50)
+        ;
+      drive(0, 0);
+    }
+  }
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Rook.
+ */
+{template .playerRook}
+{literal}
+<div id="playerRook" style="display: none">
+/* rook.r  -  scans the battlefield like a rook, i.e., only 0,90,180,270 */
+/* move horizontally only, but looks horz and vertically */
+
+/* move to center of board */
+if (loc_y() < 50) {
+  while (loc_y() < 40)        /* stop near center */
+    drive(90, 100);           /* start moving */
+} else {
+  while (loc_y() > 60)        /* stop near center */
+    drive(270, 100);          /* start moving */
+}
+drive(0, 0);
+while (speed() > 0)
+  ;
+
+/* initialize starting parameters */
+var d = damage();
+var course = 0;
+var boundary = 99;
+drive(course, 30);
+
+/* main loop */
+while(true) {
+  /* look all directions */
+  look(0);
+  look(90);
+  look(180);
+  look(270);
+
+  /* if near end of battlefield, change directions */
+  if (course == 0) {
+    if (loc_x() > boundary || speed() == 0)
+      change();
+  }
+  else {
+    if (loc_x() < boundary || speed() == 0)
+      change();
+  }
+}
+
+/* look somewhere, and fire cannon repeatedly at in-range target */
+function look(deg) {
+  var range;
+  while ((range = scan(deg, 4)) <= 70)  {
+    drive(course, 0);
+    cannon(deg, range);
+    if (d + 20 != damage()) {
+      d = damage();
+      change();
+    }
+  }
+}
+
+function change() {
+  if (course == 0) {
+    boundary = 1;
+    course = 180;
+  } else {
+    boundary = 99;
+    course = 0;
+  }
+  drive(course, 30);
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Sniper.
+ */
+{template .playerSniper}
+{literal}
+<div id="playerSniper" style="display: none">
+/* sniper */
+/* strategy: since a scan of the entire battlefield can be done in 90 */
+/* degrees from a corner, sniper can scan the field quickly. */
+
+/* external variables, that can be used by any function */
+var corner = 0;           /* current corner 0, 1, 2, or 2 */
+var sc = 0;               /* current scan start */
+
+var range;          /* range to target */
+
+/* initialize the corner info */
+/* x and y location of a corner, and starting scan degree */
+var c1x = 2,  c1y = 2,  s1 = 0;
+var c2x = 2,  c2y = 98, s2 = 270;
+var c3x = 98, c3y = 98, s3 = 180;
+var c4x = 98, c4y = 2,  s4 = 90;
+var closest = Infinity;
+new_corner();       /* start at a random corner */
+var d = damage();       /* get current damage */
+var dir = sc;           /* starting scan direction */
+
+while (true) {         /* loop is executed forever */
+  while (dir < sc + 90) {  /* scan through 90 degree range */
+    range = scan(dir, 2);   /* look at a direction */
+    if (range <= 70) {
+      while (range > 0) {    /* keep firing while in range */
+        closest = range;     /* set closest flag */
+        cannon(dir, range);   /* fire! */
+        range = scan(dir, 1); /* check target again */
+        if (d + 15 > damage())  /* sustained several hits, */
+          range = 0;            /* goto new corner */
+      }
+      dir -= 10;             /* back up scan, in case */
+    }
+
+    dir += 2;                /* increment scan */
+    if (d != damage()) {     /* check for damage incurred */
+      new_corner();          /* we're hit, move now */
+      d = damage();
+      dir = sc;
+    }
+  }
+
+  if (closest == Infinity) {       /* check for any targets in range */
+    new_corner();             /* nothing, move to new corner */
+    d = damage();
+    dir = sc;
+  } else {                     /* targets in range, resume */
+    dir = sc;
+  }
+  closest = Infinity;
+}
+
+/* new corner function to move to a different corner */
+function new_corner() {
+  var x, y;
+
+  var rand = Math.floor(Math.random() * 4);           /* pick a random corner */
+  if (rand == corner)       /* but make it different than the */
+    corner = (rand + 1) % 4;/* current corner */
+  else
+    corner = rand;
+  if (corner == 0) {       /* set new x,y and scan start */
+    x = c1x;
+    y = c1y;
+    sc = s1;
+  }
+  if (corner == 1) {
+    x = c2x;
+    y = c2y;
+    sc = s2;
+  }
+  if (corner == 2) {
+    x = c3x;
+    y = c3y;
+    sc = s3;
+  }
+  if (corner == 3) {
+    x = c4x;
+    y = c4y;
+    sc = s4;
+  }
+
+  /* find the heading we need to get to the desired corner */
+  var angle = plot_course(x,y);
+
+  /* start drive train, full speed */
+
+  /* keep traveling until we are within 15 meters */
+  /* speed is checked in case we run into wall, other robot */
+  /* not terribly great, since were are doing nothing while moving */
+
+  while (distance(loc_x(), loc_y(), x, y) > 15)
+    drive(angle, 100);
+
+  /* cut speed, and creep the rest of the way */
+
+  while (distance(loc_x(), loc_y(), x, y) > 1)
+    drive(angle, 20);
+
+  /* stop drive, should coast in the rest of the way */
+  drive(angle, 0);
+}  /* end of new_corner */
+
+/* classical pythagorean distance formula */
+function distance(x1, y1, x2, y2) {
+  var x = x1 - x2;
+  var y = y1 - y2;
+  return Math.sqrt((x * x) + (y * y));
+}
+
+/* plot course function, return degree heading to */
+/* reach destination x, y; uses atan() trig function */
+function plot_course(xx, yy) {
+  var d;
+  var x,y;
+  var curx, cury;
+
+  curx = loc_x();  /* get current location */
+  cury = loc_y();
+  x = curx - xx;
+  y = cury - yy;
+
+  /* atan only returns -90 to +90, so figure out how to use */
+  /* the atan() value */
+
+  if (x == 0) {      /* x is zero, we either move due north or south */
+    if (yy > cury)
+      d = 90;        /* north */
+    else
+      d = 270;       /* south */
+  } else {
+    if (yy < cury) {
+      if (xx > curx)
+        d = 360 + Math.atan_deg(y / x);  /* south-east, quadrant 4 */
+      else
+        d = 180 + Math.atan_deg(y / x);  /* south-west, quadrant 3 */
+    } else {
+      if (xx > curx)
+        d = Math.atan_deg(y / x);        /* north-east, quadrant 1 */
+      else
+        d = 180 + Math.atan_deg(y / x);  /* north-west, quadrant 2 */
+    }
+  }
+  return d;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Pendulum.
+ */
+{template .playerPendulum}
+{literal}
+<div id="playerPendulum" style="display: none">
+/* Slowly moves east and west.  Does not fire. */
+var west = false;
+while (true) {
+  if (west) {
+    if (loc_x() > 15) {
+      drive(180, 25);
+    } else {
+      west = false;
+      drive(0, 0);
+    }
+  } else {
+    if (loc_x() < 75) {
+      drive(0, 25);
+    } else {
+      west = true;
+      drive(0, 0);
+    }
+  }
+}
+</div>
+{/literal}
+{/template}

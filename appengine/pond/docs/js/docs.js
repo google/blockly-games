@@ -31,10 +31,9 @@ goog.require('Pond.Docs.soy');
  * Print the page.  Called on page load.
  */
 Pond.Docs.init = function() {
-  var param = window.location.search.match(/[?&]level=([^&]+)/);
+  var param = window.location.search.match(/[?&]mode=([^&]+)/);
   var level = param ? Number(param[1]) : Infinity;
-  param = window.location.search.match(/[?&]app=([^&]+)/);
-  var pond = (param && param[1] == 'pond-advanced') ? 'advanced' : 'basic';
+  var pond = level % 2 ? 'blocks' : 'js';
   document.body.innerHTML = Pond.Docs.soy.start({}, null,
       {level: level,
        pond: pond});

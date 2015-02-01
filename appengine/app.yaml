@@ -83,13 +83,13 @@ handlers:
   secure: always
 
 # Pond apps.
-- url: /pond-basic
-  static_files: pond-basic.html
-  upload: pond-basic\.html
+- url: /pond-tutor
+  static_files: pond-tutor.html
+  upload: pond-tutor\.html
   secure: always
-- url: /pond-advanced
-  static_files: pond-advanced.html
-  upload: pond-advanced\.html
+- url: /pond-db
+  static_files: pond-db.html
+  upload: pond-db\.html
   secure: always
 - url: /pond/
   static_dir: pond
