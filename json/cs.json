@@ -3,7 +3,8 @@
 		"authors": [
 			"Chmee2",
 			"Michaelbrabec",
-			"Vorkronor"
+			"Vorkronor",
+			"Macofe"
 		]
 	},
 	"Games.name": "Hry Blockly",
@@ -150,5 +151,7 @@
 	"Movie.galleryTooltip": "Otevře galerii filmů na webu Reddit.",
 	"Movie.galleryMsg": "Prohlédnout galerii",
 	"Movie.submitTooltip": "Odešle film do galerie na web Reddit.",
-	"Movie.submitMsg": "Odeslat do galerie"
+	"Movie.submitMsg": "Odeslat do galerie",
+	"Pond.rabbitName": "Králík",
+	"Pond.documentation": "Dokumentace"
 }

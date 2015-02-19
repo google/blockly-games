@@ -5,7 +5,8 @@
 			"Qneutron",
 			"Withoutaname",
 			"Dstream",
-			"Minh Nguyen"
+			"Minh Nguyen",
+			"Macofe"
 		]
 	},
 	"Games.name": "Blockly Trò Chơi",
@@ -52,15 +53,19 @@
 	"Puzzle.animal1": "Con vịt",
 	"Puzzle.animal1Trait1": "Lông vịt",
 	"Puzzle.animal1Trait2": "Mỏ",
+	"Puzzle.animal1HelpUrl": "https://vi.wikipedia.org/wiki/V%E1%BB%8Bt",
 	"Puzzle.animal2": "Con mèo",
 	"Puzzle.animal2Trait1": "Ria mép",
 	"Puzzle.animal2Trait2": "Lông mèo",
+	"Puzzle.animal2HelpUrl": "https://vi.wikipedia.org/wiki/M%C3%A8o",
 	"Puzzle.animal3": "Con ong",
 	"Puzzle.animal3Trait1": "Mật ong",
 	"Puzzle.animal3Trait2": "Ong đốt",
+	"Puzzle.animal3HelpUrl": "https://vi.wikipedia.org/wiki/Ong",
 	"Puzzle.animal4": "Ốc sên",
 	"Puzzle.animal4Trait1": "Vỏ ốc",
 	"Puzzle.animal4Trait2": "Da nhờn",
+	"Puzzle.animal4HelpUrl": "https://vi.wikipedia.org/wiki/%E1%BB%90c",
 	"Puzzle.picture": "hình ảnh:",
 	"Puzzle.legs": "chân:",
 	"Puzzle.legsChoose": "chọn...",
@@ -210,5 +215,6 @@
 	"Pond.cannonTooltip": "Bắn súng. Xác định hướng (0-360) và phạm vi (0-70).",
 	"Pond.swimTooltip": "Bơi về phía trước. Xác định hướng (0-360).",
 	"Pond.stopTooltip": "Ngưng bơi. Người chơi sẽ chậm dần đến khi dừng hẳn.",
-	"Pond.healthTooltip": "Hoản trả năng lượng hiện tại của người chơi ( 0 là chết, 100 là khỏe mạnh)."
+	"Pond.healthTooltip": "Hoản trả năng lượng hiện tại của người chơi ( 0 là chết, 100 là khỏe mạnh).",
+	"Pond.documentation": "Tài liệu"
 }

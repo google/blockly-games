@@ -6,7 +6,8 @@
 			"Joseph",
 			"Kozlu",
 			"Trockya",
-			"Ramona.Stewart"
+			"Ramona.Stewart",
+			"Macofe"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -197,5 +198,10 @@
 	"Movie.helpText4": "Önceki seviyede öğrendiklerini kullanarak dört yeşil topun tüm dört yönde hareket etmesini sağla.",
 	"Movie.helpText5": "Fare'nin başını hareket ettirmek kolaydı. Kulakların da hareket etmesini sağlayacak matematiği çalışabilir misin?",
 	"Movie.helpText6": "İki basit çizgi. Sadece çizgi sonlarının ne yaptığını anlamaya çalış.",
-	"Movie.helpText7": "Bu düşen top için matematiksel formül biraz karışık. İşte cevabı:"
+	"Movie.helpText7": "Bu düşen top için matematiksel formül biraz karışık. İşte cevabı:",
+	"Pond.playerName": "Oyuncu",
+	"Pond.targetName": "Hedef",
+	"Pond.rabbitName": "Tavşan",
+	"Pond.counterName": "Sayaç",
+	"Pond.documentation": "Belgeleme"
 }
