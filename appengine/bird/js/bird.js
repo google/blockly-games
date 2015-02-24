@@ -394,7 +394,7 @@ window.addEventListener('load', Bird.init);
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
-  if (Blockly.Block.dragMode_ != 0) {
+  if (Blockly.dragMode_ != 0) {
     // Don't change helps during drags.
     return;
   } else if (Bird.result == Bird.ResultType.SUCCESS ||
