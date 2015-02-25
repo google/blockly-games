@@ -32,7 +32,7 @@ for directory in (MASTER_DIR, JSON_DIR, APPENGINE_DIR):
 # Find all required languages.
 languages = []
 for filename in os.listdir(JSON_DIR):
-  if filename.endswith(".json") and filename != "qqq.json":
+  if filename.endswith(".json") and filename not in ("qqq.json", "keys.json"):
     languages.append(filename[:-5])
 if len(languages) == 0:
   raise IndexError("No languages found.")
@@ -69,6 +69,11 @@ for language in languages:
   for filename in os.listdir(directory + "js-read-only/JS-Interpreter/"):
     if filename != "compiled.js":
       os.remove(directory + "js-read-only/JS-Interpreter/" + filename)
+  shutil.rmtree(directory + "js-read-only/ace/snippets/")
+  for filename in os.listdir(directory + "js-read-only/ace/"):
+    if filename not in ("ace.js", "mode-javascript.js", "theme-chrome.js",
+                        "worker-javascript.js"):
+      os.remove(directory + "js-read-only/ace/" + filename)
   # Delete all other generated language files.
   for subdirectory, subdirList, fileList in os.walk(directory):
     if subdirectory.endswith("/generated"):
