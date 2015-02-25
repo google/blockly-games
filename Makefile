@@ -55,10 +55,6 @@ pond-db-en: pond-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/db/generated/en/soy.js --srcs appengine/pond/db/template.soy
 	python build-app.py pond/db en
 
-pattern-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pattern/generated/en/soy.js --srcs appengine/pattern/template.soy
-	python build-app.py pattern en
-
 pond-common-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/generated/en/soy.js --srcs appengine/pond/template.soy
 common-en:
