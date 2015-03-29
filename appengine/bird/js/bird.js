@@ -448,7 +448,7 @@ Bird.levelHelp = function() {
         origin = block.getSvgRoot();
       } else {
         var content = document.getElementById('dialogMutatorHelp');
-        origin = block.mutator.flyout_.buttons_[1];
+        origin = block.mutator.workspace_.flyout_.buttons_[1];
         var xy = Blockly.getAbsoluteXY_(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (Blockly.RTL ? 310 : 0)) + 'px';
