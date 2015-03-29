@@ -61,7 +61,17 @@
 
   // Load the chosen language pack.
   var script = document.createElement('script');
-  script.src = appName + '/generated/' + lang + '/compressed.js';
+  var debug = false;
+  try {
+    debug = !!sessionStorage.getItem('debug');
+    if (debug) {
+      console.info('Loading uncompressed JavaScript.');
+    }
+  } catch(e) {
+    // Don't even think of throwing an error.
+  }
+  script.src = appName + '/generated/' + lang +
+      (debug ? '/uncompressed.js' : '/compressed.js');
   script.type = 'text/javascript';
   document.head.appendChild(script);
 })();

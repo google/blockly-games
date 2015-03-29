@@ -1,5 +1,5 @@
 /**
- * Blockly Games: Bootloader for Readonly
+ * Blockly Games: Back
  *
  * Copyright 2014 Google Inc.
  * https://github.com/google/blockly-games
@@ -18,24 +18,15 @@
  */
 
 /**
- * @fileoverview Load the correct language pack for the current application.
+ * @fileoverview JavaScript for correctly linking the link.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 (function() {
-  var appName = location.search.match(/[?&]app=([-\w]+)/)[1];
-  var appLanguage = location.search.match(/[?&]lang=([-\w]+)/)[1];
-  window['BlocklyGamesLanguages'] = [appLanguage];
-  var script = document.createElement('script');
-  var debug = false;
-  try {
-    debug = !!sessionStorage.getItem('debug');
-  } catch(e) {
-    // Don't even think of throwing an error.
-  }
-  script.src = appName + '/generated/' + appLanguage +
-      (debug ? '/uncompressed.js' : '/compressed.js');
-  script.type = 'text/javascript';
-  document.head.appendChild(script);
+  // Change the 'Blockly Games' link when served as raw HTML files.
+  // Append the language.
+  var IS_HTML = !!window.location.pathname.match(/\.html$/);
+  document.getElementById('back').href =
+      (IS_HTML ? 'index.html' : '/') + location.search;
 })();

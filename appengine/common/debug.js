@@ -1,7 +1,7 @@
 /**
- * Blockly Games: About
+ * Blockly Games: Debug
  *
- * Copyright 2014 Google Inc.
+ * Copyright 2015 Google Inc.
  * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,15 +18,22 @@
  */
 
 /**
- * @fileoverview JavaScript for the About page.
+ * @fileoverview JavaScript Debug page.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
+function setDebug(debug) {
+  if (debug) {
+    sessionStorage.setItem('debug', 1);
+    console.info('Uncompressed mode activated.  Happy hacking!');
+  } else {
+    sessionStorage.removeItem('debug');
+    console.info('Compressed mode activated.');
+  }
+}
+
 (function() {
-  // Change the 'Blockly Games' link when served as raw HTML files.
-  // Append the language.
-  var IS_HTML = !!window.location.pathname.match(/\.html$/);
-  document.getElementById('back').href =
-      (IS_HTML ? 'index.html' : '/') + location.search;
+  var debug = !!sessionStorage.getItem('debug');
+  document.getElementById(debug ? 'debug1' : 'debug0').checked = true;
 })();
