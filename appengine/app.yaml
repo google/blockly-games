@@ -125,10 +125,12 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
   secure: always
+  expiration: "30d"
 - url: /apple-touch-icon\.png
   static_files: apple-touch-icon.png
   upload: apple-touch-icon\.png
   secure: always
+  expiration: "30d"
 - url: /robots\.txt
   static_files: robots.txt
   upload: robots\.txt
