@@ -69,12 +69,19 @@ Index.init = function() {
   function animateFactory(app, angle) {
     return function() {
       Index.animateGauge(app, 0, angle);
-    }
+    };
   }
   for (var i = 0; i < levelsDone.length; i++) {
+    var app = Index.APPS[i];
     var denominator = i == 0 ? 1 : BlocklyGames.MAX_LEVEL;
     var angle = levelsDone[i] / denominator * 270;
-    setTimeout(animateFactory(Index.APPS[i], angle), 1500);
+    if (angle) {
+      setTimeout(animateFactory(app, angle), 1500);
+    } else {
+      // Remove gauge if zero, since IE renders a stub.
+      var path = document.getElementById('gauge-' + app);
+      path.parentNode.removeChild(path);
+    }
   }
 };
 

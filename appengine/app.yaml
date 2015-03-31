@@ -31,6 +31,12 @@ handlers:
   upload: about\.html
   secure: always
 
+# Debug page.
+- url: /debug
+  static_files: debug.html
+  upload: debug\.html
+  secure: always
+
 # Bird app.
 - url: /bird
   static_files: bird.html
@@ -141,10 +147,9 @@ skip_files:
 - ^(.*/)?\..*$
 # Custom skip patterns.
 - ^\w+/sources/.*$
-- ^(\w+/)*js/.*$
-- ^js-read-only/blockly/.*$
-- ^js-read-only/goog/.*$
+- ^js-read-only/blockly/generators/dart.*$
+- ^js-read-only/blockly/generators/python.*$
 - ^js-read-only/third_party_goog/.*$
+- ^js-read-only/ace/snippets/.*$
 - ^js-read-only/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$
-- ^.+\/uncompressed\.js$

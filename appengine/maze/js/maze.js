@@ -604,7 +604,7 @@ if (window.location.pathname.match(/readonly.html$/)) {
  * When the workspace changes, update the help as needed.
  */
 Maze.levelHelp = function() {
-  if (Blockly.Block.dragMode_ != 0) {
+  if (Blockly.dragMode_ != 0) {
     // Don't change helps during drags.
     return;
   } else if (Maze.result == Maze.ResultType.SUCCESS ||

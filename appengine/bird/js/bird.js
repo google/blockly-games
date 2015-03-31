@@ -394,7 +394,7 @@ window.addEventListener('load', Bird.init);
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
-  if (Blockly.Block.dragMode_ != 0) {
+  if (Blockly.dragMode_ != 0) {
     // Don't change helps during drags.
     return;
   } else if (Bird.result == Bird.ResultType.SUCCESS ||
@@ -448,7 +448,7 @@ Bird.levelHelp = function() {
         origin = block.getSvgRoot();
       } else {
         var content = document.getElementById('dialogMutatorHelp');
-        origin = block.mutator.flyout_.buttons_[1];
+        origin = block.mutator.workspace_.flyout_.buttons_[1];
         var xy = Blockly.getAbsoluteXY_(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (Blockly.RTL ? 310 : 0)) + 'px';

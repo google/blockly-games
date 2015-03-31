@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Debug Blockly Games</title>
+  <link rel="stylesheet" href="common/common.css">
+</head>
+<body style="padding: 1em 8em;">
+  <h1><a id="back" href="/">Blockly Games</a> : Debug</h1>
+
+  <p>
+    JavaScript code for Blockly Games is normally compressed so that it loads
+    faster.  But compressed code is hard to hack or debug.  This page allows
+    you to switch compression on or off for the duration of this session.
+  </p>
+
+  <p style="padding-left: 1em;">
+    <input type="radio" name="debug" id="debug0" onchange="setDebug(false)">
+    <label for="debug0">Use fast compressed code.  (Recommended.)</label>
+  </p>
+
+  <p style="padding-left: 1em;">
+    <input type="radio" name="debug" id="debug1" onchange="setDebug(true)">
+    <label for="debug1">Use slow uncompressed code.  (Hackers only.)</label>
+  </p>
+
+  <script src="common/debug.js"></script>
+  <script src="common/back.js"></script>
+</body>
+</html>
