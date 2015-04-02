@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for correctly linking the link.
+ * @fileoverview JavaScript for correctly linking the title link.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

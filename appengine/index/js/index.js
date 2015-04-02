@@ -69,7 +69,7 @@ Index.init = function() {
   function animateFactory(app, angle) {
     return function() {
       Index.animateGauge(app, 0, angle);
-    }
+    };
   }
   for (var i = 0; i < levelsDone.length; i++) {
     var app = Index.APPS[i];

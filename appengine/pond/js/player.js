@@ -106,7 +106,6 @@ Pond.Player.prototype.toString = function() {
 
 /**
  * Reset this player to a starting state.
- * @param {!goog.math.Coortinate} startXY X-Y coordinate to start at.
  */
 Pond.Player.prototype.reset = function() {
   delete this.started;
@@ -154,7 +153,7 @@ Pond.Player.prototype.die = function() {
   this.damage = 100;
   this.battle_.RANK.unshift(this);
   this.battle_.EVENTS.push({'type': 'DIE', 'player': this});
-  console.log(this + ' dies.');
+  console.log(this + ' sinks.');
 };
 
 // API functions exposed to the user.
