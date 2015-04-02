@@ -45,7 +45,7 @@ if os.path.exists(GENERATED_DIR):
 os.mkdir(GENERATED_DIR)
 
 ignore = shutil.ignore_patterns("*.yaml", ".[a-zA-Z]*", "sources", "js",
-                                "*.soy", "uncompressed.js", "*.py")
+    "*.soy", "msg.js", "soy.js", "uncompressed.js", "*.py")
 for language in languages:
   print("Processing %s..." % language)
   os.mkdir(GENERATED_DIR + "blockly-games/")
@@ -80,7 +80,8 @@ for language in languages:
       for langname in subdirList:
         if langname != language:
           shutil.rmtree(subdirectory + "/" + langname)
-  for filename in ('debug.html', 'common/debug.js', 'robots.txt'):
+  for filename in ('debug.html', 'robots.txt',
+                   'common/debug.js', 'common/storage.js'):
     os.remove(directory + filename)
 
   # Create single-language bootloader.
