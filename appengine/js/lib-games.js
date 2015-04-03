@@ -194,34 +194,36 @@ BlocklyGames.init = function() {
   document.head.parentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr');
   document.head.parentElement.setAttribute('lang', BlocklyGames.LANG);
 
-  // Sort languages alphabetically.
-  var languages = [];
-  for (var i = 0; i < BlocklyGames.LANGUAGES.length; i++) {
-    var lang = BlocklyGames.LANGUAGES[i];
-    languages.push([BlocklyGames.LANGUAGE_NAME[lang], lang]);
-  }
-  var comp = function(a, b) {
-    // Sort based on first argument ('English', 'Русский', '简体字', etc).
-    if (a[0] > b[0]) return 1;
-    if (a[0] < b[0]) return -1;
-    return 0;
-  };
-  languages.sort(comp);
   // Populate the language selection menu.
   var languageMenu = document.getElementById('languageMenu');
-  languageMenu.options.length = 0;
-  for (var i = 0; i < languages.length; i++) {
-    var tuple = languages[i];
-    var lang = tuple[1];
-    var option = new Option(tuple[0], lang);
-    if (lang == BlocklyGames.LANG) {
-      option.selected = true;
+  if (languageMenu) {
+    // Sort languages alphabetically.
+    var languages = [];
+    for (var i = 0; i < BlocklyGames.LANGUAGES.length; i++) {
+      var lang = BlocklyGames.LANGUAGES[i];
+      languages.push([BlocklyGames.LANGUAGE_NAME[lang], lang]);
     }
-    languageMenu.options.add(option);
-  }
-  if (languageMenu.options.length <= 1) {
-    // No choices.  Hide the language menu.
-    languageMenu.style.display = 'none';
+    var comp = function(a, b) {
+      // Sort based on first argument ('English', 'Русский', '简体字', etc).
+      if (a[0] > b[0]) return 1;
+      if (a[0] < b[0]) return -1;
+      return 0;
+    };
+    languages.sort(comp);
+    languageMenu.options.length = 0;
+    for (var i = 0; i < languages.length; i++) {
+      var tuple = languages[i];
+      var lang = tuple[1];
+      var option = new Option(tuple[0], lang);
+      if (lang == BlocklyGames.LANG) {
+        option.selected = true;
+      }
+      languageMenu.options.add(option);
+    }
+    if (languageMenu.options.length <= 1) {
+      // No choices.  Hide the language menu.
+      languageMenu.style.display = 'none';
+    }
   }
 
   // Highlight levels that have been completed.
