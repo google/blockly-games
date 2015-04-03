@@ -7,13 +7,13 @@
   position: fixed !important;
   height: auto !important;
   bottom: 10px;
-  border: 1px solid #BBA;
+  border: 1px solid #ddd;
 }
 #visualization {
   position: relative;
 }
 #display {
-  border: 1px solid #BBA;
+  border: 1px solid #ddd;
   vertical-align: bottom;
 }
 

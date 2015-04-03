@@ -71,9 +71,10 @@ Pond.docsButtonClick = function() {
   var origin = document.getElementById('docsButton');
   var dialog = document.getElementById('dialogDocs');
   var frame = document.getElementById('frameDocs');
-  if (!frame.src) {
-    frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
+  var src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
         '&mode=' + BlocklyGames.LEVEL;
+  if (frame.src != src) {
+    frame.src = src;
   }
 
   function endResult() {
@@ -92,6 +93,9 @@ Pond.docsButtonClick = function() {
  * Close the documentation frame.
  */
 Pond.docsCloseClick = function() {
+  if (!Pond.isDocsVisible_) {
+    return;
+  }
   var origin = document.getElementById('docsButton');
   var dialog = document.getElementById('dialogDocs');
 

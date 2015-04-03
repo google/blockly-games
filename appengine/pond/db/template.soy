@@ -41,33 +41,98 @@
       </td>
       <td class="farSide">
         <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="media/1x1.gif" class="link icon21">
-        </button>
-        &nbsp;
-        <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
-        </button>
       </td>
     </tr>
   </table>
 
   {call Pond.soy.visualization /}
 
-  <div id="editor"></div>
+  <div id="tabarea">
+    <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">About</div>
+      <div class="goog-tab">Blocks</div>
+      <div class="goog-tab">JavaScript</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    <div id="about"></div>
+    <div id="blockly"></div>
+    <div id="editor"></div>
+  </div>
 
+  {call .toolbox /}
   {call .playerRabbit /}
   {call .playerCounter /}
   {call .playerRook /}
   {call .playerSniper /}
 
   {call BlocklyGames.soy.dialog /}
-  {call BlocklyGames.soy.doneDialog /}
-  {call BlocklyGames.soy.storageDialog /}
 
 {/template}
-
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none;">
+    <category name="Pond">
+      <block type="pond_cannon">
+        <value name="DEGREE">
+          <block type="pond_math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+        <value name="RANGE">
+          <block type="pond_math_number">
+            <field name="NUM">70</field>
+          </block>
+        </value>
+      </block>
+      <block type="pond_scan">
+        <value name="DEGREE">
+          <block type="pond_math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+      <block type="pond_swim">
+        <value name="DEGREE">
+          <block type="pond_math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+      <block type="pond_stop"></block>
+      <block type="pond_loc_x"></block>
+      <block type="pond_loc_y"></block>
+      <block type="pond_speed"></block>
+      <block type="pond_health"></block>
+    </category>
+    <category name="Logic">
+      <block type="pond_controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_boolean"></block>
+    </category>
+    <category name="Loops">
+      <block type="pond_loops_while"></block>
+    </category>
+    <category name="Math">
+      <block type="pond_math_number"></block>
+      <block type="pond_math_arithmetic"></block>
+      <block type="pond_math_single"></block>
+      <block type="pond_math_change">
+        <value name="DELTA">
+          <block type="pond_math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <sep></sep>
+    <category name="Variables" custom="VARIABLE"></category>
+    <category name="Functions" custom="PROCEDURE"></category>
+  </xml>
+{/template}
 
 /**
  * Rabbit.

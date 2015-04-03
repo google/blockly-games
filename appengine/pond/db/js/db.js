@@ -28,10 +28,14 @@ goog.provide('Pond.Db');
 goog.require('Pond');
 goog.require('Pond.Db.soy');
 goog.require('Pond.Battle');
+goog.require('Pond.Blocks');
 goog.require('Pond.Visualization');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('goog.events');
+goog.require('goog.ui.Tab');
+goog.require('goog.ui.TabBar');
 
 
 BlocklyGames.NAME = 'pond-db';
@@ -49,36 +53,83 @@ Pond.Db.init = function() {
 
   Pond.init();
 
-  // Remove the container for source code in the 'done' dialog.
-  var containerCode = document.getElementById('containerCode');
-  containerCode.parentNode.removeChild(containerCode);
+  // Setup the tabs.
+  var tabbar = new goog.ui.TabBar();
+  tabbar.decorate(document.getElementById('tabbar'));
 
-  var defaultCode;
-  if (BlocklyGames.LEVEL == 4) {
-    defaultCode = 'swim(0, 50);';
-  } else {
-    defaultCode = 'cannon(0, 70);';
-  }
+  var rtl = BlocklyGames.isRtl();
+  var visualization = document.getElementById('visualization');
+  var tabDiv = document.getElementById('tabarea');
+  var aboutDiv = document.getElementById('about');
+  var blocklyDiv = document.getElementById('blockly');
+  var editorDiv = document.getElementById('editor');
+  var divs = [aboutDiv, blocklyDiv, editorDiv];
+  var onresize = function(e) {
+    var top = visualization.offsetTop;
+    tabDiv.style.top = (top - window.pageYOffset) + 'px';
+    tabDiv.style.left = rtl ? '10px' : '420px';
+    tabDiv.style.width = (window.innerWidth - 440) + 'px';
+    var divTop =
+        Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
+    var divLeft = rtl ? '10px' : '420px';
+    var divWidth = (window.innerWidth - 440) + 'px';
+    for (var i = 0, div; div = divs[i]; i++) {
+      div.style.top = divTop;
+      div.style.left = divLeft;
+      div.style.width = divWidth;
+    }
+  };
+  window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.fireUiEvent(window, 'resize');
+    });
+  window.addEventListener('resize', onresize);
+  onresize();
+
+  // Handle SELECT events dispatched by tabs.
+  goog.events.listen(tabbar, goog.ui.Component.EventType.SELECT,
+      function(e) {
+        var index = e.target.getParent().getSelectedTabIndex();
+        Pond.Db.changeTab(index);
+      });
+
+  // Inject Blockly.
+  var toolbox = document.getElementById('toolbox');
+  Blockly.inject(document.getElementById('blockly'),
+      {'media': 'media/',
+       'rtl': rtl,
+       'toolbox': toolbox,
+       'trashcan': true});
+  Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
+      'damage,health,loc_x,loc_y');
+
+  var defaultXml =
+      '<xml>' +
+      '  <block type="pond_cannon" x="70" y="70">' +
+      '    <value name="DEGREE">' +
+      '      <block type="pond_math_number">' +
+      '        <field name="NUM">0</field>' +
+      '      </block>' +
+      '    </value>' +
+      '    <value name="RANGE">' +
+      '      <block type="pond_math_number">' +
+      '        <field name="NUM">70</field>' +
+      '      </block>' +
+      '    </value>' +
+      '  </block>' +
+      '</xml>';
+  BlocklyInterface.loadBlocks(defaultXml);
+
+  // Inject JS editor.
+  var defaultCode = 'cannon(0, 70);';
   BlocklyInterface.editor = window['ace']['edit']('editor');
   BlocklyInterface.editor['setTheme']('ace/theme/chrome');
+  BlocklyInterface.editor['setShowPrintMargin'](false);
   var session = BlocklyInterface.editor['getSession']();
   session['setMode']('ace/mode/javascript');
   session['setTabSize'](2);
   session['setUseSoftTabs'](true);
   BlocklyInterface.loadBlocks(defaultCode + '\n', BlocklyGames.LEVEL != 4);
-
-  var rtl = BlocklyGames.isRtl();
-  var visualization = document.getElementById('visualization');
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
-    var div = document.getElementById('editor');
-    div.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-    div.style.left = rtl ? '10px' : '420px';
-    div.style.width = (window.innerWidth - 440) + 'px';
-  };
-  window.addEventListener('scroll', onresize);
-  window.addEventListener('resize', onresize);
-  onresize();
 
   var players = [
     {
@@ -118,6 +169,30 @@ Pond.Db.init = function() {
     Pond.Battle.addPlayer(name, code, playerData.start, playerData.damage);
   }
   Pond.reset();
+  Pond.Db.changeTab(0);
+};
+
+Pond.Db.changeTab = function(index) {
+  // Show the correct tab contents.
+  var aboutDiv = document.getElementById('about');
+  var blocklyDiv = document.getElementById('blockly');
+  var editorDiv = document.getElementById('editor');
+  var divs = [aboutDiv, blocklyDiv, editorDiv];
+  for (var i = 0, div; div = divs[i]; i++) {
+    div.style.visibility = (i == index) ? 'visible' : 'hidden';
+  }
+  // Synchronize the documentation popup.
+  document.getElementById('docsButton').disabled = (index == 0);
+  if (index == 0) {
+    Pond.docsCloseClick();
+  } else {
+    BlocklyGames.LEVEL = (index == 1) ? 11 : 12;
+    if (Pond.isDocsVisible_) {
+      var frame = document.getElementById('frameDocs');
+      frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
+            '&mode=' + BlocklyGames.LEVEL;
+    }
+  }
 };
 
 window.addEventListener('load', Pond.Db.init);

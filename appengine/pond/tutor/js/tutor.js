@@ -143,6 +143,7 @@ Pond.Tutor.init = function() {
     }
     BlocklyInterface.editor = window['ace']['edit']('editor');
     BlocklyInterface.editor['setTheme']('ace/theme/chrome');
+    BlocklyInterface.editor['setShowPrintMargin'](false);
     var session = BlocklyInterface.editor['getSession']();
     session['setMode']('ace/mode/javascript');
     session['setTabSize'](2);
