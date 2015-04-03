@@ -66,9 +66,9 @@
 
 /* State: Disabled */
 .goog-tab-disabled {
-  background: #ccc;
+  background: #fff;
   border-color: #ccc;
-  color: #fff;
+  color: #ccc;
 }
 
 /* State: Selected */

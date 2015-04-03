@@ -41,6 +41,19 @@ goog.require('goog.ui.TabBar');
 BlocklyGames.NAME = 'pond-db';
 
 /**
+ * Is the blocks editor the program source (true) or is the JS editor
+ * the program source (false).
+ * @private
+ */
+Pond.Db.blocksEnabled_ = true;
+
+/**
+ * ACE editor fires change events even on programatically caused changes.
+ * This property is used to signal times when a programatic change is made.
+ */
+Pond.Db.ignoreEditorChanges_ = true;
+
+/**
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Db.init = function() {
@@ -54,8 +67,8 @@ Pond.Db.init = function() {
   Pond.init();
 
   // Setup the tabs.
-  var tabbar = new goog.ui.TabBar();
-  tabbar.decorate(document.getElementById('tabbar'));
+  Pond.Db.tabbar = new goog.ui.TabBar();
+  Pond.Db.tabbar.decorate(document.getElementById('tabbar'));
 
   var rtl = BlocklyGames.isRtl();
   var visualization = document.getElementById('visualization');
@@ -87,7 +100,7 @@ Pond.Db.init = function() {
   onresize();
 
   // Handle SELECT events dispatched by tabs.
-  goog.events.listen(tabbar, goog.ui.Component.EventType.SELECT,
+  goog.events.listen(Pond.Db.tabbar, goog.ui.Component.EventType.SELECT,
       function(e) {
         var index = e.target.getParent().getSelectedTabIndex();
         Pond.Db.changeTab(index);
@@ -129,6 +142,8 @@ Pond.Db.init = function() {
   session['setMode']('ace/mode/javascript');
   session['setTabSize'](2);
   session['setUseSoftTabs'](true);
+  session['on']('change', Pond.Db.editorChanged);
+
   BlocklyInterface.loadBlocks(defaultCode + '\n', BlocklyGames.LEVEL != 4);
 
   var players = [
@@ -163,16 +178,30 @@ Pond.Db.init = function() {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
     } else {
-      var code = function() {return BlocklyInterface.editor['getValue']()};
+      var code = function() {
+        if (Pond.Db.blocksEnabled_) {
+          return Blockly.JavaScript.workspaceToCode();
+        } else {
+          return BlocklyInterface.editor['getValue']();
+        }
+      };
     }
     var name = BlocklyGames.getMsg(playerData.name);
     Pond.Battle.addPlayer(name, code, playerData.start, playerData.damage);
   }
   Pond.reset();
   Pond.Db.changeTab(0);
+  Pond.Db.ignoreEditorChanges_ = false;
 };
 
+/**
+ * Called by the tab bar when a tab is selected.
+ * @param {number} index Which tab is now active (0-2).
+ */
 Pond.Db.changeTab = function(index) {
+  var ABOUT = 0;
+  var BLOCKS = 1;
+  var JAVASCRIPT = 2;
   // Show the correct tab contents.
   var aboutDiv = document.getElementById('about');
   var blocklyDiv = document.getElementById('blockly');
@@ -182,15 +211,54 @@ Pond.Db.changeTab = function(index) {
     div.style.visibility = (i == index) ? 'visible' : 'hidden';
   }
   // Synchronize the documentation popup.
-  document.getElementById('docsButton').disabled = (index == 0);
-  if (index == 0) {
+  document.getElementById('docsButton').disabled = (index == ABOUT);
+  if (index == ABOUT) {
     Pond.docsCloseClick();
   } else {
-    BlocklyGames.LEVEL = (index == 1) ? 11 : 12;
+    BlocklyGames.LEVEL = (index == BLOCKS) ? 11 : 12;
     if (Pond.isDocsVisible_) {
       var frame = document.getElementById('frameDocs');
       frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-            '&mode=' + BlocklyGames.LEVEL;
+          '&mode=' + BlocklyGames.LEVEL;
+    }
+  }
+  // Synchronize the JS editor.
+  if (index == JAVASCRIPT && Pond.Db.blocksEnabled_) {
+    var code = Blockly.JavaScript.workspaceToCode();
+    Pond.Db.ignoreEditorChanges_ = true;
+    BlocklyInterface.editor['setValue'](code, -1);
+    Pond.Db.ignoreEditorChanges_ = false;
+  }
+};
+
+/**
+ * Change event for JS editor.  Warn the user, then disconnect the link from
+ * blocks to JavaScript.
+ */
+Pond.Db.editorChanged = function() {
+  if (Pond.Db.ignoreEditorChanges_) {
+    return;
+  }
+  if (Pond.Db.blocksEnabled_) {
+    if (!Blockly.mainWorkspace.getTopBlocks(false).length ||
+        confirm(BlocklyGames.getMsg('Pond_breakLink'))) {
+      // Break link betweeen blocks and JS.
+      Pond.Db.tabbar.getChildAt(1).setEnabled(false);
+      Pond.Db.blocksEnabled_ = false;
+    } else {
+      // Abort change, preserve link.
+      var code = Blockly.JavaScript.workspaceToCode();
+      Pond.Db.ignoreEditorChanges_ = true;
+      BlocklyInterface.editor['setValue'](code, -1);
+      Pond.Db.ignoreEditorChanges_ = false;
+    }
+  } else {
+    var code = BlocklyInterface.editor['getValue']();
+    if (!code.trim()) {
+      // Reestablish link between blocks and JS.
+      Blockly.mainWorkspace.clear();
+      Pond.Db.tabbar.getChildAt(1).setEnabled(true);
+      Pond.Db.blocksEnabled_ = true;
     }
   }
 };

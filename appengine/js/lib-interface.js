@@ -136,8 +136,26 @@ BlocklyInterface.setCode = function(code) {
   } else {
     // Blockly editor.
     var xml = Blockly.Xml.textToDom(code);
+    // Clear the workspace to avoid merge.
+    Blockly.getMainWorkspace().clear();
     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
   }
+};
+
+/**
+ * Get the user's code (XML or JS) from the editor (Blockly or ACE).
+ * @return {string} XML or JS code.
+ */
+BlocklyInterface.getCode = function() {
+  if (BlocklyInterface.editor) {
+    // Text editor.
+    var text = BlocklyInterface.editor['getValue']();
+  } else {
+    // Blockly editor.
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var text = Blockly.Xml.domToText(xml);
+  }
+  return text;
 };
 
 /**
@@ -149,13 +167,7 @@ BlocklyInterface.saveToLocalStorage = function() {
     return;
   }
   var name = BlocklyGames.NAME + BlocklyGames.LEVEL;
-  if (BlocklyInterface.editor) {
-    var text = BlocklyInterface.editor['getValue']();
-  } else {
-    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-    var text = Blockly.Xml.domToText(xml);
-  }
-  window.localStorage[name] = text;
+  window.localStorage[name] = BlocklyInterface.getCode();
 };
 
 /**
@@ -273,6 +285,7 @@ BlocklyInterface.importPrettify = function() {
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-// storage.js is not compiled and calls setCode.
+// storage.js is not compiled and calls setCode and getCode.
 window['BlocklyInterface'] = BlocklyInterface;
 BlocklyInterface['setCode'] = BlocklyInterface.setCode;
+BlocklyInterface['getCode'] = BlocklyInterface.getCode;

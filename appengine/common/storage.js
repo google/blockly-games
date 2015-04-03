@@ -27,15 +27,15 @@
 var BlocklyStorage = {};
 
 /**
- * Backup code blocks to localStorage.
+ * Backup code blocks or JavaScript to localStorage.
  * @private
  */
 BlocklyStorage.backupBlocks_ = function() {
   if ('localStorage' in window) {
-    var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+    var code = BlocklyInterface.getCode();
     // Gets the current URL, not including the hash.
     var url = window.location.href.split('#')[0];
-    window.localStorage.setItem(url, Blockly.Xml.domToText(xml));
+    window.localStorage.setItem(url, code);
   }
 };
 
@@ -47,7 +47,7 @@ BlocklyStorage.backupOnUnload = function() {
 };
 
 /**
- * Restore code blocks from localStorage.
+ * Restore code blocks or JavaScript from localStorage.
  */
 BlocklyStorage.restoreBlocks = function() {
   var url = window.location.href.split('#')[0];
@@ -58,12 +58,11 @@ BlocklyStorage.restoreBlocks = function() {
 };
 
 /**
- * Save blocks to database and return a link containing key to XML.
+ * Save blocks or JavaScript to database and return a link containing the key.
  */
 BlocklyStorage.link = function() {
-  var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
-  var data = Blockly.Xml.domToText(xml);
-  BlocklyStorage.makeRequest_('/storage', 'xml', data);
+  var code = BlocklyInterface.getCode();
+  BlocklyStorage.makeRequest_('/storage', 'xml', code);
 };
 
 /**
@@ -71,7 +70,6 @@ BlocklyStorage.link = function() {
  * @param {string} key Key to XML, obtained from href.
  */
 BlocklyStorage.retrieveXml = function(key) {
-  var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
   BlocklyStorage.makeRequest_('/storage', 'key', key);
 };
 
@@ -124,7 +122,7 @@ BlocklyStorage.handleRequest_ = function() {
           BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
               window.location.hash));
         } else {
-          BlocklyStorage.loadXml_(data);
+          BlocklyInterface.setCode(data);
         }
       }
       BlocklyStorage.monitorChanges_();
@@ -151,23 +149,6 @@ BlocklyStorage.monitorChanges_ = function() {
     }
   }
   var bindData = Blockly.addChangeListener(change);
-};
-
-/**
- * Load blocks from XML.
- * @param {string} xml Text representation of XML.
- * @private
- */
-BlocklyStorage.loadXml_ = function(xml) {
-  try {
-    xml = Blockly.Xml.textToDom(xml);
-  } catch (e) {
-    BlocklyStorage.alert(BlocklyStorage.XML_ERROR + '\nXML: ' + xml);
-    return;
-  }
-  // Clear the workspace to avoid merge.
-  Blockly.getMainWorkspace().clear();
-  Blockly.Xml.domToWorkspace(Blockly.getMainWorkspace(), xml);
 };
 
 /**
