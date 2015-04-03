@@ -30,22 +30,13 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
-            {/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-      </td>
-    </tr>
-  </table>
+  <h1>
+    {call BlocklyGames.soy.titleSpan}
+      {param appName}
+        {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+      {/param}
+    {/call}
+  </h1>
 
   {call Pond.soy.visualization /}
 

@@ -62,8 +62,10 @@ BlocklyInterface.init = function() {
   }
 
   var languageMenu = document.getElementById('languageMenu');
-  languageMenu.addEventListener('change',
-      BlocklyInterface.changeLanguage, true);
+  if (languageMenu) {
+    languageMenu.addEventListener('change',
+        BlocklyInterface.changeLanguage, true);
+  }
 };
 
 /**
