@@ -26,6 +26,7 @@
 (function() {
   var appName = location.search.match(/[?&]app=([-\w]+)/)[1];
   var appLanguage = location.search.match(/[?&]lang=([-\w]+)/)[1];
+  window['BlocklyGamesLang'] = appLanguage;
   window['BlocklyGamesLanguages'] = [appLanguage];
   var script = document.createElement('script');
   var debug = false;

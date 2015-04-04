@@ -126,102 +126,102 @@ Movie.init = function() {
 
   var defaultXml = '<xml></xml>';
   if (BlocklyGames.LEVEL == 9) {
-    defaultXml = '<xml xmlns="http://www.w3.org/1999/xhtml">' +
-        '  <block type="movie_colour" inline="false" x="51" y="28">' +
-        '    <value name="COLOUR">' +
-        '      <block type="colour_picker">' +
-        '        <field name="COLOUR">#999999</field>' +
-        '      </block>' +
-        '    </value>' +
-        '    <next>' +
-        '      <block type="movie_line" inline="false">' +
-        '        <value name="X1">' +
-        '          <block type="math_number">' +
-        '            <field name="NUM">0</field>' +
-        '          </block>' +
-        '        </value>' +
-        '        <value name="Y1">' +
-        '          <block type="math_number">' +
-        '            <field name="NUM">40</field>' +
-        '          </block>' +
-        '        </value>' +
-        '        <value name="X2">' +
-        '          <block type="math_number">' +
-        '            <field name="NUM">20</field>' +
-        '          </block>' +
-        '        </value>' +
-        '        <value name="Y2">' +
-        '          <block type="math_number">' +
-        '            <field name="NUM">40</field>' +
-        '          </block>' +
-        '        </value>' +
-        '        <value name="WIDTH">' +
-        '          <block type="math_number">' +
-        '            <field name="NUM">1</field>' +
-        '          </block>' +
-        '        </value>' +
-        '        <next>' +
-        '          <block type="movie_line" inline="false">' +
-        '            <value name="X1">' +
-        '              <block type="math_number">' +
-        '                <field name="NUM">20</field>' +
-        '              </block>' +
-        '            </value>' +
-        '            <value name="Y1">' +
-        '              <block type="math_number">' +
-        '                <field name="NUM">40</field>' +
-        '              </block>' +
-        '            </value>' +
-        '            <value name="X2">' +
-        '              <block type="math_number">' +
-        '                <field name="NUM">20</field>' +
-        '              </block>' +
-        '            </value>' +
-        '            <value name="Y2">' +
-        '              <block type="math_number">' +
-        '                <field name="NUM">80</field>' +
-        '              </block>' +
-        '            </value>' +
-        '            <value name="WIDTH">' +
-        '              <block type="math_number">' +
-        '                <field name="NUM">1</field>' +
-        '              </block>' +
-        '            </value>' +
-        '            <next>' +
-        '              <block type="movie_line" inline="false">' +
-        '                <value name="X1">' +
-        '                  <block type="math_number">' +
-        '                    <field name="NUM">20</field>' +
-        '                  </block>' +
-        '                </value>' +
-        '                <value name="Y1">' +
-        '                  <block type="math_number">' +
-        '                    <field name="NUM">80</field>' +
-        '                  </block>' +
-        '                </value>' +
-        '                <value name="X2">' +
-        '                  <block type="math_number">' +
-        '                    <field name="NUM">80</field>' +
-        '                  </block>' +
-        '                </value>' +
-        '                <value name="Y2">' +
-        '                  <block type="math_number">' +
-        '                    <field name="NUM">20</field>' +
-        '                  </block>' +
-        '                </value>' +
-        '                <value name="WIDTH">' +
-        '                  <block type="math_number">' +
-        '                    <field name="NUM">1</field>' +
-        '                  </block>' +
-        '                </value>' +
-        '              </block>' +
-        '            </next>' +
-        '          </block>' +
-        '        </next>' +
-        '      </block>' +
-        '    </next>' +
-        '  </block>' +
-        '</xml>';
+    defaultXml = ['<xml xmlns="http://www.w3.org/1999/xhtml">',
+          '<block type="movie_colour" inline="false" x="51" y="28">',
+            '<value name="COLOUR">',
+              '<block type="colour_picker">',
+                '<field name="COLOUR">#999999</field>',
+              '</block>',
+            '</value>',
+            '<next>',
+              '<block type="movie_line" inline="false">',
+                '<value name="X1">',
+                  '<block type="math_number">',
+                    '<field name="NUM">0</field>',
+                  '</block>',
+                '</value>',
+                '<value name="Y1">',
+                  '<block type="math_number">',
+                    '<field name="NUM">40</field>',
+                  '</block>',
+                '</value>',
+                '<value name="X2">',
+                  '<block type="math_number">',
+                    '<field name="NUM">20</field>',
+                  '</block>',
+                '</value>',
+                '<value name="Y2">',
+                  '<block type="math_number">',
+                    '<field name="NUM">40</field>',
+                  '</block>',
+                '</value>',
+                '<value name="WIDTH">',
+                  '<block type="math_number">',
+                    '<field name="NUM">1</field>',
+                  '</block>',
+                '</value>',
+                '<next>',
+                  '<block type="movie_line" inline="false">',
+                    '<value name="X1">',
+                      '<block type="math_number">',
+                        '<field name="NUM">20</field>',
+                      '</block>',
+                    '</value>',
+                    '<value name="Y1">',
+                      '<block type="math_number">',
+                        '<field name="NUM">40</field>',
+                      '</block>',
+                    '</value>',
+                    '<value name="X2">',
+                      '<block type="math_number">',
+                        '<field name="NUM">20</field>',
+                      '</block>',
+                    '</value>',
+                    '<value name="Y2">',
+                      '<block type="math_number">',
+                        '<field name="NUM">80</field>',
+                      '</block>',
+                    '</value>',
+                    '<value name="WIDTH">',
+                      '<block type="math_number">',
+                        '<field name="NUM">1</field>',
+                      '</block>',
+                    '</value>',
+                    '<next>',
+                      '<block type="movie_line" inline="false">',
+                        '<value name="X1">',
+                          '<block type="math_number">',
+                            '<field name="NUM">20</field>',
+                          '</block>',
+                        '</value>',
+                        '<value name="Y1">',
+                          '<block type="math_number">',
+                            '<field name="NUM">80</field>',
+                          '</block>',
+                        '</value>',
+                        '<value name="X2">',
+                          '<block type="math_number">',
+                            '<field name="NUM">80</field>',
+                          '</block>',
+                        '</value>',
+                        '<value name="Y2">',
+                          '<block type="math_number">',
+                            '<field name="NUM">20</field>',
+                          '</block>',
+                        '</value>',
+                        '<value name="WIDTH">',
+                          '<block type="math_number">',
+                            '<field name="NUM">1</field>',
+                          '</block>',
+                        '</value>',
+                      '</block>',
+                    '</next>',
+                  '</block>',
+                '</next>',
+              '</block>',
+            '</next>',
+          '</block>',
+        '</xml>'].join('');
   }
   BlocklyInterface.loadBlocks(defaultXml, false);
 
