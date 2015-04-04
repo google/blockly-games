@@ -163,7 +163,7 @@ def _process_file(path_to_json, target_lang, key_dict):
                 identifier = key_dict[key]
             except KeyError, e:
                 print('Key "%s" is in %s but not in %s' %
-                      (key, keyfile, args.key_file))
+                      (key, filename, args.key_file))
                 raise e
             target = j.get(key)
             # Only insert line breaks for tooltips.
