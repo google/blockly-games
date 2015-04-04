@@ -321,8 +321,11 @@ Puzzle.animate = function(block, angleOffset) {
   var workspaceMetrics = Blockly.mainWorkspace.getMetrics();
   var halfHeight = workspaceMetrics.viewHeight / 2;
   var halfWidth = workspaceMetrics.viewWidth / 2;
-  var blockXY = block.getRelativeToSurfaceXY();
   var blockHW = block.getHeightWidth();
+  var blockXY = block.getRelativeToSurfaceXY();
+  if (BlocklyGames.isRtl()) {
+    blockXY.x -= blockHW.width;
+  }
   var radius = Math.max(175, Math.min(halfHeight, halfWidth) -
       Math.max(blockHW.height, blockHW.width) / 2);
 
