@@ -3,7 +3,8 @@
 		"authors": [
 			"Chmee2",
 			"Michaelbrabec",
-			"Vorkronor"
+			"Vorkronor",
+			"Macofe"
 		]
 	},
 	"Games.name": "Hry Blockly",
@@ -12,8 +13,7 @@
 	"Games.bird": "Pták",
 	"Games.turtle": "Želva",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Rybník",
-	"Games.pondAdvanced": "JS Rybník",
+	"Games.pond": "Rybník",
 	"Games.linesOfCode1": "Vyřešil jsi úroveň jednou řádkou JavaScriptu:",
 	"Games.linesOfCode2": "Vyřešil jsi úroveň %1 řádkami JavaScriptu:",
 	"Games.nextLevel": "Připraveni na úroveň %1?",
@@ -150,5 +150,7 @@
 	"Movie.galleryTooltip": "Otevře galerii filmů na webu Reddit.",
 	"Movie.galleryMsg": "Prohlédnout galerii",
 	"Movie.submitTooltip": "Odešle film do galerie na web Reddit.",
-	"Movie.submitMsg": "Odeslat do galerie"
+	"Movie.submitMsg": "Odeslat do galerie",
+	"Pond.rabbitName": "Králík",
+	"Pond.documentation": "Dokumentace"
 }

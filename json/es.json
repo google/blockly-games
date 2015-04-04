@@ -16,8 +16,7 @@
 	"Games.bird": "Pájaro",
 	"Games.turtle": "Tortuga",
 	"Games.movie": "Película",
-	"Games.pondBasic": "Estanque",
-	"Games.pondAdvanced": "Estanque JS",
+	"Games.pond": "Estanque",
 	"Games.linesOfCode1": "Resolviste este nivel con 1 línea de JavaScript:",
 	"Games.linesOfCode2": "Resolviste este nivel con %1 líneas de JavaScript:",
 	"Games.nextLevel": "¿Estás listo/a para el nivel %1?",
@@ -203,7 +202,7 @@
 	"Movie.helpText8": "Usa el bloque 'si' para dibujar bolas rojas y azules para la primera mitad de la película. Luego dibuja una bola verde para la segunda mitad de la película.",
 	"Movie.helpText9": "¿Puedes hacer una bola que siga el cable? El cable ya se dibujó. Si puedes hacer esto, puedes hacer cualquier cosa.",
 	"Movie.helpText10": "Haz una película sobre lo que quieras. Tienes muchos bloques nuevos para explorar ¡Diviértete!",
-	"Movie.helpText10Reddit": "Usa el botón &quot;See Gallery&quot; para ver películas de otras personas. Si has hecho una película interesante, usa el botón &quot;Enviar a la galería&quot; para publicarla.",
+	"Movie.helpText10Reddit": "Usa el botón &quot;Ver galería&quot; para ver películas de otras personas. Si has hecho una película interesante, usa el botón &quot;Enviar a la galería&quot; para publicarla.",
 	"Pond.playerName": "Jugador",
 	"Pond.targetName": "Blanco",
 	"Pond.rabbitName": "Conejo",
@@ -229,9 +228,5 @@
 	"Pond.helpText3b": "Este alcance es exactamente lo que el comando 'cannon' necesita para disparar con precisión.",
 	"Pond.helpText4": "Este oponente está demasiado lejos para usar el cañón (que tiene un límite de 70 metros). En su lugar, utilisa el comando 'swim' para comenzar a nadar hacia el oponente y chocar con él.",
 	"Pond.helpText5": "Este oponente también está demasiado lejos como para usar el cañón. Pero eres demasiado débil para sobrevivir a una colisión. Nada hacia el oponente mientras su ubicación horizontal sea menor a 50. Luego detente (con 'stop') y usa el cañón.",
-	"Pond.helpText6": "Este oponente se alejará cuando sea golpeado. Nada hacia él si está fuera de alcance (70 metros).",
-	"Pond.helpText7": "El conejo correo por cualquier lado. ¿Puedes darle?",
-	"Pond.helpText8": "¡La torre contraataca! Pero sólo mira al norte, sur, este y oeste.",
-	"Pond.helpText9": "El contador mira en todas las direcciones. ¿Podrás controlar dos oponentes a la vez?",
-	"Pond.helpText10": "El francotirador se esconde en una esquina buscando objetivos. Buena suerte. En serio."
+	"Pond.helpText6": "Este oponente se alejará cuando sea golpeado. Nada hacia él si está fuera de alcance (70 metros)."
 }

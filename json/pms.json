@@ -10,8 +10,7 @@
 	"Games.bird": "Osel",
 	"Games.turtle": "Bissa copera",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Baciass",
-	"Games.pondAdvanced": "Baciass JS",
+	"Games.pond": "Baciass",
 	"Games.linesOfCode1": "A l'ha arzolvù 's livel con 1 linia ëd JavaScript:",
 	"Games.linesOfCode2": "A l'ha arzolvù 's livel con %1 linie ëd JavaScript:",
 	"Games.nextLevel": "É-lo pront për ël livel %1?",
@@ -223,9 +222,5 @@
 	"Pond.helpText3b": "Sa distansa a l'é pròpe cola dont ël comand 'canon' a l'ha damanca për tiré con precision.",
 	"Pond.helpText4": "St'aversari a l'é tròp leugn për dovré ël canon (ch'a l'ha na limitassion dë 70 méter). Al pòst, ch'a deuvra ël comand 'noé' për ancaminé a noé vers l'aversari e colpilo.",
 	"Pond.helpText5": "ëdcò st'aversari-sì a l'é tròp leugn për dovré ël canon. Ma chiel a l'é tròp débol për dzorvive a n'antruch. Ch'a noa vers l'aversari fin-a a che soa posission orisontal a sia anferior a 50. Peui 'stop' e ch'a deuvra ël canon.",
-	"Pond.helpText6": "S'aversari a së slontanërà cand a sarà colpì. Ch'a noa vers ëd chiel s'a l'é fòra portà (70 méter).",
-	"Pond.helpText7": "Ël lapin a cor a l'ancàpit. Peul-lo colpilo?",
-	"Pond.helpText8": "La tor as difend! Ma a bèica mach vers nòrd, sud, est e òvest.",
-	"Pond.helpText9": "Counter a bèica an tute le diression. Peul-lo deje dament a doi aversari ansema?",
-	"Pond.helpText10": "Sniper a së stërma ant un canton për sërché ij sò bërsaj. Bon-a fortun-a. Për da bon."
+	"Pond.helpText6": "S'aversari a së slontanërà cand a sarà colpì. Ch'a noa vers ëd chiel s'a l'é fòra portà (70 méter)."
 }

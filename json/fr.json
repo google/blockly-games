@@ -14,8 +14,7 @@
 	"Games.bird": "Oiseau",
 	"Games.turtle": "Tortue",
 	"Games.movie": "Movie",
-	"Games.pondBasic": "Pond",
-	"Games.pondAdvanced": "Pond JS",
+	"Games.pond": "Pond",
 	"Games.linesOfCode1": "Vous avez résolu ce niveau avec 1 ligne de JavaScript :",
 	"Games.linesOfCode2": "Vous avez résolu ce niveau avec %1 lignes de JavaScript :",
 	"Games.nextLevel": "Êtes-vous prêt pour le niveau %1 ?",
@@ -227,9 +226,5 @@
 	"Pond.helpText3b": "Cette portée est exactement ce dont la commande 'canon' a besoin pour tirer avec précision.",
 	"Pond.helpText4": "Cet adversaire est trop loin pour utiliser le canon (qui a une portée limite de 70 mètres). À la place, utilisez la commande 'nager' pour commencer à nager vers l’adversaire et le percuter.",
 	"Pond.helpText5": "Cet adversaire est aussi trop loin pour utiliser le canon. Mais vous êtes trop faible pour survivre à une collision. Nagez vers l’adversaire tant que votre position horizontale est inférieure à 50. Puis 'stop' et utilisez le canon.",
-	"Pond.helpText6": "Cet adversaire s’éloignera quand il sera touché. Nagez vers lui s’il est hors de portée (70 mètres).",
-	"Pond.helpText7": "Le lapin court au hasard. Pouvez-vous le toucher ?",
-	"Pond.helpText8": "La tour se défend ! Mais elle ne regarde que vers le nord, le sud, l’est et l’ouest.",
-	"Pond.helpText9": "Counter regarde dans toutes les directions. Pouvez-vous gérer deux adversaires à la fois ?",
-	"Pond.helpText10": "Sniper se cache dans un coin pour chercher ses cibles. Bonne chance. Sérieusement."
+	"Pond.helpText6": "Cet adversaire s’éloignera quand il sera touché. Nagez vers lui s’il est hors de portée (70 mètres)."
 }

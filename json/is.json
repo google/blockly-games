@@ -10,8 +10,7 @@
 	"Games.bird": "Fugl",
 	"Games.turtle": "Skjaldbaka",
 	"Games.movie": "Hreyfimynd",
-	"Games.pondBasic": "Pollur",
-	"Games.pondAdvanced": "JS Pollur",
+	"Games.pond": "Pollur",
 	"Games.linesOfCode1": "Þú leystir þennan áfanga með 1 línu af JavaScript:",
 	"Games.linesOfCode2": "Þú leystir þennan áfanga með %1 línum af JavaScript:",
 	"Games.nextLevel": "Viltu fara í áfanga %1?",
@@ -223,9 +222,5 @@
 	"Pond.helpText3b": "Þessi vegalengd er nákvæmlega það sem skipunin 'fallbyssa' þarf til að skjóta nákvæmt.",
 	"Pond.helpText4": "Þessi andstæðingur er of langt frá til að fallbyssan nýtist (hennar hámark er 70 metrar). Notaðu þess í stað 'synda' skipunina til að synda í átt að andstæðingnum og rekast á hann.",
 	"Pond.helpText5": "Þessi andstæðingur er líka og langt frá til að nota fallbyssuna. En þú ert of veikburða til að þola árekstur. Syntu í átt að andstæðingnum á meðan staður þinn lárétt er minna en 50. Notaðu svo 'stöðva' og fallbyssuna.",
-	"Pond.helpText6": "Þessi andstæðingur mun færa sig fjær þegar skot hæfir hann. Syntu í átt til hans ef hann er utan skotfæris (70 metrar).",
-	"Pond.helpText7": "Kanína hleypur um handahófskennt. Getur þú hitt hana?",
-	"Pond.helpText8": "Hrókur snýst til varnmr! En hann horfir aðeins norður, suður, austur og vestur.",
-	"Pond.helpText9": "Teljari horfir í allar áttir. Ræður þú við tvo andstæðinga í einu?",
-	"Pond.helpText10": "Leyniskytta felur sig í horni og leitar að skotmörkum. Vonandi gengur þér vel. Vonandi..."
+	"Pond.helpText6": "Þessi andstæðingur mun færa sig fjær þegar skot hæfir hann. Syntu í átt til hans ef hann er utan skotfæris (70 metrar)."
 }

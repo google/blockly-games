@@ -13,8 +13,7 @@
 	"Games.bird": "Burung",
 	"Games.turtle": "Pepenyu",
 	"Games.movie": "Filem",
-	"Games.pondBasic": "Pond",
-	"Games.pondAdvanced": "JS Pond",
+	"Games.pond": "Pond",
 	"Games.linesOfCode1": "Anda telah menyelesaikan  tahap ini dengan 1 baris JavaScript:",
 	"Games.linesOfCode2": "Anda telah menyelesaikan  tahap ini dengan %1 baris JavaScript:",
 	"Games.nextLevel": "Sedia untuk tahap %2?",
@@ -200,6 +199,7 @@
 	"Movie.helpText8": "Gunakan blok 'if' untuk melukis bola merah dan bola biru untuk separuh pertama filem. Kemudian lukiskan bola hijau untuk separuh kedua filem.",
 	"Movie.helpText9": "Bolehkah anda membuat bola yang mengikut dawai? Dawai sudah pun disediakan. Jika boleh, anda boleh berbuat sesuka hati.",
 	"Movie.helpText10": "Bikinlah filem sesuka hati anda. Ada banyak blok baru untuk dicuba. Semoga ceria!",
+	"Movie.helpText10Reddit": "Tekan butang &quot;Lihat Galeri&quot; untuk menonton filem bikinan orang lain. Jika anda ada filem yang menarik, tekan &quot;Hantarkan ke Galeri&quot; untuk menyiarkan filem anda.",
 	"Pond.playerName": "Pemain",
 	"Pond.targetName": "Sasaran",
 	"Pond.rabbitName": "Rabbit",
@@ -225,9 +225,5 @@
 	"Pond.helpText3b": "Jarak ini menepati apa yang diperlukan oleh perintah 'cannon' untuk menembak dengan tepat.",
 	"Pond.helpText4": "Lawan ini terlalu jauh dari capaian meriam (dengan had 70 meter). Oleh itu gunakan perintah 'swim' untuk mula berenang ke arah lawan hingga melanggarnya.",
 	"Pond.helpText5": "Lawan ini juga terlalu jauh dari capaian meriam. Tetapi anda terlalu lemah untuk terselamat dari pelanggaran. Berenang ke arah lawan sedangkan lokasi mendatar anda kurang daripada 50. Kemudian 'stop' dan gunakan meriam.",
-	"Pond.helpText6": "Lawan ini akan berganjak apabila ditembak. Renang ke arahnya jika ia di luar jarak tembakan (70 meter).",
-	"Pond.helpText7": "Rabbit berkeliaran ke sana-sini. Mampukah anda menembaknya?",
-	"Pond.helpText8": "Rook menyerang balas! Tetapi ia hanya memandang ke utara, selatan, timur dan barat.",
-	"Pond.helpText9": "Counter memandang ke semua arah. Mampukah anda menentang dua lawan sekali gus?",
-	"Pond.helpText10": "Sniper menyorok di tepi mencari-cari sasaran. Tolong jaga diri baik-baik."
+	"Pond.helpText6": "Lawan ini akan berganjak apabila ditembak. Renang ke arahnya jika ia di luar jarak tembakan (70 meter)."
 }

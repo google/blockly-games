@@ -13,8 +13,7 @@
 	"Games.bird": "Fågel",
 	"Games.turtle": "Sköldpadda",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Damm",
-	"Games.pondAdvanced": "JS-damm",
+	"Games.pond": "Damm",
 	"Games.linesOfCode1": "Du löste nivån med 1 rad JavaScript:",
 	"Games.linesOfCode2": "Du löste nivån med %1 rader JavaScript:",
 	"Games.nextLevel": "Är du redo för nivå %1?",
@@ -226,9 +225,5 @@
 	"Pond.helpText3b": "Denna räckvidd är vad kommandot 'cannon' precis behöver för att skjuta träffsäkert.",
 	"Pond.helpText4": "Denna användare är för långt borta för att använda kanonen (som har en räckvidd på 70 meter). Använd istället kommandot 'swim' för att börja simma mot motståndaren och krocka med den.",
 	"Pond.helpText5": "Denna motståndare är för långt borta för att använda kanonen. Men du är för svag för att överleva en kollision. Simma fram till motståndaren medan din horisontala position är mindre än 50. Använd kommandot 'stop' sedan och använd kanonen.",
-	"Pond.helpText6": "Denna motståndare förflyttar sig bortåt när den träffas. Simma framåt om den är utom räckhåll.",
-	"Pond.helpText7": "Kaninen springer runt slumpmässigt. Kan du träffa den?",
-	"Pond.helpText8": "Schacktornet skjuter tillbaka! Men den tittar bara norrut, söderut, österut och västerut.",
-	"Pond.helpText9": "Counter tittar i alla riktningar. Kan du hantera alla motståndare samtidigt?",
-	"Pond.helpText10": "Krypskytten gömmer sig i ett hörn och letar efter måltavlor. Lycka till. Vi menar det."
+	"Pond.helpText6": "Denna motståndare förflyttar sig bortåt när den träffas. Simma framåt om den är utom räckhåll."
 }

@@ -15,8 +15,7 @@
 	"Games.bird": "Fugl",
 	"Games.turtle": "Skildpadde",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Dam",
-	"Games.pondAdvanced": "JS-dam",
+	"Games.pond": "Dam",
 	"Games.linesOfCode1": "Du har løst dette niveau med 1 linje JavaScript:",
 	"Games.linesOfCode2": "Du har løst dette niveau med %1 linjer JavaScript:",
 	"Games.nextLevel": "Er du klar til niveau %1?",
@@ -228,9 +227,5 @@
 	"Pond.helpText3b": "Denne afstand er præcis hvad 'cannon'-kommandoen skal bruge for at skyde præcist.",
 	"Pond.helpText4": "Denne modstander er for langt væk til at bruge kanonen (som har en grænse på 70 meter). Brug i stedet 'swim'-kommandoen til at svømme i modstanderens retning og ramme den.",
 	"Pond.helpText5": "Denne modstander er også for langt væk til at bruge kanonen. Men du er for svag til at overleve et sammenstød. Svøm mod din modstander, indtil din afstanden til modstanderen er mindre end 50. Brug så 'stop'-kommandoen og bruge kanonen.",
-	"Pond.helpText6": "Denne modstander vil flytte sig væk, når den er blevet ramt. Svøm nærmere, hvis den er udenfor rækkevidde (70 meter).",
-	"Pond.helpText7": "Rabbit løber tilfældigt rundt. Kan du ramme den?",
-	"Pond.helpText8": "Rook slår tilbage! Men ser kun mod nord, syd, øst og vest.",
-	"Pond.helpText9": "Counter ser i alle retninger. Kan du klare to modstandere på én gang?",
-	"Pond.helpText10": "Sniper gemmer sig i et hjørne på udkig efter mål. Held og lykke. Virkelig."
+	"Pond.helpText6": "Denne modstander vil flytte sig væk, når den er blevet ramt. Svøm nærmere, hvis den er udenfor rækkevidde (70 meter)."
 }

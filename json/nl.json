@@ -12,8 +12,7 @@
 	"Games.bird": "Vogel",
 	"Games.turtle": "Schildpad",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Vijver",
-	"Games.pondAdvanced": "JS Pond",
+	"Games.pond": "Vijver",
 	"Games.linesOfCode1": "Je hebt dit niveau opgelost met 1 regel JavaScript:",
 	"Games.linesOfCode2": "Je hebt dit niveau opgelost met %1 regels JavaScript:",
 	"Games.nextLevel": "Ben je klaar voor niveau %1?",
@@ -225,9 +224,5 @@
 	"Pond.helpText3b": "Dit bereik is precies wat het commando \"kanon\" nodig heeft om nauwkeurig te vuren.",
 	"Pond.helpText4": "Deze tegenstander is te ver weg om het kanon gebruiken (dat heeft een limiet van 70 meter). Gebruik in plaats daarvan het commando \"zwemmen\" opdracht om te beginnen met zwemmen in de richting van de tegenstander en er tegenaan te botsen.",
 	"Pond.helpText5": "Deze tegenstander is ook te ver weg om het kanon te gebruiken. Maar je bent te zwak om een botsing te overleven. Zwem in de richting van de tegenstander tot de horizontale afstand kleiner is dan 50. \"stop\" dan en gebruik het kanon.",
-	"Pond.helpText6": "Deze tegenstander zwemt weg als die geraakt wordt. Zwemmen in de richting van de tegenstander als deze zich buiten het bereik bevindt (70 meter).",
-	"Pond.helpText7": "Het konijn loopt willekeurig rond. Kan jij het raken?",
-	"Pond.helpText8": "De toren vecht terug, maar kijkt alleen maar naar het noorden, zuiden, oosten en westen.",
-	"Pond.helpText9": "De teller kijkt in alle richtingen. Kan je twee tegenstanders tegelijk aan?",
-	"Pond.helpText10": "De sluipschutter verbergt zich in de hoeken op zoek naar slachtoffers. Veel succes. Echt."
+	"Pond.helpText6": "Deze tegenstander zwemt weg als die geraakt wordt. Zwemmen in de richting van de tegenstander als deze zich buiten het bereik bevindt (70 meter)."
 }
