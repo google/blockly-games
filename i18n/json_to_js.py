@@ -233,6 +233,7 @@ def main():
           '-jar', os.path.join(args.path_to_jar, 'SoyToJsSrcCompiler.jar'),
           '--locales', processed_lang_list,
           '--shouldProvideRequireSoyNamespaces',
+          '--isUsingIjData',
           '--messageFilePathFormat', args.output_dir + '{LOCALE}.xlf',
           '--outputPathFormat', os.path.join(args.output_dir, '{LOCALE}', 'soy.js'),
           '--srcs', args.template])

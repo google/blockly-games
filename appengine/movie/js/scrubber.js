@@ -51,6 +51,10 @@ Scrubber = function(svgParent, opt_changeFunc) {
   text.setAttribute('style', 'font-size: 10pt');
   text.setAttribute('x', this.KNOB_MAX_X_ + 9);
   text.setAttribute('y', 16);
+  if (BlocklyGames.isRtl()) {
+    text.setAttribute('text-anchor', 'end');
+  }
+  text.setAttribute('y', 16);
   svgParent.appendChild(text);
   this.text_ = text;
 

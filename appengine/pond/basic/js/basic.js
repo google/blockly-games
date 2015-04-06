@@ -70,7 +70,7 @@ Pond.Basic.init = function() {
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
-       'rtl': rtl,
+       'rtl': false,
        'toolbox': toolbox,
        'trashcan': true});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +

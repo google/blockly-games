@@ -41,7 +41,9 @@ Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie',
 Index.init = function() {
   // Render the Soy template.
   document.body.innerHTML = Index.soy.start({}, null,
-    {lang: BlocklyGames.LANG, html: BlocklyGames.IS_HTML});
+    {lang: BlocklyGames.LANG,
+     html: BlocklyGames.IS_HTML,
+     rtl: BlocklyGames.isRtl()});
 
   BlocklyGames.init();
 
