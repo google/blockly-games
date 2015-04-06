@@ -682,12 +682,12 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
       .appendField('(')
       .appendField('', 'PARAMS')
       .appendField(') {');
+  this.setStatements_(true);
   this.appendDummyInput()
       .appendField('}');
   this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
   this.arguments_ = [];
-  this.setStatements_(true);
   this.statementConnection_ = null;
 };
 
