@@ -48,6 +48,7 @@
 }
 
 #help pre {
+  direction: ltr;
   font-size: large;
 }
 
@@ -66,6 +67,11 @@
   bottom: 10px;
 }
 
+html[dir="RTL"] #dialogDocs {
+  left: auto;
+  right: 5px;
+}
+
 #frameDocs {
   width: 100%;
   height: 100%;
@@ -78,6 +84,11 @@
   left: 389px;
   cursor: pointer;
   opacity: .7;
+}
+
+html[dir="RTL"] #closeDocs {
+  left: auto;
+  right: 389px;
 }
 
 #closeDocs:hover {

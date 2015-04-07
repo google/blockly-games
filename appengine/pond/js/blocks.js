@@ -738,7 +738,7 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.setNextStatement(true);
   this.setTooltip(Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP);
   this.arguments_ = [];
-  this.quarkConnections_ = null;
+  this.quarkConnections_ = {};
   this.quarkArguments_ = null;
 };
 
@@ -772,7 +772,7 @@ Blockly.Blocks['procedures_callreturn'].init = function() {
   this.setOutput(true);
   this.setTooltip(Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP);
   this.arguments_ = [];
-  this.quarkConnections_ = null;
+  this.quarkConnections_ = {};
   this.quarkArguments_ = null;
 };
 
