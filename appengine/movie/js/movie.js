@@ -112,7 +112,7 @@ Movie.init = function() {
   }
 
   var toolbox = document.getElementById('toolbox');
-  Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
@@ -240,7 +240,7 @@ Movie.init = function() {
   setTimeout(renderRemainingAnswers, 1);
   Movie.renderAxies_();
   Movie.display();
-  Blockly.addChangeListener(Movie.display);
+  BlocklyGames.workspace.addChangeListener(Movie.display);
 
   // Initialize the scrubber.
   var scrubberSvg = document.getElementById('scrubber');
@@ -250,7 +250,7 @@ Movie.init = function() {
   }
 
   // Preload the win sound.
-  Blockly.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
+  BlocklyGames.workspace.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 
@@ -430,7 +430,7 @@ Movie.display = function(frameNumber) {
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode();
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
@@ -593,7 +593,7 @@ Movie.checkAnswers = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      Blockly.playAudio('win', 0.5);
+      BlocklyGames.workspace.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   }
@@ -603,14 +603,14 @@ Movie.checkAnswers = function() {
  * Send an image of the canvas to Reddit.
  */
 Movie.submitToReddit = function() {
-  var blockCount = Blockly.mainWorkspace.getAllBlocks(false).length;
-  var code = Blockly.JavaScript.workspaceToCode();
+  var blockCount = BlocklyGames.workspace.getAllBlocks(false).length;
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   if (blockCount < 5 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));
     return;
   }
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode();
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   var frameNumber = Movie.frameNumber;
   try {
@@ -628,7 +628,7 @@ Movie.submitToReddit = function() {
   document.getElementById('t2r_thumb').value = thumbData;
 
   // Encode the XML.
-  var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
   var xmlData = Blockly.Xml.domToText(xml);
   document.getElementById('t2r_xml').value = xmlData;
 

@@ -108,7 +108,7 @@ Pond.Db.init = function() {
 
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
-  Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': false,
        'toolbox': toolbox,
@@ -180,7 +180,7 @@ Pond.Db.init = function() {
     } else {
       var code = function() {
         if (Pond.Db.blocksEnabled_) {
-          return Blockly.JavaScript.workspaceToCode();
+          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
         } else {
           return BlocklyInterface.editor['getValue']();
         }
@@ -224,7 +224,7 @@ Pond.Db.changeTab = function(index) {
   }
   // Synchronize the JS editor.
   if (index == JAVASCRIPT && Pond.Db.blocksEnabled_) {
-    var code = Blockly.JavaScript.workspaceToCode();
+    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     Pond.Db.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
     Pond.Db.ignoreEditorChanges_ = false;
@@ -240,14 +240,14 @@ Pond.Db.editorChanged = function() {
     return;
   }
   if (Pond.Db.blocksEnabled_) {
-    if (!Blockly.mainWorkspace.getTopBlocks(false).length ||
+    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Pond_breakLink'))) {
       // Break link betweeen blocks and JS.
       Pond.Db.tabbar.getChildAt(1).setEnabled(false);
       Pond.Db.blocksEnabled_ = false;
     } else {
       // Abort change, preserve link.
-      var code = Blockly.JavaScript.workspaceToCode();
+      var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
       Pond.Db.ignoreEditorChanges_ = true;
       BlocklyInterface.editor['setValue'](code, -1);
       Pond.Db.ignoreEditorChanges_ = false;
@@ -256,7 +256,7 @@ Pond.Db.editorChanged = function() {
     var code = BlocklyInterface.editor['getValue']();
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
-      Blockly.mainWorkspace.clear();
+      BlocklyGames.workspace.clear();
       Pond.Db.tabbar.getChildAt(1).setEnabled(true);
       Pond.Db.blocksEnabled_ = true;
     }

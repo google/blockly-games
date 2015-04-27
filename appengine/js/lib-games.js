@@ -130,6 +130,12 @@ BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
 BlocklyGames.IS_HTML = !!window.location.pathname.match(/\.html$/);
 
 /**
+ * Blockly's main workspace.
+ * @type Blockly.WorkspaceSvg
+ */
+BlocklyGames.workspace = null;
+
+/**
  * Extracts a parameter from the URL.
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.

@@ -71,7 +71,7 @@ BlocklyInterface.init = function() {
 /**
  * Initialize Blockly for a readonly iframe.  Called on page load.
  * XML argument may be generated from the console with:
- * encodeURIComponent(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(Blockly.mainWorkspace)).slice(5, -6))
+ * encodeURIComponent(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(BlocklyGames.workspace)).slice(5, -6))
  * @param {string} content XML encoding of Blocky blocks.
  */
 BlocklyInterface.initReadonly = function(content) {
@@ -139,8 +139,8 @@ BlocklyInterface.setCode = function(code) {
     // Blockly editor.
     var xml = Blockly.Xml.textToDom(code);
     // Clear the workspace to avoid merge.
-    Blockly.getMainWorkspace().clear();
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    BlocklyGames.workspace.clear();
+    Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
   }
 };
 
@@ -154,7 +154,7 @@ BlocklyInterface.getCode = function() {
     var text = BlocklyInterface.editor['getValue']();
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
     var text = Blockly.Xml.domToText(xml);
   }
   return text;
@@ -190,7 +190,7 @@ BlocklyInterface.changeLanguage = function() {
     if (BlocklyInterface.editor) {
       var text = BlocklyInterface.editor['getValue']();
     } else {
-      var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+      var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
       var text = Blockly.Xml.domToText(xml);
     }
     window.sessionStorage.loadOnceBlocks = text;
@@ -210,7 +210,7 @@ BlocklyInterface.highlight = function(id) {
       id = m[1];
     }
   }
-  Blockly.mainWorkspace.highlightBlock(id);
+  BlocklyGames.workspace.highlightBlock(id);
 };
 
 /**

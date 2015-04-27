@@ -335,14 +335,14 @@ Bird.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
-  Blockly.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
-  Blockly.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
-  Blockly.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
+  BlocklyGames.workspace.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
+  BlocklyGames.workspace.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
+  BlocklyGames.workspace.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');
 
@@ -375,7 +375,7 @@ Bird.init = function() {
   // Open interactive help.  But wait 5 seconds for the
   // user to think a bit before they are told what to do.
   setTimeout(function() {
-    Blockly.addChangeListener(function() {Bird.levelHelp()});
+    BlocklyGames.workspace.addChangeListener(function() {Bird.levelHelp()});
     Bird.levelHelp();
   }, 5000);
   if (BlocklyGames.LEVEL > 8) {
@@ -404,8 +404,8 @@ Bird.levelHelp = function() {
     return;
   }
   var userBlocks = Blockly.Xml.domToText(
-      Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
-  var toolbar = Blockly.mainWorkspace.flyout_.workspace_.getTopBlocks(true);
+      Blockly.Xml.workspaceToDom(BlocklyGames.workspace));
+  var toolbar = BlocklyGames.workspace.flyout_.workspace_.getTopBlocks(true);
   var content = document.getElementById('dialogHelp');
   var origin = null;
   var style = null;
@@ -414,7 +414,7 @@ Bird.levelHelp = function() {
         userBlocks.indexOf('bird_heading') == -1) {
       style = {'width': '370px', 'top': '140px'};
       style[Blockly.RTL ? 'right' : 'left'] = '215px';
-      var blocks = Blockly.mainWorkspace.getTopBlocks(true);
+      var blocks = BlocklyGames.workspace.getTopBlocks(true);
       if (blocks.length) {
         origin = blocks[0].getSvgRoot();
       } else {
@@ -435,7 +435,7 @@ Bird.levelHelp = function() {
     }
   } else if (BlocklyGames.LEVEL == 5) {
     if (userBlocks.indexOf('mutation else') == -1) {
-      var blocks = Blockly.mainWorkspace.getTopBlocks(false);
+      var blocks = BlocklyGames.workspace.getTopBlocks(false);
       for (var i = 0, block; block = blocks[i]; i++) {
         if (block.type == 'controls_if') {
           break;
@@ -456,7 +456,7 @@ Bird.levelHelp = function() {
     }
   } else if (BlocklyGames.LEVEL == 6) {
     if (userBlocks.indexOf('mutation') == -1) {
-      var blocks = Blockly.mainWorkspace.getTopBlocks(false);
+      var blocks = BlocklyGames.workspace.getTopBlocks(false);
       for (var i = 0, block; block = blocks[i]; i++) {
         if (block.type == 'controls_if') {
           break;
@@ -535,7 +535,7 @@ Bird.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  Blockly.mainWorkspace.traceOn(true);
+  BlocklyGames.workspace.traceOn(true);
   Bird.reset(false);
   Bird.execute();
 };
@@ -552,7 +552,7 @@ Bird.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
-  Blockly.mainWorkspace.traceOn(false);
+  BlocklyGames.workspace.traceOn(false);
   Bird.reset(false);
 };
 
@@ -608,7 +608,7 @@ Bird.execute = function() {
   }
 
   Bird.log = [];
-  var code = Blockly.JavaScript.workspaceToCode();
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
   if (start != -1 && end != -1) {
@@ -690,7 +690,7 @@ Bird.animate = function() {
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] == 'play') {
-    Blockly.playAudio(action[1], 0.5);
+    BlocklyGames.workspace.playAudio(action[1], 0.5);
   }
 
   Bird.pidList.push(setTimeout(Bird.animate, Bird.stepSpeed * 5));

@@ -120,7 +120,7 @@ Turtle.init = function() {
   }
 
   var toolbox = document.getElementById('toolbox');
-  Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
@@ -169,7 +169,7 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  Blockly.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
+  BlocklyGames.workspace.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
@@ -253,7 +253,7 @@ Turtle.categoryClicked_ = false;
  * @private
  */
 Turtle.watchCategories_ = function() {
-  if (Blockly.getMainWorkspace().toolbox_.flyout_.isVisible()) {
+  if (BlocklyGames.workspace.toolbox_.flyout_.isVisible()) {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
   }
@@ -384,7 +384,7 @@ Turtle.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   document.getElementById('spinner').style.visibility = 'visible';
-  Blockly.mainWorkspace.traceOn(true);
+  BlocklyGames.workspace.traceOn(true);
   Turtle.execute();
 };
 
@@ -401,7 +401,7 @@ Turtle.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  Blockly.mainWorkspace.traceOn(false);
+  BlocklyGames.workspace.traceOn(false);
   Turtle.reset();
 
   // Image cleared; prevent user from submitting to Reddit.
@@ -497,7 +497,7 @@ Turtle.execute = function() {
   }
 
   Turtle.reset();
-  var code = Blockly.JavaScript.workspaceToCode();
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
   Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
 };
@@ -529,7 +529,7 @@ Turtle.executeChunk_ = function() {
   // Wrap up if complete.
   if (!Turtle.pause) {
     document.getElementById('spinner').style.visibility = 'hidden';
-    Blockly.mainWorkspace.highlightBlock(null);
+    BlocklyGames.workspace.highlightBlock(null);
     Turtle.checkAnswer();
     // Image complete; allow the user to submit this image to Reddit.
     Turtle.canSubmit = true;
@@ -680,7 +680,7 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      Blockly.playAudio('win', 0.5);
+      BlocklyGames.workspace.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {
@@ -705,7 +705,7 @@ Turtle.submitToReddit = function() {
   document.getElementById('t2r_thumb').value = thumbData;
 
   // Encode the XML.
-  var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
   var xmlData = Blockly.Xml.domToText(xml);
   document.getElementById('t2r_xml').value = xmlData;
 

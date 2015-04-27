@@ -19,7 +19,6 @@ BLOCKY_DIR = $(PWD)
 all: deps languages
 
 index-en:
-	mkdir -p appengine/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/index/generated/en/soy.js --srcs appengine/index/template.soy
 	python build-app.py index en
 
@@ -44,6 +43,7 @@ movie-en: common-en
 	python build-app.py movie en
 
 pond-docs-en:
+	mkdir -p appengine/pond/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/docs/generated/en/soy.js --srcs appengine/pond/docs/template.soy
 	python build-app.py pond/docs en
 

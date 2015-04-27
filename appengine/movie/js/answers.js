@@ -120,7 +120,7 @@ Movie.answer = function(f) {
 Movie.isCorrect = function() {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return Blockly.mainWorkspace.getAllBlocks().length > 1;
+    return BlocklyGames.workspace.getAllBlocks().length > 1;
   }
   // Check the already recorded pixel errors on every frame.
   for (var f = 0; f <= Movie.FRAMES; f++) {

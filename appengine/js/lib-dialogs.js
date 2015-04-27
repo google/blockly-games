@@ -28,6 +28,7 @@ goog.provide('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Blockly');
+goog.require('goog.style');
 
 
 /**
@@ -267,32 +268,18 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
  * @private
  */
 BlocklyDialogs.getBBox_ = function(element) {
+  var box = goog.style.getPageOffset(element);
   if (element.getBBox) {
     // SVG element.
     var bBox = element.getBBox();
-    var height = bBox.height;
-    var width = bBox.width;
-    var xy = Blockly.getAbsoluteXY_(element);
-    var x = xy.x;
-    var y = xy.y;
+    box.height = bBox.height;
+    box.width = bBox.width;
   } else {
     // HTML element.
-    var height = element.offsetHeight;
-    var width = element.offsetWidth;
-    var x = 0;
-    var y = 0;
-    do {
-      x += element.offsetLeft;
-      y += element.offsetTop;
-      element = element.offsetParent;
-    } while (element);
+    box.height = element.offsetHeight;
+    box.width = element.offsetWidth;
   }
-  return {
-    height: height,
-    width: width,
-    x: x,
-    y: y
-  };
+  return box;
 };
 
 /**
@@ -371,10 +358,10 @@ BlocklyDialogs.congratulations = function() {
   };
 
   // Add the user's code.
-  if (Blockly.mainWorkspace) {
+  if (BlocklyGames.workspace) {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
-    var code = Blockly.JavaScript.workspaceToCode();
+    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     code = BlocklyInterface.stripCode(code);
     var lineCount = code.split('\n').length;
     var pre = document.getElementById('containerCode');

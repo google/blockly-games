@@ -180,7 +180,7 @@ Turtle.answer = function() {
 Turtle.isCorrect = function(pixelErrors) {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return Blockly.mainWorkspace.getAllBlocks().length > 1;
+    return BlocklyGames.workspace.getAllBlocks().length > 1;
   }
   console.log('Pixel errors: ' + pixelErrors);
   if (pixelErrors > 100) {
@@ -188,9 +188,9 @@ Turtle.isCorrect = function(pixelErrors) {
     return false;
   }
   if ((BlocklyGames.LEVEL <= 2 &&
-       Blockly.mainWorkspace.getAllBlocks().length > 3) ||
+       BlocklyGames.workspace.getAllBlocks().length > 3) ||
       (BlocklyGames.LEVEL == 3 &&
-       Blockly.mainWorkspace.getAllBlocks().length > 4)) {
+       BlocklyGames.workspace.getAllBlocks().length > 4)) {
     // Use a loop, dummy.
     var content = document.getElementById('helpUseLoop');
     var style = {

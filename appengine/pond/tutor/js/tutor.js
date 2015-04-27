@@ -88,9 +88,10 @@ Pond.Tutor.init = function() {
         Blockly.fireUiEvent(window, 'resize');
       });
     window.addEventListener('resize', onresize);
+    onresize();
 
     var toolbox = document.getElementById('toolbox');
-    Blockly.inject(document.getElementById('blockly'),
+    BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
         {'media': 'media/',
          'rtl': false,
          'toolbox': toolbox,
@@ -168,7 +169,7 @@ Pond.Tutor.init = function() {
       var code = div.textContent;
     } else {
       if (blocklyDiv) {
-        var code = function() {return Blockly.JavaScript.workspaceToCode()};
+        var code = function() {return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace)};
       } else {
         var code = function() {return BlocklyInterface.editor['getValue']()};
       }

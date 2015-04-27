@@ -56,7 +56,7 @@ Puzzle.init = function() {
   onresize();
   window.addEventListener('resize', onresize);
 
-  Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'scrollbars': false,
@@ -75,10 +75,10 @@ Puzzle.init = function() {
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
     var xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
   } else if (savedBlocks) {
     var xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
   } else {
     // Create one of every block.
     var blocksAnimals = [];
@@ -86,15 +86,15 @@ Puzzle.init = function() {
     var blocksTraits = [];
     var i = 1;
     while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
-      var block = Blockly.Block.obtain(Blockly.mainWorkspace, 'animal');
+      var block = Blockly.Block.obtain(BlocklyGames.workspace, 'animal');
       block.populate(i);
       blocksAnimals.push(block);
-      var block = Blockly.Block.obtain(Blockly.mainWorkspace, 'picture');
+      var block = Blockly.Block.obtain(BlocklyGames.workspace, 'picture');
       block.populate(i);
       blocksPictures.push(block);
       var j = 1;
       while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
-        var block = Blockly.Block.obtain(Blockly.mainWorkspace, 'trait');
+        var block = Blockly.Block.obtain(BlocklyGames.workspace, 'trait');
         block.populate(i, j);
         blocksTraits.push(block);
         j++;
@@ -125,8 +125,8 @@ Puzzle.init = function() {
     }
     // Position the blocks randomly.
     var MARGIN = 50;
-    Blockly.svgResize();
-    var workspaceBox = Blockly.svgSize();
+    Blockly.svgResize(BlocklyGames.workspace);
+    var workspaceBox = Blockly.svgSize(BlocklyGames.workspace.options.svg);
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
@@ -163,7 +163,7 @@ Puzzle.init = function() {
    * If Chrome stops corrupting the Duck picture, delete this entire hack.
    */
   if (goog.userAgent.WEBKIT) {
-    var blocks = Blockly.mainWorkspace.getAllBlocks();
+    var blocks = BlocklyGames.workspace.getAllBlocks();
     for (var i = 0, block; block = blocks[i]; i++) {
       block.select();
     }
@@ -173,7 +173,7 @@ Puzzle.init = function() {
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  Blockly.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
+  BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -223,7 +223,7 @@ Puzzle.legs = function() {
  * Count and highlight the errors.
  */
 Puzzle.checkAnswers = function() {
-  var blocks = Blockly.mainWorkspace.getAllBlocks();
+  var blocks = BlocklyGames.workspace.getAllBlocks();
   var errors = 0;
   var badBlocks = [];
   for (var b = 0, block; block = blocks[b]; b++) {
@@ -298,8 +298,8 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  Blockly.playAudio('win', 0.5);
-  var blocks = Blockly.mainWorkspace.getTopBlocks(false);
+  BlocklyGames.workspace.playAudio('win', 0.5);
+  var blocks = BlocklyGames.workspace.getTopBlocks(false);
   for (var i = 0, block; block = blocks[i]; i++) {
     var angle = 360 * (i / blocks.length);
     Puzzle.animate(block, angle);
@@ -318,7 +318,7 @@ Puzzle.animate = function(block, angleOffset) {
     return;
   }
   // Collect all the metrics.
-  var workspaceMetrics = Blockly.mainWorkspace.getMetrics();
+  var workspaceMetrics = BlocklyGames.workspace.getMetrics();
   var halfHeight = workspaceMetrics.viewHeight / 2;
   var halfWidth = workspaceMetrics.viewWidth / 2;
   var blockHW = block.getHeightWidth();
