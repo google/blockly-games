@@ -403,6 +403,7 @@ Bird.levelHelp = function() {
     // The user has already won.  They are just playing around.
     return;
   }
+  var rtl = BlocklyGames.isRtl();
   var userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(BlocklyGames.workspace));
   var toolbar = BlocklyGames.workspace.flyout_.workspace_.getTopBlocks(true);
@@ -413,7 +414,7 @@ Bird.levelHelp = function() {
     if (userBlocks.indexOf('>90<') != -1 ||
         userBlocks.indexOf('bird_heading') == -1) {
       style = {'width': '370px', 'top': '140px'};
-      style[Blockly.RTL ? 'right' : 'left'] = '215px';
+      style[rtl ? 'right' : 'left'] = '215px';
       var blocks = BlocklyGames.workspace.getTopBlocks(true);
       if (blocks.length) {
         origin = blocks[0].getSvgRoot();
@@ -424,13 +425,13 @@ Bird.levelHelp = function() {
   } else if (BlocklyGames.LEVEL == 2) {
     if (userBlocks.indexOf('bird_noWorm') == -1) {
       style = {'width': '350px', 'top': '170px'};
-      style[Blockly.RTL ? 'right' : 'left'] = '180px';
+      style[rtl ? 'right' : 'left'] = '180px';
       origin = toolbar[1].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL == 4) {
     if (userBlocks.indexOf('bird_compare') == -1) {
       style = {'width': '350px', 'top': '230px'};
-      style[Blockly.RTL ? 'right' : 'left'] = '180px';
+      style[rtl ? 'right' : 'left'] = '180px';
       origin = toolbar[2].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL == 5) {
@@ -444,14 +445,14 @@ Bird.levelHelp = function() {
       if (!block.mutator.isVisible()) {
         var xy = Blockly.getAbsoluteXY_(block.getSvgRoot());
         style = {'width': '340px', 'top': (xy.y + 100) + 'px'};
-        style.left = (xy.x - (Blockly.RTL ? 350 : 0)) + 'px';
+        style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
         origin = block.getSvgRoot();
       } else {
         var content = document.getElementById('dialogMutatorHelp');
         origin = block.mutator.workspace_.flyout_.buttons_[1];
         var xy = Blockly.getAbsoluteXY_(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
-        style.left = (xy.x - (Blockly.RTL ? 310 : 0)) + 'px';
+        style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
       }
     }
   } else if (BlocklyGames.LEVEL == 6) {
@@ -464,13 +465,13 @@ Bird.levelHelp = function() {
       }
       var xy = Blockly.getAbsoluteXY_(block.getSvgRoot());
       style = {'width': '350px', 'top': (xy.y + 220) + 'px'};
-      style.left = (xy.x - (Blockly.RTL ? 350 : 0)) + 'px';
+      style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
       origin = block.getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL == 8) {
     if (userBlocks.indexOf('bird_and') == -1) {
       style = {'width': '350px', 'top': '360px'};
-      style[Blockly.RTL ? 'right' : 'left'] = '450px';
+      style[rtl ? 'right' : 'left'] = '450px';
       origin = toolbar[4].getSvgRoot();
     }
   }

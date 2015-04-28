@@ -265,14 +265,6 @@ Movie.init = function() {
   }
 };
 
-if (window.location.pathname.match(/readonly.html$/)) {
-  window.addEventListener('load', function() {
-    BlocklyInterface.initReadonly(Movie.soy.readonly());
-  });
-} else {
-  window.addEventListener('load', Movie.init);
-}
-
 /**
  * Show the help pop-up.
  */
@@ -284,6 +276,11 @@ Movie.showHelp = function() {
     left: '25%',
     top: '5em'
   };
+
+  if (BlocklyGames.LEVEL == 2) {
+    var xml = '<xml><block type="movie_time" x="15" y="10"></block></xml>';
+    BlocklyInterface.injectReadonly('sampleHelp2', xml);
+  }
 
   BlocklyDialogs.showDialog(help, button, true, true, style, Movie.hideHelp);
   BlocklyDialogs.startDialogKeyDown();
@@ -635,3 +632,5 @@ Movie.submitToReddit = function() {
   // Submit the form.
   document.getElementById('t2r_form').submit();
 };
+
+window.addEventListener('load', Movie.init);

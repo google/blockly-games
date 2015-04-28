@@ -20,3 +20,12 @@ body {
 #blockly {
   position: fixed;
 }
+
+#help {
+  overflow: hidden;
+}
+
+#sample {
+  height: 205px;
+  width: 300px;
+}

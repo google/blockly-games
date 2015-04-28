@@ -69,29 +69,6 @@ BlocklyInterface.init = function() {
 };
 
 /**
- * Initialize Blockly for a readonly iframe.  Called on page load.
- * XML argument may be generated from the console with:
- * encodeURIComponent(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(BlocklyGames.workspace)).slice(5, -6))
- * @param {string} content XML encoding of Blocky blocks.
- */
-BlocklyInterface.initReadonly = function(content) {
-  // Render the Soy template.
-  document.body.innerHTML = content;
-
-  var div = document.getElementById('blockly');
-  div.style.height = window.innerHeight + 'px';
-  Blockly.inject(div,
-      {media: 'media/',
-       readOnly: true,
-       rtl: BlocklyGames.isRtl(),
-       scrollbars: false});
-
-  // Add the blocks.
-  var xml = BlocklyGames.getStringParamFromUrl('xml', '');
-  BlocklyInterface.setCode('<xml>' + xml + '</xml>');
-};
-
-/**
  * Load blocks saved on App Engine Storage or in session/local storage.
  * @param {string} defaultXml Text representation of default blocks.
  * @param {boolean} inherit If true, load blocks from previous level.
@@ -211,6 +188,23 @@ BlocklyInterface.highlight = function(id) {
     }
   }
   BlocklyGames.workspace.highlightBlock(id);
+};
+
+/**
+ * Inject readonly Blockly.  Only inserts once.
+ * @param {string} id ID of div to be injected into.
+ * @param {string|!Array.<string>} xml XML string(s) describing blocks.
+ */
+BlocklyInterface.injectReadonly = function(id, xml) {
+  var div = document.getElementById(id);
+  if (!div.firstChild) {
+    var rtl = BlocklyGames.isRtl();
+    var workspace = Blockly.inject(div, {'rtl': rtl, 'readOnly': true});
+    if (typeof xml != 'string') {
+      xml = xml.join('');
+    }
+    Blockly.Xml.domToWorkspace(workspace, Blockly.Xml.textToDom(xml));
+  }
 };
 
 /**

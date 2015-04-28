@@ -176,14 +176,6 @@ Puzzle.init = function() {
   BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
 };
 
-if (window.location.pathname.match(/readonly.html$/)) {
-  window.addEventListener('load', function() {
-    BlocklyInterface.initReadonly(Puzzle.soy.readonly());
-  });
-} else {
-  window.addEventListener('load', Puzzle.init);
-}
-
 /**
  * Shuffles the values in the specified array using the Fisher-Yates in-place
  * shuffle (also known as the Knuth Shuffle).
@@ -359,6 +351,30 @@ Puzzle.animate = function(block, angleOffset) {
  * @param {boolean} animate Animate the pop-up opening.
  */
 Puzzle.showHelp = function(animate) {
+  var xml = [
+      '<xml>',
+        '<block type="animal" x="5" y="5">',
+          '<mutation animal="1"></mutation>',
+          '<title name="LEGS">1</title>',
+          '<value name="PIC">',
+            '<block type="picture">',
+              '<mutation animal="1"></mutation>',
+            '</block>',
+          '</value>',
+          '<statement name="TRAITS">',
+            '<block type="trait">',
+              '<mutation animal="1" trait="2"></mutation>',
+              '<next>',
+                '<block type="trait">',
+                  '<mutation animal="1" trait="1"></mutation>',
+                '</block>',
+              '</next>',
+            '</block>',
+          '</statement>',
+        '</block>',
+      '</xml>'];
+  BlocklyInterface.injectReadonly('sample', xml);
+
   var help = document.getElementById('help');
   var button = document.getElementById('helpButton');
   var style = {
@@ -370,3 +386,5 @@ Puzzle.showHelp = function(animate) {
       BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
 };
+
+window.addEventListener('load', Puzzle.init);

@@ -206,6 +206,15 @@ Turtle.showHelp = function() {
     top: '5em'
   };
 
+  if (BlocklyGames.LEVEL == 3) {
+    var xml = '<xml><block type="turtle_colour_internal" x="5" y="10">' +
+        '<field name="COLOUR">#ffff00</field></block></xml>';
+    BlocklyInterface.injectReadonly('sampleHelp3', xml);
+  } else if (BlocklyGames.LEVEL == 4) {
+    var xml = '<xml><block type="turtle_pen" x="5" y="10"></block></xml>';
+    BlocklyInterface.injectReadonly('sampleHelp4', xml);
+  }
+
   BlocklyDialogs.showDialog(help, button, true, true, style, Turtle.hideHelp);
   BlocklyDialogs.startDialogKeyDown();
 };

@@ -103,7 +103,7 @@ Blockly.Blocks['bird_compare'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-    if (Blockly.RTL) {
+    if (BlocklyGames.isRtl()) {
       var OPERATORS = [['>', 'LT'], ['<', 'GT']];
     } else {
       var OPERATORS = [['<', 'LT'], ['>', 'GT']];

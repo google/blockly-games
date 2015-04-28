@@ -201,7 +201,7 @@
         {msg meaning="Turtle.helpText3a" desc="Introducing a new block."}
           There's a new block that allows you to change the colour:
         {/msg}
-        <iframe style="height: 50px; width: 100%; border: none;" src="readonly.html?app=turtle&lang={$ij.lang}&xml=%3Cblock+type%3D%22turtle_colour_internal%22+x%3D%225%22+y%3D%2210%22%3E%3Cfield+name%3D%22COLOUR%22%3E%23ffff00%3C%2Ffield%3E%3C%2Fblock%3E"></iframe>
+        <div id="sampleHelp3" class="readonly"></div>
         {msg meaning="Turtle.helpText3b" desc="Instructions."}
           Draw a yellow star.
         {/msg}
@@ -209,7 +209,7 @@
         {msg meaning="Turtle.helpText4a" desc="Introducing a new block."}
           There's a new block that allows you to lift your pen off the paper when you move:
         {/msg}
-        <iframe style="height: 50px; width: 100%; border: none;" src="readonly.html?app=turtle&lang={$ij.lang}&xml=%3Cblock+type%3D%22turtle_pen%22+x%3D%225%22+y%3D%2210%22%3E%3C%2Fblock%3E"></iframe>
+        <div id="sampleHelp4" class="readonly"></div>
         {msg meaning="Turtle.helpText4b" desc="Instructions."}
           Draw a small yellow star, then draw a line above it.
         {/msg}
@@ -442,12 +442,4 @@
       </category>
     {/if}
   </xml>
-{/template}
-
-/**
- * Readonly Blockly in an iframe.
- */
-{template .readonly}
-  {call .messages /}
-  <div id="blockly"></div>
 {/template}

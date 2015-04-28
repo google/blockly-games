@@ -16,6 +16,10 @@ html[dir="RTL"] button.primary {
 #downloadImageLink {
   display: none;
 }
+#sampleHelp2 {
+  height: 50px;
+  width: 250px;
+}
 
 /* Slider. */
 .sliderTrack {

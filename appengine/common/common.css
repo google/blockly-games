@@ -155,3 +155,6 @@ button:hover:not(:disabled) {
 #dialog button {
   min-width: 4em;
 }
+.readonly .blocklyMainBackground {
+  stroke: none;
+}
