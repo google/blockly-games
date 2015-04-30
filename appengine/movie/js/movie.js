@@ -112,7 +112,7 @@ Movie.init = function() {
   }
 
   var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,

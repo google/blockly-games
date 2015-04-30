@@ -108,7 +108,7 @@ Pond.Db.init = function() {
 
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'rtl': false,
        'toolbox': toolbox,

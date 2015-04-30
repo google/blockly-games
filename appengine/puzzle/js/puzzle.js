@@ -56,7 +56,7 @@ Puzzle.init = function() {
   onresize();
   window.addEventListener('resize', onresize);
 
-  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'rtl': rtl,
        'scrollbars': false,
@@ -173,7 +173,8 @@ Puzzle.init = function() {
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
+  BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'],
+      'win');
 };
 
 /**

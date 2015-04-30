@@ -508,7 +508,7 @@ Maze.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'maxBlocks': Maze.MAX_BLOCKS,
        'rtl': rtl,

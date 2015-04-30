@@ -335,13 +335,15 @@ Bird.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
-  BlocklyGames.workspace.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
-  BlocklyGames.workspace.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
+  BlocklyGames.workspace.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'],
+      'quack');
+  BlocklyGames.workspace.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'],
+      'whack');
   BlocklyGames.workspace.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');

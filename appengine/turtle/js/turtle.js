@@ -120,7 +120,7 @@ Turtle.init = function() {
   }
 
   var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
+  BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
@@ -169,7 +169,8 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
+  BlocklyGames.workspace.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'],
+      'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
