@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Ebraminio",
-			"Reza1615"
+			"Reza1615",
+			"Alirezaaa"
 		]
 	},
 	"Games.name": "بازی‌های بستن",
@@ -33,6 +34,7 @@
 	"Games.xmlError": "نتوانست پروندهٔ ذخیرهٔ شما بارگیری شود.  احتمالاً با نسخهٔ متفاوتی از بلوکی درست شده‌است؟",
 	"Games.listVariable": "فهرست",
 	"Games.textVariable": "متن",
+	"Games.congratulations": "تبریک می‌گوییم!",
 	"Index.moreInfo": "اطلاعات بیشتر...",
 	"Index.clearData": "خالی کردن داده",
 	"Puzzle.animal1": "مرغابی",
