@@ -96,6 +96,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'sr': 'Српски',
   'sv': 'Svenska',
   'sw': 'Kishwahili',
+  'ta': 'தமிழ்',
   'th': 'ภาษาไทย',
   'tl': 'Tagalog',
   'tlh': 'tlhIngan Hol',

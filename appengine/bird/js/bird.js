@@ -33,6 +33,7 @@ goog.require('BlocklyInterface');
 goog.require('goog.math');
 goog.require('goog.math.Coordinate');
 goog.require('goog.math.Line');
+goog.require('goog.style');
 
 
 BlocklyGames.NAME = 'bird';
@@ -445,14 +446,14 @@ Bird.levelHelp = function() {
         }
       }
       if (!block.mutator.isVisible()) {
-        var xy = Blockly.getAbsoluteXY_(block.getSvgRoot());
+        var xy = goog.style.getPageOffset(block.getSvgRoot());
         style = {'width': '340px', 'top': (xy.y + 100) + 'px'};
         style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
         origin = block.getSvgRoot();
       } else {
         var content = document.getElementById('dialogMutatorHelp');
         origin = block.mutator.workspace_.flyout_.buttons_[1];
-        var xy = Blockly.getAbsoluteXY_(origin);
+        var xy = goog.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
       }
@@ -465,7 +466,7 @@ Bird.levelHelp = function() {
           break;
         }
       }
-      var xy = Blockly.getAbsoluteXY_(block.getSvgRoot());
+      var xy = goog.style.getPageOffset(block.getSvgRoot());
       style = {'width': '350px', 'top': (xy.y + 220) + 'px'};
       style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
       origin = block.getSvgRoot();
