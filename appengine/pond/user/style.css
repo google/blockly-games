@@ -1,0 +1,50 @@
+.edit {
+  vertical-align: bottom;
+  opacity: .6;
+  transition: opacity .2s;
+  transition-timing-function: ease;
+}
+.grey {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+
+.edit:hover {
+  opacity: 1;
+  -webkit-filter: grayscale(0);
+  filter: grayscale(0);
+}
+
+#duck-table th {
+  text-align: left;
+  padding-left: 20px;
+  cursor: default;
+}
+
+#duck-table td {
+  padding: 0 20px;
+}
+
+#duck-table th>span {
+  float: right;
+}
+
+td.align-start {
+  text-align: left;
+}
+
+td.align-end {
+  text-align: right;
+}
+
+#duck-table>tbody>tr:nth-child(odd) {
+  background: #f0f4f9;
+}
+
+#duck-table>thead>tr>th {
+  border-bottom: 1px solid #ddd;
+}
+
+#duck-table {
+  border-collapse: collapse;
+}

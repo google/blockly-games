@@ -1,10 +1,10 @@
-{namespace Pond.Db.soy}
+{namespace Pond.Duck.soy}
 
 /**
  * This is a Closure Template.
  *
  * To regenerate just English, run:
- *   make pond-db-en
+ *   make pond-duck-en
  *
  * To regenerate all languages, run:
  *   make languages
@@ -505,35 +505,6 @@ function plot_course(xx, yy) {
     }
   }
   return d;
-}
-</div>
-{/literal}
-{/template}
-
-/**
- * Pendulum.
- */
-{template .playerPendulum}
-{literal}
-<div id="playerPendulum" style="display: none">
-/* Slowly moves east and west.  Does not fire. */
-var west = false;
-while (true) {
-  if (west) {
-    if (loc_x() > 15) {
-      drive(180, 25);
-    } else {
-      west = false;
-      drive(0, 0);
-    }
-  } else {
-    if (loc_x() < 75) {
-      drive(0, 25);
-    } else {
-      west = true;
-      drive(0, 0);
-    }
-  }
 }
 </div>
 {/literal}

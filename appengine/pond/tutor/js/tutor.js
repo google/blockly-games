@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Creates an pond programmable with blocks or JavaScript.
+ * @fileoverview Creates a pond programmable with blocks or JavaScript.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

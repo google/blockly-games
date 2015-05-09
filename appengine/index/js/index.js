@@ -85,6 +85,18 @@ Index.init = function() {
       path.parentNode.removeChild(path);
     }
   }
+
+  function offline(e) {
+    var msg = BlocklyGames.getMsg('Index_offline') +
+        '\n\nblockly-games.appspot.com';
+    alert(msg);
+    e.preventDefault();
+    return false;
+  }
+  if (BlocklyGames.IS_HTML) {
+    var link = document.getElementById('link-pond-db');
+    link.addEventListener('click', offline, true);
+  }
 };
 
 window.addEventListener('load', Index.init, false);

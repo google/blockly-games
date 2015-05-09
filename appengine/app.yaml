@@ -94,8 +94,18 @@ handlers:
   upload: pond-tutor\.html
   secure: always
 - url: /pond-db
-  static_files: pond-db.html
-  upload: pond-db\.html
+  script: pond-db.py
+  login: required
+  secure: always
+- url: /pond-user
+  static_files: pond-user.html
+  upload: pond-user\.html
+  login: required
+  secure: always
+- url: /pond-duck
+  static_files: pond-duck.html
+  upload: pond-duck\.html
+  login: required
   secure: always
 - url: /pond/
   static_dir: pond

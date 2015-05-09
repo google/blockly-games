@@ -17,6 +17,7 @@
   <div style="display: none">
     <span id="title">{msg meaning="Games.name" desc="IBID"}Blockly Games{/msg}</span>
     <span id="Index_clear">{msg meaning="Index.clear" desc="Confirmation prompt for deleting all the user's data."}Delete all your solutions?{/msg}</span>
+    <span id="Index_offline">{msg meaning="Index.offline" desc="Error message."}Sorry, this game is not available offline. Please use the online version of Blockly Games.{/msg}</span>
   </div>
 {/template}
 
@@ -143,7 +144,7 @@
       <circle cx=80 cy=60 r=50 class="iconBack" />
       <image xlink:href="index/{$app}.png" height="100" width="100" x=30 y=10 />
     {if $ij.html}
-      <a xlink:href="{$app}.html?lang={$ij.lang}">
+      <a id="link-{$app}" xlink:href="{$app}.html?lang={$ij.lang}">
     {else}
       <a xlink:href="{$app}?lang={$ij.lang}">
     {/if}
