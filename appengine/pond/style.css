@@ -2,6 +2,7 @@
   position: fixed;
   bottom: 10px;
 }
+
 #editor {
   font-size: 16pt;
   position: fixed !important;
@@ -9,9 +10,11 @@
   bottom: 10px;
   border: 1px solid #ddd;
 }
+
 #visualization {
   position: relative;
 }
+
 #display {
   border: 1px solid #ddd;
   vertical-align: bottom;
@@ -88,6 +91,23 @@ html[dir="RTL"] #closeDocs {
 
 #closeDocs:hover {
   opacity: 1;
+}
+
+.edit {
+  vertical-align: bottom;
+  opacity: .6;
+  transition: opacity .2s;
+  transition-timing-function: ease;
+}
+.grey {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+
+.edit:hover {
+  opacity: 1;
+  -webkit-filter: grayscale(0);
+  filter: grayscale(0);
 }
 
 /* Sprited icons. */

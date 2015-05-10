@@ -4,8 +4,13 @@
 
 #about {
   border: 1px solid #ddd;
-  position: fixed;
   bottom: 10px;
+  overflow-y: scroll;
+  position: fixed;
+}
+
+#about>* {
+  margin: 1em;
 }
 
 #docsButton:disabled {

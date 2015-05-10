@@ -9,6 +9,20 @@
   <link rel="stylesheet" href="pond/style.css">
   <link rel="stylesheet" href="pond/duck/style.css">
   <script src="js-read-only/ace/ace.js"></script>
+<script>
+var DATA = {
+  editable: true,
+  id: '123456',
+  name: 'Quacker',
+  description: 'Now I am become Death, the destroyer of worlds.',
+  level: 3,
+  modified: 23456,
+  owner_id: '987',
+  owner_name: 'Neil Fraser',
+  xml: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="pond_loops_while" id="13" inline="true" x="50" y="30"><value name="BOOL"><block type="logic_boolean" id="31"><field name="BOOL">TRUE</field></block></value><statement name="DO"><block type="pond_cannon" id="1" inline="true"><value name="DEGREE"><block type="pond_math_number" id="2"><field name="NUM">315</field></block></value><value name="RANGE"><block type="pond_math_number" id="3"><field name="NUM">50</field></block></value></block></statement></block></xml>',
+  javascript: 'while (true) {\n  cannon(315, 50);\n}\n\n'
+};
+</script>
   <script src="common/boot.js"></script>
 </head>
 <body>

@@ -27,17 +27,15 @@
     {call BlocklyGames.soy.titleSpan}
       {param appName}
         {msg meaning="Games.pond" desc="IBID"}Pond{/msg} :{sp}
-        {if $ij.name}
-          {$ij.name}
-        {else}
-          {msg meaning="Pond.anonymous" desc="Placeholder name if a user has not created a nickname."}Anonymous{/msg}
-        {/if}
+        {call Pond.soy.userName}
+          {param name: $ij.name /}
+        {/call}
       {/param}
     {/call}
     {if $ij.editable}
       {sp}<img src="pond/edit.png" class="edit{if $ij.name} grey{/if}" height=19 width=19 alt="Edit">
     {/if}
-    {sp}&nbsp; <span class="level_number level_done" id="level">{msg meaning="Pond.level" desc="IBID"}Level{/msg} {$ij.level}</span>
+    {call Pond.soy.titleLevel /}
   </h1>
 
   <p id="description">
@@ -60,7 +58,7 @@
       <thead>
         <tr>
           <th class="nocase">{msg meaning="Puzzle.animal1" desc="IBID"}Duck{/msg}</th>
-          <th class="num">{msg meaning="Pond.level" desc="Table column heading. Level is a number from 1-10."}Level{/msg}</th>
+          <th class="num">{msg meaning="Pond.level" desc="IBID"}Level{/msg}</th>
           <th class="num">{msg meaning="Pond.lastModified" desc="Table column heading. Hours, days or months since last change."}Last Modified{/msg}</th>
         </tr>
       </thead>
@@ -89,7 +87,13 @@
       </tbody>
     </table>
   {/if}
-
+  {if $ij.editable}
+    <p>
+      <button id="newDuckButton" class="primary" title="{msg meaning="Pond.newTooltip" desc="tooltip - Pressing this button creates a new duck."}Create a new duck.{/msg}">
+        <img src="pond/user/plus.png"> {msg meaning="Pond.newDuck" desc="button label - Pressing this button creates a new duck."}Create Duck{/msg}
+      </button>
+    </p>
+  {/if}
   {call BlocklyGames.soy.dialog /}
 
 {/template}

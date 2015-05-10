@@ -48,7 +48,7 @@ Pond.User.init = function() {
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML,
        editable: DATA['editable'],
-       name: DATA['user_name'],
+       name: DATA['name'],
        description: DATA['description'],
        ducks: DATA['ducks'],
        level: level});

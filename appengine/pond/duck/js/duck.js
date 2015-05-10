@@ -60,7 +60,13 @@ Pond.Duck.init = function() {
   // Render the Soy template.
   document.body.innerHTML = Pond.Duck.soy.start({}, null,
       {lang: BlocklyGames.LANG,
-       html: BlocklyGames.IS_HTML});
+       html: BlocklyGames.IS_HTML,
+       editable: DATA['editable'],
+       name: DATA['name'],
+       description: DATA['description'],
+       owner_id: DATA['owner_id'],
+       owner_name: DATA['owner_name'],
+       level: DATA['level']});
 
   Pond.init();
 
@@ -104,6 +110,23 @@ Pond.Duck.init = function() {
         Pond.Duck.changeTab(index);
       });
 
+  if (DATA['javascript'] && !DATA['xml']) {
+    Pond.Duck.blocksEnabled_ = false;
+    Pond.Duck.tabbar.getChildAt(1).setEnabled(false);
+  }
+
+  // Inject JS editor.
+  var defaultCode = DATA['javascript'] ||'cannon(0, 70);';
+  BlocklyInterface.editor = window['ace']['edit']('editor');
+  BlocklyInterface.editor['setTheme']('ace/theme/chrome');
+  BlocklyInterface.editor['setShowPrintMargin'](false);
+  var session = BlocklyInterface.editor['getSession']();
+  session['setMode']('ace/mode/javascript');
+  session['setTabSize'](2);
+  session['setUseSoftTabs'](true);
+  session['on']('change', Pond.Duck.editorChanged);
+  BlocklyInterface.editor['setValue'](defaultCode, -1);
+
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
@@ -113,8 +136,7 @@ Pond.Duck.init = function() {
        'trashcan': true});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,loc_y');
-
-  var defaultXml =
+  var defaultXml = DATA['xml'] ||
       '<xml>' +
       '  <block type="pond_cannon" x="70" y="70">' +
       '    <value name="DEGREE">' +
@@ -129,20 +151,10 @@ Pond.Duck.init = function() {
       '    </value>' +
       '  </block>' +
       '</xml>';
-  BlocklyInterface.loadBlocks(defaultXml);
-
-  // Inject JS editor.
-  var defaultCode = 'cannon(0, 70);';
-  BlocklyInterface.editor = window['ace']['edit']('editor');
-  BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-  BlocklyInterface.editor['setShowPrintMargin'](false);
-  var session = BlocklyInterface.editor['getSession']();
-  session['setMode']('ace/mode/javascript');
-  session['setTabSize'](2);
-  session['setUseSoftTabs'](true);
-  session['on']('change', Pond.Duck.editorChanged);
-
-  BlocklyInterface.loadBlocks(defaultCode + '\n', BlocklyGames.LEVEL != 4);
+  var xml = Blockly.Xml.textToDom(defaultXml);
+  // Clear the workspace to avoid merge.
+  BlocklyGames.workspace.clear();
+  Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
 
   var players = [
     {

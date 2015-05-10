@@ -65,5 +65,23 @@
     <img src="media/1x1.gif" class="close icon21" id="closeDocs">
     <iframe id="frameDocs"></iframe>
   </div>
+{/template}
 
+/**
+ * Print the user's name (or a localized version of 'Anonymous').
+ * @param name Name of user.
+ */
+{template .userName}
+  {if $name}
+    {$name}
+  {else}
+    {msg meaning="Pond.anonymousUser" desc="Placeholder name if a user has not created a nickname."}Anonymous{/msg}
+  {/if}
+{/template}
+
+/**
+ * Print the user's name (or a localized version of 'Anonymous').
+ */
+{template .titleLevel}
+  {sp}&nbsp; <span class="level_number level_done" id="level">{msg meaning="Pond.level" desc="Heading. Level is a number from 1-10."}Level{/msg} {$ij.level}</span>
 {/template}

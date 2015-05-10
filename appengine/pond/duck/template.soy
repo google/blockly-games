@@ -33,9 +33,18 @@
   <h1>
     {call BlocklyGames.soy.titleSpan}
       {param appName}
-        {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+        {msg meaning="Games.pond" desc="IBID"}Pond{/msg} :{sp}
+        {if $ij.name}
+          {$ij.name}
+        {else}
+          {msg meaning="Puzzle.animal1" desc="IBID"}Duck{/msg}
+        {/if}
       {/param}
     {/call}
+    {if $ij.editable}
+      {sp}<img src="pond/edit.png" class="edit{if $ij.name} grey{/if}" height=19 width=19 alt="Edit">
+    {/if}
+    {call Pond.soy.titleLevel /}
   </h1>
 
   {call Pond.soy.visualization /}
@@ -47,7 +56,25 @@
       <div class="goog-tab">JavaScript</div>
     </div>
     <div class="goog-tab-bar-clear"></div>
-    <div id="about"></div>
+    <div id="about">
+      <p id="description">
+        {if $ij.description}
+          {$ij.description}
+        {else}
+          {msg meaning="Pond.noDesc" desc="IBID"}No description yet...{/msg}
+        {/if}
+        {if $ij.editable}
+          {sp}&nbsp; <img src="pond/edit.png" class="edit{if $ij.description} grey{/if}" height=19 width=19 alt="Edit">
+        {/if}
+      </p>
+      <p>
+        Programmed by <a href="pond-user?id={$ij.owner_id}">
+          {call Pond.soy.userName}
+            {param name: $ij.owner_name /}
+          {/call}
+        </a>.
+      </p>
+    </div>
     <div id="blockly"></div>
     <div id="editor"></div>
   </div>
