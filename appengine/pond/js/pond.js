@@ -32,8 +32,8 @@ goog.require('goog.math.Coordinate');
 
 
 /**
- * Optinal callback function for when a game ends.
- * @type Function
+ * Optional callback function for when a game ends.
+ * @type function(number)
  */
 Pond.endBattle = null;
 

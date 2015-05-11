@@ -57,7 +57,7 @@ class Duck(ndb.Model):
 # Check if user exist, then maybe create user if not
 user = users.get_current_user()
 print("Status: 302")
-print("Location: /pond-player?id=%s" % user.user_id)
+print("Location: /pond-player?id=%s" % user.user_id())
 
 #player_id = Player.query(Player.user_id == user.user_id).get()
 #Can't use Player.get_by_id(user.user_id) because user_id is not id

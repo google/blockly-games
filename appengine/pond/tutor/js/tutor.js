@@ -342,6 +342,7 @@ Pond.Tutor.PLAYERS = [
 /**
  * Callback function for when a game ends.
  * @param {number} survivors Number of avatars left alive.
+ * @suppress {duplicate}
  */
 Pond.endBattle = function(survivors) {
   Pond.Visualization.stop();
