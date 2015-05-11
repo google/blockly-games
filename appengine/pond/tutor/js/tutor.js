@@ -163,9 +163,9 @@ Pond.Tutor.init = function() {
 
   onresize();
 
-  for (var playerData, i = 0; playerData = Pond.Tutor.PLAYERS[i]; i++) {
-    if (playerData.code) {
-      var div = document.getElementById(playerData.code);
+  for (var avatarData, i = 0; avatarData = Pond.Tutor.PLAYERS[i]; i++) {
+    if (avatarData.code) {
+      var div = document.getElementById(avatarData.code);
       var code = div.textContent;
     } else {
       if (blocklyDiv) {
@@ -176,8 +176,8 @@ Pond.Tutor.init = function() {
         var code = function() {return BlocklyInterface.editor['getValue']()};
       }
     }
-    var name = BlocklyGames.getMsg(playerData.name);
-    Pond.Battle.addPlayer(name, code, playerData.start, playerData.damage);
+    var name = BlocklyGames.getMsg(avatarData.name);
+    Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);
   }
   Pond.reset();
 };
@@ -341,7 +341,7 @@ Pond.Tutor.PLAYERS = [
 
 /**
  * Callback function for when a game ends.
- * @param {number} survivors Number of players left alive.
+ * @param {number} survivors Number of avatars left alive.
  */
 Pond.endBattle = function(survivors) {
   Pond.Visualization.stop();
@@ -352,7 +352,7 @@ Pond.endBattle = function(survivors) {
     if (typeof Pond.Battle.RANK[0].code_ == 'function') {
       if ((BlocklyGames.LEVEL == 5 || BlocklyGames.LEVEL == 6) &&
           Pond.Battle.ticks > 200000) {
-        // Player just pinged Pendulum to death with fixed range.
+        // Avatar just pinged Pendulum to death with fixed range.
         // Use 'scan', dummy.
         var content = document.getElementById('helpUseScan');
         var style = {

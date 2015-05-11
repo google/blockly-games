@@ -97,9 +97,9 @@ handlers:
   script: pond-db.py
   login: required
   secure: always
-- url: /pond-user
-  static_files: pond-user.html
-  upload: pond-user\.html
+- url: /pond-player
+  static_files: pond-player.html
+  upload: pond-player\.html
   login: required
   secure: always
 - url: /pond-duck

@@ -20,25 +20,25 @@
   vertical-align: bottom;
 }
 
-#playerStatTable {
+#avatarStatTable {
   width: 406px;
   max-width: 406px;
   margin-left: -2px;
   height: 20px;
 }
 
-#playerStatRow>td {
+#avatarStatRow>td {
   padding: 0;
   border: 1px solid;
   background: #ccc;
   border-radius: 2px;
 }
 
-#playerStatRow>td>div:not(.playerStatHealth) {
+#avatarStatRow>td>div:not(.avatarStatHealth) {
   padding: 1px;
 }
 
-.playerStatName {
+.avatarStatName {
   position: absolute;
   color: #fff;
   overflow: hidden;
@@ -46,7 +46,7 @@
   white-space: nowrap;
 }
 
-.playerStatHealth {
+.avatarStatHealth {
   position: absolute;
 }
 

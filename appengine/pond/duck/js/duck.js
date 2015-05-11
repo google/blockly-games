@@ -66,8 +66,8 @@ Pond.Duck.init = function() {
        name: DATA['name'],
        description: DATA['description'],
        modified: DATA['modified'],
-       owner_id: DATA['owner_id'],
-       owner_name: DATA['owner_name'],
+       player_id: DATA['player_id'],
+       player_name: DATA['player_name'],
        level: DATA['level']});
 
   Pond.init();
@@ -199,7 +199,7 @@ Pond.Duck.init = function() {
       };
     }
     var name = BlocklyGames.getMsg(playerData.name);
-    Pond.Battle.addPlayer(name, code, playerData.start, playerData.damage);
+    Pond.Battle.addAvatar(name, code, playerData.start, playerData.damage);
   }
   Pond.reset();
   Pond.Duck.changeTab(0);

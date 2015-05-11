@@ -157,7 +157,7 @@ Blockly.JavaScript['pond_stop'] = function(block) {
 
 Blockly.Blocks['pond_health'] = {
   /**
-   * Block for player health.
+   * Block for avatar health.
    * @this Blockly.Block
    */
   init: function() {
@@ -170,13 +170,13 @@ Blockly.Blocks['pond_health'] = {
 };
 
 Blockly.JavaScript['pond_health'] = function(block) {
-  // Generate JavaScript for player health.
+  // Generate JavaScript for avatar health.
   return ['health()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['pond_speed'] = {
   /**
-   * Block for player speed.
+   * Block for avatar speed.
    * @this Blockly.Block
    */
   init: function() {
@@ -189,7 +189,7 @@ Blockly.Blocks['pond_speed'] = {
 };
 
 Blockly.JavaScript['pond_speed'] = function(block) {
-  // Generate JavaScript for player speed.
+  // Generate JavaScript for avatar speed.
   return ['speed()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 

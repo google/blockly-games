@@ -18,12 +18,12 @@
  */
 
 /**
- * @fileoverview A single player.
+ * @fileoverview A single avatar.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
-goog.provide('Pond.Player');
+goog.provide('Pond.Avatar');
 
 goog.require('goog.math');
 goog.require('goog.math.Coordinate');
@@ -31,15 +31,15 @@ goog.require('goog.net.XhrIo');
 
 
 /**
- * Class for a player.
- * @param {string} name Player's name.
- * @param {string|!Function} code Player's code, or generator.
+ * Class for a avatar.
+ * @param {string} name Avatar's name.
+ * @param {string|!Function} code Avatar's code, or generator.
  * @param {!goog.math.Coordinate} startLoc Start location.
- * @param {?number} startDamage Initial damage to player (0-100, default 0).
- * @param {!Pond.Battle} battle The battle featuring the player.
+ * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
+ * @param {!Pond.Battle} battle The battle featuring the avatar.
  * @constructor
  */
-Pond.Player = function(name, code, startLoc, startDamage, battle) {
+Pond.Avatar = function(name, code, startLoc, startDamage, battle) {
   this.name = name;
   this.code_ = code;
   this.startLoc_ = startLoc;
@@ -51,63 +51,63 @@ Pond.Player = function(name, code, startLoc, startDamage, battle) {
 };
 
 /**
- * Has this player fully loaded and started playing?
+ * Has this avatar fully loaded and started playing?
  */
-Pond.Player.prototype.started = false;
+Pond.Avatar.prototype.started = false;
 
 /**
- * Has the player been killed?
+ * Has the avatar been killed?
  */
-Pond.Player.prototype.dead = false;
+Pond.Avatar.prototype.dead = false;
 
 /**
- * Damage of this player (0 = perfect, 100 = dead).
+ * Damage of this avatar (0 = perfect, 100 = dead).
  */
-Pond.Player.prototype.damage = 0;
+Pond.Avatar.prototype.damage = 0;
 
 /**
- * Heading the player is moving in (0 - 360).
+ * Heading the avatar is moving in (0 - 360).
  */
-Pond.Player.prototype.degree = 0;
+Pond.Avatar.prototype.degree = 0;
 
 /**
- * Direction the player's head is facing (0 - 360).
+ * Direction the avatar's head is facing (0 - 360).
  */
-Pond.Player.prototype.facing = 0;
+Pond.Avatar.prototype.facing = 0;
 
 /**
- * Speed the player is actually moving (0 - 100).
+ * Speed the avatar is actually moving (0 - 100).
  */
-Pond.Player.prototype.speed = 0;
+Pond.Avatar.prototype.speed = 0;
 
 /**
- * Speed the player is aiming to move at (0 - 100).
+ * Speed the avatar is aiming to move at (0 - 100).
  */
-Pond.Player.prototype.desiredSpeed = 0;
+Pond.Avatar.prototype.desiredSpeed = 0;
 
 /**
- * X/Y location of the player (0 - 100).
+ * X/Y location of the avatar (0 - 100).
  * @type goog.math.Coordinate
  */
-Pond.Player.prototype.loc = null;
+Pond.Avatar.prototype.loc = null;
 
 /**
  * Date of last missile.
  */
-Pond.Player.prototype.lastMissile = 0;
+Pond.Avatar.prototype.lastMissile = 0;
 
 /**
- * A text representation of this player for debugging purposes.
+ * A text representation of this avatar for debugging purposes.
  * @return {string} String representation.
  */
-Pond.Player.prototype.toString = function() {
+Pond.Avatar.prototype.toString = function() {
   return '[' + this.name + ']';
 };
 
 /**
- * Reset this player to a starting state.
+ * Reset this avatar to a starting state.
  */
-Pond.Player.prototype.reset = function() {
+Pond.Avatar.prototype.reset = function() {
   delete this.started;
   delete this.dead;
   delete this.speed;
@@ -124,7 +124,7 @@ Pond.Player.prototype.reset = function() {
   if (goog.isFunction(code)) {
     code = code();
   } else if (!goog.isString(code)) {
-    throw 'Player ' + this.name + ' has invalid code: ' + code;
+    throw 'Avatar ' + this.name + ' has invalid code: ' + code;
   }
   if ('Interpreter' in window) {
     this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
@@ -134,10 +134,10 @@ Pond.Player.prototype.reset = function() {
 };
 
 /**
- * Damage the player.
+ * Damage the avatar.
  * @param {number} add Amount of damage to add.
  */
-Pond.Player.prototype.addDamage = function(add) {
+Pond.Avatar.prototype.addDamage = function(add) {
   this.damage += add;
   if (this.damage >= 100) {
     this.die();
@@ -145,27 +145,27 @@ Pond.Player.prototype.addDamage = function(add) {
 };
 
 /**
- * Kill this player.
+ * Kill this avatar.
  */
-Pond.Player.prototype.die = function() {
+Pond.Avatar.prototype.die = function() {
   this.speed = 0;
   this.dead = true;
   this.damage = 100;
   this.battle_.RANK.unshift(this);
-  this.battle_.EVENTS.push({'type': 'DIE', 'player': this});
+  this.battle_.EVENTS.push({'type': 'DIE', 'avatar': this});
   console.log(this + ' sinks.');
 };
 
 // API functions exposed to the user.
 
 /**
- * Scan in a direction for the nearest player.
+ * Scan in a direction for the nearest avatar.
  * @param {number} degree Scan in this direction (wrapped to 0-360).
  * @param {number} opt_resolution Sensing resolution, 1 to 20 degrees.
  *   Defaults to 5.
- * @return {number} Distance (0 - ~141), or Infinity if no player detected.
+ * @return {number} Distance (0 - ~141), or Infinity if no avatar detected.
  */
-Pond.Player.prototype.scan = function(degree, opt_resolution) {
+Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   var resolution;
   if (opt_resolution === undefined || opt_resolution === null) {
     resolution = 5;
@@ -179,7 +179,7 @@ Pond.Player.prototype.scan = function(degree, opt_resolution) {
   degree = goog.math.standardAngle(degree);
   resolution = goog.math.clamp(resolution, 0, 20);
 
-  this.battle_.EVENTS.push({'type': 'SCAN', 'player': this,
+  this.battle_.EVENTS.push({'type': 'SCAN', 'avatar': this,
                             'degree': degree, 'resolution': resolution});
 
   // Compute both edges of the scan.
@@ -192,7 +192,7 @@ Pond.Player.prototype.scan = function(degree, opt_resolution) {
   var locY = this.loc.y;
   // Check every enemy for existance in the scan beam.
   var closest = Infinity;
-  for (var i = 0, enemy; enemy = this.battle_.PLAYERS[i]; i++) {
+  for (var i = 0, enemy; enemy = this.battle_.AVATARS[i]; i++) {
     if (enemy == this || enemy.dead) {
       continue;
     }
@@ -204,7 +204,7 @@ Pond.Player.prototype.scan = function(degree, opt_resolution) {
     if (range >= closest) {
       continue;
     }
-    // Compute angle between player and enemy's centre.
+    // Compute angle between avatar and enemy's centre.
     var angle = Math.atan2(ey - locY, ex - locX);
     angle = goog.math.standardAngle(goog.math.toDegrees(angle));
     // Raise angle by 360 if needed (handles wrapping).
@@ -220,11 +220,11 @@ Pond.Player.prototype.scan = function(degree, opt_resolution) {
 };
 
 /**
- * Commands the player to move in the specified heading at the specified speed.
+ * Commands the avatar to move in the specified heading at the specified speed.
  * @param {number} degree Heading (0-360).
  * @param {number} opt_speed Desired speed (0-100).  Defaults to 50.
  */
-Pond.Player.prototype.drive = function(degree, opt_speed) {
+Pond.Avatar.prototype.drive = function(degree, opt_speed) {
   var speed;
   if (opt_speed === undefined || opt_speed === null) {
     speed = 50;
@@ -242,32 +242,32 @@ Pond.Player.prototype.drive = function(degree, opt_speed) {
       this.degree = goog.math.standardAngle(degree);
       this.facing = this.degree;
     } else {
-      // Stop the player if an over-speed turn was commanded.
+      // Stop the avatar if an over-speed turn was commanded.
       speed = 0;
     }
   }
   if (this.speed == 0 && speed > 0) {
-    // If starting, bump the speed immediately so that players can see a change.
+    // If starting, bump the speed immediately so that avatars can see a change.
     this.speed = 0.1;
   }
   this.desiredSpeed = goog.math.clamp(speed, 0, 100);
 };
 
 /**
- * Commands the player to stop.
+ * Commands the avatar to stop.
  */
-Pond.Player.prototype.stop = function() {
+Pond.Avatar.prototype.stop = function() {
   this.desiredSpeed = 0;
 };
 
 /**
- * Commands the player to shoot in the specified heading at the specified range.
+ * Commands the avatar to shoot in the specified heading at the specified range.
  * @param {number} degree Heading (0-360).
  * @param {number} range Distance to impact (0-70).
  * @return {boolean} True if cannon fired, false if still reloading from a
  *     previous shot.
  */
-Pond.Player.prototype.cannon = function(degree, range) {
+Pond.Avatar.prototype.cannon = function(degree, range) {
   if (!goog.isNumber(degree) || isNaN(degree) ||
       !goog.isNumber(range) || isNaN(range)) {
     throw TypeError;
@@ -285,7 +285,7 @@ Pond.Player.prototype.cannon = function(degree, range) {
       startLoc.x + goog.math.angleDx(degree, range),
       startLoc.y + goog.math.angleDy(degree, range));
   var missile = {
-    player: this,
+    avatar: this,
     startLoc: startLoc,
     degree: degree,
     range: range,
@@ -293,7 +293,7 @@ Pond.Player.prototype.cannon = function(degree, range) {
     progress: 0
   };
   this.battle_.MISSILES.push(missile);
-  this.battle_.EVENTS.push({'type': 'BANG', 'player': this,
+  this.battle_.EVENTS.push({'type': 'BANG', 'avatar': this,
       'degree': missile.degree});
   return true;
 };

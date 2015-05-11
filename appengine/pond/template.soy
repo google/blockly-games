@@ -37,9 +37,9 @@
     <canvas id="display" width="400" height="400"></canvas>
   </div>
 
-  <table id="playerStatTable">
+  <table id="avatarStatTable">
     <tbody>
-      <tr id="playerStatRow"></tr>
+      <tr id="avatarStatRow"></tr>
     </tbody>
   </table>
 
@@ -68,14 +68,14 @@
 {/template}
 
 /**
- * Print the user's name (or a localized version of 'Anonymous').
- * @param name Name of user.
+ * Print the player's name (or a localized version of 'Anonymous').
+ * @param name Name of player.
  */
-{template .userName}
+{template .playerName}
   {if $name}
     {$name}
   {else}
-    {msg meaning="Pond.anonymousUser" desc="Placeholder name if a user has not created a nickname."}Anonymous{/msg}
+    {msg meaning="Pond.anonymousPlayer" desc="Placeholder name if a player has not created a nickname."}Anonymous{/msg}
   {/if}
 {/template}
 
@@ -93,7 +93,7 @@
 {/template}
 
 /**
- * Print the duck or user's level as a title.
+ * Print the duck or player's level as a title.
  */
 {template .titleLevel}
   {sp}&nbsp; <span class="level_number level_done" id="level">{msg meaning="Pond.level" desc="Heading. Level is a number from 1-10."}Level{/msg} {$ij.level}</span>

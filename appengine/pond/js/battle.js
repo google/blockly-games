@@ -18,27 +18,27 @@
  */
 
 /**
- * @fileoverview Creates an pond for players to compete in.
+ * @fileoverview Creates an pond for avatars to compete in.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 goog.provide('Pond.Battle');
 
-goog.require('Pond.Player');
+goog.require('Pond.Avatar');
 goog.require('goog.math');
 goog.require('goog.math.Coordinate');
 
 
 /**
- * List of players in this battle.
- * @type !Array.<!Pond.Player>
+ * List of avatars in this battle.
+ * @type !Array.<!Pond.Avatar>
  */
-Pond.Battle.PLAYERS = [];
+Pond.Battle.AVATARS = [];
 
 /**
- * Ordered list of player with the best player first.
- * @type !Array.<!Pond.Player>
+ * Ordered list of avatar with the best avatar first.
+ * @type !Array.<!Pond.Avatar>
  */
 Pond.Battle.RANK = [];
 
@@ -60,7 +60,7 @@ Pond.Battle.MISSILES = [];
 Pond.Battle.GAME_FPS = 50;
 
 /**
- * Speed of player execution.
+ * Speed of avatar execution.
  */
 Pond.Battle.STATEMENTS_PER_FRAME = 100;
 
@@ -70,15 +70,15 @@ Pond.Battle.STATEMENTS_PER_FRAME = 100;
 Pond.Battle.RELOAD_TIME = .5;
 
 /**
- * The player currently executing code.
- * @type Pond.Player
+ * The avatar currently executing code.
+ * @type Pond.Avatar
  */
-Pond.Battle.currentPlayer = null;
+Pond.Battle.currentAvatar = null;
 
 /**
- * Speed of player movement.
+ * Speed of avatar movement.
  */
-Pond.Battle.PLAYER_SPEED = 1;
+Pond.Battle.AVATAR_SPEED = 1;
 
 /**
  * Speed of missile movement.
@@ -91,7 +91,7 @@ Pond.Battle.MISSILE_SPEED = 3;
 Pond.Battle.ACCELERATION = 5;
 
 /**
- * Center to center distance for players to collide.
+ * Center to center distance for avatars to collide.
  */
 Pond.Battle.COLLISION_RADIUS = 5;
 
@@ -128,7 +128,7 @@ Pond.Battle.TIME_LIMIT = 5 * 60 * 1000;
 Pond.Battle.doneCallback_ = null;
 
 /**
- * Starting positions for players.
+ * Starting positions for avatars.
  */
 Pond.Battle.START_XY = [
   new goog.math.Coordinate(10, 90),
@@ -152,52 +152,52 @@ Pond.Battle.reset = function() {
   Pond.Battle.MISSILES.length = 0;
   Pond.Battle.RANK.length = 0;
   Pond.Battle.ticks = 0;
-  for (var i = 0, player; player = Pond.Battle.PLAYERS[i]; i++) {
-    player.reset();
+  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+    avatar.reset();
   }
 };
 
 /**
- * Create player and add it to the battle.
- * @param {string} name Name of player.
- * @param {string|!Function} code Player's code, or a code generator.
+ * Create avatar and add it to the battle.
+ * @param {string} name Name of avatar.
+ * @param {string|!Function} code Avatar's code, or a code generator.
  * @param {goog.math.Coordinate} opt_startLoc Start location.
- * @param {?number} opt_startDamage Initial damage to player (0-100, default 0).
+ * @param {?number} opt_startDamage Initial damage to avatar (0-100, default 0).
  */
-Pond.Battle.addPlayer = function(name, code, opt_startLoc, opt_startDamage) {
+Pond.Battle.addAvatar = function(name, code, opt_startLoc, opt_startDamage) {
   if (!opt_startLoc) {
-    var i = Pond.Battle.PLAYERS.length;
+    var i = Pond.Battle.AVATARS.length;
     opt_startLoc = Pond.Battle.START_XY[i];
   }
-  var player = new Pond.Player(name, code, opt_startLoc, opt_startDamage,
+  var avatar = new Pond.Avatar(name, code, opt_startLoc, opt_startDamage,
                                Pond.Battle);
-  Pond.Battle.PLAYERS.push(player);
+  Pond.Battle.AVATARS.push(avatar);
 };
 
 /**
- * Start the battle executing.  Players should already be added.
+ * Start the battle executing.  Avatars should already be added.
  * @param {Function} doneCallback Function to call when game ends.
  */
 Pond.Battle.start = function(doneCallback) {
   Pond.Battle.doneCallback_ = doneCallback;
   Pond.Battle.endTime_ = Date.now() + Pond.Battle.TIME_LIMIT;
-  console.log('Starting battle with ' + Pond.Battle.PLAYERS.length +
-              ' players.');
+  console.log('Starting battle with ' + Pond.Battle.AVATARS.length +
+              ' avatars.');
   Pond.Battle.update();
 };
 
 /**
- * Update the players states.
+ * Update the avatars states.
  */
 Pond.Battle.update = function() {
   // Execute a few statements.
   Pond.Battle.updateInterpreters_();
   // Update state of all missiles.
   Pond.Battle.updateMissiles_();
-  // Update state of all players.
-  Pond.Battle.updatePlayers_();
-  if (Pond.Battle.PLAYERS.length <= Pond.Battle.RANK.length + 1) {
-    // Game over because there are less than two players.
+  // Update state of all avatars.
+  Pond.Battle.updateAvatars_();
+  if (Pond.Battle.AVATARS.length <= Pond.Battle.RANK.length + 1) {
+    // Game over because there are less than two avatars.
     // Schedule the game to end in a second.
     Pond.Battle.endTime_ = Math.min(Pond.Battle.endTime_, Date.now() + 1000);
   }
@@ -214,9 +214,9 @@ Pond.Battle.update = function() {
 Pond.Battle.stop = function() {
   // Add the survivors to the ranks based on their damage.
   var survivors = [];
-  for (var i = 0, player; player = Pond.Battle.PLAYERS[i]; i++) {
-    if (!player.dead) {
-      survivors.push(player);
+  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+    if (!avatar.dead) {
+      survivors.push(avatar);
     }
   }
   var survivorCount = survivors.length;
@@ -240,15 +240,15 @@ Pond.Battle.updateMissiles_ = function() {
     if (missile.range - missile.progress < Pond.Battle.MISSILE_SPEED / 2) {
       // Boom.
       Pond.Battle.MISSILES.splice(i, 1);
-      // Damage any player in range.
-      for (var j = 0, player; player = Pond.Battle.PLAYERS[j]; j++) {
-        if (player.dead) {
+      // Damage any avatar in range.
+      for (var j = 0, avatar; avatar = Pond.Battle.AVATARS[j]; j++) {
+        if (avatar.dead) {
           continue;
         }
-        var range = goog.math.Coordinate.distance(player.loc, missile.endLoc);
+        var range = goog.math.Coordinate.distance(avatar.loc, missile.endLoc);
         var damage = (1 - range / 4) * 10;
         if (damage > 0) {
-          player.addDamage(damage);
+          avatar.addDamage(damage);
           maxDamage = Math.max(maxDamage, damage);
         }
       }
@@ -259,64 +259,64 @@ Pond.Battle.updateMissiles_ = function() {
 };
 
 /**
- * Update state of all players.
+ * Update state of all avatars.
  * @private
  */
-Pond.Battle.updatePlayers_ = function() {
-  for (var i = 0, player; player = Pond.Battle.PLAYERS[i]; i++) {
-    if (player.dead) {
+Pond.Battle.updateAvatars_ = function() {
+  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+    if (avatar.dead) {
       continue;
     }
     // Accelerate or decelerate.
-    if (player.speed < player.desiredSpeed) {
-      player.speed = Math.min(player.speed + Pond.Battle.ACCELERATION,
-                              player.desiredSpeed);
-    } else if (player.speed > player.desiredSpeed) {
-      player.speed = Math.max(player.speed - Pond.Battle.ACCELERATION,
-                              player.desiredSpeed);
+    if (avatar.speed < avatar.desiredSpeed) {
+      avatar.speed = Math.min(avatar.speed + Pond.Battle.ACCELERATION,
+                              avatar.desiredSpeed);
+    } else if (avatar.speed > avatar.desiredSpeed) {
+      avatar.speed = Math.max(avatar.speed - Pond.Battle.ACCELERATION,
+                              avatar.desiredSpeed);
     }
     // Move.
-    if (player.speed > 0) {
-      var tuple = Pond.Battle.closestNeighbour(player);
+    if (avatar.speed > 0) {
+      var tuple = Pond.Battle.closestNeighbour(avatar);
       var closestBefore = tuple[1];
-      var angleRadians = goog.math.toRadians(player.degree);
-      var speed = player.speed / 100 * Pond.Battle.PLAYER_SPEED;
+      var angleRadians = goog.math.toRadians(avatar.degree);
+      var speed = avatar.speed / 100 * Pond.Battle.AVATAR_SPEED;
       var dx = Math.cos(angleRadians) * speed;
       var dy = Math.sin(angleRadians) * speed;
-      player.loc.x += dx;
-      player.loc.y += dy;
-      if (player.loc.x < 0 || player.loc.x > 100 ||
-          player.loc.y < 0 || player.loc.y > 100) {
+      avatar.loc.x += dx;
+      avatar.loc.y += dy;
+      if (avatar.loc.x < 0 || avatar.loc.x > 100 ||
+          avatar.loc.y < 0 || avatar.loc.y > 100) {
         // Collision with wall.
-        player.loc.x = goog.math.clamp(player.loc.x, 0, 100);
-        player.loc.y = goog.math.clamp(player.loc.y, 0, 100);
-        var damage = player.speed / 100 * Pond.Battle.COLLISION_DAMAGE;
-        player.addDamage(damage);
-        player.speed = 0;
-        player.desiredSpeed = 0;
+        avatar.loc.x = goog.math.clamp(avatar.loc.x, 0, 100);
+        avatar.loc.y = goog.math.clamp(avatar.loc.y, 0, 100);
+        var damage = avatar.speed / 100 * Pond.Battle.COLLISION_DAMAGE;
+        avatar.addDamage(damage);
+        avatar.speed = 0;
+        avatar.desiredSpeed = 0;
         Pond.Battle.EVENTS.push(
-            {'type': 'CRASH', 'player': player, 'damage': damage});
+            {'type': 'CRASH', 'avatar': avatar, 'damage': damage});
       } else {
-        var tuple = Pond.Battle.closestNeighbour(player);
+        var tuple = Pond.Battle.closestNeighbour(avatar);
         var neighbour = tuple[0];
         var closestAfter = tuple[1];
         if (closestAfter < Pond.Battle.COLLISION_RADIUS &&
              closestBefore > closestAfter) {
-          // Collision with another player.
-          player.loc.x -= dx;
-          player.loc.y -= dy;
-          var damage = Math.max(player.speed, neighbour.speed) / 100 *
+          // Collision with another avatar.
+          avatar.loc.x -= dx;
+          avatar.loc.y -= dy;
+          var damage = Math.max(avatar.speed, neighbour.speed) / 100 *
               Pond.Battle.COLLISION_DAMAGE;
-          player.addDamage(damage);
-          player.speed = 0;
-          player.desiredSpeed = 0;
+          avatar.addDamage(damage);
+          avatar.speed = 0;
+          avatar.desiredSpeed = 0;
           neighbour.addDamage(damage);
           neighbour.speed = 0;
           neighbour.desiredSpeed = 0;
           Pond.Battle.EVENTS.push(
-              {'type': 'CRASH', 'player': player, 'damage': damage});
+              {'type': 'CRASH', 'avatar': avatar, 'damage': damage});
           Pond.Battle.EVENTS.push(
-              {'type': 'CRASH', 'player': neighbour, 'damage': damage});
+              {'type': 'CRASH', 'avatar': neighbour, 'damage': damage});
         }
       }
     }
@@ -324,25 +324,25 @@ Pond.Battle.updatePlayers_ = function() {
 };
 
 /**
- * Let the players think.
+ * Let the avatars think.
  * @private
  */
 Pond.Battle.updateInterpreters_ = function() {
   for (var j = 0; j < Pond.Battle.STATEMENTS_PER_FRAME; j++) {
     Pond.Battle.ticks++;
-    for (var i = 0, player; player = Pond.Battle.PLAYERS[i]; i++) {
-      if (player.dead) {
+    for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+      if (avatar.dead) {
         continue;
       }
-      Pond.Battle.currentPlayer = player;
+      Pond.Battle.currentAvatar = avatar;
       try {
-        player.interpreter.step();
+        avatar.interpreter.step();
       } catch (e) {
-        console.log(player + ' throws an error: ' + e);
-        console.dir(player.interpreter.stateStack);
-        player.die();
+        console.log(avatar + ' throws an error: ' + e);
+        console.dir(avatar.interpreter.stateStack);
+        avatar.die();
       }
-      Pond.Battle.currentPlayer = null;
+      Pond.Battle.currentAvatar = null;
     }
   }
 };
@@ -357,7 +357,7 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
   var wrapper;
   wrapper = function(degree, resolution) {
     return interpreter.createPrimitive(
-        Pond.Battle.currentPlayer.scan(degree && degree.valueOf(),
+        Pond.Battle.currentAvatar.scan(degree && degree.valueOf(),
             resolution && resolution.valueOf()));
   };
   interpreter.setProperty(scope, 'scan',
@@ -365,14 +365,14 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
 
   wrapper = function(degree, range) {
     return interpreter.createPrimitive(
-        Pond.Battle.currentPlayer.cannon(degree && degree.valueOf(),
+        Pond.Battle.currentAvatar.cannon(degree && degree.valueOf(),
             range && range.valueOf()));
   };
   interpreter.setProperty(scope, 'cannon',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(degree, speed) {
-    Pond.Battle.currentPlayer.drive(degree && degree.valueOf(),
+    Pond.Battle.currentAvatar.drive(degree && degree.valueOf(),
         speed && speed.valueOf());
   };
   interpreter.setProperty(scope, 'drive',
@@ -381,37 +381,37 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    Pond.Battle.currentPlayer.stop();
+    Pond.Battle.currentAvatar.stop();
   };
   interpreter.setProperty(scope, 'stop',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentPlayer.damage);
+    return interpreter.createPrimitive(Pond.Battle.currentAvatar.damage);
   };
   interpreter.setProperty(scope, 'damage',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(100 - Pond.Battle.currentPlayer.damage);
+    return interpreter.createPrimitive(100 - Pond.Battle.currentAvatar.damage);
   };
   interpreter.setProperty(scope, 'health',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentPlayer.speed);
+    return interpreter.createPrimitive(Pond.Battle.currentAvatar.speed);
   };
   interpreter.setProperty(scope, 'speed',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentPlayer.loc.x);
+    return interpreter.createPrimitive(Pond.Battle.currentAvatar.loc.x);
   };
   interpreter.setProperty(scope, 'loc_x',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentPlayer.loc.y);
+    return interpreter.createPrimitive(Pond.Battle.currentAvatar.loc.y);
   };
   interpreter.setProperty(scope, 'loc_y',
       interpreter.createNativeFunction(wrapper));
@@ -463,17 +463,17 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
 };
 
 /**
- * Finds the distance between the given player and its nearest neighbour.
- * @param {!Pond.Player} player The player to find distances from.
- * @return {!Array} Tuple of closest player and distance to that player.
+ * Finds the distance between the given avatar and its nearest neighbour.
+ * @param {!Pond.Avatar} avatar The avatar to find distances from.
+ * @return {!Array} Tuple of closest avatar and distance to that avatar.
  */
-Pond.Battle.closestNeighbour = function(player) {
+Pond.Battle.closestNeighbour = function(avatar) {
   var closest = null;
   var distance = Infinity;
-  for (var i = 0, neighbour; neighbour = Pond.Battle.PLAYERS[i]; i++) {
-    if (!neighbour.dead && player != neighbour) {
+  for (var i = 0, neighbour; neighbour = Pond.Battle.AVATARS[i]; i++) {
+    if (!neighbour.dead && avatar != neighbour) {
       var thisDistance = Math.min(distance,
-          goog.math.Coordinate.distance(player.loc, neighbour.loc));
+          goog.math.Coordinate.distance(avatar.loc, neighbour.loc));
       if (thisDistance < distance) {
         distance = thisDistance;
         closest = neighbour;

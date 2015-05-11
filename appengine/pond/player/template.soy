@@ -1,10 +1,10 @@
-{namespace Pond.User.soy}
+{namespace Pond.Player.soy}
 
 /**
  * This is a Closure Template.
  *
  * To regenerate just English, run:
- *   make pond-user-en
+ *   make pond-player-en
  *
  * To regenerate all languages, run:
  *   make languages
@@ -27,7 +27,7 @@
     {call BlocklyGames.soy.titleSpan}
       {param appName}
         {msg meaning="Games.pond" desc="IBID"}Pond{/msg} :{sp}
-        {call Pond.soy.userName}
+        {call Pond.soy.playerName}
           {param name: $ij.name /}
         {/call}
       {/param}
@@ -43,7 +43,7 @@
     {if $ij.description}
       {$ij.description}
     {else}
-      {msg meaning="Pond.noDesc" desc="Placeholder text if a user has not added a description."}No description yet...{/msg}
+      {msg meaning="Pond.noDesc" desc="Placeholder text if a player has not added a description."}No description yet...{/msg}
     {/if}
     <img src="pond/quote1.png" class="quote1" alt='"'>
     {if $ij.editable}
@@ -53,7 +53,7 @@
 
   {if length($ij.ducks) == 0}
     <p>
-      {msg meaning="Pond.noDucks" desc="Placeholder text if a user has no ducks."}No ducks yet...{/msg}
+      {msg meaning="Pond.noDucks" desc="Placeholder text if a player has no ducks."}No ducks yet...{/msg}
     </p>
   {else}
     <table id="duck-table">
@@ -89,7 +89,7 @@
   {if $ij.editable}
     <p>
       <button id="newDuckButton" class="primary" title="{msg meaning="Pond.newTooltip" desc="tooltip - Pressing this button creates a new duck."}Create a new duck.{/msg}">
-        <img src="pond/user/plus.png"> {msg meaning="Pond.newDuck" desc="button label - Pressing this button creates a new duck."}Create Duck{/msg}
+        <img src="pond/player/plus.png"> {msg meaning="Pond.newDuck" desc="button label - Pressing this button creates a new duck."}Create Duck{/msg}
       </button>
     </p>
   {/if}

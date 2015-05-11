@@ -18,33 +18,33 @@
  */
 
 /**
- * @fileoverview Creates a multi-user pond (user page).
+ * @fileoverview Creates a multi-user pond (player page).
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
-goog.provide('Pond.User');
+goog.provide('Pond.Player');
 
-goog.require('Pond.User.soy');
+goog.require('Pond.Player.soy');
 goog.require('BlocklyGames');
 goog.require('TableSort');
 
 
-BlocklyGames.NAME = 'pond-user';
+BlocklyGames.NAME = 'pond-player';
 
 
 /**
  * Initialize Ace and the pond.  Called on page load.
  */
-Pond.User.init = function() {
-  // User's level is equal to their best duck.
+Pond.Player.init = function() {
+  // Player's level is equal to their best duck.
   var level = 1;
   for (var i = 0; i < DATA['ducks'].length; i++) {
     level = Math.max(level, DATA['ducks'][i]['level']);
   }
 
   // Render the Soy template.
-  document.body.innerHTML = Pond.User.soy.start({}, null,
+  document.body.innerHTML = Pond.Player.soy.start({}, null,
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML,
        editable: DATA['editable'],
@@ -66,4 +66,4 @@ Pond.User.init = function() {
 };
 
 
-window.addEventListener('load', Pond.User.init);
+window.addEventListener('load', Pond.Player.init);

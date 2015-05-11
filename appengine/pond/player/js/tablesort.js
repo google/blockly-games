@@ -29,17 +29,17 @@ goog.provide('TableSort');
 /**
  * HTML for up indicator (sorted small to big).
  */
-TableSort.arrowUp = '<img src="pond/user/arrowUp.png" height=21 width=20 alt="&#x25b2;">';
+TableSort.arrowUp = '<img src="pond/player/arrowUp.png" height=21 width=20 alt="&#x25b2;">';
 
 /**
  * HTML for down indicator (sorted big to small).
  */
-TableSort.arrowDown = '<img src="pond/user/arrowDown.png" height=21 width=20 alt="&#x25bc;">';
+TableSort.arrowDown = '<img src="pond/player/arrowDown.png" height=21 width=20 alt="&#x25bc;">';
 
 /**
  * HTML for unsorted indicator.
  */
-TableSort.arrowNone = '<img src="pond/user/arrowNone.png" height=21 width=20 alt=" ">';
+TableSort.arrowNone = '<img src="pond/player/arrowNone.png" height=21 width=20 alt=" ">';
 
 /**
  * List of all the tables.

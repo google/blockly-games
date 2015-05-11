@@ -76,8 +76,8 @@
       </p>
       <p>
         {msg meaning="Pond.lastModified" desc="Heading. Name of person who wrote some code."}Programmer{/msg}:{sp}
-        <a href="pond-user?id={$ij.owner_id}">
-          {call Pond.soy.userName}
+        <a href="pond-player?id={$ij.owner_id}">
+          {call Pond.soy.playerName}
             {param name: $ij.owner_name /}
           {/call}
         </a>

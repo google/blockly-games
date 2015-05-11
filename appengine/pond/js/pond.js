@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Creates an pond for players to compete in.
+ * @fileoverview Creates an pond for avatars to compete in.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
