@@ -80,8 +80,41 @@
 {/template}
 
 /**
- * Print the user's name (or a localized version of 'Anonymous').
+ * Print the duck's name (or a localized version of 'Duck 123').
+ * @param name Name of duck.
+ * @param id ID of duck.
+ */
+{template .duckName}
+  {if $name}
+    {$name}
+  {else}
+    {msg meaning="Puzzle.animal1" desc="IBID"}Duck{/msg} {$id|truncate:3,false}
+  {/if}
+{/template}
+
+/**
+ * Print the duck or user's level as a title.
  */
 {template .titleLevel}
   {sp}&nbsp; <span class="level_number level_done" id="level">{msg meaning="Pond.level" desc="Heading. Level is a number from 1-10."}Level{/msg} {$ij.level}</span>
+{/template}
+
+/**
+ * A relative time span.
+ * @param minutes Number of minutes ago.
+ */
+{template .timeAgo}
+  {if $minutes <= 2}
+    {msg meaning="Pond.justNow" desc="Label that something was modified recently"}just now{/msg}
+  {elseif $minutes <= 2 * 60}
+    {$minutes} {msg meaning="Pond.minutesAgo" desc="Label of last change. Prefixed with the number of minutes. Always plural."}minutes ago{/msg}
+  {elseif $minutes <= 2 * 60 * 24}
+    {floor($minutes / 60)} {msg meaning="Pond.hoursAgo" desc="Label of last change. Prefixed with the number of hours. Always plural."}hours ago{/msg}
+  {elseif $minutes <= 2 * 60 * 24 * 30}
+    {floor($minutes / 60 / 24)} {msg meaning="Pond.daysAgo" desc="Label of last change. Prefixed with the number of days. Always plural."}days ago{/msg}
+  {elseif $minutes <= 2 * 60 * 365}
+    {floor($minutes / 60 / 24 / 30)} {msg meaning="Pond.monthsAgo" desc="Label of last change. Prefixed with the number of months. Always plural."}months ago{/msg}
+  {else}
+    {floor($minutes / 60 / 24 / 365)} {msg meaning="Pond.yearsAgo" desc="Label of last change. Prefixed with the number of years. Always plural."}years ago{/msg}
+  {/if}
 {/template}

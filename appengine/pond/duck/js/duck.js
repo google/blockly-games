@@ -62,8 +62,10 @@ Pond.Duck.init = function() {
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML,
        editable: DATA['editable'],
+       id: DATA['id'],
        name: DATA['name'],
        description: DATA['description'],
+       modified: DATA['modified'],
        owner_id: DATA['owner_id'],
        owner_name: DATA['owner_name'],
        level: DATA['level']});

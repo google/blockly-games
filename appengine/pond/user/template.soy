@@ -39,11 +39,13 @@
   </h1>
 
   <p id="description">
+    <img src="pond/quote0.png" class="quote0" alt='"'>
     {if $ij.description}
       {$ij.description}
     {else}
       {msg meaning="Pond.noDesc" desc="Placeholder text if a user has not added a description."}No description yet...{/msg}
     {/if}
+    <img src="pond/quote1.png" class="quote1" alt='"'>
     {if $ij.editable}
       {sp}&nbsp; <img src="pond/edit.png" class="edit{if $ij.description} grey{/if}" height=19 width=19 alt="Edit">
     {/if}
@@ -59,28 +61,25 @@
         <tr>
           <th class="nocase">{msg meaning="Puzzle.animal1" desc="IBID"}Duck{/msg}</th>
           <th class="num">{msg meaning="Pond.level" desc="IBID"}Level{/msg}</th>
-          <th class="num">{msg meaning="Pond.lastModified" desc="Table column heading. Hours, days or months since last change."}Last Modified{/msg}</th>
+          <th class="num">{msg meaning="Pond.lastModified" desc="IBID"}Last Modified{/msg}</th>
         </tr>
       </thead>
       <tbody>
         {foreach $duck in $ij.ducks}
           <tr>
-            <td class="align-start" data-sort="{$duck.name}"><a href="pond-duck?id={$duck.id}">{$duck.name}</a></td>
-            <td class="align-end" data-sort="{$duck.level}">{$duck.level}</td>
-            <td class="align-end" data-sort="{$duck.modified}">
-              {if $duck.modified <= 2}
-                {msg meaning="Pond.justNow" desc="Label that something was modified recently"}just now{/msg}
-              {elseif $duck.modified <= 2 * 60}
-                {$duck.modified} {msg meaning="Pond.minutesAgo" desc="Label of last change. Prefixed with the number of minutes. Always plural."}minutes ago{/msg}
-              {elseif $duck.modified <= 2 * 60 * 24}
-                {floor($duck.modified / 60)} {msg meaning="Pond.hoursAgo" desc="Label of last change. Prefixed with the number of hours. Always plural."}hours ago{/msg}
-              {elseif $duck.modified <= 2 * 60 * 24 * 30}
-                {floor($duck.modified / 60 / 24)} {msg meaning="Pond.daysAgo" desc="Label of last change. Prefixed with the number of days. Always plural."}days ago{/msg}
-              {elseif $duck.modified <= 2 * 60 * 365}
-                {floor($duck.modified / 60 / 24 / 30)} {msg meaning="Pond.monthsAgo" desc="Label of last change. Prefixed with the number of months. Always plural."}months ago{/msg}
-              {else}
-                {floor($duck.modified / 60 / 24 / 365)} {msg meaning="Pond.yearsAgo" desc="Label of last change. Prefixed with the number of years. Always plural."}years ago{/msg}
-              {/if}
+            <td class="align-start" data-sort="{$duck['name']}">
+              <a href="pond-duck?id={$duck['id']}">
+                {call Pond.soy.duckName}
+                  {param name: $duck['name'] /}
+                  {param id: $duck['id'] /}
+                {/call}
+              </a>
+            </td>
+            <td class="align-end" data-sort="{$duck['level']}">{$duck['level']}</td>
+            <td class="align-end" data-sort="{$duck['modified']}">
+              {call Pond.soy.timeAgo}
+                {param minutes: $duck['modified'] /}
+              {/call}
             </td>
           </tr>
         {/foreach}

@@ -21,7 +21,7 @@
     <span id="Pond_rookName">{{msg meaning="Pond.rookName" desc="Name for a player that behaves like a rook (castle) in chess.\n{lb}{lb}Identical|Rook{rb}{rb}"}}Rook{{/msg}}</span>
     <span id="Pond_sniperName">{{msg meaning="Pond.sniperName" desc="Name for a player that hides in a corner and shoots.\n{lb}{lb}Identical|Sniper{rb}{rb}"}}Sniper{{/msg}}</span>
 
-    <span id="Pond_breakLink">{msg meaning="Pond.breakLink" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Once you start editing JavaScript, you can't go back to editing blocks.  Is this OK?{/msg}</span>
+    <span id="Pond_breakLink">{msg meaning="Pond.breakLink" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?{/msg}</span>
   </div>
 {/template}
 
@@ -34,11 +34,10 @@
     {call BlocklyGames.soy.titleSpan}
       {param appName}
         {msg meaning="Games.pond" desc="IBID"}Pond{/msg} :{sp}
-        {if $ij.name}
-          {$ij.name}
-        {else}
-          {msg meaning="Puzzle.animal1" desc="IBID"}Duck{/msg}
-        {/if}
+        {call Pond.soy.duckName}
+          {param name: $ij.name /}
+          {param id: $ij.id /}
+        {/call}
       {/param}
     {/call}
     {if $ij.editable}
@@ -58,21 +57,30 @@
     <div class="goog-tab-bar-clear"></div>
     <div id="about">
       <p id="description">
+        <img src="pond/quote0.png" class="quote0" alt='"'>
         {if $ij.description}
           {$ij.description}
         {else}
           {msg meaning="Pond.noDesc" desc="IBID"}No description yet...{/msg}
         {/if}
+        <img src="pond/quote1.png" class="quote1" alt='"'>
         {if $ij.editable}
           {sp}&nbsp; <img src="pond/edit.png" class="edit{if $ij.description} grey{/if}" height=19 width=19 alt="Edit">
         {/if}
       </p>
       <p>
-        Programmed by <a href="pond-user?id={$ij.owner_id}">
+        {msg meaning="Pond.lastModified" desc="Heading. Hours, days or months since last change."}Last Modified{/msg}:{sp}
+        {call Pond.soy.timeAgo}
+          {param minutes: $ij.modified /}
+        {/call}
+      </p>
+      <p>
+        {msg meaning="Pond.lastModified" desc="Heading. Name of person who wrote some code."}Programmer{/msg}:{sp}
+        <a href="pond-user?id={$ij.owner_id}">
           {call Pond.soy.userName}
             {param name: $ij.owner_name /}
           {/call}
-        </a>.
+        </a>
       </p>
     </div>
     <div id="blockly"></div>

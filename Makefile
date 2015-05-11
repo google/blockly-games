@@ -19,6 +19,7 @@ BLOCKY_DIR = $(PWD)
 all: deps languages
 
 index-en:
+	mkdir -p appengine/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/index/generated/en/soy.js --srcs appengine/index/template.soy
 	python build-app.py index en
 

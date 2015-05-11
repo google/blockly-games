@@ -110,6 +110,22 @@ html[dir="RTL"] #closeDocs {
   filter: grayscale(0);
 }
 
+.quote0,
+.quote1 {
+  height: 10px;
+  width: 12px;
+  margin: 0 2px;
+  opacity: .5;
+}
+
+.quote0 {
+  margin-bottom: 6px;
+}
+
+.quote1 {
+  margin-bottom: -4px;
+}
+
 /* Sprited icons. */
 .icon21 {
   height: 21px;
