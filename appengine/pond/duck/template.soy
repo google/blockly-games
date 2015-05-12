@@ -20,6 +20,12 @@
     <span id="Pond_counterName">{{msg meaning="Pond.counterName" desc="Name for a player that counts methodically.\n{lb}{lb}Identical|Counter{rb}{rb}"}}Counter{{/msg}}</span>
     <span id="Pond_rookName">{{msg meaning="Pond.rookName" desc="Name for a player that behaves like a rook (castle) in chess.\n{lb}{lb}Identical|Rook{rb}{rb}"}}Rook{{/msg}}</span>
     <span id="Pond_sniperName">{{msg meaning="Pond.sniperName" desc="Name for a player that hides in a corner and shoots.\n{lb}{lb}Identical|Sniper{rb}{rb}"}}Sniper{{/msg}}</span>
+    <span id="Pond_myName">
+      {call Pond.soy.duckName}
+        {param name: $ij.name /}
+        {param id: $ij.id /}
+      {/call}
+    </span>
 
     <span id="Pond_breakLink">{msg meaning="Pond.breakLink" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?{/msg}</span>
   </div>

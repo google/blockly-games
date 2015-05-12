@@ -378,7 +378,8 @@ Pond.Visualization.display_ = function() {
   // Update the health bars.
   for (var i = 0, avatar; avatar = avatars[i]; i++) {
     var div = avatar.visualizationHealth;
-    div.parentNode.title = Math.round(100 - avatar.damage) + '%';
+    div.parentNode.title = avatar.name + ': ' +
+        Math.round(100 - avatar.damage) + '%';
     var width = div.parentNode.offsetWidth * (1 - avatar.damage / 100) - 2;
     div.style.width = Math.max(0, width) + 'px';
   }

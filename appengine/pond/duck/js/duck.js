@@ -162,7 +162,7 @@ Pond.Duck.init = function() {
     {
       start: new goog.math.Coordinate(20, 80),
       damage: 0,
-      name: 'Pond_playerName',
+      name: 'Pond_myName',
       code: null
     },
     {

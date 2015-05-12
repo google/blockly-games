@@ -16,7 +16,6 @@
 {template .messages}
   {call BlocklyGames.soy.messages /}
   <div style="display: none">
-    <span id="Pond_playerName">{{msg meaning="Pond.playerName" desc="Generic name for the player of this video game.\n{lb}{lb}Identical|Player{rb}{rb}"}}Player{{/msg}}</span>
     <span id="Pond_scanTooltip">{msg meaning="Pond.scanTooltip" desc="Tooltip for the block that allows players to scan for enemies."}Scan for enemies. Specify a direction (0-360). Returns the distance to the closest enemy in that direction. Returns Infinity if no enemy found.{/msg}</span>
     <span id="Pond_cannonTooltip">{msg meaning="Pond.cannonTooltip" desc="Tooltip for the block that allows players to shoot at other players."}Fire the cannon. Specify a direction (0-360) and a range (0-70).{/msg}</span>
     <span id="Pond_swimTooltip">{msg meaning="Pond.swimTooltip" desc="Tooltip for the block that allows players to move."}Swim forward. Specify a direction (0-360).{/msg}</span>
