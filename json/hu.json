@@ -4,7 +4,8 @@
 			"Takács Viktor László",
 			"아라",
 			"Csega",
-			"Lajthabalazs"
+			"Lajthabalazs",
+			"Kiscsillag"
 		]
 	},
 	"Games.name": "Blockly Games",
@@ -123,7 +124,7 @@
 	"Turtle.turnTooltip": "A teknőcöt jobbra, vagy balra fordítja a fokban megadott értékkel.",
 	"Turtle.turnRight": "Fordulj jobbra (fok)",
 	"Turtle.turnLeft": "Fordulj balra (fok)",
-	"Turtle.widthTooltip": "Vonalvastagság beállítása.",
+	"Turtle.widthTooltip": "Vonalvastagság változtatása.",
 	"Turtle.setWidth": "Vonalvastagság",
 	"Turtle.colourTooltip": "A rajzolás színének változtatása.",
 	"Turtle.setColour": "Rajzolás színe",

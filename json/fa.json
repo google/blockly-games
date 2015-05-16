@@ -3,7 +3,8 @@
 		"authors": [
 			"Ebraminio",
 			"Reza1615",
-			"Alirezaaa"
+			"Alirezaaa",
+			"Maspadana"
 		]
 	},
 	"Games.name": "بازی‌های بستن",
@@ -14,6 +15,7 @@
 	"Games.movie": "فیلم",
 	"Games.pondBasic": "تالاب",
 	"Games.pondAdvanced": "جاواسکریپت تالاب",
+	"Games.nextLevel": "آیا برای مرحله %1 آماده اید؟",
 	"Games.linkTooltip": "ذخیره و پیوند به بلوک‌ها.",
 	"Games.runProgram": "اجرای برنامه",
 	"Games.resetProgram": "از نو",
@@ -36,6 +38,7 @@
 	"Games.textVariable": "متن",
 	"Games.congratulations": "تبریک می‌گوییم!",
 	"Index.moreInfo": "اطلاعات بیشتر...",
+	"Index.startOver": "می خواید از اول شروع کنید؟",
 	"Index.clearData": "خالی کردن داده",
 	"Puzzle.animal1": "مرغابی",
 	"Puzzle.animal1Trait1": "پر و بال",
@@ -124,6 +127,7 @@
 	"Turtle.fontItalic": "کج",
 	"Turtle.galleryMsg": "نمایش نگارخانه",
 	"Turtle.submitMsg": "افزودن به نگارخانه",
+	"Turtle.helpUseLoop": "راه حل شما کار کرد، اما می توانید بهترش کنید.",
 	"Turtle.helpText3b": "ترسیم یک ستاره زرد.",
 	"Turtle.catTurtle": "لاک‌پشت",
 	"Movie.x": "x",
@@ -138,9 +142,13 @@
 	"Movie.circleDraw": "دایره‌",
 	"Movie.rectDraw": "مستطیل",
 	"Movie.lineDraw": "خط",
+	"Movie.colourTooltip": "رنگ قلم را تغییر دهید.",
 	"Movie.setColour": "تنظیم رنگ به",
+	"Movie.galleryTooltip": "گالری فیلم در ردیت را باز کنید.",
 	"Movie.galleryMsg": "نمایش نگارخانه",
+	"Movie.submitTooltip": "فیلم خود را در ردیت ثبت کنید.",
 	"Movie.submitMsg": "افزودن به نگارخانه",
+	"Movie.helpText1": "از شکل های ساده برای کشیدن این شخص استفاده کنید.",
 	"Pond.playerName": "بازیکن",
 	"Pond.targetName": "هدف",
 	"Pond.rabbitName": "خرگوش",

@@ -7,7 +7,8 @@
 			"Kozlu",
 			"Trockya",
 			"Ramona.Stewart",
-			"Macofe"
+			"Macofe",
+			"Sucsuzz"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -21,6 +22,7 @@
 	"Games.linesOfCode1": "Bu seviyeyi 1 satır JavaScript ile çözdünüz:",
 	"Games.linesOfCode2": "Bu seviyeyi %1 satır JavaScript ile çözdünüz:",
 	"Games.nextLevel": "%1. seviye için hazır mısınız?",
+	"Games.finalLevel": "Bir sonraki mücadeleye hazır mısın?",
 	"Games.linkTooltip": "Blokları ve bağlantı adresini kaydet.",
 	"Games.runTooltip": "Yazdığın programı çalıştır.",
 	"Games.runProgram": "Programı Çalıştır",
@@ -203,5 +205,9 @@
 	"Pond.targetName": "Hedef",
 	"Pond.rabbitName": "Tavşan",
 	"Pond.counterName": "Sayaç",
-	"Pond.documentation": "Belgeleme"
+	"Pond.sniperName": "Sniper",
+	"Pond.pendulumName": "Pendulum",
+	"Pond.scaredName": "Scared",
+	"Pond.documentation": "Belgeleme",
+	"Pond.helpText7": "Rabbit etrafta rastgele dolaşıyor. Onu vurabilir misin?"
 }
