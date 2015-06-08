@@ -4,12 +4,16 @@
 			"Hym411",
 			"아라",
 			"Priviet",
-			"Revi"
+			"Revi",
+			"Neatnet"
 		]
 	},
 	"Games.puzzle": "퍼즐",
 	"Games.maze": "미로",
+	"Games.bird": "새",
 	"Games.turtle": "터틀",
+	"Games.movie": "동영상",
+	"Games.pondBasic": "Pond",
 	"Games.linkTooltip": "블록을 저장하고 링크를 가져옵니다.",
 	"Games.runProgram": "프로그램 실행",
 	"Games.resetProgram": "초기화",

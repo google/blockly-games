@@ -5,7 +5,8 @@
 			"아라",
 			"Csega",
 			"Lajthabalazs",
-			"Kiscsillag"
+			"Kiscsillag",
+			"Horvolgyinoemi"
 		]
 	},
 	"Games.name": "Blockly Games",
@@ -136,7 +137,7 @@
 	"Turtle.showTurtle": "Teknőc felfedése",
 	"Turtle.printHelpUrl": "https://hu.wikipedia.org/wiki/Nyomtat%C3%A1s_(nyomd%C3%A1szat)",
 	"Turtle.printTooltip": "Üzenetet ír a teknőc irányában a helyétől.",
-	"Turtle.print": "Üzenet",
+	"Turtle.print": "kiír",
 	"Turtle.fontHelpUrl": "https://hu.wikipedia.org/wiki/Bet%C5%B1k%C3%A9p",
 	"Turtle.fontTooltip": "Beállítja az üzenet betűtípusát.",
 	"Turtle.font": "Betűtípus",
