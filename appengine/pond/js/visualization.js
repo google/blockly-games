@@ -60,9 +60,9 @@ Pond.Visualization.init = function() {
   Pond.Visualization.ctxDisplay_ = ctxDisplay;
   Pond.Visualization.CANVAS_SIZE = ctxDisplay.canvas.width;
   ctxDisplay.globalCompositeOperation = 'copy';
-  Blockly.loadAudio_(['pond/whack.mp3', 'pond/whack.ogg'], 'whack');
-  Blockly.loadAudio_(['pond/boom.mp3', 'pond/boom.ogg'], 'boom');
-  Blockly.loadAudio_(['pond/splash.mp3', 'pond/splash.ogg'], 'splash');
+  Blockly.getMainWorkspace().loadAudio_(['pond/whack.mp3', 'pond/whack.ogg'], 'whack');
+  Blockly.getMainWorkspace().loadAudio_(['pond/boom.mp3', 'pond/boom.ogg'], 'boom');
+  Blockly.getMainWorkspace().loadAudio_(['pond/splash.mp3', 'pond/splash.ogg'], 'splash');
 };
 
 /**
@@ -302,7 +302,7 @@ Pond.Visualization.display_ = function() {
       // Only play the crash sound if this player hasn't crashed recently.
       var lastCrash = Pond.Visualization.CRASH_LOG[player.id];
       if (!lastCrash || lastCrash + 1000 < goog.now()) {
-        Blockly.playAudio('whack', event['damage'] /
+        Blockly.getMainWorkspace().playAudio('whack', event['damage'] /
                           Pond.Battle.COLLISION_DAMAGE);
         Pond.Visualization.CRASH_LOG[player.id] = goog.now();
       }
@@ -331,12 +331,12 @@ Pond.Visualization.display_ = function() {
       // A missile has landed.
       if (event['damage']) {
         // A player has taken damage.
-        Blockly.playAudio('boom', event['damage'] / 10);
+        Blockly.getMainWorkspace().playAudio('boom', event['damage'] / 10);
       }
       Pond.Visualization.EXPLOSIONS.push({x: event['x'], y: event['y'], t: 0});
     } else if (event['type'] == 'DIE') {
       // A player just sustained fatal damage.
-      Blockly.playAudio('splash');
+      Blockly.getMainWorkspace().playAudio('splash');
     }
   }
   Pond.Battle.EVENTS.length = 0;

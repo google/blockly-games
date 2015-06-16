@@ -250,7 +250,7 @@ Movie.init = function() {
   }
 
   // Preload the win sound.
-  Blockly.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
+  Blockly.getMainWorkspace().loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 
@@ -593,7 +593,7 @@ Movie.checkAnswers = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      Blockly.playAudio('win', 0.5);
+      Blockly.getMainWorkspace().playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   }

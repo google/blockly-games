@@ -173,7 +173,7 @@ Puzzle.init = function() {
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  Blockly.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
+  Blockly.getMainWorkspace().loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -298,7 +298,7 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  Blockly.playAudio('win', 0.5);
+  Blockly.getMainWorkspace().playAudio('win', 0.5);
   var blocks = Blockly.mainWorkspace.getTopBlocks(false);
   for (var i = 0, block; block = blocks[i]; i++) {
     var angle = 360 * (i / blocks.length);
