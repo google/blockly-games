@@ -456,7 +456,7 @@ Blockly.Blocks['pond_math_number'] = {
         this.outputConnection.targetConnection.check_) {
       // Plugged in to parent.
       var input = this.getInput('DUMMY');
-      var field = this.getField_('NUM');
+      var field = this.getField('NUM');
       var value = field.getValue();
       if (this.outputConnection.targetConnection.check_.indexOf('Angle') !=
           -1) {

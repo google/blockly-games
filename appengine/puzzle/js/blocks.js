@@ -47,6 +47,7 @@ Blockly.Blocks['animal'] = {
         .appendField(new Blockly.FieldDropdown(Puzzle.legs), 'LEGS');
     this.appendStatementInput('TRAITS')
         .appendField(BlocklyGames.getMsg('Puzzle_traits'));
+    this.setInputsInline(false);
   },
   /**
    * Save the animal number.

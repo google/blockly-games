@@ -87,10 +87,11 @@ then <code>Infinity</code> is returned.</p>
 
 {if $ij.pond == 'js'}
   <p>
-    The second parameter of <code>scan()</code> specifies the width of the
-    scanning beam.  This can be from 1 degree to 20 degrees.  Advanced players
-    may wish to start scanning with a width of 20 for a fast scan, then
-    progressively decrease the width to get more accuracy.
+    The second (optional) parameter of <code>scan()</code> specifies the width
+    of the scanning beam.  This can be from 1 degree to 20 degrees.  Advanced
+    players may wish to start scanning with a width of 20 for a fast scan, then
+    progressively decrease the width to get more accuracy.  If not specified,
+    the width is 5.
   </p>
 {/if}
 {/if}
@@ -110,9 +111,9 @@ continue moving in the specified direction indefinitely.</p>
 
 {if $ij.pond == 'js'}
   <p>
-    The second parameter of <code>swim()</code> specifies the speed.
+    The second (optional) parameter of <code>swim()</code> specifies the speed.
     This can be from 0 (stopped) to 100 (fast).  Direction of movement may only
-    be changed if the speed is 50 or less.
+    be changed if the speed is 50 or less.  If not specified, the speed is 50.
   </p>
 {/if}
 
