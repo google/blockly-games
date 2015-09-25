@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Via maxima"
+			"Via maxima",
+			"Uharteko"
 		]
 	},
 	"Games.name": "Giogus de Blockly",
@@ -23,7 +24,7 @@
 	"Games.resetProgram": "Reset",
 	"Games.help": "Agiudu",
 	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Anudda",
+	"Games.dialogCancel": "Annulla",
 	"Games.catLogic": "Lògica",
 	"Games.catLoops": "Lòrigas",
 	"Games.catMath": "Matemàtica",

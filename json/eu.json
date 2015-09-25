@@ -86,7 +86,7 @@
 	"Maze.capacity2": "%2 bloke geratzen dira.",
 	"Maze.helpStack": "Elkartu 'mugi aurrera' bloke pare bat helmugara iritsi ahal izateko.",
 	"Maze.helpOneTopBlock": "Maila honetan, bloke guztiak lan-eremu txurian pilatu behar dituzu.",
-	"Maze.helpRepeat": "Ordenagailuek memoria mugatua daukate. Saiatu zaitez bide honen bukaerara iristen soilik bi bloke erabiliz. Erabili 'errepikatu' bloke bat behin baino gehiagotan to run a block more than once.",
+	"Maze.helpRepeat": "Ordenagailuek memoria-kantitate mugatua dute. Saia zaitez bide honen bukaerara iristen soilik bi bloke erabiliz. Bloke bat behin baino gehiagotan erabiltzeko, erabili 'errepikatu'.",
 	"Maze.helpRepeatMany": "Iritsi helmugara soilik bost bloke erabiliz.",
 	"Maze.helpIf": "'if' bloke batek zeozer egingo du bakarrik baldintza betetzen bada. Saiatu ezkerrera biratzen ezkerrera bidea baldin badago.",
 	"Maze.helpWallFollow": "Labirinto zail honi irtenbidea aurkitu diezaiokezu? Saia zaitez ezker-pareta jarraitzen.",
