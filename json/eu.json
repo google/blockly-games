@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Xabier Armendaritz",
-			"Subi"
+			"Subi",
+			"Asieriko"
 		]
 	},
 	"Games.puzzle": "Puzzle",
@@ -13,7 +14,7 @@
 	"Games.pondBasic": "Urmaela",
 	"Games.pondAdvanced": "JS Urmaela",
 	"Games.linesOfCode1": "Maila hau gainditu duzu JavaScript lerro bat erabiliz:",
-	"Games.linesOfCode2": "Maila hau gainditu duzu JavaScript %1 lerro erabiliz:",
+	"Games.linesOfCode2": "Maila hau gainditu duzu %1 JavaScript lerro erabiliz:",
 	"Games.nextLevel": "Prest zaude %1. mailarako?",
 	"Games.finalLevel": "Prest zaude hurrengo erronkarako?",
 	"Games.linkTooltip": "Gorde eta lotura sortu.",
