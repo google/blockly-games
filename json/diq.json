@@ -6,6 +6,7 @@
 			"Mirzali"
 		]
 	},
+	"Games.name": "Kayê Blockly",
 	"Games.puzzle": "Puzzle",
 	"Games.maze": "Labirent",
 	"Games.bird": "Mirçıke",
@@ -88,8 +89,10 @@
 	"Movie.height": "berziye",
 	"Movie.circleDraw": "çembere",
 	"Movie.lineDraw": "xete",
+	"Movie.galleryMsg": "Galeriye bıvêne",
 	"Pond.playerName": "Kayker",
 	"Pond.targetName": "Hedef",
 	"Pond.rabbitName": "Arwêş",
+	"Pond.counterName": "Amardoğ",
 	"Pond.documentation": "Dokumentasyon"
 }

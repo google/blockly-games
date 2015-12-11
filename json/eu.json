@@ -3,7 +3,8 @@
 		"authors": [
 			"Xabier Armendaritz",
 			"Subi",
-			"Asieriko"
+			"Asieriko",
+			"An13sa"
 		]
 	},
 	"Games.puzzle": "Puzzle",
@@ -66,7 +67,7 @@
 	"Puzzle.error2": "%1 bloke ez dira zuzenak.",
 	"Puzzle.tryAgain": "Markatuta agertzen den blokea ez da zuzena.\nSaiatu berriro.",
 	"Puzzle.checkAnswers": "Erantzunak egiaztatu",
-	"Puzzle.helpText": "Herrialde bakoitzari (berdea), bandera jarri, bere hizkuntza aukeratu, eta hiriak jarri.",
+	"Puzzle.helpText": "Animalia bakoitzari (berdea), argazkia jarri, bere hanka kopurua aukeratu, eta bere berezitasunak ere.",
 	"Maze.moveForward": "mugi aurrera",
 	"Maze.turnLeft": "biratu ezker",
 	"Maze.turnRight": "biratu eskuin",
@@ -88,7 +89,7 @@
 	"Maze.helpStack": "Elkartu 'mugi aurrera' bloke pare bat helmugara iritsi ahal izateko.",
 	"Maze.helpOneTopBlock": "Maila honetan, bloke guztiak lan-eremu txurian pilatu behar dituzu.",
 	"Maze.helpRepeat": "Ordenagailuek memoria-kantitate mugatua dute. Saia zaitez bide honen bukaerara iristen soilik bi bloke erabiliz. Bloke bat behin baino gehiagotan erabiltzeko, erabili 'errepikatu'.",
-	"Maze.helpRepeatMany": "Iritsi helmugara soilik bost bloke erabiliz.",
+	"Maze.helpRepeatMany": "'errepikatu' bloke baten barruan bloke bat baino gehiago erabili dezakezu.",
 	"Maze.helpIf": "'if' bloke batek zeozer egingo du bakarrik baldintza betetzen bada. Saiatu ezkerrera biratzen ezkerrera bidea baldin badago.",
 	"Maze.helpWallFollow": "Labirinto zail honi irtenbidea aurkitu diezaiokezu? Saia zaitez ezker-pareta jarraitzen.",
 	"Turtle.hideTurtle": "ezkutatu dortoka",

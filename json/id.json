@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mirws"
+			"Mirws",
+			"WongKentir"
 		]
 	},
 	"Games.name": "Permainan Blockly",
@@ -180,5 +181,9 @@
 	"Movie.lineDraw": "garis",
 	"Movie.timeTooltip": "Kembalikan waktu saat ini dalam animasi (0-100)",
 	"Movie.colourTooltip": "Ubah warna pena.",
-	"Movie.setColour": "set warna ke"
+	"Movie.setColour": "set warna ke",
+	"Pond.playerName": "Pemutar media",
+	"Pond.targetName": "Target",
+	"Pond.counterName": "Penghitung",
+	"Pond.documentation": "Dokumentasi"
 }

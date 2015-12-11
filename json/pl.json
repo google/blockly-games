@@ -110,6 +110,7 @@
 	"Maze.helpWallFollow": "Czy dasz radę przejść ten trudny labirynt? Wypróbnuj metodę trzymania się lewą ręką ściany. Tylko dla zaawansowanych programistów!",
 	"Bird.noWorm": "nie ma robaka",
 	"Bird.heading": "kierunek",
+	"Bird.noWormTooltip": "Stan, w którym ptak nie złapał robaka.",
 	"Bird.headingTooltip": "Poruszaj się w kierunku danego kąta: 0 - w prawo, 90 - do góry, itp.",
 	"Bird.positionTooltip": "x i y oznaczają pozycję ptaka. Gdy x = 0, ptak jest przy lewej krawędzi, gdy x = 100, jest przy prawej krawędzi. Gdy y = 0, ptak jest na dole, a gdy y = 100, jest na górze.",
 	"Bird.helpHeading": "Zmień kąt kierunku, aby ptak złapał robaka i wylądował w swoim gnieździe.",
@@ -191,5 +192,18 @@
 	"Pond.rabbitName": "Królik",
 	"Pond.counterName": "Licznik",
 	"Pond.rookName": "Wieża",
-	"Pond.sniperName": "Snajper"
+	"Pond.sniperName": "Snajper",
+	"Pond.pendulumName": "Wahadło",
+	"Pond.scanTooltip": "Szuka wrogów. Wybierz kierunek (0-360). Zwraca odległość do najbliższego wroga w tym kierunku. Zwraca nieskończoność jeśli nie znajdzie wroga.",
+	"Pond.cannonTooltip": "Wystrzel z działa. Wybierz kierunek (0-360) i odległość (0-70).",
+	"Pond.swimTooltip": "Płyń do przodu. Wybierz kierunek (0-360).",
+	"Pond.stopTooltip": "Przestań płynąć. Gracz zwolni i zatrzyma się.",
+	"Pond.healthTooltip": "Zwraca bieżące zdrowie gracza (0 - nie żyje, 100 - zdrowy)",
+	"Pond.speedTooltip": "Zwraca bieżącą prędkość gracza (0 - stoi, 100 - pełna prędkość).",
+	"Pond.locXTooltip": "Zwraca współrzędną X gracza (0 - lewa krawędź, 100 - prawa krawędź).",
+	"Pond.locYTooltip": "Zwraca współrzędną Y gracza (0 - dolna krawędź, 100 - górna krawędź).",
+	"Pond.documentation": "Dokumentacja",
+	"Pond.helpUseScan": "Twoje rozwiązanie działa, ale można to zrobić lepiej. Użyj 'scan', aby określić odległość strzału z działa.",
+	"Pond.helpText1": "Użyj polecenia 'cannon', aby trafić w cel. Pierwszy parametr to kąt, drugi to odległość. Znajdź odpowiednią kombinację.",
+	"Pond.helpText2": "Ten cel musi być trafiony wiele razy. Użyj pętli 'while (true)' aby robić coś w nieskończoność."
 }
