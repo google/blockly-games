@@ -215,12 +215,16 @@ Pond.Duck.changeTab = function(index) {
   var BLOCKS = 1;
   var JAVASCRIPT = 2;
   // Show the correct tab contents.
-  var aboutDiv = document.getElementById('about');
-  var blocklyDiv = document.getElementById('blockly');
-  var editorDiv = document.getElementById('editor');
-  var divs = [aboutDiv, blocklyDiv, editorDiv];
-  for (var i = 0, div; div = divs[i]; i++) {
+  var names = ['about', 'blockly', 'editor'];
+  for (var i = 0, name; name = names[i]; i++) {
+    var div = document.getElementById(name);
     div.style.visibility = (i == index) ? 'visible' : 'hidden';
+  }
+  // Show/hide Blockly divs.
+  var names = ['.blocklyWidgetDiv', '.blocklyTooltipDiv', '.blocklyToolboxDiv'];
+  for (var i = 0, name; name = names[i]; i++) {
+    var div = document.querySelector(name);
+    div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
   // Synchronize the documentation popup.
   document.getElementById('docsButton').disabled = (index == ABOUT);
