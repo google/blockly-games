@@ -110,28 +110,28 @@
     <category name="Pond">
       <block type="pond_cannon">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
         <value name="RANGE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">70</field>
-          </block>
+          </shadow>
         </value>
       </block>
       <block type="pond_scan">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
       </block>
       <block type="pond_swim">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
       </block>
       <block type="pond_stop"></block>
@@ -151,13 +151,30 @@
     </category>
     <category name="Math">
       <block type="pond_math_number"></block>
-      <block type="pond_math_arithmetic"></block>
-      <block type="pond_math_single"></block>
+      <block type="pond_math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="pond_math_single">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">9</field>
+          </shadow>
+        </value>
+      </block>
       <block type="pond_math_change">
         <value name="DELTA">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">1</field>
-          </block>
+          </shadow>
         </value>
       </block>
       <block type="math_random_float"></block>

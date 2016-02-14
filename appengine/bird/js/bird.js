@@ -394,6 +394,12 @@ Bird.init = function() {
 window.addEventListener('load', Bird.init);
 
 /**
+ * PID of task to poll the mutator's state in level 5.
+ * @private
+ */
+Bird.mutatorHelpPid_ = 0;
+
+/**
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
@@ -414,8 +420,9 @@ Bird.levelHelp = function() {
   var origin = null;
   var style = null;
   if (BlocklyGames.LEVEL == 1) {
-    if (userBlocks.indexOf('>90<') != -1 ||
-        userBlocks.indexOf('bird_heading') == -1) {
+    if ((userBlocks.indexOf('>90<') != -1 ||
+        userBlocks.indexOf('bird_heading') == -1) &&
+        !Blockly.WidgetDiv.isVisible()) {
       style = {'width': '370px', 'top': '140px'};
       style[rtl ? 'right' : 'left'] = '215px';
       var blocks = BlocklyGames.workspace.getTopBlocks(true);
@@ -438,6 +445,10 @@ Bird.levelHelp = function() {
       origin = toolbar[2].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL == 5) {
+    if (!Bird.mutatorHelpPid_) {
+      // Keep polling the mutator's state.
+      Bird.mutatorHelpPid_ = setInterval(Bird.levelHelp, 100);
+    }
     if (userBlocks.indexOf('mutation else') == -1) {
       var blocks = BlocklyGames.workspace.getTopBlocks(false);
       for (var i = 0, block; block = blocks[i]; i++) {
@@ -451,7 +462,7 @@ Bird.levelHelp = function() {
         style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
         origin = block.getSvgRoot();
       } else {
-        var content = document.getElementById('dialogMutatorHelp');
+        content = document.getElementById('dialogMutatorHelp');
         origin = block.mutator.workspace_.flyout_.buttons_[1];
         var xy = goog.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};

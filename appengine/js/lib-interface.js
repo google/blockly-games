@@ -182,7 +182,7 @@ BlocklyInterface.changeLanguage = function() {
  */
 BlocklyInterface.highlight = function(id) {
   if (id) {
-    var m = id.match(/^block_id_(\d+)$/);
+    var m = id.match(/^block_id_([^']+)$/);
     if (m) {
       id = m[1];
     }
@@ -214,7 +214,7 @@ BlocklyInterface.injectReadonly = function(id, xml) {
  */
 BlocklyInterface.stripCode = function(code) {
   // Strip out serial numbers.
-  return goog.string.trimRight(code.replace(/(,\s*)?'block_id_\d+'\)/g, ')'));
+  return goog.string.trimRight(code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')'));
 };
 
 /**

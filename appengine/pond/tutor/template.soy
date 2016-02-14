@@ -145,7 +145,7 @@
         {if $ij.level == 7}
           <br><br><img src="pond/docs/swim.png" height=41 width=131>
         {elseif $ij.level == 8}
-          <pre>swim(0, 50);</pre>
+          <pre>swim(0);</pre>
         {/if}
       {elseif $ij.level == 9}
         {msg meaning="Pond.helpText5"
@@ -182,31 +182,31 @@
     <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
       <block type="pond_cannon">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
         <value name="RANGE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">70</field>
-          </block>
+          </shadow>
         </value>
       </block>
   {if $ij.level >= 5}
       <block type="pond_scan">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
       </block>
   {/if}
   {if $ij.level >= 7}
       <block type="pond_swim">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
       </block>
   {/if}

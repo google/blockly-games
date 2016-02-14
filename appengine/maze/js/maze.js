@@ -508,12 +508,14 @@ Maze.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
+  var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'media/',
        'maxBlocks': Maze.MAX_BLOCKS,
        'rtl': rtl,
        'toolbox': toolbox,
-       'trashcan': true});
+       'trashcan': true,
+       'zoom': {startScale: scale}});
   BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
   BlocklyGames.workspace.loadAudio_(Maze.SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.
@@ -755,7 +757,7 @@ Maze.levelHelp = function() {
   } else if (BlocklyGames.LEVEL == 9) {
     if (userBlocks.indexOf('maze_ifElse') == -1) {
       content = document.getElementById('dialogHelpIfElse');
-      style = {'width': '360px', 'top': '305px'};
+      style = {'width': '360px', 'top': '300px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[5].getSvgRoot();
     }

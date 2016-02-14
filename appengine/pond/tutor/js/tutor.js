@@ -105,9 +105,9 @@ Pond.Tutor.init = function() {
         '<xml>' +
         '  <block type="pond_swim" x="70" y="70">' +
         '    <value name="DEGREE">' +
-        '      <block type="pond_math_number">' +
+        '      <shadow type="pond_math_number">' +
         '        <field name="NUM">0</field>' +
-        '      </block>' +
+        '      </shadow>' +
         '    </value>' +
         '  </block>' +
         '</xml>';
@@ -116,14 +116,14 @@ Pond.Tutor.init = function() {
         '<xml>' +
         '  <block type="pond_cannon" x="70" y="70">' +
         '    <value name="DEGREE">' +
-        '      <block type="pond_math_number">' +
+        '      <shadow type="pond_math_number">' +
         '        <field name="NUM">0</field>' +
-        '      </block>' +
+        '      </shadow>' +
         '    </value>' +
         '    <value name="RANGE">' +
-        '      <block type="pond_math_number">' +
+        '      <shadow type="pond_math_number">' +
         '        <field name="NUM">70</field>' +
-        '      </block>' +
+        '      </shadow>' +
         '    </value>' +
         '  </block>' +
         '</xml>';

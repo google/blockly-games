@@ -194,69 +194,69 @@
       <block type="movie_circle">
       {if $ij.level != 2}
         <value name="X">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">50</field>
-          </block>
+          </shadow>
         </value>
       {/if}
         <value name="Y">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">50</field>
-          </block>
+          </shadow>
         </value>
         <value name="RADIUS">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">10</field>
-          </block>
+          </shadow>
         </value>
       </block>
       <block type="movie_rect">
         <value name="X">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">50</field>
-          </block>
+          </shadow>
         </value>
         <value name="Y">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">50</field>
-          </block>
+          </shadow>
         </value>
         <value name="WIDTH">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">10</field>
-          </block>
+          </shadow>
         </value>
         <value name="HEIGHT">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">10</field>
-          </block>
+          </shadow>
         </value>
       </block>
       <block type="movie_line">
         <value name="X1">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">40</field>
-          </block>
+          </shadow>
         </value>
         <value name="Y1">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">40</field>
-          </block>
+          </shadow>
         </value>
         <value name="X2">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">60</field>
-          </block>
+          </shadow>
         </value>
         <value name="Y2">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">60</field>
-          </block>
+          </shadow>
         </value>
         <value name="WIDTH">
-          <block type="math_number">
+          <shadow type="math_number">
             <field name="NUM">1</field>
-          </block>
+          </shadow>
         </value>
       </block>
       {if $ij.level > 1}
@@ -266,43 +266,43 @@
     <category name="{msg meaning="Games.catColour" desc="IBID"}Colour{/msg}">
       <block type="movie_colour">
         <value name="COLOUR">
-          <block type="colour_picker"></block>
+          <shadow type="colour_picker"></shadow>
         </value>
       </block>
       <block type="colour_picker"></block>
       {if $ij.level == 10}
         <block type="colour_rgb">
           <value name="RED">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">100</field>
-            </block>
+            </shadow>
           </value>
           <value name="GREEN">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">50</field>
-            </block>
+            </shadow>
           </value>
           <value name="BLUE">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">0</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="colour_blend">
           <value name="COLOUR1">
-            <block type="colour_picker">
+            <shadow type="colour_picker">
               <field name="COLOUR">#ff0000</field>
-            </block>
+            </shadow>
           </value>
           <value name="COLOUR2">
-            <block type="colour_picker">
+            <shadow type="colour_picker">
               <field name="COLOUR">#3333ff</field>
-            </block>
+            </shadow>
           </value>
           <value name="RATIO">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">0.5</field>
-            </block>
+            </shadow>
           </value>
         </block>
       {/if}
@@ -328,19 +328,19 @@
         <block type="controls_whileUntil"></block>
         <block type="controls_for">
           <value name="FROM">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
           </value>
           <value name="TO">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">10</field>
-            </block>
+            </shadow>
           </value>
           <value name="BY">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="controls_flow_statements"></block>
@@ -348,36 +348,88 @@
     {/if}
     <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
       <block type="math_number"></block>
-      <block type="math_arithmetic"></block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
       {if $ij.level == 10}
-        <block type="math_single"></block>
-        <block type="math_trig"></block>
-        <block type="math_constant"></block>
-        <block type="math_number_property"></block>
-        <block type="math_change">
-          <value name="DELTA">
-            <block type="math_number">
-              <field name="NUM">1</field>
-            </block>
+        <block type="math_single">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">9</field>
+            </shadow>
           </value>
         </block>
-        <block type="math_round"></block>
-        <block type="math_modulo"></block>
-        <block type="math_constrain">
-          <value name="LOW">
-            <block type="math_number">
+        <block type="math_trig">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">45</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constant"></block>
+        <block type="math_number_property">
+          <value name="NUMBER_TO_CHECK">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_change">
+          <value name="DELTA">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_round">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">3.1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_modulo">
+          <value name="DIVIDEND">
+            <shadow type="math_number">
+              <field name="NUM">64</field>
+            </shadow>
+          </value>
+          <value name="DIVISOR">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constrain">
+          <value name="VALUE">
+            <shadow type="math_number">
+              <field name="NUM">50</field>
+            </shadow>
+          </value>
+          <value name="LOW">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
           </value>
           <value name="HIGH">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">100</field>
-            </block>
+            </shadow>
           </value>
         </block>
       {/if}
     </category>
     {if $ij.level == 10}
+      <sep></sep>
       <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
       <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
     {/if}

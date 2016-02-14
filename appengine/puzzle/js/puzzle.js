@@ -86,15 +86,15 @@ Puzzle.init = function() {
     var blocksTraits = [];
     var i = 1;
     while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
-      var block = Blockly.Block.obtain(BlocklyGames.workspace, 'animal');
+      var block = BlocklyGames.workspace.newBlock('animal');
       block.populate(i);
       blocksAnimals.push(block);
-      var block = Blockly.Block.obtain(BlocklyGames.workspace, 'picture');
+      var block = BlocklyGames.workspace.newBlock('picture');
       block.populate(i);
       blocksPictures.push(block);
       var j = 1;
       while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
-        var block = Blockly.Block.obtain(BlocklyGames.workspace, 'trait');
+        var block = BlocklyGames.workspace.newBlock('trait');
         block.populate(i, j);
         blocksTraits.push(block);
         j++;
@@ -126,7 +126,7 @@ Puzzle.init = function() {
     // Position the blocks randomly.
     var MARGIN = 50;
     Blockly.svgResize(BlocklyGames.workspace);
-    var workspaceBox = Blockly.svgSize(BlocklyGames.workspace.options.svg);
+    var workspaceBox = Blockly.svgSize(BlocklyGames.workspace.getParentSvg());
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;

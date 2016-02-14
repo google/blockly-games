@@ -382,8 +382,6 @@ Blockly.Blocks['turtle_repeat_internal'] = {
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
-    this.getField('TIMES').setChangeHandler(
-        Blockly.FieldTextInput.nonnegativeIntegerValidator);
   }
 };
 
