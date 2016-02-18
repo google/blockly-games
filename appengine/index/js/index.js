@@ -33,7 +33,7 @@ goog.require('BlocklyGames');
  * Array of application names.
  */
 Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie',
-              'pond-tutor', 'pond-db'];
+              'pond-tutor', 'pond-duck'];
 
 /**
  * Initialize Blockly and the maze.  Called on page load.
@@ -86,17 +86,17 @@ Index.init = function() {
     }
   }
 
-  function offline(e) {
-    var msg = BlocklyGames.getMsg('Index_offline') +
-        '\n\nblockly-games.appspot.com';
-    alert(msg);
-    e.preventDefault();
-    return false;
-  }
-  if (BlocklyGames.IS_HTML) {
-    var link = document.getElementById('link-pond-db');
-    link.addEventListener('click', offline, true);
-  }
+  //function offline(e) {
+  //  var msg = BlocklyGames.getMsg('Index_offline') +
+  //      '\n\nblockly-games.appspot.com';
+  //  alert(msg);
+  //  e.preventDefault();
+  //  return false;
+  //}
+  //if (BlocklyGames.IS_HTML) {
+  //  var link = document.getElementById('link-pond-db');
+  //  link.addEventListener('click', offline, true);
+  //}
 };
 
 window.addEventListener('load', Index.init, false);

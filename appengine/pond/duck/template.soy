@@ -39,56 +39,19 @@
   <h1>
     {call BlocklyGames.soy.titleSpan}
       {param appName}
-        {msg meaning="Games.pond" desc="IBID"}Pond{/msg} :{sp}
-        {call Pond.soy.duckName}
-          {param name: $ij.name /}
-          {param id: $ij.id /}
-        {/call}
+        {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
       {/param}
     {/call}
-    {if $ij.editable}
-      {sp}<img src="pond/edit.png" class="edit{if $ij.name} grey{/if}" height=19 width=19 alt="Edit">
-    {/if}
-    {call Pond.soy.titleLevel /}
   </h1>
 
   {call Pond.soy.visualization /}
 
   <div id="tabarea">
     <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
-      <div class="goog-tab goog-tab-selected">{{msg meaning="Pond.about" desc="Label on a tab that contains general information.\n{lb}{lb}Identical|About{rb}{rb}"}}About{{/msg}}</div>
-      <div class="goog-tab">{{msg meaning="Pond.blocks" desc="Label on a tab that contains blocks editor.\n{lb}{lb}Identical|Blocks{rb}{rb}"}}Blocks{{/msg}}</div>
+      <div class="goog-tab goog-tab-selected">{{msg meaning="Pond.blocks" desc="Label on a tab that contains blocks editor.\n{lb}{lb}Identical|Blocks{rb}{rb}"}}Blocks{{/msg}}</div>
       <div class="goog-tab">JavaScript</div>
     </div>
     <div class="goog-tab-bar-clear"></div>
-    <div id="about">
-      <p id="description">
-        <img src="pond/quote0.png" class="quote0" alt='"'>
-        {if $ij.description}
-          {$ij.description}
-        {else}
-          {msg meaning="Pond.noDesc" desc="IBID"}No description yet...{/msg}
-        {/if}
-        <img src="pond/quote1.png" class="quote1" alt='"'>
-        {if $ij.editable}
-          {sp}&nbsp; <img src="pond/edit.png" class="edit{if $ij.description} grey{/if}" height=19 width=19 alt="Edit">
-        {/if}
-      </p>
-      <p>
-        {msg meaning="Pond.lastModified" desc="Heading. Hours, days or months since last change."}Last Modified{/msg}:{sp}
-        {call Pond.soy.timeAgo}
-          {param minutes: $ij.modified /}
-        {/call}
-      </p>
-      <p>
-        {msg meaning="Pond.lastModified" desc="Heading. Name of person who wrote some code."}Programmer{/msg}:{sp}
-        <a href="pond-player?id={$ij.player_id}">
-          {call Pond.soy.playerName}
-            {param name: $ij.player_name /}
-          {/call}
-        </a>
-      </p>
-    </div>
     <div id="blockly"></div>
     <div id="editor"></div>
   </div>

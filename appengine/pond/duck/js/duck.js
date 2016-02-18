@@ -79,10 +79,9 @@ Pond.Duck.init = function() {
   var rtl = BlocklyGames.isRtl();
   var visualization = document.getElementById('visualization');
   var tabDiv = document.getElementById('tabarea');
-  var aboutDiv = document.getElementById('about');
   var blocklyDiv = document.getElementById('blockly');
   var editorDiv = document.getElementById('editor');
-  var divs = [aboutDiv, blocklyDiv, editorDiv];
+  var divs = [blocklyDiv, editorDiv];
   var onresize = function(e) {
     var top = visualization.offsetTop;
     tabDiv.style.top = (top - window.pageYOffset) + 'px';
@@ -211,32 +210,27 @@ Pond.Duck.init = function() {
  * @param {number} index Which tab is now active (0-2).
  */
 Pond.Duck.changeTab = function(index) {
-  var ABOUT = 0;
-  var BLOCKS = 1;
-  var JAVASCRIPT = 2;
+  var BLOCKS = 0;
+  var JAVASCRIPT = 1;
   // Show the correct tab contents.
-  var names = ['about', 'blockly', 'editor'];
+  var names = ['blockly', 'editor'];
   for (var i = 0, name; name = names[i]; i++) {
     var div = document.getElementById(name);
     div.style.visibility = (i == index) ? 'visible' : 'hidden';
   }
   // Show/hide Blockly divs.
-  var names = ['.blocklyWidgetDiv', '.blocklyTooltipDiv', '.blocklyToolboxDiv'];
+  var names = ['.blocklyTooltipDiv', '.blocklyToolboxDiv'];
   for (var i = 0, name; name = names[i]; i++) {
     var div = document.querySelector(name);
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
   // Synchronize the documentation popup.
-  document.getElementById('docsButton').disabled = (index == ABOUT);
-  if (index == ABOUT) {
-    Pond.docsCloseClick();
-  } else {
-    BlocklyGames.LEVEL = (index == BLOCKS) ? 11 : 12;
-    if (Pond.isDocsVisible_) {
-      var frame = document.getElementById('frameDocs');
-      frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-          '&mode=' + BlocklyGames.LEVEL;
-    }
+  document.getElementById('docsButton').disabled = false;
+  BlocklyGames.LEVEL = (index == BLOCKS) ? 11 : 12;
+  if (Pond.isDocsVisible_) {
+    var frame = document.getElementById('frameDocs');
+    frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
+        '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
   if (index == JAVASCRIPT && Pond.Duck.blocksEnabled_) {
@@ -259,7 +253,7 @@ Pond.Duck.editorChanged = function() {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Pond_breakLink'))) {
       // Break link betweeen blocks and JS.
-      Pond.Duck.tabbar.getChildAt(1).setEnabled(false);
+      Pond.Duck.tabbar.getChildAt(0).setEnabled(false);
       Pond.Duck.blocksEnabled_ = false;
     } else {
       // Abort change, preserve link.
@@ -273,7 +267,7 @@ Pond.Duck.editorChanged = function() {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
       BlocklyGames.workspace.clear();
-      Pond.Duck.tabbar.getChildAt(1).setEnabled(true);
+      Pond.Duck.tabbar.getChildAt(0).setEnabled(true);
       Pond.Duck.blocksEnabled_ = true;
     }
   }

@@ -339,7 +339,6 @@ Pond.Battle.updateInterpreters_ = function() {
         avatar.interpreter.step();
       } catch (e) {
         console.log(avatar + ' throws an error: ' + e);
-        console.dir(avatar.interpreter.stateStack);
         avatar.die();
       }
       Pond.Battle.currentAvatar = null;

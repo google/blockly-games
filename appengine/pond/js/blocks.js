@@ -462,15 +462,23 @@ Blockly.Blocks['pond_math_number'] = {
           -1) {
         // Parent wants an angle.
         if (field.constructor != Blockly.FieldAngle) {
+          console.log('angle');
+          Blockly.Events.disable();
           input.removeField('NUM');
-          input.appendField(new Blockly.FieldAngle(value), 'NUM');
+          field = new Blockly.FieldAngle('');
+          input.appendField(field, 'NUM');
+          field.setText(value);
+          this.render();
+          Blockly.Events.enable();
         }
       } else {
         // Parent wants a number.
         if (field.constructor != Blockly.FieldTextInput) {
+          Blockly.Events.disable();
           input.removeField('NUM');
           input.appendField(new Blockly.FieldTextInput(value,
               Blockly.FieldTextInput.numberValidator), 'NUM');
+          Blockly.Events.enable();
         }
       }
     }
