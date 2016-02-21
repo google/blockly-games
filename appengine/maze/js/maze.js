@@ -514,8 +514,8 @@ Maze.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
-  Blockly.loadAudio_(Maze.SKIN.winSound, 'win');
-  Blockly.loadAudio_(Maze.SKIN.crashSound, 'fail');
+  Blockly.getMainWorkspace().loadAudio_(Maze.SKIN.winSound, 'win');
+  Blockly.getMainWorkspace().loadAudio_(Maze.SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
@@ -1252,7 +1252,7 @@ Maze.scheduleFail = function(forward) {
     Maze.displayPegman(Maze.pegmanX + deltaX,
                        Maze.pegmanY + deltaY,
                        direction16);
-    Blockly.playAudio('fail', 0.5);
+    Blockly.getMainWorkspace().playAudio('fail', 0.5);
     Maze.pidList.push(setTimeout(function() {
       Maze.displayPegman(Maze.pegmanX,
                          Maze.pegmanY,
@@ -1262,7 +1262,7 @@ Maze.scheduleFail = function(forward) {
       Maze.displayPegman(Maze.pegmanX + deltaX,
                          Maze.pegmanY + deltaY,
                          direction16);
-      Blockly.playAudio('fail', 0.5);
+      Blockly.getMainWorkspace().playAudio('fail', 0.5);
     }, Maze.stepSpeed * 2));
     Maze.pidList.push(setTimeout(function() {
         Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
@@ -1280,7 +1280,7 @@ Maze.scheduleFail = function(forward) {
       acceleration = 0.01;
     }
     Maze.pidList.push(setTimeout(function() {
-      Blockly.playAudio('fail', 0.5);
+      Blockly.getMainWorkspace().playAudio('fail', 0.5);
     }, Maze.stepSpeed * 2));
     var setPosition = function(n) {
       return function() {
@@ -1309,7 +1309,7 @@ Maze.scheduleFinish = function(sound) {
   var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
   Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
   if (sound) {
-    Blockly.playAudio('win', 0.5);
+    Blockly.getMainWorkspace().playAudio('win', 0.5);
   }
   Maze.stepSpeed = 150;  // Slow down victory animation a bit.
   Maze.pidList.push(setTimeout(function() {

@@ -33,6 +33,7 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
+goog.require('Blockly.WorkspaceSvg');
 
 BlocklyGames.NAME = 'turtle';
 
@@ -169,7 +170,8 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  Blockly.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
+  //Blockly.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
+  Blockly.getMainWorkspace().loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
@@ -680,7 +682,8 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      Blockly.playAudio('win', 0.5);
+      // Blockly.playAudio('win', 0.5);
+      Blockly.getMainWorkspace().playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {
