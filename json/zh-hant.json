@@ -3,7 +3,8 @@
 		"authors": [
 			"Gasolin",
 			"Justincheng12345",
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"LNDDYL"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -40,7 +41,7 @@
 	"Puzzle.error0": "完美！\n共%1塊積木皆正確。",
 	"Puzzle.error1": "差不多要完成了！只剩一塊不正確。",
 	"Puzzle.error2": "%1塊不正確。",
-	"Puzzle.tryAgain": "高亮顯示的積木不正確，請重試。",
+	"Puzzle.tryAgain": "反白標示塊不正確，請重試。",
 	"Puzzle.checkAnswers": "檢查答案",
 	"Puzzle.helpText": "為每個國家（綠色）加上其國旗、選擇其使用的語言並加入其擁有的城市。",
 	"Maze.moveForward": "向前移動",
@@ -81,9 +82,9 @@
 	"Turtle.turnTooltip": "按指定度數向左或向右轉動烏龜。",
 	"Turtle.turnRight": "右轉",
 	"Turtle.turnLeft": "左轉",
-	"Turtle.widthTooltip": "更改寬度。",
+	"Turtle.widthTooltip": "變更筆的寬度。",
 	"Turtle.setWidth": "將寬度設置為",
-	"Turtle.colourTooltip": "更改筆的顏色。",
+	"Turtle.colourTooltip": "變更畫筆色彩。",
 	"Turtle.setColour": "設定顏色",
 	"Turtle.penTooltip": "提高或放下筆以停止或開始繪圖",
 	"Turtle.penUp": "拿起筆",

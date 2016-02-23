@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2015-05-04 15:28:01.169535",
+		"lastupdated": "2016-02-22 15:11:29.524437",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -199,7 +199,6 @@
 	"Movie.helpText9": "Can you make a ball that follows the wire? The wire has already been drawn for you. Once you can do this, you can do anything.",
 	"Movie.helpText10": "Make a movie of anything you want. You've got a huge number of new blocks you can explore. Have fun!",
 	"Movie.helpText10Reddit": "Use the &quot;See Gallery&quot; button to see movies that other people have made. If you make an interesting movie, use the &quot;Submit to Gallery&quot; button to publish it.",
-	"Pond.playerName": "Player",
 	"Pond.scanTooltip": "Scan for enemies. Specify a direction (0-360). Returns the distance to the closest enemy in that direction. Returns Infinity if no enemy found.",
 	"Pond.cannonTooltip": "Fire the cannon. Specify a direction (0-360) and a range (0-70).",
 	"Pond.swimTooltip": "Swim forward. Specify a direction (0-360).",
@@ -210,6 +209,7 @@
 	"Pond.locYTooltip": "Returns the Y coordinate of the player (0 is the bottom edge, 100 is the top edge).",
 	"Pond.docsTooltip": "Display the language documentation.",
 	"Pond.documentation": "Documentation",
+	"Pond.playerName": "Player",
 	"Pond.targetName": "Target",
 	"Pond.pendulumName": "Pendulum",
 	"Pond.scaredName": "Scared",
@@ -225,7 +225,6 @@
 	"Pond.counterName": "Counter",
 	"Pond.rookName": "Rook",
 	"Pond.sniperName": "Sniper",
-	"Pond.breakLink": "Once you start editing JavaScript, you can't go back to editing blocks.  Is this OK?",
-	"Pond.about": "About",
+	"Pond.breakLink": "Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?",
 	"Pond.blocks": "Blocks"
 }

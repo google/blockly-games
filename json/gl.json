@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Toliño"
+			"Toliño",
+			"Macofe"
 		]
 	},
 	"Games.puzzle": "Crebacabezas",
@@ -33,7 +34,7 @@
 	"Puzzle.error2": "%1 bloques son incorrectos.",
 	"Puzzle.tryAgain": "O bloque destacado non é correcto.\nSigue intentándoo.",
 	"Puzzle.checkAnswers": "Comprobar as respostas",
-	"Puzzle.helpText": "A cada país (en verde) faille corresponder a súa bandeira, sinala a súa lingua e apiña as súas cidades.",
+	"Puzzle.helpText": "A cada animal (en verde), faille corresponder a súa foto, sinala o seu número de patas e apiña os seus trazos.",
 	"Maze.moveForward": "avanzar",
 	"Maze.turnLeft": "xirar á esquerda",
 	"Maze.turnRight": "xirar á dereita",
@@ -91,5 +92,6 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "negra",
 	"Turtle.fontItalic": "cursiva",
-	"Turtle.catTurtle": "Tartaruga"
+	"Turtle.catTurtle": "Tartaruga",
+	"Pond.documentation": "Documentación"
 }

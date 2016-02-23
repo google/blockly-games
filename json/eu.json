@@ -2,7 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Xabier Armendaritz",
-			"Subi"
+			"Subi",
+			"Asieriko",
+			"An13sa"
 		]
 	},
 	"Games.puzzle": "Puzzle",
@@ -12,7 +14,7 @@
 	"Games.movie": "Filma",
 	"Games.pond": "Urmaela",
 	"Games.linesOfCode1": "Maila hau gainditu duzu JavaScript lerro bat erabiliz:",
-	"Games.linesOfCode2": "Maila hau gainditu duzu JavaScript %1 lerro erabiliz:",
+	"Games.linesOfCode2": "Maila hau gainditu duzu %1 JavaScript lerro erabiliz:",
 	"Games.nextLevel": "Prest zaude %1. mailarako?",
 	"Games.finalLevel": "Prest zaude hurrengo erronkarako?",
 	"Games.linkTooltip": "Gorde eta lotura sortu.",
@@ -64,7 +66,7 @@
 	"Puzzle.error2": "%1 bloke ez dira zuzenak.",
 	"Puzzle.tryAgain": "Markatuta agertzen den blokea ez da zuzena.\nSaiatu berriro.",
 	"Puzzle.checkAnswers": "Erantzunak egiaztatu",
-	"Puzzle.helpText": "Herrialde bakoitzari (berdea), bandera jarri, bere hizkuntza aukeratu, eta hiriak jarri.",
+	"Puzzle.helpText": "Animalia bakoitzari (berdea), argazkia jarri, bere hanka kopurua aukeratu, eta bere berezitasunak ere.",
 	"Maze.moveForward": "mugi aurrera",
 	"Maze.turnLeft": "biratu ezker",
 	"Maze.turnRight": "biratu eskuin",
@@ -85,8 +87,8 @@
 	"Maze.capacity2": "%2 bloke geratzen dira.",
 	"Maze.helpStack": "Elkartu 'mugi aurrera' bloke pare bat helmugara iritsi ahal izateko.",
 	"Maze.helpOneTopBlock": "Maila honetan, bloke guztiak lan-eremu txurian pilatu behar dituzu.",
-	"Maze.helpRepeat": "Ordenagailuek memoria mugatua daukate. Saiatu zaitez bide honen bukaerara iristen soilik bi bloke erabiliz. Erabili 'errepikatu' bloke bat behin baino gehiagotan to run a block more than once.",
-	"Maze.helpRepeatMany": "Iritsi helmugara soilik bost bloke erabiliz.",
+	"Maze.helpRepeat": "Ordenagailuek memoria-kantitate mugatua dute. Saia zaitez bide honen bukaerara iristen soilik bi bloke erabiliz. Bloke bat behin baino gehiagotan erabiltzeko, erabili 'errepikatu'.",
+	"Maze.helpRepeatMany": "'errepikatu' bloke baten barruan bloke bat baino gehiago erabili dezakezu.",
 	"Maze.helpIf": "'if' bloke batek zeozer egingo du bakarrik baldintza betetzen bada. Saiatu ezkerrera biratzen ezkerrera bidea baldin badago.",
 	"Maze.helpWallFollow": "Labirinto zail honi irtenbidea aurkitu diezaiokezu? Saia zaitez ezker-pareta jarraitzen.",
 	"Turtle.hideTurtle": "ezkutatu dortoka",

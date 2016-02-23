@@ -7,7 +7,8 @@
 			"Luotiancheng",
 			"Qiyue2001",
 			"Yfdyh000",
-			"Jiang123aa"
+			"Jiang123aa",
+			"Sherry"
 		]
 	},
 	"Games.name": "Blockly 游戏",
@@ -113,6 +114,7 @@
 	"Bird.headingTooltip": "移动到指定角度的方向：0是向右，90则是正上方等。",
 	"Bird.positionTooltip": "横坐标和纵坐标记录鸟的位置。当 x = 0 时鸟靠近左边，当 x = 100 时靠近右边。当 y = 0 时鸟在底部，当 y = 100 时在顶部。",
 	"Bird.helpHeading": "更改航向角以使鸟有虫吃并落在她的巢中。",
+	"Bird.helpX": "'x'是您现在的水平位置。用这个版块来进入一个当'x'小于某个数字时的标题，或者另一个不同的标题。",
 	"Bird.helpElse": "点击图标以修改“if”方块。",
 	"Bird.helpElseIf": "此等级既需要“else if”又需要“else”方块。",
 	"Bird.helpAnd": "“and”方块只在输入都为真时为真。",
@@ -155,7 +157,9 @@
 	"Turtle.helpText2": "更改您的程序，让它改为绘制一个五边形而不是正方向。",
 	"Turtle.helpText3a": "有一个新的方块了，它可以让您更改颜色：",
 	"Turtle.helpText3b": "画一个黄色的星星。",
+	"Turtle.helpText4a": "这是一个能够在您移动鼠标时把您的笔从页面上移除的新版块。",
 	"Turtle.helpText4b": "绘制一个黄色的星，然后在它上面绘制一条线。",
+	"Turtle.helpText5": "你能否在方框中画出4个五角星来代替一个呢？",
 	"Turtle.helpText6": "绘制三个黄色的星星，和一条白色直线。",
 	"Turtle.helpText7": "画出星星，然后画四条白色直线。",
 	"Turtle.helpText8": "绘制360条白色直线将看起来像满月一样。",
@@ -177,7 +181,9 @@
 	"Movie.circleDraw": "圆",
 	"Movie.rectTooltip": "在指定位置画一个指定长和宽的矩形。",
 	"Movie.rectDraw": "矩形",
+	"Movie.lineTooltip": "从一点到另一点画一条给定粗细的线",
 	"Movie.lineDraw": "线",
+	"Movie.timeTooltip": "在动画绘制(0-100)中回到当前的时间。",
 	"Movie.colourTooltip": "更改笔的颜色。",
 	"Movie.setColour": "设置颜色为",
 	"Movie.submitDisabled": "您的电影没有动。使用方块以制作一些有趣的东西。之后您可以提交您的电影至图库。",
@@ -189,6 +195,7 @@
 	"Movie.helpText2a": "该等级是一个电影。你想要一个在屏幕上滚动的红球的话，请按下播放键来观看预演。",
 	"Movie.helpText2b": "作为电影戏剧，“time”区块的值从0到100。由于您希望红色小球的水平位置从0开始运动至100，这将会变得很容易。",
 	"Movie.helpText3": "“time”区块的值从0到100。但此时您希望红色小球的水平位置从0开始运动至100。您可以算出一个简单的求翻转方向的数学公式么？",
+	"Movie.helpText6": "两条简单的线。计算出线两端在干什么吧。",
 	"Pond.playerName": "玩家",
 	"Pond.targetName": "目标",
 	"Pond.rabbitName": "兔子",
@@ -197,10 +204,12 @@
 	"Pond.sniperName": "狙击手",
 	"Pond.pendulumName": "摇摆不定",
 	"Pond.scaredName": "害怕",
+	"Pond.cannonTooltip": "试射大炮。指定一个方向（0~360）和一个范围（0~70）。",
 	"Pond.swimTooltip": "向前游，并指定一个方向（0-360）。",
 	"Pond.stopTooltip": "停止游泳。玩家将缓慢停止。",
 	"Pond.locYTooltip": "返回玩家的纵坐标（0是在底部，100则是在顶部）。",
 	"Pond.docsTooltip": "显示语言文档。",
 	"Pond.documentation": "文档",
+	"Pond.helpUseScan": "您的解决方案能够工作，但您可以做的更好。使用“scan”以告诉大炮射击多远。",
 	"Pond.helpText3a": "此对手来回移动，使其很难被攻击。“scan”表达式返回特定位置具体范围内的对手。"
 }

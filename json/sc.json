@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Via maxima"
+			"Via maxima",
+			"Uharteko"
 		]
 	},
 	"Games.name": "Giogus de Blockly",
@@ -22,7 +23,7 @@
 	"Games.resetProgram": "Reset",
 	"Games.help": "Agiudu",
 	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Anudda",
+	"Games.dialogCancel": "Annulla",
 	"Games.catLogic": "Lògica",
 	"Games.catLoops": "Lòrigas",
 	"Games.catMath": "Matemàtica",
@@ -219,5 +220,8 @@
 	"Pond.helpText1": "Impera su cumandu 'cannon' po ferri su bressallu. Su primu parametru est s'angulu, su segundu parametru est s'impostúra.Cumbinaddus beni a pari.",
 	"Pond.helpText2": "Custu bressallu depit essi fertu prus e prus bortas. Impera una lòriga 'while (true)' po fai una cosa po unu tempus indefiniu.",
 	"Pond.helpText3a": "Custu bressallu depit essi fertu prus e prus bortas. Impera una lòriga 'while (true)' po fai una cosa po unu tempus indefiniu.",
-	"Pond.helpText3b": "Custa impostúra est propri su chi serbit a su cumandu 'cannon' po ferri in su puntu giustu."
+	"Pond.helpText3b": "Custa impostúra est propri su chi serbit a su cumandu 'cannon' po ferri in su puntu giustu.",
+	"Pond.helpText4": "Est tropu atesu po su cannoni (chi tirat a massimu 70 metrus). Prova su cumandu 'swim' po annadai, t'acostai e ti nci scudi a s'aversariu.",
+	"Pond.helpText5": "Est tropu atesu po su cannoni e tui ses tropu debili po ddu stumbai. Prova a annadai e candu ses prus acanta de 50 in orizontali firma e tira cun su cannoni.",
+	"Pond.helpText6": "Cutu si ndi stesiat candu ddi ferit sa balla. Prova su cumandu 'swim' po t'acostai si est foras de tiru (70 metrus)."
 }
