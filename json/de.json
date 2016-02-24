@@ -13,8 +13,7 @@
 	"Games.bird": "Vogel",
 	"Games.turtle": "Schildkröte",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Teich",
-	"Games.pondAdvanced": "JS-Teich",
+	"Games.pond": "Teich",
 	"Games.linesOfCode1": "Du hast dieses Level mit 1 Zeile JavaScript gelöst:",
 	"Games.linesOfCode2": "Du hast dieses Level mit %1 Zeilen JavaScript gelöst:",
 	"Games.nextLevel": "Bist du bereit für Level %1?",
@@ -227,8 +226,5 @@
 	"Pond.helpText4": "Dieser Gegner ist zu weit weg, um die Kanone zu verwenden (sie hat ein Limit von 70 Metern). Verwende stattdessen den Befehl „swim“, um mit dem Schwimmen nach gegenüber zu beginnen und mit dem Gegner zusammenzustoßen.",
 	"Pond.helpText5": "Dieser Gegner ist ebenfalls zu weit weg, um die Kanone zu verwenden. Aber du bist zu schwach, um einen Zusammenstoß zu überleben. Schwimme nach gegenüber zum Gegner, derweil ist dein horizontaler Standort weniger als 50. Dann „stop“ und verwende die Kanone.",
 	"Pond.helpText6": "Dieser Gegner zieht fort, wenn er geschlagen wird. Schwimm nach gegenüber, falls er außerhalb des Bereichs ist (70 Meter).",
-	"Pond.helpText7": "Rabbit läuft zufällig herum. Kannst du es schlagen?",
-	"Pond.helpText8": "Rook schlägt zurück! Aber es schaut nur nach Norden, Süden, Osten und Westen.",
-	"Pond.helpText9": "Counter sieht in alle Richtungen. Kannst du mit zwei Gegnern gleichzeitig umgehen?",
-	"Pond.helpText10": "Sniper versteckt sich in einer Ecke, das nach Zielen sucht. Viel Glück. Ernsthaft."
+	"Pond.blocks": "Bausteine"
 }

@@ -16,8 +16,7 @@
 	"Games.bird": "Pájaro",
 	"Games.turtle": "Tortuga",
 	"Games.movie": "Película",
-	"Games.pondBasic": "Estanque",
-	"Games.pondAdvanced": "Estanque JS",
+	"Games.pond": "Estanque",
 	"Games.linesOfCode1": "Resolviste este nivel con 1 línea de JavaScript:",
 	"Games.linesOfCode2": "Resolviste este nivel con %1 líneas de JavaScript:",
 	"Games.nextLevel": "¿Estás listo/a para el nivel %1?",
@@ -230,8 +229,5 @@
 	"Pond.helpText4": "Este oponente está demasiado lejos para usar el cañón (que tiene un límite de 70 metros). En su lugar, utilisa el comando 'swim' para comenzar a nadar hacia el oponente y chocar con él.",
 	"Pond.helpText5": "Este oponente también está demasiado lejos como para usar el cañón. Pero eres demasiado débil para sobrevivir a una colisión. Nada hacia el oponente mientras su ubicación horizontal sea menor a 50. Luego detente (con 'stop') y usa el cañón.",
 	"Pond.helpText6": "Este oponente se alejará cuando sea golpeado. Nada hacia él si está fuera de alcance (70 metros).",
-	"Pond.helpText7": "El conejo correo por cualquier lado. ¿Puedes darle?",
-	"Pond.helpText8": "¡La torre contraataca! Pero sólo mira al norte, sur, este y oeste.",
-	"Pond.helpText9": "El contador mira en todas las direcciones. ¿Podrás controlar dos oponentes a la vez?",
-	"Pond.helpText10": "El francotirador se esconde en una esquina buscando objetivos. Buena suerte. En serio."
+	"Pond.blocks": "Bloques"
 }

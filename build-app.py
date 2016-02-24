@@ -110,6 +110,10 @@ def write_uncompressed(name, lang):
   proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
   files = proc.stdout.readlines()
 
+  if name == 'pond/docs':
+    path = '../'
+  else:
+    path = ''
   prefix = 'appengine/'
   srcs = []
   for file in files:
@@ -118,7 +122,7 @@ def write_uncompressed(name, lang):
       file = file[len(prefix):]
     else:
       raise(Exception('"%s" is not in "%s".' % (file, prefix)))
-    srcs.append('"%s"' % file)
+    srcs.append('"%s%s"' % (path, file))
   f = open('appengine/%s/generated/%s/uncompressed.js' % (name, lang), 'w')
   f.write("""%s
 (function() {

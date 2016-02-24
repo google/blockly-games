@@ -11,7 +11,7 @@
 	"Games.bird": "鳥",
 	"Games.turtle": "タートル",
 	"Games.movie": "動画",
-	"Games.pondBasic": "池",
+	"Games.pond": "池",
 	"Games.linkTooltip": "ブロックの状態を保存してリンクを取得します。",
 	"Games.runTooltip": "あなたの書いたプログラムを実行。",
 	"Games.runProgram": "プログラムを実行",
@@ -146,5 +146,6 @@
 	"Pond.sniperName": "スナイパー",
 	"Pond.pendulumName": "ふりこ",
 	"Pond.scaredName": "こわがって",
-	"Pond.swimTooltip": "前へ泳ぐ。方向を指定してください。(0-360)"
+	"Pond.swimTooltip": "前へ泳ぐ。方向を指定してください。(0-360)",
+	"Pond.blocks": "ブロック"
 }

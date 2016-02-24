@@ -131,6 +131,12 @@ BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
 BlocklyGames.IS_HTML = !!window.location.pathname.match(/\.html$/);
 
 /**
+ * Blockly's main workspace.
+ * @type Blockly.WorkspaceSvg
+ */
+BlocklyGames.workspace = null;
+
+/**
  * Extracts a parameter from the URL.
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.
@@ -189,10 +195,8 @@ BlocklyGames.init = function() {
   document.title = document.getElementById('title').textContent;
 
   // Set the HTML's language and direction.
-  // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=151407
   var rtl = BlocklyGames.isRtl();
-  document.head.parentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr');
+  document.dir = rtl ? 'rtl' : 'ltr';
   document.head.parentElement.setAttribute('lang', BlocklyGames.LANG);
 
   // Populate the language selection menu.

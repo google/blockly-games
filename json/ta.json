@@ -11,8 +11,7 @@
 	"Games.bird": "பறவை",
 	"Games.turtle": "ஆமை",
 	"Games.movie": "திரைப்படம்",
-	"Games.pondBasic": "குளம்",
-	"Games.pondAdvanced": "ஜாவாஸ்க்ரிப்ட் குளம்",
+	"Games.pond": "குளம்",
 	"Games.linesOfCode1": "முதல் நிலையை ஒரு வரி ஜாவாஸ்க்ரிப்ட்-இல் முடித்தீர்கள்",
 	"Games.linesOfCode2": "இந்த நிலையை %1 வரி ஜாவாஸ்க்ரிப்ட்-இல் முடித்தீர்கள்",
 	"Games.nextLevel": "நீங்கள் இந்த %1 நிலைக்கு தயாரா?",
@@ -109,5 +108,6 @@
 	"Pond.sniperName": "மறை வேடர்",
 	"Pond.pendulumName": "ஊசலி",
 	"Pond.scaredName": "பயந்திருத்தல்",
-	"Pond.documentation": "உதவி ஆவணம்"
+	"Pond.documentation": "உதவி ஆவணம்",
+	"Pond.blocks": "நிரல் துண்டு"
 }

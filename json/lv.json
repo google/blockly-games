@@ -11,7 +11,7 @@
 	"Games.bird": "Putns",
 	"Games.turtle": "Bruņurupucis",
 	"Games.movie": "Filma",
-	"Games.pondBasic": "Dīķis",
+	"Games.pond": "Dīķis",
 	"Games.linesOfCode1": "Tu atrisināji šo līmeni izmantojot 1 JavaScript rindiņu:",
 	"Games.linesOfCode2": "Tu atrisināji šo līmeni izmantojot %1 JavaScript rindiņu:",
 	"Games.nextLevel": "Vai esi gatavs %1 līmenim?",

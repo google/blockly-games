@@ -15,8 +15,7 @@
 	"Games.bird": "Uccello",
 	"Games.turtle": "Tartaruga",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Stagno",
-	"Games.pondAdvanced": "Stagno JS",
+	"Games.pond": "Stagno",
 	"Games.linesOfCode1": "Hai risolto questo livello con 1 riga di codice JavaScript:",
 	"Games.linesOfCode2": "Hai risolto questo livello con %1 righe di codice JavaScript:",
 	"Games.nextLevel": "Sei pronto per il livello %1?",
@@ -229,8 +228,5 @@
 	"Pond.helpText4": "Questo avversario è troppo lontano per usare il cannone (che ha un limite di 70 metri). Utilizza, invece, il comando 'swim' per iniziare a nuotare verso l'avversario e scontrarcisi.",
 	"Pond.helpText5": "Anche questo avversario è troppo lontano per usare il cannone. Ma sei troppo debole per sopravvivere a una collisione. Nuota verso l'avversario mentre la tua posizione orizzontale è minore di 50. Poi fermati ('stop') e usa il cannone.",
 	"Pond.helpText6": "Questo avversario si allontanerà quando verrà colpito. Nuota verso di esso se è fuori della tua portata (70 metri).",
-	"Pond.helpText7": "Il coniglio corre qua e là in modo casuale. Riesci a colpirlo?",
-	"Pond.helpText8": "Rook torna a combattere! Ma guarda solo il nord, il sud, l'est e l'ovest.",
-	"Pond.helpText9": "Coubter guarda in tutte le direzioni. Riesci a gestire due avversari alla volta?",
-	"Pond.helpText10": "Il cecchino si nasconde in un angolo in cerca di obiettivi. Buona fortuna. Sul serio."
+	"Pond.blocks": "Blocchi"
 }

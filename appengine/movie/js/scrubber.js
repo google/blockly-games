@@ -54,7 +54,6 @@ Scrubber = function(svgParent, opt_changeFunc) {
   if (BlocklyGames.isRtl()) {
     text.setAttribute('text-anchor', 'end');
   }
-  text.setAttribute('y', 16);
   svgParent.appendChild(text);
   this.text_ = text;
 

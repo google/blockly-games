@@ -15,8 +15,7 @@
 	"Games.bird": "Lintu",
 	"Games.turtle": "Kilpikonna",
 	"Games.movie": "Elokuva",
-	"Games.pondBasic": "Lampi",
-	"Games.pondAdvanced": "JS-lampi",
+	"Games.pond": "Lampi",
 	"Games.linesOfCode1": "Ratkaisit tämän tason yhdellä rivillä JavaScriptiä:",
 	"Games.linesOfCode2": "Ratkaisit tämän tason %1 rivillä JavaScriptiä:",
 	"Games.nextLevel": "Oletko valmis tasoon %1?",
@@ -212,9 +211,5 @@
 	"Pond.helpText3b": "Tämä etäisyys on juuri mitä 'cannon' komento tarvitsee ampuakseen tarkasti.",
 	"Pond.helpText4": "Tämä vastustaja on liian kaukana jotta voisit käyttää kanuunaa (kantama on 70 metriä). Joudut siksi käyttämään 'swim' toimintoa uidaksesi vastustajaa kohti ja törmätäksesi siihen.",
 	"Pond.helpText5": "Tämä vihollinen on myös liian kaukana jotta kanuunaa voisi käyttää. Olet myös liian heikko selviytyäksesi yhteentörmäyksestä. Ui vastustajaa kohti kunnes etäisyys on vähemmän kuin 50. Pysähdy sitter ja käytä kanuunaa.",
-	"Pond.helpText6": "Tämä vihollinen siirtyy kauemmas kun saa osuman. Ui sitä kohti jos se on ampumasäteen ulkopuolella (70 metriä).",
-	"Pond.helpText7": "Jänis juoksentelee satunnaisesti. Onnistutko osumaan siihen?",
-	"Pond.helpText8": "Rook tappelee takaisin. Se kuitenkin katsoo vain pohjoiseen, etelään, itään ja länteen.",
-	"Pond.helpText9": "'Counter' katselee jokaiseen suuntaan. Osaatko käyttää kahta vastustajaa yhtäaikaa?",
-	"Pond.helpText10": "Sniper on piilossa nurkassa etsimässä kohteita. Onnea. Todellakin."
+	"Pond.helpText6": "Tämä vihollinen siirtyy kauemmas kun saa osuman. Ui sitä kohti jos se on ampumasäteen ulkopuolella (70 metriä)."
 }

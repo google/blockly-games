@@ -157,7 +157,7 @@ Blockly.JavaScript['pond_stop'] = function(block) {
 
 Blockly.Blocks['pond_health'] = {
   /**
-   * Block for player health.
+   * Block for avatar health.
    * @this Blockly.Block
    */
   init: function() {
@@ -170,13 +170,13 @@ Blockly.Blocks['pond_health'] = {
 };
 
 Blockly.JavaScript['pond_health'] = function(block) {
-  // Generate JavaScript for player health.
+  // Generate JavaScript for avatar health.
   return ['health()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['pond_speed'] = {
   /**
-   * Block for player speed.
+   * Block for avatar speed.
    * @this Blockly.Block
    */
   init: function() {
@@ -189,7 +189,7 @@ Blockly.Blocks['pond_speed'] = {
 };
 
 Blockly.JavaScript['pond_speed'] = function(block) {
-  // Generate JavaScript for player speed.
+  // Generate JavaScript for avatar speed.
   return ['speed()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -393,6 +393,7 @@ Blockly.Blocks['logic_compare'].init = function() {
     };
     return TOOLTIPS[op];
   });
+  this.prevBlocks_ = [null, null];
 };
 
 Blockly.Msg.LOGIC_OPERATION_AND = '&&';
@@ -455,21 +456,29 @@ Blockly.Blocks['pond_math_number'] = {
         this.outputConnection.targetConnection.check_) {
       // Plugged in to parent.
       var input = this.getInput('DUMMY');
-      var field = this.getField_('NUM');
+      var field = this.getField('NUM');
       var value = field.getValue();
       if (this.outputConnection.targetConnection.check_.indexOf('Angle') !=
           -1) {
         // Parent wants an angle.
         if (field.constructor != Blockly.FieldAngle) {
+          console.log('angle');
+          Blockly.Events.disable();
           input.removeField('NUM');
-          input.appendField(new Blockly.FieldAngle(value), 'NUM');
+          field = new Blockly.FieldAngle('');
+          input.appendField(field, 'NUM');
+          field.setText(value);
+          this.render();
+          Blockly.Events.enable();
         }
       } else {
         // Parent wants a number.
         if (field.constructor != Blockly.FieldTextInput) {
+          Blockly.Events.disable();
           input.removeField('NUM');
           input.appendField(new Blockly.FieldTextInput(value,
               Blockly.FieldTextInput.numberValidator), 'NUM');
+          Blockly.Events.enable();
         }
       }
     }
@@ -742,17 +751,19 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.quarkArguments_ = null;
 };
 
-Blockly.Blocks['procedures_callnoreturn'].setProcedureParametersOld_ =
-    Blockly.Blocks['procedures_callnoreturn'].setProcedureParameters;
-
 /**
- * Override the default setProcedureParameters to also move the tail input to
- * the end (rather than having all the params at the end).
+ * Render the arguments.
  * @this Blockly.Block
+ * @private
  */
-Blockly.Blocks['procedures_callnoreturn'].setProcedureParameters =
-    function(paramNames, paramIds) {
-  this.setProcedureParametersOld_(paramNames, paramIds);
+Blockly.Blocks['procedures_callnoreturn'].renderArgs_ = function() {
+  for (var i = 0; i < this.arguments_.length; i++) {
+    var input = this.appendValueInput('ARG' + i);
+    if (i > 0) {
+      input.setAlign(Blockly.ALIGN_RIGHT).appendField(',');
+    }
+    input.init();
+  }
   this.moveInputBefore('TAIL', null);
 };
 
@@ -776,11 +787,8 @@ Blockly.Blocks['procedures_callreturn'].init = function() {
   this.quarkArguments_ = null;
 };
 
-Blockly.Blocks['procedures_callreturn'].setProcedureParametersOld_ =
-    Blockly.Blocks['procedures_callreturn'].setProcedureParameters;
-
-Blockly.Blocks['procedures_callreturn'].setProcedureParameters =
-    Blockly.Blocks['procedures_callnoreturn'].setProcedureParameters;
+Blockly.Blocks['procedures_callreturn'].renderArgs_ =
+    Blockly.Blocks['procedures_callnoreturn'].renderArgs_;
 
 // Don't show the "if/return" block.
 delete Blockly.Blocks['procedures_ifreturn']

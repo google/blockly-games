@@ -94,5 +94,6 @@
 	"Turtle.fontNormal": "normală",
 	"Turtle.fontBold": "aldin",
 	"Turtle.fontItalic": "cursiv",
-	"Turtle.catTurtle": "Țestoasă"
+	"Turtle.catTurtle": "Țestoasă",
+	"Pond.blocks": "Blocuri"
 }

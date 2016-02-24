@@ -15,8 +15,7 @@
 	"Games.bird": "طائر",
 	"Games.turtle": "السلحفاة",
 	"Games.movie": "فلم",
-	"Games.pondBasic": "البركة.",
-	"Games.pondAdvanced": "البركة JS",
+	"Games.pond": "البركة.",
 	"Games.linesOfCode1": "لقد وجدت حل هذا المستوى بسطر واحد من جافا سكريبت :",
 	"Games.linesOfCode2": "لقد تجاوزت هذا المستوى بـ 1% أسطر من جافا سكريبت :",
 	"Games.nextLevel": "هل أنت جاهز للمستوى %1 ؟",
@@ -150,5 +149,6 @@
 	"Movie.setColour": "تعيين اللون إلى",
 	"Pond.playerName": "اللاعب",
 	"Pond.targetName": "الهدف",
-	"Pond.rabbitName": "أرنب"
+	"Pond.rabbitName": "أرنب",
+	"Pond.blocks": "البلوكات"
 }

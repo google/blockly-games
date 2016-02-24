@@ -128,7 +128,7 @@
         <img src="common/help.png">
       </td><td>&nbsp;</td><td>
         {msg meaning="Maze.helpOneTopBlock" desc="callout - This is displayed if a user attempts to run a program composed of multiple stacks of blocks, letting them know they need to create a single stack."}On this level, you need to stack together all of the blocks in the white workspace.{/msg}
-        <iframe id="iframeOneTopBlock" style="height: 80px; width: 100%; border: none;" src=""></iframe>
+        <div id="sampleOneTopBlock" class="readonly"></div>
       </td></tr></table>
     </div>
     <div id="dialogHelpRun" class="dialogHiddenContent">
@@ -253,12 +253,4 @@
       {/if}
     {/if}
   </xml>
-{/template}
-
-/**
- * Readonly Blockly in an iframe.
- */
-{template .readonly}
-  {call .messages /}
-  <div id="blockly"></div>
 {/template}

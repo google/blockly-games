@@ -1,5 +1,5 @@
 application: blockly-games
-version: 2
+version: 1
 runtime: python27
 api_version: 1
 threadsafe: no
@@ -89,13 +89,13 @@ handlers:
   secure: always
 
 # Pond apps.
-- url: /pond-basic
-  static_files: pond-basic.html
-  upload: pond-basic\.html
+- url: /pond-tutor
+  static_files: pond-tutor.html
+  upload: pond-tutor\.html
   secure: always
-- url: /pond-advanced
-  static_files: pond-advanced.html
-  upload: pond-advanced\.html
+- url: /pond-duck
+  static_files: pond-duck.html
+  upload: pond-duck\.html
   secure: always
 - url: /pond/
   static_dir: pond
@@ -150,6 +150,7 @@ skip_files:
 # Custom skip patterns.
 - ^\w+/sources/.*$
 - ^js-read-only/blockly/generators/dart.*$
+- ^js-read-only/blockly/generators/php.*$
 - ^js-read-only/blockly/generators/python.*$
 - ^js-read-only/third_party_goog/.*$
 - ^js-read-only/ace/snippets/.*$

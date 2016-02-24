@@ -2,12 +2,12 @@
 # Definitions
 ##############################
 
-USER_APPS = {index,puzzle,maze,bird,turtle,movie,pond/docs,pond/basic,pond/advanced}
-ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,pond/docs,pond,pond/basic,pond/advanced}
-ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/basic/template.soy,appengine/pond/advanced/template.soy
+USER_APPS = {index,puzzle,maze,bird,turtle,movie,pond/docs,pond/tutor,pond/duck}
+ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,pond/docs,pond,pond/tutor,pond/duck}
+ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy
 
 JS_READ_ONLY = appengine/js-read-only
-SOY_COMPILER = java -jar closure-templates-read-only/build/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces
+SOY_COMPILER = java -jar closure-templates-read-only/build/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
 SOY_EXTRACTOR = java -jar closure-templates-read-only/build/SoyMsgExtractor.jar
 
 BLOCKY_DIR = $(PWD)
@@ -44,23 +44,24 @@ movie-en: common-en
 	python build-app.py movie en
 
 pond-docs-en:
+	mkdir -p appengine/pond/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/docs/generated/en/soy.js --srcs appengine/pond/docs/template.soy
 	python build-app.py pond/docs en
 
-pond-basic-en: pond-common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/basic/generated/en/soy.js --srcs appengine/pond/basic/template.soy
-	python build-app.py pond/basic en
+pond-tutor-en: pond-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/tutor/generated/en/soy.js --srcs appengine/pond/tutor/template.soy
+	python build-app.py pond/tutor en
 
-pond-advanced-en: pond-common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/advanced/generated/en/soy.js --srcs appengine/pond/advanced/template.soy
-	python build-app.py pond/advanced en
+pond-duck-en: pond-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy
+	python build-app.py pond/duck en
 
 pond-common-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/generated/en/soy.js --srcs appengine/pond/template.soy
 common-en:
 	$(SOY_COMPILER) --outputPathFormat appengine/generated/en/soy.js --srcs appengine/template.soy
 
-en: index-en puzzle-en maze-en bird-en turtle-en movie-en pond-docs-en pond-basic-en pond-advanced-en
+en: index-en puzzle-en maze-en bird-en turtle-en movie-en pond-docs-en pond-tutor-en pond-duck-en
 
 languages:
 	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)

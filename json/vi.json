@@ -15,8 +15,7 @@
 	"Games.bird": "Chim",
 	"Games.turtle": "Rùa",
 	"Games.movie": "Phim",
-	"Games.pondBasic": "Ao hồ",
-	"Games.pondAdvanced": "JS ao hồ",
+	"Games.pond": "Ao hồ",
 	"Games.linesOfCode1": "Bạn đã xử lý level này với 1 dòng của JavaScript:",
 	"Games.linesOfCode2": "Bạn đã xử lý level này với %1 dòng của JavaScript:",
 	"Games.nextLevel": "Bạn có sẵn sàng cho level %1 chưa?",
@@ -216,5 +215,6 @@
 	"Pond.swimTooltip": "Bơi về phía trước. Xác định hướng (0-360).",
 	"Pond.stopTooltip": "Ngưng bơi. Người chơi sẽ chậm dần đến khi dừng hẳn.",
 	"Pond.healthTooltip": "Hoản trả năng lượng hiện tại của người chơi ( 0 là chết, 100 là khỏe mạnh).",
-	"Pond.documentation": "Tài liệu"
+	"Pond.documentation": "Tài liệu",
+	"Pond.blocks": "Các mảnh"
 }

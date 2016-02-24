@@ -91,5 +91,6 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "fett",
 	"Turtle.fontItalic": "kursiv",
-	"Turtle.catTurtle": "Schildkrott"
+	"Turtle.catTurtle": "Schildkrott",
+	"Pond.blocks": "Bausten"
 }

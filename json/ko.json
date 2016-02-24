@@ -16,8 +16,7 @@
 	"Games.bird": "새",
 	"Games.turtle": "터틀",
 	"Games.movie": "동영상",
-	"Games.pondBasic": "Pond",
-	"Games.pondAdvanced": "자바스크립트 연못",
+	"Games.pond": "Pond",
 	"Games.linesOfCode1": "이 레벨을 자바스크립트 1 줄로 해결했습니다.",
 	"Games.linesOfCode2": "이 레벨을 자바스크립트 %1 줄로 해결했습니다.",
 	"Games.nextLevel": "레벨 %1 에 대한 준비가 됬나요?.",
@@ -230,8 +229,5 @@
 	"Pond.helpText4": "이 상대는 대포를 쓰기에는 너무 멉니다 (대포의 거리 제한은 70 미터입니다). 그러니, 이번에는 'swim'을 사용하여 상대에게 돌진 한 후 부딪치세요.",
 	"Pond.helpText5": "이 적도 대포로 쏘기엔 너무 멉니다. 하지만 부딪치기에는 너무 체력이 낮습니다. 가로 좌표가 50보다 적을 때 헤엄친 후 'stop'을 사용한 뒤에 대포를 쏘세요.",
 	"Pond.helpText6": "이 적은 맞으면 도망칩니다. 사정거리 (70 미터) 밖에 있으면 그 쪽으로 헤엄치세요.",
-	"Pond.helpText7": "토끼가 무작위로 뛰어 다닙니다. 그것을 칠 수 있겠습니까?",
-	"Pond.helpText8": "Rook는 반격을 합니다! 하지만 위, 아래, 오른쪽과 왼쪽밖에 못 봅니다.",
-	"Pond.helpText9": "Counter는 모든 방향을 봅니다. 한꺼번에 두 명의 적을 상대할 수 있나요?",
-	"Pond.helpText10": "Sniper는 구석에 숨어서 적을 찾습니다. 행운을 빕니다. 정말로요."
+	"Pond.blocks": "블록"
 }

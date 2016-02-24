@@ -95,19 +95,19 @@
         {/param}
       {/call}
       {call .appLink}
-        {param app: 'pond-basic' /}
+        {param app: 'pond-tutor' /}
         {param x: 83 /}
         {param y: 53 /}
         {param contentText}
-          {msg meaning="Games.pondBasic" desc="IBID"}Pond{/msg}
+          {msg meaning="Games.pondTutor" desc="IBID"}Pond Tutor{/msg}
         {/param}
       {/call}
       {call .appLink}
-        {param app: 'pond-advanced' /}
+        {param app: 'pond-duck' /}
         {param x: 90 /}
         {param y: 85 /}
         {param contentText}
-          {msg meaning="Games.pondAdvanced" desc="IBID"}JS Pond{/msg}
+          {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
         {/param}
       {/call}
     </g>
@@ -143,7 +143,7 @@
       <circle cx=80 cy=60 r=50 class="iconBack" />
       <image xlink:href="index/{$app}.png" height="100" width="100" x=30 y=10 />
     {if $ij.html}
-      <a xlink:href="{$app}.html?lang={$ij.lang}">
+      <a id="link-{$app}" xlink:href="{$app}.html?lang={$ij.lang}">
     {else}
       <a xlink:href="{$app}?lang={$ij.lang}">
     {/if}

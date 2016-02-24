@@ -92,5 +92,6 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "fet",
 	"Turtle.fontItalic": "kursiv",
-	"Turtle.catTurtle": "Skilpadde"
+	"Turtle.catTurtle": "Skilpadde",
+	"Pond.blocks": "Blokker"
 }

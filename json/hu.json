@@ -15,8 +15,7 @@
 	"Games.bird": "Madár",
 	"Games.turtle": "Teknőc",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Tó",
-	"Games.pondAdvanced": "JavaScript Tó",
+	"Games.pond": "Tó",
 	"Games.linesOfCode1": "Egyetlen sor JavaScript-tel megoldottad a feladatot:",
 	"Games.linesOfCode2": "%1 sor JavaScript kóddal oldottad meg a feladatot.",
 	"Games.nextLevel": "Készen állsz a %1. feladatra?",
@@ -229,8 +228,5 @@
 	"Pond.helpText4": "Az ellenfél túl messze van ahhoz hogy innen eltaláld. Használd az 'úszás' parancsot, hogy közelebb kerülj hozzá, és nekiütközz!",
 	"Pond.helpText5": "Ez az ellenfél is lőtávolságon kívül van. Viszont egy ütközést nem élnél túl. Ússz az ellenfél felé, míg lőtávolságba nem kerül, aztán állj meg. Mondjuk ha elérted vízszintesen az 50-es osztást.",
 	"Pond.helpText6": "Ez az ellenfél menekülni fog, ha eltalálod. Ha hatótávolságon kívül került (70 méter), ússz közelebb hozzá!",
-	"Pond.helpText7": "Ez az ellenfél össze vissza úszkál. El tudod találni?",
-	"Pond.helpText8": "Vigyázz, rád is lőnek! Szerencsére Bástya csak fel, le, jobbra és balra tud lőni. Hogy tudnál közel kerülni hozzá anélkül hogy eltalál?",
-	"Pond.helpText9": "Számláló alaposan körülnéz. Elboldogulsz két ellenféllel is?",
-	"Pond.helpText10": "A mesterlövész a sarkokban les ellenfelére. Sok szerencsét - szükséged lesz rá!"
+	"Pond.blocks": "Blokkok"
 }

@@ -11,8 +11,7 @@
 	"Games.bird": "Pilloni",
 	"Games.turtle": "Tostoinu",
 	"Games.movie": "Filmi",
-	"Games.pondBasic": "Stàini",
-	"Games.pondAdvanced": "Stàini JS",
+	"Games.pond": "Stàini",
 	"Games.linesOfCode1": "As arresòlviu custu livellu cun 1 arriga de JavaScript:",
 	"Games.linesOfCode2": "As arresòlviu custu livellu cun %1 arrigas de JavaScript:",
 	"Games.nextLevel": "Prontu ses po su livellu %1?",
@@ -225,8 +224,5 @@
 	"Pond.helpText4": "Est tropu atesu po su cannoni (chi tirat a massimu 70 metrus). Prova su cumandu 'swim' po annadai, t'acostai e ti nci scudi a s'aversariu.",
 	"Pond.helpText5": "Est tropu atesu po su cannoni e tui ses tropu debili po ddu stumbai. Prova a annadai e candu ses prus acanta de 50 in orizontali firma e tira cun su cannoni.",
 	"Pond.helpText6": "Cutu si ndi stesiat candu ddi ferit sa balla. Prova su cumandu 'swim' po t'acostai si est foras de tiru (70 metrus).",
-	"Pond.helpText7": "Su conillu currit a una parti a a s'àtera. Arrennesis a ddu ferri?",
-	"Pond.helpText8": "Rook (sa turri) torrat a cumbati! Ma castiat sceti a nord, sud, est e ovest.",
-	"Pond.helpText9": "Counter castiat a dònnia parti. Ti podis manigiai cun duus aversàrius impari?",
-	"Pond.helpText10": "Sniper est cuau in calincunu furrungoni circhendi bressallus. Chi Deus t'agiudit. Diaderus."
+	"Pond.blocks": "Brocus"
 }

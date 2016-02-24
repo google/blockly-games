@@ -27,10 +27,9 @@ html[dir="RTL"] #capacityBubble {
 .capacityNumber {
   font-weight: bold;
 }
-#iframeOneTopBlock {
-  height: 100px;
-  width: 100%;
-  border: none;
+#sampleOneTopBlock {
+  height: 80px;
+  width: 250px;
 }
 #pegSpin {
   height: 50px;

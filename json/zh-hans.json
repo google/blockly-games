@@ -17,8 +17,7 @@
 	"Games.bird": "鸟",
 	"Games.turtle": "乌龟",
 	"Games.movie": "电影",
-	"Games.pondBasic": "池塘",
-	"Games.pondAdvanced": "JS池",
+	"Games.pond": "池塘",
 	"Games.linesOfCode1": "您通过一行JavaScript通过了这个等级：",
 	"Games.linesOfCode2": "您通过%1行JavaScript通过了这个等级：",
 	"Games.nextLevel": "准备好等级%1了么?",
@@ -213,6 +212,5 @@
 	"Pond.documentation": "文档",
 	"Pond.helpUseScan": "您的解决方案能够工作，但您可以做的更好。使用“scan”以告诉大炮射击多远。",
 	"Pond.helpText3a": "此对手来回移动，使其很难被攻击。“scan”表达式返回特定位置具体范围内的对手。",
-	"Pond.helpText7": "兔子随便的跑了。你能打它么？",
-	"Pond.helpText8": "Rook反击了！但它只能看南北东西。"
+	"Pond.blocks": "块"
 }

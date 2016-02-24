@@ -1,10 +1,10 @@
-{namespace Pond.Basic.soy}
+{namespace Pond.Tutor.soy}
 
 /**
  * This is a Closure Template.
  *
  * To regenerate just English, run:
- *   make pond-basic-en
+ *   make pond-tutor-en
  *
  * To regenerate all languages, run:
  *   make languages
@@ -16,6 +16,10 @@
 {template .messages}
   {call Pond.soy.messages /}
   <div style="display: none">
+    <span id="Pond_playerName">{{msg meaning="Pond.playerName" desc="Generic name for the player of this video game.\n{lb}{lb}Identical|Player{rb}{rb}"}}Player{{/msg}}</span>
+    <span id="Pond_targetName">{{msg meaning="Pond.targetName" desc="Name for a player that does nothing.\n{lb}{lb}Identical|Target{rb}{rb}"}}Target{{/msg}}</span>
+    <span id="Pond_pendulumName">{{msg meaning="Pond.pendulumName" desc="Name for a player that moves back and forth.\n{lb}{lb}Identical|Pendulum{rb}{rb}"}}Pendulum{{/msg}}</span>
+    <span id="Pond_scaredName">{{msg meaning="Pond.scaredName" desc="Name for a player that is scared.\n{lb}{lb}Identical|Scared{rb}{rb}"}}Scared{{/msg}}</span>
   </div>
 {/template}
 
@@ -30,7 +34,7 @@
         <h1>
           {call BlocklyGames.soy.titleSpan}
             {param appName}
-              {msg meaning="Games.pondBasic" desc="IBID"}Pond{/msg}
+              {msg meaning="Games.pondTutor" desc="IBID"}Pond Tutor{/msg}
             {/param}
           {/call}
           {call BlocklyGames.soy.levelLinks}
@@ -57,65 +61,93 @@
 
   {call Pond.soy.visualization /}
 
-  {call .toolbox /}
-  <div id="blockly"></div>
+  {switch $ij.level}
+    {case 1, 3, 5, 7, 9}
+      {call .toolbox /}
+      <div id="blockly"></div>
+    {case 2, 4, 6, 8, 10}
+      <div id="editor"></div>
+  {/switch}
 
-  {call Pond.soy.playerTarget /}
-  {call Pond.soy.playerRabbit /}
-  {call Pond.soy.playerCounter /}
-  {call Pond.soy.playerRook /}
-  {call Pond.soy.playerSniper /}
-  {call Pond.soy.playerPendulum /}
-  {call Pond.soy.playerScared /}
+  {call .playerTarget /}
+  {call .playerPendulum /}
+  {call .playerScared /}
 
   {call BlocklyGames.soy.dialog /}
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.storageDialog /}
 
-  {if $ij.level == 3}
-    {call Pond.soy.helpUseScan /}
+  {if $ij.level == 5 or $ij.level == 6}
+  /**
+   * Help dialog for idiotic level 5+6 solution.
+   */
+    <div id="helpUseScan" class="dialogHiddenContent">
+      <div style="padding-bottom: 0.7ex">
+        {msg meaning="Pond.helpUseScan" desc="Dialog telling user to seek a better answer.  Do not translate the word 'scan'."}
+          Your solution works, but you can do better. Use 'scan' to tell the cannon how far to shoot.
+        {/msg}
+      </div>
+      {call BlocklyGames.soy.ok /}
+    </div>
   {/if}
 
   <div id="help" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex">
-      {if $ij.level == 1}
+      {if $ij.level == 1 or $ij.level == 2}
         {msg meaning="Pond.helpText1"
              desc="Instructions. Do not translate the word 'cannon'."}
           Use the 'cannon' command to hit the target. The first parameter
           is the angle, the second parameter is the range. Find the right
           combination.
         {/msg}
-        <br><br><img src="pond/docs/cannon.png" height=41 width=213>
-      {elseif $ij.level == 2}
+        {if $ij.level == 1}
+          <br><br><img src="pond/docs/cannon.png" height=41 width=213>
+        {elseif $ij.level == 2}
+          <pre>cannon(0, 70);</pre>
+        {/if}
+      {elseif $ij.level == 3 or $ij.level == 4}
         {msg meaning="Pond.helpText2"
              desc="Instructions.  Do not translate 'while (true)'."}
           This target needs to be hit many times. Use a 'while (true)' loop
           to do something indefinitely.
         {/msg}
-        <br><br><img src="pond/docs/whiletrue.png" height=90 width=164>
-      {elseif $ij.level == 3}
+        {if $ij.level == 3}
+          <br><br><img src="pond/docs/whiletrue.png" height=90 width=164>
+        {elseif $ij.level == 4}
+          <pre>while (true) {lb}{\n}
+{sp}{sp}...{\n}
+{rb}</pre>
+        {/if}
+      {elseif $ij.level == 5 or $ij.level == 6}
         {msg meaning="Pond.helpText3a"
              desc="Instructions.  Do not translate 'scan'."}
           This opponent moves back and forth, making it hard to hit.
           The 'scan' expression returns the exact range to the opponent
           in the specified direction.
         {/msg}
-        <br><br><img src="pond/docs/scan.png" height=36 width=134>
-        <br><br>
+        {if $ij.level == 5}
+          <br><br><img src="pond/docs/scan.png" height=36 width=134><br><br>
+        {elseif $ij.level == 6}
+          <pre>scan(0)</pre>
+        {/if}
         {msg meaning="Pond.helpText3b"
              desc="Instructions.  Do not translate 'cannon'."}
           This range is exactly what the 'cannon' command needs to fire
           accurately.
         {/msg}
-      {elseif $ij.level == 4}
+      {elseif $ij.level == 7 or $ij.level == 8}
         {msg meaning="Pond.helpText4"
              desc="Instructions.  Do not translate the word 'swim'."}
           This opponent is too far away to use the cannon (which has a limit of
           70 meters). Instead, use the 'swim' command to start swimming
           towards the opponent and crash into it.
         {/msg}
-        <br><br><img src="pond/docs/swim.png" height=41 width=131>
-      {elseif $ij.level == 5}
+        {if $ij.level == 7}
+          <br><br><img src="pond/docs/swim.png" height=41 width=131>
+        {elseif $ij.level == 8}
+          <pre>swim(0);</pre>
+        {/if}
+      {elseif $ij.level == 9}
         {msg meaning="Pond.helpText5"
              desc="Instructions.  Do not translate the word 'stop'."}
           This opponent is also too far away to use the cannon. But you are
@@ -123,33 +155,18 @@
           your horizontal location is less than than 50. Then 'stop' and use
           the cannon.
         {/msg}
-        <br><br><img src="pond/docs/loc_x_50.png" height=37 width=191>
-      {elseif $ij.level == 6}
+        {if $ij.level == 9}
+          <br><br><img src="pond/docs/loc_x_50.png" height=37 width=191>
+          <br><br><img src="pond/docs/stop.png" height=30 width=63>
+        {elseif $ij.level == 10}
+          <pre>loc_x() &lt; 50</pre>
+          <pre>stop();</pre>
+        {/if}
+      {elseif $ij.level == 10}
         {msg meaning="Pond.helpText6"
              desc="Instructions."}
           This opponent will move away when it is hit. Swim towards it if it
           is out of range (70 meters).
-        {/msg}
-      {elseif $ij.level == 7}
-        {msg meaning="Pond.helpText7"
-             desc="Instructions.  Do not translate the word 'Rabbit'."}
-          Rabbit runs around randomly. Can you hit it?
-        {/msg}
-      {elseif $ij.level == 8}
-        {msg meaning="Pond.helpText8"
-             desc="Instructions.  Do not translate the word 'Rook'."}
-          Rook fights back! But it only looks north, south, east and west.
-        {/msg}
-      {elseif $ij.level == 9}
-        {msg meaning="Pond.helpText9"
-             desc="Instructions.  Do not translate the word 'Counter'."}
-          Counter looks in all directions.
-          Can you handle two opponents at once?
-        {/msg}
-      {elseif $ij.level == 10}
-        {msg meaning="Pond.helpText10"
-             desc="Instructions.  Do not translate the word 'Sniper'."}
-          Sniper hides in a corner looking for targets. Good luck. Seriously.
         {/msg}
       {/if}
     </div>
@@ -162,57 +179,50 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <category name="{msg meaning="Games.pondBasic" desc="IBID"}Pond{/msg}">
+    <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
       <block type="pond_cannon">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
         <value name="RANGE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">70</field>
-          </block>
+          </shadow>
         </value>
       </block>
-  {if $ij.level >= 3}
+  {if $ij.level >= 5}
       <block type="pond_scan">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
       </block>
   {/if}
-  {if $ij.level >= 4}
+  {if $ij.level >= 7}
       <block type="pond_swim">
         <value name="DEGREE">
-          <block type="pond_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
-          </block>
+          </shadow>
         </value>
       </block>
   {/if}
-  {if $ij.level >= 5}
+  {if $ij.level >= 9}
       <block type="pond_stop"></block>
   {/if}
-  {if $ij.level >= 5}
+  {if $ij.level >= 9}
       <block type="pond_loc_x"></block>
       <block type="pond_loc_y"></block>
   {/if}
-  {if $ij.level >= 8}
-      <block type="pond_speed"></block>
-      <block type="pond_health"></block>
-  {/if}
     </category>
-{if $ij.level >= 2}
+{if $ij.level >= 3}
     <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
-  {if $ij.level >= 5}
+  {if $ij.level >= 9}
       <block type="pond_controls_if"></block>
       <block type="logic_compare"></block>
-  {/if}
-  {if $ij.level >= 7}
-      <block type="logic_operation"></block>
   {/if}
       <block type="logic_boolean"></block>
     </category>
@@ -222,24 +232,67 @@
 {/if}
     <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
       <block type="pond_math_number"></block>
-  {if $ij.level >= 7}
-      <block type="pond_math_arithmetic"></block>
-      <block type="pond_math_single"></block>
-      <block type="pond_math_change">
-        <value name="DELTA">
-          <block type="pond_math_number">
-            <field name="NUM">1</field>
-          </block>
-        </value>
-      </block>
-      <block type="math_random_float"></block>
-  {/if}
     </category>
-{if $ij.level >= 7}
-    <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
-  {if $ij.level >= 8}
-    <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
-  {/if}
-{/if}
   </xml>
+{/template}
+
+/**
+ * Target.
+ */
+{template .playerTarget}
+{literal}
+<div id="playerTarget" style="display: none">
+</div>
+{/literal}
+{/template}
+
+/**
+ * Pendulum.
+ */
+{template .playerPendulum}
+{literal}
+<div id="playerPendulum" style="display: none">
+/* Slowly moves east and west.  Does not fire. */
+var west = false;
+while (true) {
+  if (west) {
+    if (loc_x() > 25) {
+      swim(180, 25);
+    } else {
+      west = false;
+      swim(0, 0);
+    }
+  } else {
+    if (loc_x() < 75) {
+      swim(0, 25);
+    } else {
+      west = true;
+      swim(0, 0);
+    }
+  }
+}
+</div>
+{/literal}
+{/template}
+
+
+/**
+ * Scared.
+ */
+{template .playerScared}
+{literal}
+<div id="playerScared" style="display: none">
+/* Moves south-west when hit.  Does not fire. */
+var d = damage();
+while (true) {
+  if (d != damage()) {
+    swim(45, 100);
+    var t = 0;
+    for (var t = 0; t < 100; t++) {}
+    d = damage();
+    stop();
+  }
+}
+</div>
+{/literal}
 {/template}

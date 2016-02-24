@@ -12,8 +12,7 @@
 	"Games.bird": "นก",
 	"Games.turtle": "เต่า",
 	"Games.movie": "ภาพยนตร์",
-	"Games.pondBasic": "สระน้ำ",
-	"Games.pondAdvanced": "สระน้ำจาวาสคริปต์",
+	"Games.pond": "สระน้ำ",
 	"Games.linesOfCode1": "คุณแก้ปัญหาด่านนี้ได้ด้วยจาวาสคริปต์ 1 บรรทัด",
 	"Games.linesOfCode2": "คุณแก้ปัญหาด่านนี้ได้ด้วยจาวาสคริปต์ $1 บรรทัด",
 	"Games.nextLevel": "คุณพร้อมหรือยังกับด่าน %1?",
@@ -124,5 +123,6 @@
 	"Movie.circleDraw": "วงกลม",
 	"Movie.rectDraw": "สี่เหลี่ยมมุมฉาก",
 	"Movie.lineDraw": "เส้นตรง",
-	"Pond.rabbitName": "กระต่าย"
+	"Pond.rabbitName": "กระต่าย",
+	"Pond.blocks": "บล็อก"
 }

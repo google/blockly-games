@@ -16,8 +16,7 @@
 	"Games.bird": "Πουλί",
 	"Games.turtle": "Χελώνα",
 	"Games.movie": "Ταινία",
-	"Games.pondBasic": "Λίμνη",
-	"Games.pondAdvanced": "Λίμνη JS",
+	"Games.pond": "Λίμνη",
 	"Games.linesOfCode1": "Λύσατε αυτό το επίπεδο με 1 γραμμή JavaScript:",
 	"Games.linesOfCode2": "Λύσατε αυτό το επίπεδο με %1 γραμμές κώδικα JavaScript:",
 	"Games.nextLevel": "Είστε έτοιμοι για το επίπεδο %1;",
@@ -207,5 +206,6 @@
 	"Pond.healthTooltip": "Επιστρέφει την τρέχουσα υγεία του παίκτη (0 είναι νεκρός, 100 είναι υγιής).",
 	"Pond.speedTooltip": "Επιστρέφει την τρέχουσα ταχύτητα κίνησης του παίκτη (0 σταματημένος, 100 με πλήρη ταχύτητα).",
 	"Pond.locXTooltip": "Επιστρέφει η συντεταγμένη X του παίκτη (το 0 είναι το αριστερό άκρο, 100 είναι το δεξί άκρο).",
-	"Pond.documentation": "Τεκμηρίωση"
+	"Pond.documentation": "Τεκμηρίωση",
+	"Pond.blocks": "Μπλοκ"
 }

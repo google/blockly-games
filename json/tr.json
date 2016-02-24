@@ -19,8 +19,7 @@
 	"Games.bird": "Kuş",
 	"Games.turtle": "Kaplumbağa",
 	"Games.movie": "Film",
-	"Games.pondBasic": "Gölet",
-	"Games.pondAdvanced": "JS Göleti",
+	"Games.pond": "Gölet",
 	"Games.linesOfCode1": "Bu seviyeyi 1 satır JavaScript ile çözdünüz:",
 	"Games.linesOfCode2": "Bu seviyeyi %1 satır JavaScript ile çözdünüz:",
 	"Games.nextLevel": "%1. seviye için hazır mısınız?",
@@ -233,8 +232,5 @@
 	"Pond.helpText4": "Bu düşman topu kullanmak için fazla uzaktadır.(limit 70 metredir) Bunun yerine 'swim' komutunu kullanarak düşmana doğru yüzmeye başla ve ona çarp.",
 	"Pond.helpText5": "Bu düşman da topu kullanmak için fazla uzaktadır. Ama sen bir çarpışmada canlı kalmak için çok zayıfsın. Yatay konumun 50'den düşük kalarak düşmana doğru yüz. 'stop' komutu ile dur ve topu kullan.",
 	"Pond.helpText6": "Bu düşman vurulurken uzaklaşıyor. Eğer düşman ateş aralığının(70 metre) dışında ise ona doğru yüz.",
-	"Pond.helpText7": "Rabbit etrafta rastgele dolaşıyor. Onu vurabilir misin?",
-	"Pond.helpText8": "Kale direniyor. Ama sadece kuzey, güney, doğu ve batı görünüyor.",
-	"Pond.helpText9": "Karşı taraf tüm yönleri görüyor. Tek seferde iki düşmanın üstesinden gelebilir misin?",
-	"Pond.helpText10": "Keskin nişancı hedefleri gören bir köşede gizleniyor. İyi şanslar. Cidden."
+	"Pond.blocks": "Bloklar"
 }

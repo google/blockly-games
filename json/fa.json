@@ -14,8 +14,7 @@
 	"Games.bird": "پرنده",
 	"Games.turtle": "لاک‌پشت",
 	"Games.movie": "فیلم",
-	"Games.pondBasic": "تالاب",
-	"Games.pondAdvanced": "جاواسکریپت تالاب",
+	"Games.pond": "تالاب",
 	"Games.nextLevel": "آیا برای مرحله %1 آماده اید؟",
 	"Games.linkTooltip": "ذخیره و پیوند به بلوک‌ها.",
 	"Games.runProgram": "اجرای برنامه",
@@ -158,5 +157,6 @@
 	"Pond.sniperName": "تک تیرانداز",
 	"Pond.pendulumName": "آونگ",
 	"Pond.scaredName": "اثر زخم",
-	"Pond.documentation": "مستندات"
+	"Pond.documentation": "مستندات",
+	"Pond.blocks": "بلوک‌ها"
 }

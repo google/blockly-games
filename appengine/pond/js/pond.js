@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Creates an pond for players to compete in.
+ * @fileoverview Creates an pond for avatars to compete in.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -32,8 +32,8 @@ goog.require('goog.math.Coordinate');
 
 
 /**
- * Optinal callback function for when a game ends.
- * @type Function
+ * Optional callback function for when a game ends.
+ * @type function(number)
  */
 Pond.endBattle = null;
 
@@ -53,13 +53,6 @@ Pond.init = function() {
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
-
-  BlocklyGames.bindClick('helpButton', Pond.showHelp);
-  if (location.hash.length < 2 &&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
-                                         BlocklyGames.LEVEL)) {
-    setTimeout(Pond.showHelp, 1000);
-  }
 };
 
 /**
@@ -78,9 +71,10 @@ Pond.docsButtonClick = function() {
   var origin = document.getElementById('docsButton');
   var dialog = document.getElementById('dialogDocs');
   var frame = document.getElementById('frameDocs');
-  if (!frame.src) {
-    frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-        '&app=' + BlocklyGames.NAME + '&level=' + BlocklyGames.LEVEL;
+  var src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
+        '&mode=' + BlocklyGames.LEVEL;
+  if (frame.src != src) {
+    frame.src = src;
   }
 
   function endResult() {
@@ -99,6 +93,9 @@ Pond.docsButtonClick = function() {
  * Close the documentation frame.
  */
 Pond.docsCloseClick = function() {
+  if (!Pond.isDocsVisible_) {
+    return;
+  }
   var origin = document.getElementById('docsButton');
   var dialog = document.getElementById('dialogDocs');
 

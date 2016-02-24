@@ -14,8 +14,7 @@
 	"Games.bird": "ציפור",
 	"Games.turtle": "צב",
 	"Games.movie": "סרט",
-	"Games.pondBasic": "אגם",
-	"Games.pondAdvanced": "אגם ג'אווה סקריפט",
+	"Games.pond": "אגם",
 	"Games.linkTooltip": "שמירה וקישור לקטעי קוד.",
 	"Games.runProgram": "הרץ תכנית",
 	"Games.resetProgram": "איפוס",
@@ -133,5 +132,6 @@
 	"Pond.sniperName": "צלף",
 	"Pond.pendulumName": "מטוטלת",
 	"Pond.scaredName": "מבוהל",
-	"Pond.documentation": "תיעוד"
+	"Pond.documentation": "תיעוד",
+	"Pond.blocks": "קטעי קוד"
 }

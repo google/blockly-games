@@ -92,5 +92,6 @@
 	"Turtle.fontNormal": "нормален",
 	"Turtle.fontBold": "задебелен",
 	"Turtle.fontItalic": "закосен",
-	"Turtle.catTurtle": "Желка"
+	"Turtle.catTurtle": "Желка",
+	"Pond.blocks": "Блокчиња"
 }

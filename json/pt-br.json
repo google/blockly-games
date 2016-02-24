@@ -22,8 +22,7 @@
 	"Games.bird": "Pássaro",
 	"Games.turtle": "Tartaruga",
 	"Games.movie": "Filme",
-	"Games.pondBasic": "Lagoa",
-	"Games.pondAdvanced": "Lagoa JS",
+	"Games.pond": "Lagoa",
 	"Games.linesOfCode1": "Você solucionou esse nivel com uma linha de JavaScript:",
 	"Games.linesOfCode2": "Você solucionou esse nível com %1 linhas de JavaScript:",
 	"Games.nextLevel": "Você esta preparado para o nível %1?",
@@ -236,8 +235,5 @@
 	"Pond.helpText4": "Esse oponente está muito longe para usar o canhão (que tem um alcance de 70 metros). Invés disso, use o comando 'swim' para começar a nadar até o oponente e trombar nele.",
 	"Pond.helpText5": "Este oponente também esta muito longe para usar o canhão. Mas você esta muito fraco para sobreviver de uma colisão. Nade até o oponente enquanto sua posição horizontal e menor que 50. Então pare e use o canhão.",
 	"Pond.helpText6": "Este oponente irá se mover para longe quando golpeado. Nade até ele se está fora do alcance (70 metros).",
-	"Pond.helpText7": "Coelhos correm para qualquer lado. Você consegue acertá-los?",
-	"Pond.helpText8": "a torre contra-ataca! Mas ela so olha para o norte, sul, leste e oeste.",
-	"Pond.helpText9": "O contador mira em todas as direções. Você consegue controlar dois oponentes ao mesmo tempo?",
-	"Pond.helpText10": "O Franco-atirador se esconde em esquinas procurando por alvos. Boa sorte. Sério."
+	"Pond.blocks": "Blocos"
 }

@@ -92,5 +92,6 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "negreta",
 	"Turtle.fontItalic": "cursiva",
-	"Turtle.catTurtle": "Tortuga"
+	"Turtle.catTurtle": "Tortuga",
+	"Pond.blocks": "Blocs"
 }

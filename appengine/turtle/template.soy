@@ -201,7 +201,7 @@
         {msg meaning="Turtle.helpText3a" desc="Introducing a new block."}
           There's a new block that allows you to change the colour:
         {/msg}
-        <iframe style="height: 50px; width: 100%; border: none;" src="readonly.html?app=turtle&lang={$ij.lang}&xml=%3Cblock+type%3D%22turtle_colour_internal%22+x%3D%225%22+y%3D%2210%22%3E%3Cfield+name%3D%22COLOUR%22%3E%23ffff00%3C%2Ffield%3E%3C%2Fblock%3E"></iframe>
+        <div id="sampleHelp3" class="readonly"></div>
         {msg meaning="Turtle.helpText3b" desc="Instructions."}
           Draw a yellow star.
         {/msg}
@@ -209,7 +209,7 @@
         {msg meaning="Turtle.helpText4a" desc="Introducing a new block."}
           There's a new block that allows you to lift your pen off the paper when you move:
         {/msg}
-        <iframe style="height: 50px; width: 100%; border: none;" src="readonly.html?app=turtle&lang={$ij.lang}&xml=%3Cblock+type%3D%22turtle_pen%22+x%3D%225%22+y%3D%2210%22%3E%3C%2Fblock%3E"></iframe>
+        <div id="sampleHelp4" class="readonly"></div>
         {msg meaning="Turtle.helpText4b" desc="Instructions."}
           Draw a small yellow star, then draw a line above it.
         {/msg}
@@ -267,30 +267,30 @@
       <category name="{msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}">
         <block type="turtle_move">
           <value name="VALUE">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">10</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="turtle_turn">
           <value name="VALUE">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">90</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="turtle_width">
           <value name="WIDTH">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="turtle_pen"></block>
         <block type="turtle_visibility"></block>
         <block type="turtle_print">
           <value name="TEXT">
-            <block type="text"></block>
+            <shadow type="text"></shadow>
           </value>
         </block>
         <block type="turtle_font"></block>
@@ -298,43 +298,43 @@
       <category name="{msg meaning="Games.catColour" desc="IBID"}Colour{/msg}">
         <block type="turtle_colour">
           <value name="COLOUR">
-            <block type="colour_picker"></block>
+            <shadow type="colour_picker"></shadow>
           </value>
         </block>
         <block type="colour_picker"></block>
         <block type="colour_random"></block>
         <block type="colour_rgb">
           <value name="RED">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">100</field>
-            </block>
+            </shadow>
           </value>
           <value name="GREEN">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">50</field>
-            </block>
+            </shadow>
           </value>
           <value name="BLUE">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">0</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="colour_blend">
           <value name="COLOUR1">
-            <block type="colour_picker">
+            <shadow type="colour_picker">
               <field name="COLOUR">#ff0000</field>
-            </block>
+            </shadow>
           </value>
           <value name="COLOUR2">
-            <block type="colour_picker">
+            <shadow type="colour_picker">
               <field name="COLOUR">#3333ff</field>
-            </block>
+            </shadow>
           </value>
           <value name="RATIO">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">0.5</field>
-            </block>
+            </shadow>
           </value>
         </block>
       </category>
@@ -349,73 +349,125 @@
       <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
         <block type="controls_repeat_ext">
           <value name="TIMES">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">10</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="controls_whileUntil"></block>
         <block type="controls_for">
           <value name="FROM">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
           </value>
           <value name="TO">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">10</field>
-            </block>
+            </shadow>
           </value>
           <value name="BY">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="controls_flow_statements"></block>
       </category>
       <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
         <block type="math_number"></block>
-        <block type="math_arithmetic"></block>
-        <block type="math_single"></block>
-        <block type="math_trig"></block>
-        <block type="math_constant"></block>
-        <block type="math_number_property"></block>
-        <block type="math_change">
-          <value name="DELTA">
-            <block type="math_number">
+        <block type="math_arithmetic">
+          <value name="A">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
           </value>
         </block>
-        <block type="math_round"></block>
-        <block type="math_modulo"></block>
-        <block type="math_constrain">
-          <value name="LOW">
-            <block type="math_number">
+        <block type="math_single">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">9</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_trig">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">45</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constant"></block>
+        <block type="math_number_property">
+          <value name="NUMBER_TO_CHECK">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_change">
+          <value name="DELTA">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_round">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">3.1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_modulo">
+          <value name="DIVIDEND">
+            <shadow type="math_number">
+              <field name="NUM">64</field>
+            </shadow>
+          </value>
+          <value name="DIVISOR">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constrain">
+          <value name="VALUE">
+            <shadow type="math_number">
+              <field name="NUM">50</field>
+            </shadow>
+          </value>
+          <value name="LOW">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
           </value>
           <value name="HIGH">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">100</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="math_random_int">
           <value name="FROM">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">1</field>
-            </block>
+            </shadow>
           </value>
           <value name="TO">
-            <block type="math_number">
+            <shadow type="math_number">
               <field name="NUM">100</field>
-            </block>
+            </shadow>
           </value>
         </block>
         <block type="math_random_float"></block>
       </category>
+      <sep></sep>
       <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
       <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
     {else}
@@ -442,12 +494,4 @@
       </category>
     {/if}
   </xml>
-{/template}
-
-/**
- * Readonly Blockly in an iframe.
- */
-{template .readonly}
-  {call .messages /}
-  <div id="blockly"></div>
 {/template}
