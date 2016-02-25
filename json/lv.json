@@ -138,10 +138,10 @@
 	"Movie.submitTooltip": "Iesniegt savu filmu Reddit galerijā.",
 	"Movie.submitMsg": "Iesniegt filmu galerijā",
 	"Movie.helpText1": "Izmanto vienkāršas figūras, lai uzzīmētu šo cilvēku.",
+	"Pond.documentation": "Dokumentācija",
 	"Pond.playerName": "Spēlētājs",
 	"Pond.targetName": "Mērķis",
-	"Pond.rabbitName": "Trusis",
-	"Pond.counterName": "Skaitītājs",
 	"Pond.scaredName": "Nobijies",
-	"Pond.documentation": "Dokumentācija"
+	"Pond.rabbitName": "Trusis",
+	"Pond.counterName": "Skaitītājs"
 }

@@ -124,14 +124,14 @@
 	"Movie.height": "גובה",
 	"Movie.circleDraw": "עיגול",
 	"Movie.lineDraw": "קו",
+	"Pond.documentation": "תיעוד",
 	"Pond.playerName": "שחקן",
 	"Pond.targetName": "מטרה",
+	"Pond.pendulumName": "מטוטלת",
+	"Pond.scaredName": "מבוהל",
 	"Pond.rabbitName": "ארנב",
 	"Pond.counterName": "מונה",
 	"Pond.rookName": "צריח",
 	"Pond.sniperName": "צלף",
-	"Pond.pendulumName": "מטוטלת",
-	"Pond.scaredName": "מבוהל",
-	"Pond.documentation": "תיעוד",
 	"Pond.blocks": "קטעי קוד"
 }

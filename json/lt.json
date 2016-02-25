@@ -165,13 +165,13 @@
 	"Movie.galleryMsg": "Žiūrėti galeriją",
 	"Movie.submitTooltip": "Pateikti savo filmą į „Reddit“.",
 	"Movie.submitMsg": "Įkelti galerijon",
+	"Pond.documentation": "Dokumentacija",
 	"Pond.playerName": "Žaidėjas",
 	"Pond.targetName": "Taikinys",
+	"Pond.pendulumName": "Švytuoklė",
+	"Pond.scaredName": "Bailus",
 	"Pond.rabbitName": "Triušis",
 	"Pond.counterName": "Skaitiklis",
 	"Pond.rookName": "Bokštas",
-	"Pond.sniperName": "Snaiperis",
-	"Pond.pendulumName": "Švytuoklė",
-	"Pond.scaredName": "Bailus",
-	"Pond.documentation": "Dokumentacija"
+	"Pond.sniperName": "Snaiperis"
 }

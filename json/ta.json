@@ -100,14 +100,14 @@
 	"Movie.submitTooltip": "ரெட்டிட் காட்சியகத்தில் சமர்ப்பிக்க",
 	"Movie.submitMsg": "காட்சியகத்தில் சமர்ப்பிக்க",
 	"Movie.helpText1": "எளிய வரைபடங்களை வரை",
+	"Pond.documentation": "உதவி ஆவணம்",
 	"Pond.playerName": "வீரர்",
 	"Pond.targetName": "இலக்கு",
+	"Pond.pendulumName": "ஊசலி",
+	"Pond.scaredName": "பயந்திருத்தல்",
 	"Pond.rabbitName": "முயல்",
 	"Pond.counterName": "எண்ணி",
 	"Pond.rookName": "யானை",
 	"Pond.sniperName": "மறை வேடர்",
-	"Pond.pendulumName": "ஊசலி",
-	"Pond.scaredName": "பயந்திருத்தல்",
-	"Pond.documentation": "உதவி ஆவணம்",
 	"Pond.blocks": "நிரல் துண்டு"
 }

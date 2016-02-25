@@ -81,11 +81,12 @@
 	"Movie.rectDraw": "Rechteck",
 	"Movie.lineDraw": "Linn",
 	"Movie.galleryMsg": "Galerie kucken",
+	"Pond.swimTooltip": "No vir schwammen. Gitt eng Richtung un (0-360).",
+	"Pond.stopTooltip": "Ophale mat Schwammen. De Spiller gëtt méi lues bis e stoppt.",
+	"Pond.documentation": "Dokumentatioun",
 	"Pond.playerName": "Spiller",
 	"Pond.targetName": "Zil",
 	"Pond.rabbitName": "Kanéngchen",
 	"Pond.counterName": "Compteur",
-	"Pond.swimTooltip": "No vir schwammen. Gitt eng Richtung un (0-360).",
-	"Pond.stopTooltip": "Ophale mat Schwammen. De Spiller gëtt méi lues bis e stoppt.",
-	"Pond.documentation": "Dokumentatioun"
+	"Pond.blocks": "Bléck"
 }

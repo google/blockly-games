@@ -110,11 +110,11 @@
 	"Movie.galleryMsg": "Ikusi galeria",
 	"Movie.submitTooltip": "Bidali zure filma Reddit-era.",
 	"Movie.submitMsg": "Bidali galeriara",
+	"Pond.documentation": "Dokumentazioa",
 	"Pond.playerName": "Jokalaria",
 	"Pond.targetName": "Jomuga",
+	"Pond.pendulumName": "Pendulua",
 	"Pond.rabbitName": "Untxia",
 	"Pond.counterName": "Zenbatzailea",
-	"Pond.sniperName": "Frankotiratzailea",
-	"Pond.pendulumName": "Pendulua",
-	"Pond.documentation": "Dokumentazioa"
+	"Pond.sniperName": "Frankotiratzailea"
 }

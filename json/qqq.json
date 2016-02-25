@@ -1,4 +1,13 @@
 {
+	"@metadata": {
+		"authors": [
+			"Liuxinyu970226",
+			"McDutchie",
+			"Nike",
+			"Robby",
+			"Siebrand"
+		]
+	},
 	"Games.name": "The project name.",
 	"Games.puzzle": "title - Specifies that this is Blockly's '''Puzzle''' game.  Use the word for a jigsaw puzzle.\n{{Identical|Puzzle}}",
 	"Games.maze": "title - Specifies that this is Blockly's '''Maze''' game.\n{{Identical|Maze}}",

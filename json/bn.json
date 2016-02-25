@@ -107,12 +107,12 @@
 	"Movie.galleryMsg": "গ্যালারি দেখুন",
 	"Movie.submitTooltip": "Reddit এ আপনার চলচ্চিত্রটি জমা করুন।",
 	"Movie.submitMsg": "গ্যালারিতে জমা করুন",
+	"Pond.documentation": "দলিল",
 	"Pond.playerName": "খেলোয়াড়",
 	"Pond.targetName": "লক্ষ",
-	"Pond.rabbitName": "খরগোশ",
-	"Pond.rookName": "দাবার নৌকা",
-	"Pond.sniperName": "স্নাইপার",
 	"Pond.pendulumName": "দোলক",
 	"Pond.scaredName": "কাঁচুমাচু",
-	"Pond.documentation": "দলিল"
+	"Pond.rabbitName": "খরগোশ",
+	"Pond.rookName": "দাবার নৌকা",
+	"Pond.sniperName": "স্নাইপার"
 }

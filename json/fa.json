@@ -149,14 +149,14 @@
 	"Movie.submitTooltip": "فیلم خود را در ردیت ثبت کنید.",
 	"Movie.submitMsg": "افزودن به نگارخانه",
 	"Movie.helpText1": "از شکل های ساده برای کشیدن این شخص استفاده کنید.",
+	"Pond.documentation": "مستندات",
 	"Pond.playerName": "بازیکن",
 	"Pond.targetName": "هدف",
+	"Pond.pendulumName": "آونگ",
+	"Pond.scaredName": "اثر زخم",
 	"Pond.rabbitName": "خرگوش",
 	"Pond.counterName": "شمارنده",
 	"Pond.rookName": "رخ",
 	"Pond.sniperName": "تک تیرانداز",
-	"Pond.pendulumName": "آونگ",
-	"Pond.scaredName": "اثر زخم",
-	"Pond.documentation": "مستندات",
 	"Pond.blocks": "بلوک‌ها"
 }

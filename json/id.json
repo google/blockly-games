@@ -181,8 +181,8 @@
 	"Movie.timeTooltip": "Kembalikan waktu saat ini dalam animasi (0-100)",
 	"Movie.colourTooltip": "Ubah warna pena.",
 	"Movie.setColour": "set warna ke",
+	"Pond.documentation": "Dokumentasi",
 	"Pond.playerName": "Pemutar media",
 	"Pond.targetName": "Target",
-	"Pond.counterName": "Penghitung",
-	"Pond.documentation": "Dokumentasi"
+	"Pond.counterName": "Penghitung"
 }

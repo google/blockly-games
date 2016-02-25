@@ -139,13 +139,13 @@
 	"Movie.rectDraw": "長方形",
 	"Movie.lineDraw": "線",
 	"Movie.galleryMsg": "ギャラリーを見る",
+	"Pond.swimTooltip": "前へ泳ぐ。方向を指定してください。(0-360)",
 	"Pond.playerName": "プレイヤー",
 	"Pond.targetName": "ターゲット",
+	"Pond.pendulumName": "ふりこ",
+	"Pond.scaredName": "こわがって",
 	"Pond.rabbitName": "ウサギ",
 	"Pond.rookName": "ルーク",
 	"Pond.sniperName": "スナイパー",
-	"Pond.pendulumName": "ふりこ",
-	"Pond.scaredName": "こわがって",
-	"Pond.swimTooltip": "前へ泳ぐ。方向を指定してください。(0-360)",
 	"Pond.blocks": "ブロック"
 }
