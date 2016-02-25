@@ -515,7 +515,7 @@ Maze.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true,
-       'zoom': {startScale: scale}});
+       'zoom': {'startScale': scale}});
   BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
   BlocklyGames.workspace.loadAudio_(Maze.SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.

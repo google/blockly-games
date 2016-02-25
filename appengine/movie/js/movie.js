@@ -118,7 +118,7 @@ Movie.init = function() {
        'toolbox': toolbox,
        'trashcan': true,
        'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
-           {controls: true, wheel: true} : null});
+           {'controls': true, 'wheel': true} : null});
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
 

@@ -126,7 +126,7 @@ Turtle.init = function() {
        'toolbox': toolbox,
        'trashcan': true,
        'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
-           {controls: true, wheel: true} : null});
+           {'controls': true, 'wheel': true} : null});
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +

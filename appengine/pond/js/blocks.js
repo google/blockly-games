@@ -462,7 +462,6 @@ Blockly.Blocks['pond_math_number'] = {
           -1) {
         // Parent wants an angle.
         if (field.constructor != Blockly.FieldAngle) {
-          console.log('angle');
           Blockly.Events.disable();
           input.removeField('NUM');
           field = new Blockly.FieldAngle('');
