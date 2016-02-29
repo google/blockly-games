@@ -10,6 +10,7 @@
 	"Games.bird": "Osel",
 	"Games.turtle": "Bissa copera",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Magìster ëd Pond",
 	"Games.pond": "Baciass",
 	"Games.linesOfCode1": "A l'ha arzolvù 's livel con 1 linia ëd JavaScript:",
 	"Games.linesOfCode2": "A l'ha arzolvù 's livel con %1 linie ëd JavaScript:",
@@ -223,5 +224,6 @@
 	"Pond.counterName": "Conteur",
 	"Pond.rookName": "Tor",
 	"Pond.sniperName": "Tirador",
+	"Pond.breakLink": "Na vira ch'a l'avrà ancaminà a modifiché ël JavaScript, a podrà pi nen torné a la modìfica dij blòch. A va bin?",
 	"Pond.blocks": "Blòch"
 }

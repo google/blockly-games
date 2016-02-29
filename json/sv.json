@@ -13,6 +13,7 @@
 	"Games.bird": "Fågel",
 	"Games.turtle": "Sköldpadda",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Dammhandledare",
 	"Games.pond": "Damm",
 	"Games.linesOfCode1": "Du löste nivån med 1 rad JavaScript:",
 	"Games.linesOfCode2": "Du löste nivån med %1 rader JavaScript:",
@@ -226,5 +227,6 @@
 	"Pond.counterName": "Räknare",
 	"Pond.rookName": "Schacktorn",
 	"Pond.sniperName": "Krypskytt",
+	"Pond.breakLink": "När du väl börjar redigera JavaScript kan du inte gå tillbaka och redigera block. Är det okej med dig?",
 	"Pond.blocks": "Block"
 }

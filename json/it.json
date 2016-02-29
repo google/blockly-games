@@ -15,6 +15,7 @@
 	"Games.bird": "Uccello",
 	"Games.turtle": "Tartaruga",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Esercitazione stagno",
 	"Games.pond": "Stagno",
 	"Games.linesOfCode1": "Hai risolto questo livello con 1 riga di codice JavaScript:",
 	"Games.linesOfCode2": "Hai risolto questo livello con %1 righe di codice JavaScript:",
@@ -228,5 +229,6 @@
 	"Pond.counterName": "Contatore",
 	"Pond.rookName": "Torre",
 	"Pond.sniperName": "Cecchino",
+	"Pond.breakLink": "Una volta che hai iniziato a modificare in JavaScript, non puoi tornare indietro a modificare i blocchi. Va bene?",
 	"Pond.blocks": "Blocchi"
 }

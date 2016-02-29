@@ -13,6 +13,7 @@
 	"Games.bird": "Птушка",
 	"Games.turtle": "Чарапашка",
 	"Games.movie": "Фільм",
+	"Games.pondTutor": "Прудок",
 	"Games.pond": "Сажалка",
 	"Games.linesOfCode1": "Узровень пройдзены з дапамогай аднаго радка JavaScript:",
 	"Games.linesOfCode2": "Узровень пройдзены з дапамогай %1 радкоў JavaScript:",
@@ -226,5 +227,6 @@
 	"Pond.counterName": "Лічыльнік",
 	"Pond.rookName": "Шулер",
 	"Pond.sniperName": "Снайпэр",
+	"Pond.breakLink": "Калі вы пачнеце рэдагаваць JavaScript, вы ня зможаце вярнуцца да рэдагаваньня блёкаў. Працягваем?",
 	"Pond.blocks": "Блёкі"
 }

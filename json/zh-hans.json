@@ -17,6 +17,7 @@
 	"Games.bird": "鸟",
 	"Games.turtle": "乌龟",
 	"Games.movie": "电影",
+	"Games.pondTutor": "池塘导师",
 	"Games.pond": "池塘",
 	"Games.linesOfCode1": "您通过一行JavaScript通过了这个等级：",
 	"Games.linesOfCode2": "您通过%1行JavaScript通过了这个等级：",
@@ -212,5 +213,6 @@
 	"Pond.counterName": "计数人",
 	"Pond.rookName": "车",
 	"Pond.sniperName": "狙击手",
+	"Pond.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
 	"Pond.blocks": "块"
 }

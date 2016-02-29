@@ -229,5 +229,5 @@
 	"Pond.rookName": "Name for a player that behaves like a rook (castle) in chess.\n{{Identical|Rook}}",
 	"Pond.sniperName": "Name for a player that hides in a corner and shoots.\n{{Identical|Sniper}}",
 	"Pond.breakLink": "Warning dialog. Options are 'OK' and 'Cancel'.",
-	"Pond.blocks": "Label on a tab that contains blocks editor.\n{{Identical|Blocks}}"
+	"Pond.blocks": "Label on a tab that contains blocks editor.\n{{Identical|Block}}"
 }

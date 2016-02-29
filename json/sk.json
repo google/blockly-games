@@ -12,6 +12,7 @@
 	"Games.bird": "Vták",
 	"Games.turtle": "Korytnačka",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Nacvičiť si Rybník",
 	"Games.pond": "Rybník",
 	"Games.linesOfCode1": "Vyriešil si úroveň jedným riadkom JavaScriptu:",
 	"Games.linesOfCode2": "Vyriešil si túto úroveň s %1 riadkami JavaScriptu:",
@@ -225,5 +226,6 @@
 	"Pond.counterName": "Počítadlo",
 	"Pond.rookName": "Veža",
 	"Pond.sniperName": "Strelec",
+	"Pond.breakLink": "Ak už raz začnete písať JavaScript, nemôžete sa vrátiť k úprave blokov. Je to v poriadku?",
 	"Pond.blocks": "Bloky"
 }

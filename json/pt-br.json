@@ -22,6 +22,7 @@
 	"Games.bird": "Pássaro",
 	"Games.turtle": "Tartaruga",
 	"Games.movie": "Filme",
+	"Games.pondTutor": "Tutor de libras",
 	"Games.pond": "Lagoa",
 	"Games.linesOfCode1": "Você solucionou esse nivel com uma linha de JavaScript:",
 	"Games.linesOfCode2": "Você solucionou esse nível com %1 linhas de JavaScript:",
@@ -235,5 +236,6 @@
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
 	"Pond.sniperName": "Francoatirador",
+	"Pond.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
 	"Pond.blocks": "Blocos"
 }
