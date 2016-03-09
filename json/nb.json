@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Osgraven",
-			"Cocu"
+			"Cocu",
+			"SuperPotato"
 		]
 	},
 	"Games.puzzle": "Puslespill",
@@ -28,6 +29,14 @@
 	"Games.xmlError": "Kunne ikke laste inn filen. Kanskje den ble laget med en annen versjon av Blockly?",
 	"Games.listVariable": "Liste",
 	"Games.textVariable": "Tekst",
+	"Games.congratulations": "Gratulerer!",
+	"Puzzle.animal1": "And",
+	"Puzzle.animal1Trait1": "Fjær",
+	"Puzzle.animal2": "Katt",
+	"Puzzle.animal2Trait2": "Pels",
+	"Puzzle.animal3": "Bie",
+	"Puzzle.animal3Trait1": "Honning",
+	"Puzzle.animal4": "Snegle",
 	"Puzzle.legsChoose": "velg...",
 	"Puzzle.error0": "Perfekt!\nAlle %1 blokker er riktig.",
 	"Puzzle.error1": "Nesten! En blokk er feil.",
