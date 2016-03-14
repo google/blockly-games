@@ -23,7 +23,7 @@
 	"Games.linesOfCode2": "您通过%1行JavaScript通过了这个等级：",
 	"Games.nextLevel": "准备好等级%1了么?",
 	"Games.finalLevel": "您准备好下一个挑战了么？",
-	"Games.linkTooltip": "保存模块并生成链接。",
+	"Games.linkTooltip": "保存并链接至块。",
 	"Games.runTooltip": "运行您写的程序。",
 	"Games.runProgram": "运行程序",
 	"Games.resetTooltip": "停止运行程序并重置等级。",

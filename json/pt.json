@@ -7,7 +7,8 @@
 			"Macofe",
 			"Nicola Nascimento",
 			"Vitorvicentevalente",
-			"Waldir"
+			"Waldir",
+			"Diniscoelho"
 		]
 	},
 	"Games.name": "Jogos Blocky",
@@ -16,6 +17,7 @@
 	"Games.bird": "Pássaro",
 	"Games.turtle": "Tartaruga",
 	"Games.movie": "Filme",
+	"Games.pondTutor": "Tutor de libras",
 	"Games.pond": "Lagoa",
 	"Games.linesOfCode1": "Resolveste este nivel com 1 linha de JavaScript:",
 	"Games.linesOfCode2": "Resolveste este nivel com %1 linhas de JavaScript:",
@@ -228,5 +230,7 @@
 	"Pond.rabbitName": "Coelho",
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Franco-atirador"
+	"Pond.sniperName": "Franco-atirador",
+	"Pond.breakLink": "Assim que começar a editar JavaScript, não pode voltar a editar blocos. Clique em OK para continuar.",
+	"Pond.blocks": "Blocos"
 }
