@@ -9,7 +9,8 @@
 			"Stocki",
 			"Pio387",
 			"Pbz",
-			"Mateon1"
+			"Mateon1",
+			"Pan Cube"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -55,6 +56,7 @@
 	"Puzzle.animal1": "Kaczka",
 	"Puzzle.animal1Trait1": "Pióra",
 	"Puzzle.animal1Trait2": "Dziób",
+	"Puzzle.animal1HelpUrl": "https://pl.wikipedia.org/wiki/Kaczka",
 	"Puzzle.animal2": "Kot",
 	"Puzzle.animal2Trait1": "Wąsy",
 	"Puzzle.animal2Trait2": "Futro",
@@ -62,6 +64,7 @@
 	"Puzzle.animal3": "Pszczoła",
 	"Puzzle.animal3Trait1": "Miód",
 	"Puzzle.animal3Trait2": "Żądło",
+	"Puzzle.animal3HelpUrl": "https://pl.wikipedia.org/wiki/Pszczoła",
 	"Puzzle.animal4": "Ślimak",
 	"Puzzle.animal4Trait1": "Muszla",
 	"Puzzle.animal4Trait2": "Śluz",
