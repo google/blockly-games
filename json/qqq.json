@@ -41,7 +41,7 @@
 	"Games.hashError": "alert - A request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL.",
 	"Games.xmlError": "alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be followed by technical information useful to engineers trying to understand the problem.",
 	"Games.listVariable": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Lists list].  This should be a single word, preferably short.",
-	"Games.textVariable": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Text piece of text].  This should be a single word, preferably short.",
+	"Games.textVariable": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Text piece of text].  This should be a single word, preferably short.\n{{Identical|Text}}",
 	"Games.congratulations": "alert - This is displayed when the user solves the level.\n{{Identical|Congratulation}}",
 	"Games.helpAbort": "callout - This dialog gives the user the option to skip this level.",
 	"Index.clear": "Confirmation prompt for deleting all the user's data.",
