@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Rancher",
-			"Perevod16"
+			"Perevod16",
+			"Milicevic01"
 		]
 	},
 	"Games.name": "Блокли Игре",
@@ -153,8 +154,8 @@
 	"Movie.x2": "крај x",
 	"Movie.y2": "крај y",
 	"Movie.radius": "радијус",
-	"Movie.width": "Ширина",
-	"Movie.height": "Висина",
+	"Movie.width": "ширина",
+	"Movie.height": "висина",
 	"Movie.circleTooltip": "Црта круг у том месту и са одређеном радијусу.",
 	"Movie.circleDraw": "круг",
 	"Movie.rectTooltip": "Црта правоугаоник на том месту и са датом ширине и висине.",
