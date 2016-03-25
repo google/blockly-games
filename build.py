@@ -66,6 +66,7 @@ for language in languages:
   shutil.rmtree(directory + "js-read-only/blockly/")
   shutil.rmtree(directory + "js-read-only/goog/")
   shutil.rmtree(directory + "js-read-only/third_party_goog/")
+  shutil.rmtree(directory + "js-read-only/JS-Interpreter/demos/")
   for filename in os.listdir(directory + "js-read-only/JS-Interpreter/"):
     if filename != "compiled.js":
       os.remove(directory + "js-read-only/JS-Interpreter/" + filename)
