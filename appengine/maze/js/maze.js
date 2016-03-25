@@ -617,7 +617,7 @@ Maze.levelHelp = function() {
   if (BlocklyGames.LEVEL == 1) {
     if (BlocklyGames.workspace.getAllBlocks().length < 2) {
       content = document.getElementById('dialogHelpStack');
-      style = {'width': '370px', 'top': '120px'};
+      style = {'width': '370px', 'top': '130px'};
       style[rtl ? 'right' : 'left'] = '215px';
       origin = toolbar[0].getSvgRoot();
     } else {
@@ -661,7 +661,7 @@ Maze.levelHelp = function() {
         origin = document.getElementById('capacityBubble');
       } else {
         content = document.getElementById('dialogHelpRepeat');
-        style = {'width': '360px', 'top': '320px'};
+        style = {'width': '360px', 'top': '360px'};
         style[rtl ? 'right' : 'left'] = '425px';
         origin = toolbar[3].getSvgRoot();
       }
@@ -696,7 +696,7 @@ Maze.levelHelp = function() {
       }
       if (showHelp) {
         content = document.getElementById('dialogHelpRepeatMany');
-        style = {'width': '360px', 'top': '320px'};
+        style = {'width': '360px', 'top': '360px'};
         style[rtl ? 'right' : 'left'] = '425px';
         origin = toolbar[3].getSvgRoot();
       }
@@ -711,7 +711,7 @@ Maze.levelHelp = function() {
   } else if (BlocklyGames.LEVEL == 6) {
     if (userBlocks.indexOf('maze_if') == -1) {
       content = document.getElementById('dialogHelpIf');
-      style = {'width': '360px', 'top': '400px'};
+      style = {'width': '360px', 'top': '430px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[4].getSvgRoot();
     }
@@ -750,14 +750,14 @@ Maze.levelHelp = function() {
     // until the user chooses 'right'.
     if (userBlocks.indexOf('isPathRight') == -1) {
       content = document.getElementById('dialogHelpMenu');
-      style = {'width': '360px', 'top': '400px'};
+      style = {'width': '360px', 'top': '430px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[4].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL == 9) {
     if (userBlocks.indexOf('maze_ifElse') == -1) {
       content = document.getElementById('dialogHelpIfElse');
-      style = {'width': '360px', 'top': '300px'};
+      style = {'width': '360px', 'top': '305px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[5].getSvgRoot();
     }

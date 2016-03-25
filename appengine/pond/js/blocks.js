@@ -269,22 +269,32 @@ Blockly.Blocks['pond_controls_if'] = {
     this.elseifCount_ = 0;
     this.elseCount_ = 0;
   },
-  mutationToDom: Blockly.Blocks['controls_if'].mutationToDom,
   /**
-   * Parse XML to restore the else-if and else inputs.
-   * @param {!Element} xmlElement XML storage element.
+   * Modify this block to have the correct number of inputs.
+   * @private
    * @this Blockly.Block
    */
-  domToMutation: function(xmlElement) {
-    this.elseifCount_ = parseInt(xmlElement.getAttribute('elseif'), 10);
-    this.elseCount_ = parseInt(xmlElement.getAttribute('else'), 10);
-    for (var x = 1; x <= this.elseifCount_; x++) {
-      this.appendValueInput('IF' + x)
+  updateShape_: function() {
+    // Delete everything.
+    if (this.getInput('ELSE')) {
+      this.removeInput('ELSEMSG');
+      this.removeInput('ELSE');
+    }
+    var i = 1;
+    while (this.getInput('IF' + i)) {
+      this.removeInput('IF' + i);
+      this.removeInput('TAIL' + i);
+      this.removeInput('DO' + i);
+      i++;
+    }
+    // Rebuild block.
+    for (var i = 1; i <= this.elseifCount_; i++) {
+      this.appendValueInput('IF' + i)
           .setCheck('Boolean')
           .appendField('} else if (');
-      this.appendDummyInput('TAIL' + x)
+      this.appendDummyInput('TAIL' + i)
           .appendField(') {');
-      this.appendStatementInput('DO' + x);
+      this.appendStatementInput('DO' + i);
     }
     if (this.elseCount_) {
       this.appendDummyInput('ELSEMSG')
@@ -294,65 +304,10 @@ Blockly.Blocks['pond_controls_if'] = {
     // Move final '}' to the end.
     this.moveInputBefore('TAIL', null);
   },
+  mutationToDom: Blockly.Blocks['controls_if'].mutationToDom,
+  domToMutation: Blockly.Blocks['controls_if'].domToMutation,
   decompose: Blockly.Blocks['controls_if'].decompose,
-  /**
-   * Reconfigure this block based on the mutator dialog's components.
-   * @param {!Blockly.Block} containerBlock Root block in mutator.
-   * @this Blockly.Block
-   */
-  compose: function(containerBlock) {
-    // Disconnect the else input blocks and remove the inputs.
-    if (this.elseCount_) {
-      this.removeInput('ELSEMSG');
-      this.removeInput('ELSE');
-    }
-    this.elseCount_ = 0;
-    // Disconnect all the elseif input blocks and remove the inputs.
-    for (var x = this.elseifCount_; x > 0; x--) {
-      this.removeInput('IF' + x);
-      this.removeInput('TAIL' + x);
-      this.removeInput('DO' + x);
-    }
-    this.elseifCount_ = 0;
-    // Rebuild the block's optional inputs.
-    var clauseBlock = containerBlock.getInputTargetBlock('STACK');
-    while (clauseBlock) {
-      switch (clauseBlock.type) {
-        case 'controls_if_elseif':
-          this.elseifCount_++;
-          var ifInput = this.appendValueInput('IF' + this.elseifCount_)
-              .setCheck('Boolean')
-              .appendField('} else if (');
-          this.appendDummyInput('TAIL' + this.elseifCount_)
-              .appendField(') {');
-          var doInput = this.appendStatementInput('DO' + this.elseifCount_);
-          // Reconnect any child blocks.
-          if (clauseBlock.valueConnection_) {
-            ifInput.connection.connect(clauseBlock.valueConnection_);
-          }
-          if (clauseBlock.statementConnection_) {
-            doInput.connection.connect(clauseBlock.statementConnection_);
-          }
-          break;
-        case 'controls_if_else':
-          this.elseCount_++;
-          this.appendDummyInput('ELSEMSG')
-              .appendField('} else {');
-          var elseInput = this.appendStatementInput('ELSE');
-          // Reconnect any child blocks.
-          if (clauseBlock.statementConnection_) {
-            elseInput.connection.connect(clauseBlock.statementConnection_);
-          }
-          break;
-        default:
-          throw 'Unknown block type.';
-      }
-      clauseBlock = clauseBlock.nextConnection &&
-          clauseBlock.nextConnection.targetBlock();
-    }
-    // Move final '}' to the end.
-    this.moveInputBefore('TAIL', null);
-  },
+  compose: Blockly.Blocks['controls_if'].compose,
   saveConnections: Blockly.Blocks['controls_if'].saveConnections
 };
 

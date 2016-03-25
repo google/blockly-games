@@ -150,17 +150,18 @@
         <div><img src="maze/help_run.png" class="mirrorImg" height=27 width=141></div>
       </td></tr></table>
     </div>
-  {elseif $ij.level == 3}
-    <div id="dialogHelpRepeat" class="dialogHiddenContent">
-      <table><tr><td>
-        <img src="maze/help_up.png">
-      </td><td>
-        {msg meaning="Maze.helpRepeat" desc="callout - This is shown when the 'repeat' block is introduced.  The word 'path' refers to a path through a maze, and 'block' refers to a child's building block."}Reach the end of this path using only two blocks. Use 'repeat' to run a block more than once.{/msg}
-      </td><td>
-        <img src="common/help.png">
-      </td></tr></table>
-    </div>
-  {elseif $ij.level == 4}
+  {elseif $ij.level == 3 or $ij.level == 4}
+    {if $ij.level == 3}
+      <div id="dialogHelpRepeat" class="dialogHiddenContent">
+        <table><tr><td>
+          <img src="maze/help_up.png">
+        </td><td>
+          {msg meaning="Maze.helpRepeat" desc="callout - This is shown when the 'repeat' block is introduced.  The word 'path' refers to a path through a maze, and 'block' refers to a child's building block."}Reach the end of this path using only two blocks. Use 'repeat' to run a block more than once.{/msg}
+        </td><td>
+          <img src="common/help.png">
+        </td></tr></table>
+      </div>
+    {/if}
     <div id="dialogHelpCapacity" class="dialogHiddenContent">
       <table><tr><td>
         <img src="common/help.png">
