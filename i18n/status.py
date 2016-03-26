@@ -56,10 +56,14 @@ def get_prefix_counts(filename):
   prefixes = {}
   f = open(filename)
   keys = json.load(f)
+  total = 0
   for key in keys:
     prefix = key.split('.')[0]
-    prefixes[prefix] = prefixes.get(prefix, 0) + 1
+    if prefix != '@metadata':
+      prefixes[prefix] = prefixes.get(prefix, 0) + 1
+      total += 1
   f.close()
+  prefixes['ALL'] = total
   return prefixes
 
 
@@ -91,8 +95,12 @@ def output_as_html(prefix_counts):
             '%)</font>')
 
   apps = prefix_counts[TOTAL].keys()
-  print("<SCRIPT LANGUAGE='JavaScript1.2' SRC='https://neil.fraser.name/"
-        "software/tablesort/tablesort-min.js'></SCRIPT>")
+  apps.remove('ALL')
+  apps.sort()
+  apps.append('ALL')
+  print('<html><body>')
+  print('<SCRIPT SRC="https://neil.fraser.name/'
+        'software/tablesort/tablesort-min.js"></SCRIPT>')
   print('<table cellspacing=5><thead><tr>')
   print('<th class=nocase>Language</th><th class=num>' +
         '</th><th class=num>'.join(apps) + '</th></tr></thead><tbody>')
@@ -108,6 +116,7 @@ def output_as_html(prefix_counts):
   print('</tbody><tfoot><tr><td>ALL</td><td>')
   print('</td><td>'.join([str(prefix_counts[TOTAL][app]) for app in apps]))
   print('</td></tr></tfoot></table>')
+  print('</body></html>')
 
 
 def output_as_text(prefix_counts):
@@ -125,6 +134,9 @@ def output_as_text(prefix_counts):
   MAX_WIDTH = len('999 (100%)') + 1
   FIELD_STRING = '{0: <' + str(MAX_WIDTH) + '}'
   apps = prefix_counts[TOTAL].keys()
+  apps.remove('ALL')
+  apps.sort()
+  apps.append('ALL')
   print(FIELD_STRING.format('Language') + ''.join(
       [FIELD_STRING.format(app) for app in apps]))
   print(('-' * (MAX_WIDTH - 1) + ' ') * (len(apps) + 1))
@@ -134,7 +146,7 @@ def output_as_text(prefix_counts):
             ''.join([FIELD_STRING.format(generate_number_as_percent(
                 prefix_counts[lang].get(app, 0),
                 prefix_counts[TOTAL][app])) for app in apps]))
-  print(FIELD_STRING.format(TOTAL) +
+  print(FIELD_STRING.format('ALL') +
         ''.join(
             [FIELD_STRING.format(prefix_counts[TOTAL][app])
              for app in apps]))
@@ -144,7 +156,8 @@ def main():
   """Processes input files and outputs results in specified format.
   """
   # Argument parsing.
-  parser = argparse.ArgumentParser(description='Compare JSON files.')
+  parser = argparse.ArgumentParser(description=
+      'Produce a table showing the translation status of each app by language.')
   parser.add_argument('--key_file', default='keys.json',
                       help='file with complete list of keys.')
   parser.add_argument('--output', default='text', choices=['text', 'html'],

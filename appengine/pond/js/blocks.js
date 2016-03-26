@@ -48,18 +48,20 @@ Blockly.Blocks['pond_scan'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendValueInput('DEGREE')
-        .setCheck(['Number', 'Angle'])
-        .appendField('scan(');
-    //this.appendValueInput('RESOLUTION')
-    //    .setCheck('Number')
-    //    .appendField(',');
-    this.appendDummyInput()
-        .appendField(')');
-    this.setInputsInline(true);
-    this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Pond_scanTooltip'));
+    this.jsonInit({
+      "message0": "scan(%1)",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DEGREE",
+          "check": ["Number", "Angle"]
+        }
+      ],
+      "inputsInline": true,
+      "output": "Number",
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_scanTooltip')
+    });
   }
 };
 
@@ -79,19 +81,26 @@ Blockly.Blocks['pond_cannon'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendValueInput('DEGREE')
-        .setCheck(['Number', 'Angle'])
-        .appendField('cannon(');
-    this.appendValueInput('RANGE')
-        .setCheck('Number')
-        .appendField(',');
-    this.appendDummyInput()
-        .appendField(');');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Pond_cannonTooltip'));
+    this.jsonInit({
+      "message0": "cannon(%1, %2);",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DEGREE",
+          "check": ["Number", "Angle"]
+        },
+        {
+          "type": "input_value",
+          "name": "RANGE",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_cannonTooltip')
+    });
   }
 };
 
@@ -110,19 +119,21 @@ Blockly.Blocks['pond_swim'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendValueInput('DEGREE')
-        .setCheck(['Number', 'Angle'])
-        .appendField('swim(');
-    //this.appendValueInput('SPEED')
-    //    .setCheck('Number')
-    //    .appendField(',');
-    this.appendDummyInput()
-        .appendField(');');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Pond_swimTooltip'));
+    this.jsonInit({
+      "message0": "swim(%1);",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DEGREE",
+          "check": ["Number", "Angle"]
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_swimTooltip')
+    });
   }
 };
 
@@ -141,12 +152,13 @@ Blockly.Blocks['pond_stop'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendDummyInput()
-        .appendField('stop();');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Pond_stopTooltip'));
+    this.jsonInit({
+      "message0": "stop();",
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_stopTooltip')
+    });
   }
 };
 
@@ -161,11 +173,12 @@ Blockly.Blocks['pond_health'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendDummyInput()
-        .appendField('health()');
-    this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Pond_healthTooltip'));
+    this.jsonInit({
+      "message0": "health()",
+      "output": "Number",
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_healthTooltip')
+    });
   }
 };
 
@@ -180,11 +193,12 @@ Blockly.Blocks['pond_speed'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendDummyInput()
-        .appendField('speed()');
-    this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Pond_speedTooltip'));
+    this.jsonInit({
+      "message0": "speed()",
+      "output": "Number",
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_speedTooltip')
+    });
   }
 };
 
@@ -199,11 +213,12 @@ Blockly.Blocks['pond_loc_x'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendDummyInput()
-        .appendField('loc_x()');
-    this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Pond_locXTooltip'));
+    this.jsonInit({
+      "message0": "loc_x()",
+      "output": "Number",
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_locXTooltip')
+    });
   }
 };
 
@@ -218,11 +233,12 @@ Blockly.Blocks['pond_loc_y'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
-    this.appendDummyInput()
-        .appendField('loc_y()');
-    this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Pond_locYTooltip'));
+    this.jsonInit({
+      "message0": "loc_y()",
+      "output": "Number",
+      "colour": 290,
+      "tooltip": BlocklyGames.getMsg('Pond_locYTooltip')
+    });
   }
 };
 
@@ -584,9 +600,7 @@ Blockly.Blocks['pond_math_change'] = {
       return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
           thisBlock.getFieldValue('VAR'));
     });
-  },
-  getVars: Blockly.Blocks['math_change'].getVars,
-  renameVar: Blockly.Blocks['math_change'].renameVar
+  }
 };
 
 Blockly.JavaScript['pond_math_change'] = Blockly.JavaScript['math_change'];
