@@ -150,6 +150,7 @@ skip_files:
 # Custom skip patterns.
 - ^\w+/sources/.*$
 - ^js-read-only/blockly/generators/dart.*$
+- ^js-read-only/blockly/generators/lua.*$
 - ^js-read-only/blockly/generators/php.*$
 - ^js-read-only/blockly/generators/python.*$
 - ^js-read-only/third_party_goog/.*$

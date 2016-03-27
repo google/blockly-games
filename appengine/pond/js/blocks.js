@@ -720,17 +720,26 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
 };
 
 /**
- * Render the arguments.
- * @this Blockly.Block
+ * Modify this block to have the correct number of arguments.
  * @private
+ * @this Blockly.Block
  */
-Blockly.Blocks['procedures_callnoreturn'].renderArgs_ = function() {
+Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
   for (var i = 0; i < this.arguments_.length; i++) {
-    var input = this.appendValueInput('ARG' + i);
-    if (i > 0) {
-      input.setAlign(Blockly.ALIGN_RIGHT).appendField(',');
+    if (!this.getInput('ARG' + i)) {
+      // Add new input.
+      var field = new Blockly.FieldLabel(this.arguments_[i]);
+      var input = this.appendValueInput('ARG' + i);
+      if (i > 0) {
+        input.appendField(',');
+      }
+      input.init();
     }
-    input.init();
+  }
+  // Remove deleted inputs.
+  while (this.getInput('ARG' + i)) {
+    this.removeInput('ARG' + i);
+    i++;
   }
   this.moveInputBefore('TAIL', null);
 };
@@ -755,8 +764,8 @@ Blockly.Blocks['procedures_callreturn'].init = function() {
   this.quarkArguments_ = null;
 };
 
-Blockly.Blocks['procedures_callreturn'].renderArgs_ =
-    Blockly.Blocks['procedures_callnoreturn'].renderArgs_;
+Blockly.Blocks['procedures_callreturn'].updateShape_ =
+    Blockly.Blocks['procedures_callnoreturn'].updateShape_;
 
 // Don't show the "if/return" block.
 delete Blockly.Blocks['procedures_ifreturn']
