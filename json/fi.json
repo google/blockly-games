@@ -6,7 +6,8 @@
 			"Nike",
 			"Pettevi",
 			"McSalama",
-			"Espeox"
+			"Espeox",
+			"Mikahama"
 		]
 	},
 	"Games.name": "Blockly Pelit",
@@ -125,6 +126,7 @@
 	"Turtle.setWidth": "asettaa leveyden arvoon",
 	"Turtle.colourTooltip": "Vaihtaa kynän väriä.",
 	"Turtle.setColour": "aseta väriksi",
+	"Turtle.penTooltip": "Nostaa tai laskee kynän, jotta piirtäminen loppuu tai alkaa.",
 	"Turtle.penUp": "kynä ylös",
 	"Turtle.penDown": "kynä alas",
 	"Turtle.hideTurtle": "piilota kilpikonna",
@@ -192,8 +194,14 @@
 	"Movie.helpText7": "Matemaattinen yhtälö putoavan pallon ratkaisuksi on vaikea. Tässä se on:",
 	"Movie.helpText8": "Käytä 'jos' lohkoa piirtääksesi punaisen ja sinisen pallon elokuvan ensipuoliskolla. Piirrä sitten vihreä pallo toisella puoliskolla.",
 	"Movie.helpText10": "Nyt voit tehdä minkälaisen elokuvan vain haluat. Pidä hauskaa!",
+	"Pond.scanTooltip": "Etsi vihollisia. Määritä suunta (0-360). Palauttaa kyseisessä suunnassa lähimpänä olevan vihollisen etäisyyden. Palauttaa äärettömän arvon, jos vihollista ei löydy.",
+	"Pond.cannonTooltip": "Ammu tykillä. Määritä suunta (0-360) ja kantama (0-70).",
 	"Pond.swimTooltip": "Ui eteenpäin. Määrittele suunta (0-360).",
+	"Pond.stopTooltip": "Lopeta uiminen. Pelaaja hidastaa vauhtia ja pysähtyy.",
+	"Pond.healthTooltip": "Palauttaa pelaajan terveyden (0 on kuollut, 100 terve)",
 	"Pond.speedTooltip": "Palauttaa pelajaan nopeuden (0 tarkoittaa pysähtynyttä, 100 täyttä nopeutta).",
+	"Pond.locXTooltip": "Palauttaa pelaajan X-koordinaatin (0 on vasen reuna, 100 on oikea reuna)",
+	"Pond.locYTooltip": "Palauttaa pelaajan Y-koordinaatin (0 on alareuna, 100 on yläreuna)",
 	"Pond.docsTooltip": "Näytä kieliohje",
 	"Pond.documentation": "Ohjeet",
 	"Pond.playerName": "Pelaaja",
@@ -211,5 +219,7 @@
 	"Pond.rabbitName": "Jänis",
 	"Pond.counterName": "Laskuri",
 	"Pond.rookName": "Torni",
-	"Pond.sniperName": "Tarkka-ampuja"
+	"Pond.sniperName": "Tarkka-ampuja",
+	"Pond.breakLink": "Kun alat muokkaamaan JavaScriptiä, et voi enää palata muokkaamaan lohkoja. Haluatko jatkaa?",
+	"Pond.blocks": "Lohkot"
 }
