@@ -254,7 +254,7 @@ Blockly.Blocks['pond_controls_if'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-    this.setColour(210);
+    this.setColour(Blockly.Blocks.logic.HUE);
     this.appendValueInput('IF0')
         .setCheck('Boolean')
         .appendField('if (');
@@ -344,7 +344,7 @@ Blockly.Blocks['logic_compare'].init = function() {
     ['>=', 'GTE']
   ];
   this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-  this.setColour(210);
+  this.setColour(Blockly.Blocks.logic.HUE);
   this.setOutput(true, 'Boolean');
   this.appendValueInput('A');
   this.appendValueInput('B')
@@ -379,20 +379,28 @@ Blockly.Blocks['pond_loops_while'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL);
-    this.setColour(120);
-    this.appendValueInput('BOOL')
-        .setCheck('Boolean')
-        .appendField('while (');
-    this.appendDummyInput()
-        .appendField(') {');
-    this.appendStatementInput('DO');
-    this.appendDummyInput()
-        .appendField('}');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE);
+    this.jsonInit({
+      "message0": "while ( %1 ) { %2 %3 }",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "BOOL",
+          "check": "Boolean"
+        },
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "DO"
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 120,
+      "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
+      "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
+    });
   }
 };
 
@@ -406,7 +414,7 @@ Blockly.Blocks['pond_math_number'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(230);
+    this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput('DUMMY')
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'NUM');
@@ -463,20 +471,35 @@ Blockly.Blocks['pond_math_arithmetic'] = {
    * @this Blockly.Block
    */
   init: function() {
-    var OPERATORS =
-        [['+', 'ADD'],
-         ['-', 'MINUS'],
-         ['*', 'MULTIPLY'],
-         ['/', 'DIVIDE']];
-    this.setHelpUrl(Blockly.Msg.MATH_ARITHMETIC_HELPURL);
-    this.setColour(230);
-    this.setOutput(true, 'Number');
-    this.appendValueInput('A')
-        .setCheck('Number');
-    this.appendValueInput('B')
-        .setCheck('Number')
-        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-    this.setInputsInline(true);
+    this.jsonInit({
+      "message0": "%1 %2 %3",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "A",
+          "check": "Number"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "OP",
+          "options": [
+            ['+', 'ADD'],
+            ['-', 'MINUS'],
+            ['*', 'MULTIPLY'],
+            ['/', 'DIVIDE']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "B",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
+    });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {
@@ -501,37 +524,47 @@ Blockly.Blocks['pond_math_single'] = {
    * @this Blockly.Block
    */
   init: function() {
-    var OPERATORS =
-        [['Math.sqrt (', 'ROOT'],
-         ['Math.abs (', 'ABS'],
-         ['Math.sin_deg (', 'SIN'],
-         ['Math.cos_deg (', 'COS'],
-         ['Math.tan_deg (', 'TAN'],
-         ['Math.asin_deg (', 'ASIN'],
-         ['Math.acos_deg (', 'ACOS'],
-         ['Math.atan_deg (', 'ATAN']];
-    this.setHelpUrl(Blockly.Msg.MATH_SINGLE_HELPURL);
-    this.setColour(230);
-    this.setOutput(true, 'Number');
-    this.appendValueInput('NUM')
-        .setCheck('Number')
-        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-    this.appendDummyInput()
-        .appendField(')');
-    this.setInputsInline(true);
+    this.jsonInit({
+      "message0": "%1 (%2)",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "OP",
+          "options": [
+            ['Math.sqrt', 'ROOT'],
+            ['Math.abs', 'ABS'],
+            ['Math.sin_deg', 'SIN'],
+            ['Math.cos_deg', 'COS'],
+            ['Math.tan_deg', 'TAN'],
+            ['Math.asin_deg', 'ASIN'],
+            ['Math.acos_deg', 'ACOS'],
+            ['Math.atan_deg', 'ATAN']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "NUM",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_SINGLE_HELPURL
+    });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {
       var mode = thisBlock.getFieldValue('OP');
       var TOOLTIPS = {
-        ROOT: Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT,
-        ABS: Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS,
-        SIN: Blockly.Msg.MATH_TRIG_TOOLTIP_SIN,
-        COS: Blockly.Msg.MATH_TRIG_TOOLTIP_COS,
-        TAN: Blockly.Msg.MATH_TRIG_TOOLTIP_TAN,
-        ASIN: Blockly.Msg.MATH_TRIG_TOOLTIP_ASIN,
-        ACOS: Blockly.Msg.MATH_TRIG_TOOLTIP_ACOS,
-        ATAN: Blockly.Msg.MATH_TRIG_TOOLTIP_ATAN
+        'ROOT': Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT,
+        'ABS': Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS,
+        'SIN': Blockly.Msg.MATH_TRIG_TOOLTIP_SIN,
+        'COS': Blockly.Msg.MATH_TRIG_TOOLTIP_COS,
+        'TAN': Blockly.Msg.MATH_TRIG_TOOLTIP_TAN,
+        'ASIN': Blockly.Msg.MATH_TRIG_TOOLTIP_ASIN,
+        'ACOS': Blockly.Msg.MATH_TRIG_TOOLTIP_ACOS,
+        'ATAN': Blockly.Msg.MATH_TRIG_TOOLTIP_ATAN
       };
       return TOOLTIPS[mode];
     });
@@ -583,17 +616,26 @@ Blockly.Blocks['pond_math_change'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.MATH_CHANGE_HELPURL);
-    this.setColour(230);
-    this.appendValueInput('DELTA')
-        .setCheck('Number')
-        .appendField(new Blockly.FieldVariable('name'), 'VAR')
-        .appendField('+=');
-    this.appendDummyInput()
-        .appendField(';');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+    this.jsonInit({
+      "message0": "%1 += %2;",
+      "args0": [
+        {
+          "type": "field_variable",
+          "name": "VAR",
+          "variable": "name"
+        },
+        {
+          "type": "input_value",
+          "name": "DELTA",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
+    });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {
@@ -613,7 +655,7 @@ Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
  */
 Blockly.Blocks['variables_get'].init = function() {
   this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
-  this.setColour(330);
+  this.setColour(Blockly.Blocks.variables.HUE);
   this.appendDummyInput()
       .appendField(new Blockly.FieldVariable('name'), 'VAR');
   this.setOutput(true);
@@ -628,7 +670,7 @@ Blockly.Blocks['variables_get'].init = function() {
  */
 Blockly.Blocks['variables_set'].init = function() {
   this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
-  this.setColour(330);
+  this.setColour(Blockly.Blocks.variables.HUE);
   this.appendValueInput('VALUE')
       .appendField('var')
       .appendField(new Blockly.FieldVariable('name'), 'VAR')
@@ -649,7 +691,7 @@ Blockly.Blocks['variables_set'].init = function() {
  */
 Blockly.Blocks['procedures_defnoreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
-  this.setColour(290);
+  this.setColour(Blockly.Blocks.procedures.HUE);
   var name = Blockly.Procedures.findLegalName(
       Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE, this);
   this.appendDummyInput()
@@ -674,7 +716,7 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
  */
 Blockly.Blocks['procedures_defreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
-  this.setColour(290);
+  this.setColour(Blockly.Blocks.procedures.HUE);
   var name = Blockly.Procedures.findLegalName(
       Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE, this);
   this.appendDummyInput()
@@ -704,7 +746,7 @@ Blockly.Msg.PROCEDURES_BEFORE_PARAMS = '';
  */
 Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
-  this.setColour(290);
+  this.setColour(Blockly.Blocks.procedures.HUE);
   this.appendDummyInput()
       .appendField('', 'NAME')
       .appendField('(');
@@ -750,7 +792,7 @@ Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
  */
 Blockly.Blocks['procedures_callreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
-  this.setColour(290);
+  this.setColour(Blockly.Blocks.procedures.HUE);
   this.appendDummyInput()
       .appendField('', 'NAME')
       .appendField('(');
