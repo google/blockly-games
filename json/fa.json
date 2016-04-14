@@ -5,7 +5,8 @@
 			"Reza1615",
 			"Alirezaaa",
 			"Maspadana",
-			"Lakzon"
+			"Lakzon",
+			"Hamisun"
 		]
 	},
 	"Games.name": "بازی‌های بستن",
@@ -14,8 +15,10 @@
 	"Games.bird": "پرنده",
 	"Games.turtle": "لاک‌پشت",
 	"Games.movie": "فیلم",
+	"Games.pondTutor": "سرپرست تالاب",
 	"Games.pond": "تالاب",
 	"Games.nextLevel": "آیا برای مرحله %1 آماده اید؟",
+	"Games.finalLevel": "آیا تو آماده چالش بعدی هستی؟",
 	"Games.linkTooltip": "ذخیره و پیوند به بلوک‌ها.",
 	"Games.runProgram": "اجرای برنامه",
 	"Games.resetProgram": "از نو",
@@ -37,6 +40,7 @@
 	"Games.listVariable": "فهرست",
 	"Games.textVariable": "متن",
 	"Games.congratulations": "تبریک می‌گوییم!",
+	"Index.clear": "همه راه حل ها را از بین میبری؟",
 	"Index.moreInfo": "اطلاعات بیشتر...",
 	"Index.startOver": "می خواید از اول شروع کنید؟",
 	"Index.clearData": "خالی کردن داده",

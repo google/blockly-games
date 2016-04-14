@@ -6,7 +6,8 @@
 			"Csega",
 			"Lajthabalazs",
 			"Kiscsillag",
-			"Horvolgyinoemi"
+			"Horvolgyinoemi",
+			"Grin"
 		]
 	},
 	"Games.name": "Blockly Játékok",
@@ -15,6 +16,7 @@
 	"Games.bird": "Madár",
 	"Games.turtle": "Teknőc",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Tó Gyakorló",
 	"Games.pond": "Tó",
 	"Games.linesOfCode1": "Egyetlen sor JavaScript-tel megoldottad a feladatot:",
 	"Games.linesOfCode2": "%1 sor JavaScript kóddal oldottad meg a feladatot.",
@@ -228,5 +230,6 @@
 	"Pond.counterName": "Számláló",
 	"Pond.rookName": "Bástya",
 	"Pond.sniperName": "Mesterlövész",
+	"Pond.breakLink": "Ha elkezded a JavaScriptet szerkeszteni akkor később nem léphetsz vissza a blokkok szerkesztésébe. Ezt akarod?",
 	"Pond.blocks": "Blokkok"
 }

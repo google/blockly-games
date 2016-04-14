@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jonbg"
+			"Jonbg",
+			"Sveinn í Felli"
 		]
 	},
 	"Games.name": "Blockly leikir",
@@ -10,6 +11,7 @@
 	"Games.bird": "Fugl",
 	"Games.turtle": "Skjaldbaka",
 	"Games.movie": "Hreyfimynd",
+	"Games.pondTutor": "Pond kennsludæmi",
 	"Games.pond": "Pollur",
 	"Games.linesOfCode1": "Þú leystir þennan áfanga með 1 línu af JavaScript:",
 	"Games.linesOfCode2": "Þú leystir þennan áfanga með %1 línum af JavaScript:",
@@ -223,5 +225,6 @@
 	"Pond.counterName": "Teljari",
 	"Pond.rookName": "Hrókur",
 	"Pond.sniperName": "Leyniskytta",
+	"Pond.breakLink": "Þegar þú byrjar að breyta JavaScript, geturðu ekki farið til baka í að breyta blokkum. Er það í lagi?",
 	"Pond.blocks": "Kubbar"
 }
