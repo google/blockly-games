@@ -75,10 +75,10 @@ Puzzle.init = function() {
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
     var xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
   } else if (savedBlocks) {
     var xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
   } else {
     // Create one of every block.
     var blocksAnimals = [];

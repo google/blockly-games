@@ -143,7 +143,7 @@ Pond.Duck.init = function() {
   var xml = Blockly.Xml.textToDom(defaultXml);
   // Clear the workspace to avoid merge.
   BlocklyGames.workspace.clear();
-  Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
+  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
 
   var players = [
     {

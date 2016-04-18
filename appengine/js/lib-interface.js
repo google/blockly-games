@@ -117,7 +117,7 @@ BlocklyInterface.setCode = function(code) {
     var xml = Blockly.Xml.textToDom(code);
     // Clear the workspace to avoid merge.
     BlocklyGames.workspace.clear();
-    Blockly.Xml.domToWorkspace(BlocklyGames.workspace, xml);
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
   }
 };
 
@@ -203,7 +203,7 @@ BlocklyInterface.injectReadonly = function(id, xml) {
     if (typeof xml != 'string') {
       xml = xml.join('');
     }
-    Blockly.Xml.domToWorkspace(workspace, Blockly.Xml.textToDom(xml));
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
   }
 };
 
