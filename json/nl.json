@@ -14,7 +14,7 @@
 	"Games.bird": "Vogel",
 	"Games.turtle": "Schildpad",
 	"Games.movie": "Film",
-	"Games.pondTutor": "Vijver Tutor",
+	"Games.pondTutor": "Leerprogramma Vijver",
 	"Games.pond": "Vijver",
 	"Games.linesOfCode1": "Je hebt dit niveau opgelost met 1 regel JavaScript:",
 	"Games.linesOfCode2": "Je hebt dit niveau opgelost met %1 regels JavaScript:",
@@ -228,6 +228,6 @@
 	"Pond.counterName": "Teller",
 	"Pond.rookName": "Toren",
 	"Pond.sniperName": "Sluipschutter",
-	"Pond.breakLink": "Zodra u begint met het bewerken van JavaScript, u kunt niet terug gaan naar het bewerken van blokken. Is dit OK?",
+	"Pond.breakLink": "Zodra u begint met het bewerken van JavaScript, u kunt niet terug gaan naar het bewerken van blokken. Is dit oké?",
 	"Pond.blocks": "Blokken"
 }
