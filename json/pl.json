@@ -10,7 +10,8 @@
 			"Pio387",
 			"Pbz",
 			"Mateon1",
-			"Pan Cube"
+			"Pan Cube",
+			"Fringoo"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -19,7 +20,7 @@
 	"Games.bird": "Ptak",
 	"Games.turtle": "Żółw",
 	"Games.movie": "Animacja",
-	"Games.pondTutor": "Samouczek stawu.",
+	"Games.pondTutor": "Samouczek stawu",
 	"Games.pond": "Staw",
 	"Games.linesOfCode1": "Rozwiązałeś ten poziom za pomocą 1 linii JavaSkryptu",
 	"Games.linesOfCode2": "Rozwiązałeś ten poziom za pomocą %1 inii JavaSkryptu",
@@ -42,7 +43,7 @@
 	"Games.catVariables": "Zmienne",
 	"Games.catProcedures": "Funkcje",
 	"Games.httpRequestError": "Wystąpił problem z żądaniem.",
-	"Games.linkAlert": "Udpostępnij swoje bloki korzystając z poniższego linku : \n\n\n%1",
+	"Games.linkAlert": "Udostępnij swoje bloki korzystając z poniższego linku: \n\n\n%1",
 	"Games.hashError": "Przepraszamy, \"%1\" nie odpowiada żadnemu zapisanemu programowi.",
 	"Games.xmlError": "Nie można załadować zapisanego pliku. Być może został utworzony za pomocą innej wersji Blockly?",
 	"Games.listVariable": "lista",
