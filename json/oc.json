@@ -1,11 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Cedric31"
+			"Cedric31",
+			"Andibing"
 		]
 	},
+	"Games.name": "Blockly Games",
 	"Games.puzzle": "Puzzle",
 	"Games.maze": "Laberint",
+	"Games.bird": "Bird",
 	"Games.turtle": "Tortuga",
 	"Games.linkTooltip": "Salva e liga als blòts.",
 	"Games.runProgram": "Executa lo programa",
