@@ -1,8 +1,8 @@
 /**
- * Blockly Demos: AccessibleBlockly
+ * Blockly Games: Accessible
  *
  * Copyright 2016 Google Inc.
- * https://developers.google.com/blockly/
+ * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
@@ -193,8 +193,8 @@ musicGame.LevelManagerView = ng.core
     setLevel: function(num, rightButton, wrongButtons){
       musicGame.gameManager.level = num;
       rightButton.setAttribute('aria-pressed','true');
-      for (var i=0; i<wrongButtons.length; i++) {
-        wrongButtons[i].setAttribute('aria-pressed','false');
+      for (var i = 0; i < wrongButtons.length; i++) {
+        wrongButtons[i].setAttribute('aria-pressed', 'false');
       }
       this.level = musicGame.gameManager.level;
       blocklyApp.workspace.clear();

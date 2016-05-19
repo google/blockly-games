@@ -2,8 +2,8 @@
  * @license
  * Visual Blocks Language
  *
- * Copyright 2012 Google Inc.
- * https://developers.google.com/blockly/
+ * Copyright 2016 Google Inc.
+ * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,7 @@ goog.require('Blockly.JavaScript');
 
 Blockly.JavaScript['music_play_random_note'] = function(block) {
   // Play a single note.
-  var code =
-      'addBassChord([45], 1);\n';
-  return code;
+  return 'addBassChord([45], 1);\n';
 };
 
 Blockly.JavaScript['music_play_note'] = function(block) {

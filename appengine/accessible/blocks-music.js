@@ -2,8 +2,8 @@
  * @license
  * Visual Blocks Editor
  *
- * Copyright 2012 Google Inc.
- * https://developers.google.com/blockly/
+ * Copyright 2016 Google Inc.
+ * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,10 +45,6 @@ Blockly.Blocks['music_play_random_note'] = {
   init: function() {
     this.jsonInit({
       "message0": "play random note",
-      "args0": [
-        {
-        }
-      ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.music.HUE,

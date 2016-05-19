@@ -1,8 +1,8 @@
 /**
- * AccessibleBlockly
+ * Blockly Games: Accessible
  *
  * Copyright 2016 Google Inc.
- * https://developers.google.com/blockly/
+ * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 /**
  * @fileoverview Angular2 Component that details how a Blockly.Workspace is
- * rendered in AccessibleBlockly.
+ * rendered in AccessibleBlockly. Modified to run music code.
  * @author madeeha@google.com (Madeeha Ghori)
  */
 blocklyApp.WorkspaceView = ng.core

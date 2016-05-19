@@ -2,7 +2,7 @@
  * Blockly Demos: Accessible Blockly
  *
  * Copyright 2016 Google Inc.
- * https://developers.google.com/blockly/
+ * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -156,8 +156,8 @@ MusicPlayer.prototype.playLines_ = function(
   });
 
   that.activeTimeouts_.push(setTimeout(
-    onFinishBassLineCallback,
-    that.lines_[CONSTANTS.LINE_BASS].getDurationInMsecs()));
+      onFinishBassLineCallback,
+      that.lines_[CONSTANTS.LINE_BASS].getDurationInMsecs()));
 };
 
 MusicPlayer.prototype.setMelody = function(melody) {
@@ -178,5 +178,5 @@ MusicPlayer.prototype.playBassLine = function(onFinishBassLineCallback) {
 
 MusicPlayer.prototype.playAllLines = function(onFinishBassLineCallback) {
   this.playLines_(
-    [CONSTANTS.LINE_BASS, CONSTANTS.LINE_MELODY], onFinishBassLineCallback);
+      [CONSTANTS.LINE_BASS, CONSTANTS.LINE_MELODY], onFinishBassLineCallback);
 };

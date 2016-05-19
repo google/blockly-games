@@ -1,8 +1,8 @@
 /**
- * Blockly Demos: AccessibleBlockly
+ * Blockly Games: Accessible
  *
  * Copyright 2016 Google Inc.
- * https://developers.google.com/blockly/
+ * https://github.com/google/blockly-games
  *
  * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
@@ -25,5 +25,3 @@
 document.addEventListener('DOMContentLoaded', function() {
     ng.platform.browser.bootstrap(musicGame.LevelManagerView);
   });
-
-var option = document.getElementById('selected');
