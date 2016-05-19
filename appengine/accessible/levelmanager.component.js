@@ -192,7 +192,7 @@ musicGame.LevelManagerView = ng.core
     },
     setLevel: function(num, rightButton, wrongButtons){
       musicGame.gameManager.level = num;
-      rightButton.setAttribute('aria-pressed','true');
+      rightButton.setAttribute('aria-pressed', 'true');
       for (var i = 0; i < wrongButtons.length; i++) {
         wrongButtons[i].setAttribute('aria-pressed', 'false');
       }
