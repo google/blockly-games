@@ -220,7 +220,7 @@
 	"Pond.pendulumName": "추",
 	"Pond.scaredName": "두려움",
 	"Pond.helpUseScan": "당신의 답은 맞지만, 더 나은 답도 있습니다. 'scan'을 사용해서 대포를 얼마나 멀리 쏘는지 조종하세요.",
-	"Pond.helpText1": "'cannon'으로 목표를 맞추세요. 첫째 값은 각도, 두번째 값은 거리입니다. 맞는 조합을 찾으세요.",
+	"Pond.helpText1": "'cannon'으로 목표를 맞추세요. 첫째 값은 각도, 두 번째 값은 거리입니다. 맞는 조합을 찾으세요.",
 	"Pond.helpText2": "이 목표는 여러번 맞춰야 됩니다. 'while (true)' 루프를 사용해서 동작을 무한대로 반복하세요.",
 	"Pond.helpText3a": "이 상대는 움직여서 맞추기 힘듭니다. 'scan'은 입력된 방향에 대한 상대의 정확한 거리를 출력합니다.",
 	"Pond.helpText3b": "이 거리가 'cannon'이 정확히 발사하기 위해서 딱 알맞습니다.",
