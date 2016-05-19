@@ -104,6 +104,7 @@ deps:
 	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
 	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
 	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
+	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/accessible
 
 clean: clean-languages clean-deps
 
