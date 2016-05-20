@@ -23,5 +23,5 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    ng.platform.browser.bootstrap(musicGame.LevelManagerView);
-  });
+  ng.platform.browser.bootstrap(musicGame.LevelManagerView);
+});

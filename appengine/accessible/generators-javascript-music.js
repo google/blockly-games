@@ -30,6 +30,7 @@ goog.require('Blockly.JavaScript');
 
 Blockly.JavaScript['music_play_random_note'] = function(block) {
   // Play a single note.
+  // TODO(madeeha): Make this more random.
   return 'addBassChord([45], 1);\n';
 };
 
