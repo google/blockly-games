@@ -1,0 +1,19 @@
+Accessible Blockly Music Game
+=======
+
+Google's Blockly is a web-based, visual programming editor: accessible to blind users.
+
+What Does Accessible Blockly Do?
+-----------
+* renders a version of the blockly toolbox and workspace that is easily navigable using solely the keyboard
+* renders a version of the blockly toolbox and workspace that is compatible with JAWS/NVDA screen readers on Firefox for Windows.
+	* Accessible Blockly will hopefully be modified to work well with most other screen readers, however JAWS and NVDA are the most robust screen readers and are compatible with many more aria tags than other screen readers. Therefore it was easiest to first be compatible with them.
+* Accessible Blockly will be modified to suit accessibility needs other than visual impairments as well. Deaf users will be expected to continue using Blockly over Accessible Blockly.
+
+Use This Demo
+-----------
+This demo depends on the MIDI.js library. To set things up, navigate to the
+*parent* of the blockly folder in a terminal, and run the following command in
+order to clone MIDI.js:
+
+    git clone https://github.com/mudcube/MIDI.js.git
