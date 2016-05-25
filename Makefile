@@ -7,8 +7,8 @@ ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,pond/docs,pond,pond/tutor,pon
 ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy
 
 JS_READ_ONLY = appengine/js-read-only
-SOY_COMPILER = java -jar closure-templates-read-only/build/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
-SOY_EXTRACTOR = java -jar closure-templates-read-only/build/SoyMsgExtractor.jar
+SOY_COMPILER = java -jar closure-read-only/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
+SOY_EXTRACTOR = java -jar closure-read-only/SoyMsgExtractor.jar
 
 BLOCKY_DIR = $(PWD)
 
@@ -83,19 +83,24 @@ deps:
 
 	svn checkout https://github.com/google/closure-library/trunk/closure/goog/ $(JS_READ_ONLY)/goog
 	svn checkout https://github.com/google/closure-library/trunk/third_party/closure/goog/ $(JS_READ_ONLY)/third_party_goog
-	svn checkout https://github.com/google/closure-library/trunk/closure/bin/ closure-library-bin-read-only
 
-	svn checkout http://closure-templates.googlecode.com/svn/trunk/ closure-templates-read-only
-	(cd closure-templates-read-only; ant SoyToJsSrcCompiler)
-	(cd closure-templates-read-only; ant SoyMsgExtractor)
-	cp -r closure-templates-read-only/javascript/soyutils_usegoog.js $(JS_READ_ONLY)
-
-	svn checkout https://github.com/google/closure-compiler/trunk/ closure-compiler-read-only
-	(cd closure-compiler-read-only; ant jar)
-	chmod +x closure-library-bin-read-only/build/closurebuilder.py
+	mkdir -p closure-read-only
+	cd closure-read-only; \
+	svn checkout https://github.com/google/closure-library/trunk/closure/bin/build build; \
+	wget -N https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip; \
+	unzip -o closure-templates-for-javascript-latest.zip SoyToJsSrcCompiler.jar; \
+	unzip -o closure-templates-for-javascript-latest.zip -d ../$(JS_READ_ONLY) soyutils_usegoog.js; \
+	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
+	unzip -o closure-templates-msg-extractor-latest.zip SoyMsgExtractor.jar; \
+	wget -N https://dl.google.com/closure-compiler/compiler-latest.zip; \
+	unzip -o compiler-latest.zip compiler.jar
+	chmod +x closure-read-only/build/closurebuilder.py
 
 	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(JS_READ_ONLY)/JS-Interpreter
-	java -jar closure-compiler-read-only/build/compiler.jar --js appengine/js-read-only/JS-Interpreter/acorn.js --js appengine/js-read-only/JS-Interpreter/interpreter.js --js_output_file appengine/js-read-only/JS-Interpreter/compiled.js
+	java -jar closure-read-only/compiler.jar\
+	 --js appengine/js-read-only/JS-Interpreter/acorn.js\
+	 --js appengine/js-read-only/JS-Interpreter/interpreter.js\
+	 --js_output_file appengine/js-read-only/JS-Interpreter/compiled.js
 
 	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(JS_READ_ONLY)/ace
 
@@ -104,7 +109,7 @@ deps:
 	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
 	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
 	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
-	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/accessible
+	svn checkout https://github.com/google/blockly/trunk/accessible $(JS_READ_ONLY)/blockly/accessible
 
 clean: clean-languages clean-deps
 
@@ -114,9 +119,7 @@ clean-languages:
 
 clean-deps:
 	rm -rf appengine/js-read-only
-	rm -rf closure-compiler-read-only
-	rm -rf closure-library-bin-read-only
-	rm -rf closure-templates-read-only
+	rm -rf closure-read-only
 
 # Prevent non-traditional rules from exiting with no changes.
 .PHONY: deps
