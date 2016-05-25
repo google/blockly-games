@@ -6,8 +6,6 @@ appengine/*/generated/
 appengine/*/*/generated/
 appengine/js-read-only/
 json/keys.json
-closure-compiler-read-only/
-closure-library-bin-read-only/
-closure-templates-read-only/
+closure-read-only/
 
 *.komodoproject
