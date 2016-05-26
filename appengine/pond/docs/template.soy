@@ -76,7 +76,8 @@ If <code>cannon()</code> is called during this time, nothing happens.
 {if $ij.pond == 'blocks'}
   <p><img src="docs/scan.png" height="36" width="134"></p>
 {elseif $ij.pond == 'js'}
-  <pre class="pondSpec spec">scan(<i>angle</i>, <i>width</i>)</pre>
+  <pre class="pondSpec spec">scan(<i>angle</i>){\n}
+scan(<i>angle</i>, <i>width</i>)</pre>
 {/if}
 
 <p>The <code>scan()</code> function activates the duck's radar.  This function
@@ -92,6 +93,7 @@ then <code>Infinity</code> is returned.</p>
     players may wish to start scanning with a width of 20 for a fast scan, then
     progressively decrease the width to get more accuracy.  If not specified,
     the width is 5.
+    This parameter is only available with JavaScript, not with blocks.
   </p>
 {/if}
 {/if}
@@ -103,7 +105,8 @@ then <code>Infinity</code> is returned.</p>
 {if $ij.pond == 'blocks'}
   <p><img src="docs/swim.png" height="41" width="131"></p>
 {elseif $ij.pond == 'js'}
-  <pre class="pondSpec spec">swim(<i>angle</i>, <i>speed</i>)</pre>
+  <pre class="pondSpec spec">swim(<i>angle</i>, <i>speed</i>){\n}
+swim(<i>angle</i>, <i>speed</i>)</pre>
 {/if}
 
 <p>The <code>swim()</code> function starts the duck moving.  The duck will
@@ -114,6 +117,7 @@ continue moving in the specified direction indefinitely.</p>
     The second (optional) parameter of <code>swim()</code> specifies the speed.
     This can be from 0 (stopped) to 100 (fast).  Direction of movement may only
     be changed if the speed is 50 or less.  If not specified, the speed is 50.
+    This parameter is only available with JavaScript, not with blocks.
   </p>
 {/if}
 
@@ -151,7 +155,8 @@ take a moment to slow down before stopping completely.
     <img src="docs/loc_y.png" height="26" width="74">
   </p>
 {elseif $ij.pond == 'js'}
-  <pre class="pondSpec spec">loc_x()    loc_y()</pre>
+  <pre class="pondSpec spec">loc_x(){\n}
+loc_y()</pre>
 {/if}
 
 <p>The <code>loc_x()</code> and <code>loc_y()</code> functions return the
