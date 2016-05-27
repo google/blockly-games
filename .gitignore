@@ -5,6 +5,7 @@ appengine/generated/
 appengine/*/generated/
 appengine/*/*/generated/
 appengine/js-read-only/
+appengine/media/
 json/keys.json
 closure-read-only/
 

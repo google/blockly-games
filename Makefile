@@ -68,7 +68,7 @@ languages:
 	i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
 	@for app in $(ALL_JSON); do \
 	  mkdir -p appengine/$$app/generated; \
-	  i18n/json_to_js.py --path_to_jar closure-templates-read-only/build --output_dir appengine/$$app/generated --template appengine/$$app/template.soy --key_file json/keys.json json/*.json; \
+	  i18n/json_to_js.py --path_to_jar closure-read-only --output_dir appengine/$$app/generated --template appengine/$$app/template.soy --key_file json/keys.json json/*.json; \
 	done
 	@for app in $(USER_APPS); do \
 	  echo; \
@@ -105,11 +105,12 @@ deps:
 	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(JS_READ_ONLY)/ace
 
 	mkdir -p $(JS_READ_ONLY)/blockly
-	svn checkout https://github.com/google/blockly/trunk/core $(JS_READ_ONLY)/blockly/core
-	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
-	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
-	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
 	svn checkout https://github.com/google/blockly/trunk/accessible $(JS_READ_ONLY)/blockly/accessible
+	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
+	svn checkout https://github.com/google/blockly/trunk/core $(JS_READ_ONLY)/blockly/core
+	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
+	svn checkout https://github.com/google/blockly/trunk/media appengine/media
+	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
 
 clean: clean-languages clean-deps
 
@@ -119,6 +120,7 @@ clean-languages:
 
 clean-deps:
 	rm -rf appengine/js-read-only
+	rm -rf appengine/media
 	rm -rf closure-read-only
 
 # Prevent non-traditional rules from exiting with no changes.
