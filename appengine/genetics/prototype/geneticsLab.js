@@ -13,12 +13,12 @@ function startSimulation() {
   // Create a new cage.
   var cage = new Cage(visualization);
   // Make a few players.
-  createFakePlayers(cage, 0, 1, 1, 2);
+  createFakePlayers(cage, 0, 1, 0, 3);
   // Initialize cage.
   cage.restartSimulation();
 };
 
-function createVarientPlayer(cage, num) {
+function createVariantPlayer(cage, num) {
   var mateQuestion = function() {
      // Choose the mate with the highest fertility gene.
     var mate;
@@ -92,7 +92,7 @@ function createVarientPlayer(cage, num) {
     // Never fight
     return null;
   };
-  var name = 'VarientPlayer';
+  var name = 'VariantPlayer';
   if(num && num > 1) { name += ' ' + num; }
   cage.addPlayer(name, mateQuestion, mateAnswer, pickFight);
 }
@@ -126,7 +126,7 @@ function createHighBreedingPlayer(cage, num) {
   cage.addPlayer(name, mateQuestion, mateAnswer, pickFight);
 }
 
-function createAgressivePlayer(cage, num) {
+function createAggressivePlayer(cage, num) {
   var mateQuestion = function() {
     // Choose the biggest valid mate.
     var mate;
@@ -158,7 +158,7 @@ function createAgressivePlayer(cage, num) {
     if(!opponent || opponent.size >= this.size) return null;
     return opponent.id;
   };
-  var name = 'AgressivePlayer';
+  var name = 'AggressivePlayer';
   if(num && num > 1) { name += ' ' + num; }
   cage.addPlayer(name, mateQuestion, mateAnswer, pickFight);
 }
@@ -175,23 +175,23 @@ function createSimplePlayer(cage, num) { //TODO change to random
 /**
  * Creates fake players and adds them to the game (cage).
  * @param {Cage} cage The cage to add the fake players to.
- * @param {number} numVarient The number of players to add with the varient AI.
+ * @param {number} numVariant The number of players to add with the varient AI.
  * @param {number} numHighBreeding The number of players to add with the high breeding AI.
- * @param {number} numAgressive The number of players to add with the agressive AI.
+ * @param {number} numAggressive The number of players to add with the aggressive AI.
  * @param {number} numSimple The number of players to add with the simple AI.
  */
-function createFakePlayers(cage, numVarient, numHighBreeding, numAgressive, numSimple) {
+function createFakePlayers(cage, numVariant, numHighBreeding, numAggressive, numSimple) {
   // Create varient players.
-  for(var i = 1; i <= numVarient; i++) {
-    createVarientPlayer(cage, i);
+  for(var i = 1; i <= numVariant; i++) {
+    createVariantPlayer(cage, i);
   }
   // Create high breeding players.
   for(var i = 1; i <= numHighBreeding; i++) {
     createHighBreedingPlayer(cage, i);
   }
-  // Create agressive players.
-  for(var i = 1; i <= numAgressive; i++) {
-    createAgressivePlayer(cage, i);
+  // Create aggressive players.
+  for(var i = 1; i <= numAggressive; i++) {
+    createAggressivePlayer(cage, i);
   }
   // Create dumb players.
   for(var i = 1; i <= numSimple; i++) {

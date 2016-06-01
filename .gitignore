@@ -9,3 +9,5 @@ json/keys.json
 closure-read-only/
 
 *.komodoproject
+/.idea/
+/blockly-games.iml

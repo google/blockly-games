@@ -1,0 +1,130 @@
+{namespace Genetics.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make genetics-lab-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+{/template}
+
+/**
+ * Canvas, statistic graphs, and buttons.
+ */
+{template .visualization}
+  <div id="visualization">
+    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+    <canvas id="display" width="400" height="400"></canvas>
+  </div>
+
+  <table id="geneticsStatTable">
+    <tbody>
+        <tr>
+          <td><div id="sexChart" style="border: 1px solid #ccc"></div></td>
+        </tr>
+        <tr>
+          <td><div id="mateQuestionChart"></div></td>
+          <td><div id="mateAnswerChart"></div></td>
+          <td><div id="pickFightChart"></div></td>
+        </tr>
+    </tbody>
+  </table>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <h1>
+    {call BlocklyGames.soy.titleSpan}
+      {param appName}
+        {msg meaning="Games.genetics" desc="IBID"}Genetics{/msg}
+      {/param}
+    {/call}
+  </h1>
+
+  {call .visualization /}
+
+  <div id="tabarea">
+    <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">{{msg meaning="Pond.blocks" desc="Label on a tab that contains blocks editor.\n{lb}{lb}Identical|Blocks{rb}{rb}"}}Blocks{{/msg}}</div>
+      <div class="goog-tab">JavaScript</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    <div id="blockly"></div>
+    <div id="editor"></div>
+  </div>
+
+  {call .toolbox /}
+
+  {call BlocklyGames.soy.dialog /}
+
+{/template}
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none;">
+    <category name="Genetics Lab">
+    </category>
+    <category name="Logic">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+    </category>
+    <category name="Loops">
+      <block type="controls_whileUntil"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="Math">
+      <block type="math_number"></block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_single">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">9</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <sep></sep>
+    <category name="Variables" custom="VARIABLE"></category>
+    <category name="Functions" custom="PROCEDURE"></category>
+  </xml>
+{/template}

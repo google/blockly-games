@@ -26,8 +26,8 @@ function romanize (value) {
   return romanNumeral;
 }
 
-var FEMININE_NAMES = ['Leia', 'Danielle', 'Zena', 'Brianna', 'Katie', 'Lacy', 'Leela', 'Suzy', 'Saphira', 'Missie', 'Flo', 'Lisa'];
-var MASCULINE_NAMES = ['Aaron', 'Chris', 'Charlie', 'Camden', 'Rick', 'Dean', 'Xavier', 'Zeke', 'Han', 'Samuel', 'Wade', 'Patrick'];
+var FEMININE_NAMES = ['Monica', 'Danielle', 'Zena', 'Brianna', 'Katie', 'Lacy', 'Leela', 'Suzy', 'Saphira', 'Missie', 'Flo', 'Lisa'];
+var MASCULINE_NAMES = ['Neil', 'Chris', 'Charlie', 'Camden', 'Rick', 'Dean', 'Xavier', 'Zeke', 'Han', 'Samuel', 'Wade', 'Patrick'];
 
 /**
  * Returns a string representation of the mouse.

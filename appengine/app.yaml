@@ -101,6 +101,15 @@ handlers:
   static_dir: pond
   secure: always
 
+# Genetics app.
+- url: /genetics
+  static_files: genetics.html
+  upload: genetics\.html
+  secure: always
+- url: /genetics/
+  static_dir: genetics
+  secure: always
+
 # Shared files.
 - url: /readonly.html
   static_files: readonly.html
