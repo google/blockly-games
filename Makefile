@@ -6,9 +6,9 @@ USER_APPS = {index,puzzle,maze,bird,turtle,movie,pond/docs,pond/tutor,pond/duck}
 ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,pond/docs,pond,pond/tutor,pond/duck}
 ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy
 
-JS_READ_ONLY = appengine/js-read-only
-SOY_COMPILER = java -jar closure-read-only/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
-SOY_EXTRACTOR = java -jar closure-read-only/SoyMsgExtractor.jar
+APP_ENGINE_THIRD_PARTY = appengine/third-party
+SOY_COMPILER = java -jar third-party/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
+SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
 BLOCKY_DIR = $(PWD)
 
@@ -68,7 +68,7 @@ languages:
 	i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
 	@for app in $(ALL_JSON); do \
 	  mkdir -p appengine/$$app/generated; \
-	  i18n/json_to_js.py --path_to_jar closure-read-only --output_dir appengine/$$app/generated --template appengine/$$app/template.soy --key_file json/keys.json json/*.json; \
+	  i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$$app/generated --template appengine/$$app/template.soy --key_file json/keys.json json/*.json; \
 	done
 	@for app in $(USER_APPS); do \
 	  echo; \
@@ -79,38 +79,31 @@ languages:
 	done
 
 deps:
-	mkdir -p $(JS_READ_ONLY)
-
-	svn checkout https://github.com/google/closure-library/trunk/closure/goog/ $(JS_READ_ONLY)/goog
-	svn checkout https://github.com/google/closure-library/trunk/third_party/closure/goog/ $(JS_READ_ONLY)/third_party_goog
-
-	mkdir -p closure-read-only
-	cd closure-read-only; \
+	mkdir -p third-party
+	@# All following commands are in third-party, use backslashes to keep them on the same line as the cd command.
+	cd third-party; \
 	svn checkout https://github.com/google/closure-library/trunk/closure/bin/build build; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip; \
 	unzip -o closure-templates-for-javascript-latest.zip SoyToJsSrcCompiler.jar; \
-	unzip -o closure-templates-for-javascript-latest.zip -d ../$(JS_READ_ONLY) soyutils_usegoog.js; \
+	unzip -o closure-templates-for-javascript-latest.zip -d ../$(APP_ENGINE_THIRD_PARTY) soyutils_usegoog.js; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
 	unzip -o closure-templates-msg-extractor-latest.zip SoyMsgExtractor.jar; \
 	wget -N https://dl.google.com/closure-compiler/compiler-latest.zip; \
 	unzip -o compiler-latest.zip compiler.jar
-	chmod +x closure-read-only/build/closurebuilder.py
+	chmod +x third-party/build/closurebuilder.py
 
-	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(JS_READ_ONLY)/JS-Interpreter
-	java -jar closure-read-only/compiler.jar\
-	 --js appengine/js-read-only/JS-Interpreter/acorn.js\
-	 --js appengine/js-read-only/JS-Interpreter/interpreter.js\
-	 --js_output_file appengine/js-read-only/JS-Interpreter/compiled.js
-
-	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(JS_READ_ONLY)/ace
-
-	mkdir -p $(JS_READ_ONLY)/blockly
-	svn checkout https://github.com/google/blockly/trunk/accessible $(JS_READ_ONLY)/blockly/accessible
-	svn checkout https://github.com/google/blockly/trunk/blocks $(JS_READ_ONLY)/blockly/blocks
-	svn checkout https://github.com/google/blockly/trunk/core $(JS_READ_ONLY)/blockly/core
-	svn checkout https://github.com/google/blockly/trunk/generators $(JS_READ_ONLY)/blockly/generators
-	svn checkout https://github.com/google/blockly/trunk/media appengine/media
-	svn checkout https://github.com/google/blockly/trunk/msg/js $(JS_READ_ONLY)/blockly/msg-js
+	mkdir -p $(APP_ENGINE_THIRD_PARTY)
+	svn checkout https://github.com/google/closure-library/trunk/closure/goog/ $(APP_ENGINE_THIRD_PARTY)/goog
+	svn checkout https://github.com/google/closure-library/trunk/third_party/closure/goog/ $(APP_ENGINE_THIRD_PARTY)/third_party_goog
+	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
+	svn checkout https://github.com/google/blockly/trunk/ $(APP_ENGINE_THIRD_PARTY)/blockly
+	@# messages.js confuses the compiler by also providing "Blockly.Msg.en".
+	rm $(APP_ENGINE_THIRD_PARTY)/blockly/msg/messages.js
+	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
+	java -jar third-party/compiler.jar\
+	 --js appengine/third-party/JS-Interpreter/acorn.js\
+	 --js appengine/third-party/JS-Interpreter/interpreter.js\
+	 --js_output_file appengine/third-party/JS-Interpreter/compiled.js
 
 clean: clean-languages clean-deps
 
@@ -119,9 +112,8 @@ clean-languages:
 	rm -f json/keys.json
 
 clean-deps:
-	rm -rf appengine/js-read-only
-	rm -rf appengine/media
-	rm -rf closure-read-only
+	rm -rf appengine/third-party
+	rm -rf third-party
 
 # Prevent non-traditional rules from exiting with no changes.
 .PHONY: deps

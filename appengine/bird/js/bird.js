@@ -337,7 +337,7 @@ Bird.init = function() {
 
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'media/',
+      {'media': 'third-party/blockly/media/',
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
