@@ -7,7 +7,7 @@ What Does Accessible Blockly Do?
 -----------
 * renders a version of the blockly toolbox and workspace that is easily navigable using solely the keyboard
 * renders a version of the blockly toolbox and workspace that is compatible with JAWS/NVDA screen readers on Firefox for Windows.
-	* Accessible Blockly will hopefully be modified to work well with most other screen readers, however JAWS and NVDA are the most robust screen readers and are compatible with many more aria tags than other screen readers. Therefore it was easiest to first be compatible with them.
+  * Accessible Blockly will hopefully be modified to work well with most other screen readers, however JAWS and NVDA are the most robust screen readers and are compatible with many more aria tags than other screen readers. Therefore it was easiest to first be compatible with them.
 * Accessible Blockly will be modified to suit accessibility needs other than visual impairments as well. Deaf users will be expected to continue using Blockly over Accessible Blockly.
 
 Use This Demo

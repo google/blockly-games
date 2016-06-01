@@ -5,39 +5,36 @@
   <title>Screen Reader Accessible Blockly Game</title>
 
   <!-- Load Blockly -->
-  <script src='../../../blockly_compressed.js'></script>
-  <script src='../../../blocks_compressed.js'></script>
-  <script src='../../../javascript_compressed.js'></script>
-  <script src='../../../msg/js/en.js'></script>
+  <script src="../../appengine/js-read-only/blockly/blockly_compressed.js"></script>
+  <script src="../../appengine/js-read-only/blockly/blocks_compressed.js"></script>
+  <script src="../../appengine/js-read-only/blockly/javascript_compressed.js"></script>
+  <script src="../../appengine/js-read-only/blockly/msg-js/en.js"></script>
 
-  <!-- TODO(sll): This will need to change as music blocks become part of the core library. -->
   <script src="blocks-music.js"></script>
   <script src="generators-javascript-music.js"></script>
 
   <!-- Load accessibleBlockly -->
-  <script src='appengine/js-read-only/blockly/accessible/libs/es6-shim.min.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/libs/angular2-polyfills.min.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/libs/Rx.umd.min.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/libs/angular2-all.umd.min.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/utils.service.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/clipboard.service.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/tree.service.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/fieldview.component.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/workspace_treeview.component.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/toolbox_treeview.component.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/toolboxview.component.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/workspaceview.component.js'></script>
-  <script src='appengine/js-read-only/blockly/accessible/appview.component.js'></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/libs/es6-shim.min.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/libs/angular2-polyfills.min.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/libs/Rx.umd.min.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/libs/angular2-all.umd.min.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/utils.service.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/clipboard.service.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/tree.service.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/fieldview.component.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/workspace_treeview.component.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/toolbox_treeview.component.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/toolboxview.component.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/workspaceview.component.js"></script>
+  <script src="../../appengine/js-read-only/blockly/accessible/appview.component.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="appengine/media/accessible.css">
+  <link rel="stylesheet" type="text/css" href="../../appengine/media/accessible.css">
 
   <!-- Libraries for MIDI playback. -->
-  <!-- see the readme with Sean's demo for instructions for getting the MIDI library:
-  https://github.com/seanlip/blockly/tree/music/demos/music -->
-  <script src='../MIDI.js/build/MIDI.js'></script>
-  <script src='../MIDI.js/inc/shim/Base64binary.js'></script>
+  <script src="../MIDI.js/build/MIDI.js"></script>
+  <script src="../MIDI.js/inc/shim/Base64binary.js"></script>
 
-  <script src='music_player.js'></script>
+  <script src="music_player.js"></script>
 
   <style>
     body {
@@ -58,8 +55,8 @@
 <body>
   <levelview></levelview>
 
-  <script src='levelmanager.component.js'></script>
-  <script src='boot.js'></script>
+  <script src="levelmanager.component.js"></script>
+  <script src="boot.js"></script>
   <script>
     var musicPlayer = new MusicPlayer();
     var activeTimeouts = [];
