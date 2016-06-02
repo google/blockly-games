@@ -209,7 +209,7 @@ Pond.Battle.update = function() {
     Pond.Battle.pid =
         setTimeout(Pond.Battle.update, 1000 / Pond.Battle.GAME_FPS);
   }
-}
+};
 
 Pond.Battle.stop = function() {
   // Add the survivors to the ranks based on their damage.
@@ -234,7 +234,7 @@ Pond.Battle.stop = function() {
  */
 Pond.Battle.updateMissiles_ = function() {
   for (var i = Pond.Battle.MISSILES.length - 1; i >= 0; i--) {
-    var missile = Pond.Battle.MISSILES[i]
+    var missile = Pond.Battle.MISSILES[i];
     missile.progress += Pond.Battle.MISSILE_SPEED;
     var maxDamage = 0;
     if (missile.range - missile.progress < Pond.Battle.MISSILE_SPEED / 2) {

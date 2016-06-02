@@ -25,8 +25,8 @@
 
 goog.provide('Bird');
 
-goog.require('Bird.soy');
 goog.require('Bird.Blocks');
+goog.require('Bird.soy');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');

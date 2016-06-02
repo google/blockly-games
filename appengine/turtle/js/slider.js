@@ -68,7 +68,7 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   rect.setAttribute('style', 'opacity: 0');
   rect.setAttribute('x', x - this.TARGET_OVERHANG_);
   rect.setAttribute('y', y - this.TARGET_OVERHANG_);
-  rect.setAttribute('width',  width + 2 * this.TARGET_OVERHANG_);
+  rect.setAttribute('width', width + 2 * this.TARGET_OVERHANG_);
   rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
   rect.setAttribute('rx', this.TARGET_OVERHANG_);
   rect.setAttribute('ry', this.TARGET_OVERHANG_);
@@ -121,7 +121,7 @@ Slider.prototype.knobMouseDown_ = function(e) {
     if (e.changedTouches.length != 1) {
       return;
     }
-    Slider.touchToMouse_(e)
+    Slider.touchToMouse_(e);
   }
   Slider.activeSlider_ = this;
   Slider.startMouseX_ = this.mouseToSvg_(e).x;
@@ -180,7 +180,7 @@ Slider.knobMouseMove_ = function(e) {
     if (e.changedTouches.length != 1) {
       return;
     }
-    Slider.touchToMouse_(e)
+    Slider.touchToMouse_(e);
   }
   var x = thisSlider.mouseToSvg_(e).x - Slider.startMouseX_ +
       Slider.startKnobX_;
@@ -198,7 +198,7 @@ Slider.prototype.rectMouseDown_ = function(e) {
     if (e.changedTouches.length != 1) {
       return;
     }
-    Slider.touchToMouse_(e)
+    Slider.touchToMouse_(e);
   }
   var x = this.mouseToSvg_(e).x;
   this.animateValue((x - this.KNOB_MIN_X_) /
@@ -231,7 +231,7 @@ Slider.prototype.animateValue = function(value) {
       var newVal = i * (value - oldValue) / (steps - 1) + oldValue;
       thisSlider.setValue(newVal);
     };
-  }
+  };
   for (var i = 0; i < steps; i++) {
     this.animationTasks_.push(setTimeout(stepFunc(i), i * duration / steps));
   }

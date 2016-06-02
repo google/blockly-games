@@ -26,22 +26,22 @@
 goog.provide('Turtle.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.JavaScript');
 goog.require('Blockly.Blocks.colour');
-goog.require('Blockly.JavaScript.colour');
 goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.Blocks.math');
-goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.Blocks.texts');
-goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.Blocks.variables');
+goog.require('Blockly.JavaScript');
+goog.require('Blockly.JavaScript.colour');
+goog.require('Blockly.JavaScript.lists');
+goog.require('Blockly.JavaScript.logic');
+goog.require('Blockly.JavaScript.loops');
+goog.require('Blockly.JavaScript.math');
+goog.require('Blockly.JavaScript.procedures');
+goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
 
@@ -251,7 +251,7 @@ Blockly.Blocks['turtle_colour_internal'] = {
     this.setColour(20);
     this.appendDummyInput()
         .appendField(BlocklyGames.getMsg('Turtle_setColour'))
-        .appendField(new Blockly.FieldColour("#ff0000"), "COLOUR");
+        .appendField(new Blockly.FieldColour('#ff0000'), 'COLOUR');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(BlocklyGames.getMsg('Turtle_colourTooltip'));
@@ -361,12 +361,12 @@ Blockly.Blocks['turtle_repeat_internal'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
-      "args0": [
+      'message0': Blockly.Msg.CONTROLS_REPEAT_TITLE,
+      'args0': [
         {
-          "type": "field_dropdown",
-          "name": "TIMES",
-          "options": [
+          'type': 'field_dropdown',
+          'name': 'TIMES',
+          'options': [
             ['3', '3'],
             ['4', '4'],
             ['5', '5'],
@@ -374,11 +374,11 @@ Blockly.Blocks['turtle_repeat_internal'] = {
           ]
         }
       ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Blockly.Blocks.loops.HUE,
-      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
-      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
+      'previousStatement': null,
+      'nextStatement': null,
+      'colour': Blockly.Blocks.loops.HUE,
+      'tooltip': Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
+      'helpUrl': Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);

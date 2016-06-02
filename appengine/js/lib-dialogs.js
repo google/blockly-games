@@ -25,9 +25,9 @@
 
 goog.provide('BlocklyDialogs');
 
+goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('Blockly');
 goog.require('goog.style');
 
 
@@ -377,7 +377,7 @@ BlocklyDialogs.congratulations = function() {
       var text = BlocklyGames.getMsg('Games_linesOfCode2').replace('%1', lineCount);
     }
     linesText.appendChild(document.createTextNode(text));
-  };
+  }
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     var text = BlocklyGames.getMsg('Games_nextLevel')

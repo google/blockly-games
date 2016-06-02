@@ -25,14 +25,14 @@
 
 goog.provide('Pond.Duck');
 
-goog.require('Pond');
-goog.require('Pond.Duck.soy');
-goog.require('Pond.Battle');
-goog.require('Pond.Blocks');
-goog.require('Pond.Visualization');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Pond');
+goog.require('Pond.Battle');
+goog.require('Pond.Blocks');
+goog.require('Pond.Duck.soy');
+goog.require('Pond.Visualization');
 goog.require('goog.events');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');

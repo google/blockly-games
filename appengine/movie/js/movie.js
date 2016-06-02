@@ -25,13 +25,13 @@
 
 goog.provide('Movie');
 
-goog.require('Scrubber');
-goog.require('Movie.soy');
-goog.require('Movie.Blocks');
-goog.require('Movie.Answers');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Movie.Answers');
+goog.require('Movie.Blocks');
+goog.require('Movie.soy');
+goog.require('Scrubber');
 
 
 BlocklyGames.NAME = 'movie';
@@ -365,7 +365,7 @@ Movie.renderAxies_ = function() {
     ctx.stroke();
     if (major == 2) {
       ctx.fillText(Math.round(i * 100), i * Movie.WIDTH + 2, Movie.HEIGHT - 4);
-      ctx.fillText(Math.round(100 - i * 100), 3, i* Movie.HEIGHT - 2);
+      ctx.fillText(Math.round(100 - i * 100), 3, i * Movie.HEIGHT - 2);
     }
     major = major == 1 ? 2 : 1;
   }

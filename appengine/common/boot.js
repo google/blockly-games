@@ -67,7 +67,7 @@
     if (debug) {
       console.info('Loading uncompressed JavaScript.');
     }
-  } catch(e) {
+  } catch (e) {
     // Don't even think of throwing an error.
   }
   script.src = appName + '/generated/' + lang +

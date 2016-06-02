@@ -25,8 +25,8 @@
 
 goog.provide('BlocklyGames');
 
-goog.require('goog.math');
 goog.require('goog.dom.classes');
+goog.require('goog.math');
 
 /**
  * Lookup for names of languages.  Keys should be in ISO 639 format.
@@ -282,7 +282,7 @@ BlocklyGames.loadFromLocalStorage = function(name, level) {
   var xml;
   try {
     xml = window.localStorage[name + level];
-  } catch(e) {
+  } catch (e) {
     // Firefox sometimes throws a SecurityError when accessing localStorage.
     // Restarting Firefox fixes this, so it looks like a bug.
   }

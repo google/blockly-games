@@ -25,14 +25,14 @@
 
 goog.provide('Pond.Tutor');
 
+goog.require('BlocklyDialogs');
+goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
 goog.require('Pond.Tutor.soy');
 goog.require('Pond.Visualization');
-goog.require('BlocklyDialogs');
-goog.require('BlocklyGames');
-goog.require('BlocklyInterface');
 goog.require('goog.math.Coordinate');
 
 
@@ -170,7 +170,7 @@ Pond.Tutor.init = function() {
     } else {
       if (blocklyDiv) {
         var code = function() {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace)
+          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
         };
       } else {
         var code = function() {return BlocklyInterface.editor['getValue']()};

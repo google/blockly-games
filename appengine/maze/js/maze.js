@@ -25,12 +25,12 @@
 
 goog.provide('Maze');
 
-goog.require('Maze.soy');
-goog.require('Maze.Blocks');
+goog.require('Blockly.FieldDropdown');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('Blockly.FieldDropdown');
+goog.require('Maze.Blocks');
+goog.require('Maze.soy');
 
 BlocklyGames.NAME = 'maze';
 
@@ -621,7 +621,7 @@ Maze.levelHelp = function() {
       style[rtl ? 'right' : 'left'] = '215px';
       origin = toolbar[0].getSvgRoot();
     } else {
-      var topBlocks = BlocklyGames.workspace.getTopBlocks(true)
+      var topBlocks = BlocklyGames.workspace.getTopBlocks(true);
       if (topBlocks.length > 1) {
         var xml = [
             '<xml>',

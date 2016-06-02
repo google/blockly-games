@@ -25,13 +25,13 @@
 
 goog.provide('Turtle');
 
-goog.require('Slider');
-goog.require('Turtle.soy');
-goog.require('Turtle.Blocks');
-goog.require('Turtle.Answers');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Slider');
+goog.require('Turtle.Answers');
+goog.require('Turtle.Blocks');
+goog.require('Turtle.soy');
 
 
 BlocklyGames.NAME = 'turtle';

@@ -25,8 +25,8 @@
 
 goog.provide('Scrubber');
 
-goog.require('goog.math');
 goog.require('BlocklyGames');
+goog.require('goog.math');
 
 
 /**
@@ -84,7 +84,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   rect.setAttribute('style', 'opacity: 0');
   rect.setAttribute('x', this.KNOB_MIN_X_ - this.TARGET_OVERHANG_);
   rect.setAttribute('y', this.HEIGHT_ - this.TARGET_OVERHANG_);
-  rect.setAttribute('width',  this.KNOB_MAX_X_ - this.KNOB_MIN_X_ +
+  rect.setAttribute('width', this.KNOB_MAX_X_ - this.KNOB_MIN_X_ +
                     2 * this.TARGET_OVERHANG_);
   rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
   rect.setAttribute('rx', this.TARGET_OVERHANG_);
@@ -185,7 +185,7 @@ Scrubber.prototype.knobMouseDown_ = function(e) {
     if (e.changedTouches.length != 1) {
       return;
     }
-    Scrubber.touchToMouse_(e)
+    Scrubber.touchToMouse_(e);
   }
   Scrubber.activeScrubber_ = this;
   Scrubber.startMouseX_ = this.mouseToSvg_(e).x;
@@ -238,7 +238,7 @@ Scrubber.knobMouseMove_ = function(e) {
     if (e.changedTouches.length != 1) {
       return;
     }
-    Scrubber.touchToMouse_(e)
+    Scrubber.touchToMouse_(e);
   }
   var x = thisScrubber.mouseToSvg_(e).x - Scrubber.startMouseX_ +
       Scrubber.startKnobX_;
@@ -259,7 +259,7 @@ Scrubber.prototype.rectMouseDown_ = function(e) {
     if (e.changedTouches.length != 1) {
       return;
     }
-    Scrubber.touchToMouse_(e)
+    Scrubber.touchToMouse_(e);
   }
   var x = this.mouseToSvg_(e).x;
   this.animateValue((x - this.KNOB_MIN_X_) /
@@ -331,7 +331,7 @@ Scrubber.prototype.nextFrame = function() {
   var workTime = now - this.lastFrame_ - this.lastDelay_;
   var delay = Math.max(1, (1000 / this.FPS) - workTime);
   var thisScrubber = this;
-  this.playPid_ = setTimeout(function(){thisScrubber.nextFrame();}, delay);
+  this.playPid_ = setTimeout(function() {thisScrubber.nextFrame();}, delay);
   this.lastFrame_ = now;
   this.lastDelay_ = delay;
 };
@@ -362,7 +362,7 @@ Scrubber.prototype.animateValue = function(value) {
       var newVal = i * (value - oldValue) / (steps - 1) + oldValue;
       thisScrubber.setValue(newVal);
     };
-  }
+  };
   for (var i = 0; i < steps; i++) {
     this.animationTasks_.push(setTimeout(stepFunc(i), i * duration / steps));
   }
@@ -381,7 +381,7 @@ Scrubber.prototype.setValue = function(value) {
   this.knobTarget_.setAttribute('x', x - this.TARGET_OVERHANG_);
 
   for (var i = 0, rect; rect = this.progressRects_[i]; i++) {
-    rect.setAttribute('width',  x - this.KNOB_MIN_X_);
+    rect.setAttribute('width', x - this.KNOB_MIN_X_);
   }
 
   while (this.text_.firstChild) {
