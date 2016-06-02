@@ -9,5 +9,3 @@ json/keys.json
 third-party/
 
 *.komodoproject
-/.idea/
-/blockly-games.iml
