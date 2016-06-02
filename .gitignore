@@ -4,9 +4,9 @@
 appengine/generated/
 appengine/*/generated/
 appengine/*/*/generated/
-appengine/js-read-only/
+appengine/third-party/
 json/keys.json
-closure-read-only/
+third-party/
 
 *.komodoproject
 /.idea/

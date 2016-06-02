@@ -25,10 +25,9 @@
 
 goog.provide('BlocklyInterface');
 
+goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
-goog.require('Blockly');
-
 goog.require('goog.string');
 
 
@@ -84,7 +83,7 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   var loadOnce = null;
   try {
     loadOnce = window.sessionStorage.loadOnceBlocks;
-  } catch(e) {
+  } catch (e) {
     // Firefox sometimes throws a SecurityError when accessing sessionStorage.
     // Restarting Firefox fixes this, so it looks like a bug.
   }
@@ -256,10 +255,10 @@ BlocklyInterface.eventSpam.previousDate_ = 0;
  */
 BlocklyInterface.importInterpreter = function() {
   //<script type="text/javascript"
-  //  src="js-read-only/JS-Interpreter/compiled.js"></script>
+  //  src="third-party/JS-Interpreter/compiled.js"></script>
   var script = document.createElement('script');
   script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', 'js-read-only/JS-Interpreter/compiled.js');
+  script.setAttribute('src', 'third-party/JS-Interpreter/compiled.js');
   document.head.appendChild(script);
 };
 

@@ -25,8 +25,8 @@
 
 goog.provide('Bird');
 
-goog.require('Bird.soy');
 goog.require('Bird.Blocks');
+goog.require('Bird.soy');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -337,7 +337,7 @@ Bird.init = function() {
 
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'media/',
+      {'media': 'third-party/blockly/media/',
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});

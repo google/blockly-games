@@ -25,14 +25,14 @@
 
 goog.provide('Pond.Duck');
 
-goog.require('Pond');
-goog.require('Pond.Duck.soy');
-goog.require('Pond.Battle');
-goog.require('Pond.Blocks');
-goog.require('Pond.Visualization');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Pond');
+goog.require('Pond.Battle');
+goog.require('Pond.Blocks');
+goog.require('Pond.Duck.soy');
+goog.require('Pond.Visualization');
 goog.require('goog.events');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');
@@ -118,7 +118,7 @@ Pond.Duck.init = function() {
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'media/',
+      {'media': 'third-party/blockly/media/',
        'rtl': false,
        'toolbox': toolbox,
        'trashcan': true,

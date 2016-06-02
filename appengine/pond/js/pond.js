@@ -25,9 +25,9 @@
 
 goog.provide('Pond');
 
+goog.require('BlocklyGames');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
-goog.require('BlocklyGames');
 goog.require('goog.math.Coordinate');
 
 
@@ -59,7 +59,7 @@ Pond.init = function() {
  * Is the documentation open?
  * @private
  */
-Pond.isDocsVisible_ = false
+Pond.isDocsVisible_ = false;
 
 /**
  * Open the documentation frame.

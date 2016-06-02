@@ -25,9 +25,8 @@
 
 goog.provide('Pond.Visualization');
 
-goog.require('Pond.Battle');
 goog.require('Blockly');
-
+goog.require('Pond.Battle');
 goog.require('goog.userAgent');
 
 
@@ -278,7 +277,7 @@ Pond.Visualization.display_ = function() {
     // Calculate parabolic arc.
     var halfRange = missile.range / 2;
     var height = missile.range * 0.15;  // Change to set height of arc.
-    var xAxis = missile.progress - halfRange
+    var xAxis = missile.progress - halfRange;
     var xIntercept = Math.sqrt(height);
     var parabola = height -
         Math.pow(xAxis / Math.sqrt(height) * height / halfRange, 2);
@@ -293,14 +292,14 @@ Pond.Visualization.display_ = function() {
     ctx.beginPath();
     ctx.arc(missileX, shadowY,
             Math.max(0, 1 - parabola / 10) * Pond.Visualization.MISSILE_RADIUS,
-            0, Math.PI*2, true);
+            0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fillStyle = 'rgba(128, 128, 128, ' +
         Math.max(0, 1 - parabola / 10) + ')';
     ctx.fill();
     ctx.beginPath();
     ctx.arc(missileX, missileY, Pond.Visualization.MISSILE_RADIUS,
-            0, Math.PI*2, true);
+            0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fillStyle = Pond.Visualization.COLOURS[
         missile.avatar.visualizationIndex % Pond.Visualization.COLOURS.length];
@@ -361,7 +360,7 @@ Pond.Visualization.display_ = function() {
     var x = Pond.Visualization.canvasCoordinate(explosion.x);
     var y = Pond.Visualization.canvasCoordinate(100 - explosion.y);
     ctx.beginPath();
-    ctx.arc(x, y, explosion.t + 1, 0, Math.PI*2, true);
+    ctx.arc(x, y, explosion.t + 1, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.lineWidth = Pond.Visualization.MISSILE_RADIUS;
     ctx.strokeStyle = 'rgba(255, 255, 255, ' + (1 - explosion.t / 10) + ')';
