@@ -255,10 +255,10 @@ BlocklyInterface.eventSpam.previousDate_ = 0;
  */
 BlocklyInterface.importInterpreter = function() {
   //<script type="text/javascript"
-  //  src="js-read-only/JS-Interpreter/compiled.js"></script>
+  //  src="third-party/JS-Interpreter/compiled.js"></script>
   var script = document.createElement('script');
   script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', 'js-read-only/JS-Interpreter/compiled.js');
+  script.setAttribute('src', 'third-party/JS-Interpreter/compiled.js');
   document.head.appendChild(script);
 };
 

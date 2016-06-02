@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Tn.yoon"
+			"Tn.yoon",
+			"Yoon"
 		]
 	},
 	"Games.name": "Blocky Games",
@@ -115,10 +116,10 @@
 	"Bird.helpAnd": "နှင့် block များသည် ၎င်း၏ သွင်းအားစုများ မှန်ကန်မှသာလျှင် မှန်ကန်နိုင်သည်။",
 	"Bird.helpMutator": "နောက်ထပ် block ကို အကယ်၍ block အတွင်းသို့ဆွဲယူထည့်ပါ။",
 	"Turtle.moveTooltip": "တိကျသော ပမာဏတစ်ခုဖြင့် ပင်လယ်လိပ်ကို အရှေ့သို့မဟုတ် အနောက် ကိုရွှေ့ပါ။",
-	"Turtle.moveForward": "အားဖြင့် အရှေ့ကိုရွှေ့ပါ။",
-	"Turtle.moveBackward": "အားဖြင့် အနောက်ကိုရွှေ့ပါ။",
+	"Turtle.moveForward": "ဖြင့် အရှေ့ကိုရွှေ့ပါ။",
+	"Turtle.moveBackward": "ဖြင့် အနောက်ကိုရွှေ့ပါ။",
 	"Turtle.turnTooltip": "တိကျသော ဒီဂရီကဏန်းတစ်ခုဖြင့် ပင်လယ်လိပ်ကို ဘယ်ဘက် သို့မဟုတ် ညာဘက်သို့လှည့်ပါ။",
-	"Turtle.turnRight": "အားဖြင့် ညာဘက်လှည့်ပါ။",
+	"Turtle.turnRight": "ဖြင့် ညာဘက်လှည့်ပါ။",
 	"Turtle.turnLeft": "အားဖြင့် ဘယ်ဘက်လှည့်ပါ။",
 	"Turtle.widthTooltip": "Pen ၏ အနံကို ပြောင်းလဲမှုများ။",
 	"Turtle.setWidth": "အနံကို ကိုထားမည်",

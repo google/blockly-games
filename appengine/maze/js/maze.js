@@ -478,7 +478,7 @@ Maze.init = function() {
     }
     var div = document.createElement('div');
     var img = document.createElement('img');
-    img.src = 'media/1x1.gif';
+    img.src = 'common/1x1.gif';
     img.style.backgroundImage = 'url(' + Maze.SKINS[i].sprite + ')';
     div.appendChild(img);
     pegmanMenu.appendChild(div);
@@ -510,7 +510,7 @@ Maze.init = function() {
   var toolbox = document.getElementById('toolbox');
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'media/',
+      {'media': 'third-party/blockly/media/',
        'maxBlocks': Maze.MAX_BLOCKS,
        'rtl': rtl,
        'toolbox': toolbox,
@@ -580,11 +580,11 @@ Maze.init = function() {
   }
 
   // Add the spinning Pegman icon to the done dialog.
-  // <img id="pegSpin" src="media/1x1.gif">
+  // <img id="pegSpin" src="common/1x1.gif">
   var buttonDiv = document.getElementById('dialogDoneButtons');
   var pegSpin = document.createElement('img');
   pegSpin.id = 'pegSpin';
-  pegSpin.src = 'media/1x1.gif';
+  pegSpin.src = 'common/1x1.gif';
   pegSpin.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
 

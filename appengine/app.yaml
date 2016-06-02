@@ -102,10 +102,6 @@ handlers:
   secure: always
 
 # Shared files.
-- url: /readonly.html
-  static_files: readonly.html
-  upload: readonly\.html
-  secure: always
 - url: /common
   static_dir: common
   secure: always
@@ -115,11 +111,8 @@ handlers:
 - url: /generated
   static_dir: generated
   secure: always
-- url: /media/
-  static_dir: media
-  secure: always
-- url: /js-read-only/
-  static_dir: js-read-only
+- url: /third-party/
+  static_dir: third-party
   secure: always
 - url: /favicon\.ico
   static_files: favicon.ico
@@ -149,11 +142,16 @@ skip_files:
 - ^(.*/)?\..*$
 # Custom skip patterns.
 - ^\w+/sources/.*$
-- ^js-read-only/blockly/generators/dart.*$
-- ^js-read-only/blockly/generators/lua.*$
-- ^js-read-only/blockly/generators/php.*$
-- ^js-read-only/blockly/generators/python.*$
-- ^js-read-only/third_party_goog/.*$
-- ^js-read-only/ace/snippets/.*$
-- ^js-read-only/JS-Interpreter/[^c].*$  # Only serve compiled.js.
+- ^third-party/blockly/appengine/.*$
+- ^third-party/blockly/demos/.*$
+- ^third-party/blockly/generators/dart.*$
+- ^third-party/blockly/generators/lua.*$
+- ^third-party/blockly/generators/php.*$
+- ^third-party/blockly/generators/python.*$
+- ^third-party/blockly/i18n/.*$
+- ^third-party/blockly/msg/json/.*$
+- ^third-party/blockly/tests/.*$
+- ^third-party/third_party_goog/.*$
+- ^third-party/ace/snippets/.*$
+- ^third-party/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$

@@ -96,8 +96,8 @@ def main(name, lang):
 
 def write_uncompressed(name, lang):
   print('\n%s - %s - uncompressed:' % (name.title(), lang))
-  cmd = ['closure-read-only/build/closurebuilder.py',
-      '--root=appengine/js-read-only/',
+  cmd = ['third-party/build/closurebuilder.py',
+      '--root=appengine/third-party/',
       '--root=appengine/generated/%s/' % lang,
       '--root=appengine/js/',
       '--namespace=%s' % name.replace('/', '.').title(),
@@ -181,12 +181,12 @@ def trim_licence(code):
 
 def write_compressed(name, lang):
   print('\n%s - %s - compressed:' % (name.title(), lang))
-  cmd = ['closure-read-only/build/closurebuilder.py',
-      '--root=appengine/js-read-only/',
+  cmd = ['third-party/build/closurebuilder.py',
+      '--root=appengine/third-party/',
       '--root=appengine/generated/%s/' % lang,
       '--root=appengine/js/',
       '--namespace=%s' % name.replace('/', '.').title(),
-      '--compiler_jar=closure-read-only/compiler.jar',
+      '--compiler_jar=third-party/compiler.jar',
       '--compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS',
       '--compiler_flags=--externs=svg-externs.js',
       '--compiler_flags=--externs=interpreter-externs.js',

@@ -26,6 +26,7 @@
 goog.provide('Pond.Docs');
 
 goog.require('Pond.Docs.soy');
+goog.require('goog.ui.AnimatedZippy');
 
 /**
  * Print the page.  Called on page load.
@@ -37,6 +38,12 @@ Pond.Docs.init = function() {
   document.body.innerHTML = Pond.Docs.soy.start({}, null,
       {level: level,
        pond: pond});
+
+  // Turn all h2 tags into zippies.
+  var headers = document.getElementsByTagName('h2');
+  for (var i = 0, header; header = headers[i]; i++) {
+    new goog.ui.AnimatedZippy(header, header.id + '-content', false);
+  }
 };
 
 window.addEventListener('load', Pond.Docs.init);

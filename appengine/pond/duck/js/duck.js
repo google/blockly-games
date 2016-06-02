@@ -118,7 +118,7 @@ Pond.Duck.init = function() {
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'media/',
+      {'media': 'third-party/blockly/media/',
        'rtl': false,
        'toolbox': toolbox,
        'trashcan': true,
