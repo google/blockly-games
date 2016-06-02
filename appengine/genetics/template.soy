@@ -75,20 +75,29 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <category name="Genetics Lab">
+    <category name="Genetics" colour="20">
     </category>
-    <category name="Logic">
+    <category name="Logic" colour="210">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
       <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
     </category>
-    <category name="Loops">
+    <category name="Loops" colour="120">
       <block type="controls_whileUntil"></block>
+      <block type="controls_forEach">
+        <field name="VAR">mouse</field>
+        <value name="LIST">
+          <shadow type="variables_get">
+            <field name="VAR">aliveMice</field>
+          </shadow>
+        </value>
+      </block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="Math">
+    <category name="Math" colour="230">
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -102,10 +111,10 @@
           </shadow>
         </value>
       </block>
-      <block type="math_single">
-        <value name="NUM">
+      <block type="math_change">
+        <value name="DELTA">
           <shadow type="math_number">
-            <field name="NUM">9</field>
+            <field name="NUM">1</field>
           </shadow>
         </value>
       </block>
@@ -116,15 +125,24 @@
           </shadow>
         </value>
         <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
+         <shadow type="math_number">
+           <field name="NUM">100</field>
+         </shadow>
         </value>
       </block>
       <block type="math_random_float"></block>
     </category>
+    <category name="Lists" colour="270">
+      <block type="lists_create_with">
+        <mutation items="0"></mutation>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_getIndex"></block>
+      <block type="lists_setIndex"></block>
+    </category>
     <sep></sep>
-    <category name="Variables" custom="VARIABLE"></category>
-    <category name="Functions" custom="PROCEDURE"></category>
+    <category name="Variables" colour="330" custom="VARIABLE"></category>
+    <category name="Functions" colour="290" custom="PROCEDURE"></category>
   </xml>
 {/template}
