@@ -29,6 +29,7 @@ goog.require('Genetics.soy');
 goog.require('Genetics.Blocks');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.JSBlocks');
 goog.require('BlocklyInterface');
 goog.require('Blockly.FieldDropdown');
 goog.require('goog.ui.Tab');
@@ -126,7 +127,7 @@ Genetics.init = function() {
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
       {
-        'media': 'media/',
+        'media': 'third-party/blockly/media/',
         'rtl': false,
         'toolbox': toolbox,
         'trashcan': true,
