@@ -1,5 +1,5 @@
 /**
- * Blockly Games: Pond Blocks
+ * Blockly Games: JavaScript Blocks
  *
  * Copyright 2016 Google Inc.
  * https://github.com/google/blockly-games
@@ -19,7 +19,7 @@
 
 /**
  * @fileoverview Blocks for Blockly's applications redefining exiting blocks
- * to have a look more similar to javascript.
+ * to have a look more similar to JavaScript.
  * @author fraser@google.com (Neil Fraser)
  * @author kozbial@google.com (Monica Kozbial)
  */
