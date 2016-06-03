@@ -129,12 +129,12 @@ Pond.Duck.init = function() {
       '<xml>' +
       '  <block type="pond_cannon" x="70" y="70">' +
       '    <value name="DEGREE">' +
-      '      <block type="js_math_number">' +
+      '      <block type="pond_math_number">' +
       '        <field name="NUM">0</field>' +
       '      </block>' +
       '    </value>' +
       '    <value name="RANGE">' +
-      '      <block type="js_math_number">' +
+      '      <block type="pond_math_number">' +
       '        <field name="NUM">70</field>' +
       '      </block>' +
       '    </value>' +

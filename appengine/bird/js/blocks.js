@@ -34,6 +34,16 @@ goog.require('Blockly.JavaScript.math');
 goog.require('BlocklyGames');
 
 
+/**
+ * Common HSV hue for all variable blocks.
+ */
+Bird.Blocks.VARIABLES_HUE = 330;
+
+/**
+ * HSV hue for movement block.
+ */
+Bird.Blocks.MOVEMENT_HUE = 290;
+
 // Extensions to Blockly's language and JavaScript generator.
 
 Blockly.Blocks['bird_noWorm'] = {
@@ -42,11 +52,12 @@ Blockly.Blocks['bird_noWorm'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(330);
-    this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Bird_noWorm'));
-    this.setOutput(true, 'Boolean');
-    this.setTooltip(BlocklyGames.getMsg('Bird_noWormTooltip'));
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('Bird_noWorm'),
+      "output": "Boolean",
+      "colour": Bird.Blocks.VARIABLES_HUE,
+      "tooltip": BlocklyGames.getMsg('Bird_noWormTooltip')
+    });
   }
 };
 
@@ -61,7 +72,7 @@ Blockly.Blocks['bird_heading'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
+    this.setColour(Bird.Blocks.MOVEMENT_HUE);
     this.appendDummyInput()
         .appendField(BlocklyGames.getMsg('Bird_heading'))
         .appendField(new Blockly.FieldAngle('90'), 'ANGLE');
@@ -82,11 +93,19 @@ Blockly.Blocks['bird_position'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(330);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([['x', 'X'], ['y', 'Y']]), 'XY');
-    this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Bird_positionTooltip'));
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "XY",
+          "options": [["x", "X"], ["y", "Y"]]
+        }
+      ],
+      "output": "Number",
+      "colour": Bird.Blocks.VARIABLES_HUE,
+      "tooltip": BlocklyGames.getMsg('Bird_positionTooltip')
+    });
   }
 };
 
@@ -108,7 +127,7 @@ Blockly.Blocks['bird_compare'] = {
     } else {
       var OPERATORS = [['<', 'LT'], ['>', 'GT']];
     }
-    this.setColour(210);
+    this.setColour(Blockly.Blocks.logic.HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Number');
@@ -146,13 +165,13 @@ Blockly.Blocks['bird_and'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.LOGIC_OPERATION_HELPURL);
-    this.setColour(210);
+    this.setColour(Blockly.Blocks.logic.HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Boolean');
     this.appendValueInput('B')
         .setCheck('Boolean')
-        .appendField('and', 'AND');
+        .appendField(Blockly.Msg.LOGIC_OPERATION_AND);
     this.setInputsInline(true);
     this.setTooltip(Blockly.Msg.LOGIC_OPERATION_TOOLTIP_AND);
   }
@@ -187,7 +206,7 @@ Blockly.Blocks['bird_ifElse'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-    this.setColour(210);
+    this.setColour(Blockly.Blocks.logic.HUE);
     this.appendValueInput('CONDITION')
         .appendField(Blockly.Msg.CONTROLS_IF_MSG_IF)
         .setCheck('Boolean');

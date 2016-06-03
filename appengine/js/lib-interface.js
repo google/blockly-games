@@ -117,6 +117,7 @@ BlocklyInterface.setCode = function(code) {
     // Clear the workspace to avoid merge.
     BlocklyGames.workspace.clear();
     Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+    BlocklyGames.workspace.clearUndo();
   }
 };
 

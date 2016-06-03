@@ -153,17 +153,21 @@
   <xml id="toolbox" style="display: none;">
     <block type="bird_heading"></block>
     {if $ij.level >= 2}
-      <block type="bird_noWorm"></block>
+      {if $ij.level == 4 or $ij.level == 5}
+        <block type="bird_noWorm" disabled="true"></block>
+      {else}
+        <block type="bird_noWorm"></block>
+      {/if}
       {if $ij.level >= 4}
         <block type="bird_compare">
           <field name="OP">LT</field>
           <value name="A">
-            <block type="bird_position">
+            <block type="bird_position" movable="false">
               <field name="XY">X</field>
             </block>
           </value>
           <value name="B">
-            <block type="math_number">
+            <block type="math_number" movable="false">
               <field name="NUM">50</field>
             </block>
           </value>
@@ -172,12 +176,12 @@
           <block type="bird_compare">
             <field name="OP">LT</field>
             <value name="A">
-              <block type="bird_position">
+              <block type="bird_position" movable="false">
                 <field name="XY">Y</field>
               </block>
             </value>
             <value name="B">
-              <block type="math_number">
+              <block type="math_number" movable="false">
                 <field name="NUM">50</field>
               </block>
             </value>

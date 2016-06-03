@@ -27,12 +27,12 @@ goog.provide('Pond.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.logic');
+// Don't need Blockly.Blocks.loops.
 goog.require('Blockly.Blocks.math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.logic');
-// Don't need Blockly.Blocks.loops.
 goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
@@ -40,6 +40,16 @@ goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 
+
+/**
+ * Common HSV hue for all pond blocks.
+ */
+Pond.Blocks.POND_HUE = 290;
+
+/**
+ * HSV hue for loop block.
+ */
+Pond.Blocks.LOOPS_HUE = 120;
 
 // Extensions to Blockly's language and JavaScript generator.
 
@@ -50,18 +60,18 @@ Blockly.Blocks['pond_scan'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'scan(%1)',
-      'args0': [
+      "message0": "scan(%1)",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'DEGREE',
-          'check': ['Number', 'Angle']
+          "type": "input_value",
+          "name": "DEGREE",
+          "check": ["Number", "Angle"]
         }
       ],
-      'inputsInline': true,
-      'output': 'Number',
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_scanTooltip')
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_scanTooltip')
     });
   }
 };
@@ -83,24 +93,24 @@ Blockly.Blocks['pond_cannon'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'cannon(%1, %2);',
-      'args0': [
+      "message0": "cannon(%1, %2);",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'DEGREE',
-          'check': ['Number', 'Angle']
+          "type": "input_value",
+          "name": "DEGREE",
+          "check": ["Number", "Angle"]
         },
         {
-          'type': 'input_value',
-          'name': 'RANGE',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "RANGE",
+          "check": "Number"
         }
       ],
-      'inputsInline': true,
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_cannonTooltip')
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_cannonTooltip')
     });
   }
 };
@@ -121,19 +131,19 @@ Blockly.Blocks['pond_swim'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'swim(%1);',
-      'args0': [
+      "message0": "swim(%1);",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'DEGREE',
-          'check': ['Number', 'Angle']
+          "type": "input_value",
+          "name": "DEGREE",
+          "check": ["Number", "Angle"]
         }
       ],
-      'inputsInline': true,
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_swimTooltip')
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_swimTooltip')
     });
   }
 };
@@ -154,11 +164,11 @@ Blockly.Blocks['pond_stop'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'stop();',
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_stopTooltip')
+      "message0": "stop();",
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_stopTooltip')
     });
   }
 };
@@ -175,10 +185,10 @@ Blockly.Blocks['pond_health'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'health()',
-      'output': 'Number',
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_healthTooltip')
+      "message0": "health()",
+      "output": "Number",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_healthTooltip')
     });
   }
 };
@@ -195,10 +205,10 @@ Blockly.Blocks['pond_speed'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'speed()',
-      'output': 'Number',
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_speedTooltip')
+      "message0": "speed()",
+      "output": "Number",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_speedTooltip')
     });
   }
 };
@@ -215,10 +225,10 @@ Blockly.Blocks['pond_loc_x'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'loc_x()',
-      'output': 'Number',
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_locXTooltip')
+      "message0": "loc_x()",
+      "output": "Number",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_locXTooltip')
     });
   }
 };
@@ -235,10 +245,10 @@ Blockly.Blocks['pond_loc_y'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'loc_y()',
-      'output': 'Number',
-      'colour': 290,
-      'tooltip': BlocklyGames.getMsg('Pond_locYTooltip')
+      "message0": "loc_y()",
+      "output": "Number",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_locYTooltip')
     });
   }
 };
@@ -247,3 +257,165 @@ Blockly.JavaScript['pond_loc_y'] = function(block) {
   // Generate JavaScript for Y coordinate.
   return ['loc_y()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.Blocks['pond_math_number'] = {
+  /**
+   * Numeric or angle value.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
+    this.setColour(Blockly.Blocks.math.HUE);
+    this.appendDummyInput('DUMMY')
+        .appendField(new Blockly.FieldTextInput('0',
+            Blockly.FieldTextInput.numberValidator), 'NUM');
+    this.setOutput(true, 'Number');
+    this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
+  },
+  /**
+   * Switch between number or angle fields, depending on what this block
+   * is plugged into.
+   * @this Blockly.Block
+   */
+  onchange: function() {
+    if (!this.workspace) {
+      // Block has been deleted.
+      return;
+    }
+    if (this.outputConnection.targetConnection &&
+        this.outputConnection.targetConnection.check_) {
+      // Plugged in to parent.
+      var input = this.getInput('DUMMY');
+      var field = this.getField('NUM');
+      var value = field.getValue();
+      if (this.outputConnection.targetConnection.check_.indexOf('Angle') !=
+          -1) {
+        // Parent wants an angle.
+        if (field.constructor != Blockly.FieldAngle) {
+          Blockly.Events.disable();
+          input.removeField('NUM');
+          field = new Blockly.FieldAngle('');
+          input.appendField(field, 'NUM');
+          field.setText(value);
+          this.render();
+          Blockly.Events.enable();
+        }
+      } else {
+        // Parent wants a number.
+        if (field.constructor != Blockly.FieldTextInput) {
+          Blockly.Events.disable();
+          input.removeField('NUM');
+          input.appendField(new Blockly.FieldTextInput(value,
+              Blockly.FieldTextInput.numberValidator), 'NUM');
+          Blockly.Events.enable();
+        }
+      }
+    }
+  }
+};
+
+Blockly.Blocks['pond_math_single'] = {
+  /**
+   * Advanced math operators with single operand.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1 (%2)",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "OP",
+          "options": [
+            ["Math.sqrt", "ROOT"],
+            ["Math.abs", "ABS"],
+            ["Math.sin_deg", "SIN"],
+            ["Math.cos_deg", "COS"],
+            ["Math.tan_deg", "TAN"],
+            ["Math.asin_deg", "ASIN"],
+            ["Math.acos_deg", "ACOS"],
+            ["Math.atan_deg", "ATAN"]
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "NUM",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_SINGLE_HELPURL
+    });
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {
+      var mode = thisBlock.getFieldValue('OP');
+      var TOOLTIPS = {
+        'ROOT': Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT,
+        'ABS': Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS,
+        'SIN': Blockly.Msg.MATH_TRIG_TOOLTIP_SIN,
+        'COS': Blockly.Msg.MATH_TRIG_TOOLTIP_COS,
+        'TAN': Blockly.Msg.MATH_TRIG_TOOLTIP_TAN,
+        'ASIN': Blockly.Msg.MATH_TRIG_TOOLTIP_ASIN,
+        'ACOS': Blockly.Msg.MATH_TRIG_TOOLTIP_ACOS,
+        'ATAN': Blockly.Msg.MATH_TRIG_TOOLTIP_ATAN
+      };
+      return TOOLTIPS[mode];
+    });
+  }
+};
+
+Blockly.JavaScript['pond_math_single'] = function(block) {
+  // Advanced math operators with single operand.
+  var operator = block.getFieldValue('OP');
+  var code;
+  var arg = Blockly.JavaScript.valueToCode(block, 'NUM',
+          Blockly.JavaScript.ORDER_NONE) || '0';
+  // First, handle cases which generate values that don't need parentheses
+  // wrapping the code.
+  switch (operator) {
+    case 'ABS':
+      code = 'Math.abs(' + arg + ')';
+      break;
+    case 'ROOT':
+      code = 'Math.sqrt(' + arg + ')';
+      break;
+    case 'SIN':
+      code = 'Math.sin_deg(' + arg + ')';
+      break;
+    case 'COS':
+      code = 'Math.cos_deg(' + arg + ')';
+      break;
+    case 'TAN':
+      code = 'Math.tan_deg(' + arg + ')';
+      break;
+    case 'ASIN':
+      code = 'Math.asin_deg(' + arg + ')';
+      break;
+    case 'ACOS':
+      code = 'Math.acos_deg(' + arg + ')';
+      break;
+    case 'ATAN':
+      code = 'Math.atan_deg(' + arg + ')';
+      break;
+    default:
+      throw 'Unknown math operator: ' + operator;
+  }
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
+
+/**
+ * Defining aliases to support blockly xml generated with old naming.
+ */
+Blockly.Blocks['pond_controls_if'] = Blockly.Blocks['controls_if'];
+Blockly.JavaScript['pond_controls_if'] = Blockly.JavaScript['controls_if'];
+Blockly.Blocks['pond_loops_while'] = Blockly.Blocks['controls_whileUntil'];
+Blockly.JavaScript['pond_loops_while'] = Blockly.JavaScript['controls_whileUntil'];
+Blockly.Blocks['pond_math_arithmetic'] = Blockly.Blocks['simple_math_arithmetic'];
+Blockly.JavaScript['pond_math_arithmetic'] = Blockly.JavaScript['simple_math_arithmetic'];
+Blockly.Blocks['pond_math_change'] = Blockly.Blocks['math_change'];
+Blockly.JavaScript['pond_math_change'] = Blockly.JavaScript['math_change'];

@@ -1,5 +1,5 @@
 /**
- * Blockly Games: Pond Blocks
+ * Blockly Games: JavaScript Blocks
  *
  * Copyright 2016 Google Inc.
  * https://github.com/google/blockly-games
@@ -19,7 +19,7 @@
 
 /**
  * @fileoverview Blocks for Blockly's applications redefining exiting blocks
- * to have a look more similar to javascript.
+ * to have a look more similar to JavaScript.
  * @author fraser@google.com (Neil Fraser)
  * @author kozbial@google.com (Monica Kozbial)
  */
@@ -44,7 +44,7 @@ goog.require('BlocklyGames');
 
 // Extensions to Blockly's language and JavaScript generator.
 
-Blockly.Blocks['js_controls_if'] = {
+Blockly.Blocks['controls_if'] = {
   /**
    * If/elseif/else condition.
    * @this Blockly.Block
@@ -124,9 +124,6 @@ Blockly.Blocks['js_controls_if'] = {
   saveConnections: Blockly.Blocks['controls_if'].saveConnections
 };
 
-Blockly.JavaScript['js_controls_if'] =
-    Blockly.JavaScript['controls_if'];
-
 /**
  * Comparison operator.
  * @this Blockly.Block
@@ -170,132 +167,71 @@ Blockly.Msg.LOGIC_OPERATION_OR = '||';
 Blockly.Msg.LOGIC_BOOLEAN_TRUE = 'true';
 Blockly.Msg.LOGIC_BOOLEAN_FALSE = 'false';
 
-Blockly.Blocks['js_loops_while'] = {
+Blockly.Blocks['controls_whileUntil'] = {
   /**
    * Do while/until loop.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      'message0': 'while ( %1 ) { %2 %3 }',
-      'args0': [
+      "message0": "while ( %1 ) { %2 %3 }",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'BOOL',
-          'check': 'Boolean'
+          "type": "input_value",
+          "name": "BOOL",
+          "check": "Boolean"
         },
         {
-          'type': 'input_dummy'
+          "type": "input_dummy"
         },
         {
-          'type': 'input_statement',
-          'name': 'DO'
+          "type'": "input_statement",
+          "name": "DO"
         }
       ],
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': 120,
-      'tooltip': Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
-      'helpUrl': Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 120,
+      "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
+      "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
     });
   }
 };
 
-Blockly.JavaScript['js_loops_while'] =
-    Blockly.JavaScript['controls_whileUntil'];
-
-Blockly.Blocks['js_math_number'] = {
-  /**
-   * Numeric or angle value.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(Blockly.Blocks.math.HUE);
-    this.appendDummyInput('DUMMY')
-        .appendField(new Blockly.FieldTextInput('0',
-            Blockly.FieldTextInput.numberValidator), 'NUM');
-    this.setOutput(true, 'Number');
-    this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
-  },
-  /**
-   * Switch between number or angle fields, depending on what this block
-   * is plugged into.
-   * @this Blockly.Block
-   */
-  onchange: function() {
-    if (!this.workspace) {
-      // Block has been deleted.
-      return;
-    }
-    if (this.outputConnection.targetConnection &&
-        this.outputConnection.targetConnection.check_) {
-      // Plugged in to parent.
-      var input = this.getInput('DUMMY');
-      var field = this.getField('NUM');
-      var value = field.getValue();
-      if (this.outputConnection.targetConnection.check_.indexOf('Angle') !=
-          -1) {
-        // Parent wants an angle.
-        if (field.constructor != Blockly.FieldAngle) {
-          Blockly.Events.disable();
-          input.removeField('NUM');
-          field = new Blockly.FieldAngle('');
-          input.appendField(field, 'NUM');
-          field.setText(value);
-          this.render();
-          Blockly.Events.enable();
-        }
-      } else {
-        // Parent wants a number.
-        if (field.constructor != Blockly.FieldTextInput) {
-          Blockly.Events.disable();
-          input.removeField('NUM');
-          input.appendField(new Blockly.FieldTextInput(value,
-              Blockly.FieldTextInput.numberValidator), 'NUM');
-          Blockly.Events.enable();
-        }
-      }
-    }
-  }
-};
-
-Blockly.JavaScript['js_math_number'] = Blockly.JavaScript['math_number'];
-
-Blockly.Blocks['js_math_arithmetic'] = {
+Blockly.Blocks['simple_math_arithmetic'] = {
   /**
    * Block for basic arithmetic operator.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      'message0': '%1 %2 %3',
-      'args0': [
+      "message0": "%1 %2 %3",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'A',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "A",
+          "check": "Number"
         },
         {
-          'type': 'field_dropdown',
-          'name': 'OP',
-          'options': [
-            ['+', 'ADD'],
-            ['-', 'MINUS'],
-            ['*', 'MULTIPLY'],
-            ['/', 'DIVIDE']
+          "type": "field_dropdown",
+          "name": "OP",
+          "options": [
+            ["+", "ADD"],
+            ["-", "MINUS"],
+            ["*", "MULTIPLY"],
+            ["/", "DIVIDE"]
           ]
         },
         {
-          'type': 'input_value',
-          'name': 'B',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "B",
+          "check": "Number"
         }
       ],
-      'inputsInline': true,
-      'output': 'Number',
-      'colour': Blockly.Blocks.math.HUE,
-      'helpUrl': Blockly.Msg.MATH_ARITHMETIC_HELPURL
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -312,126 +248,34 @@ Blockly.Blocks['js_math_arithmetic'] = {
   }
 };
 
-Blockly.JavaScript['js_math_arithmetic'] =
+Blockly.JavaScript['simple_math_arithmetic'] =
     Blockly.JavaScript['math_arithmetic'];
 
-Blockly.Blocks['js_math_single'] = {
-  /**
-   * Advanced math operators with single operand.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      'message0': '%1 (%2)',
-      'args0': [
-        {
-          'type': 'field_dropdown',
-          'name': 'OP',
-          'options': [
-            ['Math.sqrt', 'ROOT'],
-            ['Math.abs', 'ABS'],
-            ['Math.sin_deg', 'SIN'],
-            ['Math.cos_deg', 'COS'],
-            ['Math.tan_deg', 'TAN'],
-            ['Math.asin_deg', 'ASIN'],
-            ['Math.acos_deg', 'ACOS'],
-            ['Math.atan_deg', 'ATAN']
-          ]
-        },
-        {
-          'type': 'input_value',
-          'name': 'NUM',
-          'check': 'Number'
-        }
-      ],
-      'inputsInline': true,
-      'output': 'Number',
-      'colour': Blockly.Blocks.math.HUE,
-      'helpUrl': Blockly.Msg.MATH_SINGLE_HELPURL
-    });
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      var mode = thisBlock.getFieldValue('OP');
-      var TOOLTIPS = {
-        'ROOT': Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT,
-        'ABS': Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS,
-        'SIN': Blockly.Msg.MATH_TRIG_TOOLTIP_SIN,
-        'COS': Blockly.Msg.MATH_TRIG_TOOLTIP_COS,
-        'TAN': Blockly.Msg.MATH_TRIG_TOOLTIP_TAN,
-        'ASIN': Blockly.Msg.MATH_TRIG_TOOLTIP_ASIN,
-        'ACOS': Blockly.Msg.MATH_TRIG_TOOLTIP_ACOS,
-        'ATAN': Blockly.Msg.MATH_TRIG_TOOLTIP_ATAN
-      };
-      return TOOLTIPS[mode];
-    });
-  }
-};
-
-Blockly.JavaScript['js_math_single'] = function(block) {
-  // Advanced math operators with single operand.
-  var operator = block.getFieldValue('OP');
-  var code;
-  var arg = Blockly.JavaScript.valueToCode(block, 'NUM',
-          Blockly.JavaScript.ORDER_NONE) || '0';
-  // First, handle cases which generate values that don't need parentheses
-  // wrapping the code.
-  switch (operator) {
-    case 'ABS':
-      code = 'Math.abs(' + arg + ')';
-      break;
-    case 'ROOT':
-      code = 'Math.sqrt(' + arg + ')';
-      break;
-    case 'SIN':
-      code = 'Math.sin_deg(' + arg + ')';
-      break;
-    case 'COS':
-      code = 'Math.cos_deg(' + arg + ')';
-      break;
-    case 'TAN':
-      code = 'Math.tan_deg(' + arg + ')';
-      break;
-    case 'ASIN':
-      code = 'Math.asin_deg(' + arg + ')';
-      break;
-    case 'ACOS':
-      code = 'Math.acos_deg(' + arg + ')';
-      break;
-    case 'ATAN':
-      code = 'Math.atan_deg(' + arg + ')';
-      break;
-    default:
-      throw 'Unknown math operator: ' + operator;
-  }
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['js_math_change'] = {
+Blockly.Blocks['math_change'] = {
   /**
    * Add to a variable in place.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      'message0': '%1 += %2;',
-      'args0': [
+      "message0": "%1 += %2;",
+      "args0": [
         {
-          'type': 'field_variable',
-          'name': 'VAR',
-          'variable': 'name'
+          "type": "field_variable",
+          "name": "VAR",
+          "variable": "name"
         },
         {
-          'type': 'input_value',
-          'name': 'DELTA',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "DELTA",
+          "check": "Number"
         }
       ],
-      'inputsInline': true,
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': Blockly.Blocks.math.HUE,
-      'helpUrl': Blockly.Msg.MATH_CHANGE_HELPURL
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -441,8 +285,6 @@ Blockly.Blocks['js_math_change'] = {
     });
   }
 };
-
-Blockly.JavaScript['js_math_change'] = Blockly.JavaScript['math_change'];
 
 Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
 
