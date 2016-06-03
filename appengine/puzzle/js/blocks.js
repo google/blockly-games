@@ -29,13 +29,28 @@ goog.require('Blockly');
 goog.require('BlocklyGames');
 
 
+/**
+ * Common HSV hue for all animal blocks.
+ */
+Puzzle.Blocks.ANIMAL_HUE = 120;
+
+/**
+ * Common HSV hue for all picture blocks.
+ */
+Puzzle.Blocks.PICTURE_HUE = 30;
+
+/**
+ * Common HSV hue for all trait blocks.
+ */
+Puzzle.Blocks.TRAIT_HUE = 290;
+
 Blockly.Blocks['animal'] = {
   /**
    * Block to represent an animal.
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(120);
+    this.setColour(Puzzle.Blocks.ANIMAL_HUE);
     this.appendDummyInput()
         .appendField('', 'NAME');
     this.appendValueInput('PIC')
@@ -90,7 +105,7 @@ Blockly.Blocks['picture'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(30);
+    this.setColour(Puzzle.Blocks.PICTURE_HUE);
     this.appendDummyInput('PIC');
     this.setOutput(true);
     this.setTooltip('');
@@ -126,7 +141,7 @@ Blockly.Blocks['trait'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(290);
+    this.setColour(Puzzle.Blocks.TRAIT_HUE);
     this.appendDummyInput().appendField('', 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
