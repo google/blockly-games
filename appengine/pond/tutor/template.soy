@@ -182,12 +182,12 @@
     <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
       <block type="pond_cannon">
         <value name="DEGREE">
-          <shadow type="js_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
           </shadow>
         </value>
         <value name="RANGE">
-          <shadow type="js_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">70</field>
           </shadow>
         </value>
@@ -195,7 +195,7 @@
   {if $ij.level >= 5}
       <block type="pond_scan">
         <value name="DEGREE">
-          <shadow type="js_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
           </shadow>
         </value>
@@ -204,7 +204,7 @@
   {if $ij.level >= 7}
       <block type="pond_swim">
         <value name="DEGREE">
-          <shadow type="js_math_number">
+          <shadow type="pond_math_number">
             <field name="NUM">0</field>
           </shadow>
         </value>
@@ -221,17 +221,17 @@
 {if $ij.level >= 3}
     <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
   {if $ij.level >= 9}
-      <block type="js_controls_if"></block>
+      <block type="controls_if"></block>
       <block type="logic_compare"></block>
   {/if}
       <block type="logic_boolean"></block>
     </category>
     <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
-      <block type="js_loops_while"></block>
+      <block type="controls_whileUntil"></block>
     </category>
 {/if}
     <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
-      <block type="js_math_number"></block>
+      <block type="pond_math_number"></block>
     </category>
   </xml>
 {/template}
