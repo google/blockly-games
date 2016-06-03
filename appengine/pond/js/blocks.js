@@ -26,17 +26,11 @@
 goog.provide('Pond.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.logic');
-// Don't need Blockly.Blocks.loops.
 goog.require('Blockly.Blocks.math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.logic');
-goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
-goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 

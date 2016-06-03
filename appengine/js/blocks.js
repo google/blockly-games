@@ -29,12 +29,12 @@ goog.provide('BlocklyGames.JSBlocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.logic');
+// Don't need Blockly.Blocks.loops.
 goog.require('Blockly.Blocks.math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.logic');
-// Don't need Blockly.Blocks.loops.
 goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
@@ -185,7 +185,7 @@ Blockly.Blocks['controls_whileUntil'] = {
           "type": "input_dummy"
         },
         {
-          "type'": "input_statement",
+          "type": "input_statement",
           "name": "DO"
         }
       ],
