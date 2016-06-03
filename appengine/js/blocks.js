@@ -174,26 +174,26 @@ Blockly.Blocks['controls_whileUntil'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': 'while ( %1 ) { %2 %3 }',
-      'args0': [
+      "message0": "while ( %1 ) { %2 %3 }",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'BOOL',
-          'check': 'Boolean'
+          "type": "input_value",
+          "name": "BOOL",
+          "check": "Boolean"
         },
         {
-          'type': 'input_dummy'
+          "type": "input_dummy"
         },
         {
-          'type': 'input_statement',
-          'name': 'DO'
+          "type'": "input_statement",
+          "name": "DO"
         }
       ],
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': 120,
-      'tooltip': Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
-      'helpUrl': Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": 120,
+      "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
+      "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
     });
   }
 };
@@ -205,33 +205,33 @@ Blockly.Blocks['simple_math_arithmetic'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': '%1 %2 %3',
-      'args0': [
+      "message0": "%1 %2 %3",
+      "args0": [
         {
-          'type': 'input_value',
-          'name': 'A',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "A",
+          "check": "Number"
         },
         {
-          'type': 'field_dropdown',
-          'name': 'OP',
-          'options': [
-            ['+', 'ADD'],
-            ['-', 'MINUS'],
-            ['*', 'MULTIPLY'],
-            ['/', 'DIVIDE']
+          "type": "field_dropdown",
+          "name": "OP",
+          "options": [
+            ["+", "ADD"],
+            ["-", "MINUS"],
+            ["*", "MULTIPLY"],
+            ["/", "DIVIDE"]
           ]
         },
         {
-          'type': 'input_value',
-          'name': 'B',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "B",
+          "check": "Number"
         }
       ],
-      'inputsInline': true,
-      'output': 'Number',
-      'colour': Blockly.Blocks.math.HUE,
-      'helpUrl': Blockly.Msg.MATH_ARITHMETIC_HELPURL
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -258,24 +258,24 @@ Blockly.Blocks['math_change'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': '%1 += %2;',
-      'args0': [
+      "message0": "%1 += %2;",
+      "args0": [
         {
-          'type': 'field_variable',
-          'name': 'VAR',
-          'variable': 'name'
+          "type": "field_variable",
+          "name": "VAR",
+          "variable": "name"
         },
         {
-          'type': 'input_value',
-          'name': 'DELTA',
-          'check': 'Number'
+          "type": "input_value",
+          "name": "DELTA",
+          "check": "Number"
         }
       ],
-      'inputsInline': true,
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': Blockly.Blocks.math.HUE,
-      'helpUrl': Blockly.Msg.MATH_CHANGE_HELPURL
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
