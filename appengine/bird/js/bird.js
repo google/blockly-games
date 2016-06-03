@@ -94,7 +94,7 @@ Bird.MAP = [
   {
     start: new goog.math.Coordinate(20, 80),
     startAngle: 0,
-    worm: new goog.math.Coordinate(50, 80),
+    worm: null,
     nest: new goog.math.Coordinate(80, 20),
     walls: [new goog.math.Line(0, 0, 65, 65)]
   },
@@ -102,7 +102,7 @@ Bird.MAP = [
   {
     start: new goog.math.Coordinate(80, 80),
     startAngle: 270,
-    worm: new goog.math.Coordinate(50, 20),
+    worm: null,
     nest: new goog.math.Coordinate(20, 20),
     walls: [new goog.math.Line(0, 100, 65, 35)]
   },
@@ -133,7 +133,9 @@ Bird.MAP = [
     nest: new goog.math.Coordinate(80, 75),
     walls: [
       new goog.math.Line(50, 0, 50, 25),
-      new goog.math.Line(75, 50, 100, 50)
+      new goog.math.Line(75, 50, 100, 50),
+      new goog.math.Line(50, 100, 50, 75),
+      new goog.math.Line(0, 50, 25, 50)
     ]
   },
   // Level 9.
@@ -221,13 +223,15 @@ Bird.drawMap = function() {
   svg.appendChild(image);
 
   // Add worm.
-  var image = document.createElementNS(Blockly.SVG_NS, 'image');
-  image.setAttribute('id', 'worm');
-  image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'bird/worm.png');
-  image.setAttribute('height', Bird.WORM_ICON_SIZE);
-  image.setAttribute('width', Bird.WORM_ICON_SIZE);
-  svg.appendChild(image);
+  if (Bird.MAP.worm) {
+    var image = document.createElementNS(Blockly.SVG_NS, 'image');
+    image.setAttribute('id', 'worm');
+    image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+        'bird/worm.png');
+    image.setAttribute('height', Bird.WORM_ICON_SIZE);
+    image.setAttribute('width', Bird.WORM_ICON_SIZE);
+    svg.appendChild(image);
+  }
 
   // Bird's clipPath element, whose (x, y) is reset by Bird.displayBird
   var birdClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
@@ -513,18 +517,20 @@ Bird.reset = function(first) {
   Bird.pos = Bird.MAP.start.clone();
   Bird.angle = Bird.MAP.startAngle;
   Bird.currentAngle = Bird.angle;
-  Bird.hasWorm = false;
+  Bird.hasWorm = !Bird.MAP.worm;
   Bird.currentPose = Bird.Pose.SOAR;
 
   Bird.displayBird();
 
   // Move the worm into position.
   var image = document.getElementById('worm');
-  image.setAttribute('x',
-      Bird.MAP.worm.x / 100 * Bird.MAP_SIZE - Bird.WORM_ICON_SIZE / 2);
-  image.setAttribute('y',
-      (1 - Bird.MAP.worm.y / 100) * Bird.MAP_SIZE - Bird.WORM_ICON_SIZE / 2);
-  image.style.visibility = 'visible';
+  if (image) {
+    image.setAttribute('x',
+        Bird.MAP.worm.x / 100 * Bird.MAP_SIZE - Bird.WORM_ICON_SIZE / 2);
+    image.setAttribute('y',
+        (1 - Bird.MAP.worm.y / 100) * Bird.MAP_SIZE - Bird.WORM_ICON_SIZE / 2);
+    image.style.visibility = 'visible';
+  }
   // Move the nest into position.
   var image = document.getElementById('nest');
   image.setAttribute('x',
@@ -771,8 +777,11 @@ Bird.intersectNest = function() {
  * @return {boolean} True if the bird found the worm, false otherwise.
  */
 Bird.intersectWorm = function() {
-  var accuracy = 0.5 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
-  return goog.math.Coordinate.distance(Bird.pos, Bird.MAP.worm) < accuracy;
+  if (Bird.MAP.worm) {
+    var accuracy = 0.5 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
+    return goog.math.Coordinate.distance(Bird.pos, Bird.MAP.worm) < accuracy;
+  }
+  return false;
 };
 
 /**
