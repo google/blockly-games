@@ -19,23 +19,20 @@
  */
 
 /**
- * @fileoverview Music blocks for Blockly.
+ * @fileoverview Blocks for the Blockly Games music demo.
  * @author sll@google.com (Sean Lip)
  */
 'use strict';
 
-goog.provide('Blockly.Blocks.music');
+goog.provide('Music.Blocks');
 
-goog.require('Blockly.Blocks');
-
+goog.require('Blockly');
+goog.require('Blockly.JavaScript');
 
 var MUSIC_DUMMY_TOOLTIP = 'Dummy tooltip';
 var MUSIC_DUMMY_HELPURL = 'Dummy help URL';
 
-/**
- * Common HSV hue for all blocks in this category.
- */
-Blockly.Blocks.music.HUE = 20;
+// Extensions to Blockly's language and JavaScript generator.
 
 Blockly.Blocks['music_play_random_note'] = {
   /**
@@ -47,11 +44,20 @@ Blockly.Blocks['music_play_random_note'] = {
       "message0": "play random note",
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Blocks.music.HUE,
+      "colour": 20,
       "tooltip": MUSIC_DUMMY_TOOLTIP,
       "helpUrl": MUSIC_DUMMY_HELPURL
     });
   }
+};
+
+Blockly.JavaScript['music_play_random_note'] = function(block) {
+  var LOWEST_PITCH = 36;
+  var HIGHEST_PITCH = 60;
+
+  var randomPitch =
+      Math.random() * (HIGHEST_PITCH - LOWEST_PITCH) + LOWEST_PITCH;
+  return 'addBassChord([' + randomPitch + '], 1);\n';
 };
 
 Blockly.Blocks['music_play_note'] = {
@@ -86,11 +92,18 @@ Blockly.Blocks['music_play_note'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Blocks.music.HUE,
+      "colour": 20,
       "tooltip": MUSIC_DUMMY_TOOLTIP,
       "helpUrl": MUSIC_DUMMY_HELPURL
     });
   }
+};
+
+Blockly.JavaScript['music_play_note'] = function(block) {
+  // Play a single note.
+  var code =
+      'addBassChord([' + block.getFieldValue('PITCH') + '], 1);\n';
+  return code;
 };
 
 Blockly.Blocks['music_play_note_with_duration'] = {
@@ -136,9 +149,17 @@ Blockly.Blocks['music_play_note_with_duration'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Blocks.music.HUE,
+      "colour": 20,
       "tooltip": MUSIC_DUMMY_TOOLTIP,
       "helpUrl": MUSIC_DUMMY_HELPURL
     });
   }
+};
+
+Blockly.JavaScript['music_play_note_with_duration'] = function(block) {
+  // Play a single note, with the given duration.
+  var code =
+      'addBassChord([' + block.getFieldValue('PITCH') + '], ' +
+      block.getFieldValue('DURATION') + ');\n';
+  return code;
 };
