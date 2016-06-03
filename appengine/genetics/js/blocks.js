@@ -42,3 +42,4 @@ goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.JSBlocks');
