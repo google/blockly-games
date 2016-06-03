@@ -185,7 +185,7 @@ Blockly.Blocks['controls_whileUntil'] = {
           "type": "input_dummy"
         },
         {
-          "type'": "input_statement",
+          "type": "input_statement",
           "name": "DO"
         }
       ],
