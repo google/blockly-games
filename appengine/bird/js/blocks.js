@@ -37,7 +37,7 @@ goog.require('BlocklyGames');
 /**
  * Common HSV hue for all variable blocks.
  */
-Bird.Blocks.VARIBLES_HUE = 330;
+Bird.Blocks.VARIABLES_HUE = 330;
 
 /**
  * HSV hue for movement block.
@@ -55,7 +55,7 @@ Blockly.Blocks['bird_noWorm'] = {
     this.jsonInit({
       "message0": BlocklyGames.getMsg('Bird_noWorm'),
       "output": "Boolean",
-      "colour": Bird.Blocks.VARIBLES_HUE,
+      "colour": Bird.Blocks.VARIABLES_HUE,
       "tooltip": BlocklyGames.getMsg('Bird_noWormTooltip')
     });
   }
@@ -103,7 +103,7 @@ Blockly.Blocks['bird_position'] = {
         }
       ],
       "output": "Number",
-      "colour": Bird.Blocks.VARIBLES_HUE,
+      "colour": Bird.Blocks.VARIABLES_HUE,
       "tooltip": BlocklyGames.getMsg('Bird_positionTooltip')
     });
   }

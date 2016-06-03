@@ -51,6 +51,16 @@ goog.require('BlocklyGames');
  */
 Turtle.Blocks.HUE = 160;
 
+/**
+ * Left turn arrow to be appended to messages.
+ */
+Turtle.Blocks.LEFT_TURN = ' \u21BA';
+
+/**
+ * Left turn arrow to be appended to messages.
+ */
+Turtle.Blocks.RIGHT_TURN = ' \u21BB';
+
 // Extensions to Blockly's language and JavaScript generator.
 
 Blockly.Blocks['turtle_move'] = {
@@ -121,8 +131,8 @@ Blockly.Blocks['turtle_turn'] = {
         [[BlocklyGames.getMsg('Turtle_turnRight'), 'turnRight'],
          [BlocklyGames.getMsg('Turtle_turnLeft'), 'turnLeft']];
     // Append arrows to direction messages.
-    DIRECTIONS[0][0] += ' \u21BB';
-    DIRECTIONS[1][0] += ' \u21BA';
+    DIRECTIONS[0][0] += Turtle.Blocks.RIGHT_TURN;
+    DIRECTIONS[1][0] += Turtle.Blocks.LEFT_TURN;
     this.setColour(Turtle.Blocks.HUE);
     this.appendValueInput('VALUE')
         .setCheck('Number')
@@ -158,8 +168,8 @@ Blockly.Blocks['turtle_turn_internal'] = {
          ['120\u00B0', '120'],
          ['144\u00B0', '144']];
     // Append arrows to direction messages.
-    DIRECTIONS[0][0] += ' \u21BB';
-    DIRECTIONS[1][0] += ' \u21BA';
+    DIRECTIONS[0][0] += Turtle.Blocks.RIGHT_TURN;
+    DIRECTIONS[1][0] += Turtle.Blocks.LEFT_TURN;
     this.setColour(Turtle.Blocks.HUE);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR')
