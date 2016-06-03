@@ -45,6 +45,12 @@ goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
 
+
+/**
+ * Common HSV hue for all shape blocks.
+ */
+Movie.Blocks.SHAPE_HUE = 160;
+
 // Extensions to Blockly's language and JavaScript generator.
 
 Blockly.Blocks['movie_circle'] = {
@@ -53,7 +59,7 @@ Blockly.Blocks['movie_circle'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(160);
+    this.setColour(Movie.Blocks.SHAPE_HUE);
     this.appendValueInput('X')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -90,7 +96,7 @@ Blockly.Blocks['movie_rect'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(160);
+    this.setColour(Movie.Blocks.SHAPE_HUE);
     this.appendValueInput('X')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -133,7 +139,7 @@ Blockly.Blocks['movie_line'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(160);
+    this.setColour(Movie.Blocks.SHAPE_HUE);
     this.appendValueInput('X1')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -184,7 +190,7 @@ Blockly.Blocks['movie_time'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(330);
+    this.setColour(Blockly.Blocks.variables.HUE);
     this.appendDummyInput()
         .appendField('time (0\u2192100)');
     this.setOutput(true, 'Number');
@@ -204,7 +210,7 @@ Blockly.Blocks['movie_colour'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(20);
+    this.setColour(Blockly.Blocks.colour.HUE);
     this.appendValueInput('COLOUR')
         .setCheck('Colour')
         .appendField(BlocklyGames.getMsg('Movie_setColour'));

@@ -148,6 +148,7 @@ Puzzle.init = function() {
       countedArea += block.cached_area_;
     }
   }
+  BlocklyGames.workspace.clearUndo();
 
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});

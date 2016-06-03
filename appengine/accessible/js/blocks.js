@@ -29,6 +29,12 @@ goog.provide('Music.Blocks');
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
 
+
+/**
+ * Common HSV hue for all blocks in this category.
+ */
+Music.Blocks.HUE = 20;
+
 var MUSIC_DUMMY_TOOLTIP = 'Dummy tooltip';
 var MUSIC_DUMMY_HELPURL = 'Dummy help URL';
 
@@ -44,7 +50,7 @@ Blockly.Blocks['music_play_random_note'] = {
       "message0": "play random note",
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 20,
+      "colour": Music.Blocks.HUE,
       "tooltip": MUSIC_DUMMY_TOOLTIP,
       "helpUrl": MUSIC_DUMMY_HELPURL
     });
@@ -92,7 +98,7 @@ Blockly.Blocks['music_play_note'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 20,
+      "colour": Music.Blocks.HUE,
       "tooltip": MUSIC_DUMMY_TOOLTIP,
       "helpUrl": MUSIC_DUMMY_HELPURL
     });
@@ -101,9 +107,7 @@ Blockly.Blocks['music_play_note'] = {
 
 Blockly.JavaScript['music_play_note'] = function(block) {
   // Play a single note.
-  var code =
-      'addBassChord([' + block.getFieldValue('PITCH') + '], 1);\n';
-  return code;
+  return 'addBassChord([' + block.getFieldValue('PITCH') + '], 1);\n';
 };
 
 Blockly.Blocks['music_play_note_with_duration'] = {
@@ -149,7 +153,7 @@ Blockly.Blocks['music_play_note_with_duration'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 20,
+      "colour": Music.Blocks.HUE,
       "tooltip": MUSIC_DUMMY_TOOLTIP,
       "helpUrl": MUSIC_DUMMY_HELPURL
     });
