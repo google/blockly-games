@@ -361,24 +361,24 @@ Blockly.Blocks['turtle_repeat_internal'] = {
    */
   init: function() {
     this.jsonInit({
-      'message0': Blockly.Msg.CONTROLS_REPEAT_TITLE,
-      'args0': [
+      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
+      "args0": [
         {
-          'type': 'field_dropdown',
-          'name': 'TIMES',
-          'options': [
-            ['3', '3'],
-            ['4', '4'],
-            ['5', '5'],
-            ['360', '360']
+          "type": "field_dropdown",
+          "name": "TIMES",
+          "options": [
+            ["3", "3"],
+            ["4", "4"],
+            ["5", "5"],
+            ["360", "360"]
           ]
         }
       ],
-      'previousStatement': null,
-      'nextStatement': null,
-      'colour': Blockly.Blocks.loops.HUE,
-      'tooltip': Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
-      'helpUrl': Blockly.Msg.CONTROLS_REPEAT_HELPURL
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.loops.HUE,
+      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
+      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
