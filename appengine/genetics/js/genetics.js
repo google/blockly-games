@@ -25,13 +25,13 @@
 
 goog.provide('Genetics');
 
-goog.require('Genetics.soy');
-goog.require('Genetics.Blocks');
+goog.require('Blockly.FieldDropdown');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 goog.require('BlocklyInterface');
-goog.require('Blockly.FieldDropdown');
+goog.require('Genetics.Blocks');
+goog.require('Genetics.soy');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');
 
@@ -82,7 +82,7 @@ Genetics.init = function() {
   var blocklyDiv = document.getElementById('blockly');
   var editorDiv = document.getElementById('editor');
   var divs = [blocklyDiv, editorDiv];
-  var onresize = function (e) {
+  var onresize = function(e) {
     var top = visualization.offsetTop;
     tabDiv.style.top = (top - window.pageYOffset) + 'px';
     tabDiv.style.left = rtl ? '10px' : '420px';
@@ -97,7 +97,7 @@ Genetics.init = function() {
       div.style.width = divWidth;
     }
   };
-  window.addEventListener('scroll', function () {
+  window.addEventListener('scroll', function() {
     onresize();
     Blockly.fireUiEvent(window, 'resize');
   });
@@ -106,7 +106,7 @@ Genetics.init = function() {
 
   // Handle SELECT events dispatched by tabs.
   goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
-      function (e) {
+      function(e) {
         var index = e.target.getParent().getSelectedTabIndex();
         Genetics.changeTab(index);
       });
