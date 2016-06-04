@@ -35,6 +35,23 @@ goog.require('Blockly.JavaScript');
  */
 Music.Blocks.HUE = 20;
 
+Music.Blocks.NOTE_OPTIONS = [
+  ["C3", "36"],
+  ["D3", "38"],
+  ["E3", "40"],
+  ["F3", "41"],
+  ["G3", "43"],
+  ["A3", "45"],
+  ["B3", "47"],
+  ["C4", "48"],
+  ["D4", "50"],
+  ["E4", "52"],
+  ["F4", "53"],
+  ["G4", "55"],
+  ["A4", "57"],
+  ["B4", "59"]
+];
+
 var MUSIC_DUMMY_TOOLTIP = 'Dummy tooltip';
 var MUSIC_DUMMY_HELPURL = 'Dummy help URL';
 
@@ -62,8 +79,9 @@ Blockly.JavaScript['music_play_random_note'] = function(block) {
   var HIGHEST_PITCH = 60;
 
   var randomPitch =
-      Math.random() * (HIGHEST_PITCH - LOWEST_PITCH) + LOWEST_PITCH;
-  return 'addBassChord([' + randomPitch + '], 1);\n';
+      Math.floor(Math.random() * (HIGHEST_PITCH - LOWEST_PITCH) +
+      LOWEST_PITCH);
+  return 'addChord([' + randomPitch + '], 1);\n';
 };
 
 Blockly.Blocks['music_play_note'] = {
@@ -78,22 +96,7 @@ Blockly.Blocks['music_play_note'] = {
         {
           "type": "field_dropdown",
           "name": "PITCH",
-          "options": [
-            ["C3", "36"],
-            ["D3", "38"],
-            ["E3", "40"],
-            ["F3", "41"],
-            ["G3", "43"],
-            ["A3", "45"],
-            ["B3", "47"],
-            ["C4", "48"],
-            ["D4", "50"],
-            ["E4", "52"],
-            ["F4", "53"],
-            ["G4", "55"],
-            ["A4", "57"],
-            ["B4", "59"]
-          ]
+          "options": Music.Blocks.NOTE_OPTIONS
         }
       ],
       "previousStatement": null,
@@ -107,7 +110,7 @@ Blockly.Blocks['music_play_note'] = {
 
 Blockly.JavaScript['music_play_note'] = function(block) {
   // Play a single note.
-  return 'addBassChord([' + block.getFieldValue('PITCH') + '], 1);\n';
+  return 'addChord([' + block.getFieldValue('PITCH') + '], 1);\n';
 };
 
 Blockly.Blocks['music_play_note_with_duration'] = {
@@ -122,22 +125,7 @@ Blockly.Blocks['music_play_note_with_duration'] = {
         {
           "type": "field_dropdown",
           "name": "PITCH",
-          "options": [
-            ["C3", "36"],
-            ["D3", "38"],
-            ["E3", "40"],
-            ["F3", "41"],
-            ["G3", "43"],
-            ["A3", "45"],
-            ["B3", "47"],
-            ["C4", "48"],
-            ["D4", "50"],
-            ["E4", "52"],
-            ["F4", "53"],
-            ["G4", "55"],
-            ["A4", "57"],
-            ["B4", "59"]
-          ]
+          "options": Music.Blocks.NOTE_OPTIONS
         },
         {
           "type": "field_dropdown",
@@ -145,9 +133,11 @@ Blockly.Blocks['music_play_note_with_duration'] = {
           "options": [
             ["1", "1"],
             ["2", "2"],
+            ["3", "3"],
             ["4", "4"],
             ["1/2", "0.5"],
-            ["1/4", "0.25"]
+            ["1/4", "0.25"],
+            ["3/4", "0.75"]
           ]
         }
       ],
@@ -163,7 +153,7 @@ Blockly.Blocks['music_play_note_with_duration'] = {
 Blockly.JavaScript['music_play_note_with_duration'] = function(block) {
   // Play a single note, with the given duration.
   var code =
-      'addBassChord([' + block.getFieldValue('PITCH') + '], ' +
+      'addChord([' + block.getFieldValue('PITCH') + '], ' +
       block.getFieldValue('DURATION') + ');\n';
   return code;
 };
