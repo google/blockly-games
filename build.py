@@ -63,18 +63,19 @@ for language in languages:
   # Copy the file tree.
   directory = GENERATED_DIR + "blockly-games/" + language + "/"
   shutil.copytree(APPENGINE_DIR, directory, ignore=ignore)
-  shutil.rmtree(directory + "js-read-only/blockly/")
-  shutil.rmtree(directory + "js-read-only/goog/")
-  shutil.rmtree(directory + "js-read-only/third_party_goog/")
-  shutil.rmtree(directory + "js-read-only/JS-Interpreter/demos/")
-  for filename in os.listdir(directory + "js-read-only/JS-Interpreter/"):
+  shutil.rmtree(directory + "third-party/blockly/")
+  shutil.rmtree(directory + "third-party/goog/")
+  shutil.rmtree(directory + "third-party/third_party_goog/")
+  shutil.rmtree(directory + "third-party/midi-js/")
+  shutil.rmtree(directory + "third-party/JS-Interpreter/demos/")
+  for filename in os.listdir(directory + "third-party/JS-Interpreter/"):
     if filename != "compiled.js":
-      os.remove(directory + "js-read-only/JS-Interpreter/" + filename)
-  shutil.rmtree(directory + "js-read-only/ace/snippets/")
-  for filename in os.listdir(directory + "js-read-only/ace/"):
+      os.remove(directory + "third-party/JS-Interpreter/" + filename)
+  shutil.rmtree(directory + "third-party/ace/snippets/")
+  for filename in os.listdir(directory + "third-party/ace/"):
     if filename not in ("ace.js", "mode-javascript.js", "theme-chrome.js",
                         "worker-javascript.js"):
-      os.remove(directory + "js-read-only/ace/" + filename)
+      os.remove(directory + "third-party/ace/" + filename)
   # Delete all other generated language files.
   for subdirectory, subdirList, fileList in os.walk(directory):
     if subdirectory.endswith("/generated"):
