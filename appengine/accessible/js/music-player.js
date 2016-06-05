@@ -109,7 +109,7 @@ MusicLine.prototype.setFromChordsAndDurations = function(chordsAndDurations) {
 var MusicPlayer = function() {
   // Initialize the MIDI player.
   MIDI.loadPlugin({
-    soundfontUrl: '../third-party/midi-js/trunk/examples/soundfont/',
+    soundfontUrl: '../third-party/midi-js/examples/soundfont/',
     instrument: 'acoustic_grand_piano',
     callback: function() {}
   });
