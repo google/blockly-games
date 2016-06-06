@@ -40,11 +40,6 @@ goog.require('BlocklyGames.JSBlocks');
  */
 Pond.Blocks.POND_HUE = 290;
 
-/**
- * HSV hue for loop block.
- */
-Pond.Blocks.LOOPS_HUE = 120;
-
 // Extensions to Blockly's language and JavaScript generator.
 
 Blockly.Blocks['pond_scan'] = {

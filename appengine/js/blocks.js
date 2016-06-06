@@ -184,7 +184,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 120,
+    "colour": Blockly.Blocks.loops.HUE,
     "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
     "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
   });
