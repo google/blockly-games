@@ -26,9 +26,9 @@ musicGame.gameManager = {};
 musicGame.gameManager.level = 1;
 musicGame.gameManager.levelInstructions = {};
 musicGame.gameManager.levelHints = {};
-musicGame.gameManager.expectedBassLines = {};
+musicGame.gameManager.expectedPlayerLines = {};
 musicGame.gameManager.levelInstructions[1] = [
-    `Let us start by navigating to the toolbox and copying the 'play random note'
+    `Let us start by navigating to the toolbox and copying the 'play note C3'
     block onto the workspace.`];
 musicGame.gameManager.levelInstructions[2] = [
     `Play the G3 note.`];
@@ -39,35 +39,35 @@ musicGame.gameManager.levelHints[3] = [`Each list in the workspace is a set of c
     each item number 1 of its own list, then those blocks are not connected.
     If you have two blocks, one item 1 of a list and one item 2 of a list, then they are connected.`,
     `Try to make use of the 'copy to Blockly clipboard' and 'paste above'/'paste below' options in the block menus.`];
-musicGame.gameManager.expectedBassLines[1] = [
-      [[45], 1],
+musicGame.gameManager.expectedPlayerLines[1] = [
+      [[36], 1],
     ];
-musicGame.gameManager.expectedBassLines[2] = [
+musicGame.gameManager.expectedPlayerLines[2] = [
       [[43], 1],
     ];
-musicGame.gameManager.expectedBassLines[3] = [
+musicGame.gameManager.expectedPlayerLines[3] = [
       [[43], 1],
       [[43], 1]
     ];
-musicGame.gameManager.expectedBlockType = [undefined, 'music_play_random_note',
+musicGame.gameManager.expectedBlockType = [undefined, 'music_play_note',
    'music_play_note', 'music_play_note'];
-musicGame.gameManager.levelToolboxes=['', 'level1_ToolboxXml.xml', 
+musicGame.gameManager.levelToolboxes=['', 'level1_ToolboxXml.xml',
   'level1_ToolboxXml.xml', 'level1_ToolboxXml.xml'];
 musicGame.gameManager.maxLevelAllowed=1;
 
 musicGame.gameManager.validateLevel = function(){
   var correct = true;
   var level = musicGame.gameManager.level;
-  var expectedBassLine = new MusicLine();
+  var expectedPlayerLine = new MusicLine();
   var topBlock = blocklyApp.workspace.topBlocks_[0];
   var errorMessage = 'Not quite! Try again!';
 
   //we should only report the earliest problem with their code
   var errorMessageChanged = false;
 
-  expectedBassLine.setFromChordsAndDurations(
-    musicGame.gameManager.expectedBassLines[level]);
-  correct = correct && musicPlayer.doesBassLineEqual(expectedBassLine);
+  expectedPlayerLine.setFromChordsAndDurations(
+    musicGame.gameManager.expectedPlayerLines[level]);
+  correct = correct && musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
   if (!correct && !errorMessageChanged){
     errorMessage = 'Not quite! Are you playing the right note?'
     errorMessageChanged = true;
@@ -77,7 +77,7 @@ musicGame.gameManager.validateLevel = function(){
     correct = correct && blocklyApp.workspace.topBlocks_.length == 1;
   } else {
     //if there are two topblocks that aren't connected, the error message should be the error message on line 112
-    correct = correct && (blocklyApp.workspace.topBlocks_.length == 1 
+    correct = correct && (blocklyApp.workspace.topBlocks_.length == 1
         || blocklyApp.workspace.topBlocks_.length == 2);
   }
   if (!correct && !errorMessageChanged) {
@@ -85,7 +85,7 @@ musicGame.gameManager.validateLevel = function(){
     errorMessageChanged = true;
   }
 
-  correct = correct && topBlock && topBlock.type == 
+  correct = correct && topBlock && topBlock.type ==
       musicGame.gameManager.expectedBlockType[level];
   if (!correct && !errorMessageChanged) {
     errorMessage = 'Not quite! Are you playing the right block?'
@@ -94,7 +94,7 @@ musicGame.gameManager.validateLevel = function(){
 
   if (level == 3) {
     var connection = topBlock.nextConnection.targetConnection;
-    correct = correct && connection && connection.sourceBlock_ && 
+    correct = correct && connection && connection.sourceBlock_ &&
         connection.sourceBlock_.type == musicGame.gameManager.expectedBlockType[level];
     if (!correct && !errorMessageChanged) {
       errorMessage = 'Not quite! Are your blocks connected?'
@@ -168,11 +168,11 @@ musicGame.LevelManagerView = ng.core
     <p *ngFor='#para of setInstructions()'>{{para}}</p>
     <h2 *ngIf='getHints()'>Hints</h2>
     <p *ngFor='#para of getHints()'>{{para}}</p>
-    <button #level1 aria-pressed='true' (click)='setLevel(1, level1, [level2,level3])' 
+    <button #level1 aria-pressed='true' (click)='setLevel(1, level1, [level2,level3])'
         disabled={{disableButton(1)}}>Level 1</button>
-    <button #level2 aria-pressed='false' (click)='setLevel(2, level2, [level1,level3])' 
+    <button #level2 aria-pressed='false' (click)='setLevel(2, level2, [level1,level3])'
         disabled={{disableButton(2)}}>Level 2</button>
-    <button #level3 aria-pressed='false' (click)='setLevel(3, level3, [level2,level1])' 
+    <button #level3 aria-pressed='false' (click)='setLevel(3, level3, [level2,level1])'
         disabled={{disableButton(3)}}>Level 3</button>
     <blockly-app></blockly-app>
     `,

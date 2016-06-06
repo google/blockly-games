@@ -20,16 +20,15 @@
 /**
  * @fileoverview Utility functions and classes for a music game for
  *               screen-reader users.
+ *
  * @author sll@google.com (Sean Lip)
  */
 
 var CONSTANTS = {
-  // Change this value to change the tempo.
-  MILLISECS_PER_BEAT: 2000.0,
-  LINE_BASS: 'bass',
-  LINE_MELODY: 'melody'
+  LINE_PLAYER: 'player',
+  LINE_ACCOMPANIMENT: 'accompaniment',
+  SKEW_LIMIT_MSEC: 50.0
 };
-
 
 // MUSIC LINE OBJECT
 
@@ -42,8 +41,8 @@ MusicLine.prototype.getChords = function() {
   return this.chords_;
 };
 
-MusicLine.prototype.getDurationInMsecs = function() {
-  return this.currentBeat_ * CONSTANTS.MILLISECS_PER_BEAT;
+MusicLine.prototype.getDurationInMsecs = function(millisecsPerBeat) {
+  return this.currentBeat_ * millisecsPerBeat;
 };
 
 MusicLine.prototype.addChord = function(midiPitches, durationInBeats) {
@@ -110,7 +109,7 @@ MusicLine.prototype.setFromChordsAndDurations = function(chordsAndDurations) {
 var MusicPlayer = function() {
   // Initialize the MIDI player.
   MIDI.loadPlugin({
-    soundfontUrl: '../third-party/midi-js/trunk/examples/soundfont/',
+    soundfontUrl: '../third-party/midi-js/examples/soundfont/',
     instrument: 'acoustic_grand_piano',
     callback: function() {}
   });
@@ -130,53 +129,90 @@ MusicPlayer.prototype.reset = function() {
   for (key in this.lines_) {
     delete this.lines_[key];
   }
-  this.lines_[CONSTANTS.LINE_BASS] = new MusicLine();
-  this.lines_[CONSTANTS.LINE_MELODY] = new MusicLine();
+  this.lines_[CONSTANTS.LINE_PLAYER] = new MusicLine();
+  this.lines_[CONSTANTS.LINE_ACCOMPANIMENT] = new MusicLine();
 
   this.activeTimeouts_ = [];
 };
 
-MusicPlayer.prototype.playNote_ = function(midiPitches, durationInBeats) {
+MusicPlayer.prototype.playNote_ = function(
+    midiPitches, durationInSecs, expectedEpochTime) {
+  // In Chrome, the timeouts start getting confused when the tab is
+  // backgrounded (see e.g. http://stackoverflow.com/q/6032429), so we
+  // halt the playthrough and remove all remaining notes from the play buffer.
+  // Note that this is not an issue in Firefox.
+  var currentEpochTime = (new Date).getTime();
+  var timeDifference = Math.abs(expectedEpochTime - currentEpochTime);
+  if (timeDifference > CONSTANTS.SKEW_LIMIT_MSEC) {
+    this.reset();
+    return;
+  }
+
   var MIDI_CHANNEL = 0;
   var MIDI_VELOCITY = 127;
-
   MIDI.chordOn(MIDI_CHANNEL, midiPitches, MIDI_VELOCITY, 0);
-  MIDI.chordOff(MIDI_CHANNEL, midiPitches, durationInBeats);
+  MIDI.chordOff(MIDI_CHANNEL, midiPitches, durationInSecs);
 };
 
 MusicPlayer.prototype.playLines_ = function(
-    linesToPlay, onFinishBassLineCallback) {
+    linesToPlay, beatsPerMinute, onFinishPlayerLineCallback) {
+  var secsPerBeat = 60.0 / beatsPerMinute;
+  var millisecsPerBeat = secsPerBeat * 1000.0;
+
+  var startTime = (new Date).getTime();
   var that = this;
   linesToPlay.forEach(function(lineName) {
     that.lines_[lineName].getChords().forEach(function(chord) {
+      // Play each pitch in a chord at most once.
+      var uniquePitches = [];
+      chord.midiPitches.forEach(function(pitch) {
+        if (uniquePitches.indexOf(pitch) == -1) {
+          uniquePitches.push(pitch);
+        }
+      });
+
+      var expectedEpochTime =
+          startTime +
+          chord.delayInBeats * millisecsPerBeat;
+      var elapsedTime = (new Date).getTime() - startTime;
       that.activeTimeouts_.push(setTimeout(function() {
-        that.playNote_(chord.midiPitches, chord.durationInBeats);
-      }, chord.delayInBeats * CONSTANTS.MILLISECS_PER_BEAT));
+        that.playNote_(
+            uniquePitches, chord.durationInBeats * secsPerBeat,
+            expectedEpochTime);
+      }, chord.delayInBeats * millisecsPerBeat - elapsedTime));
     });
   });
 
-  that.activeTimeouts_.push(setTimeout(
-      onFinishBassLineCallback,
-      that.lines_[CONSTANTS.LINE_BASS].getDurationInMsecs()));
+  if (onFinishPlayerLineCallback) {
+    that.activeTimeouts_.push(setTimeout(
+        onFinishPlayerLineCallback,
+        that.lines_[CONSTANTS.LINE_PLAYER].getDurationInMsecs(
+            millisecsPerBeat)));
+  }
 };
 
-MusicPlayer.prototype.setMelody = function(melody) {
-  this.lines_[CONSTANTS.LINE_MELODY].setFromChordsAndDurations(melody);
+MusicPlayer.prototype.setAccompaniment = function(accompaniment) {
+  this.lines_[CONSTANTS.LINE_ACCOMPANIMENT].setFromChordsAndDurations(
+      accompaniment);
 };
 
-MusicPlayer.prototype.doesBassLineEqual = function(otherLine) {
-  return this.lines_[CONSTANTS.LINE_BASS].isEqual(otherLine);
+MusicPlayer.prototype.doesPlayerLineEqual = function(otherLine) {
+  return this.lines_[CONSTANTS.LINE_PLAYER].isEqual(otherLine);
 };
 
-MusicPlayer.prototype.addBassChord = function(midiPitches, durationInBeats) {
-  this.lines_[CONSTANTS.LINE_BASS].addChord(midiPitches, durationInBeats);
+MusicPlayer.prototype.addPlayerChord = function(midiPitches, durationInBeats) {
+  this.lines_[CONSTANTS.LINE_PLAYER].addChord(midiPitches, durationInBeats);
 };
 
-MusicPlayer.prototype.playBassLine = function(onFinishBassLineCallback) {
-  this.playLines_([CONSTANTS.LINE_BASS], onFinishBassLineCallback);
-};
-
-MusicPlayer.prototype.playAllLines = function(onFinishBassLineCallback) {
+MusicPlayer.prototype.playPlayerLine = function(
+    beatsPerMinute, onFinishPlayerLineCallback) {
   this.playLines_(
-      [CONSTANTS.LINE_BASS, CONSTANTS.LINE_MELODY], onFinishBassLineCallback);
+      [CONSTANTS.LINE_PLAYER], beatsPerMinute, onFinishPlayerLineCallback);
+};
+
+MusicPlayer.prototype.playAllLines = function(
+    beatsPerMinute, onFinishPlayerLineCallback) {
+  this.playLines_(
+    [CONSTANTS.LINE_PLAYER, CONSTANTS.LINE_ACCOMPANIMENT], beatsPerMinute,
+    onFinishPlayerLineCallback);
 };
