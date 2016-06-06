@@ -29,7 +29,7 @@ goog.provide('BlocklyGames.JSBlocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.logic');
-// Don't need Blockly.Blocks.loops.
+goog.require('Blockly.Blocks.loops');
 goog.require('Blockly.Blocks.math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Blocks.variables');
@@ -44,84 +44,78 @@ goog.require('BlocklyGames');
 
 // Extensions to Blockly's language and JavaScript generator.
 
-Blockly.Blocks['controls_if'] = {
-  /**
-   * If/elseif/else condition.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-    this.setColour(Blockly.Blocks.logic.HUE);
-    this.appendValueInput('IF0')
+/**
+ * If/elseif/else condition.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['controls_if'].init = function() {
+  this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
+  this.setColour(Blockly.Blocks.logic.HUE);
+  this.appendValueInput('IF0')
+      .setCheck('Boolean')
+      .appendField('if (');
+  this.appendDummyInput()
+      .appendField(') {');
+  this.appendStatementInput('DO0');
+  this.appendDummyInput('TAIL')
+      .appendField('}');
+  this.setInputsInline(true);
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setMutator(new Blockly.Mutator(['controls_if_elseif',
+    'controls_if_else']));
+  // Assign 'this' to a variable for use in the tooltip closure below.
+  var thisBlock = this;
+  this.setTooltip(function() {
+    if (!thisBlock.elseifCount_ && !thisBlock.elseCount_) {
+      return Blockly.Msg.CONTROLS_IF_TOOLTIP_1;
+    } else if (!thisBlock.elseifCount_ && thisBlock.elseCount_) {
+      return Blockly.Msg.CONTROLS_IF_TOOLTIP_2;
+    } else if (thisBlock.elseifCount_ && !thisBlock.elseCount_) {
+      return Blockly.Msg.CONTROLS_IF_TOOLTIP_3;
+    } else if (thisBlock.elseifCount_ && thisBlock.elseCount_) {
+      return Blockly.Msg.CONTROLS_IF_TOOLTIP_4;
+    }
+    return '';
+  });
+  this.elseifCount_ = 0;
+  this.elseCount_ = 0;
+};
+
+/**
+ * Modify this block to have the correct number of inputs.
+ * @private
+ * @this Blockly.Block
+ */
+Blockly.Blocks['controls_if'].updateShape_ = function() {
+  // Delete everything.
+  if (this.getInput('ELSE')) {
+    this.removeInput('ELSEMSG');
+    this.removeInput('ELSE');
+  }
+  var i = 1;
+  while (this.getInput('IF' + i)) {
+    this.removeInput('IF' + i);
+    this.removeInput('TAIL' + i);
+    this.removeInput('DO' + i);
+    i++;
+  }
+  // Rebuild block.
+  for (var i = 1; i <= this.elseifCount_; i++) {
+    this.appendValueInput('IF' + i)
         .setCheck('Boolean')
-        .appendField('if (');
-    this.appendDummyInput()
+        .appendField('} else if (');
+    this.appendDummyInput('TAIL' + i)
         .appendField(') {');
-    this.appendStatementInput('DO0');
-    this.appendDummyInput('TAIL')
-        .appendField('}');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setMutator(new Blockly.Mutator(['controls_if_elseif',
-      'controls_if_else']));
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      if (!thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_1;
-      } else if (!thisBlock.elseifCount_ && thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_2;
-      } else if (thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_3;
-      } else if (thisBlock.elseifCount_ && thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_4;
-      }
-      return '';
-    });
-    this.elseifCount_ = 0;
-    this.elseCount_ = 0;
-  },
-  /**
-   * Modify this block to have the correct number of inputs.
-   * @private
-   * @this Blockly.Block
-   */
-  updateShape_: function() {
-    // Delete everything.
-    if (this.getInput('ELSE')) {
-      this.removeInput('ELSEMSG');
-      this.removeInput('ELSE');
-    }
-    var i = 1;
-    while (this.getInput('IF' + i)) {
-      this.removeInput('IF' + i);
-      this.removeInput('TAIL' + i);
-      this.removeInput('DO' + i);
-      i++;
-    }
-    // Rebuild block.
-    for (var i = 1; i <= this.elseifCount_; i++) {
-      this.appendValueInput('IF' + i)
-          .setCheck('Boolean')
-          .appendField('} else if (');
-      this.appendDummyInput('TAIL' + i)
-          .appendField(') {');
-      this.appendStatementInput('DO' + i);
-    }
-    if (this.elseCount_) {
-      this.appendDummyInput('ELSEMSG')
-          .appendField('} else {');
-      this.appendStatementInput('ELSE');
-    }
-    // Move final '}' to the end.
-    this.moveInputBefore('TAIL', null);
-  },
-  mutationToDom: Blockly.Blocks['controls_if'].mutationToDom,
-  domToMutation: Blockly.Blocks['controls_if'].domToMutation,
-  decompose: Blockly.Blocks['controls_if'].decompose,
-  compose: Blockly.Blocks['controls_if'].compose,
-  saveConnections: Blockly.Blocks['controls_if'].saveConnections
+    this.appendStatementInput('DO' + i);
+  }
+  if (this.elseCount_) {
+    this.appendDummyInput('ELSEMSG')
+        .appendField('} else {');
+    this.appendStatementInput('ELSE');
+  }
+  // Move final '}' to the end.
+  this.moveInputBefore('TAIL', null);
 };
 
 /**
@@ -167,123 +161,114 @@ Blockly.Msg.LOGIC_OPERATION_OR = '||';
 Blockly.Msg.LOGIC_BOOLEAN_TRUE = 'true';
 Blockly.Msg.LOGIC_BOOLEAN_FALSE = 'false';
 
-Blockly.Blocks['controls_whileUntil'] = {
-  /**
-   * Do while/until loop.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "while ( %1 ) { %2 %3 }",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "BOOL",
-          "check": "Boolean"
-        },
-        {
-          "type": "input_dummy"
-        },
-        {
-          "type": "input_statement",
-          "name": "DO"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": 120,
-      "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
-      "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
-    });
-  }
+/**
+ * Do while/until loop.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['controls_whileUntil'].init = function() {
+  this.jsonInit({
+    "message0": "while ( %1 ) { %2 %3 }",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BOOL",
+        "check": "Boolean"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
+    "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
+  });
 };
 
-Blockly.Blocks['simple_math_arithmetic'] = {
-  /**
-   * Block for basic arithmetic operator.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "%1 %2 %3",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "A",
-          "check": "Number"
-        },
-        {
-          "type": "field_dropdown",
-          "name": "OP",
-          "options": [
-            ["+", "ADD"],
-            ["-", "MINUS"],
-            ["*", "MULTIPLY"],
-            ["/", "DIVIDE"]
-          ]
-        },
-        {
-          "type": "input_value",
-          "name": "B",
-          "check": "Number"
-        }
-      ],
-      "inputsInline": true,
-      "output": "Number",
-      "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
-    });
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      var mode = thisBlock.getFieldValue('OP');
-      var TOOLTIPS = {
-        'ADD': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_ADD,
-        'MINUS': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
-        'MULTIPLY': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
-        'DIVIDE': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE
-      };
-      return TOOLTIPS[mode];
-    });
-  }
+/**
+ * Block for basic arithmetic operator.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['math_arithmetic'].init = function() {
+  this.jsonInit({
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["+", "ADD"],
+          ["-", "MINUS"],
+          ["*", "MULTIPLY"],
+          ["/", "DIVIDE"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": Blockly.Blocks.math.HUE,
+    "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
+  });
+  // Assign 'this' to a variable for use in the tooltip closure below.
+  var thisBlock = this;
+  this.setTooltip(function() {
+    var mode = thisBlock.getFieldValue('OP');
+    var TOOLTIPS = {
+      'ADD': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_ADD,
+      'MINUS': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
+      'MULTIPLY': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
+      'DIVIDE': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE
+    };
+    return TOOLTIPS[mode];
+  });
 };
 
-Blockly.JavaScript['simple_math_arithmetic'] =
-    Blockly.JavaScript['math_arithmetic'];
-
-Blockly.Blocks['math_change'] = {
-  /**
-   * Add to a variable in place.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "%1 += %2;",
-      "args0": [
-        {
-          "type": "field_variable",
-          "name": "VAR",
-          "variable": "name"
-        },
-        {
-          "type": "input_value",
-          "name": "DELTA",
-          "check": "Number"
-        }
-      ],
-      "inputsInline": true,
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
-    });
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
-          thisBlock.getFieldValue('VAR'));
-    });
-  }
+/**
+ *  Add to a variable in place.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['math_change'].init = function() {
+  this.jsonInit({
+    "message0": "%1 += %2;",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "name"
+      },
+      {
+        "type": "input_value",
+        "name": "DELTA",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": Blockly.Blocks.math.HUE,
+    "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
+  });
+  // Assign 'this' to a variable for use in the tooltip closure below.
+  var thisBlock = this;
+  this.setTooltip(function() {
+    return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
+        thisBlock.getFieldValue('VAR'));
+  });
 };
 
 Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
