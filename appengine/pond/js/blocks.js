@@ -402,14 +402,13 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
 
 Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
 
-/**
- * Defining aliases to support blockly xml generated with old naming.
- */
+// Pond blocks moved to appengine/js/blocks.js and renamed on 6 June 2016.
+// Aliases defined to support XML generated before change.
 Blockly.Blocks['pond_controls_if'] = Blockly.Blocks['controls_if'];
 Blockly.JavaScript['pond_controls_if'] = Blockly.JavaScript['controls_if'];
 Blockly.Blocks['pond_loops_while'] = Blockly.Blocks['controls_whileUntil'];
 Blockly.JavaScript['pond_loops_while'] = Blockly.JavaScript['controls_whileUntil'];
-Blockly.Blocks['pond_math_arithmetic'] = Blockly.Blocks['simple_math_arithmetic'];
-Blockly.JavaScript['pond_math_arithmetic'] = Blockly.JavaScript['simple_math_arithmetic'];
+Blockly.Blocks['pond_math_arithmetic'] = Blockly.Blocks['math_arithmetic'];
+Blockly.JavaScript['pond_math_arithmetic'] = Blockly.JavaScript['math_arithmetic'];
 Blockly.Blocks['pond_math_change'] = Blockly.Blocks['math_change'];
 Blockly.JavaScript['pond_math_change'] = Blockly.JavaScript['math_change'];
