@@ -59,8 +59,8 @@ a {
   fill: none;
   stroke-dasharray: 180;
   stroke-dashoffset: 180;
-  animation: dash .6s linear forwards;
-  -webkit-animation: dash .6s linear forwards;
+  animation: dash .7s linear forwards;
+  -webkit-animation: dash .7s linear forwards;
 }
 
 @keyframes dash {
@@ -128,14 +128,19 @@ a:hover > text {
   -webkit-animation-delay: 0.4s;
 }
 
-#icon-pond-tutor {
+#icon-music {
   animation-delay: 0.5s;
   -webkit-animation-delay: 0.5s;
 }
 
-#icon-pond-duck {
+#icon-pond-tutor {
   animation-delay: 0.6s;
   -webkit-animation-delay: 0.6s;
+}
+
+#icon-pond-duck {
+  animation-delay: 0.7s;
+  -webkit-animation-delay: 0.7s;
 }
 
 #back-puzzle {
@@ -163,14 +168,19 @@ a:hover > text {
   -webkit-animation-delay: 0.7s;
 }
 
-#back-pond-tutor {
+#back-music {
   animation-delay: 0.8s;
   -webkit-animation-delay: 0.8s;
 }
 
-#back-pond-duck {
+#back-pond-tutor {
   animation-delay: 0.9s;
   -webkit-animation-delay: 0.9s;
+}
+
+#back-pond-duck {
+  animation-delay: 1.0s;
+  -webkit-animation-delay: 1.0s;
 }
 
 @keyframes pop {
