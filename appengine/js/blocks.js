@@ -40,6 +40,7 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 
 
 // Extensions to Blockly's language and JavaScript generator.
