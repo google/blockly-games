@@ -1,5 +1,5 @@
 /**
- * Blockly Games: Turtle Graphics
+ * Blockly Games: Turtle
  *
  * Copyright 2012 Google Inc.
  * https://github.com/google/blockly-games
