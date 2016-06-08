@@ -15,6 +15,11 @@
  */
 {template .messages}
   {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    <span id="Genetics_pickFightTooltip">{msg meaning="Genetics.pickFightTooltip" desc="Tooltip for the block that defines the logic for picking a mouse to fight against."}Defines the function for picking a mouse to fight against. {/msg}</span>
+    <span id="Genetics_chooseMateTooltip">{msg meaning="Genetics.chooseMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
+    <span id="Genetics_mateAnswerTooltip">{msg meaning="Genetics.mateAnswerTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
+  </div>
 {/template}
 
 /**

@@ -104,6 +104,9 @@ Blockly.Blocks['genetics_chooseMate'] = {
 Blockly.JavaScript['genetics_chooseMate'] = goog.partial(Blockly.JavaScript['genetics_mouseFunction_'], 'chooseMate', '');
 
 Blockly.Blocks['genetics_mateAnswer'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'], 'mateAnswer', 'suitor')
+  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'], 'mateAnswer', 'suitor'),
+  getVars: function() {
+    return [ 'suitor' ];
+  }
 };
 Blockly.JavaScript['genetics_mateAnswer'] = goog.partial(Blockly.JavaScript['genetics_mouseFunction_'], 'mateAnswer', 'suitor');
