@@ -25,10 +25,8 @@
 
 goog.provide('Genetics');
 
-goog.require('Blockly.FieldDropdown');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.JSBlocks');
 goog.require('BlocklyInterface');
 goog.require('Genetics.Blocks');
 goog.require('Genetics.soy');
@@ -133,15 +131,10 @@ Genetics.init = function() {
         'trashcan': true,
         'zoom': {'controls': true, 'wheel': true}
       });
-  Blockly.JavaScript.addReservedWords('');
+  Blockly.JavaScript.addReservedWords('pickFight');
   var defaultXml =
   '<xml>' +
-    '<block type="procedures_defreturn" deletable="false" editable="false" x="0" y="150">' +
-      '<mutation>' +
-        '<arg name="me"></arg>' +
-        '<arg name="aliveMice"></arg>' +
-      '</mutation>' +
-      '<field name="NAME">pickFight</field>' +
+    '<block type="genetics_pickFight" deletable="false" editable="false" x="0" y="150">' +
       '<comment pinned="false" h="86" w="631">' +
 'Chooses and returns mouse from aliveMice to pick a fight with or null to choose\n' +
 'no mouse and never fight again.\n' +
@@ -154,12 +147,7 @@ Genetics.init = function() {
         '<shadow type="logic_null"></shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="procedures_defreturn" deletable="false" editable="false" x="0" y="350">' +
-      '<mutation>' +
-        '<arg name="me"></arg>' +
-        '<arg name="aliveMice"></arg>' +
-      '</mutation>' +
-      '<field name="NAME">chooseMate</field>' +
+    '<block type="genetics_chooseMate"  deletable="false" editable="false" x="0" y="350">' +
       '<comment pinned="false" h="86" w="631">' +
 'Chooses and returns mouse from aliveMice to attempt to mate with or null to\n' +
 'choose no mouse and never mate again. If the mate chosen is valid and agrees to\n' +
@@ -172,13 +160,7 @@ Genetics.init = function() {
         '<shadow type="logic_null"></shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="procedures_defreturn" deletable="false" editable="false" x="0" y="550">' +
-      '<mutation>' +
-        '<arg name="suitor"></arg>' +
-        '<arg name="me"></arg>' +
-        '<arg name="aliveMice"></arg>' +
-      '</mutation>' +
-      '<field name="NAME">mateAnswer</field>' +
+    '<block type="genetics_mateAnswer"  deletable="false" editable="false" x="0" y="550">' +
       '<comment pinned="false" h="86" w="631">' +
 'Returns true to agree to mate or false to decline.\n' +
 '@param suitor the mouse requesting to mate\n' +
