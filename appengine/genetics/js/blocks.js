@@ -66,8 +66,12 @@ Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args, block) 
 };
 
 Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args) {
+  /**
+   * Block for mouse function definition.
+   * @this Blockly.Block
+   */
   this.jsonInit({
-    "message0": "function %1( " + args + " ){ %2 %3 return %4 }",
+    "message0": "function %1( " + args + " ) { %2 %3 return %4 }",
     "args0": [
       {
         "type": "field_label",
@@ -94,19 +98,28 @@ Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args) {
 };
 
 Blockly.Blocks['genetics_pickFight'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'], 'pickFight', '')
+  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
+                     'pickFight', '')
 };
-Blockly.JavaScript['genetics_pickFight'] = goog.partial(Blockly.JavaScript['genetics_mouseFunction_'], 'pickFight', '');
+Blockly.JavaScript['genetics_pickFight'] =
+    goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
+                 'pickFight', '');
 
 Blockly.Blocks['genetics_chooseMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'], 'chooseMate', '')
+  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
+                     'chooseMate', '')
 };
-Blockly.JavaScript['genetics_chooseMate'] = goog.partial(Blockly.JavaScript['genetics_mouseFunction_'], 'chooseMate', '');
+Blockly.JavaScript['genetics_chooseMate'] =
+    goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
+                 'chooseMate', '');
 
 Blockly.Blocks['genetics_mateAnswer'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'], 'mateAnswer', 'suitor'),
+  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
+                     'mateAnswer', 'suitor'),
   getVars: function() {
-    return [ 'suitor' ];
+    return ['suitor'];
   }
 };
-Blockly.JavaScript['genetics_mateAnswer'] = goog.partial(Blockly.JavaScript['genetics_mouseFunction_'], 'mateAnswer', 'suitor');
+Blockly.JavaScript['genetics_mateAnswer'] =
+    goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
+                 'mateAnswer', 'suitor');
