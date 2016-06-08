@@ -315,22 +315,26 @@ Blockly.Blocks['variables_set'].init = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['procedures_defnoreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  var name = Blockly.Procedures.findLegalName(
-      Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE, this);
+  var nameField = new Blockly.FieldTextInput(
+      Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,
+      Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
-      .appendField(new Blockly.FieldTextInput(name,
-          Blockly.Procedures.rename), 'NAME')
+      .appendField(nameField, 'NAME')
       .appendField('(')
       .appendField('', 'PARAMS')
       .appendField(') {');
+  // Append statement block to the function definition here.
   this.setStatements_(true);
   this.appendDummyInput()
       .appendField('}');
   this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
+  if (Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT) {
+    this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
+  }
+  this.setColour(Blockly.Blocks.procedures.HUE);
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
+  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
   this.arguments_ = [];
   this.statementConnection_ = null;
 };
@@ -340,14 +344,12 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['procedures_defreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  var name = Blockly.Procedures.findLegalName(
-      Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE, this);
+  var nameField = new Blockly.FieldTextInput(
+      Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE,
+      Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
-      .appendField(new Blockly.FieldTextInput(name,
-          Blockly.Procedures.rename), 'NAME')
+      .appendField(nameField, 'NAME')
       .appendField('(')
       .appendField('', 'PARAMS')
       .appendField(') {');
@@ -357,7 +359,12 @@ Blockly.Blocks['procedures_defreturn'].init = function() {
   this.appendDummyInput()
       .appendField('}');
   this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
+  if (Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT) {
+    this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
+  }
+  this.setColour(Blockly.Blocks.procedures.HUE);
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
+  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
   this.arguments_ = [];
   this.setStatements_(true);
   this.statementConnection_ = null;
