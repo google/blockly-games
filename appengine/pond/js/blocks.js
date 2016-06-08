@@ -27,10 +27,8 @@ goog.provide('Pond.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.math');
-goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.math');
-goog.require('Blockly.JavaScript.procedures');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 
