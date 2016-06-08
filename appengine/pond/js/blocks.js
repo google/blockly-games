@@ -66,9 +66,7 @@ Blockly.Blocks['pond_scan'] = {
 Blockly.JavaScript['pond_scan'] = function(block) {
   // Generate JavaScript for scanning the pond.
   var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  //var value_resolution = Blockly.JavaScript.valueToCode(block, 'RESOLUTION',
-  //    Blockly.JavaScript.ORDER_COMMA);
+      Blockly.JavaScript.ORDER_NONE) || 0;
   var code = 'scan(' + value_degree + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
@@ -138,9 +136,7 @@ Blockly.Blocks['pond_swim'] = {
 Blockly.JavaScript['pond_swim'] = function(block) {
   // Generate JavaScript for swimming.
   var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  //var value_speed = Blockly.JavaScript.valueToCode(block, 'SPEED',
-  //    Blockly.JavaScript.ORDER_COMMA) || 0;
+      Blockly.JavaScript.ORDER_NONE) || 0;
   return 'swim(' + value_degree + ');\n';
 };
 
