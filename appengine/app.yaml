@@ -66,6 +66,15 @@ handlers:
 - url: /movie-reddit
   script: reddit.py
   secure: always
+  
+# Music app.
+- url: /music
+  static_files: music.html
+  upload: music\.html
+  secure: always
+- url: /music/
+  static_dir: music
+  secure: always
 
 # Puzzle app.
 - url: /puzzle

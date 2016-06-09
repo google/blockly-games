@@ -1,0 +1,437 @@
+{namespace Music.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make music-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    // Block text and their associated tooltips and URLs (interleaved to
+    // assist with translation).
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {msg meaning="Games.music" desc="IBID"}Music{/msg}
+            {/param}
+          {/call}
+          {call BlocklyGames.soy.levelLinks}
+            {param level: $ij.level /}
+            {param maxLevel: $ij.maxLevel /}
+            {param lang: $ij.lang /}
+            {param suffix}{/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+        &nbsp;
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="common/1x1.gif" class="link icon21">
+        </button>
+        &nbsp;
+        <button id="helpButton">
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+        </button>
+      </td>
+    </tr>
+  </table>
+  <div id="visualization">
+    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+    <canvas id="answer" width="400" height="400" style="display: none"></canvas>
+    <canvas id="display" width="400" height="400"></canvas>
+  </div>
+  <table style="padding-top: 1em;">
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <svg
+            id="slider"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:svg="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            version="1.1"
+            width="150"
+            height="50">
+          <!-- Slow icon. -->
+          <clipPath id="slowClipPath">
+            <rect width=26 height=12 x=5 y=14 />
+          </clipPath>
+          <image xlink:href="music/icons.png" height=42 width=84 x=-21 y=-10
+              clip-path="url(#slowClipPath)" />
+          <!-- Fast icon. -->
+          <clipPath id="fastClipPath">
+            <rect width=26 height=16 x=120 y=10 />
+          </clipPath>
+          <image xlink:href="music/icons.png" height=42 width=84 x=120 y=-11
+              clip-path="url(#fastClipPath)" />
+        </svg>
+      </td>
+      <td style="width: 15px;">
+        <img id="spinner" style="visibility: hidden;" src="music/loading.gif" height=15 width=15>
+      </td>
+      <td style="width: 190px; text-align: center">
+        <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
+          <img src="common/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+        </button>
+        <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
+          <img src="common/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+        </button>
+      </td>
+    </tr>
+  </table>
+  {if $ij.level == 10 and not $ij.html}
+  <table style="padding-top: 1em; width: 400px;">
+    <tr>
+      <td style="text-align: center;">
+        <form action="https://www.reddit.com/r/BlocklyGames/" target="gallery">
+          <button type="submit" title="{msg meaning="Music.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of drawings made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of drawings on Reddit.{/msg}">
+            <img src="common/1x1.gif" class="reddit icon21"> {msg meaning="Music.galleryMsg" desc="Label on a button that opens a gallery of drawings made by other users."}See Gallery{/msg}
+          </button>
+        </form>
+      </td>
+      <td style="text-align: center;">
+        <button id="submitButton" title="{msg meaning="Music.submitTooltip" desc="tooltip - Pressing this button causes the drawing created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your drawing to Reddit.{/msg}">
+          <img src="common/1x1.gif" class="camera icon21"> {msg meaning="Music.submitMsg" desc="Label on a button that submits the user's art to a public gallery."}Submit to Gallery{/msg}
+        </button>
+        <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
+        <form id="t2r_form" action="music-reddit" method="POST" target="_blank"
+              style="display: none">
+          <input id="t2r_thumb" type="hidden" name="thumb">
+          <input id="t2r_xml" type="hidden" name="xml">
+        </form>
+      </td>
+    </tr>
+  {/if}
+
+  {call .toolbox /}
+  <div id="blockly"></div>
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.abortDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+  {if $ij.level < 4}
+    <div id="helpUseLoop" class="dialogHiddenContent">
+      <div style="padding-bottom: 0.7ex">
+        {msg meaning="Music.helpUseLoop" desc="Dialog telling user to seek a better answer."}
+          Your solution works, but you can do better.
+        {/msg}
+        {sp}
+        {if $ij.level < 3}
+          {msg meaning="Music.helpUseLoop3" desc="Dialog telling user to seek a simpler answer."}
+            Draw the shape with just three blocks.
+          {/msg}
+        {else}
+          {msg meaning="Music.helpUseLoop4" desc="Dialog telling user to seek a simpler answer."}
+            Draw the star with just four blocks.
+          {/msg}
+        {/if}
+      </div>
+      {call BlocklyGames.soy.ok /}
+    </div>
+  {/if}
+
+  <div id="help" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex">
+      {if $ij.level == 1}
+        {msg meaning="Music.helpText1" desc="Instructions."}
+          Create a program that draws a square.
+        {/msg}
+        <br><img src="music/square.gif" height=146 width=146 style="margin-bottom: -50px">
+      {elseif $ij.level == 2}
+        {msg meaning="Music.helpText2" desc="Instructions."}
+          Change your program to draw a pentagon instead of a square.
+        {/msg}
+      {elseif $ij.level == 3}
+        {msg meaning="Music.helpText3a" desc="Introducing a new block."}
+          There's a new block that allows you to change the colour:
+        {/msg}
+        <div id="sampleHelp3" class="readonly"></div>
+        {msg meaning="Music.helpText3b" desc="Instructions."}
+          Draw a yellow star.
+        {/msg}
+      {elseif $ij.level == 4}
+        {msg meaning="Music.helpText4a" desc="Introducing a new block."}
+          There's a new block that allows you to lift your pen off the paper when you move:
+        {/msg}
+        <div id="sampleHelp4" class="readonly"></div>
+        {msg meaning="Music.helpText4b" desc="Instructions."}
+          Draw a small yellow star, then draw a line above it.
+        {/msg}
+      {elseif $ij.level == 5}
+        {msg meaning="Music.helpText5" desc="Instructions."}
+          Instead of one star, can you draw four stars arranged in a square?
+        {/msg}
+      {elseif $ij.level == 6}
+        {msg meaning="Music.helpText6" desc="Instructions."}
+          Draw three yellow stars, and one white line.
+        {/msg}
+      {elseif $ij.level == 7}
+        {msg meaning="Music.helpText7" desc="Instructions."}
+          Draw the stars, then draw four white lines.
+        {/msg}
+      {elseif $ij.level == 8}
+        {msg meaning="Music.helpText8" desc="Instructions."}
+          Drawing 360 white lines will look like the full moon.
+        {/msg}
+      {elseif $ij.level == 9}
+        {msg meaning="Music.helpText9" desc="Instructions."}
+          Can you add a black circle so that the moon becomes a crescent?
+        {/msg}
+      {elseif $ij.level == 10}
+        {msg meaning="Music.helpText10" desc="Instructions."}
+          Draw anything you want. You've got a huge number of new blocks you can explore. Have fun!
+        {/msg}
+        {if not $ij.html}
+          <br><br>
+          {msg meaning="Music.helpText10Reddit" desc="Instructions on posting your drawing to Reddit (a social website)."}
+            Use the "See Gallery" button to see what other people have drawn. If you draw something interesting, use the "Submit to Gallery" button to publish it.
+          {/msg}
+        {/if}
+      {/if}
+    </div>
+    {call BlocklyGames.soy.ok /}
+  </div>
+
+  {if $ij.level == 1}
+    <div id="helpToolbox" class="dialogHiddenContent">
+      <div><img src="music/help_left.png" class="mirrorImg" height=23 width=64></div>
+      {msg meaning="Music.helpToolbox" desc="Instructions for accessing blocks that are hidden inside categories."}
+        Choose a category to see the blocks.
+      {/msg}
+    </div>
+  {/if}
+{/template}
+
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none">
+    {if $ij.level == 10}
+      <category name="{msg meaning="Games.music" desc="IBID"}Music{/msg}">
+        <block type="music_pitch"></block>
+        <block type="music_note">
+          <field name="DURATION">0.25</field>
+          <value name="PITCH">
+            <shadow type="music_pitch">
+              <field name="PITCH">60</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="music_rest"></block>
+        <block type="music_instrument"></block>
+        <block type="music_start"></block>
+      </category>
+      
+      <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_ternary"></block>
+      </category>
+      <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <value name="FROM">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="TO">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+          <value name="BY">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="controls_flow_statements"></block>
+      </category>
+      <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+        <block type="math_number"></block>
+        <block type="math_arithmetic">
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_single">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">9</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_number_property">
+          <value name="NUMBER_TO_CHECK">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_change">
+          <value name="DELTA">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_round">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">3.1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_modulo">
+          <value name="DIVIDEND">
+            <shadow type="math_number">
+              <field name="NUM">64</field>
+            </shadow>
+          </value>
+          <value name="DIVISOR">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constrain">
+          <value name="VALUE">
+            <shadow type="math_number">
+              <field name="NUM">50</field>
+            </shadow>
+          </value>
+          <value name="LOW">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="HIGH">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_random_int">
+          <value name="FROM">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="TO">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_random_float"></block>
+      </category>
+      <category name="{msg meaning="Games.catLists" desc="IBID"}Lists{/msg}">
+        <block type="lists_create_with">
+          <mutation items="0"></mutation>
+        </block>
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">5</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf">
+          <value name="VALUE">
+            <block type="variables_get">
+              <field name="VAR">list</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_getIndex">
+          <value name="VALUE">
+            <block type="variables_get">
+              <field name="VAR">list</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_setIndex">
+          <value name="LIST">
+            <block type="variables_get">
+              <field name="VAR">list</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_getSublist">
+          <value name="LIST">
+            <block type="variables_get">
+              <field name="VAR">list</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_sort"></block>
+      </category>
+      <sep></sep>
+      <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
+      <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
+    {else}
+      <category name="{msg meaning="Music.catMusic" desc="category - Blocks related to Music commands."}Music{/msg}">
+        <block type="music_note">
+          <field name="DURATION">0.25</field>
+          <value name="PITCH">
+            <shadow type="music_pitch">
+              <field name="PITCH">60</field>
+            </shadow>
+          </value>
+        </block>
+        {if $ij.level > 5}
+          <block type="music_instrument"></block>
+        {/if}
+        {if $ij.level > 6}
+          <block type="music_rest"></block>
+        {/if}
+      </category>
+      {if $ij.level > 1}
+        <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
+      {/if}
+    {/if}
+  </xml>
+{/template}
