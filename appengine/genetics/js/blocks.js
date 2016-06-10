@@ -161,39 +161,68 @@ Blockly.JavaScript['genetics_getMice'] = function(block) {
   return ['getMice()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+/**
+ * Block for getting the properties of a mouse.
+ * @this Blockly.Block
+ */
 Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Block for getting mouse properties
    * @this Blockly.Block
    */
   init: function() {
-    this.jsonInit({
-      "message0": "%1.%2",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "MOUSE",
-          "check": "Mouse"
-        },
-        {
-          "type": "field_dropdown",
-          "name": "FIELD",
-          "options":
-            [['size', 'SIZE'],
-             ['aggressiveness', 'AGGRESSIVENESS'],
-             ['fertility', 'FERTILITY'],
-             ['startingFertility', 'START_FERTILITY'],
-             ['age', 'AGE'],
-             ['id', 'ID'],
-             ['pickFightOwner', 'PICKFIGHT_OWNER'],
-             ['chooseMateOwner', 'CHOOSEMATE_OWNER'],
-             ['mateAnswerOwner', 'MATEANSWER_OWNER']]
-        }
-      ],
-      "output": "null",
-      "colour": Genetics.Blocks.GENETICS_HUE,
-      "tooltip": BlocklyGames.getMsg('Genetics_getPropertiesTooltip')
+    var PROPERTIES =
+        [['size', 'SIZE'],
+          ['aggressiveness', 'AGGRESSIVENESS'],
+          ['fertility', 'FERTILITY'],
+          ['startingFertility', 'START_FERTILITY'],
+          ['age', 'AGE'],
+          ['id', 'ID'],
+          ['pickFightOwner', 'PICKFIGHT_OWNER'],
+          ['chooseMateOwner', 'CHOOSEMATE_OWNER'],
+          ['mateAnswerOwner', 'MATEANSWER_OWNER']];
+    // Assign 'this' to a variable for use in the closures below.
+    var thisBlock = this;
+    this.setColour(Genetics.Blocks.GENETICS_HUE);
+    this.setOutput(true, 'Number');
+    var dropdown = new Blockly.FieldDropdown(PROPERTIES, function(newProp) {
+      thisBlock.updateType_(newProp);
     });
+    this.appendValueInput('MOUSE')
+        .setCheck('Mouse');
+    this.appendDummyInput()
+        .appendField('.')
+        .appendField(dropdown, 'PROPERTY');
+    this.setTooltip(function() {
+      var property = thisBlock.getFieldValue('PROPERTY');
+      var TOOLTIPS = {
+        'SIZE': BlocklyGames.getMsg('Genetics_sizeTooltip'),
+        'AGGRESSIVENESS': BlocklyGames.getMsg('Genetics_aggressivenessTooltip'),
+        'FERTILITY': BlocklyGames.getMsg('Genetics_fertilityTooltip'),
+        'START_FERTILITY': BlocklyGames.getMsg('Genetics_startFertilityTooltip'),
+        'AGE': BlocklyGames.getMsg('Genetics_ageTooltip'),
+        'ID': BlocklyGames.getMsg('Genetics_idTooltip'),
+        'PICKFIGHT_OWNER': BlocklyGames.getMsg('Genetics_pickFightOwnerTooltip'),
+        'CHOOSEMATE_OWNER': BlocklyGames.getMsg('Genetics_chooseMateOwnerTooltip'),
+        'MATEANSWER_OWNER': BlocklyGames.getMsg('Genetics_mateAnswerOwnerTooltip')
+      };
+      return TOOLTIPS[property];
+    });
+  },
+  /**
+   * Modify this block to have the correct output type.
+   * @param {string} newProp Either a property requesting a function owner that
+   * returns a string or a property that returns a number.
+   * @private
+   * @this Blockly.Block
+   */
+  updateType_: function(newProp) {
+    if (newProp == 'PICKFIGHT_OWNER' || newProp == 'CHOOSEMATE_OWNER' ||
+        newProp == 'MATEANSWER_OWNER') {
+      this.outputConnection.setCheck('String');
+    } else {
+      this.outputConnection.setCheck('Number');
+    }
   }
 };
 
