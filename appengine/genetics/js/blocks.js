@@ -26,18 +26,15 @@
 goog.provide('Genetics.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.loops');
 goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.lists');
-goog.require('Blockly.JavaScript.loops');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 
 /**
  * Common HSV hue for all pond blocks.
  */
-Genetics.Blocks.GENETICS_HUE = 360; // TODO update toolbox and choose color here
+Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE = 360; // TODO update template to use this constant
+Genetics.Blocks.GENETICS_HUE = 20;
 
 // Extensions to Blockly's language and JavaScript generator.
 
@@ -65,11 +62,11 @@ Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args, block) 
   return null;
 };
 
+/**
+ * Block for mouse function definition JSON initialization function.
+ * @this Blockly.Block
+ */
 Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args) {
-  /**
-   * Block for mouse function definition.
-   * @this Blockly.Block
-   */
   this.jsonInit({
     "message0": "function %1( " + args + " ) { %2 %3 return %4 }",
     "args0": [
@@ -92,8 +89,8 @@ Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args) {
       }
     ],
     "inputsInline": true,
-    "colour": Genetics.Blocks.GENETICS_HUE,
-    "tooltip": BlocklyGames.getMsg('Genetics_' + funcName + 'Tooltip'),
+    "colour": Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE,
+    "tooltip": BlocklyGames.getMsg('Genetics_' + funcName + 'Tooltip')
   });
 };
 
@@ -123,3 +120,89 @@ Blockly.Blocks['genetics_mateAnswer'] = {
 Blockly.JavaScript['genetics_mateAnswer'] =
     goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
                  'mateAnswer', 'suitor');
+
+Blockly.Blocks['genetics_me'] = {
+  /**
+   * Block for getting the mouse making the decision.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "me ()",
+      "output": "Mouse",
+      "colour": Genetics.Blocks.GENETICS_HUE,
+      "tooltip": BlocklyGames.getMsg('Genetics_meTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['genetics_me'] = function(block) {
+  // Generate JavaScript for mouse making the decision.
+  return ['me()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Blocks['genetics_getMice'] = {
+  /**
+   * Block for getting the mouse making the decision.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "getMice ()",
+      "output": "Array",
+      "colour": Genetics.Blocks.GENETICS_HUE,
+      "tooltip": BlocklyGames.getMsg('Genetics_getMiceTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['genetics_getMice'] = function(block) {
+  // Generate JavaScript for getting mice.
+  return ['getMice()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Blocks['genetics_getProperties'] = {
+  /**
+   * Block for getting mouse properties
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1.%2",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "MOUSE",
+          "check": "Mouse"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "FIELD",
+          "options":
+            [['size', 'SIZE'],
+             ['aggressiveness', 'AGGRESSIVENESS'],
+             ['fertility', 'FERTILITY'],
+             ['startingFertility', 'START_FERTILITY'],
+             ['age', 'AGE'],
+             ['id', 'ID'],
+             ['pickFightOwner', 'PICKFIGHT_OWNER'],
+             ['chooseMateOwner', 'CHOOSEMATE_OWNER'],
+             ['mateAnswerOwner', 'MATEANSWER_OWNER']]
+        }
+      ],
+      "output": "null",
+      "colour": Genetics.Blocks.GENETICS_HUE,
+      "tooltip": BlocklyGames.getMsg('Genetics_getPropertiesTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['genetics_getProperties'] = function(block) {
+  // Generate JavaScript for getting mouse property.
+  var value_mouse = Blockly.JavaScript.valueToCode(block, 'MOUSE',
+          Blockly.JavaScript.ORDER_NONE) || 0;
+  var value_field = Blockly.JavaScript.valueToCode(block, 'FIELD',
+          Blockly.JavaScript.ORDER_NONE) || 0;
+  var code = value_mouse + '.' + value_field;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};

@@ -28,12 +28,14 @@
 goog.provide('BlocklyGames.JSBlocks');
 
 goog.require('Blockly');
+goog.require('Blockly.Blocks.lists');
 goog.require('Blockly.Blocks.logic');
 goog.require('Blockly.Blocks.loops');
 goog.require('Blockly.Blocks.math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
@@ -159,11 +161,13 @@ Blockly.Blocks['logic_compare'].init = function() {
 Blockly.Msg.LOGIC_OPERATION_AND = '&&';
 Blockly.Msg.LOGIC_OPERATION_OR = '||';
 
+Blockly.Msg.LOGIC_NEGATE_TITLE = '! %1';
+
 Blockly.Msg.LOGIC_BOOLEAN_TRUE = 'true';
 Blockly.Msg.LOGIC_BOOLEAN_FALSE = 'false';
 
 /**
- * Do while/until loop.
+ * Block for 'while' loop.
  * @this Blockly.Block
  */
 Blockly.Blocks['controls_whileUntil'].init = function() {
@@ -183,6 +187,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
         "name": "DO"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": Blockly.Blocks.loops.HUE,
@@ -190,6 +195,63 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
     "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
   });
 };
+
+/**
+ * Block for 'for' loop.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['controls_for'].init = function() {
+  this.jsonInit({
+    "message0": "for (%1 = %2;  ? < %3;  ? += %4) { %5 %6 }",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": null
+      },
+      {
+        "type": "input_value",
+        "name": "FROM",
+        "check": "Number",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "TO",
+        "check": "Number",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "BY",
+        "check": "Number",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": Blockly.Blocks.loops.HUE,
+    "helpUrl": Blockly.Msg.CONTROLS_FOR_HELPURL
+  });
+  // Assign 'this' to a variable for use in the tooltip closure below.
+  var thisBlock = this;
+  this.setTooltip(function() {
+    return Blockly.Msg.CONTROLS_FOR_TOOLTIP.replace('%1',
+        thisBlock.getFieldValue('VAR'));
+  });
+};
+
+Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK = 'break ;';
+Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE = 'continue ;';
 
 /**
  * Block for basic arithmetic operator.
@@ -272,7 +334,140 @@ Blockly.Blocks['math_change'].init = function() {
   });
 };
 
+/**
+ * Block for random integer between [X] and [Y].
+ * @this Blockly.Block
+ */
+Blockly.Blocks['math_random_int'].init = function() {
+  this.jsonInit({
+    "message0": "Math.randomInt(%1,%2)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "FROM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TO",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": Blockly.Blocks.math.HUE,
+    "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP,
+    "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL
+  });
+};
+
 Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
+
+Blockly.Msg.LISTS_CREATE_EMPTY_TITLE = '[ ]';
+Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH = '[';
+
+/**
+ * Modify create list with elements block to have the correct number of inputs.
+ * @private
+ * @this Blockly.Block
+ */
+Blockly.Blocks['lists_create_with'].updateShape_ = function() {
+  if(this.getInput('TAIL')) {
+    this.removeInput('TAIL');
+  }
+  if (this.itemCount_ && this.getInput('EMPTY')) {
+    this.removeInput('EMPTY');
+  } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
+    this.appendDummyInput('EMPTY')
+        .appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
+  }
+  // Add new inputs.
+  for (var i = 0; i < this.itemCount_; i++) {
+    if (!this.getInput('ADD' + i)) {
+      var input = this.appendValueInput('ADD' + i);
+      if (i == 0) {
+        input.appendField(Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH);
+      } else {
+        input.appendField(',');
+      }
+    }
+  }
+  // Remove deleted inputs.
+  while (this.getInput('ADD' + i)) {
+    this.removeInput('ADD' + i);
+    i++;
+  }
+  if(this.itemCount_) {
+    this.appendDummyInput('TAIL')
+        .appendField(']');
+  }
+};
+
+
+/**
+ * Block for getting element at index.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['lists_getIndex'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1[%2]",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "VALUE",
+          "check": "Array"
+        },
+        {
+          "type": "input_value",
+          "name": "AT",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "output": "null",
+      "colour": Blockly.Blocks.lists.HUE,
+      "tooltip": Blockly.Msg.LISTS_GET_INDEX_TOOLTIP_GET_FROM_START,
+      "helpUrl": Blockly.Msg.LISTS_GET_INDEX_HELPURL
+    });
+  }
+};
+
+/**
+ * Block for getting element at index.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['lists_setIndex'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1[%2] = %3;",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "LIST",
+          "check": "Array"
+        },
+        {
+          "type": "input_value",
+          "name": "AT",
+          "check": "Number"
+        },
+        {
+          "type": "input_value",
+          "name": "TO"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.lists.HUE,
+      "tooltip": Blockly.Msg.LISTS_SET_INDEX_TOOLTIP_INSERT_FROM_START,
+      "helpUrl": Blockly.Msg.LISTS_SET_INDEX_HELPURL
+    });
+  }
+};
+
+Blockly.Msg.LISTS_LENGTH_TITLE = '%1 . length';
 
 /**
  * Variable getter.
