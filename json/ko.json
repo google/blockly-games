@@ -77,7 +77,7 @@
 	"Puzzle.error2": "블록 %1개가 잘못되었습니다.",
 	"Puzzle.tryAgain": "강조한 블록은 올바르지 않습니다.\n계속 해보세요.",
 	"Puzzle.checkAnswers": "정답 확인",
-	"Puzzle.helpText": "각 동물(초록)에 그림를 연결하고 다리의 개수를 선택하여 성질의 스택을 만드세요.",
+	"Puzzle.helpText": "각 동물(초록)에 그림을 연결하고 다리의 개수를 선택하여 성질의 스택을 만드세요.",
 	"Maze.moveForward": "앞으로 가기",
 	"Maze.turnLeft": "왼쪽으로 돌기",
 	"Maze.turnRight": "오른쪽으로 돌기",

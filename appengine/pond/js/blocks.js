@@ -26,29 +26,17 @@
 goog.provide('Pond.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.logic');
-// Don't need Blockly.Blocks.loops.
 goog.require('Blockly.Blocks.math');
-goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.logic');
-goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
-goog.require('Blockly.JavaScript.procedures');
-goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.JSBlocks');
 
 
 /**
  * Common HSV hue for all pond blocks.
  */
 Pond.Blocks.POND_HUE = 290;
-
-/**
- * HSV hue for loop block.
- */
-Pond.Blocks.LOOPS_HUE = 120;
 
 // Extensions to Blockly's language and JavaScript generator.
 
@@ -78,9 +66,7 @@ Blockly.Blocks['pond_scan'] = {
 Blockly.JavaScript['pond_scan'] = function(block) {
   // Generate JavaScript for scanning the pond.
   var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  //var value_resolution = Blockly.JavaScript.valueToCode(block, 'RESOLUTION',
-  //    Blockly.JavaScript.ORDER_COMMA);
+      Blockly.JavaScript.ORDER_NONE) || 0;
   var code = 'scan(' + value_degree + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
@@ -150,9 +136,7 @@ Blockly.Blocks['pond_swim'] = {
 Blockly.JavaScript['pond_swim'] = function(block) {
   // Generate JavaScript for swimming.
   var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  //var value_speed = Blockly.JavaScript.valueToCode(block, 'SPEED',
-  //    Blockly.JavaScript.ORDER_COMMA) || 0;
+      Blockly.JavaScript.ORDER_NONE) || 0;
   return 'swim(' + value_degree + ');\n';
 };
 
@@ -257,166 +241,6 @@ Blockly.JavaScript['pond_loc_y'] = function(block) {
   return ['loc_y()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Blocks['pond_controls_if'] = {
-  /**
-   * If/elseif/else condition.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-    this.setColour(Blockly.Blocks.logic.HUE);
-    this.appendValueInput('IF0')
-        .setCheck('Boolean')
-        .appendField('if (');
-    this.appendDummyInput()
-        .appendField(') {');
-    this.appendStatementInput('DO0');
-    this.appendDummyInput('TAIL')
-        .appendField('}');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setMutator(new Blockly.Mutator(['controls_if_elseif',
-                                         'controls_if_else']));
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      if (!thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_1;
-      } else if (!thisBlock.elseifCount_ && thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_2;
-      } else if (thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_3;
-      } else if (thisBlock.elseifCount_ && thisBlock.elseCount_) {
-        return Blockly.Msg.CONTROLS_IF_TOOLTIP_4;
-      }
-      return '';
-    });
-    this.elseifCount_ = 0;
-    this.elseCount_ = 0;
-  },
-  /**
-   * Modify this block to have the correct number of inputs.
-   * @private
-   * @this Blockly.Block
-   */
-  updateShape_: function() {
-    // Delete everything.
-    if (this.getInput('ELSE')) {
-      this.removeInput('ELSEMSG');
-      this.removeInput('ELSE');
-    }
-    var i = 1;
-    while (this.getInput('IF' + i)) {
-      this.removeInput('IF' + i);
-      this.removeInput('TAIL' + i);
-      this.removeInput('DO' + i);
-      i++;
-    }
-    // Rebuild block.
-    for (var i = 1; i <= this.elseifCount_; i++) {
-      this.appendValueInput('IF' + i)
-          .setCheck('Boolean')
-          .appendField('} else if (');
-      this.appendDummyInput('TAIL' + i)
-          .appendField(') {');
-      this.appendStatementInput('DO' + i);
-    }
-    if (this.elseCount_) {
-      this.appendDummyInput('ELSEMSG')
-          .appendField('} else {');
-      this.appendStatementInput('ELSE');
-    }
-    // Move final '}' to the end.
-    this.moveInputBefore('TAIL', null);
-  },
-  mutationToDom: Blockly.Blocks['controls_if'].mutationToDom,
-  domToMutation: Blockly.Blocks['controls_if'].domToMutation,
-  decompose: Blockly.Blocks['controls_if'].decompose,
-  compose: Blockly.Blocks['controls_if'].compose,
-  saveConnections: Blockly.Blocks['controls_if'].saveConnections
-};
-
-Blockly.JavaScript['pond_controls_if'] =
-    Blockly.JavaScript['controls_if'];
-
-/**
- * Comparison operator.
- * @this Blockly.Block
- */
-Blockly.Blocks['logic_compare'].init = function() {
-  var OPERATORS = [
-    ['==', 'EQ'],
-    ['!=', 'NEQ'],
-    ['<', 'LT'],
-    ['<=', 'LTE'],
-    ['>', 'GT'],
-    ['>=', 'GTE']
-  ];
-  this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-  this.setColour(Blockly.Blocks.logic.HUE);
-  this.setOutput(true, 'Boolean');
-  this.appendValueInput('A');
-  this.appendValueInput('B')
-      .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-  this.setInputsInline(true);
-  // Assign 'this' to a variable for use in the tooltip closure below.
-  var thisBlock = this;
-  this.setTooltip(function() {
-    var op = thisBlock.getFieldValue('OP');
-    var TOOLTIPS = {
-      EQ: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_EQ,
-      NEQ: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_NEQ,
-      LT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
-      LTE: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LTE,
-      GT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT,
-      GTE: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GTE
-    };
-    return TOOLTIPS[op];
-  });
-  this.prevBlocks_ = [null, null];
-};
-
-Blockly.Msg.LOGIC_OPERATION_AND = '&&';
-Blockly.Msg.LOGIC_OPERATION_OR = '||';
-
-Blockly.Msg.LOGIC_BOOLEAN_TRUE = 'true';
-Blockly.Msg.LOGIC_BOOLEAN_FALSE = 'false';
-
-Blockly.Blocks['pond_loops_while'] = {
-  /**
-   * Do while/until loop.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "while ( %1 ) { %2 %3 }",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "BOOL",
-          "check": "Boolean"
-        },
-        {
-          "type": "input_dummy"
-        },
-        {
-          "type": "input_statement",
-          "name": "DO"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Pond.Blocks.LOOPS_HUE,
-      "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
-      "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
-    });
-  }
-};
-
-Blockly.JavaScript['pond_loops_while'] =
-    Blockly.JavaScript['controls_whileUntil'];
-
 Blockly.Blocks['pond_math_number'] = {
   /**
    * Numeric or angle value.
@@ -427,7 +251,7 @@ Blockly.Blocks['pond_math_number'] = {
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput('DUMMY')
         .appendField(new Blockly.FieldTextInput('0',
-        Blockly.FieldTextInput.numberValidator), 'NUM');
+            Blockly.FieldTextInput.numberValidator), 'NUM');
     this.setOutput(true, 'Number');
     this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
   },
@@ -472,61 +296,6 @@ Blockly.Blocks['pond_math_number'] = {
     }
   }
 };
-
-Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
-
-Blockly.Blocks['pond_math_arithmetic'] = {
-  /**
-   * Block for basic arithmetic operator.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "%1 %2 %3",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "A",
-          "check": "Number"
-        },
-        {
-          "type": "field_dropdown",
-          "name": "OP",
-          "options": [
-            ["+", "ADD"],
-            ["-", "MINUS"],
-            ["*", "MULTIPLY"],
-            ["/", "DIVIDE"]
-          ]
-        },
-        {
-          "type": "input_value",
-          "name": "B",
-          "check": "Number"
-        }
-      ],
-      "inputsInline": true,
-      "output": "Number",
-      "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
-    });
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      var mode = thisBlock.getFieldValue('OP');
-      var TOOLTIPS = {
-        'ADD': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_ADD,
-        'MINUS': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
-        'MULTIPLY': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
-        'DIVIDE': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE
-      };
-      return TOOLTIPS[mode];
-    });
-  }
-};
-
-Blockly.JavaScript['pond_math_arithmetic'] =
-    Blockly.JavaScript['math_arithmetic'];
 
 Blockly.Blocks['pond_math_single'] = {
   /**
@@ -586,7 +355,7 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
   var operator = block.getFieldValue('OP');
   var code;
   var arg = Blockly.JavaScript.valueToCode(block, 'NUM',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+          Blockly.JavaScript.ORDER_NONE) || '0';
   // First, handle cases which generate values that don't need parentheses
   // wrapping the code.
   switch (operator) {
@@ -620,204 +389,15 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Blocks['pond_math_change'] = {
-  /**
-   * Add to a variable in place.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "%1 += %2;",
-      "args0": [
-        {
-          "type": "field_variable",
-          "name": "VAR",
-          "variable": "name"
-        },
-        {
-          "type": "input_value",
-          "name": "DELTA",
-          "check": "Number"
-        }
-      ],
-      "inputsInline": true,
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
-    });
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
-          thisBlock.getFieldValue('VAR'));
-    });
-  }
-};
+Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
 
+// Pond blocks moved to appengine/js/blocks.js and renamed on 6 June 2016.
+// Aliases defined to support XML generated before change.
+Blockly.Blocks['pond_controls_if'] = Blockly.Blocks['controls_if'];
+Blockly.JavaScript['pond_controls_if'] = Blockly.JavaScript['controls_if'];
+Blockly.Blocks['pond_loops_while'] = Blockly.Blocks['controls_whileUntil'];
+Blockly.JavaScript['pond_loops_while'] = Blockly.JavaScript['controls_whileUntil'];
+Blockly.Blocks['pond_math_arithmetic'] = Blockly.Blocks['math_arithmetic'];
+Blockly.JavaScript['pond_math_arithmetic'] = Blockly.JavaScript['math_arithmetic'];
+Blockly.Blocks['pond_math_change'] = Blockly.Blocks['math_change'];
 Blockly.JavaScript['pond_math_change'] = Blockly.JavaScript['math_change'];
-
-Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
-
-/**
- * Variable getter.
- * @this Blockly.Block
- */
-Blockly.Blocks['variables_get'].init = function() {
-  this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
-  this.setColour(Blockly.Blocks.variables.HUE);
-  this.appendDummyInput()
-      .appendField(new Blockly.FieldVariable('name'), 'VAR');
-  this.setOutput(true);
-  this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
-  this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
-  this.contextMenuType_ = 'variables_set';
-};
-
-/**
- * Variable setter.
- * @this Blockly.Block
- */
-Blockly.Blocks['variables_set'].init = function() {
-  this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
-  this.setColour(Blockly.Blocks.variables.HUE);
-  this.appendValueInput('VALUE')
-      .appendField('var')
-      .appendField(new Blockly.FieldVariable('name'), 'VAR')
-      .appendField('=');
-  this.appendDummyInput()
-      .appendField(';');
-  this.setInputsInline(true);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip(Blockly.Msg.VARIABLES_SET_TOOLTIP);
-  this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
-  this.contextMenuType_ = 'variables_get';
-};
-
-/**
- * Define a procedure with no return value.
- * @this Blockly.Block
- */
-Blockly.Blocks['procedures_defnoreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  var name = Blockly.Procedures.findLegalName(
-      Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE, this);
-  this.appendDummyInput()
-      .appendField('function')
-      .appendField(new Blockly.FieldTextInput(name,
-      Blockly.Procedures.rename), 'NAME')
-      .appendField('(')
-      .appendField('', 'PARAMS')
-      .appendField(') {');
-  this.setStatements_(true);
-  this.appendDummyInput()
-      .appendField('}');
-  this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
-  this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
-  this.arguments_ = [];
-  this.statementConnection_ = null;
-};
-
-/**
- * Define a procedure with a return value.
- * @this Blockly.Block
- */
-Blockly.Blocks['procedures_defreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  var name = Blockly.Procedures.findLegalName(
-      Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE, this);
-  this.appendDummyInput()
-      .appendField('function')
-      .appendField(new Blockly.FieldTextInput(name,
-      Blockly.Procedures.rename), 'NAME')
-      .appendField('(')
-      .appendField('', 'PARAMS')
-      .appendField(') {');
-  this.appendValueInput('RETURN')
-      .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('return');
-  this.appendDummyInput()
-      .appendField('}');
-  this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
-  this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
-  this.arguments_ = [];
-  this.setStatements_(true);
-  this.statementConnection_ = null;
-};
-
-Blockly.Msg.PROCEDURES_BEFORE_PARAMS = '';
-
-/**
- * Call a procedure with no return value.
- * @this Blockly.Block
- */
-Blockly.Blocks['procedures_callnoreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  this.appendDummyInput()
-      .appendField('', 'NAME')
-      .appendField('(');
-  this.appendDummyInput('TAIL')
-      .appendField(');');
-  this.setInputsInline(true);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip(Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP);
-  this.arguments_ = [];
-  this.quarkConnections_ = {};
-  this.quarkArguments_ = null;
-};
-
-/**
- * Modify this block to have the correct number of arguments.
- * @private
- * @this Blockly.Block
- */
-Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
-  for (var i = 0; i < this.arguments_.length; i++) {
-    if (!this.getInput('ARG' + i)) {
-      // Add new input.
-      var field = new Blockly.FieldLabel(this.arguments_[i]);
-      var input = this.appendValueInput('ARG' + i);
-      if (i > 0) {
-        input.appendField(',');
-      }
-      input.init();
-    }
-  }
-  // Remove deleted inputs.
-  while (this.getInput('ARG' + i)) {
-    this.removeInput('ARG' + i);
-    i++;
-  }
-  this.moveInputBefore('TAIL', null);
-};
-
-/**
- * Call a procedure with a return value.
- * @this Blockly.Block
- */
-Blockly.Blocks['procedures_callreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  this.appendDummyInput()
-      .appendField('', 'NAME')
-      .appendField('(');
-  this.appendDummyInput('TAIL')
-      .appendField(')');
-  this.setInputsInline(true);
-  this.setOutput(true);
-  this.setTooltip(Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP);
-  this.arguments_ = [];
-  this.quarkConnections_ = {};
-  this.quarkArguments_ = null;
-};
-
-Blockly.Blocks['procedures_callreturn'].updateShape_ =
-    Blockly.Blocks['procedures_callnoreturn'].updateShape_;
-
-// Don't show the "if/return" block.
-delete Blockly.Blocks['procedures_ifreturn'];

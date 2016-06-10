@@ -350,6 +350,9 @@ Bird.init = function() {
   BlocklyGames.workspace.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'],
       'whack');
   BlocklyGames.workspace.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
+  if (BlocklyGames.LEVEL > 1) {
+    BlocklyGames.workspace.addChangeListener(BlocklyInterface.disableOrphans);
+  }
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');
 
