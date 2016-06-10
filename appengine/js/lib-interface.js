@@ -191,6 +191,22 @@ BlocklyInterface.highlight = function(id) {
 };
 
 /**
+ * Enable/disable a block depending on whether it is properly connected.
+ * @param {!Blockly.Events.Abstract} event Custom data for event.
+ */
+BlocklyInterface.disableOrphans = function(event) {
+  if (event.type == Blockly.Events.MOVE) {
+    var block = BlocklyGames.workspace.getBlockById(event.blockId);
+    if (block.getParent()) {
+      block.setDisabled(false);
+    } else if ((block.outputConnection || block.previousConnection) &&
+               Blockly.dragMode_ == Blockly.DRAG_NONE) {
+      block.setDisabled(true);
+    }
+  }
+}
+
+/**
  * Inject readonly Blockly.  Only inserts once.
  * @param {string} id ID of div to be injected into.
  * @param {string|!Array.<string>} xml XML string(s) describing blocks.
