@@ -197,11 +197,19 @@ BlocklyInterface.highlight = function(id) {
 BlocklyInterface.disableOrphans = function(event) {
   if (event.type == Blockly.Events.MOVE) {
     var block = BlocklyGames.workspace.getBlockById(event.blockId);
-    if (block.getParent()) {
-      block.setDisabled(false);
-    } else if ((block.outputConnection || block.previousConnection) &&
-               Blockly.dragMode_ == Blockly.DRAG_NONE) {
-      block.setDisabled(true);
+    if (block) {
+      if (block.getParent()) {
+        do {
+          block.setDisabled(false);
+          block = block.getNextBlock();
+        } while (block);
+      } else if ((block.outputConnection || block.previousConnection) &&
+                 Blockly.dragMode_ == Blockly.DRAG_NONE) {
+        do {
+          block.setDisabled(true);
+          block = block.getNextBlock();
+        } while (block);
+      }
     }
   }
 }
