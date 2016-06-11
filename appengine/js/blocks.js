@@ -202,7 +202,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
-    "message0": "for (%1 = %2;  ? < %3;  ? += %4) { %5 %6 }",
+    "message0": "for (%1 = %2;  ? < %3;  ? += 1) { %4 %5 }",
     "args0": [
       {
         "type": "field_variable",
@@ -218,12 +218,6 @@ Blockly.Blocks['controls_for'].init = function() {
       {
         "type": "input_value",
         "name": "TO",
-        "check": "Number",
-        "align": "RIGHT"
-      },
-      {
-        "type": "input_value",
-        "name": "BY",
         "check": "Number",
         "align": "RIGHT"
       },
@@ -248,6 +242,24 @@ Blockly.Blocks['controls_for'].init = function() {
     return Blockly.Msg.CONTROLS_FOR_TOOLTIP.replace('%1',
         thisBlock.getFieldValue('VAR'));
   });
+};
+
+Blockly.JavaScript['controls_for'] = function(block) {
+  // For loop.
+  var variable0 = Blockly.JavaScript.variableDB_.getName(
+      block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'FROM',
+          Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  var argument1 = Blockly.JavaScript.valueToCode(block, 'TO',
+          Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  var branch = Blockly.JavaScript.statementToCode(block, 'DO');
+
+  branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
+  var code = 'for (' + variable0 + ' = ' + argument0 + '; ' +
+      variable0 + ' < ' + argument1 + '; ' +
+      variable0 + ' += 1) {\n' +
+      branch + '}\n';
+  return code;
 };
 
 Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK = 'break ;';
@@ -425,7 +437,7 @@ Blockly.Blocks['lists_getIndex'] = {
         }
       ],
       "inputsInline": true,
-      "output": "null",
+      "output": null,
       "colour": Blockly.Blocks.lists.HUE,
       "tooltip": Blockly.Msg.LISTS_GET_INDEX_TOOLTIP_GET_FROM_START,
       "helpUrl": Blockly.Msg.LISTS_GET_INDEX_HELPURL
@@ -434,7 +446,7 @@ Blockly.Blocks['lists_getIndex'] = {
 };
 
 /**
- * Block for getting element at index.
+ * Block for setting element at index.
  * @this Blockly.Block
  */
 Blockly.Blocks['lists_setIndex'] = {
