@@ -198,7 +198,7 @@ BlocklyInterface.disableOrphans = function(event) {
   if (event.type == Blockly.Events.MOVE) {
     var block = BlocklyGames.workspace.getBlockById(event.blockId);
     if (block) {
-      if (block.getParent() && !block.getParent().isShadow()) {
+      if (block.getParent() && !block.getParent().disabled) {
         do {
           block.setDisabled(false);
           block = block.getNextBlock();
