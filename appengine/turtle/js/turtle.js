@@ -310,8 +310,8 @@ Turtle.reset = function() {
   Turtle.display();
 
   // Kill all tasks.
-  for (var x = 0; x < Turtle.pidList.length; x++) {
-    window.clearTimeout(Turtle.pidList[x]);
+  for (var i = 0; i < Turtle.pidList.length; i++) {
+    window.clearTimeout(Turtle.pidList[i]);
   }
   Turtle.pidList.length = 0;
   Turtle.interpreter = null;

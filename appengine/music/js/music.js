@@ -31,7 +31,7 @@ goog.require('BlocklyInterface');
 goog.require('Music.Blocks');
 goog.require('Music.soy');
 goog.require('Slider');
-
+goog.require('goog.array');
 
 BlocklyGames.NAME = 'music';
 
@@ -57,15 +57,19 @@ Music.WIDTH = 400;
  */
 Music.pidList = [];
 
-Music.userAns = [];
 /**
- * Should the music be drawn?
- * @type boolean
+ * Number of start blocks on the page (and thus the number of threads).
  */
-Music.visible = true;
+Music.startCount = 0;
 
 /**
- * Is the drawing ready to be submitted to Reddit?
+ * Array containing all notes played by user in current execution.
+ * @type !Array.<Array.<number>>
+ */
+Music.userAnswer = [];
+
+/**
+ * Is the composition ready to be submitted to Reddit?
  * @type boolean
  */
 Music.canSubmit = false;
@@ -99,19 +103,15 @@ Music.init = function() {
   window.addEventListener('resize', onresize);
   onresize();
 
-    
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
        'rtl': rtl,
        'toolbox': toolbox,
-       'trashcan': true,
        'zoom': {'controls': true, 'wheel': true}});
   BlocklyGames.workspace.addChangeListener(BlocklyInterface.disableOrphans);
   // Prevent collisions with user-defined functions or variables.
-  Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
-      'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
-      'hideMusic,showMusic,print,font');
+  Blockly.JavaScript.addReservedWords('play,rest,setInstrument');
 
   if (document.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', Music.submitToReddit);
@@ -123,30 +123,26 @@ Music.init = function() {
 
   var defaultXml =
       '<xml>' +
-      "<block type='music_start' deletable='" + (BlocklyGames.LEVEL > 6) + "' x='10' y='10'></block>"
-      +'</xml>';
-  
-  
+      '  <block type="music_start" deletable="' +
+          (BlocklyGames.LEVEL > 6) + '" x="10" y="10"></block>' +
+      '</xml>';
   BlocklyInterface.loadBlocks(defaultXml, true);
+  // After level 6 the user can create new start blocks.
+  // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
     var blocks = BlocklyGames.workspace.getTopBlocks();
     for(var i = 0; i < blocks.length; i++) {
       blocks[i].setDeletable(true);
     }
   }
-  
+
   Music.ctxDisplay = document.getElementById('display').getContext('2d');
-  Music.ctxAnswer = document.getElementById('answer').getContext('2d');
-  Music.ctxScratch = document.getElementById('scratch').getContext('2d');
   Music.drawAnswer();
   Music.reset();
 
   BlocklyGames.bindClick('runButton', Music.runButtonClick);
   BlocklyGames.bindClick('resetButton', Music.resetButtonClick);
 
-  // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['music/win.mp3', 'music/win.ogg'],
-      'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
@@ -161,26 +157,25 @@ Music.init = function() {
       setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
     }
   }
-  var assetsPath = "third-party/midi-js/examples/soundfont/acoustic_grand_piano-mp3/";
-  
+
+  var assetsPath = 'third-party/midi-js/examples/soundfont/acoustic_grand_piano-mp3/';
   var sounds = [
     {src: "G3.mp3", id: "55"},
-    {src: "Ab3.mp3", id: "56"},
+    //{src: "Ab3.mp3", id: "56"},
     {src: "A3.mp3", id: "57"},
-    {src: "Bb3.mp3", id: "58"},
+    //{src: "Bb3.mp3", id: "58"},
     {src: "B3.mp3", id: "59"},
     {src: "C4.mp3", id: "60"},
-    {src: "Db4.mp3", id: "61"},
+    //{src: "Db4.mp3", id: "61"},
     {src: "D4.mp3", id: "62"},
-    {src: "Eb4.mp3", id: "63"},
+    //{src: "Eb4.mp3", id: "63"},
     {src: "E4.mp3", id: "64"},
     {src: "F4.mp3", id: "65"},
-    {src: "Gb4.mp3", id: "66"},
+    //{src: "Gb4.mp3", id: "66"},
     {src: "G4.mp3", id: "67"},
-    {src: "Ab4.mp3", id: "68"},
+    //{src: "Ab4.mp3", id: "68"},
     {src: "A4.mp3", id: "69"}
   ];
-
   createjs.Sound.registerSounds(sounds, assetsPath);
 };
 
@@ -246,9 +241,6 @@ Music.showCategoryHelp = function() {
  */
 Music.drawAnswer = function() {
   Music.reset();
-  Music.ctxAnswer.globalCompositeOperation = 'copy';
-  Music.ctxAnswer.drawImage(Music.ctxScratch.canvas, 0, 0);
-  Music.ctxAnswer.globalCompositeOperation = 'source-over';
 };
 
 /**
@@ -256,22 +248,15 @@ Music.drawAnswer = function() {
  * pending tasks.
  */
 Music.reset = function() {
-  // Clear the canvas.
-  Music.ctxScratch.canvas.width = Music.ctxScratch.canvas.width;
-  Music.ctxScratch.strokeStyle = '#ffffff';
-  Music.ctxScratch.fillStyle = '#ffffff';
-  Music.ctxScratch.lineWidth = 5;
-  Music.ctxScratch.lineCap = 'round';
-  Music.ctxScratch.font = 'normal 18pt Arial';
   Music.display();
 
   // Kill all tasks.
-  for (var x = 0; x < Music.pidList.length; x++) {
-    window.clearTimeout(Music.pidList[x]);
+  for (var i = 0; i < Music.pidList.length; i++) {
+    window.clearTimeout(Music.pidList[i]);
   }
   Music.pidList.length = 0;
-  Music.startId = 0;
-  Music.userAns = [];
+  Music.startCount = 0;
+  Music.userAnswer.length = 0;
 };
 
 /**
@@ -284,17 +269,6 @@ Music.display = function() {
       Music.ctxDisplay.canvas.width, Music.ctxDisplay.canvas.height);
   Music.ctxDisplay.fillStyle = '#000000';
   Music.ctxDisplay.fill();
-
-  // Draw the answer layer.
-  Music.ctxDisplay.globalCompositeOperation = 'source-over';
-  Music.ctxDisplay.globalAlpha = 0.2;
-  Music.ctxDisplay.drawImage(Music.ctxAnswer.canvas, 0, 0);
-  Music.ctxDisplay.globalAlpha = 1;
-
-  // Draw the user layer.
-  Music.ctxDisplay.globalCompositeOperation = 'source-over';
-  Music.ctxDisplay.drawImage(Music.ctxScratch.canvas, 0, 0);
-
 };
 
 /**
@@ -368,8 +342,6 @@ Music.initInterpreter = function(interpreter, scope) {
 /**
  * Execute the user's code.  Heaven help us...
  */
-Music.startId = 0;
-
 Music.execute = function() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
@@ -378,20 +350,22 @@ Music.execute = function() {
   }
   Music.reset();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-  alert(code);
-  for(var i = 1; i <= Music.startId; i++) {
-    var interpreter = new Interpreter(code + "start" + i + "();\n", Music.initInterpreter);
+  for (var i = 1; i <= Music.startCount; i++) {
+    var interpreter = new Interpreter(code + 'start' + i + '();\n',
+                                      Music.initInterpreter);
     interpreter.subStartBlock = [];
     interpreter.idealTime = Number(new Date());
-    Music.pidList.push(setTimeout(goog.partial(Music.executeChunk_, interpreter), 100));
+    Music.pidList.push(setTimeout(
+        goog.partial(Music.executeChunk_, interpreter), 100));
   }
-  if (Music.startId == 0) {
+  if (Music.startCount == 0) {
     document.getElementById('spinner').style.visibility = 'hidden';
   }
 };
 
 /**
  * Execute a bite-sized chunk of the user's code.
+ * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  * @private
  */
 Music.executeChunk_ = function(interpreter) {
@@ -408,23 +382,23 @@ Music.executeChunk_ = function(interpreter) {
     if (go && interpreter.pauseMs) {
       // The last executed command requested a pause.
       go = false;
-      Music.pidList.push(
-          setTimeout(goog.partial(Music.executeChunk_, interpreter), interpreter.pauseMs));
+      Music.pidList.push(setTimeout(goog.partial(Music.executeChunk_,
+          interpreter), interpreter.pauseMs));
 
     }
   } while (go);
   // Wrap up if complete.
   if (!interpreter.pauseMs) {
-    Music.userAns.push(interpreter.subStartBlock);
+    Music.userAnswer.push(interpreter.subStartBlock);
 
-    Music.startId--;
-    if (Music.startId == 0) {
-      if(Music.checkAnswer()) {
-          BlocklyInterface.saveToLocalStorage();
-          if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-            // No congrats for last level, it is open ended.
-            BlocklyDialogs.congratulations();
-          }
+    Music.startCount--;
+    if (Music.startCount == 0) {
+      if (Music.checkAnswer()) {
+        BlocklyInterface.saveToLocalStorage();
+        if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+          // No congrats for last level, it is open ended.
+          BlocklyDialogs.congratulations();
+        }
       }
       document.getElementById('spinner').style.visibility = 'hidden';
       BlocklyGames.workspace.highlightBlock(null);
@@ -446,28 +420,39 @@ Music.animate = function(id) {
 };
 
 /**
- * Play the music.
- * @param {duration} distance Pixels to move.
+ * Play one note.
+ * @param {number} duration Fraction of a note length to play.
+ * @param {number} pitch MIDI note number to play.
  * @param {?string} id ID of block.
+ * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
 Music.play = function(duration, pitch, id, interpreter) {
   var mySound = createjs.Sound.play(pitch);
-  var scaleDuration = duration * 1000 * (2.5 - 2 * Music.speedSlider.getValue());
-  interpreter.pauseMs = scaleDuration - (Number(new Date()) - interpreter.idealTime);
+  var scaleDuration = duration * 1000 *
+      (2.5 - 2 * Music.speedSlider.getValue());
+  interpreter.pauseMs = scaleDuration -
+      (Number(new Date()) - interpreter.idealTime);
   interpreter.idealTime += scaleDuration;
-  setTimeout(function() {
-      mySound.stop();
-      }, interpreter.pauseMs);
+  setTimeout(function() {mySound.stop();}, interpreter.pauseMs);
   interpreter.subStartBlock.push(parseInt(pitch));
   interpreter.subStartBlock.push(duration);
   Music.animate(id);
 };
 
+/**
+ * Wait one rest.
+ * @param {number} duration Fraction of a note length to rest.
+ * @param {?string} id ID of block.
+ * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
+ */
 Music.rest = function(duration, id, interpreter) {
-  var scaleDuration = duration * 1000 * (2.5 - 2 * Music.speedSlider.getValue());
-  interpreter.pauseMs = scaleDuration - (Number(new Date()) - interpreter.idealTime);
+  var scaleDuration = duration * 1000 *
+      (2.5 - 2 * Music.speedSlider.getValue());
+  interpreter.pauseMs = scaleDuration -
+      (Number(new Date()) - interpreter.idealTime);
   interpreter.idealTime += scaleDuration;
-  if (interpreter.subStartBlock.length > 1 && interpreter.subStartBlock[interpreter.subStartBlock.length - 2] == 0) {
+  if (interpreter.subStartBlock.length > 1 &&
+      interpreter.subStartBlock[interpreter.subStartBlock.length - 2] == 0) {
     interpreter.subStartBlock[interpreter.subStartBlock.length - 1] ++;
   } else {
     interpreter.subStartBlock.push(0);
@@ -480,20 +465,8 @@ Music.rest = function(duration, id, interpreter) {
  * Verify if the answer is correct.
  * If so, move on to next level.
  */
-Music.ans;
-var levelNotes = [];
 Music.checkAnswer = function() {
-  function arrayEquals(a, b) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
+  var levelNotes = [];
   function doubleReplica(a) {
     levelNotes = levelNotes.concat(a).concat(a);
     return levelNotes;
@@ -501,36 +474,51 @@ Music.checkAnswer = function() {
   function singleReplica(a) {
     levelNotes = levelNotes.concat(a);
     return levelNotes;
-  }  
-  Music.ans = [
-               undefined,
-  // Level 1.  
-               [[60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25]],
-  // Level 2.             
-               [doubleReplica([60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25])],
-  // Level 3.             
-               [doubleReplica([64, 0.25, 65, 0.25, 67, 0.5])],
-  // Level 4.              
-               [doubleReplica([67, 0.125, 69, 0.125, 67, 0.125, 65, 0.125, 64, 0.25, 60, 0.25])],
-  // Level 5.            
-               [doubleReplica([60, 0.25, 55, 0.25, 60, 0.5])],
-  // Level 6.
-               [levelNotes],
-  // Level 7.
-               [levelNotes, [0,2].concat(levelNotes)],
-  // Level 8.              
-               [singleReplica(levelNotes), [0,2].concat(levelNotes)],
-  // Level 9.
-               [levelNotes, [0,2].concat(levelNotes), [0,4].concat(levelNotes), [0,6].concat(levelNotes)]
-               
-               ][BlocklyGames.LEVEL];
-  if (Music.ans.length != Music.userAns.length) {
+  }
+  /**
+   * Array containing all notes expected to be played for this level.
+   * @type !Array.<Array.<number>>
+   */
+  var expectedAnswer = [
+    // Level 0.
+    undefined,
+    // Level 1.
+    [[60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25]],
+    // Level 2.
+    [doubleReplica([60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25])],
+    // Level 3.
+    [doubleReplica([64, 0.25, 65, 0.25, 67, 0.5])],
+    // Level 4.
+    [doubleReplica([67, 0.125, 69, 0.125, 67, 0.125, 65, 0.125, 64, 0.25, 60, 0.25])],
+    // Level 5.
+    [doubleReplica([60, 0.25, 55, 0.25, 60, 0.5])],
+    // Level 6.
+    [levelNotes],
+    // Level 7.
+    [levelNotes, [0,2].concat(levelNotes)],
+    // Level 8.
+    [
+      singleReplica(levelNotes),
+      [0,2].concat(levelNotes)
+    ],
+    // Level 9.
+    [
+      levelNotes,
+      [0,2].concat(levelNotes),
+      [0,4].concat(levelNotes),
+      [0,6].concat(levelNotes)
+    ],
+    // Level 10.
+    undefined,
+  ][BlocklyGames.LEVEL];
+
+  if (expectedAnswer.length != Music.userAnswer.length) {
     return false;
   }
-  for (var x = 0; x < Music.ans.length; x++) {
+  for (var i = 0; i < expectedAnswer.length; i++) {
     var isFound = false;
-    for (var y = 0; y < Music.userAns.length; y++) {
-      if (arrayEquals(Music.ans[x], Music.userAns[y])) {
+    for (var j = 0; j < Music.userAnswer.length; j++) {
+      if (goog.array.equals(expectedAnswer[i], Music.userAnswer[j])) {
         isFound = true;
         break;
       }
@@ -541,16 +529,6 @@ Music.checkAnswer = function() {
   }
   return true;
 };
-  /*
-  if (Music.isCorrect(delta)) {
-    BlocklyInterface.saveToLocalStorage();
-    if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-      // No congrats for last level, it is open ended.
-      BlocklyDialogs.congratulations();
-    }
-  } else {
-    Music.penColour('#ff0000');
-  }*/
 
 /**
  * Send an image of the canvas to Reddit.

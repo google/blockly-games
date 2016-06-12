@@ -61,20 +61,20 @@ Blockly.Blocks['music_pitch'] = {
           "type": "field_dropdown",
           "name": "PITCH",
           "options": [
-            ["A+", "69"],            
-            ["G#", "68"],
+            ["A+", "69"],
+            //["G#", "68"],
             ["G", "67"],
-            ["F#", "66"],
+            //["F#", "66"],
             ["F", "65"],
             ["E", "64"],
-            ["Eb", "63"],
+            //["Eb", "63"],
             ["D", "62"],
-            ["C#", "61"],
+            //["C#", "61"],
             ["middle C", "60"],
             ["B", "59"],
-            ["Bb", "58"],
+            //["Bb", "58"],
             ["A", "57"],
-            ["G#-", "56"],
+            //["G#-", "56"],
             ["G-", "55"]
           ]
         }
@@ -85,11 +85,11 @@ Blockly.Blocks['music_pitch'] = {
       "helpUrl": "http://www.example.com/"
     });
   }
-}
-Blockly.JavaScript['music_pitch'] = function(block) {
-  return [block.getFieldValue("PITCH"), Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+Blockly.JavaScript['music_pitch'] = function(block) {
+  return [block.getFieldValue('PITCH'), Blockly.JavaScript.ORDER_ATOMIC];
+};
 
 Blockly.Blocks['music_note'] = {
   /**
@@ -126,12 +126,13 @@ Blockly.Blocks['music_note'] = {
       "helpUrl": "http://www.example.com/"
     });
   }
-}
+};
+
 Blockly.JavaScript['music_note'] = function(block) {
   var pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
       Blockly.JavaScript.ORDER_COMMA) || '60';
-  return "play(" + block.getFieldValue("DURATION") + ", " + pitch
-          + ', \'block_id_' + block.id + '\');\n';
+  return 'play(' + block.getFieldValue('DURATION') + ', ' + pitch +
+          ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_rest'] = {
@@ -167,7 +168,8 @@ Blockly.Blocks['music_rest'] = {
   }
 }
 Blockly.JavaScript['music_rest'] = function(block) {
-  return "rest(" + block.getFieldValue("DURATION") + ', \'block_id_' + block.id + '\');\n';
+  return 'rest(' + block.getFieldValue('DURATION') +
+      ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_instrument'] = {
@@ -198,17 +200,11 @@ Blockly.Blocks['music_instrument'] = {
       "helpUrl": "http://www.example.com/"
     });
   }
-}
+};
+
 Blockly.JavaScript['music_instrument'] = function(block) {
-  return "setInstrument(" + block.getFieldValue("INSTRUMENT") + ");\n";
+  return 'setInstrument(' + block.getFieldValue('INSTRUMENT') + ');\n';
 };
-
-if (BlocklyGames.LEVEL < 10) {
-  delete Blockly.Blocks['procedures_defreturn'];
-  delete Blockly.Blocks['procedures_ifreturn'];
-};
-
-
 
 Blockly.Blocks['music_start'] = {
   /**
@@ -240,9 +236,16 @@ Blockly.Blocks['music_start'] = {
       "helpUrl": "http://www.example.com/"
     });
   }
-}
+};
+
 Blockly.JavaScript['music_start'] = function(block) {
-  Music.startId++;
+  Music.startCount++;
   var statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
-  return "function start" + Music.startId + "() {\n" + statements_stack + "}\n";
+  return 'function start' + Music.startCount + '() {\n' +
+      statements_stack + '}\n';
+};
+
+if (BlocklyGames.LEVEL < 10) {
+  delete Blockly.Blocks['procedures_defreturn'];
+  delete Blockly.Blocks['procedures_ifreturn'];
 };

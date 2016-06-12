@@ -852,8 +852,8 @@ Maze.hidePegmanMenu = function(e) {
  */
 Maze.reset = function(first) {
   // Kill all tasks.
-  for (var x = 0; x < Maze.pidList.length; x++) {
-    window.clearTimeout(Maze.pidList[x]);
+  for (var i = 0; i < Maze.pidList.length; i++) {
+    window.clearTimeout(Maze.pidList[i]);
   }
   Maze.pidList = [];
 
@@ -1385,8 +1385,8 @@ Maze.scheduleLook = function(d) {
       'rotate(' + d + ' 0 0) scale(.4)');
   var paths = lookIcon.getElementsByTagName('path');
   lookIcon.style.display = 'inline';
-  for (var x = 0, path; path = paths[x]; x++) {
-    Maze.scheduleLookStep(path, Maze.stepSpeed * x);
+  for (var i = 0, path; path = paths[i]; i++) {
+    Maze.scheduleLookStep(path, Maze.stepSpeed * i);
   }
 };
 

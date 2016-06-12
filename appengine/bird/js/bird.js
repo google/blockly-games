@@ -511,8 +511,8 @@ Bird.levelHelp = function() {
  */
 Bird.reset = function(first) {
   // Kill all tasks.
-  for (var x = 0; x < Bird.pidList.length; x++) {
-    window.clearTimeout(Bird.pidList[x]);
+  for (var i = 0; i < Bird.pidList.length; i++) {
+    window.clearTimeout(Bird.pidList[i]);
   }
   Bird.pidList = [];
 
