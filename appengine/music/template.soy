@@ -157,7 +157,6 @@
         {msg meaning="Music.helpText1" desc="Instructions."}
           Create a program that draws a square.
         {/msg}
-        <br><img src="music/square.gif" height=146 width=146 style="margin-bottom: -50px">
       {elseif $ij.level == 2}
         {msg meaning="Music.helpText2" desc="Instructions."}
           Change your program to draw a pentagon instead of a square.
@@ -200,7 +199,7 @@
         {/msg}
       {elseif $ij.level == 10}
         {msg meaning="Music.helpText10" desc="Instructions."}
-          Draw anything you want. You've got a huge number of new blocks you can explore. Have fun!
+          Create anything you want. You've got a huge number of new blocks you can explore. Have fun!
         {/msg}
         {if not $ij.html}
           <br><br>
@@ -212,15 +211,6 @@
     </div>
     {call BlocklyGames.soy.ok /}
   </div>
-
-  {if $ij.level == 1}
-    <div id="helpToolbox" class="dialogHiddenContent">
-      <div><img src="music/help_left.png" class="mirrorImg" height=23 width=64></div>
-      {msg meaning="Music.helpToolbox" desc="Instructions for accessing blocks that are hidden inside categories."}
-        Choose a category to see the blocks.
-      {/msg}
-    </div>
-  {/if}
 {/template}
 
 /**
@@ -422,6 +412,9 @@
             </shadow>
           </value>
         </block>
+        {if $ij.level > 6}
+          <block type="music_start"></block>
+        {/if}
         {if $ij.level > 5}
           <block type="music_instrument"></block>
         {/if}

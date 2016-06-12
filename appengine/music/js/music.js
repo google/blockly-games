@@ -57,6 +57,7 @@ Music.WIDTH = 400;
  */
 Music.pidList = [];
 
+Music.userAns = [];
 /**
  * Should the music be drawn?
  * @type boolean
@@ -105,8 +106,8 @@ Music.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true,
-       'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
-           {'controls': true, 'wheel': true} : null});
+       'zoom': {'controls': true, 'wheel': true}});
+  BlocklyGames.workspace.addChangeListener(BlocklyInterface.disableOrphans);
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
@@ -120,18 +121,20 @@ Music.init = function() {
   var sliderSvg = document.getElementById('slider');
   Music.speedSlider = new Slider(10, 35, 130, sliderSvg);
 
-  if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
-    var defaultXml =
-        '<xml>' +
-        '</xml>';
-  } else {
-    var defaultXml =
-        '<xml>' +
-        '</xml>';
-  }
+  var defaultXml =
+      '<xml>' +
+      "<block type='music_start' deletable='" + (BlocklyGames.LEVEL > 6) + "' x='10' y='10'></block>"
+      +'</xml>';
+  
   
   BlocklyInterface.loadBlocks(defaultXml, true);
-
+  if (BlocklyGames.LEVEL > 6) {
+    var blocks = BlocklyGames.workspace.getTopBlocks();
+    for(var i = 0; i < blocks.length; i++) {
+      blocks[i].setDeletable(true);
+    }
+  }
+  
   Music.ctxDisplay = document.getElementById('display').getContext('2d');
   Music.ctxAnswer = document.getElementById('answer').getContext('2d');
   Music.ctxScratch = document.getElementById('scratch').getContext('2d');
@@ -179,7 +182,6 @@ Music.init = function() {
   ];
 
   createjs.Sound.registerSounds(sounds, assetsPath);
-  
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -220,12 +222,6 @@ Music.showHelp = function() {
  */
 Music.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
-  if (BlocklyGames.LEVEL == 1) {
-    // Previous apps did not have categories.
-    // If the user doesn't find them, point them out.
-    Music.watchCategories_();
-    setTimeout(Music.showCategoryHelp, 5000);
-  }
 };
 
 /**
@@ -243,28 +239,6 @@ Music.showCategoryHelp = function() {
   };
   var origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
-};
-
-
-/**
- * Flag indicating if a toolbox categoriy has been clicked yet.
- * Level one only.
- * @private
- */
-Music.categoryClicked_ = false;
-
-/**
- * Monitor to see if the user finds the categories in level one.
- * @private
- */
-Music.watchCategories_ = function() {
-  if (BlocklyGames.workspace.toolbox_.flyout_.isVisible()) {
-    Music.categoryClicked_ = true;
-    BlocklyDialogs.hideDialog(false);
-  }
-  if (!Music.categoryClicked_) {
-    setTimeout(Music.watchCategories_, 100);
-  }
 };
 
 /**
@@ -297,6 +271,7 @@ Music.reset = function() {
   }
   Music.pidList.length = 0;
   Music.startId = 0;
+  Music.userAns = [];
 };
 
 /**
@@ -401,14 +376,17 @@ Music.execute = function() {
     setTimeout(Music.execute, 250);
     return;
   }
-  
   Music.reset();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-  //alert(code);
+  alert(code);
   for(var i = 1; i <= Music.startId; i++) {
     var interpreter = new Interpreter(code + "start" + i + "();\n", Music.initInterpreter);
+    interpreter.subStartBlock = [];
     interpreter.idealTime = Number(new Date());
     Music.pidList.push(setTimeout(goog.partial(Music.executeChunk_, interpreter), 100));
+  }
+  if (Music.startId == 0) {
+    document.getElementById('spinner').style.visibility = 'hidden';
   }
 };
 
@@ -432,15 +410,27 @@ Music.executeChunk_ = function(interpreter) {
       go = false;
       Music.pidList.push(
           setTimeout(goog.partial(Music.executeChunk_, interpreter), interpreter.pauseMs));
+
     }
   } while (go);
   // Wrap up if complete.
   if (!interpreter.pauseMs) {
-    document.getElementById('spinner').style.visibility = 'hidden';
-    BlocklyGames.workspace.highlightBlock(null);
-    Music.checkAnswer();
-    // Image complete; allow the user to submit this image to Reddit.
-    Music.canSubmit = true;
+    Music.userAns.push(interpreter.subStartBlock);
+
+    Music.startId--;
+    if (Music.startId == 0) {
+      if(Music.checkAnswer()) {
+          BlocklyInterface.saveToLocalStorage();
+          if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+            // No congrats for last level, it is open ended.
+            BlocklyDialogs.congratulations();
+          }
+      }
+      document.getElementById('spinner').style.visibility = 'hidden';
+      BlocklyGames.workspace.highlightBlock(null);
+      // Image complete; allow the user to submit this image to Reddit.
+      Music.canSubmit = true;
+    }
   }
 };
 
@@ -468,6 +458,8 @@ Music.play = function(duration, pitch, id, interpreter) {
   setTimeout(function() {
       mySound.stop();
       }, interpreter.pauseMs);
+  interpreter.subStartBlock.push(parseInt(pitch));
+  interpreter.subStartBlock.push(duration);
   Music.animate(id);
 };
 
@@ -475,6 +467,12 @@ Music.rest = function(duration, id, interpreter) {
   var scaleDuration = duration * 1000 * (2.5 - 2 * Music.speedSlider.getValue());
   interpreter.pauseMs = scaleDuration - (Number(new Date()) - interpreter.idealTime);
   interpreter.idealTime += scaleDuration;
+  if (interpreter.subStartBlock.length > 1 && interpreter.subStartBlock[interpreter.subStartBlock.length - 2] == 0) {
+    interpreter.subStartBlock[interpreter.subStartBlock.length - 1] ++;
+  } else {
+    interpreter.subStartBlock.push(0);
+    interpreter.subStartBlock.push(duration);
+  }
   Music.animate(id);
 }
 
@@ -482,9 +480,68 @@ Music.rest = function(duration, id, interpreter) {
  * Verify if the answer is correct.
  * If so, move on to next level.
  */
-
+Music.ans;
+var levelNotes = [];
 Music.checkAnswer = function() {
-  
+  function arrayEquals(a, b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function doubleReplica(a) {
+    levelNotes = levelNotes.concat(a).concat(a);
+    return levelNotes;
+  }
+  function singleReplica(a) {
+    levelNotes = levelNotes.concat(a);
+    return levelNotes;
+  }  
+  Music.ans = [
+               undefined,
+  // Level 1.  
+               [[60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25]],
+  // Level 2.             
+               [doubleReplica([60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25])],
+  // Level 3.             
+               [doubleReplica([64, 0.25, 65, 0.25, 67, 0.5])],
+  // Level 4.              
+               [doubleReplica([67, 0.125, 69, 0.125, 67, 0.125, 65, 0.125, 64, 0.25, 60, 0.25])],
+  // Level 5.            
+               [doubleReplica([60, 0.25, 55, 0.25, 60, 0.5])],
+  // Level 6.
+               [levelNotes],
+  // Level 7.
+               [levelNotes, [0,2].concat(levelNotes)],
+  // Level 8.              
+               [singleReplica(levelNotes), [0,2].concat(levelNotes)],
+  // Level 9.
+               [levelNotes, [0,2].concat(levelNotes), [0,4].concat(levelNotes), [0,6].concat(levelNotes)]
+               
+               ][BlocklyGames.LEVEL];
+  if (Music.ans.length != Music.userAns.length) {
+    return false;
+  }
+  for (var x = 0; x < Music.ans.length; x++) {
+    var isFound = false;
+    for (var y = 0; y < Music.userAns.length; y++) {
+      if (arrayEquals(Music.ans[x], Music.userAns[y])) {
+        isFound = true;
+        break;
+      }
+    }
+    if (!isFound) {
+      return false;
+    }
+  }
+  return true;
+};
+  /*
   if (Music.isCorrect(delta)) {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -493,8 +550,7 @@ Music.checkAnswer = function() {
     }
   } else {
     Music.penColour('#ff0000');
-  }
-};
+  }*/
 
 /**
  * Send an image of the canvas to Reddit.

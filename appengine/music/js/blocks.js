@@ -90,6 +90,7 @@ Blockly.JavaScript['music_pitch'] = function(block) {
   return [block.getFieldValue("PITCH"), Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+
 Blockly.Blocks['music_note'] = {
   /**
    * Block for playing note.
