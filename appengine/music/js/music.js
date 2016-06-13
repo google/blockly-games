@@ -158,24 +158,17 @@ Music.init = function() {
     }
   }
 
-  var assetsPath = 'third-party/midi-js-soundfonts/piano/';
-  var sounds = [
-    {src: "G3.mp3", id: "55"},
-    //{src: "Ab3.mp3", id: "56"},
-    {src: "A3.mp3", id: "57"},
-    //{src: "Bb3.mp3", id: "58"},
-    {src: "B3.mp3", id: "59"},
-    {src: "C4.mp3", id: "60"},
-    //{src: "Db4.mp3", id: "61"},
-    {src: "D4.mp3", id: "62"},
-    //{src: "Eb4.mp3", id: "63"},
-    {src: "E4.mp3", id: "64"},
-    {src: "F4.mp3", id: "65"},
-    //{src: "Gb4.mp3", id: "66"},
-    {src: "G4.mp3", id: "67"},
-    //{src: "Ab4.mp3", id: "68"},
-    {src: "A4.mp3", id: "69"}
-  ];
+  var assetsPath = 'third-party/midi-js-soundfonts/';
+  var instruments = ['piano', 'trumpet', 'violin', 'drum',
+                     'flute', 'banjo', 'guitar', 'choir'];
+  var notes = {'55': 'G3', '57': 'A3', '59': 'B3', '60': 'C4', '62': 'D4',
+               '64': 'E4', '65': 'F4', '67': 'G4', '69': 'A4'};
+  var sounds = [];
+  for (var i = 0; i < instruments.length; i++) {
+    for (var midi in notes) {
+      sounds.push({'src': instruments[i] + '/' + notes[midi] + '.mp3', id: instruments[i] + midi});
+    }
+  }
   createjs.Sound.registerSounds(sounds, assetsPath);
 };
 
@@ -325,7 +318,7 @@ Music.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(duration, pitch, id) {
-    Music.play(duration.valueOf(), pitch.toString(), id.toString(), interpreter);
+    Music.play(duration.valueOf(), pitch.valueOf(), id.toString(), interpreter);
   };
   interpreter.setProperty(scope, 'play',
       interpreter.createNativeFunction(wrapper));
@@ -336,7 +329,7 @@ Music.initInterpreter = function(interpreter, scope) {
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(instrument, id) {
-    Music.setInstrument(instrument.toString(), id.toString());
+    Music.setInstrument(instrument.toString(), id.toString(), interpreter);
   };
   interpreter.setProperty(scope, 'setInstrument',
       interpreter.createNativeFunction(wrapper));
@@ -357,6 +350,7 @@ Music.execute = function() {
     var interpreter = new Interpreter(code + 'start' + i + '();\n',
                                       Music.initInterpreter);
     interpreter.subStartBlock = [];
+    interpreter.instrument = 'piano';
     interpreter.idealTime = Number(new Date());
     Music.pidList.push(setTimeout(
         goog.partial(Music.executeChunk_, interpreter), 100));
@@ -430,14 +424,15 @@ Music.animate = function(id) {
  * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
 Music.play = function(duration, pitch, id, interpreter) {
-  var mySound = createjs.Sound.play(pitch);
+  console.log(interpreter.instrument + pitch);
+  var mySound = createjs.Sound.play(interpreter.instrument + pitch);
   var scaleDuration = duration * 1000 *
       (2.5 - 2 * Music.speedSlider.getValue());
   interpreter.pauseMs = scaleDuration -
       (Number(new Date()) - interpreter.idealTime);
   interpreter.idealTime += scaleDuration;
   setTimeout(function() {mySound.stop();}, interpreter.pauseMs);
-  interpreter.subStartBlock.push(parseInt(pitch));
+  interpreter.subStartBlock.push(pitch);
   interpreter.subStartBlock.push(duration);
   Music.animate(id);
 };
@@ -471,7 +466,7 @@ Music.rest = function(duration, id, interpreter) {
  * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
 Music.setInstrument = function(instrument, id, interpreter) {
-
+  interpreter.instrument = instrument;
 };
 
 /**
