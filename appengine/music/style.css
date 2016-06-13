@@ -13,6 +13,14 @@ html[dir="RTL"] button.primary {
 #display {
   border: 1px solid #ccc;
 }
+#sampleHelp2 {
+  height: 130px;
+  width: 250px;
+}
+#sampleHelp6, #sampleHelp7 {
+  height: 50px;
+  width: 250px;
+}
 
 /* Slider. */
 .sliderTrack {

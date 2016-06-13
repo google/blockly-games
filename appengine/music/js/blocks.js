@@ -186,9 +186,14 @@ Blockly.Blocks['music_instrument'] = {
           "type": "field_dropdown",
           "name": "INSTRUMENT",
           "options": [
-            ["piano", "0"],
-            ["guitar", "1"],
-            ["violin", "2"]
+            ["piano", "piano"],
+            ["trumpet", "trumpet"],
+            ["banjo", "banjo"],
+            ["violin", "violin"],
+            ["guitar", "guitar"],
+            ["flute", "flute"],
+            ["drum", "drum"],
+            ["choir", "choir"]
           ]
         }
       ],

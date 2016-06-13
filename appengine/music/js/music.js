@@ -158,7 +158,7 @@ Music.init = function() {
     }
   }
 
-  var assetsPath = 'third-party/midi-js/examples/soundfont/acoustic_grand_piano-mp3/';
+  var assetsPath = 'third-party/midi-js-soundfonts/piano/';
   var sounds = [
     {src: "G3.mp3", id: "55"},
     //{src: "Ab3.mp3", id: "56"},
@@ -336,7 +336,7 @@ Music.initInterpreter = function(interpreter, scope) {
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(instrument, id) {
-    Music.setInstrument(instrument.valueOf(), id.toString());
+    Music.setInstrument(instrument.toString(), id.toString());
   };
   interpreter.setProperty(scope, 'setInstrument',
       interpreter.createNativeFunction(wrapper));
@@ -405,7 +405,7 @@ Music.executeChunk_ = function(interpreter) {
       }
       document.getElementById('spinner').style.visibility = 'hidden';
       BlocklyGames.workspace.highlightBlock(null);
-      // Image complete; allow the user to submit this image to Reddit.
+      // Playback complete; allow the user to submit this music to Reddit.
       Music.canSubmit = true;
     }
   }
@@ -463,6 +463,16 @@ Music.rest = function(duration, id, interpreter) {
   }
   Music.animate(id);
 }
+
+/**
+ * Switch to a new instrument.
+ * @param {string} instrument Name of new instrument.
+ * @param {?string} id ID of block.
+ * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
+ */
+Music.setInstrument = function(instrument, id, interpreter) {
+
+};
 
 /**
  * Verify if the answer is correct.
