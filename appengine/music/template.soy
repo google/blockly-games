@@ -18,6 +18,8 @@
   <div style="display: none">
     // Block text and their associated tooltips and URLs (interleaved to
     // assist with translation).
+    <span id="Music_playNoteTooltip">{msg meaning="Music.playNoteTooltip" desc="tooltip"}Plays one musical note of the specified duration and pitch.{/msg}</span>
+    <span id="Music_playNote">{msg meaning="Music.playNote" desc="Plays one musical note. %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...)."}play %1 note %2{/msg}</span>
   </div>
 {/template}
 
@@ -153,56 +155,60 @@
     <div style="padding-bottom: 0.7ex">
       {if $ij.level == 1}
         {msg meaning="Music.helpText1" desc="Instructions."}
-          Create a program that draws a square.
+          Compose the first four notes of Frere Jacques.
         {/msg}
       {elseif $ij.level == 2}
-        {msg meaning="Music.helpText2" desc="Instructions."}
-          Change your program to draw a pentagon instead of a square.
+        {msg meaning="Music.helpText2a" desc="Introducing a new block."}
+          There's a new block that allows you to repeat.
+        {/msg}
+        <div id="sampleHelp2" class="readonly"></div>
+        {msg meaning="Music.helpText2b" desc="Instructions."}
+           Repeat the first four notes of Frere Jacques.
         {/msg}
       {elseif $ij.level == 3}
-        {msg meaning="Music.helpText3a" desc="Introducing a new block."}
-          There's a new block that allows you to change the colour:
-        {/msg}
-        <div id="sampleHelp3" class="readonly"></div>
-        {msg meaning="Music.helpText3b" desc="Instructions."}
-          Draw a yellow star.
+        {msg meaning="Music.helpText3" desc="Instructions."}
+          Continue to compose the next three notes of Frere Jacques with the last note longer.
         {/msg}
       {elseif $ij.level == 4}
-        {msg meaning="Music.helpText4a" desc="Introducing a new block."}
-          There's a new block that allows you to lift your pen off the paper when you move:
-        {/msg}
-        <div id="sampleHelp4" class="readonly"></div>
-        {msg meaning="Music.helpText4b" desc="Instructions."}
-          Draw a small yellow star, then draw a line above it.
+        {msg meaning="Music.helpText4" desc="Instructions."}
+          Continue to compose the next six shorter notes of Frere Jacques.
         {/msg}
       {elseif $ij.level == 5}
         {msg meaning="Music.helpText5" desc="Instructions."}
-          Instead of one star, can you draw four stars arranged in a square?
+          Complete the full tune of Frere Jacques.
         {/msg}
       {elseif $ij.level == 6}
-        {msg meaning="Music.helpText6" desc="Instructions."}
-          Draw three yellow stars, and one white line.
+        {msg meaning="Music.helpText6a" desc="Introducing a new block."}
+          You can change your instrument.
+        {/msg}
+        <div id="sampleHelp6" class="readonly"></div>
+        {msg meaning="Music.helpText6b" desc="Instructions."}
+          Change it from piano to violin.
         {/msg}
       {elseif $ij.level == 7}
-        {msg meaning="Music.helpText7" desc="Instructions."}
-          Draw the stars, then draw four white lines.
+        {msg meaning="Music.helpText7a" desc="Introducing a new block."}
+          There's a new block that allows you to rest between playings.
+        {/msg}
+        <div id="sampleHelp7" class="readonly"></div>
+        {msg meaning="Music.helpText7b" desc="Instructions."}
+          One note after the first Frere Jacques, play the second one in parallel.
         {/msg}
       {elseif $ij.level == 8}
         {msg meaning="Music.helpText8" desc="Instructions."}
-          Drawing 360 white lines will look like the full moon.
+          Repeat Frere Jacques once and play two of them in parallel.
         {/msg}
       {elseif $ij.level == 9}
         {msg meaning="Music.helpText9" desc="Instructions."}
-          Can you add a black circle so that the moon becomes a crescent?
+          Repeat Frere Jacques once and play four of them in parallel.
         {/msg}
       {elseif $ij.level == 10}
         {msg meaning="Music.helpText10" desc="Instructions."}
-          Create anything you want. You've got a huge number of new blocks you can explore. Have fun!
+          Compose anything you want. You've got a huge number of new blocks you can explore. Have fun!
         {/msg}
         {if not $ij.html}
           <br><br>
-          {msg meaning="Music.helpText10Reddit" desc="Instructions on posting your drawing to Reddit (a social website)."}
-            Use the "See Gallery" button to see what other people have drawn. If you draw something interesting, use the "Submit to Gallery" button to publish it.
+          {msg meaning="Music.helpText10Reddit" desc="Instructions on posting your music to Reddit (a social website)."}
+            Use the "See Gallery" button to see what other people have composed. If you compose something interesting, use the "Submit to Gallery" button to publish it.
           {/msg}
         {/if}
       {/if}
@@ -231,7 +237,6 @@
         <block type="music_instrument"></block>
         <block type="music_start"></block>
       </category>
-
       <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
         <block type="controls_if"></block>
         <block type="logic_compare"></block>
@@ -411,13 +416,13 @@
           </value>
         </block>
         {if $ij.level > 6}
-          <block type="music_start"></block>
+          <block type="music_rest"></block>
         {/if}
         {if $ij.level > 5}
           <block type="music_instrument"></block>
         {/if}
         {if $ij.level > 6}
-          <block type="music_rest"></block>
+          <block type="music_start"></block>
         {/if}
       </category>
       {if $ij.level > 1}

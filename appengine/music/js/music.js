@@ -199,13 +199,16 @@ Music.showHelp = function() {
     top: '5em'
   };
 
-  if (BlocklyGames.LEVEL == 3) {
-    var xml = '<xml><block type="music_colour_internal" x="5" y="10">' +
-        '<field name="COLOUR">#ffff00</field></block></xml>';
-    BlocklyInterface.injectReadonly('sampleHelp3', xml);
-  } else if (BlocklyGames.LEVEL == 4) {
-    var xml = '<xml><block type="music_pen" x="5" y="10"></block></xml>';
-    BlocklyInterface.injectReadonly('sampleHelp4', xml);
+  if (BlocklyGames.LEVEL == 2) {
+    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">do something</field>'
+  +'</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="do something"></mutation></block></xml>';
+    BlocklyInterface.injectReadonly('sampleHelp2', xml);
+  } else if (BlocklyGames.LEVEL == 6) {
+    var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
+    BlocklyInterface.injectReadonly('sampleHelp6', xml);
+  } else if (BlocklyGames.LEVEL == 7) {
+    var xml = '<xml><block type="music_rest" x="5" y="10"></block></xml>';
+    BlocklyInterface.injectReadonly('sampleHelp7', xml);
   }
 
   BlocklyDialogs.showDialog(help, button, true, true, style, Music.hideHelp);
