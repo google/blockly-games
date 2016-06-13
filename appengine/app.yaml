@@ -151,6 +151,7 @@ skip_files:
 - ^(.*/)?\..*$
 # Custom skip patterns.
 - ^\w+/sources/.*$
+- ^third-party/ace/snippets/.*$
 - ^third-party/blockly/appengine/.*$
 - ^third-party/blockly/demos/.*$
 - ^third-party/blockly/generators/dart.*$
@@ -160,7 +161,9 @@ skip_files:
 - ^third-party/blockly/i18n/.*$
 - ^third-party/blockly/msg/json/.*$
 - ^third-party/blockly/tests/.*$
+- ^third-party/midi-js/.*$
+- ^third-party/midi-js-soundfonts/.+[012567]\.mp3*$
+- ^third-party/midi-js-soundfonts/.+b[34]\.mp3*$
 - ^third-party/third_party_goog/.*$
-- ^third-party/ace/snippets/.*$
 - ^third-party/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$

@@ -81,7 +81,7 @@ Blockly.Blocks['music_pitch'] = {
       ],
       "output": "Number",
       "colour": 160,
-      "tooltip": ""
+      "tooltip": BlocklyGames.getMsg('Music_pitchTooltip')
     });
   }
 };
@@ -182,14 +182,14 @@ Blockly.Blocks['music_instrument'] = {
           "type": "field_dropdown",
           "name": "INSTRUMENT",
           "options": [
-            ["piano", "piano"],
-            ["trumpet", "trumpet"],
-            ["banjo", "banjo"],
-            ["violin", "violin"],
-            ["guitar", "guitar"],
-            ["flute", "flute"],
-            ["drum", "drum"],
-            ["choir", "choir"]
+            [BlocklyGames.getMsg('Music_piano'), "piano"],
+            [BlocklyGames.getMsg('Music_trumpet'), "trumpet"],
+            [BlocklyGames.getMsg('Music_banjo'), "banjo"],
+            [BlocklyGames.getMsg('Music_violin'), "violin"],
+            [BlocklyGames.getMsg('Music_guitar'), "guitar"],
+            [BlocklyGames.getMsg('Music_flute'), "flute"],
+            [BlocklyGames.getMsg('Music_drum'), "drum"],
+            [BlocklyGames.getMsg('Music_choir'), "choir"]
           ]
         }
       ],

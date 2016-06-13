@@ -195,7 +195,9 @@ BlocklyInterface.highlight = function(id) {
  * @param {!Blockly.Events.Abstract} event Custom data for event.
  */
 BlocklyInterface.disableOrphans = function(event) {
-  if (event.type == Blockly.Events.MOVE) {
+  if (event.type == Blockly.Events.MOVE ||
+      event.type == Blockly.Events.CREATE) {
+    Blockly.Events.disable();
     var block = BlocklyGames.workspace.getBlockById(event.blockId);
     if (block) {
       if (block.getParent() && !block.getParent().disabled) {
@@ -211,6 +213,7 @@ BlocklyInterface.disableOrphans = function(event) {
         } while (block);
       }
     }
+    Blockly.Events.enable();
   }
 }
 

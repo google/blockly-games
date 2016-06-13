@@ -33,6 +33,7 @@ goog.require('Music.soy');
 goog.require('Slider');
 goog.require('goog.array');
 
+
 BlocklyGames.NAME = 'music';
 
 /**
@@ -519,7 +520,10 @@ Music.checkAnswer = function() {
     // Level 10.
     undefined,
   ][BlocklyGames.LEVEL];
-
+  if (!expectedAnswer) {
+    // On level 10 everyone is a winner.
+    return true;
+  }
   if (expectedAnswer.length != Music.userAnswer.length) {
     return false;
   }
@@ -532,6 +536,14 @@ Music.checkAnswer = function() {
       }
     }
     if (!isFound) {
+      return false;
+    }
+  }
+  if (BlocklyGames.LEVEL == 6) {
+    // Also check for the existance of a "set instrument" block.
+    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+    if (code.indexOf('setInstrument') == -1) {
+      // Yes, you can cheat with a comment.  In this case I don't care.
       return false;
     }
   }

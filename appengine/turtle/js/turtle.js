@@ -269,8 +269,8 @@ Turtle.categoryClicked_ = false;
  * @param {!Blockly.Events.Abstract} event Custom data for event.
  * @private
  */
-Turtle.watchCategories_ = function(e) {
-  if (e.type == Blockly.Events.UI && e.element == 'category') {
+Turtle.watchCategories_ = function(event) {
+  if (event.type == Blockly.Events.UI && event.element == 'category') {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
     BlocklyGames.workspace.removeChangeListener(Turtle.watchCategories_);
