@@ -292,11 +292,11 @@ Music.runButtonClick = function(e) {
 
 /**
  * Click the reset button.  Reset the Music.
- * @param {!Event} e Mouse or touch event.
+ * @param {!Event} opt_e Mouse or touch event.
  */
-Music.resetButtonClick = function(e) {
+Music.resetButtonClick = function(opt_e) {
   // Prevent double-clicks or double-taps.
-  if (BlocklyInterface.eventSpam(e)) {
+  if (opt_e && BlocklyInterface.eventSpam(opt_e)) {
     return;
   }
   var runButton = document.getElementById('runButton');
@@ -305,9 +305,6 @@ Music.resetButtonClick = function(e) {
   document.getElementById('spinner').style.visibility = 'hidden';
   BlocklyGames.workspace.traceOn(false);
   Music.reset();
-
-  // Image cleared; prevent user from submitting to Reddit.
-  Music.canSubmit = false;
 };
 
 /**
@@ -357,7 +354,7 @@ Music.execute = function() {
         goog.partial(Music.executeChunk_, interpreter), 100));
   }
   if (Music.startCount == 0) {
-    document.getElementById('spinner').style.visibility = 'hidden';
+    Music.resetButtonClick();
   }
 };
 
@@ -398,7 +395,7 @@ Music.executeChunk_ = function(interpreter) {
           BlocklyDialogs.congratulations();
         }
       }
-      document.getElementById('spinner').style.visibility = 'hidden';
+      Music.resetButtonClick();
       BlocklyGames.workspace.highlightBlock(null);
       // Playback complete; allow the user to submit this music to Reddit.
       Music.canSubmit = true;
@@ -425,7 +422,6 @@ Music.animate = function(id) {
  * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
 Music.play = function(duration, pitch, id, interpreter) {
-  console.log(interpreter.instrument + pitch);
   var mySound = createjs.Sound.play(interpreter.instrument + pitch);
   var scaleDuration = duration * 1000 *
       (2.5 - 2 * Music.speedSlider.getValue());

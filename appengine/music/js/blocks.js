@@ -61,21 +61,15 @@ Blockly.Blocks['music_pitch'] = {
           "type": "field_dropdown",
           "name": "PITCH",
           "options": [
-            ["A+", "69"],
-            ["G#", "68"],
-            ["G", "67"],
-            ["F#", "66"],
-            ["F", "65"],
-            ["E", "64"],
-            ["Eb", "63"],
-            ["D", "62"],
-            ["C#", "61"],
-            ["middle C", "60"],
-            ["B", "59"],
-            ["Bb", "58"],
-            ["A", "57"],
-            ["G#-", "56"],
-            ["G-", "55"]
+            ["A4", "69"],
+            ["G4", "67"],
+            ["F4", "65"],
+            ["E4", "64"],
+            ["D4", "62"],
+            ["C4", "60"],
+            ["B3", "59"],
+            ["A3", "57"],
+            ["G3", "55"]
           ]
         }
       ],
@@ -246,6 +240,27 @@ Blockly.JavaScript['music_start'] = function(block) {
 };
 
 if (BlocklyGames.LEVEL < 10) {
+  /**
+   * Block for defining a procedure with no return value.
+   * Remove comment and mutator.
+   * @this Blockly.Block
+   */
+  Blockly.Blocks['procedures_defnoreturn'].init = function() {
+    var nameField = new Blockly.FieldTextInput(
+        Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,
+        Blockly.Procedures.rename);
+    nameField.setSpellcheck(false);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE)
+        .appendField(nameField, 'NAME')
+        .appendField('', 'PARAMS');
+    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
+    this.arguments_ = [];
+    this.setStatements_(true);
+  };
+
   delete Blockly.Blocks['procedures_defreturn'];
   delete Blockly.Blocks['procedures_ifreturn'];
 };
