@@ -19,14 +19,15 @@
     // Block text and their associated tooltips and URLs (interleaved to
     // assist with translation).
     <span id="Music_playNoteTooltip">{msg meaning="Music.playNoteTooltip" desc="tooltip"}Plays one musical note of the specified duration and pitch.{/msg}</span>
-    <span id="Music_playNote">{msg meaning="Music.playNote" desc="Plays one musical note. %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...)."}play %1 note %2{/msg}</span>
+    <span id="Music_playNote">{msg meaning="Music.playNote" desc="Plays one musical note.  %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...)."}play %1 note %2{/msg}</span>
     <span id="Music_restTooltip">{msg meaning="Music.restTooltip" desc="tooltip"}Waits for the specified duration.{/msg}</span>
-    <span id="Music_rest">{msg meaning="Music.rest" desc="Waits. %1 is duration of the waiting (whole, quarter, ...)."}rest %1{/msg}</span>
-    <span id="Music_setInstrumentTooltip">{msg meaning="Music.setInstrumentTooltip" desc="tooltip"}Sets to the specified instrument to play music.{/msg}</span>
-    <span id="Music_setInstrument">{msg meaning="Music.setInstrument" desc="Sets to an instrument to play music. %1 is type of the instrument (guitar, piano, ...)."}set instrument to %1{/msg}</span>
-    <span id="Music_startTooltip">{msg meaning="Music.startTooltip" desc="tooltip"}Executes the blocks inside when the run program button is clicked.{/msg}</span>
-    <span id="Music_start">{msg meaning="Music.start" desc="%1 is image of the Run Program button. When the button of the image %1 is cliked, runs all the blocks inside this block."}when %1 clicked{/msg}</span>
-    <span id="Music_pitchTooltip">{msg meaning="Music.pitchTooltip" desc="tooltip - Describes a musical note seletor.  'middle C' (also known as 'DO') is the note in the center of a piano keyboard and is reprenented as the number 60."}One note (middle C is 60).{/msg}</span>
+    <span id="Music_rest">{msg meaning="Music.rest" desc="Plays no music for a duration specified.  %1 is the duration (whole, quarter, ...)."}rest %1{/msg}</span>
+    <span id="Music_setInstrumentTooltip">{msg meaning="Music.setInstrumentTooltip" desc="tooltip"}Switches to the specified instrument when playing subsequent musical notes.{/msg}</span>
+    <span id="Music_setInstrument">{msg meaning="Music.setInstrument" desc="Sets to an instrument to play music.  %1 is type of the instrument (guitar, piano, ...)."}set instrument to %1{/msg}</span>
+    <span id="Music_startTooltip">{msg meaning="Music.startTooltip" desc="tooltip"}Executes the blocks inside when the 'Run Program' button is clicked.{/msg}</span>
+    <span id="Music_start">{msg meaning="Music.start" desc="The program associated with this label is executed when a button is clicked.  %1 is image of the play icon on the button."}when %1 clicked{/msg}</span>
+    <span id="Music_pitchTooltip">{msg meaning="Music.pitchTooltip" desc="tooltip - Describes a musical note seletor.  'C4' (also known as 'DO') is the note in the center of a piano keyboard and is reprenented as the number 60."}One note (C4 is 60).{/msg}</span>
+
     <span id="Music_piano">{{msg meaning="Music.piano" desc="Name of musical instrument.\n{lb}{lb}Identical|piano{rb}{rb}"}}piano{{/msg}}</span>
     <span id="Music_trumpet">{{msg meaning="Music.trumpet" desc="Name of musical instrument.\n{lb}{lb}Identical|trumpet{rb}{rb}"}}trumpet{{/msg}}</span>
     <span id="Music_banjo">{{msg meaning="Music.banjo" desc="Name of musical instrument.\n{lb}{lb}Identical|banjo{rb}{rb}"}}banjo{{/msg}}</span>
@@ -239,7 +240,9 @@
   <xml id="toolbox" style="display: none">
     {if $ij.level == 10}
       <category name="{msg meaning="Games.music" desc="IBID"}Music{/msg}">
-        <block type="music_pitch"></block>
+        <block type="music_pitch">
+          <field name="PITCH">60</field>
+        </block>
         <block type="music_note">
           <field name="DURATION">0.25</field>
           <value name="PITCH">
@@ -286,6 +289,7 @@
             </shadow>
           </value>
         </block>
+        <block type="controls_forEach"></block>
         <block type="controls_flow_statements"></block>
       </category>
       <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">

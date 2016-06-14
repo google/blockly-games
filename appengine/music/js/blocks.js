@@ -74,7 +74,7 @@ Blockly.Blocks['music_pitch'] = {
         }
       ],
       "output": "Number",
-      "colour": 160,
+      "colour": Blockly.Blocks.math.HUE,
       "tooltip": BlocklyGames.getMsg('Music_pitchTooltip')
     });
   }
@@ -114,7 +114,7 @@ Blockly.Blocks['music_note'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 315,
+      "colour": Music.Blocks.HUE,
       "tooltip": BlocklyGames.getMsg('Music_playNoteTooltip')
     });
   }
@@ -152,7 +152,7 @@ Blockly.Blocks['music_rest'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 20,
+      "colour": Music.Blocks.HUE,
       "tooltip": BlocklyGames.getMsg('Music_restTooltip')
    });
   }
@@ -190,7 +190,7 @@ Blockly.Blocks['music_instrument'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": 65,
+      "colour": Music.Blocks.HUE,
       "tooltip": BlocklyGames.getMsg('Music_setInstrumentTooltip')
     });
   }
@@ -213,10 +213,10 @@ Blockly.Blocks['music_start'] = {
       "args0": [
         {
           "type": "field_image",
-          "src": "https://www.gstatic.com/codesite/ph/images/star_on.gif",
-          "width": 15,
-          "height": 15,
-          "alt": "*"
+          "src": "music/play.png",
+          "width": 17,
+          "height": 17,
+          "alt": "▶"
         }
       ],
       "message1": "%1",
@@ -226,7 +226,7 @@ Blockly.Blocks['music_start'] = {
           "name": "STACK"
         }
       ],
-      "colour": 160,
+      "colour": 0,
       "tooltip": BlocklyGames.getMsg('Music_startTooltip')
     });
   }

@@ -109,7 +109,7 @@ Music.init = function() {
       {'media': 'third-party/blockly/media/',
        'rtl': rtl,
        'toolbox': toolbox,
-       'zoom': {'controls': true, 'wheel': true}});
+       'zoom': {'maxScale': 2, 'controls': true, 'wheel': true}});
   BlocklyGames.workspace.addChangeListener(BlocklyInterface.disableOrphans);
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('play,rest,setInstrument');
