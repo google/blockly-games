@@ -415,12 +415,11 @@ Blockly.Blocks['lists_create_with'].updateShape_ = function() {
   }
 };
 
-
-/**
- * Block for getting element at index.
- * @this Blockly.Block
- */
 Blockly.Blocks['lists_getIndex'] = {
+  /**
+   * Block for getting element at index.
+   * @this Blockly.Block
+   */
   init: function () {
     this.jsonInit({
       "message0": "%1[%2]",
@@ -445,11 +444,11 @@ Blockly.Blocks['lists_getIndex'] = {
   }
 };
 
-/**
- * Block for setting element at index.
- * @this Blockly.Block
- */
 Blockly.Blocks['lists_setIndex'] = {
+  /**
+   * Block for setting element at index.
+   * @this Blockly.Block
+   */
   init: function () {
     this.jsonInit({
       "message0": "%1[%2] = %3;",
