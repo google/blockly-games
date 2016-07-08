@@ -39,7 +39,7 @@ function getMouseName(mouse, opt_showGenes) {
   var genes = '(' + mouse.sex + ' ' + mouse.mateQuestionOwner + '/' + mouse.mateAnswerOwner + '/' + mouse.pickFightOwner + ')';
   var mouseStats = '[id:' + mouse.id + '/size:' + mouse.size + '/fertility:' + mouse.fertility + '/fight:' + mouse.fight + ']';
 
-  var names = (mouse.sex == Sex.Female || (mouse.sex == Sex.Hermaphrodite && 2 % mouse.id == 0)) ? FEMININE_NAMES : MASCULINE_NAMES;
+  var names = (mouse.sex == Sex.FEMALE || (mouse.sex == Sex.HERMAPHRODITE && 2 % mouse.id == 0)) ? FEMININE_NAMES : MASCULINE_NAMES;
   var name = names[mouse.id % names.length || 0]
   var ordinal = Math.floor(mouse.id/names.length) + 1;
   if(ordinal > 1) {
@@ -100,9 +100,9 @@ Cage.prototype.getCageStats = function() {
   var pickFightCounts = {};
   var cageStats = [ sexCounts, mateQuestionCounts, mateAnswerCounts, pickFightCounts];
 
-  sexCounts[Sex.Male] = 0;
-  sexCounts[Sex.Female] = 0;
-  sexCounts[Sex.Hermaphrodite] = 0;
+  sexCounts[Sex.MALE] = 0;
+  sexCounts[Sex.FEMALE] = 0;
+  sexCounts[Sex.HERMAPHRODITE] = 0;
 
   for(var i = 0; i < this.players.length; i++) {
     mateQuestionCounts[this.players[i]] = 0;
@@ -158,7 +158,7 @@ Cage.prototype.willMateSucceed = function(proposingMouse, askedMouse) {
     return false; 
    }
   // Check if mice are not of compatible sex.
-  if(proposingMouse.sex != Sex.Hermaphrodite && proposingMouse.sex == askedMouse.sex) {
+  if(proposingMouse.sex != Sex.HERMAPHRODITE && proposingMouse.sex == askedMouse.sex) {
     if(story) { console.log('Ooops! ' + getMouseName(proposingMouse) + ' tried to mate with another ' + proposingMouse.sex + ' (' + getMouseName(askedMouse) + ')'); }
     return false; 
    }
@@ -377,7 +377,7 @@ Cage.prototype.checkForEnd = function() {
       break;
     }
   }
-  if(allSameSex && cageSex != Sex.Hermaphrodite) {
+  if(allSameSex && cageSex != Sex.HERMAPHRODITE) {
     // Check what genes have won.
     var mateQuestionWinner = this.aliveMice[0].mateQuestionOwner;
     var mateAnswerWinner = this.aliveMice[0].mateAnswerOwner;
@@ -427,7 +427,7 @@ Cage.prototype.checkForEnd = function() {
       if(!potentialMate) {
         potentialMate = mouse;
       }
-      else if(potentialMate.sex == Sex.Hermaphrodite || potentialMate.sex != mouse.sex) {
+      else if(potentialMate.sex == Sex.HERMAPHRODITE || potentialMate.sex != mouse.sex) {
         matesExist = true;
         break;
       }
