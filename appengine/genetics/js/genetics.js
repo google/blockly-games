@@ -37,6 +37,22 @@ goog.require('goog.ui.TabBar');
 BlocklyGames.NAME = 'genetics';
 
 /**
+ * Defines the types of sex of mice.
+ * @type {{Male: string, Female: string, Hermaphrodite: string}}
+ */
+Genetics.Sex = {
+  MALE: 'Male',
+  FEMALE: 'Female',
+  HERMAPHRODITE: 'Hermaphrodite'
+};
+
+/**
+ * Optional callback function for when a simulation ends.
+ * @type function(number)
+ */
+Genetics.endSimulation = null;
+
+/**
  * Is the blocks editor the program source (true) or is the JS editor
  * the program source (false).
  * @private

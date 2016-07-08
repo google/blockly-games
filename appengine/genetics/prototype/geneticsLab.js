@@ -25,7 +25,7 @@ function createVariantPlayer(cage, num) {
     for(var i = 0; i < this.otherMice.length; i++) {
       var mouse = this.otherMice[i];
       // Check that potential mate is valid.
-      if((mouse.sex == Sex.Hermaphrodite || mouse.sex != this.sex) && mouse.fertility > 0) {
+      if((mouse.sex == Sex.HERMAPHRODITE || mouse.sex != this.sex) && mouse.fertility > 0) {
         // Change mate choice if new mate would pass on higher fertility.
         if(!mate || mouse.startingFertility > mate.startingFertility) {
           mate = mouse;
@@ -104,7 +104,7 @@ function createHighBreedingPlayer(cage, num) {
     for(var i = 0; i < this.otherMice.length; i++) {
       var mouse = this.otherMice[i];
       // Check that potential mate is valid.
-      if((mouse.sex == Sex.Hermaphrodite || mouse.sex != this.sex) && mouse.fertility > 0) {
+      if((mouse.sex == Sex.HERMAPHRODITE || mouse.sex != this.sex) && mouse.fertility > 0) {
         // Change mate choice if new mate would pass on higher fertility.
         if(!mate || mouse.startingFertility > mate.startingFertility) {
           mate = mouse;
@@ -133,7 +133,7 @@ function createAggressivePlayer(cage, num) {
     for(var i = 0; i < this.otherMice.length; i++) {
       var mouse = this.otherMice[i];
       // Check that potential mate is valid.
-      if(mouse.sex == Sex.Hermaphrodite || mouse.sex != this.sex) {
+      if(mouse.sex == Sex.HERMAPHRODITE || mouse.sex != this.sex) {
         // Change mate choice if new mate is bigger.
         if(!mate || mouse.size > mate.size) {
           mate = mouse;

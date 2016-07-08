@@ -39,7 +39,7 @@ function Mouse(cage, opt_parentOne, opt_parentTwo, opt_player) {
     this.mateAnswerOwner = (maParent) ? opt_parentOne.mateAnswerOwner : opt_parentTwo.mateAnswerOwner;
     this.pickFightOwner = (pfParent) ? opt_parentOne.pickFightOwner : opt_parentTwo.pickFightOwner;
     this.size = Math.max(cage.MIN_SIZE, (opt_parentOne.size + opt_parentTwo.size)/2 + getRandomInt(MIN_MUTATION,MAX_MUTATION));
-    this.sex = (getRandomInt(0,1)) ? Sex.Male : Sex.Female;;
+    this.sex = (getRandomInt(0,1)) ? Sex.MALE : Sex.FEMALE;;
     this.fertility = Math.max(0, Math.round((opt_parentOne.startingFertility + opt_parentTwo.startingFertility)/2) + getRandomInt(MIN_MUTATION,MAX_MUTATION));
     this.fight =  Math.max(0, Math.round((opt_parentOne.startingFight + opt_parentTwo.startingFight)/2) + getRandomInt(MIN_MUTATION,MAX_MUTATION));
     this.pacifist = false;
@@ -118,7 +118,7 @@ function Mouse(cage, opt_parentOne, opt_parentTwo, opt_player) {
 
 // Set defaults for initial mouse.
 Mouse.prototype.size = START_SIZE;
-Mouse.prototype.sex = Sex.Hermaphrodite;
+Mouse.prototype.sex = Sex.HERMAPHRODITE;
 Mouse.prototype.fight = START_FIGHT;
 Mouse.prototype.fertility = START_FERTILITY;
 
