@@ -228,12 +228,17 @@ Blockly.Blocks['genetics_getProperties'] = {
   }
 };
 
+/**
+ * Defines the JavaScript generation for getProperties.
+ * @param {Blockly.Block} block
+ * @returns {*[]}
+ */
 Blockly.JavaScript['genetics_getProperties'] = function(block) {
   // Generate JavaScript for getting mouse property.
   var value_mouse = Blockly.JavaScript.valueToCode(block, 'MOUSE',
-          Blockly.JavaScript.ORDER_NONE) || 0;
-  var value_field = Blockly.JavaScript.valueToCode(block, 'FIELD',
-          Blockly.JavaScript.ORDER_NONE) || 0;
+          Blockly.JavaScript.ORDER_NONE) || 'me()';
+  var value_field = Blockly.JavaScript.valueToCode(block, 'PROPERTY',
+          Blockly.JavaScript.ORDER_NONE) || 'size';
   var code = value_mouse + '.' + value_field;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
