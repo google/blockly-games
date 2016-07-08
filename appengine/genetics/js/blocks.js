@@ -31,14 +31,27 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 
 /**
- * Common HSV hue for all pond blocks.
+ * HSV hue for all genetics mouse function blocks.
  */
-Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE = 360; // TODO update template to use this constant
+Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE = 360; // TODO(kozbial) update template to use this constant
+/**
+ * HSV hue for all genetics blocks (that are not mouse functions).
+ */
 Genetics.Blocks.GENETICS_HUE = 20;
 
 // Extensions to Blockly's language and JavaScript generator.
 
-Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args, block) {
+/**
+ * Helper function shared between mouse functions that defines the JavScript
+ * generation function.
+ * @param {string} funcName The name of the mouse function.
+ * @param {string} args A comma separated string of mouse function arguments.
+ * @param {!Blockly.Block} block The block.
+ * @returns {Function}
+ * @private
+ */
+Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args,
+    block) {
   // Define a procedure with a return value.
   var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
   if (Blockly.JavaScript.STATEMENT_PREFIX) {
@@ -63,11 +76,19 @@ Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args, block) 
 };
 
 /**
- * Block for mouse function definition JSON initialization function.
- * @this Blockly.Block
+ * Helper function shared between mouse functions that generates the jsonInit
+ * function which defines the Blocks.
+ * @param {string} funcName The name of the mouse function.
+ * @param {string} args A comma separated string of mouse function arguments.
+ * @param {string} returnType The return type of the mouse function.
+ * @private
  */
 Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args,
     returnType) {
+  /**
+   * Mouse function block.
+   * @this Blockly.Block
+   */
   this.jsonInit({
     "message0": "function %1( " + args + " ) { %2 %3 return %4 }",
     "args0": [
@@ -96,22 +117,42 @@ Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args,
   });
 };
 
+/**
+ * Block for defining mouse decision on which other mouse to fight.
+ * @type {{init: !Function}}
+ */
 Blockly.Blocks['genetics_pickFight'] = {
   init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
                      'pickFight', '', 'Mouse')
 };
+
+/**
+ * Defines the JavaScript generation for pickFight.
+ * @type {!Function}
+ */
 Blockly.JavaScript['genetics_pickFight'] =
     goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
                  'pickFight', '');
-
+/**
+ * Block for defining mouse decision on which other mouse to mate with.
+ * @type {{init: !Function}}
+ */
 Blockly.Blocks['genetics_chooseMate'] = {
   init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
                      'chooseMate', '', 'Mouse')
 };
+
+/**
+ * Defines the JavaScript generation for chooseMate.
+ * @type {!Function}
+ */
 Blockly.JavaScript['genetics_chooseMate'] =
     goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
                  'chooseMate', '');
-
+/**
+ * Block for defining mouse decision on whether to mate with a specific mouse.
+ * @type {{init: !Function}}
+ */
 Blockly.Blocks['genetics_mateAnswer'] = {
   init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
                      'mateAnswer', 'suitor', 'Boolean'),
@@ -119,6 +160,11 @@ Blockly.Blocks['genetics_mateAnswer'] = {
     return ['suitor'];
   }
 };
+
+/**
+ * Defines the JavaScript generation for mateAnswer.
+ * @type {!Function}
+ */
 Blockly.JavaScript['genetics_mateAnswer'] =
     goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
                  'mateAnswer', 'suitor');
@@ -138,6 +184,11 @@ Blockly.Blocks['genetics_me'] = {
   }
 };
 
+/**
+ * Defines the JavaScript generation for me.
+ * @param {Blockly.Block} block
+ * @returns {*[]}
+ */
 Blockly.JavaScript['genetics_me'] = function(block) {
   // Generate JavaScript for mouse making the decision.
   return ['me()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
@@ -158,6 +209,11 @@ Blockly.Blocks['genetics_getMice'] = {
   }
 };
 
+/**
+ * Defines the JavaScript generation for getMice.
+ * @param {Blockly.Block} block
+ * @returns {*[]}
+ */
 Blockly.JavaScript['genetics_getMice'] = function(block) {
   // Generate JavaScript for getting mice.
   return ['getMice()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
