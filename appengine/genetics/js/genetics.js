@@ -131,9 +131,9 @@ Genetics.init = function() {
         'trashcan': true,
         'zoom': {'controls': true, 'wheel': true}
       });
-  Blockly.JavaScript.addReservedWords('pickFight');
   // Disable blocks not within a function.
   BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+  Blockly.JavaScript.addReservedWords('pickFight,chooseMate,mateAnswer');
   var defaultXml =
   '<xml>' +
     '<block type="genetics_pickFight" deletable="false" editable="false" x="0" y="150">' +
