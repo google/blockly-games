@@ -77,14 +77,15 @@ Genetics.init = function() {
       });
 
   BlocklyInterface.init();
-  // TODO init visualization
+  // TODO Genetics.Visualization.init();
 
-  // TODO bind button clicks
+  BlocklyGames.bindClick('runButton', Genetics.runButtonClick);
+  BlocklyGames.bindClick('resetButton', Genetics.resetButtonClick);
+  BlocklyGames.bindClick('docsButton', Genetics.docsButtonClick);
+  BlocklyGames.bindClick('closeDocs', Genetics.docsCloseClick);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
-  // Lazy-load the syntax-highlighting.
-  setTimeout(BlocklyInterface.importPrettify, 1);
 
   // Setup the tabs.
   Genetics.tabbar = new goog.ui.TabBar();
@@ -192,9 +193,128 @@ Genetics.init = function() {
   BlocklyGames.workspace.clear();
   Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
 
-  // TODO reset cage
+  var players = [
+    {
+      name: 'Genetics_myName',
+      code: null
+    },
+    {
+      name: 'Genetics_simpleName',
+      code: 'playerSimple'
+    },
+    {
+      name: 'Genetics_aggressiveName',
+      code: 'playerAggressive'
+    },
+    {
+      name: 'Genetics_highBreedingName',
+      code: 'playerHighBreeding'
+    }
+  ];
+  for (var playerData, i = 0; playerData = players[i]; i++) {
+    if (playerData.code) {
+      var div = document.getElementById(playerData.code);
+      var code = div.textContent;
+    } else {
+      var code = function() {
+        if (Genetics.blocksEnabled_) {
+          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+        } else {
+          return BlocklyInterface.editor['getValue']();
+        }
+      };
+    }
+    var name = BlocklyGames.getMsg(playerData.name);
+    Genetics.Cage.addPlayer(name, code);
+  }
+  Genetics.Cage.reset();
   Genetics.changeTab(0);
   Genetics.ignoreEditorChanges_ = false;
+};
+
+/**
+ * Is the documentation open?
+ * @private
+ */
+Genetics.isDocsVisible_ = false;
+
+/**
+ * Open the documentation frame.
+ */
+Genetics.docsButtonClick = function() {
+  // TODO(kozbial)
+};
+
+/**
+ * Close the documentation frame.
+ */
+Genetics.docsCloseClick = function() {
+  // TODO(kozbial)
+};
+
+/**
+ * Click the run button. Start the Genetics simulation.
+ * @param {!Event} e Mouse or touch event.
+ */
+Genetics.runButtonClick = function(e) {
+  // Prevent double-clicks or double-taps.
+  if (BlocklyInterface.eventSpam(e)) {
+    return;
+  }
+  var runButton = document.getElementById('runButton');
+  var resetButton = document.getElementById('resetButton');
+  // Ensure that Reset button is at least as wide as Run button.
+  if (!resetButton.style.minWidth) {
+    resetButton.style.minWidth = runButton.offsetWidth + 'px';
+  }
+  runButton.style.display = 'none';
+  resetButton.style.display = 'inline';
+  Genetics.execute();
+};
+
+/**
+ * Click the reset button. Reset the Genetics simulation.
+ * @param {!Event} e Mouse or touch event.
+ */
+Genetics.resetButtonClick = function(e) {
+  // Prevent double-clicks or double-taps.
+  if (BlocklyInterface.eventSpam(e)) {
+    return;
+  }
+  var runButton = document.getElementById('runButton');
+  runButton.style.display = 'inline';
+  document.getElementById('resetButton').style.display = 'none';
+  Genetics.reset();
+};
+
+/**
+ * Runs the Genetics simulation with the user's code.
+ */
+Genetics.execute = function() {
+  if (!('Interpreter' in window)) {
+    // Interpreter lazy loads and hasn't arrived yet.  Try again later.
+    setTimeout(Genetics.execute, 250);
+    return;
+  }
+  Genetics.reset();
+
+  Genetics.Cage.start(Genetics.endSimulation);
+  Genetics.Visualization.start();
+};
+
+/**
+ * Reset the Genetics simulation and kill any pending tasks.
+ */
+Genetics.reset = function() {
+  Genetics.Cage.reset();
+  Genetics.Visualization.reset();
+};
+
+/**
+ * Show the help pop-up.
+ */
+Genetics.showHelp = function() {
+  // TODO(kozbial)
 };
 
 /**
@@ -230,6 +350,5 @@ Genetics.changeTab = function(index) {
     Genetics.ignoreEditorChanges_ = false;
   }
 };
-
 
 window.addEventListener('load', Genetics.init);

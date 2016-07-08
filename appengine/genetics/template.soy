@@ -16,6 +16,12 @@
 {template .messages}
   {call BlocklyGames.soy.messages /}
   <div style="display: none">
+    <span id="Genetics_simpleName">{{msg meaning="Genetics.simpleName" desc="Name for a player that makes simple decisions to randomly pick mates and opponents.\n{lb}{lb}Identical|Simple{rb}{rb}"}}Simple{{/msg}}</span>
+    <span id="Genetics_aggressiveName">{{msg meaning="Genetics.aggressiveName" desc="Name for a player that has an aggressive strategy to breed with the biggest mice and always fight against smaller mice.\n{lb}{lb}Identical|Aggressive {rb}{rb}"}}Aggressive{{/msg}}</span>
+    <span id="Genetics_highBreedingName">{{msg meaning="Genetics.highBreedingName" desc="Name for a player that has a strategy to never fight and breed with mice with high fertility.\n{lb}{lb}Identical|High Breeding{rb}{rb}"}}High Breeding{{/msg}}</span>
+    <span id="Genetics_variantName">{{msg meaning="Genetics.variantName" desc="Name for a player that has a complex strategy that is a variant of other mice AI.\n{lb}{lb}Identical|Variant{rb}{rb}"}}Variant{{/msg}}</span>
+    <span id="Genetics_myName">{{msg meaning="Genetics.playerName" desc="IBID"}}Player{{/msg}}</span>
+
     <span id="Genetics_pickFightTooltip">{msg meaning="Genetics.pickFightTooltip" desc="Tooltip for the block that defines the logic for picking a mouse to fight against."}Defines the function for picking a mouse to fight against. {/msg}</span>
     <span id="Genetics_chooseMateTooltip">{msg meaning="Genetics.chooseMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
     <span id="Genetics_mateAnswerTooltip">{msg meaning="Genetics.mateAnswerTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
@@ -311,12 +317,12 @@ function mateAnswer(suitor) {
 {/template}
 
 /**
- * Varient player code.
+ * Variant player code.
  */
 {template .playerHighBreeding}
 {literal}
-<div id="playerVarient" style="display: none">
-/* Varient player */
+<div id="playerVariant" style="display: none">
+/* Variant player */
 function pickFight() {
   // Always choose not to fight.
   return null;
