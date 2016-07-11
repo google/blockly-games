@@ -2,12 +2,15 @@
 	"@metadata": {
 		"authors": [
 			"Toliño",
-			"Macofe"
+			"Macofe",
+			"Chairego apc"
 		]
 	},
 	"Games.puzzle": "Crebacabezas",
 	"Games.maze": "Labirinto",
+	"Games.bird": "Paxaro",
 	"Games.turtle": "Tartaruga",
+	"Games.movie": "Filme",
 	"Games.linkTooltip": "Gardar e crear unha ligazón aos bloques.",
 	"Games.runProgram": "Executar o programa",
 	"Games.resetProgram": "Restablecer",
@@ -28,6 +31,15 @@
 	"Games.xmlError": "Non se puido cargar o ficheiro gardado. Se cadra, foi creado cunha versión diferente de Blockly.",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
+	"Games.congratulations": "Parabéns!",
+	"Index.moreInfo": "Máis info...",
+	"Index.startOver": "Queres comezar de novo?",
+	"Puzzle.animal2": "Gato",
+	"Puzzle.animal3": "Abella",
+	"Puzzle.animal3Trait1": "Mel",
+	"Puzzle.animal4": "Caracol",
+	"Puzzle.picture": "imaxe:",
+	"Puzzle.legs": "patas:",
 	"Puzzle.legsChoose": "escolle...",
 	"Puzzle.error0": "Perfecto!\nOs %1 bloques son correctos.",
 	"Puzzle.error1": "Por pouco! Un bloque é incorrecto.",
