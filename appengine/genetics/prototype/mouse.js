@@ -101,8 +101,8 @@ function Mouse(cage, opt_parentOne, opt_parentTwo, opt_player) {
   Object.defineProperty(geneContext, 'otherMice', {
         get: function () {
           var mice = [];
-          for(var i = 0; i < cage.aliveMice.length; i++) {
-            var mouse = cage.aliveMice[i];
+          for(var i = 0; i < cage.aliveMice_.length; i++) {
+            var mouse = cage.aliveMice_[i];
             if(mouse.id != self.id) {
               mice.push(mouse.simpleClone());
             }

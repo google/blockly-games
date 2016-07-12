@@ -70,9 +70,9 @@ function Cage(visualization) {
   this.pickFightGenes = {};
 
   this.currentGen = 0;
-  this.aliveMice = [];
-  this.miceMap = {};
-  this.mouseLife = {};
+  this.aliveMice_ = [];
+  this.miceMap_ = {};
+  this.mouseLife_ = {};
   this.end = false;
 };
 
@@ -82,8 +82,8 @@ function Cage(visualization) {
 Cage.prototype.logStateOfCage = function() {
   console.log('Alive mice: ');
   console.log('==================================');
-  for(var id in this.aliveMice) {
-    var mouse = this.aliveMice[id];
+  for(var id in this.aliveMice_) {
+    var mouse = this.aliveMice_[id];
     console.log(getMouseName(mouse) + ':');
     console.log(mouse);
   }
@@ -110,8 +110,8 @@ Cage.prototype.getCageStats = function() {
     pickFightCounts[this.players[i]] = 0;
   }
 
-  for(var i = 0; i < this.aliveMice.length; i++) {
-    var mouse = this.aliveMice[i];
+  for(var i = 0; i < this.aliveMice_.length; i++) {
+    var mouse = this.aliveMice_[i];
     mateQuestionCounts[mouse.mateQuestionOwner]++;
     mateAnswerCounts[mouse.mateAnswerOwner]++;
     pickFightCounts[mouse.pickFightOwner]++;
@@ -190,7 +190,7 @@ Cage.prototype.willMateSucceed = function(proposingMouse, askedMouse) {
 Cage.prototype.tryMating = function(mouse) {
   try {
     var targetMateID = mouse.mateQuestion();
-    var targetMate = this.miceMap[targetMateID];
+    var targetMate = this.miceMap_[targetMateID];
     // Check if mate is null or undefined.
     if(!targetMate) {
       if(story) { console.log(getMouseName(mouse) + ' decides not to mate ever again.'); }
@@ -209,16 +209,16 @@ Cage.prototype.tryMating = function(mouse) {
     var child = new Mouse(this, mouse, targetMate);
     this.born(child, mouse, targetMate);
     // Accounts for overpopulation.
-    while(this.aliveMice.length > this.MAX_POPULATION) {
+    while(this.aliveMice_.length > this.MAX_POPULATION) {
       // Find oldest mouse.
       var oldestIndex = 0;
-      for(var i = 1; i < this.aliveMice.lenth; i++) {
-        if(this.aliveMice[i].age > this.aliveMice[oldestIndex].age) {
+      for(var i = 1; i < this.aliveMice_.lenth; i++) {
+        if(this.aliveMice_[i].age > this.aliveMice_[oldestIndex].age) {
           oldestIndex = i;
         }
       }
       // Kill oldest mouse.
-      var oldestMouse = this.aliveMice[oldestIndex];
+      var oldestMouse = this.aliveMice_[oldestIndex];
       this.death(oldestMouse, 'Maximum population (' + this.MAX_POPULATION + ') has been reached; '+ getMouseName(oldestMouse) + ' dies of old age');
     }
   }
@@ -236,7 +236,7 @@ Cage.prototype.tryFighting = function(mouse) {
   }
   try {
     var opponentID = mouse.pickFight();
-    var opponent = this.miceMap[opponentID];
+    var opponent = this.miceMap_[opponentID];
     // Check if opponent doesn't exist.
     if(!opponent) {
       if(story) { console.log(getMouseName(mouse) + ' decides not to fight ever again.'); }
@@ -292,7 +292,7 @@ Cage.prototype.simulateLife = function(mouse) {
   this.checkForEnd();
 
   // Remove life from mapping of lives that are queued to run.
-  delete this.mouseLife[mouse.id];
+  delete this.mouseLife_[mouse.id];
 
   // Queue life simulation again as long as mouse is still alive.
   if(this.isAlive(mouse) && !this.end) {
@@ -305,8 +305,8 @@ Cage.prototype.simulateLife = function(mouse) {
  */
 Cage.prototype.born = function(mouse, parentOne, parentTwo) {
   // Adds child to population.
-  this.aliveMice.push(mouse);
-  this.miceMap[mouse.id] = mouse;
+  this.aliveMice_.push(mouse);
+  this.miceMap_[mouse.id] = mouse;
   if(story) { console.log(getMouseName(mouse, true) + ' has been born to ' + getMouseName(parentOne) + ' + ' + getMouseName(parentTwo)); }
 
   // Notify of population change.
@@ -322,7 +322,7 @@ Cage.prototype.born = function(mouse, parentOne, parentTwo) {
 Cage.prototype.life = function(mouse) {
   var self = this;
   var lifeID = setTimeout(function() { self.simulateLife(mouse); }, this.TEMPO);
-  this.mouseLife[mouse.id] = lifeID;
+  this.mouseLife_[mouse.id] = lifeID;
 }
 
 /**
@@ -330,7 +330,7 @@ Cage.prototype.life = function(mouse) {
  * @return {boolean} True if mouse is alive, false otherwise.
  */
 Cage.prototype.isAlive = function(mouse) {
-  return (this.aliveMice.indexOf(mouse) > -1);
+  return (this.aliveMice_.indexOf(mouse) > -1);
 }
 
 /**
@@ -338,13 +338,13 @@ Cage.prototype.isAlive = function(mouse) {
  */
 Cage.prototype.death = function(mouse, reason) {
   if(story) { console.log(reason); }
-  var index = this.aliveMice.indexOf(mouse);
+  var index = this.aliveMice_.indexOf(mouse);
   if(index > -1) {
-    this.aliveMice.splice(index, 1);
+    this.aliveMice_.splice(index, 1);
   }
-  delete this.miceMap[mouse.id];
-  clearTimeout(this.mouseLife[mouse.id]);
-  delete this.mouseLife[mouse.id];
+  delete this.miceMap_[mouse.id];
+  clearTimeout(this.mouseLife_[mouse.id]);
+  delete this.mouseLife_[mouse.id];
 
   // Notify of population change.
   var cageStats = this.getCageStats();
@@ -357,21 +357,21 @@ Cage.prototype.death = function(mouse, reason) {
 Cage.prototype.checkForEnd = function() {
 
   // Check if there are no mice left.
-  if(this.aliveMice.length == 0) {
+  if(this.aliveMice_.length == 0) {
     this.endSimulation('all mice are dead.');
     return;
   }
   // Check if there is one mouse left.
-  else if(this.aliveMice.length == 1) {
-    var aliveMouse = this.aliveMice[0];
+  else if(this.aliveMice_.length == 1) {
+    var aliveMouse = this.aliveMice_[0];
     this.endSimulation('there is only one mouse left.', aliveMouse.mateQuestionOwner, aliveMouse.mateAnswerOwner, aliveMouse.pickFightOwner);
     return;
   }
   // Check if there is only one sex left and thus the game is stalemated.
   var allSameSex = true;
-  var cageSex =  this.aliveMice[0];
-  for(var i = 1; i < this.aliveMice.length; i++) {
-    var mouse = this.aliveMice[i]
+  var cageSex =  this.aliveMice_[0];
+  for(var i = 1; i < this.aliveMice_.length; i++) {
+    var mouse = this.aliveMice_[i]
     if(mouse.sex != cageSex) {
       allSameSex = false;
       break;
@@ -379,11 +379,11 @@ Cage.prototype.checkForEnd = function() {
   }
   if(allSameSex && cageSex != Sex.HERMAPHRODITE) {
     // Check what genes have won.
-    var mateQuestionWinner = this.aliveMice[0].mateQuestionOwner;
-    var mateAnswerWinner = this.aliveMice[0].mateAnswerOwner;
-    var pickFightWinner = this.aliveMice[0].pickFightOwner;
-    for(var i = 1; i < this.aliveMice.length; i++) {
-      var mouse = this.aliveMice[i];
+    var mateQuestionWinner = this.aliveMice_[0].mateQuestionOwner;
+    var mateAnswerWinner = this.aliveMice_[0].mateAnswerOwner;
+    var pickFightWinner = this.aliveMice_[0].pickFightOwner;
+    for(var i = 1; i < this.aliveMice_.length; i++) {
+      var mouse = this.aliveMice_[i];
       if(mateQuestionWinner) {
         if(mateQuestionWinner != mouse.mateQuestionOwner) {
           mateQuestionWinner = null;
@@ -405,11 +405,11 @@ Cage.prototype.checkForEnd = function() {
   }
   // Check if there is no diversity left.
   var noDiversity = true;
-  var mateQuestionWinner = this.aliveMice[0].mateQuestionOwner;
-  var mateAnswerWinner = this.aliveMice[0].mateAnswerOwner;
-  var pickFightWinner = this.aliveMice[0].pickFightOwner;
-  for(var i = 1; i < this.aliveMice.length; i++) {
-    var mouse = this.aliveMice[i];
+  var mateQuestionWinner = this.aliveMice_[0].mateQuestionOwner;
+  var mateAnswerWinner = this.aliveMice_[0].mateAnswerOwner;
+  var pickFightWinner = this.aliveMice_[0].pickFightOwner;
+  for(var i = 1; i < this.aliveMice_.length; i++) {
+    var mouse = this.aliveMice_[i];
     if(mateQuestionWinner != mouse.mateQuestionOwner || mateAnswerWinner != mouse.mateAnswerOwner || pickFightWinner != mouse.pickFightOwner) {
       noDiversity = false;
     }
@@ -421,8 +421,8 @@ Cage.prototype.checkForEnd = function() {
   // Check if there's no possible mate pairings left.
   var potentialMate = null;
   var matesExist = false;
-  for(var i = 0; i < this.aliveMice.length; i++) {
-    var mouse = this.aliveMice[i];
+  for(var i = 0; i < this.aliveMice_.length; i++) {
+    var mouse = this.aliveMice_[i];
     if(mouse.fertility > 0) {
       if(!potentialMate) {
         potentialMate = mouse;
@@ -443,8 +443,8 @@ Cage.prototype.checkForEnd = function() {
  */
 Cage.prototype.endSimulation = function(reason, opt_mateQuestionWinner, opt_mateAnswerWinner, opt_pickFightWinner) {
   // Cancel all queued life simulations.
-  for(id in this.mouseLife) {
-    clearTimeout(this.mouseLife[id]);
+  for(id in this.mouseLife_) {
+    clearTimeout(this.mouseLife_[id]);
   }
   console.log('\nGame ended because ' + reason)
   if(opt_mateQuestionWinner || opt_mateAnswerWinner || opt_pickFightWinner) {
@@ -473,17 +473,17 @@ Cage.prototype.restartSimulation = function() {
   // Inialize cage.
   this.mouseIDs = 0;
   this.currentGen = 0;
-  this.aliveMice = [];
-  this.miceMap = {};
-  this.mouseLife = {};
+  this.aliveMice_ = [];
+  this.miceMap_ = {};
+  this.mouseLife_ = {};
   this.end = false;
 
   var startingMice = []
   // Create a mouse for each player.
   for(var i = 0; i < this.players.length; i++) {
     var mouse = new Mouse(this, null, null, this.players[i]);
-    this.miceMap[mouse.id] = mouse;
-    this.aliveMice.push(mouse);
+    this.miceMap_[mouse.id] = mouse;
+    this.aliveMice_.push(mouse);
     startingMice.push(mouse);
     if(debug) { console.log('Mouse' + mouse.id + ' added to cage.'); }
     if(story) { console.log(getMouseName(mouse, true) + ' dropped into the cage.'); }
@@ -494,8 +494,8 @@ Cage.prototype.restartSimulation = function() {
 
   // Start life simulation for all mice.
   // All are guarenteed to be alive because first generation mice do not fight.
-  for(var i = 0; i < this.aliveMice.length; i++) {
-    var mouse = this.aliveMice[i];
+  for(var i = 0; i < this.aliveMice_.length; i++) {
+    var mouse = this.aliveMice_[i];
     this.life(mouse);
   }
 };

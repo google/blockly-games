@@ -47,7 +47,7 @@ Genetics.Blocks.GENETICS_HUE = 20;
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of mouse function arguments.
  * @param {!Blockly.Block} block The block.
- * @returns {Function}
+ * @return {Function}
  * @private
  */
 Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args,
@@ -187,7 +187,7 @@ Blockly.Blocks['genetics_me'] = {
 /**
  * Defines the JavaScript generation for me.
  * @param {Blockly.Block} block
- * @returns {*[]}
+ * @return {!Array.<string|number>}
  */
 Blockly.JavaScript['genetics_me'] = function(block) {
   // Generate JavaScript for mouse making the decision.
@@ -212,7 +212,7 @@ Blockly.Blocks['genetics_getMice'] = {
 /**
  * Defines the JavaScript generation for getMice.
  * @param {Blockly.Block} block
- * @returns {*[]}
+ * @return {!Array.<string|number>}
  */
 Blockly.JavaScript['genetics_getMice'] = function(block) {
   // Generate JavaScript for getting mice.
@@ -287,7 +287,7 @@ Blockly.Blocks['genetics_getProperties'] = {
 /**
  * Defines the JavaScript generation for getProperties.
  * @param {Blockly.Block} block
- * @returns {*[]}
+ * @return {!Array.<string|number>}
  */
 Blockly.JavaScript['genetics_getProperties'] = function(block) {
   // Generate JavaScript for getting mouse property.
