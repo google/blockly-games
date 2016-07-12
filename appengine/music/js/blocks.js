@@ -53,30 +53,22 @@ Blockly.Blocks['music_pitch'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.jsonInit({
-      "type": "music_note",
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PITCH",
-          "options": [
-            ["A4", "69"],
-            ["G4", "67"],
-            ["F4", "65"],
-            ["E4", "64"],
-            ["D4", "62"],
-            ["C4", "60"],
-            ["B3", "59"],
-            ["A3", "57"],
-            ["G3", "55"]
-          ]
-        }
-      ],
-      "output": "Number",
-      "colour": Blockly.Blocks.math.HUE,
-      "tooltip": BlocklyGames.getMsg('Music_pitchTooltip')
-    });
+    var notes = [
+      ['A4', '69'],
+      ['G4', '67'],
+      ['F4', '65'],
+      ['E4', '64'],
+      ['D4', '62'],
+      ['C4', '60'],
+      ['B3', '59'],
+      ['A3', '57'],
+      ['G3', '55']
+    ];
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(notes), 'PITCH');
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.math.HUE);
+    this.setTooltip(BlocklyGames.getMsg('Music_pitchTooltip'));
   }
 };
 
@@ -91,7 +83,6 @@ Blockly.Blocks['music_note'] = {
    */
   init: function() {
     this.jsonInit({
-      "type": "music_note",
       "message0": BlocklyGames.getMsg('Music_playNote'),
       "args0": [
         {
@@ -134,7 +125,6 @@ Blockly.Blocks['music_rest'] = {
    */
   init: function() {
     this.jsonInit({
-      "type": "rest",
       "message0": BlocklyGames.getMsg('Music_rest'),
       "args0": [
         {
@@ -169,7 +159,6 @@ Blockly.Blocks['music_instrument'] = {
    */
   init: function() {
     this.jsonInit({
-      "type": "set_instrument",
       "message0": BlocklyGames.getMsg('Music_setInstrument'),
       "args0": [
         {
@@ -208,7 +197,6 @@ Blockly.Blocks['music_start'] = {
    */
   init: function() {
     this.jsonInit({
-      "type": "music_start",
       "message0": BlocklyGames.getMsg('Music_start'),
       "args0": [
         {

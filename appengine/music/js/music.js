@@ -110,7 +110,7 @@ Music.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'zoom': {'maxScale': 2, 'controls': true, 'wheel': true}});
-  BlocklyGames.workspace.addChangeListener(BlocklyInterface.disableOrphans);
+  BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('play,rest,setInstrument');
 
