@@ -27,14 +27,15 @@ goog.provide('Genetics.Mouse');
 
 goog.require('Genetics');
 goog.require('Genetics.Cage');
+goog.require('goog.math');
 
 
 /**
  * Creates a mouse.
  * @constructor
  * @param {number} id The id to assign the mouse.
- * @param {Mouse=} opt_parentOne One of the parents of the mouse.
- * @param {Mouse=} opt_parentTwo One of the parents of the mouse.
+ * @param {Genetics.Mouse=} opt_parentOne One of the parents of the mouse.
+ * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.
  * @param {number=} opt_player The identifier of the player owning all
  * the genes (passed if there are no parents).
  */
@@ -50,31 +51,24 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
     // Guarantee that at least one function is inherited from each parent.
     var pickFightParent = (mateQuestionParent == mateAnswerParent) ?
         !mateQuestionParent : getRandomInt(0, 1);
-    this.chooseMateOwner = (mateQuestionParent) ?
+    this.chooseMateOwner = mateQuestionParent ?
         opt_parentOne.chooseMateOwner : opt_parentTwo.chooseMateOwner;
-    this.mateAnswerOwner = (mateAnswerParent) ? opt_parentOne.mateAnswerOwner :
+    this.mateAnswerOwner = mateAnswerParent ? opt_parentOne.mateAnswerOwner :
         opt_parentTwo.mateAnswerOwner;
-    this.pickFightOwner = (pickFightParent) ? opt_parentOne.pickFightOwner :
+    this.pickFightOwner = pickFightParent ? opt_parentOne.pickFightOwner :
         opt_parentTwo.pickFightOwner;
     // Assign stats based on parents with some mutations.
-    this.size = (opt_parentOne.size + opt_parentTwo.size) / 2 +
-        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION);
-    if (this.size < Genetics.Cage.MIN_SIZE)
-        this.size = Genetics.Cage.MIN_SIZE;
-    else if (this.size > Genetics.Cage.MAX_SIZE)
-      this.size = Genetics.Cage.MAX_SIZE;
+    this.size = goog.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
+        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION),
+        Genetics.Cage.MIN_SIZE, Genetics.Cage.MAX_SIZE);
     this.sex = (getRandomInt(0, 1)) ? Genetics.Mouse.Sex.MALE :
         Genetics.Mouse.Sex.FEMALE;
-    this.fertility = Math.round((opt_parentOne.startingFertility +
+    this.fertility = Math.max(0, Math.round((opt_parentOne.startingFertility +
         opt_parentTwo.startingFertility) / 2) +
-        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION);
-    if (this.fertility < 0)
-      this.fertility = 0;
-    this.aggressiveness = Math.round((opt_parentOne.startingAggressiveness +
+        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION));
+    this.aggressiveness = Math.max(0, Math.round((opt_parentOne.startingAggressiveness +
         opt_parentTwo.startingAggressiveness) / 2) +
-        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION);
-    if (this.aggressiveness < 0)
-      this.aggressiveness = 0;
+        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION));
   } else {
     // Mouse is a first generation mouse.
     this.chooseMateOwner = opt_player;
