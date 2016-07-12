@@ -191,33 +191,6 @@ BlocklyInterface.highlight = function(id) {
 };
 
 /**
- * Enable/disable a block depending on whether it is properly connected.
- * @param {!Blockly.Events.Abstract} event Custom data for event.
- */
-BlocklyInterface.disableOrphans = function(event) {
-  if (event.type == Blockly.Events.MOVE ||
-      event.type == Blockly.Events.CREATE) {
-    Blockly.Events.disable();
-    var block = BlocklyGames.workspace.getBlockById(event.blockId);
-    if (block) {
-      if (block.getParent() && !block.getParent().disabled) {
-        do {
-          block.setDisabled(false);
-          block = block.getNextBlock();
-        } while (block);
-      } else if ((block.outputConnection || block.previousConnection) &&
-                 Blockly.dragMode_ == Blockly.DRAG_NONE) {
-        do {
-          block.setDisabled(true);
-          block = block.getNextBlock();
-        } while (block);
-      }
-    }
-    Blockly.Events.enable();
-  }
-}
-
-/**
  * Inject readonly Blockly.  Only inserts once.
  * @param {string} id ID of div to be injected into.
  * @param {string|!Array.<string>} xml XML string(s) describing blocks.
