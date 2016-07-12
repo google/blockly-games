@@ -66,7 +66,8 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
     this.fertility = Math.max(0, Math.round((opt_parentOne.startingFertility +
         opt_parentTwo.startingFertility) / 2) +
         getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION));
-    this.aggressiveness = Math.max(0, Math.round((opt_parentOne.startingAggressiveness +
+    this.aggressiveness = Math.max(0, Math.round((
+            opt_parentOne.startingAggressiveness +
         opt_parentTwo.startingAggressiveness) / 2) +
         getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION));
   } else {
