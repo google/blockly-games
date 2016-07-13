@@ -25,8 +25,6 @@
 
 goog.provide('Genetics.Mouse');
 
-goog.require('Genetics');
-goog.require('Genetics.Cage');
 goog.require('goog.math');
 
 
@@ -41,16 +39,16 @@ goog.require('goog.math');
  */
 Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
   // Returns a random in between minValue (inclusive) and maxValue (inclusive).
-  function getRandomInt(minValue, maxValue) {
+  function randomInt(minValue, maxValue) {
     return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
   }
   if (opt_parentOne && opt_parentTwo) {
     // Choose which functions are inherited from parents.
-    var mateQuestionParent = getRandomInt(0, 1);
-    var mateAnswerParent = getRandomInt(0, 1);
+    var mateQuestionParent = randomInt(0, 1);
+    var mateAnswerParent = randomInt(0, 1);
     // Guarantee that at least one function is inherited from each parent.
     var pickFightParent = (mateQuestionParent == mateAnswerParent) ?
-        !mateQuestionParent : getRandomInt(0, 1);
+        !mateQuestionParent : randomInt(0, 1);
     this.chooseMateOwner = mateQuestionParent ?
         opt_parentOne.chooseMateOwner : opt_parentTwo.chooseMateOwner;
     this.mateAnswerOwner = mateAnswerParent ? opt_parentOne.mateAnswerOwner :
@@ -59,34 +57,39 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
         opt_parentTwo.pickFightOwner;
     // Assign stats based on parents with some mutations.
     this.size = goog.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
-        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION),
-        Genetics.Cage.MIN_SIZE, Genetics.Cage.MAX_SIZE);
-    this.sex = (getRandomInt(0, 1)) ? Genetics.Mouse.Sex.MALE :
+        randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
+        Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);
+    this.sex = (randomInt(0, 1)) ? Genetics.Mouse.Sex.MALE :
         Genetics.Mouse.Sex.FEMALE;
-    this.fertility = Math.max(0, Math.round((opt_parentOne.startingFertility +
-        opt_parentTwo.startingFertility) / 2) +
-        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION));
-    this.aggressiveness = Math.max(0, Math.round((
-            opt_parentOne.startingAggressiveness +
-        opt_parentTwo.startingAggressiveness) / 2) +
-        getRandomInt(Genetics.Cage.MIN_MUTATION, Genetics.Cage.MAX_MUTATION));
+    this.startAggressiveness = Math.max(0, Math.round((
+            opt_parentOne.startAggressiveness +
+        opt_parentTwo.startAggressiveness) / 2) +
+        randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
+    this.aggressiveness = this.startAggressiveness;
+    this.startFertility = Math.max(0, Math.round((opt_parentOne.startFertility +
+            opt_parentTwo.startFertility) / 2) +
+        randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
   } else {
     // Mouse is a first generation mouse.
     this.chooseMateOwner = opt_player;
     this.mateAnswerOwner = opt_player;
     this.pickFightOwner = opt_player;
+    this.sex = Genetics.Mouse.Sex.HERMAPHRODITE;
+    this.size = Genetics.Mouse.SIZE;
+    this.startAggressiveness = Genetics.Mouse.START_AGGRESSIVENESS;
     // First generation mice do not fight.
     this.aggressiveness = 0;
+    this.startFertility = Genetics.Mouse.START_FERTILITY;
   }
 
-  this.startingFertility = this.fertility;
+  this.fertility = this.startFertility;
   this.age = 0;
   this.id = id;
 };
 
 /**
  * Defines the types of sex of mice.
- * @type {{Male: string, Female: string, Hermaphrodite: string}}
+ * @enum {string}
  */
 Genetics.Mouse.Sex = {
   MALE: 'Male',
@@ -95,27 +98,44 @@ Genetics.Mouse.Sex = {
 };
 
 /**
+ * The smallest change that a mutation in assigning mouse stats can be.
+ * @type {number}
+ */
+Genetics.Mouse.MIN_MUTATION = -2;
+
+/**
+ * The greatest change that a mutation in assigning mouse stats can be.
+ * @type {number}
+ */
+Genetics.Mouse.MAX_MUTATION = 2;
+
+/**
+ * The minimum size of a mouse.
+ * @type {number}
+ */
+Genetics.Mouse.MIN_SIZE = 1;
+
+/**
+ * The maximum size of a mouse.
+ * @type {number}
+ */
+Genetics.Mouse.MAX_SIZE = 10;
+
+/**
  * The size of a first generation mouse.
  * @type {number}
  */
-Genetics.Mouse.prototype.size = Genetics.Cage.START_SIZE;
-
-/**
- * Sex of a first generation mouse.
- * @type {string}
- */
-Genetics.Mouse.prototype.sex = Genetics.Mouse.Sex.HERMAPHRODITE;
+Genetics.Mouse.SIZE = 5;
 
 /**
  * Number of fight opportunities that a first generation mouse will pass on to
  * its children.
  * @type {number}
  */
-Genetics.Mouse.prototype.startingAggressiveness =
-    Genetics.Cage.START_AGGRESSIVENESS;
+Genetics.Mouse.START_AGGRESSIVENESS = 2;
 
 /**
  * The number of mating attempts that a first generation mouse starts with.
  * @type {number}
  */
-Genetics.Mouse.prototype.startingFertility = Genetics.Cage.START_FERTILITY;
+Genetics.Mouse.START_FERTILITY = 4;
