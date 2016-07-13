@@ -29,22 +29,14 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Genetics.Blocks');
+goog.require('Genetics.Cage');
+goog.require('Genetics.Visualization');
 goog.require('Genetics.soy');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');
 
 
 BlocklyGames.NAME = 'genetics';
-
-/**
- * Defines the types of sex of mice.
- * @type {{Male: string, Female: string, Hermaphrodite: string}}
- */
-Genetics.Sex = {
-  MALE: 'Male',
-  FEMALE: 'Female',
-  HERMAPHRODITE: 'Hermaphrodite'
-};
 
 /**
  * Optional callback function for when a simulation ends.
@@ -77,7 +69,7 @@ Genetics.init = function() {
       });
 
   BlocklyInterface.init();
-  // TODO Genetics.Visualization.init();
+  Genetics.Visualization.init();
 
   BlocklyGames.bindClick('runButton', Genetics.runButtonClick);
   BlocklyGames.bindClick('resetButton', Genetics.resetButtonClick);

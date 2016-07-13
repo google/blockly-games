@@ -151,7 +151,7 @@ Cage.prototype.addPlayer = function(player, mateQuestion, mateAnswer, pickFight)
  * @param {Mouse} askedMouse The mouse that is being asked to mate.
  * @return {boolean} Whether the mate succeeds.
  */
-Cage.prototype.willMateSucceed = function(proposingMouse, askedMouse) {
+Cage.prototype.isMatingSuccessful = function(proposingMouse, askedMouse) {
   // Check if mice are the same.
   if(proposingMouse.id == askedMouse.id) {
     if(story) { console.log(getMouseName(proposingMouse) + ' is caught trying to mate with itself.'); }
@@ -202,7 +202,7 @@ Cage.prototype.tryMating = function(mouse) {
     this.death(mouse, getMouseName(mouse) + ' exploded when asked whom to mate with.');
     return;
   }
-  if(this.willMateSucceed(mouse, targetMate)) {
+  if(this.isMatingSuccessful(mouse, targetMate)) {
     targetMate.fertility--;
     // Create offspring with these mice.
     if(debug) { console.log(mouse.id + " mating with " + targetMate.id); }

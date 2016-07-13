@@ -58,6 +58,29 @@
         </tr>
     </tbody>
   </table>
+
+  <table width="400">
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <button id="docsButton" title="{msg meaning="Genetics.docsTooltip" desc="Tooltip for the button that opens the language reference documentation."}Display the language documentation.{/msg}">
+          {{msg meaning="Genetics.documentation" desc="Text on the button that opens the language reference documentation.\n{lb}{lb}Identical|Documentation{rb}{rb}"}}Documentation{{/msg}}
+        </button>
+      </td>
+      <td>
+        <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
+          <img src="common/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+        </button>
+        <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
+          <img src="common/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <div id="dialogDocs">
+    <img src="common/1x1.gif" class="close icon21" id="closeDocs">
+    <iframe id="frameDocs"></iframe>
+  </div>
 {/template}
 
 /**
@@ -86,9 +109,11 @@
   </div>
 
   {call .toolbox /}
+  {call .playerSimple /}
+  {call .playerAggressive /}
+  {call .playerHighBreeding /}
 
   {call BlocklyGames.soy.dialog /}
-
 {/template}
 /**
  * Toolbox.
@@ -199,34 +224,14 @@
 {literal}
 <div id="playerSimple" style="display: none">
 /* Simple player */
-function() { var opponent = this.otherMice[getRandomInt(0,this.otherMice.length-1)]; return opponent.id; };
-function chooseMate() {
-  var otherMice = getMice();
-  var mate = this.otherMice[getRandomInt(0,otherMice.length-1)];
-  return mate;
-};
-function mateAnswer(other) {
-  return true;
-};
-</div>
-{/literal}
-{/template}
-
-/**
- * Simple player code.
- */
-{template .playerSimple}
-{literal}
-<div id="playerSimple" style="display: none">
-/* Simple player */
 function pickFight() {
-  var otherMice = getMice();
-  var opponent = this.otherMice[getRandomInt(0,otherMice.length-1)];
+  var mice = getMice();
+  var opponent = mice[Math.randomInt(0,mice.length-1)];
   return opponent;
 }
 function chooseMate() {
-  var otherMice = getMice();
-  var mate = this.otherMice[getRandomInt(0,otherMice.length-1)];
+  var mice = getMice();
+  var mate = mice[Math.randomInt(0,mice.length-1)];
   return mate;
 }
 function mateAnswer(suitor) {
@@ -247,12 +252,12 @@ function pickFight() {
   var mice = getMice();
   // Choose the smallest opponent.
   var opponent = null;
-  for(var i = 0; i < this.otherMice.length; i++) {
+  for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
-    // Check that opponent is not me and is smaller.
-    if(opponent != me() && opponent.size < me().size) {
+    // Check that mouse is not me and is smaller.
+    if (mouse != me() && mouse.size < me().size) {
       // Set opponent choice if opponent is smallest we have seen.
-      if(!opponent || mouse.size < opponent.size) {
+      if (!opponent || mouse.size < opponent.size) {
         opponent = mouse;
       }
     }
@@ -266,9 +271,9 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if(mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex)) {
+    if (mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex)) {
       // Set mate choice if new mate is biggest we have seen.
-      if(!mate || mouse.size > mate.size) {
+      if (!mate || mouse.size > mate.size) {
         mate = mouse;
       }
     }
@@ -296,13 +301,14 @@ function pickFight() {
 function chooseMate() {
   var mice = getMice();
   // Choose the mate with the highest fertility gene.
-  var mate;
-  for(var i = 0; i < this.otherMice.length; i++) {
+  var mate = null;
+  for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if((mouse.sex == Sex.HERMAPHRODITE || mouse.sex != this.sex) && mouse.fertility > 0) {
+    if (mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex) &&
+        mouse.fertility > 0) {
       // Change mate choice if new mate would pass on higher fertility.
-      if(!mate || mouse.startingFertility > mate.startingFertility) {
+      if (!mate || mouse.startingFertility > mate.startingFertility) {
         mate = mouse;
       }
     }
@@ -319,7 +325,7 @@ function mateAnswer(suitor) {
 /**
  * Variant player code.
  */
-{template .playerHighBreeding}
+{template .playerVariant}
 {literal}
 <div id="playerVariant" style="display: none">
 /* Variant player */
@@ -331,10 +337,11 @@ function chooseMate() {
   var mice = getMice();
   // Choose the mate with the highest fertility gene.
   var mate;
-  for(var i = 0; i < this.otherMice.length; i++) {
+  for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if ((mouse.sex == Sex.HERMAPHRODITE || mouse.sex != this.sex) && mouse.fertility > 0) {
+    if (mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex) &&
+        mouse.fertility > 0) {
       // Change mate choice if new mate would pass on higher fertility.
       if (!mate || mouse.startingFertility > mate.startingFertility) {
         mate = mouse;
@@ -368,11 +375,11 @@ function mateAnswer(suitor) {
   var totalValidMates = 0; // Count of total valid mates.
   var mice = getMice();
   for(var i = 0; i < mice.length; i++) {
-    var mouse = this.otherMice[i];
-    if(mouse == me()) {
+    var mouse = mice[i];
+    if (mouse == me()) {
       continue;
     }
-    if(mouse.fertility && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex)) {
+    if (mouse.fertility && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex)) {
       totalValidMates++;
       // Count how many of the 'right' genes the mouse has.
       var rightGeneCount = 0;
@@ -395,15 +402,15 @@ function mateAnswer(suitor) {
     }
   }
   // Be very selective if there are a lot of best choices.
-  if(totalValidMates > 4 && bestMice/totalValidMates > 0.5) {
+  if (totalValidMates > 4 && bestMice/totalValidMates > 0.5) {
     return false;
   }
   // Otherwise be less selective if there are still a lot of great choices
-  if(totalValidMates > 4 && (greatMice + bestMice)/totalValidMates > 0.5) {
+  if (totalValidMates > 4 && (greatMice + bestMice)/totalValidMates > 0.5) {
     return suitorGeneCount > 1;
   }
   // Otherwise be somewhat selective if there are some okay choices
-  if(totalValidMates > 4 && (okayMice + greatMice + bestMice)/totalValidMates > 0.5) {
+  if (totalValidMates > 4 && (okayMice + greatMice + bestMice)/totalValidMates > 0.5) {
     return suitorGeneCount > 2;
   }
   // Otherwise take what you can get
