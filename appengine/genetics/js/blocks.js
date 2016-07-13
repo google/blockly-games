@@ -81,14 +81,11 @@ Blockly.JavaScript['genetics_mouseFunction_'] = function(funcName, args,
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of mouse function arguments.
  * @param {string} returnType The return type of the mouse function.
+ * @this Blockly.Block
  * @private
  */
 Blockly.Blocks['genetics_mouseFunctionInit_'] = function(funcName, args,
     returnType) {
-  /**
-   * Mouse function block.
-   * @this Blockly.Block
-   */
   this.jsonInit({
     "message0": "function %1( " + args + " ) { %2 %3 return %4 }",
     "args0": [
@@ -229,30 +226,40 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this Blockly.Block
    */
   init: function() {
-    var PROPERTIES =
-        [['size', 'SIZE'],
-          ['aggressiveness', 'AGGRESSIVENESS'],
-          ['fertility', 'FERTILITY'],
-          ['startingFertility', 'START_FERTILITY'],
-          ['age', 'AGE'],
-          ['id', 'ID'],
-          ['pickFightOwner', 'PICKFIGHT_OWNER'],
-          ['chooseMateOwner', 'CHOOSEMATE_OWNER'],
-          ['mateAnswerOwner', 'MATEANSWER_OWNER']];
-    // Assign 'this' to a variable for use in the closures below.
-    var thisBlock = this;
-    this.setColour(Genetics.Blocks.GENETICS_HUE);
-    this.setOutput(true, 'Number');
-    var dropdown = new Blockly.FieldDropdown(PROPERTIES, function(newProp) {
-      thisBlock.updateType_(newProp);
+    this.jsonInit({
+      "message0": "%1.%2",
+
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "MOUSE",
+          "check": "Mouse"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "PROPERTY",
+          "options": [
+            ['size', 'SIZE'],
+            ['aggressiveness', 'AGGRESSIVENESS'],
+            ['startAggressiveness', 'START_AGGRESSIVENESS'],
+            ['fertility', 'FERTILITY'],
+            ['startingFertility', 'START_FERTILITY'],
+            ['age', 'AGE'],
+            ['id', 'ID'],
+            ['pickFightOwner', 'PICK_FIGHT'],
+            ['chooseMateOwner', 'CHOOSE_MATE'],
+            ['mateAnswerOwner', 'MATE_ANSWER']
+          ]
+        }
+      ],
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Genetics.Blocks.GENETICS_HUE
     });
-    this.appendValueInput('MOUSE')
-        .setCheck('Mouse');
-    this.appendDummyInput()
-        .appendField('.')
-        .appendField(dropdown, 'PROPERTY');
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
     this.setTooltip(function() {
-      var property = thisBlock.getFieldValue('PROPERTY');
+      var mode = thisBlock.getFieldValue('PROPERTY');
       var TOOLTIPS = {
         'SIZE': BlocklyGames.getMsg('Genetics_sizeTooltip'),
         'AGGRESSIVENESS': BlocklyGames.getMsg('Genetics_aggressivenessTooltip'),
@@ -260,11 +267,11 @@ Blockly.Blocks['genetics_getProperties'] = {
         'START_FERTILITY': BlocklyGames.getMsg('Genetics_startFertilityTooltip'),
         'AGE': BlocklyGames.getMsg('Genetics_ageTooltip'),
         'ID': BlocklyGames.getMsg('Genetics_idTooltip'),
-        'PICKFIGHT_OWNER': BlocklyGames.getMsg('Genetics_pickFightOwnerTooltip'),
-        'CHOOSEMATE_OWNER': BlocklyGames.getMsg('Genetics_chooseMateOwnerTooltip'),
-        'MATEANSWER_OWNER': BlocklyGames.getMsg('Genetics_mateAnswerOwnerTooltip')
+        'PICK_FIGHT': BlocklyGames.getMsg('Genetics_pickFightOwnerTooltip'),
+        'CHOOSE_MATE': BlocklyGames.getMsg('Genetics_chooseMateOwnerTooltip'),
+        'MATE_ANSWER': BlocklyGames.getMsg('Genetics_mateAnswerOwnerTooltip')
       };
-      return TOOLTIPS[property];
+      return TOOLTIPS[mode];
     });
   },
   /**
@@ -275,8 +282,8 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this Blockly.Block
    */
   updateType_: function(newProp) {
-    if (newProp == 'PICKFIGHT_OWNER' || newProp == 'CHOOSEMATE_OWNER' ||
-        newProp == 'MATEANSWER_OWNER') {
+    if (newProp == 'PICK_FIGHT' || newProp == 'CHOOSE_MATE' ||
+        newProp == 'MATE_ANSWER') {
       this.outputConnection.setCheck('String');
     } else {
       this.outputConnection.setCheck('Number');
@@ -291,10 +298,82 @@ Blockly.Blocks['genetics_getProperties'] = {
  */
 Blockly.JavaScript['genetics_getProperties'] = function(block) {
   // Generate JavaScript for getting mouse property.
-  var value_mouse = Blockly.JavaScript.valueToCode(block, 'MOUSE',
+  var mouse = Blockly.JavaScript.valueToCode(block, 'MOUSE',
           Blockly.JavaScript.ORDER_NONE) || 'me()';
-  var value_field = Blockly.JavaScript.valueToCode(block, 'PROPERTY',
-          Blockly.JavaScript.ORDER_NONE) || 'size';
-  var code = value_mouse + '.' + value_field;
+  var property = block.getFieldValue('PROPERTY');
+  var code = mouse + '.';
+  switch (property) {
+    case 'SIZE':
+      code += 'size';
+      break;
+    case 'AGGRESSIVENESS':
+      code += 'aggressiveness';
+      break;
+    case 'START_AGGRESSIVENESS':
+      code += 'aggressiveness';
+      break;
+    case 'FERTILITY':
+      code += 'fertility';
+      break;
+    case 'START_FERTILITY':
+      code += 'startFertility';
+      break;
+    case 'AGE':
+      code += 'age';
+      break;
+    case 'ID':
+      code += 'id';
+      break;
+    case 'PICK_FIGHT':
+      code += 'pickFightOwner';
+      break;
+    case 'CHOOSE_MATE':
+      code += 'chooseMateOwner';
+      break;
+    case 'MATE_ANSWER':
+      code += 'mateAnswerOwner';
+      break;
+    default:
+      throw 'Unknown math operator: ' + operator;
+  }
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+Blockly.Blocks['genetics_math_randomInt'] = {
+  /**
+   * Retrieves a random integer value between two numbers inclusive.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "Math.randomInt(%1, %2)",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "MIN_VALUE",
+          "check": "Number"
+        },
+        {
+          "type": "input_value",
+          "name": "MAX_VALUE",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "output": "Number",
+      "colour": Blockly.Blocks.math.HUE,
+      "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL,
+      "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP
+    });
+  }
+};
+
+Blockly.JavaScript['genetics_math_randomInt'] = function(block) {
+  // Retrieves a random integer value between two numbers, inclusive.
+  var minValue = Blockly.JavaScript.valueToCode(block, 'NUM',
+          Blockly.JavaScript.ORDER_COMMA) || '0';
+  var maxValue = Blockly.JavaScript.valueToCode(block, 'NUM',
+          Blockly.JavaScript.ORDER_COMMA) || '0';
+  var code = 'Math.randomInt(' + minValue + ', ' + maxValue + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
