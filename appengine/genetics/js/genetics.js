@@ -35,7 +35,10 @@ goog.require('Genetics.soy');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');
 
-
+/**
+ * The name of the app.
+ * @type {string}
+ */
 BlocklyGames.NAME = 'genetics';
 
 /**
@@ -54,6 +57,7 @@ Genetics.blocksEnabled_ = true;
 /**
  * ACE editor fires change events even on programatically caused changes.
  * This property is used to signal times when a programatic change is made.
+ * @private
  */
 Genetics.ignoreEditorChanges_ = true;
 
@@ -70,6 +74,10 @@ Genetics.init = function() {
 
   BlocklyInterface.init();
   Genetics.Visualization.init();
+
+  // TODO(kozbial) remove after BlocklyGames indexing setting is set.
+  Blockly.JavaScript.ONE_BASED_INDEXING = false;
+  Blockly.Blocks.ONE_BASED_INDEXING = false;
 
   BlocklyGames.bindClick('runButton', Genetics.runButtonClick);
   BlocklyGames.bindClick('resetButton', Genetics.resetButtonClick);
@@ -145,29 +153,37 @@ Genetics.init = function() {
   Blockly.JavaScript.addReservedWords('pickFight,chooseMate,mateAnswer');
   var defaultXml =
   '<xml>' +
-    '<block type="genetics_pickFight" deletable="false" editable="false" x="0" y="150">' +
+    '<block type="genetics_pickFight" deletable="false" editable="false" ' +
+        'x="0" y="150">' +
       '<comment pinned="false">' +
-'Chooses and returns a mouse from mice to pick a fight with or null to choose no\n' +
+'Chooses and returns a mouse from mice to pick a fight with or null to ' +
+    'choose no\n' +
 'mouse and never fight again.\n' +
 'Choosing to fight against itself will kill the mouse.\n' +
-'@returns the mouse chosen to attempt to mate with or null if no mouse is chosen' +
+'@returns the mouse chosen to attempt to mate with or null if no mouse is ' +
+    'chosen' +
       '</comment>' +
       '<value name="RETURN">' +
         '<shadow type="logic_null"></shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="genetics_chooseMate"  deletable="false" editable="false" x="0" y="350">' +
+    '<block type="genetics_chooseMate"  deletable="false" editable="false" ' +
+        'x="0" y="350">' +
       '<comment pinned="false">' +
-'Chooses and returns a mouse from mice to attempt to mate with or null to choose\n' +
-'no mouse and never mate again. If the mate chosen is valid and agrees to the\n' +
+'Chooses and returns a mouse from mice to attempt to mate with or null ' +
+    'to choose\n' +
+'no mouse and never mate again. If the mate chosen is valid and agrees to ' +
+    'the\n' +
 'request then a child will be born.\n' +
-'@returns the mouse chosen to attempt to mate with or null if no mouse is chosen' +
+'@returns the mouse chosen to attempt to mate with or null if no mouse is ' +
+    'chosen' +
       '</comment>' +
       '<value name="RETURN">' +
         '<shadow type="logic_null"></shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="genetics_mateAnswer"  deletable="false" editable="false" x="0" y="550">' +
+    '<block type="genetics_mateAnswer"  deletable="false" editable="false" ' +
+        'x="0" y="550">' +
       '<comment pinned="false">' +
 'Returns true to agree to mate or false to decline.\n' +
 '@param suitor the mouse requesting to mate\n' +

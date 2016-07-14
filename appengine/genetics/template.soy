@@ -121,7 +121,7 @@
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
     <category name="Genetics" colour="20">
-      <block type="genetics_me"></block>
+      <block type="genetics_getSelf"></block>
       <block type="genetics_getMice"></block>
       <block type="genetics_getProperties"></block>
     </category>
@@ -201,6 +201,7 @@
           </shadow>
         </value>
       </block>
+      <block type="genetics_math_randomInt"></block>
       <block type="math_random_float"></block>
     </category>
     <category name="Lists" colour="270">
@@ -224,6 +225,7 @@
 {literal}
 <div id="playerSimple" style="display: none">
 /* Simple player */
+var suitor;
 function pickFight() {
   var mice = getMice();
   var opponent = mice[Math.randomInt(0,mice.length-1)];
@@ -248,6 +250,7 @@ function mateAnswer(suitor) {
 {literal}
 <div id="playerAggressive" style="display: none">
 /* Aggressive player */
+var suitor;
 function pickFight() {
   var mice = getMice();
   // Choose the smallest opponent.
@@ -255,7 +258,7 @@ function pickFight() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that mouse is not me and is smaller.
-    if (mouse != me() && mouse.size < me().size) {
+    if (mouse != getSelf() && mouse.size < getSelf().size) {
       // Set opponent choice if opponent is smallest we have seen.
       if (!opponent || mouse.size < opponent.size) {
         opponent = mouse;
@@ -271,7 +274,7 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex)) {
+    if (mouse != getSelf() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex)) {
       // Set mate choice if new mate is biggest we have seen.
       if (!mate || mouse.size > mate.size) {
         mate = mouse;
@@ -281,8 +284,8 @@ function chooseMate() {
   return mate;
 }
 function mateAnswer(suitor) {
-  return suitor.size >= me().size;
-};
+  return suitor.size >= getSelf().size;
+}
 </div>
 {/literal}
 {/template}
@@ -294,6 +297,7 @@ function mateAnswer(suitor) {
 {literal}
 <div id="playerHighBreeding" style="display: none">
 /* High Breeding player */
+var suitor;
 function pickFight() {
   // Always choose not to fight.
   return null;
@@ -305,7 +309,7 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex) &&
+    if (mouse != getSelf() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex) &&
         mouse.fertility > 0) {
       // Change mate choice if new mate would pass on higher fertility.
       if (!mate || mouse.startingFertility > mate.startingFertility) {
@@ -317,7 +321,7 @@ function chooseMate() {
 }
 function mateAnswer(suitor) {
   return true;
-};
+}
 </div>
 {/literal}
 {/template}
@@ -329,6 +333,7 @@ function mateAnswer(suitor) {
 {literal}
 <div id="playerVariant" style="display: none">
 /* Variant player */
+var suitor;
 function pickFight() {
   // Always choose not to fight.
   return null;
@@ -340,7 +345,7 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != me() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex) &&
+    if (mouse != getSelf() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex) &&
         mouse.fertility > 0) {
       // Change mate choice if new mate would pass on higher fertility.
       if (!mate || mouse.startingFertility > mate.startingFertility) {
@@ -352,7 +357,7 @@ function chooseMate() {
 }
 function mateAnswer(suitor) {
   // Survey for how many mice own target gene.
-  var bestGeneOwner = me().mateAnswerOwner;
+  var bestGeneOwner = getSelf().mateAnswerOwner;
   // Check how many of suitor's genes are the same as the best gene.
   var suitorGeneCount = 0;
   if (suitor.pickFightOwner == bestGeneOwner) {
@@ -376,10 +381,10 @@ function mateAnswer(suitor) {
   var mice = getMice();
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
-    if (mouse == me()) {
+    if (mouse == getSelf()) {
       continue;
     }
-    if (mouse.fertility && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != me().sex)) {
+    if (mouse.fertility && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex)) {
       totalValidMates++;
       // Count how many of the 'right' genes the mouse has.
       var rightGeneCount = 0;

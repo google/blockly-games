@@ -166,14 +166,14 @@ Blockly.JavaScript['genetics_mateAnswer'] =
     goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
                  'mateAnswer', 'suitor');
 
-Blockly.Blocks['genetics_me'] = {
+Blockly.Blocks['genetics_getSelf'] = {
   /**
    * Block for getting the mouse making the decision.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      "message0": "me ()",
+      "message0": "getSelf ()",
       "output": "Mouse",
       "colour": Genetics.Blocks.GENETICS_HUE,
       "tooltip": BlocklyGames.getMsg('Genetics_meTooltip')
@@ -182,18 +182,18 @@ Blockly.Blocks['genetics_me'] = {
 };
 
 /**
- * Defines the JavaScript generation for me.
+ * Defines the JavaScript generation for getSelf.
  * @param {Blockly.Block} block
  * @return {!Array.<string|number>}
  */
-Blockly.JavaScript['genetics_me'] = function(block) {
+Blockly.JavaScript['genetics_getSelf'] = function(block) {
   // Generate JavaScript for mouse making the decision.
   return ['me()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['genetics_getMice'] = {
   /**
-   * Block for getting the mouse making the decision.
+   * Block for getting all mice in the cage.
    * @this Blockly.Block
    */
   init: function() {

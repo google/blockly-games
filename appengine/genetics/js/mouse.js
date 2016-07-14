@@ -56,7 +56,7 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
     this.pickFightOwner = pickFightParent ? opt_parentOne.pickFightOwner :
         opt_parentTwo.pickFightOwner;
     // Assign stats based on parents with some mutations.
-    this.size = goog.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
+    this.size = goog.math.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
         Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);
     this.sex = (randomInt(0, 1)) ? Genetics.Mouse.Sex.MALE :
