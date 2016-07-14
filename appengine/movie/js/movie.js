@@ -96,10 +96,7 @@ Movie.init = function() {
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
-  window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+  window.addEventListener('scroll', onresize);
   window.addEventListener('resize', onresize);
   onresize();
 

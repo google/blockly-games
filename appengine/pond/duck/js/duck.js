@@ -89,10 +89,7 @@ Pond.Duck.init = function() {
       div.style.width = divWidth;
     }
   };
-  window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+  window.addEventListener('scroll', onresize);
   window.addEventListener('resize', onresize);
   onresize();
 
