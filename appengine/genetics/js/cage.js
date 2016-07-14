@@ -384,6 +384,8 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
       proposingMouse);
   // Check if function threw an error or caused a timeout.
   if (result[0] == 'FAILURE') {
+    new Genetics.Cage.Event('MATE', proposingMouse.id, 'MATE_EXPLODED')
+        .addToQueue();
     return false;
   }
   var response = result[1];
@@ -568,7 +570,18 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
  * @return {Interpreter} Interpreter set up for executing mouse function call.
  */
 Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
-  var playerId = mouse[mouseFunction + 'Owner'];
+  var playerId;
+  switch (mouseFunction) {
+    case 'pickFight':
+      playerId = mouse.pickFightOwner;
+      break;
+    case 'chooseMate':
+      playerId = mouse.chooseMateOwner;
+      break;
+    case 'mateAnswer':
+      playerId = mouse.mateAnswerOwner;
+      break;
+  }
   var code = Genetics.Cage.PLAYERS[playerId][1];
   if (goog.isFunction(code)) {
     code = code();
@@ -577,7 +590,7 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
     throw 'Player ' + player + ' has invalid code: ' + code;
   }
   var interpreter = new Interpreter(code,
-      goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor));
+      goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor || null));
   // Overwrite other function calls and call function we need return value of.
   switch (mouseFunction) {
     case 'pickFight':
@@ -602,12 +615,12 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
 /**
  * Inject the Genetics API into a JavaScript interpreter.
  * @param {!Genetics.Mouse} mouse The mouse that is running the function.
- * @param {Genetics.Mouse=} opt_suitor The mouse passed as a parameter to the
+ * @param {?Genetics.Mouse} suitor The mouse passed as a parameter to the
  * function (for mateAnswer function call).
  * @param {!Interpreter} interpreter The JS interpreter.
  * @param {!Object} scope Global scope.
  */
-Genetics.Cage.initInterpreter = function(mouse, opt_suitor, interpreter,
+Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
     scope) {
   var pseudoMe = interpreter.UNDEFINED;
   var pseudoSuitor = interpreter.ARRAY;
@@ -621,7 +634,7 @@ Genetics.Cage.initInterpreter = function(mouse, opt_suitor, interpreter,
       pseudoMe = pseudoMouse;
     }
     // Check if the mouse running the interpreter has been created.
-    else if (opt_suitor && aliveMice[i].id == opt_suitor.id) {
+    else if (suitor && aliveMice[i].id == suitor.id) {
       pseudoSuitor = pseudoMouse;
     }
   }

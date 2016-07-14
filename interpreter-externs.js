@@ -48,6 +48,12 @@ Interpreter.prototype.UNDEFINED;
 Interpreter.prototype.step = function() {};
 
 /**
+ * Add more code to the interpreter.
+ * @param {string|!Object} code Raw JavaScript text or AST.
+ */
+Interpreter.prototype.appendCode = function(code) {};
+
+/**
  * Execute the interpreter to program completion.
  */
 Interpreter.prototype.run = function() {};
@@ -72,6 +78,15 @@ Interpreter.prototype.createObject = function(parent) {};
  * @return {!Object} New function.
  */
 Interpreter.prototype.createNativeFunction = function(nativeFunc) {};
+
+/**
+ * Converts from a native JS object or value to a JS interpreter object.
+ * Can handle JSON-style values.
+ * @param {*} nativeObj The native JS object to be converted.
+ * @return {!Interpreter.Object|!Interpreter.Primitive} The equivalent
+ *     JS interpreter object.
+ */
+Interpreter.prototype.nativeToPseudo = function(nativeObj) {};
 
 /**
  * Fetch a property value from a data object.
