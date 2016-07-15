@@ -1,5 +1,5 @@
 /**
- * Blockly Games: Turtle Graphics Answers
+ * Blockly Games: Turtle Answers
  *
  * Copyright 2013 Google Inc.
  * https://github.com/google/blockly-games

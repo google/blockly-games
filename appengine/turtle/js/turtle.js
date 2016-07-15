@@ -104,10 +104,7 @@ Turtle.init = function() {
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
-  window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+  window.addEventListener('scroll', onresize);
   window.addEventListener('resize', onresize);
   onresize();
 
@@ -187,6 +184,11 @@ Turtle.init = function() {
       setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
     }
   }
+  if (BlocklyGames.LEVEL == 1) {
+    // Previous apps did not have categories.
+    // If the user doesn't find them, point them out.
+    BlocklyGames.workspace.addChangeListener(Turtle.watchCategories_);
+  }
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -230,7 +232,6 @@ Turtle.hideHelp = function() {
   if (BlocklyGames.LEVEL == 1) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
-    Turtle.watchCategories_();
     setTimeout(Turtle.showCategoryHelp, 5000);
   }
 };
@@ -262,15 +263,14 @@ Turtle.categoryClicked_ = false;
 
 /**
  * Monitor to see if the user finds the categories in level one.
+ * @param {!Blockly.Events.Abstract} event Custom data for event.
  * @private
  */
-Turtle.watchCategories_ = function() {
-  if (BlocklyGames.workspace.toolbox_.flyout_.isVisible()) {
+Turtle.watchCategories_ = function(e) {
+  if (e.type == Blockly.Events.UI && e.element == 'category') {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
-  }
-  if (!Turtle.categoryClicked_) {
-    setTimeout(Turtle.watchCategories_, 100);
+    BlocklyGames.workspace.removeChangeListener(Turtle.watchCategories_);
   }
 };
 

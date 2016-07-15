@@ -500,10 +500,7 @@ Maze.init = function() {
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
-  window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+  window.addEventListener('scroll', onresize);
   window.addEventListener('resize', onresize);
   onresize();
 
@@ -574,7 +571,7 @@ Maze.init = function() {
     // All other levels get interactive help.  But wait 5 seconds for the
     // user to think a bit before they are told what to do.
     setTimeout(function() {
-      BlocklyGames.workspace.addChangeListener(function() {Maze.levelHelp()});
+      BlocklyGames.workspace.addChangeListener(Maze.levelHelp);
       Maze.levelHelp();
     }, 5000);
   }
@@ -596,9 +593,13 @@ Maze.init = function() {
 
 /**
  * When the workspace changes, update the help as needed.
+ * @param {Blockly.Events.Abstract} opt_event Custom data for event.
  */
-Maze.levelHelp = function() {
-  if (Blockly.dragMode_ != 0) {
+Maze.levelHelp = function(opt_event) {
+  if (opt_event && opt_event.type == Blockly.Events.UI) {
+    // Just a change to highlighting or somesuch.
+    return;
+  } else if (Blockly.dragMode_ != 0) {
     // Don't change helps during drags.
     return;
   } else if (Maze.result == Maze.ResultType.SUCCESS ||
