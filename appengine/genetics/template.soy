@@ -22,6 +22,7 @@
     <span id="Genetics_variantName">{{msg meaning="Genetics.variantName" desc="Name for a player that has a complex strategy that is a variant of other mice AI.\n{lb}{lb}Identical|Variant{rb}{rb}"}}Variant{{/msg}}</span>
     <span id="Genetics_myName">{{msg meaning="Genetics.playerName" desc="IBID"}}Player{{/msg}}</span>
 
+    // Tooltips
     <span id="Genetics_pickFightTooltip">{msg meaning="Genetics.pickFightTooltip" desc="Tooltip for the block that defines the logic for picking a mouse to fight against."}Defines the function for picking a mouse to fight against. {/msg}</span>
     <span id="Genetics_chooseMateTooltip">{msg meaning="Genetics.chooseMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
     <span id="Genetics_mateAnswerTooltip">{msg meaning="Genetics.mateAnswerTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
@@ -120,12 +121,12 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <category name="Genetics" colour="20">
+  <category name="{msg meaning="Games.genetics" desc="IBID"}Genetics{/msg}">
       <block type="genetics_getSelf"></block>
       <block type="genetics_getMice"></block>
       <block type="genetics_getProperties"></block>
     </category>
-    <category name="Logic" colour="210">
+    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -133,7 +134,7 @@
       <block type="logic_boolean"></block>
       <block type="logic_null"></block>
     </category>
-    <category name="Loops" colour="120">
+    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
       <block type="controls_whileUntil"></block>
       <block type="controls_for">
         <value name="FROM">
@@ -156,7 +157,7 @@
       </block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="Math" colour="230">
+    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -204,7 +205,7 @@
       <block type="genetics_math_randomInt"></block>
       <block type="math_random_float"></block>
     </category>
-    <category name="Lists" colour="270">
+    <category name="{msg meaning="Games.catLists" desc="Lists"}Lists{/msg}">
       <block type="lists_create_with">
         <mutation items="0"></mutation>
       </block>
@@ -213,8 +214,8 @@
       <block type="lists_setIndex"></block>
     </category>
     <sep></sep>
-    <category name="Variables" colour="330" custom="VARIABLE"></category>
-    <category name="Functions" colour="290" custom="PROCEDURE"></category>
+    <category name="{msg meaning="Games.catVariables" desc="Variables"}Variables{/msg}" custom="VARIABLE"></category>
+    <category name="{msg meaning="Games.catProcedures" desc="Functions"}Functions{/msg}" custom="PROCEDURE"></category>
   </xml>
 {/template}
 

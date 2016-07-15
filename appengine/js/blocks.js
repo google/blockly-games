@@ -438,7 +438,8 @@ Blockly.Blocks['lists_getIndex'] = {
       "inputsInline": true,
       "output": null,
       "colour": Blockly.Blocks.lists.HUE,
-      "tooltip": Blockly.Msg.LISTS_GET_INDEX_TOOLTIP_GET_FROM_START,
+      "tooltip": Blockly.Msg.LISTS_GET_INDEX_TOOLTIP_GET_FROM +
+          Blockly.Msg.LISTS_INDEX_FROM_START_TOOLTIP.replace('%1', '#0'),
       "helpUrl": Blockly.Msg.LISTS_GET_INDEX_HELPURL
     });
   }
@@ -472,7 +473,8 @@ Blockly.Blocks['lists_setIndex'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.lists.HUE,
-      "tooltip": Blockly.Msg.LISTS_SET_INDEX_TOOLTIP_INSERT_FROM_START,
+      "tooltip": Blockly.Msg.LISTS_SET_INDEX_TOOLTIP_SET_FROM +
+          Blockly.Msg.LISTS_INDEX_FROM_START_TOOLTIP.replace('%1', '#0'),
       "helpUrl": Blockly.Msg.LISTS_SET_INDEX_HELPURL
     });
   }
