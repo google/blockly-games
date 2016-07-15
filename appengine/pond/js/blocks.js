@@ -47,7 +47,7 @@ Blockly.Blocks['pond_scan'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "scan(%1)",
+      "message0": "scan (%1)",
       "args0": [
         {
           "type": "input_value",
@@ -78,7 +78,7 @@ Blockly.Blocks['pond_cannon'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "cannon(%1, %2);",
+      "message0": "cannon (%1, %2);",
       "args0": [
         {
           "type": "input_value",
@@ -116,7 +116,7 @@ Blockly.Blocks['pond_swim'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "swim(%1);",
+      "message0": "swim (%1);",
       "args0": [
         {
           "type": "input_value",
@@ -147,7 +147,7 @@ Blockly.Blocks['pond_stop'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "stop();",
+      "message0": "stop ();",
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
@@ -168,7 +168,7 @@ Blockly.Blocks['pond_health'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "health()",
+      "message0": "health ()",
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_healthTooltip')
@@ -188,7 +188,7 @@ Blockly.Blocks['pond_speed'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "speed()",
+      "message0": "speed ()",
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_speedTooltip')
@@ -208,7 +208,7 @@ Blockly.Blocks['pond_loc_x'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "loc_x()",
+      "message0": "getX ()",
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_locXTooltip')
@@ -218,7 +218,7 @@ Blockly.Blocks['pond_loc_x'] = {
 
 Blockly.JavaScript['pond_loc_x'] = function(block) {
   // Generate JavaScript for X coordinate.
-  return ['loc_x()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['getX()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['pond_loc_y'] = {
@@ -228,7 +228,7 @@ Blockly.Blocks['pond_loc_y'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "loc_y()",
+      "message0": "getY ()",
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_locYTooltip')
@@ -238,7 +238,7 @@ Blockly.Blocks['pond_loc_y'] = {
 
 Blockly.JavaScript['pond_loc_y'] = function(block) {
   // Generate JavaScript for Y coordinate.
-  return ['loc_y()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['getY()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['pond_math_number'] = {
@@ -360,28 +360,28 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
   // wrapping the code.
   switch (operator) {
     case 'ABS':
-      code = 'Math.abs(' + arg + ')';
+      code = 'Math.abs (' + arg + ')';
       break;
     case 'ROOT':
-      code = 'Math.sqrt(' + arg + ')';
+      code = 'Math.sqrt (' + arg + ')';
       break;
     case 'SIN':
-      code = 'Math.sin_deg(' + arg + ')';
+      code = 'Math.sin_deg (' + arg + ')';
       break;
     case 'COS':
-      code = 'Math.cos_deg(' + arg + ')';
+      code = 'Math.cos_deg (' + arg + ')';
       break;
     case 'TAN':
-      code = 'Math.tan_deg(' + arg + ')';
+      code = 'Math.tan_deg (' + arg + ')';
       break;
     case 'ASIN':
-      code = 'Math.asin_deg(' + arg + ')';
+      code = 'Math.asin_deg (' + arg + ')';
       break;
     case 'ACOS':
-      code = 'Math.acos_deg(' + arg + ')';
+      code = 'Math.acos_deg (' + arg + ')';
       break;
     case 'ATAN':
-      code = 'Math.atan_deg(' + arg + ')';
+      code = 'Math.atan_deg (' + arg + ')';
       break;
     default:
       throw 'Unknown math operator: ' + operator;

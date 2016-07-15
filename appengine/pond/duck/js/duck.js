@@ -121,7 +121,7 @@ Pond.Duck.init = function() {
        'trashcan': true,
        'zoom': {'controls': true, 'wheel': true}});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
-      'damage,health,loc_x,loc_y');
+      'damage,health,loc_x,getX,loc_y,getY,');
   var defaultXml =
       '<xml>' +
       '  <block type="pond_cannon" x="70" y="70">' +

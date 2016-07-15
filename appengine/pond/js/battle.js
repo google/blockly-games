@@ -408,11 +408,15 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
   };
   interpreter.setProperty(scope, 'loc_x',
       interpreter.createNativeFunction(wrapper));
+  interpreter.setProperty(scope, 'getX',
+      interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return interpreter.createPrimitive(Pond.Battle.currentAvatar.loc.y);
   };
   interpreter.setProperty(scope, 'loc_y',
+      interpreter.createNativeFunction(wrapper));
+  interpreter.setProperty(scope, 'getY',
       interpreter.createNativeFunction(wrapper));
 
   var myMath = interpreter.getProperty(scope, 'Math');
