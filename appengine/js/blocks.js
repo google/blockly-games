@@ -272,7 +272,7 @@ Blockly.Blocks['math_change'].init = function() {
   });
 };
 
-Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
+Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random  (  )';
 
 /**
  * Variable getter.
