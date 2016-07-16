@@ -188,7 +188,7 @@ Blockly.Blocks['genetics_getSelf'] = {
  */
 Blockly.JavaScript['genetics_getSelf'] = function(block) {
   // Generate JavaScript for mouse making the decision.
-  return ['me()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['getSelf()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['genetics_getMice'] = {
