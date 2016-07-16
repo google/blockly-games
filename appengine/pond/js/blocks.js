@@ -201,7 +201,7 @@ Blockly.JavaScript['pond_speed'] = function(block) {
   return ['speed()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Blocks['pond_loc_x'] = {
+Blockly.Blocks['pond_getX'] = {
   /**
    * Block for X coordinate.
    * @this Blockly.Block
@@ -216,12 +216,12 @@ Blockly.Blocks['pond_loc_x'] = {
   }
 };
 
-Blockly.JavaScript['pond_loc_x'] = function(block) {
+Blockly.JavaScript['pond_getX'] = function(block) {
   // Generate JavaScript for X coordinate.
   return ['getX()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Blocks['pond_loc_y'] = {
+Blockly.Blocks['pond_getY'] = {
   /**
    * Block for Y coordinate.
    * @this Blockly.Block
@@ -236,7 +236,7 @@ Blockly.Blocks['pond_loc_y'] = {
   }
 };
 
-Blockly.JavaScript['pond_loc_y'] = function(block) {
+Blockly.JavaScript['pond_getY'] = function(block) {
   // Generate JavaScript for Y coordinate.
   return ['getY()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
@@ -251,7 +251,7 @@ Blockly.Blocks['pond_math_number'] = {
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput('DUMMY')
         .appendField(new Blockly.FieldTextInput('0',
-            Blockly.FieldTextInput.numberValidator), 'NUM');
+            Blockly.FieldNumber.numberValidator), 'NUM');
     this.setOutput(true, 'Number');
     this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
   },
@@ -390,6 +390,13 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
 };
 
 Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
+
+
+// Aliases defined to support XML generated before 15 July 2016
+Blockly.Blocks['pond_loc_x'] = Blockly.Blocks['pond_loc_x'];
+Blockly.JavaScript['pond_loc_x'] = Blockly.JavaScript['pond_loc_x'];
+Blockly.Blocks['pond_loc_y'] = Blockly.Blocks['pond_loc_y'];
+Blockly.JavaScript['pond_loc_y'] = Blockly.JavaScript['pond_loc_y'];
 
 // Pond blocks moved to appengine/js/blocks.js and renamed on 6 June 2016.
 // Aliases defined to support XML generated before change.
