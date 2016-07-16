@@ -47,8 +47,9 @@ Blockly.Blocks['pond_scan'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "scan (%1)",
+      "message0": "%1(%2)",
       "args0": [
+        "scan",
         {
           "type": "input_value",
           "name": "DEGREE",
@@ -78,8 +79,9 @@ Blockly.Blocks['pond_cannon'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "cannon (%1, %2);",
+      "message0": "%1(%2, %3);",
       "args0": [
+        "cannon",
         {
           "type": "input_value",
           "name": "DEGREE",
@@ -116,8 +118,9 @@ Blockly.Blocks['pond_swim'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "swim (%1);",
+      "message0": "%1(%2);",
       "args0": [
+          "swim",
         {
           "type": "input_value",
           "name": "DEGREE",
@@ -147,7 +150,8 @@ Blockly.Blocks['pond_stop'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "stop ();",
+      "message0": "%1(%2)",
+      "args0": ["stop", ""],
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
@@ -168,7 +172,8 @@ Blockly.Blocks['pond_health'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "health ()",
+      "message0": "%1(%2)",
+      "args0": ["health", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_healthTooltip')
@@ -188,7 +193,8 @@ Blockly.Blocks['pond_speed'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "speed ()",
+      "message0": "%1(%2)",
+      "args0": ["speed", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_speedTooltip')
@@ -208,7 +214,8 @@ Blockly.Blocks['pond_getX'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "getX ()",
+      "message0": "%1(%2)",
+      "args0": ["getX", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_locXTooltip')
@@ -228,7 +235,8 @@ Blockly.Blocks['pond_getY'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "getY ()",
+      "message0": "%1(%2)",
+      "args0": ["getY", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond_locYTooltip')
@@ -360,28 +368,28 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
   // wrapping the code.
   switch (operator) {
     case 'ABS':
-      code = 'Math.abs (' + arg + ')';
+      code = 'Math.abs(' + arg + ')';
       break;
     case 'ROOT':
-      code = 'Math.sqrt (' + arg + ')';
+      code = 'Math.sqrt(' + arg + ')';
       break;
     case 'SIN':
-      code = 'Math.sin_deg (' + arg + ')';
+      code = 'Math.sin_deg(' + arg + ')';
       break;
     case 'COS':
-      code = 'Math.cos_deg (' + arg + ')';
+      code = 'Math.cos_deg(' + arg + ')';
       break;
     case 'TAN':
-      code = 'Math.tan_deg (' + arg + ')';
+      code = 'Math.tan_deg(' + arg + ')';
       break;
     case 'ASIN':
-      code = 'Math.asin_deg (' + arg + ')';
+      code = 'Math.asin_deg(' + arg + ')';
       break;
     case 'ACOS':
-      code = 'Math.acos_deg (' + arg + ')';
+      code = 'Math.acos_deg(' + arg + ')';
       break;
     case 'ATAN':
-      code = 'Math.atan_deg (' + arg + ')';
+      code = 'Math.atan_deg(' + arg + ')';
       break;
     default:
       throw 'Unknown math operator: ' + operator;
