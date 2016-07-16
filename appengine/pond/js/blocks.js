@@ -392,11 +392,11 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
 Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
 
 
-// Aliases defined to support XML generated before 15 July 2016
-Blockly.Blocks['pond_loc_x'] = Blockly.Blocks['pond_loc_x'];
-Blockly.JavaScript['pond_loc_x'] = Blockly.JavaScript['pond_loc_x'];
-Blockly.Blocks['pond_loc_y'] = Blockly.Blocks['pond_loc_y'];
-Blockly.JavaScript['pond_loc_y'] = Blockly.JavaScript['pond_loc_y'];
+// Aliases defined to support XML generated before 15 July 2016.
+Blockly.Blocks['pond_loc_x'] = Blockly.Blocks['pond_getX'];
+Blockly.JavaScript['pond_loc_x'] = Blockly.JavaScript['pond_getX'];
+Blockly.Blocks['pond_loc_y'] = Blockly.Blocks['pond_getY'];
+Blockly.JavaScript['pond_loc_y'] = Blockly.JavaScript['pond_getY'];
 
 // Pond blocks moved to appengine/js/blocks.js and renamed on 6 June 2016.
 // Aliases defined to support XML generated before change.
