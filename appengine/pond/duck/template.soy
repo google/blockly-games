@@ -93,8 +93,8 @@
         </value>
       </block>
       <block type="pond_stop"></block>
-      <block type="pond_loc_x"></block>
-      <block type="pond_loc_y"></block>
+      <block type="pond_getX"></block>
+      <block type="pond_getY"></block>
       <block type="pond_speed"></block>
       <block type="pond_health"></block>
     </category>
@@ -155,7 +155,7 @@
 /* go - go to the point specified */
 function go (dest_x, dest_y) {
   var course = plot_course(dest_x, dest_y);
-  while (distance(loc_x(), loc_y(), dest_x, dest_y) > 5) {
+  while (distance(getX(), getY(), dest_x, dest_y) > 5) {
     drive(course, 25);
   }
   while (speed() > 0) {
@@ -173,8 +173,8 @@ function distance(x1, y1, x2, y2) {
 /* plot_course - figure out which heading to go. */
 function plot_course(xx, yy) {
   var d;
-  var curx = loc_x();
-  var cury = loc_y();
+  var curx = getX();
+  var cury = getY();
   var x = curx - xx;
   var y = cury - yy;
 
@@ -262,19 +262,19 @@ while (true) {
 /* run moves around the center of the field */
 function run() {
   var i = 0;
-  var x = loc_x();
-  var y = loc_y();
+  var x = getX();
+  var y = getY();
 
   if (last_dir == 0) {
     last_dir = 1;
     if (y > 51) {
       drive(270, 100);
-      while (y - 10 < loc_y() && i++ < 50)
+      while (y - 10 < getY() && i++ < 50)
         ;
       drive(270, 0);
     } else {
       drive(90, 100);
-      while (y + 10 > loc_y() && i++ < 50)
+      while (y + 10 > getY() && i++ < 50)
         ;
       drive(90, 0);
     }
@@ -282,12 +282,12 @@ function run() {
     last_dir = 0;
     if (x > 51) {
       drive(180, 100);
-      while (x - 10 < loc_x() && i++ < 50)
+      while (x - 10 < getX() && i++ < 50)
         ;
       drive(180, 0);
     } else {
       drive(0, 100);
-      while (x + 10 > loc_x() && i++ < 50)
+      while (x + 10 > getX() && i++ < 50)
         ;
       drive(0, 0);
     }
@@ -307,11 +307,11 @@ function run() {
 /* move horizontally only, but looks horz and vertically */
 
 /* move to center of board */
-if (loc_y() < 50) {
-  while (loc_y() < 40)        /* stop near center */
+if (getY() < 50) {
+  while (getY() < 40)        /* stop near center */
     drive(90, 100);           /* start moving */
 } else {
-  while (loc_y() > 60)        /* stop near center */
+  while (getY() > 60)        /* stop near center */
     drive(270, 100);          /* start moving */
 }
 drive(0, 0);
@@ -334,11 +334,11 @@ while(true) {
 
   /* if near end of battlefield, change directions */
   if (course == 0) {
-    if (loc_x() > boundary || speed() == 0)
+    if (getX() > boundary || speed() == 0)
       change();
   }
   else {
-    if (loc_x() < boundary || speed() == 0)
+    if (getX() < boundary || speed() == 0)
       change();
   }
 }
@@ -468,12 +468,12 @@ function new_corner() {
   /* speed is checked in case we run into wall, other robot */
   /* not terribly great, since were are doing nothing while moving */
 
-  while (distance(loc_x(), loc_y(), x, y) > 15)
+  while (distance(getX(), getY(), x, y) > 15)
     drive(angle, 100);
 
   /* cut speed, and creep the rest of the way */
 
-  while (distance(loc_x(), loc_y(), x, y) > 1)
+  while (distance(getX(), getY(), x, y) > 1)
     drive(angle, 20);
 
   /* stop drive, should coast in the rest of the way */
@@ -494,8 +494,8 @@ function plot_course(xx, yy) {
   var x,y;
   var curx, cury;
 
-  curx = loc_x();  /* get current location */
-  cury = loc_y();
+  curx = getX();  /* get current location */
+  cury = getY();
   x = curx - xx;
   y = cury - yy;
 
