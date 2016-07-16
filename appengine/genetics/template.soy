@@ -50,7 +50,7 @@
   <table id="geneticsStatTable">
     <tbody>
         <tr>
-          <td><div id="sexChart" style="border: 1px solid #ccc"></div></td>
+          <td><div id="populationGraph" style="border: 1px solid #ccc"></div></td>
         </tr>
         <tr>
           <td><div id="mateQuestionChart"></div></td>
@@ -178,31 +178,18 @@
           </shadow>
         </value>
       </block>
-      <block type="math_random_int">
-        <value name="FROM">
+      <block type="genetics_math_randomInt">
+        <value name="MIN_VALUE">
           <shadow type="math_number">
             <field name="NUM">0</field>
           </shadow>
         </value>
-        <value name="TO">
-          <shadow type="math_arithmetic">
-            <field name="OP">MINUS</field>
-            <value name="A">
-              <shadow type="lists_length">
-                <value name="VALUE">
-                  <shadow type="genetics_getMice"></shadow>
-                </value>
-              </shadow>
-            </value>
-            <value name="B">
-              <shadow type="math_number">
-                <field name="NUM">1</field>
-              </shadow>
-            </value>
+        <value name="MAX_VALUE">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
           </shadow>
         </value>
       </block>
-      <block type="genetics_math_randomInt"></block>
       <block type="math_random_float"></block>
     </category>
     <category name="{msg meaning="Games.catLists" desc="Lists"}Lists{/msg}">
