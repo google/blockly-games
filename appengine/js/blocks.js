@@ -352,8 +352,9 @@ Blockly.Blocks['math_change'].init = function() {
  */
 Blockly.Blocks['math_random_int'].init = function() {
   this.jsonInit({
-    "message0": "Math.randomInt(%1,%2)",
+    "message0": "%1(%2,%3)",
     "args0": [
+      "Math.randomInt",
       {
         "type": "input_value",
         "name": "FROM",

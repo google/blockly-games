@@ -173,7 +173,8 @@ Blockly.Blocks['genetics_getSelf'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "getSelf ()",
+      "message0": "%1(%2)",
+      "args0": ["getSelf", ""],
       "output": "Mouse",
       "colour": Genetics.Blocks.GENETICS_HUE,
       "tooltip": BlocklyGames.getMsg('Genetics_meTooltip')
@@ -198,7 +199,8 @@ Blockly.Blocks['genetics_getMice'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "getMice ()",
+      "message0": "%1(%2)",
+      "args0": ["getMice", ""],
       "output": "Array",
       "colour": Genetics.Blocks.GENETICS_HUE,
       "tooltip": BlocklyGames.getMsg('Genetics_getMiceTooltip')
@@ -346,8 +348,9 @@ Blockly.Blocks['genetics_math_randomInt'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "Math.randomInt(%1, %2)",
+      "message0": "%1(%2,%3)",
       "args0": [
+        "Math.randomInt",
         {
           "type": "input_value",
           "name": "MIN_VALUE",
