@@ -632,7 +632,7 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
     if (aliveMice[i].id == mouse.id) {
       pseudoMe = pseudoMouse;
     }
-    // Check if the mouse running the interpreter has been created.
+    // Check if the suitor parameter, if defined, has been created.
     else if (suitor && aliveMice[i].id == suitor.id) {
       pseudoSuitor = pseudoMouse;
     }
