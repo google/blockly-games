@@ -68,7 +68,7 @@ Genetics.Cage.mouseLife_ = {};
 
 /**
  * List of events to be visualized.
- * @type {!Array.<!Object>}
+ * @type {!Array.<!Event>}
  */
 Genetics.Cage.EVENTS = [];
 
@@ -78,9 +78,8 @@ Genetics.Cage.EVENTS = [];
  */
 Genetics.Cage.EVENT_TEMPLATE = {
   'ADD': ['TYPE', 'MOUSE', 'PLAYER_NAME'],
-  'MATE': ['TYPE', 'ID', 'RESULT', 'OPT_PARTNER'],
-  'BIRTH': ['TYPE', 'PARENT_IDS', 'MOUSE'],
   'FIGHT': ['TYPE', 'ID', 'RESULT', 'OPT_OPPONENT'],
+  'MATE': ['TYPE', 'ID', 'RESULT', 'OPT_PARTNER', 'OPT_OFFSPRING'],
   // A mouse dies after using all fight and mate opportunities.
   'RETIRE': ['TYPE', 'ID'],
   // The oldest mouse dies when there is no room for it.
@@ -96,7 +95,7 @@ Genetics.Cage.EVENT_TEMPLATE = {
 /**
  * Creates an event.
  * @param {string } type The type of event.
- * @param {...string|Array.<number>|Genetics.Mouse} var_args The properties on
+ * @param {...string|number|Genetics.Mouse} var_args The properties on
  * the event.
  * @constructor
  */
@@ -298,7 +297,7 @@ Genetics.Cage.instigateFight = function(mouse) {
   else if (fightResult == 0) {  // If it was a tie.
     new Genetics.Cage.Event('FIGHT', mouse.id, 'TIE', opponent.id).addToQueue();
   } else {  // If opponent won.
-    new Genetics.Cage.Event('FIGHT', mouse.id, 'LOSE', opponent.id)
+    new Genetics.Cage.Event('FIGHT', mouse.id, 'LOSS', opponent.id)
         .addToQueue();
     Genetics.Cage.death(mouse);
   }
@@ -408,8 +407,8 @@ Genetics.Cage.born = function(mouse, parentOneId, parentTwoId) {
   // Adds child to population.
   Genetics.Cage.aliveMice_.push(mouse);
   Genetics.Cage.miceMap_[mouse.id] = mouse;
-  new Genetics.Cage.Event('BIRTH', [parentOneId, parentTwoId], mouse)
-      .addToQueue();
+  new Genetics.Cage.Event('MATE', parentOneId, 'SUCCESS', parentTwoId,
+      mouse).addToQueue();
   Genetics.Cage.life(mouse);
 };
 
@@ -567,7 +566,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
  * interpreter.
  * @param {Genetics.Mouse=} opt_suitor The mouse passed as a parameter to the
  * function (for mateAnswer function call).
- * @return {Interpreter} Interpreter set up for executing mouse function call.
+ * @return {!Interpreter} Interpreter set up for executing mouse function call.
  */
 Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
   var playerId;
@@ -590,7 +589,7 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
     throw 'Player ' + player + ' has invalid code: ' + code;
   }
   var interpreter = new Interpreter(code,
-      goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor || null));
+      goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor));
   // Overwrite other function calls and call function we need return value of.
   switch (mouseFunction) {
     case 'pickFight':
@@ -615,8 +614,8 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
 /**
  * Inject the Genetics API into a JavaScript interpreter.
  * @param {!Genetics.Mouse} mouse The mouse that is running the function.
- * @param {?Genetics.Mouse} suitor The mouse passed as a parameter to the
- * function (for mateAnswer function call).
+ * @param {!Genetics.Mouse|undefined} suitor The mouse passed as a parameter to
+ * the function (for mateAnswer function call).
  * @param {!Interpreter} interpreter The JS interpreter.
  * @param {!Object} scope Global scope.
  */
