@@ -186,7 +186,7 @@ def write_compressed(name, lang):
       '--root=appengine/generated/%s/' % lang,
       '--root=appengine/js/',
       '--namespace=%s' % name.replace('/', '.').title(),
-      '--compiler_jar=third-party/compiler.jar',
+      '--compiler_jar=third-party/closure-compiler.jar',
       '--compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS',
       '--compiler_flags=--externs=svg-externs.js',
       '--compiler_flags=--externs=interpreter-externs.js',

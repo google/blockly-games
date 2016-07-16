@@ -365,8 +365,7 @@ Blockly.Blocks['turtle_font'] = {
         .appendField(new Blockly.FieldDropdown(FONTLIST), 'FONT');
     this.appendDummyInput()
         .appendField(BlocklyGames.getMsg('Turtle_fontSize'))
-        .appendField(new Blockly.FieldTextInput('18',
-                     Blockly.FieldTextInput.nonnegativeIntegerValidator),
+        .appendField(new Blockly.FieldNumber('18', 1, 1000),
                      'FONTSIZE');
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(STYLE), 'FONTSTYLE');
