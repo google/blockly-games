@@ -397,14 +397,14 @@ Movie.drawFrame_ = function(interpreter) {
 
 /**
  * Copy the scratch canvas to the display canvas.
- * @param {number=} frameNumber Which frame to draw (0-100).
+ * @param {number=} opt_frameNumber Which frame to draw (0-100).
+ *     If not defined, draws the current frame.
  */
-Movie.display = function(frameNumber) {
-  if (typeof frameNumber == 'number') {
-    Movie.frameNumber = frameNumber;
-  } else {
-    frameNumber = Movie.frameNumber;
+Movie.display = function(opt_frameNumber) {
+  if (typeof opt_frameNumber == 'number') {
+    Movie.frameNumber = opt_frameNumber;
   }
+  var frameNumber = Movie.frameNumber;
 
   // Clear the display with white.
   Movie.ctxDisplay.beginPath();
@@ -427,8 +427,18 @@ Movie.display = function(frameNumber) {
 
   // Draw and copy the user layer.
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-  var interpreter = new Interpreter(code, Movie.initInterpreter);
-  Movie.drawFrame_(interpreter);
+  try {
+    var interpreter = new Interpreter(code, Movie.initInterpreter);
+  } catch (e) {
+    // Trap syntax errors: break outside a loop, or return outside a function.
+    console.error(e);
+  }
+  if (interpreter) {
+    Movie.drawFrame_(interpreter);
+  } else {
+    // In the event of a syntax error, clear the canvas.
+    Movie.ctxScratch.canvas.width = Movie.ctxScratch.canvas.width;
+  }
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
 
   // Copy the axies.
