@@ -373,7 +373,7 @@ Blockly.Blocks['math_random_int'].init = function() {
   });
 };
 
-Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random()';
+Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random  (  )';
 
 Blockly.Msg.LISTS_CREATE_EMPTY_TITLE = '[ ]';
 Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH = '[';

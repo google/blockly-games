@@ -94,7 +94,7 @@ Pond.Tutor.init = function() {
          'toolbox': toolbox,
          'trashcan': true});
     Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
-        'damage,health,loc_x,loc_y');
+        'damage,health,loc_x,getX,loc_y,getY,');
 
     var defaultXml;
     if (BlocklyGames.LEVEL == 7) {
