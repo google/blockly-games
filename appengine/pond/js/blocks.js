@@ -258,8 +258,7 @@ Blockly.Blocks['pond_math_number'] = {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput('DUMMY')
-        .appendField(new Blockly.FieldTextInput('0',
-            Blockly.FieldNumber.numberValidator), 'NUM');
+        .appendField(new Blockly.FieldNumber('0'), 'NUM');
     this.setOutput(true, 'Number');
     this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
   },
@@ -293,11 +292,10 @@ Blockly.Blocks['pond_math_number'] = {
         }
       } else {
         // Parent wants a number.
-        if (field.constructor != Blockly.FieldTextInput) {
+        if (field.constructor != Blockly.FieldNumber) {
           Blockly.Events.disable();
           input.removeField('NUM');
-          input.appendField(new Blockly.FieldTextInput(value,
-              Blockly.FieldTextInput.numberValidator), 'NUM');
+          input.appendField(new Blockly.FieldNumber(value), 'NUM');
           Blockly.Events.enable();
         }
       }
