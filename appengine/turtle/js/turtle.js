@@ -104,7 +104,10 @@ Turtle.init = function() {
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
-  window.addEventListener('scroll', onresize);
+  window.addEventListener('scroll', function() {
+    onresize();
+    Blockly.svgResize(BlocklyGames.workspace);
+  });
   window.addEventListener('resize', onresize);
   onresize();
 
