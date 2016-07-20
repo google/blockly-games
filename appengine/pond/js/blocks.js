@@ -258,7 +258,7 @@ Blockly.Blocks['pond_math_number'] = {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput('DUMMY')
-        .appendField(new Blockly.FieldNumber('0'), 'NUM');
+        .appendField(new Blockly.FieldNumber(0), 'NUM');
     this.setOutput(true, 'Number');
     this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
   },
