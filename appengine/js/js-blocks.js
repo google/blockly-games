@@ -347,6 +347,22 @@ Blockly.Blocks['math_change'].init = function() {
 };
 
 /**
+ * Defines the JavaScript generation for the change block, without checks as to
+ * whether the variable is a number because users of games that use JSBlocks
+ * are advanced and this reduces complexity in generated code.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['math_change'] = function(block) {
+  // Add to a variable in place.
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'DELTA',
+          Blockly.JavaScript.ORDER_ADDITION) || '0';
+  var varName = Blockly.JavaScript.variableDB_.getName(
+      block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  return varName + ' += ' + argument0 + ';\n';
+};
+
+/**
  * Block for random integer between [X] and [Y].
  * @this Blockly.Block
  */
