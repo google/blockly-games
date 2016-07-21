@@ -114,7 +114,7 @@ Genetics.init = function() {
   };
   window.addEventListener('scroll', function() {
     onresize();
-    Blockly.fireUiEvent(window, 'resize');
+    Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize();
