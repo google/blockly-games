@@ -246,6 +246,7 @@ Blockly.Blocks['genetics_getProperties'] = {
             ['startAggressiveness', 'START_AGGRESSIVENESS'],
             ['fertility', 'FERTILITY'],
             ['startingFertility', 'START_FERTILITY'],
+            ['sex', 'SEX'],
             ['age', 'AGE'],
             ['id', 'ID'],
             ['pickFightOwner', 'PICK_FIGHT'],
@@ -267,6 +268,7 @@ Blockly.Blocks['genetics_getProperties'] = {
         'AGGRESSIVENESS': BlocklyGames.getMsg('Genetics_aggressivenessTooltip'),
         'FERTILITY': BlocklyGames.getMsg('Genetics_fertilityTooltip'),
         'START_FERTILITY': BlocklyGames.getMsg('Genetics_startFertilityTooltip'),
+        'SEX': BlocklyGames.getMsg('Genetics_sexTooltip'),
         'AGE': BlocklyGames.getMsg('Genetics_ageTooltip'),
         'ID': BlocklyGames.getMsg('Genetics_idTooltip'),
         'PICK_FIGHT': BlocklyGames.getMsg('Genetics_pickFightOwnerTooltip'),
@@ -284,8 +286,8 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this Blockly.Block
    */
   updateType_: function(newProp) {
-    if (newProp == 'PICK_FIGHT' || newProp == 'CHOOSE_MATE' ||
-        newProp == 'MATE_ANSWER') {
+    if (newProp == 'SEX' || newProp == 'PICK_FIGHT' ||
+        newProp == 'CHOOSE_MATE' || newProp == 'MATE_ANSWER') {
       this.outputConnection.setCheck('String');
     } else {
       this.outputConnection.setCheck('Number');
@@ -320,6 +322,9 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
     case 'START_FERTILITY':
       code += 'startFertility';
       break;
+    case 'SEX':
+      code += 'sex';
+      break;
     case 'AGE':
       code += 'age';
       break;
@@ -334,6 +339,60 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
       break;
     case 'MATE_ANSWER':
       code += 'mateAnswerOwner';
+      break;
+    default:
+      throw 'Unknown math operator: ' + operator;
+  }
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+/**
+ * Block for getting the enum for mouse sexes.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['genetics_sex'] = {
+  /**
+   * Block for getting mouse sexes
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "Sex.%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PROPERTY",
+          "options": [
+            ['Hermaphrodite', 'HERMAPHRODITE'],
+            ['Male', 'MALE'],
+            ['Female', 'FEMALE']
+          ]
+        }
+      ],
+      "output": "String",
+      "colour": Genetics.Blocks.GENETICS_HUE
+    });
+  }
+};
+
+/**
+ * Defines the JavaScript generation for sex.
+ * @param {Blockly.Block} block
+ * @return {!Array.<string|number>}
+ */
+Blockly.JavaScript['genetics_sex'] = function(block) {
+  // Generate JavaScript for getting sex enum.
+  var property = block.getFieldValue('PROPERTY');
+  var code = mouse + 'Sex.';
+  switch (property) {
+    case 'HERMAPHRODITE':
+      code += 'Hermaphrodite';
+      break;
+    case 'MALE':
+      code += 'Male';
+      break;
+    case 'FEMALE':
+      code += 'Female';
       break;
     default:
       throw 'Unknown math operator: ' + operator;
