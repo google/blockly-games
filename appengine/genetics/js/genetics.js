@@ -359,4 +359,36 @@ Genetics.changeTab = function(index) {
   }
 };
 
+/**
+ * Change event for JS editor.  Warn the user, then disconnect the link from
+ * blocks to JavaScript.
+ */
+Genetics.editorChanged = function() {
+  if (Genetics.ignoreEditorChanges_) {
+    return;
+  }
+  if (Genetics.blocksEnabled_) {
+    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+        confirm(BlocklyGames.getMsg('Genetics_breakLink'))) {
+      // Break link betweeen blocks and JS.
+      Genetics.tabbar.getChildAt(0).setEnabled(false);
+      Genetics.blocksEnabled_ = false;
+    } else {
+      // Abort change, preserve link.
+      var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+      Genetics.ignoreEditorChanges_ = true;
+      BlocklyInterface.editor['setValue'](code, -1);
+      Genetics.ignoreEditorChanges_ = false;
+    }
+  } else {
+    var code = BlocklyInterface.editor['getValue']();
+    if (!code.trim()) {
+      // Reestablish link between blocks and JS.
+      BlocklyGames.workspace.clear();
+      Genetics.tabbar.getChildAt(0).setEnabled(true);
+      Genetics.blocksEnabled_ = true;
+    }
+  }
+};
+
 window.addEventListener('load', Genetics.init);
