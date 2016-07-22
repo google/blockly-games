@@ -30,11 +30,15 @@
     <span id="Genetics_aggressivenessTooltip">{msg meaning="Genetics.aggressivenessTooltip" desc="Tooltip for the block that reports the aggressiveness of the specified mouse."}Reports the aggressiveness of the specified mouse.{/msg}</span>
     <span id="Genetics_fertilityTooltip">{msg meaning="Genetics.fertilityTooltip" desc="Tooltip for the block that reports the fertility of the specified mouse."}Reports the fertility of the specified mouse.{/msg}</span>
     <span id="Genetics_startFertilityTooltip">{msg meaning="Genetics.startFertilityTooltip" desc="Tooltip for the block that reports the starting fertility of the specified mouse."}Reports the starting fertility of the specified mouse.{/msg}</span>
+    <span id="Genetics_sexTooltip">{msg meaning="Genetics.sexTooltip" desc="Tooltip for the block that reports the sex of the specified mouse."}Reports the sex of the specified mouse.{/msg}</span>
     <span id="Genetics_ageTooltip">{msg meaning="Genetics.ageTooltip" desc="Tooltip for the block that reports the age of the specified mouse."}Reports the age of the specified mouse.{/msg}</span>
     <span id="Genetics_idTooltip">{msg meaning="Genetics.idTooltip" desc="Tooltip for the block that reports the id of the specified mouse."}Reports the id of the specified mouse.{/msg}</span>
     <span id="Genetics_pickFightOwnerTooltip">{msg meaning="Genetics.pickFightOwnerTooltip" desc="Tooltip for the block that reports the owner of the pickFight function of the specified mouse."}Reports the owner of the pickFight function of the specified mouse.{/msg}</span>
     <span id="Genetics_chooseMateOwnerTooltip">{msg meaning="Genetics.chooseMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the chooseMate function of the specified mouse."}Reports the owner of the chooseMate function of the specified mouse.{/msg}</span>
     <span id="Genetics_mateAnswerOwnerTooltip">{msg meaning="Genetics.mateAnswerOwnerTooltip" desc="Tooltip for the block that reports the owner of the mateAnswer function of the specified mouse."}Reports the owner of the mateAnswer function of the specified mouse.{/msg}</span>
+
+    // Warning dialog
+    <span id="Genetics_breakLink">{msg meaning="Genetics.breakLink" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?{/msg}</span>
   </div>
 {/template}
 
@@ -44,18 +48,22 @@
 {template .visualization}
   <div id="visualization">
     <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-    <canvas id="display" width="400" height="400"></canvas>
+    <canvas id="display" width="400" height="400" style="display: none"></canvas>
   </div>
 
   <table id="geneticsStatTable">
     <tbody>
         <tr>
-          <td><div id="populationGraph" style="border: 1px solid #ccc"></div></td>
+          <td><div id="populationChart"></div></td>
         </tr>
         <tr>
-          <td><div id="mateQuestionChart"></div></td>
-          <td><div id="mateAnswerChart"></div></td>
           <td><div id="pickFightChart"></div></td>
+        </tr>
+        <tr>
+          <td><div id="chooseMateChart"></div></td>
+        </tr>
+        <tr>
+          <td><div id="mateAnswerChart"></div></td>
         </tr>
     </tbody>
   </table>
@@ -78,7 +86,7 @@
     </tr>
   </table>
 
-  <div id="dialogDocs">
+  <div id="dialogDocs" style="display: none">
     <img src="common/1x1.gif" class="close icon21" id="closeDocs">
     <iframe id="frameDocs"></iframe>
   </div>
