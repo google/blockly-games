@@ -153,8 +153,32 @@ Blockly.JavaScript['genetics_chooseMate'] =
 Blockly.Blocks['genetics_mateAnswer'] = {
   init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
                      'mateAnswer', 'suitor', 'Boolean'),
+  /**
+   * Return all variables referenced by this block.
+   * @return {!Array.<string>} List of variable names.
+   * @this Blockly.Block
+   */
   getVars: function() {
     return ['suitor'];
+  },
+  /**
+   * Add custom menu options to this block's context menu.
+   * @param {!Array} options List of menu options to add to.
+   * @this Blockly.Block
+   */
+  customContextMenu: function(options) {
+    // Add options to create getters for suitor parameter.
+    if (!this.isCollapsed()) {
+      var option = {enabled: true};
+      var name = 'suitor';
+      option.text = Blockly.Msg.VARIABLES_SET_CREATE_GET.replace('%1', name);
+      var xmlField = goog.dom.createDom('field', null, name);
+      xmlField.setAttribute('name', 'VAR');
+      var xmlBlock = goog.dom.createDom('block', null, xmlField);
+      xmlBlock.setAttribute('type', 'variables_get');
+      option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
+      options.push(option);
+    }
   }
 };
 
