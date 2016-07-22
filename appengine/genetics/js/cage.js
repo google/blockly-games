@@ -78,6 +78,7 @@ Genetics.Cage.EVENTS = [];
  */
 Genetics.Cage.EVENT_TEMPLATE = {
   'ADD': ['TYPE', 'MOUSE', 'PLAYER_NAME'],
+  'START_GAME': [],
   'FIGHT': ['TYPE', 'ID', 'RESULT', 'OPT_OPPONENT'],
   'MATE': ['TYPE', 'ID', 'RESULT', 'OPT_PARTNER', 'OPT_OFFSPRING'],
   // A mouse dies after using all fight and mate opportunities.
@@ -208,6 +209,7 @@ Genetics.Cage.start = function(doneCallback) {
     }
   }
   Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT;
+  new Genetics.Cage.Event('START_GAME').addToQueue();
   console.log('Starting game with ' +
       Object.keys(Genetics.Cage.PLAYERS).length + ' players.');
 };
@@ -273,7 +275,7 @@ Genetics.Cage.instigateFight = function(mouse) {
     mouse.aggressiveness = 0;
     return;
   }
-  // Check if return value is invalid
+  // Check if return value is invalid.
   if (typeof chosen != 'object' ||
       Genetics.Cage.miceMap_[chosen.id] == undefined) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'INVALID').addToQueue();
