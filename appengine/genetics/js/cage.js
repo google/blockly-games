@@ -33,6 +33,11 @@ goog.require('Genetics.Mouse');
  */
 Genetics.Cage.MAX_POPULATION = 10;
 
+/**
+ * The number of mice added to the cage for each player at the start of the
+ * game. Should be less than MAX_POPULATION * number of players.
+ * @type {number}
+ */
 Genetics.Cage.START_MICE_PER_PLAYER = 2;
 
 /**
@@ -201,14 +206,12 @@ Genetics.Cage.start = function(doneCallback) {
   // Create a mouse for each player.
   for (var playerId in Genetics.Cage.PLAYERS) {
     if (Genetics.Cage.PLAYERS.hasOwnProperty(playerId)) {
-      for(var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
+      for (var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
         var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
             Genetics.Mouse.Sex.FEMALE;
         var mouseId = Genetics.Cage.mouseId_++;
-        var mouse = new Genetics.Mouse(mouseId, null, null, playerId, mouseSex);
-        Genetics.Cage.aliveMice_[mouse.id] = mouse;
-        Genetics.Cage.miceMap_[mouse.id] = mouse;
-        Genetics.Cage.life(mouse); // Queue life simulation for mouse.
+        var mouse = new Genetics.Mouse(mouseId, null, null, mouseSex, playerId);
+        Genetics.Cage.born(mouse);
         new Genetics.Cage.Event('ADD', mouse,
             Genetics.Cage.PLAYERS[playerId][0]).addToQueue();
       }
@@ -244,12 +247,10 @@ Genetics.Cage.simulateLife = function(mouse) {
   // If mouse has fight left in it, start a fight with another mouse.
   if (mouse.aggressiveness > 0) {
     Genetics.Cage.instigateFight(mouse);
-    mouse.aggressiveness--;
   }
   // If mouse is still fertile, try to breed with another mice.
   else if (mouse.fertility > 0) {
     Genetics.Cage.tryMate(mouse);
-    mouse.fertility--;
   }
   // If mouse has finished fighting and breeding, it dies.
   else {
@@ -265,7 +266,8 @@ Genetics.Cage.simulateLife = function(mouse) {
 };
 
 /**
- * Gets requested opponent of mouse, attempts fight and kills losing mouse.
+ * Uses up up agression for mouse and simulates a fight between the given mouse
+ * and opponent it requests. Any mouse that loses in a fight dies.
  * @param {Genetics.Mouse} mouse The mouse to initiate fighting.
  */
 Genetics.Cage.instigateFight = function(mouse) {
@@ -336,16 +338,11 @@ Genetics.Cage.tryMate = function(mouse) {
     mouse.fertility = 0;
     return;
   }
-  // Retrieve local copy of mouse to ensure that mouse was not modified.
+  // Retrieve local copy of mate to ensure that mouse was not modified.
   var mate = Genetics.Cage.miceMap_[chosen.id];
   if (Genetics.Cage.isMatingSuccessful(mouse, mate)) {
-    mate.fertility--;
-    // Create offspring with these mice.
-    var mouseId = Genetics.Cage.mouseId_++;
-    var child = new Genetics.Mouse(mouseId, mouse, mate);
-    Genetics.Cage.born(child, mouse.id, mate.id);
-    // Accounts for overpopulation.
-    while (Genetics.Cage.aliveMice_.length > Genetics.Cage.MAX_POPULATION) {
+    // Ensure there is room in the cage for a new mouse.
+    if (Genetics.Cage.aliveMice_.length > Genetics.Cage.MAX_POPULATION) {
       // Find oldest mouse.
       var oldestMouse = Genetics.Cage.aliveMice_[0];
       for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
@@ -358,7 +355,42 @@ Genetics.Cage.tryMate = function(mouse) {
       new Genetics.Cage.Event('OVERPOPULATION', oldestMouse.id).addToQueue();
       Genetics.Cage.death(oldestMouse);
     }
+    // Create offspring from the two mice.
+    Genetics.Cage.createOffspring(mouse, mate);
+    // Accounts for overpopulation.
+  } else {
+    // Use up one mating attempt for mouse.
+    mouse.fertility--;
   }
+};
+
+/**
+ * Creates a child mouse from two mice and adds offspring to the cage.
+ * @param {Genetics.Mouse} parent1 One of the parents of the new mouse.
+ * @param {Genetics.Mouse} parent2 One of the parents of the new mouse.
+ */
+Genetics.Cage.createOffspring = function(parent1, parent2) {
+  // Use up one mating attempt for each of the parents.
+  parent1.fertility--;
+  parent2.fertility--;
+  // Allocate a new id for the mouse.
+  var mouseId = Genetics.Cage.mouseId_++;
+  // Determine sex of child based on the current population.
+  var populationFertility = 0;
+  var femaleFertility = 0;
+  for (var i = 0; i < Genetics.Cage.aliveMice_.length; i++) {
+    var aliveMouse = Genetics.Cage.aliveMice_[i];
+    populationFertility += aliveMouse.fertility;
+    if (aliveMouse.sex == Genetics.Mouse.Sex.FEMALE) {
+      femaleFertility += aliveMouse.fertility;
+    }
+  }
+  var childSex = (Math.random() < femaleFertility / populationFertility) ?
+      Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE;
+  var child = new Genetics.Mouse(mouseId, parent1, parent2, childSex);
+  Genetics.Cage.born(child);
+  new Genetics.Cage.Event('MATE', parent1.id, 'SUCCESS', parent2.id,
+      child).addToQueue();
 };
 
 /**
@@ -408,16 +440,12 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
 /**
  * Adds the mouse to the cage.
  * @param {Genetics.Mouse} mouse The mouse to add to the cage.
- * @param {number} parentOneId The ID of the parent of the mouse.
- * @param {number} parentTwoId The ID of the parent of the mouse.
  */
-Genetics.Cage.born = function(mouse, parentOneId, parentTwoId) {
+Genetics.Cage.born = function(mouse) {
   // Adds child to population.
   Genetics.Cage.aliveMice_.push(mouse);
   Genetics.Cage.miceMap_[mouse.id] = mouse;
-  new Genetics.Cage.Event('MATE', parentOneId, 'SUCCESS', parentTwoId,
-      mouse).addToQueue();
-  Genetics.Cage.life(mouse);
+  Genetics.Cage.life(mouse); // Queue life simulation for mouse.
 };
 
 /**

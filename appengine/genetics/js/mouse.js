@@ -34,11 +34,12 @@ goog.require('goog.math');
  * @param {number} id The id to assign the mouse.
  * @param {Genetics.Mouse=} opt_parentOne One of the parents of the mouse.
  * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.
+ * @param {Genetics.Mouse.Sex=} opt_sex The sex of the mouse.
  * @param {number=} opt_player The identifier of the player owning all
  * the genes (passed if there are no parents).
- * @param {Genetics.Mouse.Sex=} opt_sex The sex of the mouse.
  */
-Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player, opt_sex) {
+Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_sex,
+    opt_player) {
   // Returns a random in between minValue (inclusive) and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
     return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;

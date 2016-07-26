@@ -120,9 +120,11 @@ Genetics.Visualization.init = function() {
   var createCharts = function() {
     // Create the base options for chart style shared between charts.
     var chartOpts = {
-      'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'}, 'format': '0'},
+      'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
+        'format': '0'},
       'vAxis': {'minValue': 0, 'format': '0', 'min': 0},
-      'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%', 'height': '70%' }
+      'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
+        'height': '70%' }
     };
     var populationChartOpts = chartOpts;
     var pickFightOpts = goog.object.clone(chartOpts);
@@ -179,6 +181,10 @@ Genetics.Visualization.stop = function() {
   clearTimeout(Genetics.Visualization.pid);
 };
 
+/**
+ * Clear chart data and set chart labels.
+ * @private
+ */
 Genetics.Visualization.resetChartData_ = function() {
   Genetics.Visualization.populationChartWrapper_.setDataTable(
       google.visualization.arrayToDataTable(
@@ -214,7 +220,7 @@ Genetics.Visualization.reset = function() {
   Genetics.Visualization.stop();
 
   // Reset stored information about mouse population.
-  Genetics.Visualization.roundNumber = 0;
+  Genetics.Visualization.eventNumber = 0;
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.HERMAPHRODITE] = 0;
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE] = 0;
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE] = 0;
@@ -278,7 +284,11 @@ Genetics.Visualization.display_ = function() {
   Genetics.Visualization.mateAnswerChartWrapper_.draw();
 };
 
-Genetics.Visualization.roundNumber = 0;
+/**
+ * Count for events to keep track of time passed for charts.
+ * @type {number}
+ */
+Genetics.Visualization.eventNumber = 0;
 
 /**
  * Returns a string representation of a mouse's properties
@@ -301,7 +311,7 @@ Genetics.Visualization.getMouseInfo_ = function(mouse) {
  */
 Genetics.Visualization.processCageEvents_ = function() {
   // Handle any queued events.
-  var getMouseName =  Genetics.Visualization.getMouseName;
+  var getMouseName = Genetics.Visualization.getMouseName;
   while (Genetics.Cage.EVENTS.length) {
     var event = Genetics.Cage.EVENTS.shift();
     switch (event['TYPE']) {
@@ -311,7 +321,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         console.log(getMouseName(mouse, true, true) + ' added to game.');
         break;
       case 'START_GAME':
-        Genetics.Visualization.updateChartData();
+        Genetics.Visualization.updateChartData_();
         break;
       case 'FIGHT':
           var instigatingMouse = Genetics.Visualization.MICE[event['ID']];
@@ -326,25 +336,25 @@ Genetics.Visualization.processCageEvents_ = function() {
             break;
           case 'SELF':
             console.log(getMouseName(instigatingMouse) +
-                ' chose itself when asked whom to fight with.' +
+                ' chose itself when asked whom to fight with. ' +
                 getMouseName(instigatingMouse) + ' is being executed to put ' +
                 'it out of its misery.');
             Genetics.Visualization.removeMouse_(instigatingMouse);
             break;
           case 'WIN':
             var opponent = Genetics.Visualization.MICE[event['OPT_OPPONENT']];
-            console.log(getMouseName(instigatingMouse) + 'fights and kills ' +
+            console.log(getMouseName(instigatingMouse) + ' fights and kills ' +
                 getMouseName(opponent) + '.');
-            Genetics.Visualization.removeMouse_(opponent.id);
+            Genetics.Visualization.removeMouse_(opponent);
             break;
           case 'TIE':
             var opponent = Genetics.Visualization.MICE[event['OPT_OPPONENT']];
-            console.log(getMouseName(instigatingMouse) + 'fights ' +
+            console.log(getMouseName(instigatingMouse) + ' fights ' +
                 getMouseName(opponent) + ' to a draw.');
             break;
           case 'LOSS':
             var opponent = Genetics.Visualization.MICE[event['OPT_OPPONENT']];
-            console.log(getMouseName(instigatingMouse) + 'fights and is ' +
+            console.log(getMouseName(instigatingMouse) + ' fights and is ' +
                 'killed by ' + getMouseName(opponent) + '.');
             Genetics.Visualization.removeMouse_(instigatingMouse);
             break;
@@ -368,19 +378,20 @@ Genetics.Visualization.processCageEvents_ = function() {
           case 'INCOMPATIBLE':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
             console.log(getMouseName(proposingMouse) + ' mated with ' +
-                getMouseName(askedMouse) + ', another ' + proposingMouse.sex + '.');
+                getMouseName(askedMouse) + ', another ' + proposingMouse.sex +
+                '.');
             break;
           case 'INFERTILE':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
-            console.log('Mating between ' + getMouseName(proposingMouse) + ' and ' +
-                getMouseName(askedMouse) + ' failed because ' +
+            console.log('Mating between ' + getMouseName(proposingMouse) +
+                ' and ' + getMouseName(askedMouse) + ' failed because ' +
                 getMouseName(askedMouse) + ' is sterile.');
             break;
           case 'MATE_EXPLODED':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
             console.log(getMouseName(askedMouse) + ' exploded after ' +
                 getMouseName(proposingMouse) + ' asked it out.');
-            Genetics.Visualization.removeMouse_(askedMouse.id);
+            Genetics.Visualization.removeMouse_(askedMouse);
             break;
           case 'REJECTION':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
@@ -401,13 +412,13 @@ Genetics.Visualization.processCageEvents_ = function() {
       case 'RETIRE':
         var mouse = Genetics.Visualization.MICE[event['ID']];
         console.log(getMouseName(mouse) + ' dies after a productive life.');
-        Genetics.Visualization.removeMouse_(mouse.id);
+        Genetics.Visualization.removeMouse_(mouse);
         break;
       case 'OVERPOPULATION':
         var mouse = Genetics.Visualization.MICE[event['ID']];
         console.log('Cage has gotten too cramped ' + getMouseName(mouse) +
             ' can\'t compete with the younger mice and dies.');
-        Genetics.Visualization.removeMouse_(mouse.id);
+        Genetics.Visualization.removeMouse_(mouse);
         break;
       case 'EXPLODE':
         var mouse = Genetics.Visualization.MICE[event['ID']];
@@ -415,14 +426,14 @@ Genetics.Visualization.processCageEvents_ = function() {
         var cause = event['CAUSE'];
         console.log(getMouseName(mouse) + ' exploded in ' + source +
             ' because ' + cause);
-        Genetics.Visualization.removeMouse_(mouse.id);
+        Genetics.Visualization.removeMouse_(mouse);
         break;
       case 'SPIN':
         var mouse = Genetics.Visualization.MICE[event['ID']];
         var source = event['SOURCE'];
         console.log(getMouseName(mouse) + ' spun in circles after ' + source +
             ' was called.');
-        Genetics.Visualization.removeMouse_(mouse.id);
+        Genetics.Visualization.removeMouse_(mouse);
         break;
       case 'END_GAME':
         var cause = event['CAUSE'];
@@ -435,8 +446,8 @@ Genetics.Visualization.processCageEvents_ = function() {
         break;
     }
     if (event['TYPE'] != 'ADD') {
-      Genetics.Visualization.roundNumber++;
-      Genetics.Visualization.updateChartData();
+      Genetics.Visualization.eventNumber++;
+      Genetics.Visualization.updateChartData_();
     }
   }
 };
@@ -456,11 +467,10 @@ Genetics.Visualization.addMouse_ = function(mouse) {
 
 /**
  * Remove a mouse and update internal counts.
- * @param {number} mouseId
+ * @param {Genetics.Mouse} mouse
  * @private
  */
-Genetics.Visualization.removeMouse_ = function(mouseId) {
-  var mouse = Genetics.Visualization.MICE[mouseId];
+Genetics.Visualization.removeMouse_ = function(mouse) {
   Genetics.Visualization.mouseSexes_[mouse.sex] -= 1;
   Genetics.Visualization.pickFightOwners_[mouse.pickFightOwner] -= 1;
   Genetics.Visualization.chooseMateOwners_[mouse.chooseMateOwner] -= 1;
@@ -473,16 +483,16 @@ Genetics.Visualization.removeMouse_ = function(mouseId) {
  * Add a row to the charts with the current status of mice.
  * @private
  */
-Genetics.Visualization.updateChartData = function() {
+Genetics.Visualization.updateChartData_ = function() {
   Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
-      [Genetics.Visualization.roundNumber,
+      [Genetics.Visualization.eventNumber,
        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.HERMAPHRODITE],
        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
 
-  var pickFightState = [Genetics.Visualization.roundNumber];
-  var chooseMateState = [Genetics.Visualization.roundNumber];
-  var mateAnswerState = [Genetics.Visualization.roundNumber];
+  var pickFightState = [Genetics.Visualization.eventNumber];
+  var chooseMateState = [Genetics.Visualization.eventNumber];
+  var mateAnswerState = [Genetics.Visualization.eventNumber];
   for (var i = 0; i < Genetics.Visualization.playerOrder_.length; i++) {
     var playerId = Genetics.Visualization.playerOrder_[i];
     pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
@@ -506,14 +516,16 @@ Genetics.Visualization.updateChartData = function() {
  * representation.
  * @return {string} The string representation of the mouse.
  */
-Genetics.Visualization.getMouseName = function(mouse, opt_showStats, opt_showGenes) {
+Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
+    opt_showGenes) {
   // Credit: http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
-  function romanize (value) {
-    var roman = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"];
-    var decimal = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  function romanize(value) {
+    var roman = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V',
+      'IV', 'I'];
+    var decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
     if (value <= 0 || value >= 4000) return value;
-    var romanNumeral = "";
-    for (var i=0; i<roman.length; i++) {
+    var romanNumeral = '';
+    for (var i = 0; i < roman.length; i++) {
       while (value >= decimal[i]) {
         value -= decimal[i];
         romanNumeral += roman[i];
@@ -536,15 +548,15 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats, opt_showGen
       (mouse.sex == Genetics.Mouse.Sex.HERMAPHRODITE && 2 % mouse.id == 0)) ?
           FEMININE_NAMES : MASCULINE_NAMES;
   var name = names[mouse.id % names.length || 0];
-  var ordinal = Math.floor(mouse.id/names.length) + 1;
-  if(ordinal > 1) {
+  var ordinal = Math.floor(mouse.id / names.length) + 1;
+  if (ordinal > 1) {
     name += ' ' + romanize(ordinal);
   }
 
-  if(opt_showGenes) {
+  if (opt_showGenes) {
     name += ' ' + genes;
   }
-  if(opt_showStats) {
+  if (opt_showStats) {
     name += ' ' + mouseStats;
   }
   return name;
