@@ -33,6 +33,8 @@ goog.require('Genetics.Mouse');
  */
 Genetics.Cage.MAX_POPULATION = 10;
 
+Genetics.Cage.START_MICE_PER_PLAYER = 2;
+
 /**
  * Mapping of player id to and array with player name and code.
  * @type {!Object.<number, Array.<string>>}
@@ -86,7 +88,7 @@ Genetics.Cage.EVENT_TEMPLATE = {
   // The oldest mouse dies when there is no room for it.
   'OVERPOPULATION': ['TYPE', 'ID'],
   // A mouse dies if it throws an exception.
-  'EXPLODE': ['TYPE', 'ID', 'SOURCE', 'CAUSE'],
+  'EXPLODE': ['TYPE', 'ID', 'SOURCE', 'OPT_CAUSE'],
   // A mouse dies if it does not complete execution.
   'SPIN': ['TYPE', 'ID'],
   'END_GAME': ['TYPE', 'CAUSE', 'PICK_FIGHT_WINNER', 'CHOOSE_MATE_WINNER',
@@ -199,13 +201,17 @@ Genetics.Cage.start = function(doneCallback) {
   // Create a mouse for each player.
   for (var playerId in Genetics.Cage.PLAYERS) {
     if (Genetics.Cage.PLAYERS.hasOwnProperty(playerId)) {
-      var mouseId = Genetics.Cage.mouseId_++;
-      var mouse = new Genetics.Mouse(mouseId, null, null, playerId);
-      Genetics.Cage.aliveMice_[mouse.id] = mouse;
-      Genetics.Cage.miceMap_[mouse.id] = mouse;
-      Genetics.Cage.life(mouse); // Queue life simulation for mouse.
-      new Genetics.Cage.Event('ADD', mouse,
-          Genetics.Cage.PLAYERS[playerId][0]).addToQueue();
+      for(var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
+        var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
+            Genetics.Mouse.Sex.FEMALE;
+        var mouseId = Genetics.Cage.mouseId_++;
+        var mouse = new Genetics.Mouse(mouseId, null, null, playerId, mouseSex);
+        Genetics.Cage.aliveMice_[mouse.id] = mouse;
+        Genetics.Cage.miceMap_[mouse.id] = mouse;
+        Genetics.Cage.life(mouse); // Queue life simulation for mouse.
+        new Genetics.Cage.Event('ADD', mouse,
+            Genetics.Cage.PLAYERS[playerId][0]).addToQueue();
+      }
     }
   }
   Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT;
@@ -270,7 +276,7 @@ Genetics.Cage.instigateFight = function(mouse) {
   }
   var chosen = result[1];
   // Check if no mouse was chosen.
-  if (chosen == null) {
+  if (chosen === null) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'NONE').addToQueue();
     mouse.aggressiveness = 0;
     return;
@@ -318,7 +324,7 @@ Genetics.Cage.tryMate = function(mouse) {
   }
   var chosen = result[1];
   // Check if no mouse was chosen.
-  if (chosen == null) {
+  if (chosen === null) {
     new Genetics.Cage.Event('MATE', mouse.id, 'NONE').addToQueue();
     mouse.fertility = 0;
     return;
@@ -628,14 +634,30 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);
   var aliveMice = Genetics.Cage.aliveMice_;
   for (var i = 0; i < aliveMice.length; i++) {
-    var pseudoMouse = interpreter.nativeToPseudo(aliveMice[i]);
+    var aliveMouse = aliveMice[i];
+    // Create a clone of alive mouse with string keys so that keys wont be
+    // renamed when compressed.
+    var clonedMouse = {
+      'pickFightOwner': aliveMice.pickFightOwner,
+      'chooseMateOwner': aliveMice.chooseMateOwner,
+      'mateAnswerOwner': aliveMice.mateAnswerOwner,
+      'sex': aliveMouse.sex,
+      'size': aliveMouse.size,
+      'startAggressiveness': aliveMouse.startAggressiveness,
+      'aggressiveness': aliveMouse.aggressiveness,
+      'startFertility': aliveMouse.startFertility,
+      'fertility': aliveMouse.fertility,
+      'age': aliveMouse.age,
+      'id': aliveMouse.id
+    };
+    var pseudoMouse = interpreter.nativeToPseudo(clonedMouse);
     interpreter.setProperty(pseudoAliveMice, i, pseudoMouse);
     // Check if the mouse running the interpreter has been created.
-    if (aliveMice[i].id == mouse.id) {
+    if (aliveMouse.id == mouse.id) {
       pseudoMe = pseudoMouse;
     }
     // Check if the suitor parameter, if defined, has been created.
-    else if (suitor && aliveMice[i].id == suitor.id) {
+    else if (suitor && aliveMouse.id == suitor.id) {
       pseudoSuitor = pseudoMouse;
     }
   }
@@ -671,4 +693,5 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
         interpreter.createNativeFunction(wrapper));
   }
 };
+
 

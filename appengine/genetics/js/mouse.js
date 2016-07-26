@@ -36,8 +36,9 @@ goog.require('goog.math');
  * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.
  * @param {number=} opt_player The identifier of the player owning all
  * the genes (passed if there are no parents).
+ * @param {Genetics.Mouse.Sex=} opt_sex The sex of the mouse.
  */
-Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
+Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player, opt_sex) {
   // Returns a random in between minValue (inclusive) and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
     return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
@@ -74,7 +75,7 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_player) {
     this.pickFightOwner = opt_player;
     this.chooseMateOwner = opt_player;
     this.mateAnswerOwner = opt_player;
-    this.sex = Genetics.Mouse.Sex.HERMAPHRODITE;
+    this.sex = opt_sex || Genetics.Mouse.Sex.HERMAPHRODITE;
     this.size = Genetics.Mouse.SIZE;
     this.startAggressiveness = Genetics.Mouse.START_AGGRESSIVENESS;
     // First generation mice do not fight.
