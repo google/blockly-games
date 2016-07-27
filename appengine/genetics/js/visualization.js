@@ -29,7 +29,6 @@ goog.require('Genetics.Cage');
 goog.require('goog.object');
 
 
-
 /**
  * Frames per second to draw.  Has no impact on game play, just the display.
  */
@@ -293,7 +292,7 @@ Genetics.Visualization.eventNumber = 0;
 /**
  * Returns a string representation of a mouse's properties
  * @param {Genetics.Mouse} mouse The mouse to get information from.
- * @return {String} A string representation of the mouse containing information
+ * @return {string} A string representation of the mouse containing information
  * about the mouse.
  * @private
  */
@@ -322,6 +321,8 @@ Genetics.Visualization.processCageEvents_ = function() {
         break;
       case 'START_GAME':
         Genetics.Visualization.updateChartData_();
+        console.log('Starting game with ' +
+            Object.keys(Genetics.Cage.players).length + ' players.');
         break;
       case 'FIGHT':
           var instigatingMouse = Genetics.Visualization.MICE[event['ID']];

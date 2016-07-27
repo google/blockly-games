@@ -219,8 +219,6 @@ Genetics.Cage.start = function(doneCallback) {
   }
   Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSC;
   new Genetics.Cage.Event('START_GAME').addToQueue();
-  console.log('Starting game with ' +
-      Object.keys(Genetics.Cage.players).length + ' players.');
 };
 
 /**
