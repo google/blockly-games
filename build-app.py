@@ -190,7 +190,6 @@ def write_compressed(name, lang):
       '--compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS',
       '--compiler_flags=--externs=externs/svg-externs.js',
       '--compiler_flags=--externs=externs/interpreter-externs.js',
-      '--compiler_flags=--externs=externs/google_charts_loader_api.js',
       '--compiler_flags=--externs=externs/google_visualization_api.js',
       '--compiler_flags=--language_in=ECMASCRIPT5_STRICT',
       '--output_mode=compiled']
