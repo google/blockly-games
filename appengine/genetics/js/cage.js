@@ -532,6 +532,11 @@ Genetics.Cage.checkForEnd = function() {
     Genetics.Cage.end('DOMINATION', pickFightWinner, mateQuestionWinner,
         mateAnswerWinner);
   }
+  // Check if game has gone on too long.
+  if (Date.now() > Genetics.Cage.endTime_) {
+    Genetics.Cage.end('TIMEOUT', pickFightWinner, mateQuestionWinner,
+        mateAnswerWinner);
+  }
 };
 
 /**
