@@ -238,6 +238,7 @@ Blockly.Blocks['controls_for'].init = function() {
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
   var thisBlock = this;
+  // TODO(kozbial) Fix tooltip text.
   this.setTooltip(function() {
     return Blockly.Msg.CONTROLS_FOR_TOOLTIP.replace('%1',
         thisBlock.getFieldValue('VAR'));
@@ -246,18 +247,18 @@ Blockly.Blocks['controls_for'].init = function() {
 
 Blockly.JavaScript['controls_for'] = function(block) {
   // For loop.
-  var variable0 = Blockly.JavaScript.variableDB_.getName(
+  var variable = Blockly.JavaScript.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'FROM',
-          Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'TO',
-          Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  var from = Blockly.JavaScript.valueToCode(block, 'FROM',
+      Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  var to = Blockly.JavaScript.valueToCode(block, 'TO',
+      Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
   var branch = Blockly.JavaScript.statementToCode(block, 'DO');
 
   branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
-  var code = 'for (' + variable0 + ' = ' + argument0 + '; ' +
-      variable0 + ' < ' + argument1 + '; ' +
-      variable0 + ' += 1) {\n' +
+  var code = 'for (' + variable + ' = ' + from + '; ' +
+      variable + ' < ' + to + '; ' +
+      variable + ' += 1) {\n' +
       branch + '}\n';
   return code;
 };
@@ -355,11 +356,11 @@ Blockly.Blocks['math_change'].init = function() {
  */
 Blockly.JavaScript['math_change'] = function(block) {
   // Add to a variable in place.
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'DELTA',
+  var delta = Blockly.JavaScript.valueToCode(block, 'DELTA',
           Blockly.JavaScript.ORDER_ADDITION) || '0';
   var varName = Blockly.JavaScript.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  return varName + ' += ' + argument0 + ';\n';
+  return varName + ' += ' + delta + ';\n';
 };
 
 /**
