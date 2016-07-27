@@ -116,7 +116,7 @@ Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_pickFight'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
+  init: goog.partial(Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'],
                      'pickFight', '', 'Mouse')
 };
 
@@ -125,7 +125,7 @@ Blockly.Blocks['genetics_pickFight'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_pickFight'] =
-    goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
+    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
                  'pickFight', '');
 
 /**
@@ -133,7 +133,7 @@ Blockly.JavaScript['genetics_pickFight'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_chooseMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
+  init: goog.partial(Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'],
                      'chooseMate', '', 'Mouse')
 };
 
@@ -142,7 +142,7 @@ Blockly.Blocks['genetics_chooseMate'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_chooseMate'] =
-    goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
+    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
                  'chooseMate', '');
 
 /**
@@ -150,7 +150,7 @@ Blockly.JavaScript['genetics_chooseMate'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_mateAnswer'] = {
-  init: goog.partial(Blockly.Blocks['genetics_mouseFunctionInit_'],
+  init: goog.partial(Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'],
                      'mateAnswer', 'suitor', 'Boolean'),
   /**
    * Return all variables referenced by this block.
@@ -186,7 +186,7 @@ Blockly.Blocks['genetics_mateAnswer'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_mateAnswer'] =
-    goog.partial(Blockly.JavaScript['genetics_mouseFunction_'],
+    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
                  'mateAnswer', 'suitor');
 
 Blockly.Blocks['genetics_getSelf'] = {
