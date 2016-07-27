@@ -538,8 +538,7 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
   var MASCULINE_NAMES = ['Neil', 'Chris', 'Charlie', 'Camden', 'Rick', 'Dean',
       'Xavier', 'Zeke', 'Han', 'Samuel', 'Wade', 'Patrick'];
 
-  var genes = '(' + mouse.sex + ' ' +
-      Genetics.Cage.players[mouse.chooseMateOwner][0] + '/' +
+  var genes = '(' + Genetics.Cage.players[mouse.chooseMateOwner][0] + '/' +
       Genetics.Cage.players[mouse.mateAnswerOwner][0] + '/' +
       Genetics.Cage.players[mouse.pickFightOwner][0] + ')';
   var mouseStats = '[id:' + mouse.id + '/size:' + mouse.size + '/sex: ' +
