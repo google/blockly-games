@@ -357,7 +357,7 @@ Blockly.Blocks['math_change'].init = function() {
 Blockly.JavaScript['math_change'] = function(block) {
   // Add to a variable in place.
   var delta = Blockly.JavaScript.valueToCode(block, 'DELTA',
-          Blockly.JavaScript.ORDER_ADDITION) || '0';
+      Blockly.JavaScript.ORDER_ADDITION) || '0';
   var varName = Blockly.JavaScript.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' += ' + delta + ';\n';
@@ -402,7 +402,7 @@ Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH = '[';
  * @this Blockly.Block
  */
 Blockly.Blocks['lists_create_with'].updateShape_ = function() {
-  if(this.getInput('TAIL')) {
+  if (this.getInput('TAIL')) {
     this.removeInput('TAIL');
   }
   if (this.itemCount_ && this.getInput('EMPTY')) {
@@ -427,7 +427,7 @@ Blockly.Blocks['lists_create_with'].updateShape_ = function() {
     this.removeInput('ADD' + i);
     i++;
   }
-  if(this.itemCount_) {
+  if (this.itemCount_) {
     this.appendDummyInput('TAIL')
         .appendField(']');
   }
@@ -438,7 +438,7 @@ Blockly.Blocks['lists_getIndex'] = {
    * Block for getting element at index.
    * @this Blockly.Block
    */
-  init: function () {
+  init: function() {
     this.jsonInit({
       "message0": "%1[%2]",
       "args0": [
@@ -468,7 +468,7 @@ Blockly.Blocks['lists_setIndex'] = {
    * Block for setting element at index.
    * @this Blockly.Block
    */
-  init: function () {
+  init: function() {
     this.jsonInit({
       "message0": "%1[%2] = %3;",
       "args0": [

@@ -47,6 +47,7 @@ Genetics.Blocks.GENETICS_HUE = 20;
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {!Blockly.Block} block The block.
+ * @return {null}
  * @private
  */
 Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
@@ -289,7 +290,8 @@ Blockly.Blocks['genetics_getProperties'] = {
         'SIZE': BlocklyGames.getMsg('Genetics_sizeTooltip'),
         'AGGRESSIVENESS': BlocklyGames.getMsg('Genetics_aggressivenessTooltip'),
         'FERTILITY': BlocklyGames.getMsg('Genetics_fertilityTooltip'),
-        'START_FERTILITY': BlocklyGames.getMsg('Genetics_startFertilityTooltip'),
+        'START_FERTILITY':
+            BlocklyGames.getMsg('Genetics_startFertilityTooltip'),
         'SEX': BlocklyGames.getMsg('Genetics_sexTooltip'),
         'AGE': BlocklyGames.getMsg('Genetics_ageTooltip'),
         'ID': BlocklyGames.getMsg('Genetics_idTooltip'),
