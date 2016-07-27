@@ -75,8 +75,8 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
 };
 
 /**
- * Generates the init function for a "mouse function" block (pickFight,
- * chooseMate, mateAnswer) given the name and arguments for the block.
+ * Initializes a "mouse function" block (pickFight, chooseMate, mateAnswer)
+ * given the name and arguments for the block.
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {string} returnType The return type of the mouse function.
@@ -86,7 +86,7 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
 Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'] =
     function(funcName, args, returnType) {
   this.jsonInit({
-    "message0": "function %1(%2) { %2 %3 return %4 }",
+    "message0": "function %1(%2) { %3 %4 return %5 }",
     "args0": [
       funcName,
       args,
