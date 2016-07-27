@@ -35,16 +35,10 @@ Genetics.Cage.MAX_POPULATION = 10;
 
 /**
  * The number of mice added to the cage for each player at the start of the
- * game. Should be less than MAX_POPULATION * number of players.
+ * game. Should be less than MAX_POPULATION / number of players.
  * @type {number}
  */
 Genetics.Cage.START_MICE_PER_PLAYER = 2;
-
-/**
- * Mapping of player id to and array with player name and code.
- * @type {!Object.<number, Array.<string>>}
- */
-Genetics.Cage.PLAYERS = {};
 
 /**
  * Whether the simulation is running without a visualization.
@@ -53,21 +47,27 @@ Genetics.Cage.PLAYERS = {};
 Genetics.Cage.HEADLESS = false;
 
 /**
+ * Mapping of player id to array with player name and code.
+ * @type {!Object.<number, Array.<string>>}
+ */
+Genetics.Cage.players = {};
+
+/**
  * List of mice currently alive.
- * @type {!Array.<Genetics.Mouse>}
+ * @type {!Array.<!Genetics.Mouse>}
  * @private
  */
 Genetics.Cage.aliveMice_ = [];
 
 /**
- * Mapping of mouse id to mouse for quick lookup.
- * @type {!Object.<number, Genetics.Mouse>}
+ * Mapping of mouse ID to mouse for quick lookup.
+ * @type {!Object.<number, !Genetics.Mouse>}
  * @private
  */
 Genetics.Cage.miceMap_ = {};
 
 /**
- * Mapping of mouse id to PID of life simulation for that mouse queued to run.
+ * Mapping of mouse ID to PID of life simulation for that mouse queued to run.
  * @type {!Object.<number, number>}
  * @private
  */
@@ -118,9 +118,9 @@ Genetics.Cage.Event = function(type, var_args) {
  * Adds the event to the queue depending on the mode the game is running as.
  */
 Genetics.Cage.Event.prototype.addToQueue = function() {
-  // Headless does not need to keep track of events that are not end game.
+  // Headless does not need to keep track of events that are not END_GAME.
   if (Genetics.Cage.HEADLESS &&
-    this.TYPE != Genetics.Cage.EVENT_TEMPLATE.END_GAME) {
+      this.TYPE != Genetics.Cage.EVENT_TEMPLATE.END_GAME) {
     return;
   }
   Genetics.Cage.EVENTS.push(this);
@@ -137,28 +137,28 @@ Genetics.Cage.endTime_ = 0;
  * Time limit of game (in milliseconds).
  * @type {number}
  */
-Genetics.Cage.GAME_TIME_LIMIT = 5 * 60 * 1000;
+Genetics.Cage.GAME_TIME_LIMIT_MSC = 5 * 60 * 1000;
 
 /**
  * Time limit for mouse function execution in number of interpreter steps (100k
  * ticks runs for about 3 minutes).
  * @type {number}
  */
-Genetics.Cage.FUNCTION_TIMEOUT = 100000;
+Genetics.Cage.FUNCTION_TIMEOUT_STEPS = 100000;
 
 /**
- * The next available player id.
+ * The next available player ID.
  * @type {number}
  * @private
  */
-Genetics.Cage.playerId_ = 0;
+Genetics.Cage.nextAvailablePlayerId_ = 0;
 
 /**
- * The next available mouse id.
+ * The next available mouse ID.
  * @type {number}
  * @private
  */
-Genetics.Cage.mouseId_ = 0;
+Genetics.Cage.nextAvailableMouseId_ = 0;
 
 /**
  * Callback function for end of game.
@@ -183,7 +183,7 @@ Genetics.Cage.reset = function() {
     }
   }
   Genetics.Cage.mouseLife_ = {};
-  Genetics.Cage.mouseId_ = 0;
+  Genetics.Cage.nextAvailableMouseId_ = 0;
 };
 
 /**
@@ -193,8 +193,8 @@ Genetics.Cage.reset = function() {
  */
 Genetics.Cage.addPlayer = function(playerName, code) {
   // Assign a unique id to the player and add to the game.
-  var id = Genetics.Cage.playerId_++;
-  Genetics.Cage.PLAYERS[id] = [playerName, code];
+  var id = Genetics.Cage.nextAvailablePlayerId_++;
+  Genetics.Cage.players[id] = [playerName, code];
 };
 
 /**
@@ -204,23 +204,23 @@ Genetics.Cage.addPlayer = function(playerName, code) {
 Genetics.Cage.start = function(doneCallback) {
   Genetics.Cage.doneCallback_ = doneCallback;
   // Create a mouse for each player.
-  for (var playerId in Genetics.Cage.PLAYERS) {
-    if (Genetics.Cage.PLAYERS.hasOwnProperty(playerId)) {
+  for (var playerId in Genetics.Cage.players) {
+    if (Genetics.Cage.players.hasOwnProperty(playerId)) {
       for (var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
         var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
             Genetics.Mouse.Sex.FEMALE;
-        var mouseId = Genetics.Cage.mouseId_++;
+        var mouseId = Genetics.Cage.nextAvailableMouseId_++;
         var mouse = new Genetics.Mouse(mouseId, null, null, mouseSex, playerId);
         Genetics.Cage.born(mouse);
         new Genetics.Cage.Event('ADD', mouse,
-            Genetics.Cage.PLAYERS[playerId][0]).addToQueue();
+            Genetics.Cage.players[playerId][0]).addToQueue();
       }
     }
   }
-  Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT;
+  Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSC;
   new Genetics.Cage.Event('START_GAME').addToQueue();
   console.log('Starting game with ' +
-      Object.keys(Genetics.Cage.PLAYERS).length + ' players.');
+      Object.keys(Genetics.Cage.players).length + ' players.');
 };
 
 /**
@@ -374,7 +374,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   parent1.fertility--;
   parent2.fertility--;
   // Allocate a new id for the mouse.
-  var mouseId = Genetics.Cage.mouseId_++;
+  var mouseId = Genetics.Cage.nextAvailableMouseId_++;
   // Determine sex of child based on the current population.
   var populationFertility = 0;
   var femaleFertility = 0;
@@ -578,7 +578,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
       opt_param);
   // Try running the player code.
   try {
-    var ticks = Genetics.Cage.FUNCTION_TIMEOUT;
+    var ticks = Genetics.Cage.FUNCTION_TIMEOUT_STEPS;
     while (interpreter.step()) {
       if (ticks-- == 0) {
         throw Infinity;
@@ -622,11 +622,11 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
       playerId = mouse.mateAnswerOwner;
       break;
   }
-  var code = Genetics.Cage.PLAYERS[playerId][1];
+  var code = Genetics.Cage.players[playerId][1];
   if (goog.isFunction(code)) {
     code = code();
   } else if (!goog.isString(code)) {
-    var player = Genetics.Cage.PLAYERS[playerId][0];
+    var player = Genetics.Cage.players[playerId][0];
     throw 'Player ' + player + ' has invalid code: ' + code;
   }
   var interpreter = new Interpreter(code,

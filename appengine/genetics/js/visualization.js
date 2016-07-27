@@ -198,9 +198,9 @@ Genetics.Visualization.resetChartData_ = function() {
   // population data updates.
   Genetics.Visualization.playerOrder_.length = 0;
   var playerLabels = [{label: 'Time', type: 'number'}];
-  for (var playerId in Genetics.Cage.PLAYERS) {
-    if (Genetics.Cage.PLAYERS.hasOwnProperty(playerId)) {
-      playerLabels.push({label: Genetics.Cage.PLAYERS[playerId][0],
+  for (var playerId in Genetics.Cage.players) {
+    if (Genetics.Cage.players.hasOwnProperty(playerId)) {
+      playerLabels.push({label: Genetics.Cage.players[playerId][0],
         type: 'number'});
       Genetics.Visualization.playerOrder_.push(playerId);
     }
@@ -539,9 +539,9 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
       'Xavier', 'Zeke', 'Han', 'Samuel', 'Wade', 'Patrick'];
 
   var genes = '(' + mouse.sex + ' ' +
-      Genetics.Cage.PLAYERS[mouse.chooseMateOwner][0] + '/' +
-      Genetics.Cage.PLAYERS[mouse.mateAnswerOwner][0] + '/' +
-      Genetics.Cage.PLAYERS[mouse.pickFightOwner][0] + ')';
+      Genetics.Cage.players[mouse.chooseMateOwner][0] + '/' +
+      Genetics.Cage.players[mouse.mateAnswerOwner][0] + '/' +
+      Genetics.Cage.players[mouse.pickFightOwner][0] + ')';
   var mouseStats = '[id:' + mouse.id + '/size:' + mouse.size + '/sex: ' +
       mouse.sex + ']';
   var names = (mouse.sex == Genetics.Mouse.Sex.FEMALE ||
