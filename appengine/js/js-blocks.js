@@ -202,6 +202,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
+    // TODO(kozbial) Set "?" to %1 variable name.
     "message0": "for (%1 = %2;  ? < %3;  ? += 1) { %4 %5 }",
     "args0": [
       {
