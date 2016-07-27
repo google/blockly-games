@@ -244,16 +244,14 @@ Genetics.Cage.simulateLife = function(mouse) {
   delete Genetics.Cage.mouseLife_[mouse.id];
   // Age mouse.
   mouse.age++;
-  // If mouse has fight left in it, start a fight with another mouse.
   if (mouse.aggressiveness > 0) {
+    // Mouse has fight attempts left, try to start a fight with another mouse
     Genetics.Cage.instigateFight(mouse);
-  }
-  // If mouse is still fertile, try to breed with another mice.
-  else if (mouse.fertility > 0) {
+  } else if (mouse.fertility > 0) {
+    // Mouse is still fertile, try to breed with another mouse.
     Genetics.Cage.tryMate(mouse);
-  }
-  // If mouse has finished fighting and breeding, it dies.
-  else {
+  } else {
+    // Mouse has completed life cycle and dies.
     new Genetics.Cage.Event('RETIRE', mouse.id).addToQueue();
     Genetics.Cage.death(mouse);
   }
@@ -366,8 +364,8 @@ Genetics.Cage.tryMate = function(mouse) {
 
 /**
  * Creates a child mouse from two mice and adds offspring to the cage.
- * @param {Genetics.Mouse} parent1 One of the parents of the new mouse.
- * @param {Genetics.Mouse} parent2 One of the parents of the new mouse.
+ * @param {!Genetics.Mouse} parent1 One of the parents of the new mouse.
+ * @param {!Genetics.Mouse} parent2 One of the parents of the new mouse.
  */
 Genetics.Cage.createOffspring = function(parent1, parent2) {
   // Use up one mating attempt for each of the parents.

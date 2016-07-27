@@ -47,7 +47,6 @@ Genetics.Blocks.GENETICS_HUE = 20;
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {!Blockly.Block} block The block.
- * @return {Function}
  * @private
  */
 Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,

@@ -172,7 +172,7 @@ Genetics.init = function() {
         '<shadow type="logic_null"></shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="genetics_chooseMate"  deletable="false" editable="false" ' +
+    '<block type="genetics_chooseMate" deletable="false" editable="false" ' +
         'x="0" y="350">' +
       '<comment pinned="false">' +
 'Chooses and returns a mouse from mice to attempt to mate with or null ' +
@@ -187,7 +187,7 @@ Genetics.init = function() {
         '<shadow type="logic_null"></shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="genetics_mateAnswer"  deletable="false" editable="false" ' +
+    '<block type="genetics_mateAnswer" deletable="false" editable="false" ' +
         'x="0" y="550">' +
       '<comment pinned="false">' +
 'Returns true to agree to mate or false to decline.\n' +
