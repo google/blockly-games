@@ -339,7 +339,9 @@ Genetics.Cage.tryMate = function(mouse) {
   // Retrieve local copy of mate to ensure that mouse was not modified.
   var mate = Genetics.Cage.miceMap_[chosen.id];
   if (Genetics.Cage.isMatingSuccessful(mouse, mate)) {
-    // Ensure there is room in the cage for a new mouse.
+    // Create offspring from the two mice.
+    Genetics.Cage.createOffspring(mouse, mate);
+    // Account for overpopulation.
     if (Genetics.Cage.aliveMice_.length > Genetics.Cage.MAX_POPULATION) {
       // Find oldest mouse.
       var oldestMouse = Genetics.Cage.aliveMice_[0];
@@ -353,9 +355,6 @@ Genetics.Cage.tryMate = function(mouse) {
       new Genetics.Cage.Event('OVERPOPULATION', oldestMouse.id).addToQueue();
       Genetics.Cage.death(oldestMouse);
     }
-    // Create offspring from the two mice.
-    Genetics.Cage.createOffspring(mouse, mate);
-    // Accounts for overpopulation.
   } else {
     // Use up one mating attempt for mouse.
     mouse.fertility--;
