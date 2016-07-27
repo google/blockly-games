@@ -251,37 +251,28 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.jsonInit({
-      "message0": "%1.%2",
-
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "MOUSE",
-          "check": "Mouse"
-        },
-        {
-          "type": "field_dropdown",
-          "name": "PROPERTY",
-          "options": [
-            ['size', 'SIZE'],
-            ['aggressiveness', 'AGGRESSIVENESS'],
-            ['startAggressiveness', 'START_AGGRESSIVENESS'],
-            ['fertility', 'FERTILITY'],
-            ['startFertility', 'START_FERTILITY'],
-            ['sex', 'SEX'],
-            ['age', 'AGE'],
-            ['id', 'ID'],
-            ['pickFightOwner', 'PICK_FIGHT'],
-            ['chooseMateOwner', 'CHOOSE_MATE'],
-            ['mateAnswerOwner', 'MATE_ANSWER']
-          ]
-        }
-      ],
-      "inputsInline": true,
-      "output": "Number",
-      "colour": Genetics.Blocks.GENETICS_HUE
+    var PROPERTIES =
+        [['size', 'SIZE'],
+         ['aggressiveness', 'AGGRESSIVENESS'],
+         ['startAggressiveness', 'START_AGGRESSIVENESS'],
+         ['fertility', 'FERTILITY'],
+         ['startFertility', 'START_FERTILITY'],
+         ['sex', 'SEX'],
+         ['age', 'AGE'],
+         ['id', 'ID'],
+         ['pickFightOwner', 'PICK_FIGHT'],
+         ['chooseMateOwner', 'CHOOSE_MATE'],
+         ['mateAnswerOwner', 'MATE_ANSWER']];
+    this.setColour(Genetics.Blocks.GENETICS_HUE);
+    this.appendValueInput('MOUSE')
+        .setCheck('Mouse');
+    var dropdown = new Blockly.FieldDropdown(PROPERTIES, function(newProp) {
+      thisBlock.updateType_(newProp);
     });
+    this.appendDummyInput()
+        .appendField(dropdown, 'PROPERTY');
+    this.setInputsInline(true);
+    this.setOutput(true, 'Number');
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {
