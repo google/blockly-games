@@ -210,7 +210,7 @@ Genetics.Cage.start = function(doneCallback) {
         var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
             Genetics.Mouse.Sex.FEMALE;
         var mouseId = Genetics.Cage.nextAvailableMouseId_++;
-        var mouse = new Genetics.Mouse(mouseId, null, null, mouseSex, playerId);
+        var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
         Genetics.Cage.born(mouse);
         new Genetics.Cage.Event('ADD', mouse,
             Genetics.Cage.players[playerId][0]).addToQueue();
@@ -382,9 +382,9 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
       femaleFertility += aliveMouse.fertility;
     }
   }
-  var childSex = (Math.random() < femaleFertility / populationFertility) ?
+  var childSex = ( Math.random() < femaleFertility / populationFertility) ?
       Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE;
-  var child = new Genetics.Mouse(mouseId, parent1, parent2, childSex);
+  var child = new Genetics.Mouse(mouseId, childSex, parent1, parent2);
   Genetics.Cage.born(child);
   new Genetics.Cage.Event('MATE', parent1.id, 'SUCCESS', parent2.id,
       child).addToQueue();

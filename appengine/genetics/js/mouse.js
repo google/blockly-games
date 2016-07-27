@@ -32,13 +32,13 @@ goog.require('goog.math');
  * Creates a mouse.
  * @constructor
  * @param {number} id The id to assign the mouse.
+ *  * @param {Genetics.Mouse.Sex} sex The sex of the mouse.
  * @param {Genetics.Mouse=} opt_parentOne One of the parents of the mouse.
  * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.
- * @param {Genetics.Mouse.Sex=} opt_sex The sex of the mouse.
  * @param {number=} opt_player The identifier of the player owning all
  * the genes (passed if there are no parents).
  */
-Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_sex,
+Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
     opt_player) {
   // Returns a random in between minValue (inclusive) and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
@@ -46,11 +46,11 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_sex,
   }
   if (opt_parentOne && opt_parentTwo) {
     // Choose which functions are inherited from parents.
-    var pickFightParent = randomInt(0, 1);
-    var mateQuestionParent = randomInt(0, 1);
+    var pickFightParent = goog.math.randomInt(2);
+    var mateQuestionParent = goog.math.randomInt(2);
     // Guarantee that at least one function is inherited from each parent.
     var mateAnswerParent = (pickFightParent == mateQuestionParent) ?
-        !mateQuestionParent : randomInt(0, 1);
+        !mateQuestionParent : goog.math.randomInt(2);
     this.pickFightOwner = pickFightParent ? opt_parentOne.pickFightOwner :
         opt_parentTwo.pickFightOwner;
     this.chooseMateOwner = mateQuestionParent ?
@@ -61,8 +61,6 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_sex,
     this.size = goog.math.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
         Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);
-    this.sex = (randomInt(0, 1)) ? Genetics.Mouse.Sex.MALE :
-        Genetics.Mouse.Sex.FEMALE;
     this.startAggressiveness = Math.max(0, Math.round((
             opt_parentOne.startAggressiveness +
         opt_parentTwo.startAggressiveness) / 2) +
@@ -76,7 +74,6 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_sex,
     this.pickFightOwner = opt_player;
     this.chooseMateOwner = opt_player;
     this.mateAnswerOwner = opt_player;
-    this.sex = opt_sex || Genetics.Mouse.Sex.HERMAPHRODITE;
     this.size = Genetics.Mouse.SIZE;
     this.startAggressiveness = Genetics.Mouse.START_AGGRESSIVENESS;
     // First generation mice do not fight.
@@ -87,6 +84,7 @@ Genetics.Mouse = function(id, opt_parentOne, opt_parentTwo, opt_sex,
   this.fertility = this.startFertility;
   this.age = 0;
   this.id = id;
+  this.sex = sex;
 };
 
 /**
