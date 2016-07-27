@@ -84,7 +84,7 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
  * @this Blockly.Block
  * @private
  */
-Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'] =
+Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
     function(funcName, args, returnType) {
   this.jsonInit({
     "message0": "function %1(%2) { %3 %4 return %5 }",
@@ -116,7 +116,7 @@ Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_pickFight'] = {
-  init: goog.partial(Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'],
+  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
                      'pickFight', '', 'Mouse')
 };
 
@@ -133,7 +133,7 @@ Blockly.JavaScript['genetics_pickFight'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_chooseMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'],
+  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
                      'chooseMate', '', 'Mouse')
 };
 
@@ -150,7 +150,7 @@ Blockly.JavaScript['genetics_chooseMate'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_mateAnswer'] = {
-  init: goog.partial(Blockly.Blocks['genetics_generateMouseFunctionBlockInit_'],
+  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
                      'mateAnswer', 'suitor', 'Boolean'),
   /**
    * Return all variables referenced by this block.
