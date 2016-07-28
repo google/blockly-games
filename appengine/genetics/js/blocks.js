@@ -301,8 +301,7 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this Blockly.Block
    */
   updateType_: function(newProp) {
-    if (newProp == 'SEX' || newProp == 'PICK_FIGHT' ||
-        newProp == 'CHOOSE_MATE' || newProp == 'MATE_ANSWER') {
+    if (newProp == 'SEX') {
       this.outputConnection.setCheck('String');
     } else {
       this.outputConnection.setCheck('Number');
@@ -362,12 +361,11 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
 };
 
 /**
- * Block for getting the enum for mouse sexes.
- * @this Blockly.Block
+ * Block that defines constants for possible sexes of a mouse.
  */
 Blockly.Blocks['genetics_sex'] = {
   /**
-   * Block for getting mouse sexes
+   * Initializes the sex block.
    * @this Blockly.Block
    */
   init: function() {

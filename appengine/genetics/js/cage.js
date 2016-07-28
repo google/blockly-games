@@ -67,11 +67,11 @@ Genetics.Cage.aliveMice_ = [];
 Genetics.Cage.miceMap_ = {};
 
 /**
- * Mapping of mouse ID to PID of life simulation for that mouse queued to run.
+ * Mapping of mouse ID to PID of life simulation for that mouse.
  * @type {!Object.<number, number>}
  * @private
  */
-Genetics.Cage.mouseLife_ = {};
+Genetics.Cage.lifePidsMap_ = {};
 
 /**
  * List of events to be visualized.
@@ -80,10 +80,10 @@ Genetics.Cage.mouseLife_ = {};
 Genetics.Cage.EVENTS = [];
 
 /**
- * Template for event properties.
+ * Mapping of event types to a list of properties of the event.
  * @type {Object.<string, Array.<string>>}
  */
-Genetics.Cage.EVENT_TEMPLATE = {
+Genetics.Cage.EVENT_PROPERTY_NAMES = {
   'ADD': ['TYPE', 'MOUSE', 'PLAYER_NAME'],
   'START_GAME': [],
   'FIGHT': ['TYPE', 'ID', 'RESULT', 'OPT_OPPONENT'],
@@ -108,7 +108,7 @@ Genetics.Cage.EVENT_TEMPLATE = {
  * @constructor
  */
 Genetics.Cage.Event = function(type, var_args) {
-  var template = Genetics.Cage.EVENT_TEMPLATE[type];
+  var template = Genetics.Cage.EVENT_PROPERTY_NAMES[type];
   for (var i = 0; i < template.length; i++) {
     this[template[i]] = arguments[i];
   }
@@ -120,7 +120,7 @@ Genetics.Cage.Event = function(type, var_args) {
 Genetics.Cage.Event.prototype.addToQueue = function() {
   // Headless does not need to keep track of events that are not END_GAME.
   if (Genetics.Cage.HEADLESS &&
-      this.TYPE != Genetics.Cage.EVENT_TEMPLATE.END_GAME) {
+      this.TYPE != Genetics.Cage.EVENT_PROPERTY_NAMES.END_GAME) {
     return;
   }
   Genetics.Cage.EVENTS.push(this);
@@ -177,12 +177,12 @@ Genetics.Cage.reset = function() {
   Genetics.Cage.aliveMice_.length = 0;
   Genetics.Cage.miceMap_ = {};
   // Cancel all queued life simulations.
-  for (var mouseId in Genetics.Cage.mouseLife_) {
-    if (Genetics.Cage.mouseLife_.hasOwnProperty(mouseId)) {
-      clearTimeout(Genetics.Cage.mouseLife_[mouseId]);
+  for (var mouseId in Genetics.Cage.lifePidsMap_) {
+    if (Genetics.Cage.lifePidsMap_.hasOwnProperty(mouseId)) {
+      clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
     }
   }
-  Genetics.Cage.mouseLife_ = {};
+  Genetics.Cage.lifePidsMap_ = {};
   Genetics.Cage.nextAvailableMouseId_ = 0;
 };
 
@@ -228,7 +228,7 @@ Genetics.Cage.start = function(doneCallback) {
 Genetics.Cage.life = function(mouse) {
   // Queue life simulation for mouse with some variation in timeout to allow for
   // variation in order.
-  Genetics.Cage.mouseLife_[mouse.id] =
+  Genetics.Cage.lifePidsMap_[mouse.id] =
       setTimeout(goog.partial(Genetics.Cage.simulateLife, mouse),
           10 * Math.random());
 };
@@ -239,7 +239,7 @@ Genetics.Cage.life = function(mouse) {
  */
 Genetics.Cage.simulateLife = function(mouse) {
   // Remove life from mapping of lives that are queued to run.
-  delete Genetics.Cage.mouseLife_[mouse.id];
+  delete Genetics.Cage.lifePidsMap_[mouse.id];
   // Age mouse.
   mouse.age++;
   if (mouse.aggressiveness > 0) {
@@ -453,8 +453,8 @@ Genetics.Cage.death = function(mouse) {
     Genetics.Cage.aliveMice_.splice(index, 1);
   }
   delete Genetics.Cage.miceMap_[mouse.id];
-  clearTimeout(Genetics.Cage.mouseLife_[mouse.id]);
-  delete Genetics.Cage.mouseLife_[mouse.id];
+  clearTimeout(Genetics.Cage.lifePidsMap_[mouse.id]);
+  delete Genetics.Cage.lifePidsMap_[mouse.id];
 };
 
 /**
@@ -547,9 +547,9 @@ Genetics.Cage.checkForEnd = function() {
 Genetics.Cage.end = function(cause, opt_pickFightWinner, opt_chooseMateWinner,
     opt_mateAnswerWinner) {
   // Cancel all queued life simulations.
-  for (var mouseId in Genetics.Cage.mouseLife_) {
-    if (Genetics.Cage.mouseLife_.hasOwnProperty(mouseId)) {
-      clearTimeout(Genetics.Cage.mouseLife_[mouseId]);
+  for (var mouseId in Genetics.Cage.lifePidsMap_) {
+    if (Genetics.Cage.lifePidsMap_.hasOwnProperty(mouseId)) {
+      clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
     }
   }
   var pickFightWinner = opt_pickFightWinner || 'NONE';
