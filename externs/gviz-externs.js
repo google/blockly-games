@@ -423,7 +423,7 @@ google.visualization.ControlWrapper.prototype.setOption = function(key, value) {
 google.visualization.ControlWrapper.prototype.setOptions = function(options) {};
 
 /** @return {string} JSON representation. */
-google.visualization.ChartWrapper.prototype.toJSON = function() {};
+google.visualization.ControlWrapper.prototype.toJSON = function() {};
 
 /** @constructor */
 google.visualization.ChartEditor = function(opt_config) {};
