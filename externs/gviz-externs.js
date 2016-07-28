@@ -373,6 +373,7 @@ google.visualization.drawToolbar = function(container, components) {};
 /** @constructor */
 google.visualization.ChartWrapper = function(opt_specification) {};
 google.visualization.ChartWrapper.prototype.draw = function(opt_container) {};
+google.visualization.ChartWrapper.prototype.toJSON = function() {};
 google.visualization.ChartWrapper.prototype.getDataSourceUrl = function() {};
 google.visualization.ChartWrapper.prototype.getDataTable = function() {};
 google.visualization.ChartWrapper.prototype.getChartName = function() {};
@@ -393,9 +394,6 @@ google.visualization.ChartWrapper.prototype.setRefreshInterval = function(refres
 google.visualization.ChartWrapper.prototype.setView = function(view) {};
 google.visualization.ChartWrapper.prototype.setOption = function(key, value) {};
 google.visualization.ChartWrapper.prototype.setOptions = function(options) {};
-
-/** @return {string} JSON representation. */
-google.visualization.ChartWrapper.prototype.toJSON = function() {};
 
 /** @constructor */
 google.visualization.ControlWrapper = function(opt_specification) {};
@@ -421,9 +419,6 @@ google.visualization.ControlWrapper.prototype.setRefreshInterval = function(refr
 google.visualization.ControlWrapper.prototype.setView = function(view) {};
 google.visualization.ControlWrapper.prototype.setOption = function(key, value) {};
 google.visualization.ControlWrapper.prototype.setOptions = function(options) {};
-
-/** @return {string} JSON representation. */
-google.visualization.ControlWrapper.prototype.toJSON = function() {};
 
 /** @constructor */
 google.visualization.ChartEditor = function(opt_config) {};
