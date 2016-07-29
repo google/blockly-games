@@ -196,7 +196,7 @@ Genetics.Cage.addPlayer = function(playerName, code) {
 };
 
 /**
- * Start the Cage simulation. Players should be already added
+ * Start the Cage simulation. Players should be already added.
  * @param {Function} doneCallback Function to call when game ends.
  */
 Genetics.Cage.start = function(doneCallback) {
