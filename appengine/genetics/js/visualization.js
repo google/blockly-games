@@ -121,18 +121,25 @@ Genetics.Visualization.init = function() {
     var chartOpts = {
       'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
         'format': '0'},
-      'vAxis': {'minValue': 0, 'format': '0', 'min': 0},
+      'vAxis': {'minValue': 0},
       'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
         'height': '70%' }
     };
+    var stackGraphOpts = goog.object.unsafeClone(chartOpts);
+    stackGraphOpts['isStacked'] = 'relative';
+    stackGraphOpts['lineWidth'] = 0;
+    stackGraphOpts['chartArea']['backgroundColor'] = 'black';
+    stackGraphOpts['areaOpacity'] = 0.8;
+    stackGraphOpts['vAxis']['maxValue'] = 1;
     var populationChartOpts = chartOpts;
-    var pickFightOpts = goog.object.clone(chartOpts);
-    var chooseMateOpts = goog.object.clone(chartOpts);
-    var mateAnswerOpts = goog.object.clone(chartOpts);
+    var pickFightOpts = stackGraphOpts;
+    var chooseMateOpts = goog.object.clone(stackGraphOpts);
+    var mateAnswerOpts = goog.object.clone(stackGraphOpts);
 
     populationChartOpts['title'] = 'Population';
-    populationChartOpts['colors'] = ['#AA8CC5', '#ADD8E6', '#FFB5C1'];
+    populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
     populationChartOpts['isStacked'] = true;
+    populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
     Genetics.Visualization.populationChartWrapper_ =
         new google.visualization.ChartWrapper({
           'chartType': 'AreaChart',
@@ -142,21 +149,21 @@ Genetics.Visualization.init = function() {
     pickFightOpts['title'] = 'Pick Fight';
     Genetics.Visualization.pickFightChartWrapper_ =
         new google.visualization.ChartWrapper({
-          'chartType': 'LineChart',
+          'chartType': 'AreaChart',
           'options': pickFightOpts,
           'containerId': 'pickFightChart'
         });
     chooseMateOpts['title'] = 'Choose Mate';
     Genetics.Visualization.chooseMateChartWrapper_ =
         new google.visualization.ChartWrapper({
-          'chartType': 'LineChart',
+          'chartType': 'AreaChart',
           'options': chooseMateOpts,
           'containerId': 'chooseMateChart'
         });
     mateAnswerOpts['title'] = 'Mate Answer';
     Genetics.Visualization.mateAnswerChartWrapper_ =
         new google.visualization.ChartWrapper({
-          'chartType': 'LineChart',
+          'chartType': 'AreaChart',
           'options': mateAnswerOpts,
           'containerId': 'mateAnswerChart'
         });
