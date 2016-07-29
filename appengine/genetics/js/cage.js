@@ -212,7 +212,7 @@ Genetics.Cage.start = function(doneCallback) {
         var mouseId = Genetics.Cage.nextAvailableMouseId_++;
         var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
         Genetics.Cage.born(mouse);
-        new Genetics.Cage.Event('ADD', mouse,
+        new Genetics.Cage.Event('ADD', goog.object.clone(mouse),
             Genetics.Cage.players[playerId][0]).addToQueue();
       }
     }
@@ -385,7 +385,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   var child = new Genetics.Mouse(mouseId, childSex, parent1, parent2);
   Genetics.Cage.born(child);
   new Genetics.Cage.Event('MATE', parent1.id, 'SUCCESS', parent2.id,
-      child).addToQueue();
+      goog.object.clone(child)).addToQueue();
 };
 
 /**
@@ -475,29 +475,6 @@ Genetics.Cage.checkForEnd = function() {
     Genetics.Cage.end('NONE_LEFT');
     return;
   }
-  // Check if there is one mouse left.
-  else if (Genetics.Cage.aliveMice_.length == 1) {
-    var aliveMouse = Genetics.Cage.aliveMice_[0];
-    Genetics.Cage.end('ONE_LEFT', aliveMouse.pickFightOwner,
-        aliveMouse.chooseMateOwner, aliveMouse.mateAnswerOwner);
-    return;
-  }
-  // Check if there's no possible mate pairings left.
-  var potentialMate = null;
-  var matesExist = false;
-  for (var i = 0; i < Genetics.Cage.aliveMice_.length; i++) {
-    var mouse = Genetics.Cage.aliveMice_[i];
-    if (mouse.fertility > 0) {
-      if (!potentialMate) {
-        potentialMate = mouse;
-      }
-      else if (potentialMate.sex == Genetics.Mouse.Sex.HERMAPHRODITE ||
-          potentialMate.sex != mouse.sex) {
-        matesExist = true;
-        break;
-      }
-    }
-  }
   // Check which genes have won.
   var pickFightWinner = Genetics.Cage.aliveMice_[0].pickFightOwner;
   var mateQuestionWinner = Genetics.Cage.aliveMice_[0].chooseMateOwner;
@@ -517,13 +494,8 @@ Genetics.Cage.checkForEnd = function() {
       break;
     }
   }
-  // If the game is stalemated because there are no mate pairings left or if
-  // there is a winner for all functions.
-  if (!matesExist) {
-    Genetics.Cage.end('STALEMATE', pickFightWinner, mateQuestionWinner,
-        mateAnswerWinner);
-  }
-  else if (pickFightWinner && mateQuestionWinner && mateAnswerWinner) {
+  // End the game if there is a winner for all functions.
+  if (pickFightWinner && mateQuestionWinner && mateAnswerWinner) {
     Genetics.Cage.end('DOMINATION', pickFightWinner, mateQuestionWinner,
         mateAnswerWinner);
   }
