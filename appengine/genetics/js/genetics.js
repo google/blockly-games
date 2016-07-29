@@ -396,4 +396,8 @@ Genetics.editorChanged = function() {
   }
 };
 
+Genetics.log = function(msg) {
+  console.log(msg);
+};
+
 window.addEventListener('load', Genetics.init);

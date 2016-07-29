@@ -209,6 +209,8 @@ Genetics.Visualization.resetChartData_ = function() {
       google.visualization.arrayToDataTable([playerLabels], false));
   Genetics.Visualization.mateAnswerChartWrapper_.setDataTable(
       google.visualization.arrayToDataTable([playerLabels], false));
+
+  Genetics.Visualization.chartsUpdated_ = true;
 };
 
 /**
@@ -270,15 +272,25 @@ Genetics.Visualization.update = function() {
 };
 
 /**
+ * Whether the charts need to be redrawn because they were updated.
+ * @type {boolean}
+ * @private
+ */
+Genetics.Visualization.chartsUpdated_ = true;
+
+/**
  * Visualize the current state of the cage simulation (Genetics.Cage).
  * @private
  */
 Genetics.Visualization.display_ = function() {
-  // TODO(kozbial) draw current state of the screen.
-  Genetics.Visualization.populationChartWrapper_.draw();
-  Genetics.Visualization.pickFightChartWrapper_.draw();
-  Genetics.Visualization.chooseMateChartWrapper_.draw();
-  Genetics.Visualization.mateAnswerChartWrapper_.draw();
+  // TODO(kozbial) draw current state of the cage.
+  if(Genetics.Visualization.chartsUpdated_) {
+    Genetics.Visualization.populationChartWrapper_.draw();
+    Genetics.Visualization.pickFightChartWrapper_.draw();
+    Genetics.Visualization.chooseMateChartWrapper_.draw();
+    Genetics.Visualization.mateAnswerChartWrapper_.draw();
+    Genetics.Visualization.chartsUpdated_ = false;
+  }
 };
 
 /**
@@ -315,26 +327,26 @@ Genetics.Visualization.processCageEvents_ = function() {
       case 'ADD':
         var mouse = event['MOUSE'];
         Genetics.Visualization.addMouse_(mouse);
-        console.log(getMouseName(mouse, true, true) + ' added to game.');
+        Genetics.log(getMouseName(mouse, true, true) + ' added to game.');
         break;
       case 'START_GAME':
         Genetics.Visualization.updateChartData_();
-        console.log('Starting game with ' +
+        Genetics.log('Starting game with ' +
             Object.keys(Genetics.Cage.players).length + ' players.');
         break;
       case 'FIGHT':
           var instigatingMouse = Genetics.Visualization.MICE[event['ID']];
         switch (event['RESULT']) {
           case 'NONE':
-            console.log(getMouseName(instigatingMouse) +
+            Genetics.log(getMouseName(instigatingMouse) +
                 ' elected to never fight again.');
             break;
           case 'INVALID':
-            console.log(getMouseName(instigatingMouse) +
+            Genetics.log(getMouseName(instigatingMouse) +
                 ' is confused and wont fight again.');
             break;
           case 'SELF':
-            console.log(getMouseName(instigatingMouse) +
+            Genetics.log(getMouseName(instigatingMouse) +
                 ' chose itself when asked whom to fight with. ' +
                 getMouseName(instigatingMouse) + ' is being executed to put ' +
                 'it out of its misery.');
@@ -342,18 +354,18 @@ Genetics.Visualization.processCageEvents_ = function() {
             break;
           case 'WIN':
             var opponent = Genetics.Visualization.MICE[event['OPT_OPPONENT']];
-            console.log(getMouseName(instigatingMouse) + ' fights and kills ' +
+            Genetics.log(getMouseName(instigatingMouse) + ' fights and kills ' +
                 getMouseName(opponent) + '.');
             Genetics.Visualization.removeMouse_(opponent);
             break;
           case 'TIE':
             var opponent = Genetics.Visualization.MICE[event['OPT_OPPONENT']];
-            console.log(getMouseName(instigatingMouse) + ' fights ' +
+            Genetics.log(getMouseName(instigatingMouse) + ' fights ' +
                 getMouseName(opponent) + ' to a draw.');
             break;
           case 'LOSS':
             var opponent = Genetics.Visualization.MICE[event['OPT_OPPONENT']];
-            console.log(getMouseName(instigatingMouse) + ' fights and is ' +
+            Genetics.log(getMouseName(instigatingMouse) + ' fights and is ' +
                 'killed by ' + getMouseName(opponent) + '.');
             Genetics.Visualization.removeMouse_(instigatingMouse);
             break;
@@ -363,59 +375,59 @@ Genetics.Visualization.processCageEvents_ = function() {
         var proposingMouse = Genetics.Visualization.MICE[event['ID']];
         switch (event['RESULT']) {
           case 'NONE':
-            console.log(getMouseName(proposingMouse) +
+            Genetics.log(getMouseName(proposingMouse) +
                 ' elected to never mate again.');
             break;
           case 'INVALID':
-            console.log(getMouseName(proposingMouse) +
+            Genetics.log(getMouseName(proposingMouse) +
                 ' is confused wont mate again.');
             break;
           case 'SELF':
-            console.log(getMouseName(proposingMouse) +
+            Genetics.log(getMouseName(proposingMouse) +
                 ' caught trying to mate with itself.');
             break;
           case 'INCOMPATIBLE':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
-            console.log(getMouseName(proposingMouse) + ' mated with ' +
+            Genetics.log(getMouseName(proposingMouse) + ' mated with ' +
                 getMouseName(askedMouse) + ', another ' + proposingMouse.sex +
                 '.');
             break;
           case 'INFERTILE':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
-            console.log('Mating between ' + getMouseName(proposingMouse) +
+            Genetics.log('Mating between ' + getMouseName(proposingMouse) +
                 ' and ' + getMouseName(askedMouse) + ' failed because ' +
                 getMouseName(askedMouse) + ' is sterile.');
             break;
           case 'MATE_EXPLODED':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
-            console.log(getMouseName(askedMouse) + ' exploded after ' +
+            Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
                 getMouseName(proposingMouse) + ' asked it out.');
             Genetics.Visualization.removeMouse_(askedMouse);
             break;
           case 'REJECTION':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
-            console.log(getMouseName(proposingMouse) + ' asked ' +
+            Genetics.log(getMouseName(proposingMouse) + ' asked ' +
                 getMouseName(askedMouse) + ' to mate, The answer is NO!');
             break;
           case 'SUCCESS':
             var askedMouse = Genetics.Visualization.MICE[event['OPT_PARTNER']];
-            console.log(getMouseName(proposingMouse, true, true) + ' asked ' +
+            Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
                 getMouseName(askedMouse, true, true) + ' to mate, The answer ' +
                 'is YES!');
             var offspring = event['OPT_OFFSPRING'];
-            console.log(getMouseName(offspring, true, true) + ' was born!');
+            Genetics.log(getMouseName(offspring, true, true) + ' was born!');
             Genetics.Visualization.addMouse_(offspring);
             break;
         }
         break;
       case 'RETIRE':
         var mouse = Genetics.Visualization.MICE[event['ID']];
-        console.log(getMouseName(mouse) + ' dies after a productive life.');
+        Genetics.log(getMouseName(mouse) + ' dies after a productive life.');
         Genetics.Visualization.removeMouse_(mouse);
         break;
       case 'OVERPOPULATION':
         var mouse = Genetics.Visualization.MICE[event['ID']];
-        console.log('Cage has gotten too cramped ' + getMouseName(mouse) +
+        Genetics.log('Cage has gotten too cramped ' + getMouseName(mouse) +
             ' can\'t compete with the younger mice and dies.');
         Genetics.Visualization.removeMouse_(mouse);
         break;
@@ -423,14 +435,14 @@ Genetics.Visualization.processCageEvents_ = function() {
         var mouse = Genetics.Visualization.MICE[event['ID']];
         var source = event['SOURCE'];
         var cause = event['CAUSE'];
-        console.log(getMouseName(mouse) + ' exploded in ' + source +
+        Genetics.log(getMouseName(mouse) + ' exploded in ' + source +
             ' because ' + cause);
         Genetics.Visualization.removeMouse_(mouse);
         break;
       case 'SPIN':
         var mouse = Genetics.Visualization.MICE[event['ID']];
         var source = event['SOURCE'];
-        console.log(getMouseName(mouse) + ' spun in circles after ' + source +
+        Genetics.log(getMouseName(mouse) + ' spun in circles after ' + source +
             ' was called.');
         Genetics.Visualization.removeMouse_(mouse);
         break;
@@ -439,7 +451,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         var pickFightWinner = event['PICK_FIGHT_WINNER'];
         var chooseMateWinner = event['CHOOSE_MATE_WINNER'];
         var mateAnswerWinner = event['MATE_ANSWER_WINNER'];
-        console.log('Game ended because ' + cause + '. PickFight Winner: ' +
+        Genetics.log('Game ended because ' + cause + '. PickFight Winner: ' +
             pickFightWinner + ' chooseMate Winner: ' + chooseMateWinner +
             ' mateAnswer Winner: ' + mateAnswerWinner);
         break;
@@ -502,6 +514,8 @@ Genetics.Visualization.updateChartData_ = function() {
       .addRow(chooseMateState);
   Genetics.Visualization.mateAnswerChartWrapper_.getDataTable()
       .addRow(mateAnswerState);
+
+  Genetics.Visualization.chartsUpdated_ = true;
 };
 
 /**
