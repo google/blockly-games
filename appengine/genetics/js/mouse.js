@@ -93,8 +93,7 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
  */
 Genetics.Mouse.Sex = {
   MALE: 'Male',
-  FEMALE: 'Female',
-  HERMAPHRODITE: 'Hermaphrodite'
+  FEMALE: 'Female'
 };
 
 /**

@@ -376,7 +376,6 @@ Blockly.Blocks['genetics_sex'] = {
           "type": "field_dropdown",
           "name": "TYPE",
           "options": [
-            ['Hermaphrodite', 'HERMAPHRODITE'],
             ['Male', 'MALE'],
             ['Female', 'FEMALE']
           ]
@@ -397,18 +396,10 @@ Blockly.JavaScript['genetics_sex'] = function(block) {
   // Generate JavaScript for getting sex enum.
   var type = block.getFieldValue('TYPE');
   var code = mouse + 'Sex.';
-  switch (type) {
-    case 'HERMAPHRODITE':
-      code += 'Hermaphrodite';
-      break;
-    case 'MALE':
-      code += 'Male';
-      break;
-    case 'FEMALE':
-      code += 'Female';
-      break;
-    default:
-      throw 'Unknown sex type: ' + type;
+  if(type == 'MALE') {
+    code += 'Male';
+  } else {
+    code += 'Female';
   }
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };

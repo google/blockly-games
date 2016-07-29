@@ -188,7 +188,6 @@ Genetics.Visualization.resetChartData_ = function() {
   Genetics.Visualization.populationChartWrapper_.setDataTable(
       google.visualization.arrayToDataTable(
           [[{label: 'Time', type: 'number'},
-            {label: Genetics.Mouse.Sex.HERMAPHRODITE, type: 'number'},
             {label: Genetics.Mouse.Sex.MALE, type: 'number'},
             {label: Genetics.Mouse.Sex.FEMALE, type: 'number'}]],
           false));
@@ -220,7 +219,6 @@ Genetics.Visualization.reset = function() {
 
   // Reset stored information about mouse population.
   Genetics.Visualization.eventNumber = 0;
-  Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.HERMAPHRODITE] = 0;
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE] = 0;
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE] = 0;
   Genetics.Visualization.MICE = {};
@@ -479,7 +477,6 @@ Genetics.Visualization.removeMouse_ = function(mouse) {
   delete Genetics.Visualization.MICE[mouse.id];
 };
 
-
 /**
  * Add a row to the charts with the current status of mice.
  * @private
@@ -487,7 +484,6 @@ Genetics.Visualization.removeMouse_ = function(mouse) {
 Genetics.Visualization.updateChartData_ = function() {
   Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
       [Genetics.Visualization.eventNumber,
-       Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.HERMAPHRODITE],
        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
 
@@ -544,10 +540,9 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
       Genetics.Cage.players[mouse.pickFightOwner][0] + ')';
   var mouseStats = '[id:' + mouse.id + '/size:' + mouse.size + '/sex: ' +
       mouse.sex + ']';
-  var names = (mouse.sex == Genetics.Mouse.Sex.FEMALE ||
-      (mouse.sex == Genetics.Mouse.Sex.HERMAPHRODITE && 2 % mouse.id == 0)) ?
-          FEMININE_NAMES : MASCULINE_NAMES;
-  var name = names[mouse.id % names.length || 0];
+  var names = (mouse.sex == Genetics.Mouse.Sex.FEMALE) ? FEMININE_NAMES :
+      MASCULINE_NAMES;
+  var name = names[Math.floor(mouse.id/2) % names.length || 0];
   var ordinal = Math.floor(mouse.id / names.length) + 1;
   if (ordinal > 1) {
     name += ' ' + romanize(ordinal);

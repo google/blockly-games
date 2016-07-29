@@ -272,7 +272,7 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != getSelf() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex)) {
+    if (mouse != getSelf() && mouse.sex != getSelf().sex) {
       // Set mate choice if new mate is biggest we have seen.
       if (!mate || mouse.size > mate.size) {
         mate = mouse;
@@ -307,8 +307,7 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != getSelf() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex) &&
-        mouse.fertility > 0) {
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
       // Change mate choice if new mate would pass on higher fertility.
       if (!mate || mouse.startingFertility > mate.startingFertility) {
         mate = mouse;
@@ -343,8 +342,7 @@ function chooseMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != getSelf() && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex) &&
-        mouse.fertility > 0) {
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
       // Change mate choice if new mate would pass on higher fertility.
       if (!mate || mouse.startingFertility > mate.startingFertility) {
         mate = mouse;
@@ -382,7 +380,7 @@ function mateAnswer(suitor) {
     if (mouse == getSelf()) {
       continue;
     }
-    if (mouse.fertility && (mouse.sex == Sex.HERMAPHRODITE || mouse.sex != getSelf().sex)) {
+    if (mouse.fertility && mouse.sex != getSelf().sex) {
       totalValidMates++;
       // Count how many of the 'right' genes the mouse has.
       var rightGeneCount = 0;
