@@ -178,9 +178,7 @@ Genetics.Cage.reset = function() {
   Genetics.Cage.miceMap_ = {};
   // Cancel all queued life simulations.
   for (var mouseId in Genetics.Cage.lifePidsMap_) {
-    if (Genetics.Cage.lifePidsMap_.hasOwnProperty(mouseId)) {
-      clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
-    }
+    clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
   }
   Genetics.Cage.lifePidsMap_ = {};
   Genetics.Cage.nextAvailableMouseId_ = 0;
@@ -203,18 +201,16 @@ Genetics.Cage.addPlayer = function(playerName, code) {
  */
 Genetics.Cage.start = function(doneCallback) {
   Genetics.Cage.doneCallback_ = doneCallback;
-  // Create a mouse for each player.
+  // Create mice for each player.
   for (var playerId in Genetics.Cage.players) {
-    if (Genetics.Cage.players.hasOwnProperty(playerId)) {
-      for (var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
-        var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
-            Genetics.Mouse.Sex.FEMALE;
-        var mouseId = Genetics.Cage.nextAvailableMouseId_++;
-        var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
-        Genetics.Cage.born(mouse);
-        new Genetics.Cage.Event('ADD', goog.object.clone(mouse),
-            Genetics.Cage.players[playerId][0]).addToQueue();
-      }
+    for (var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
+      var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
+          Genetics.Mouse.Sex.FEMALE;
+      var mouseId = Genetics.Cage.nextAvailableMouseId_++;
+      var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
+      Genetics.Cage.born(mouse);
+      new Genetics.Cage.Event('ADD', goog.object.clone(mouse),
+          Genetics.Cage.players[playerId][0]).addToQueue();
     }
   }
   Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSC;
@@ -520,9 +516,7 @@ Genetics.Cage.end = function(cause, opt_pickFightWinner, opt_proposeMateWinner,
     opt_acceptMateWinner) {
   // Cancel all queued life simulations.
   for (var mouseId in Genetics.Cage.lifePidsMap_) {
-    if (Genetics.Cage.lifePidsMap_.hasOwnProperty(mouseId)) {
-      clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
-    }
+    clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
   }
   var pickFightWinner = opt_pickFightWinner || 'NONE';
   var proposeMateWinner = opt_proposeMateWinner || 'NONE';
