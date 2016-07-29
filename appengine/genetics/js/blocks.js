@@ -43,7 +43,7 @@ Genetics.Blocks.GENETICS_HUE = 20;
 
 /**
  * Generates the JavaScript from a "mouse function" block (pickFight,
- * chooseMate, mateAnswer) given the name and arguments of the function.
+ * proposeMate, acceptMate) given the name and arguments of the function.
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {!Blockly.Block} block The block.
@@ -76,7 +76,7 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
 };
 
 /**
- * Initializes a "mouse function" block (pickFight, chooseMate, mateAnswer)
+ * Initializes a "mouse function" block (pickFight, proposeMate, acceptMate)
  * given the name and arguments for the block.
  * @param {string} funcName The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
@@ -132,26 +132,26 @@ Blockly.JavaScript['genetics_pickFight'] =
  * Block for defining mouse decision on which other mouse to mate with.
  * @type {{init: !Function}}
  */
-Blockly.Blocks['genetics_chooseMate'] = {
+Blockly.Blocks['genetics_proposeMate'] = {
   init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'chooseMate', '', 'Mouse')
+                     'proposeMate', '', 'Mouse')
 };
 
 /**
- * Defines the JavaScript generation for chooseMate.
+ * Defines the JavaScript generation for proposeMate.
  * @type {!Function}
  */
-Blockly.JavaScript['genetics_chooseMate'] =
+Blockly.JavaScript['genetics_proposeMate'] =
     goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'chooseMate', '');
+                 'proposeMate', '');
 
 /**
  * Block for defining mouse decision on whether to mate with a specific mouse.
  * @type {{init: !Function}}
  */
-Blockly.Blocks['genetics_mateAnswer'] = {
+Blockly.Blocks['genetics_acceptMate'] = {
   init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'mateAnswer', 'suitor', 'Boolean'),
+                     'acceptMate', 'suitor', 'Boolean'),
   /**
    * Return all variables referenced by this block.
    * @return {!Array.<string>} List of variable names.
@@ -182,12 +182,12 @@ Blockly.Blocks['genetics_mateAnswer'] = {
 };
 
 /**
- * Defines the JavaScript generation for mateAnswer.
+ * Defines the JavaScript generation for acceptMate.
  * @type {!Function}
  */
-Blockly.JavaScript['genetics_mateAnswer'] =
+Blockly.JavaScript['genetics_acceptMate'] =
     goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'mateAnswer', 'suitor');
+                 'acceptMate', 'suitor');
 
 Blockly.Blocks['genetics_getSelf'] = {
   /**
@@ -261,8 +261,8 @@ Blockly.Blocks['genetics_getProperties'] = {
          ['age', 'AGE'],
          ['id', 'ID'],
          ['pickFightOwner', 'PICK_FIGHT'],
-         ['chooseMateOwner', 'CHOOSE_MATE'],
-         ['mateAnswerOwner', 'MATE_ANSWER']];
+         ['proposeMateOwner', 'PROPOSE_MATE'],
+         ['acceptMateOwner', 'ACCEPT_MATE']];
     this.setColour(Genetics.Blocks.GENETICS_HUE);
     this.appendValueInput('MOUSE')
         .setCheck('Mouse');
@@ -287,8 +287,8 @@ Blockly.Blocks['genetics_getProperties'] = {
         'AGE': BlocklyGames.getMsg('Genetics_ageTooltip'),
         'ID': BlocklyGames.getMsg('Genetics_idTooltip'),
         'PICK_FIGHT': BlocklyGames.getMsg('Genetics_pickFightOwnerTooltip'),
-        'CHOOSE_MATE': BlocklyGames.getMsg('Genetics_chooseMateOwnerTooltip'),
-        'MATE_ANSWER': BlocklyGames.getMsg('Genetics_mateAnswerOwnerTooltip')
+        'PROPOSE_MATE': BlocklyGames.getMsg('Genetics_proposeMateOwnerTooltip'),
+        'ACCEPT_MATE': BlocklyGames.getMsg('Genetics_acceptMateOwnerTooltip')
       };
       return TOOLTIPS[mode];
     });
@@ -348,11 +348,11 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
     case 'PICK_FIGHT':
       code += 'pickFightOwner';
       break;
-    case 'CHOOSE_MATE':
-      code += 'chooseMateOwner';
+    case 'PROPOSE_MATE':
+      code += 'proposeMateOwner';
       break;
-    case 'MATE_ANSWER':
-      code += 'mateAnswerOwner';
+    case 'ACCEPT_MATE':
+      code += 'acceptMateOwner';
       break;
     default:
       throw 'Unknown mouse property: ' + property;

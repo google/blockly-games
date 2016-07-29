@@ -25,8 +25,8 @@
     // Tooltips
     <span id="Genetics_getSelfTooltip">{msg meaning="Genetics.getSelfTooltip" desc="Tooltip for the block that returns the mouse making the decision."}Returns the mouse making the decision.{/msg}</span>
     <span id="Genetics_pickFightTooltip">{msg meaning="Genetics.pickFightTooltip" desc="Tooltip for the block that defines the logic for picking a mouse to fight against."}Defines the function for picking a mouse to fight against.{/msg}</span>
-    <span id="Genetics_chooseMateTooltip">{msg meaning="Genetics.chooseMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
-    <span id="Genetics_mateAnswerTooltip">{msg meaning="Genetics.mateAnswerTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
+    <span id="Genetics_proposeMateTooltip">{msg meaning="Genetics.proposeMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
+    <span id="Genetics_acceptMateTooltip">{msg meaning="Genetics.acceptMateTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
     <span id="Genetics_sizeTooltip">{msg meaning="Genetics.sizeTooltip" desc="Tooltip for the block that reports the size of the specified mouse."}Reports the size of the specified mouse.{/msg}</span>
     <span id="Genetics_aggressivenessTooltip">{msg meaning="Genetics.aggressivenessTooltip" desc="Tooltip for the block that reports the aggressiveness of the specified mouse."}Reports the aggressiveness of the specified mouse.{/msg}</span>
     <span id="Genetics_fertilityTooltip">{msg meaning="Genetics.fertilityTooltip" desc="Tooltip for the block that reports the fertility of the specified mouse."}Reports the fertility of the specified mouse.{/msg}</span>
@@ -35,8 +35,8 @@
     <span id="Genetics_ageTooltip">{msg meaning="Genetics.ageTooltip" desc="Tooltip for the block that reports the age of the specified mouse."}Reports the age of the specified mouse.{/msg}</span>
     <span id="Genetics_idTooltip">{msg meaning="Genetics.idTooltip" desc="Tooltip for the block that reports the id of the specified mouse."}Reports the id of the specified mouse.{/msg}</span>
     <span id="Genetics_pickFightOwnerTooltip">{msg meaning="Genetics.pickFightOwnerTooltip" desc="Tooltip for the block that reports the owner of the pickFight function of the specified mouse."}Reports the owner of the pickFight function of the specified mouse.{/msg}</span>
-    <span id="Genetics_chooseMateOwnerTooltip">{msg meaning="Genetics.chooseMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the chooseMate function of the specified mouse."}Reports the owner of the chooseMate function of the specified mouse.{/msg}</span>
-    <span id="Genetics_mateAnswerOwnerTooltip">{msg meaning="Genetics.mateAnswerOwnerTooltip" desc="Tooltip for the block that reports the owner of the mateAnswer function of the specified mouse."}Reports the owner of the mateAnswer function of the specified mouse.{/msg}</span>
+    <span id="Genetics_proposeMateOwnerTooltip">{msg meaning="Genetics.proposeMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the proposeMate function of the specified mouse."}Reports the owner of the proposeMate function of the specified mouse.{/msg}</span>
+    <span id="Genetics_acceptMateOwnerTooltip">{msg meaning="Genetics.acceptMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the acceptMate function of the specified mouse."}Reports the owner of the acceptMate function of the specified mouse.{/msg}</span>
 
     // Warning dialog
     <span id="Genetics_breakLink">{msg meaning="Genetics.breakLink" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?{/msg}</span>
@@ -61,10 +61,10 @@
           <td><div id="pickFightChart"></div></td>
         </tr>
         <tr>
-          <td><div id="chooseMateChart"></div></td>
+          <td><div id="proposeMateChart"></div></td>
         </tr>
         <tr>
-          <td><div id="mateAnswerChart"></div></td>
+          <td><div id="acceptMateChart"></div></td>
         </tr>
     </tbody>
   </table>
@@ -229,12 +229,12 @@ function pickFight() {
   var opponent = mice[Math.randomInt(0,mice.length-1)];
   return opponent;
 }
-function chooseMate() {
+function proposeMate() {
   var mice = getMice();
   var mate = mice[Math.randomInt(0,mice.length-1)];
   return mate;
 }
-function mateAnswer(suitor) {
+function acceptMate(suitor) {
   return true;
 }
 </div>
@@ -265,7 +265,7 @@ function pickFight() {
   }
   return opponent;
 }
-function chooseMate() {
+function proposeMate() {
   var mice = getMice();
   // Choose the biggest valid mate.
   var mate = null;
@@ -281,7 +281,7 @@ function chooseMate() {
   }
   return mate;
 }
-function mateAnswer(suitor) {
+function acceptMate(suitor) {
   return suitor.size >= getSelf().size;
 }
 </div>
@@ -300,7 +300,7 @@ function pickFight() {
   // Always choose not to fight.
   return null;
 }
-function chooseMate() {
+function proposeMate() {
   var mice = getMice();
   // Choose the mate with the highest fertility gene.
   var mate = null;
@@ -316,7 +316,7 @@ function chooseMate() {
   }
   return mate;
 }
-function mateAnswer(suitor) {
+function acceptMate(suitor) {
   return true;
 }
 </div>
@@ -335,7 +335,7 @@ function pickFight() {
   // Always choose not to fight.
   return null;
 }
-function chooseMate() {
+function proposeMate() {
   var mice = getMice();
   // Choose the mate with the highest fertility gene.
   var mate;
@@ -351,9 +351,9 @@ function chooseMate() {
   }
   return mate;
 }
-function mateAnswer(suitor) {
+function acceptMate(suitor) {
   // Survey for how many mice own target gene.
-  var bestGeneOwner = getSelf().mateAnswerOwner;
+  var bestGeneOwner = getSelf().acceptMateOwner;
   // Check how many of suitor's genes are the same as the best gene.
   var suitorGeneCount = 0;
   if (suitor.pickFightOwner == bestGeneOwner) {
@@ -362,7 +362,7 @@ function mateAnswer(suitor) {
   if (suitor.mateQuestionOwner == bestGeneOwner) {
     suitorGeneCount++;
   }
-  if (suitor.mateAnswerOwner == bestGeneOwner) {
+  if (suitor.acceptMateOwner == bestGeneOwner) {
     suitorGeneCount++;
   }
   // If suitor owns all the right genes, they are perfect.
@@ -387,7 +387,7 @@ function mateAnswer(suitor) {
       if (mouse.mateQuestionOwner == bestGeneOwner) {
         rightGeneCount++;
       }
-      if (mouse.mateAnswerOwner == bestGeneOwner) {
+      if (mouse.acceptMateOwner == bestGeneOwner) {
         rightGeneCount++;
        }
       if (mouse.pickFightOwner == bestGeneOwner) {

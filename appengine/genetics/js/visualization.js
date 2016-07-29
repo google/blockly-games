@@ -62,18 +62,18 @@ Genetics.Visualization.populationChartWrapper_ = null;
 Genetics.Visualization.pickFightChartWrapper_ = null;
 
 /**
- * Chart wrapper for chart with count of chooseMate owners.
+ * Chart wrapper for chart with count of proposeMate owners.
  * @type {google.visualization.ChartWrapper}
  * @private
  */
-Genetics.Visualization.chooseMateChartWrapper_ = null;
+Genetics.Visualization.proposeMateChartWrapper_ = null;
 
 /**
- * Chart wrapper for chart with count of mateAnswer owners.
+ * Chart wrapper for chart with count of acceptMate owners.
  * @type {google.visualization.ChartWrapper}
  * @private
  */
-Genetics.Visualization.mateAnswerChartWrapper_ = null;
+Genetics.Visualization.acceptMateChartWrapper_ = null;
 
 /**
  * Mapping of mouse sex to number of mice.
@@ -91,20 +91,20 @@ Genetics.Visualization.mouseSexes_ = {};
 Genetics.Visualization.pickFightOwners_ = {};
 
 /**
- * Mapping of player id to number of mice with chooseMate function of that
+ * Mapping of player id to number of mice with proposeMate function of that
  * player.
  * @type {!Object<number, number>}
  * @private
  */
-Genetics.Visualization.chooseMateOwners_ = {};
+Genetics.Visualization.proposeMateOwners_ = {};
 
 /**
- * Mapping of player id to number of mice with mateAnswer function of that
+ * Mapping of player id to number of mice with acceptMate function of that
  * player.
  * @type {!Object<number, number>}
  * @private
  */
-Genetics.Visualization.mateAnswerOwners_ = {};
+Genetics.Visualization.acceptMateOwners_ = {};
 
 /**
  * PID of executing task.
@@ -133,8 +133,8 @@ Genetics.Visualization.init = function() {
     stackGraphOpts['vAxis']['maxValue'] = 1;
     var populationChartOpts = chartOpts;
     var pickFightOpts = stackGraphOpts;
-    var chooseMateOpts = goog.object.clone(stackGraphOpts);
-    var mateAnswerOpts = goog.object.clone(stackGraphOpts);
+    var proposeMateOpts = goog.object.clone(stackGraphOpts);
+    var acceptMateOpts = goog.object.clone(stackGraphOpts);
 
     populationChartOpts['title'] = 'Population';
     populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
@@ -153,19 +153,19 @@ Genetics.Visualization.init = function() {
           'options': pickFightOpts,
           'containerId': 'pickFightChart'
         });
-    chooseMateOpts['title'] = 'Choose Mate';
-    Genetics.Visualization.chooseMateChartWrapper_ =
+    proposeMateOpts['title'] = 'Propose Mate';
+    Genetics.Visualization.proposeMateChartWrapper_ =
         new google.visualization.ChartWrapper({
           'chartType': 'AreaChart',
-          'options': chooseMateOpts,
-          'containerId': 'chooseMateChart'
+          'options': proposeMateOpts,
+          'containerId': 'proposeMateChart'
         });
-    mateAnswerOpts['title'] = 'Mate Answer';
-    Genetics.Visualization.mateAnswerChartWrapper_ =
+    acceptMateOpts['title'] = 'Accept Mate';
+    Genetics.Visualization.acceptMateChartWrapper_ =
         new google.visualization.ChartWrapper({
           'chartType': 'AreaChart',
-          'options': mateAnswerOpts,
-          'containerId': 'mateAnswerChart'
+          'options': acceptMateOpts,
+          'containerId': 'acceptMateChart'
         });
 
     // Set chart Data for all charts.
@@ -173,8 +173,8 @@ Genetics.Visualization.init = function() {
 
     Genetics.Visualization.populationChartWrapper_.draw();
     Genetics.Visualization.pickFightChartWrapper_.draw();
-    Genetics.Visualization.chooseMateChartWrapper_.draw();
-    Genetics.Visualization.mateAnswerChartWrapper_.draw();
+    Genetics.Visualization.proposeMateChartWrapper_.draw();
+    Genetics.Visualization.acceptMateChartWrapper_.draw();
   };
   google.charts.load('current', {'packages': ['corechart']});
   google.charts.setOnLoadCallback(createCharts);
@@ -212,9 +212,9 @@ Genetics.Visualization.resetChartData_ = function() {
   }
   Genetics.Visualization.pickFightChartWrapper_.setDataTable(
       google.visualization.arrayToDataTable([playerLabels], false));
-  Genetics.Visualization.chooseMateChartWrapper_.setDataTable(
+  Genetics.Visualization.proposeMateChartWrapper_.setDataTable(
       google.visualization.arrayToDataTable([playerLabels], false));
-  Genetics.Visualization.mateAnswerChartWrapper_.setDataTable(
+  Genetics.Visualization.acceptMateChartWrapper_.setDataTable(
       google.visualization.arrayToDataTable([playerLabels], false));
 
   Genetics.Visualization.chartsUpdated_ = true;
@@ -232,16 +232,16 @@ Genetics.Visualization.reset = function() {
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE] = 0;
   Genetics.Visualization.MICE = {};
   Genetics.Visualization.pickFightOwners_ = {};
-  Genetics.Visualization.chooseMateOwners_ = {};
-  Genetics.Visualization.mateAnswerOwners_ = {};
+  Genetics.Visualization.proposeMateOwners_ = {};
+  Genetics.Visualization.acceptMateOwners_ = {};
   // Clear chart and set labels for data table.
   Genetics.Visualization.resetChartData_();
   // Set count for all players to 0.
   for (var i = 0; i < Genetics.Visualization.playerOrder_.length; i++) {
     var playerId = Genetics.Visualization.playerOrder_[i];
     Genetics.Visualization.pickFightOwners_[playerId] = 0;
-    Genetics.Visualization.chooseMateOwners_[playerId] = 0;
-    Genetics.Visualization.mateAnswerOwners_[playerId] = 0;
+    Genetics.Visualization.proposeMateOwners_[playerId] = 0;
+    Genetics.Visualization.acceptMateOwners_[playerId] = 0;
   }
 };
 
@@ -294,8 +294,8 @@ Genetics.Visualization.display_ = function() {
   if(Genetics.Visualization.chartsUpdated_) {
     Genetics.Visualization.populationChartWrapper_.draw();
     Genetics.Visualization.pickFightChartWrapper_.draw();
-    Genetics.Visualization.chooseMateChartWrapper_.draw();
-    Genetics.Visualization.mateAnswerChartWrapper_.draw();
+    Genetics.Visualization.proposeMateChartWrapper_.draw();
+    Genetics.Visualization.acceptMateChartWrapper_.draw();
     Genetics.Visualization.chartsUpdated_ = false;
   }
 };
@@ -317,8 +317,8 @@ Genetics.Visualization.getMouseInfo_ = function(mouse) {
   return 'Mouse' + mouse.id + '(sex:' + mouse.sex + ' , size:' + mouse.size +
       ' , aggressiveness:' + mouse.startAggressiveness + ' , fertility:' +
       mouse.startFertility + ' , pickFight:' + mouse.pickFightOwner +
-      '/chooseMate:' + mouse.chooseMateOwner + '/mateAnswer:' +
-      mouse.mateAnswerOwner + ')';
+      '/proposeMate:' + mouse.proposeMateOwner + '/acceptMate:' +
+      mouse.acceptMateOwner + ')';
 };
 
 /**
@@ -456,11 +456,11 @@ Genetics.Visualization.processCageEvents_ = function() {
       case 'END_GAME':
         var cause = event['CAUSE'];
         var pickFightWinner = event['PICK_FIGHT_WINNER'];
-        var chooseMateWinner = event['CHOOSE_MATE_WINNER'];
-        var mateAnswerWinner = event['MATE_ANSWER_WINNER'];
+        var proposeMateWinner = event['PROPOSE_MATE_WINNER'];
+        var acceptMateWinner = event['ACCEPT_MATE_WINNER'];
         Genetics.log('Game ended because ' + cause + '. PickFight Winner: ' +
-            pickFightWinner + ' chooseMate Winner: ' + chooseMateWinner +
-            ' mateAnswer Winner: ' + mateAnswerWinner);
+            pickFightWinner + ' proposeMate Winner: ' + proposeMateWinner +
+            ' acceptMate Winner: ' + acceptMateWinner);
         break;
     }
     if (event['TYPE'] != 'ADD') {
@@ -479,8 +479,8 @@ Genetics.Visualization.addMouse_ = function(mouse) {
   Genetics.Visualization.MICE[mouse.id] = mouse;
   Genetics.Visualization.mouseSexes_[mouse.sex] += 1;
   Genetics.Visualization.pickFightOwners_[mouse.pickFightOwner] += 1;
-  Genetics.Visualization.chooseMateOwners_[mouse.chooseMateOwner] += 1;
-  Genetics.Visualization.mateAnswerOwners_[mouse.mateAnswerOwner] += 1;
+  Genetics.Visualization.proposeMateOwners_[mouse.proposeMateOwner] += 1;
+  Genetics.Visualization.acceptMateOwners_[mouse.acceptMateOwner] += 1;
 };
 
 /**
@@ -491,8 +491,8 @@ Genetics.Visualization.addMouse_ = function(mouse) {
 Genetics.Visualization.removeMouse_ = function(mouse) {
   Genetics.Visualization.mouseSexes_[mouse.sex] -= 1;
   Genetics.Visualization.pickFightOwners_[mouse.pickFightOwner] -= 1;
-  Genetics.Visualization.chooseMateOwners_[mouse.chooseMateOwner] -= 1;
-  Genetics.Visualization.mateAnswerOwners_[mouse.mateAnswerOwner] -= 1;
+  Genetics.Visualization.proposeMateOwners_[mouse.proposeMateOwner] -= 1;
+  Genetics.Visualization.acceptMateOwners_[mouse.acceptMateOwner] -= 1;
   delete Genetics.Visualization.MICE[mouse.id];
 };
 
@@ -507,20 +507,20 @@ Genetics.Visualization.updateChartData_ = function() {
        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
 
   var pickFightState = [Genetics.Visualization.eventNumber];
-  var chooseMateState = [Genetics.Visualization.eventNumber];
-  var mateAnswerState = [Genetics.Visualization.eventNumber];
+  var proposeMateState = [Genetics.Visualization.eventNumber];
+  var acceptMateState = [Genetics.Visualization.eventNumber];
   for (var i = 0; i < Genetics.Visualization.playerOrder_.length; i++) {
     var playerId = Genetics.Visualization.playerOrder_[i];
     pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
-    chooseMateState.push(Genetics.Visualization.chooseMateOwners_[playerId]);
-    mateAnswerState.push(Genetics.Visualization.mateAnswerOwners_[playerId]);
+    proposeMateState.push(Genetics.Visualization.proposeMateOwners_[playerId]);
+    acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
   }
   Genetics.Visualization.pickFightChartWrapper_.getDataTable()
       .addRow(pickFightState);
-  Genetics.Visualization.chooseMateChartWrapper_.getDataTable()
-      .addRow(chooseMateState);
-  Genetics.Visualization.mateAnswerChartWrapper_.getDataTable()
-      .addRow(mateAnswerState);
+  Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
+      .addRow(proposeMateState);
+  Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
+      .addRow(acceptMateState);
 
   Genetics.Visualization.chartsUpdated_ = true;
 };
@@ -556,8 +556,8 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
   var MASCULINE_NAMES = ['Neil', 'Chris', 'Charlie', 'Camden', 'Rick', 'Dean',
       'Xavier', 'Zeke', 'Han', 'Samuel', 'Wade', 'Patrick'];
 
-  var genes = '(' + Genetics.Cage.players[mouse.chooseMateOwner][0] + '/' +
-      Genetics.Cage.players[mouse.mateAnswerOwner][0] + '/' +
+  var genes = '(' + Genetics.Cage.players[mouse.proposeMateOwner][0] + '/' +
+      Genetics.Cage.players[mouse.acceptMateOwner][0] + '/' +
       Genetics.Cage.players[mouse.pickFightOwner][0] + ')';
   var mouseStats = '[id:' + mouse.id + '/size:' + mouse.size + '/sex: ' +
       mouse.sex + ']';

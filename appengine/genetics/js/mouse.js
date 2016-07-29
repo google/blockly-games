@@ -49,14 +49,14 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
     var pickFightParent = goog.math.randomInt(2);
     var mateQuestionParent = goog.math.randomInt(2);
     // Guarantee that at least one function is inherited from each parent.
-    var mateAnswerParent = (pickFightParent == mateQuestionParent) ?
+    var acceptMateParent = (pickFightParent == mateQuestionParent) ?
         !mateQuestionParent : goog.math.randomInt(2);
     this.pickFightOwner = pickFightParent ? opt_parentOne.pickFightOwner :
         opt_parentTwo.pickFightOwner;
-    this.chooseMateOwner = mateQuestionParent ?
-        opt_parentOne.chooseMateOwner : opt_parentTwo.chooseMateOwner;
-    this.mateAnswerOwner = mateAnswerParent ? opt_parentOne.mateAnswerOwner :
-        opt_parentTwo.mateAnswerOwner;
+    this.proposeMateOwner = mateQuestionParent ?
+        opt_parentOne.proposeMateOwner : opt_parentTwo.proposeMateOwner;
+    this.acceptMateOwner = acceptMateParent ? opt_parentOne.acceptMateOwner :
+        opt_parentTwo.acceptMateOwner;
     // Assign stats based on parents with some mutations.
     this.size = goog.math.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
@@ -72,8 +72,8 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
   } else {
     // Mouse is a first generation mouse.
     this.pickFightOwner = opt_player;
-    this.chooseMateOwner = opt_player;
-    this.mateAnswerOwner = opt_player;
+    this.proposeMateOwner = opt_player;
+    this.acceptMateOwner = opt_player;
     this.size = Genetics.Mouse.SIZE;
     this.startAggressiveness = Genetics.Mouse.START_AGGRESSIVENESS;
     // First generation mice do not fight.
