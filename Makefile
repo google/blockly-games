@@ -10,8 +10,6 @@ APP_ENGINE_THIRD_PARTY = appengine/third-party
 SOY_COMPILER = java -jar third-party/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
 SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
-BLOCKY_DIR = $(PWD)
-
 ##############################
 # Rules
 ##############################
