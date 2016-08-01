@@ -278,7 +278,7 @@ Genetics.Cage.instigateFight = function(mouse) {
     return;
   }
   if (typeof chosen != 'object' || 
-      Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
+      !Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     // If return is invalid, mouse explodes.
     new Genetics.Cage.Event('EXPLODE', mouse.id, 'pickFight',
         'Invalid return').addToQueue();
@@ -331,7 +331,7 @@ Genetics.Cage.tryMate = function(mouse) {
     return;
   }
   if (typeof chosen != 'object' ||
-      Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
+      !Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     // If return is invalid, mouse explodes.
     new Genetics.Cage.Event('EXPLODE', mouse.id, 'proposeMate',
         'Invalid return').addToQueue();
@@ -524,8 +524,8 @@ Genetics.Cage.end = function(cause, opt_pickFightWinner, opt_proposeMateWinner,
   for (var mouseId in Genetics.Cage.lifePidsMap_) {
     clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
   }
-  new Genetics.Cage.Event('END_GAME', cause, pickFightWinner, proposeMateWinner,
-      acceptMateWinner).addToQueue();
+  new Genetics.Cage.Event('END_GAME', cause, opt_pickFightWinner,
+      opt_proposeMateWinner, opt_acceptMateWinner).addToQueue();
 };
 
 /**
@@ -573,7 +573,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
  * function (for acceptMate function call).
  * @return {!Interpreter} Interpreter set up for executing mouse function call.
  */
-Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
+Genetics.Cage.getInterpreter = function(mouse, mouseFunctionName, opt_suitor) {
   var playerId;
   switch (mouseFunctionName) {
     case 'pickFight':

@@ -65,12 +65,12 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
         Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);
     this.startAggressiveness = Math.max(0, Math.round(
         goog.math.average(opt_parentOne.startAggressiveness,
-                          opt_parentTwo.startAggressiveness) +
+                          opt_parentTwo.startAggressiveness)) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
     this.aggressiveness = this.startAggressiveness;
     this.startFertility = Math.max(0, Math.round(
         goog.math.average(opt_parentOne.startFertility,
-                          opt_parentTwo.startFertility) +
+                          opt_parentTwo.startFertility)) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
   } else {
     // Mouse is a first generation mouse.
