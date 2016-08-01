@@ -36,7 +36,7 @@ Genetics.Visualization.FPS = 36;
 
 /**
  * Mapping of mouse ID to mouse for mice currently being visualized.
- * @type {!Object.<string, Genetics.Mouse>}
+ * @type {!Object.<string, !Genetics.Mouse>}
  */
 Genetics.Visualization.MICE = {};
 
@@ -77,7 +77,7 @@ Genetics.Visualization.acceptMateChartWrapper_ = null;
 
 /**
  * Mapping of mouse sex to number of mice.
- * @type {!Object.<Genetics.Mouse.Sex, number>}
+ * @type {!Object.<!Genetics.Mouse.Sex, number>}
  * @private
  */
 Genetics.Visualization.mouseSexes_ = {};
@@ -291,7 +291,7 @@ Genetics.Visualization.chartsUpdated_ = true;
  */
 Genetics.Visualization.display_ = function() {
   // TODO(kozbial) draw current state of the cage.
-  if(Genetics.Visualization.chartsUpdated_) {
+  if (Genetics.Visualization.chartsUpdated_) {
     Genetics.Visualization.populationChartWrapper_.draw();
     Genetics.Visualization.pickFightChartWrapper_.draw();
     Genetics.Visualization.proposeMateChartWrapper_.draw();
@@ -305,21 +305,6 @@ Genetics.Visualization.display_ = function() {
  * @type {number}
  */
 Genetics.Visualization.eventNumber = 0;
-
-/**
- * Returns a string representation of a mouse's properties
- * @param {Genetics.Mouse} mouse The mouse to get information from.
- * @return {string} A string representation of the mouse containing information
- * about the mouse.
- * @private
- */
-Genetics.Visualization.getMouseInfo_ = function(mouse) {
-  return 'Mouse' + mouse.id + '(sex:' + mouse.sex + ' , size:' + mouse.size +
-      ' , aggressiveness:' + mouse.startAggressiveness + ' , fertility:' +
-      mouse.startFertility + ' , pickFight:' + mouse.pickFightOwner +
-      '/proposeMate:' + mouse.proposeMateOwner + '/acceptMate:' +
-      mouse.acceptMateOwner + ')';
-};
 
 /**
  * Process events in Cage events queue.
@@ -350,7 +335,7 @@ Genetics.Visualization.processCageEvents_ = function() {
             break;
           case 'INVALID':
             Genetics.log(getMouseName(instigatingMouse) +
-                ' is confused and wont fight again.');
+                ' is confused and won\'t fight again.');
             break;
           case 'SELF':
             Genetics.log(getMouseName(instigatingMouse) +
@@ -387,7 +372,7 @@ Genetics.Visualization.processCageEvents_ = function() {
             break;
           case 'INVALID':
             Genetics.log(getMouseName(proposingMouse) +
-                ' is confused wont mate again.');
+                ' is confused won\'t mate again.');
             break;
           case 'SELF':
             Genetics.log(getMouseName(proposingMouse) +
@@ -472,7 +457,7 @@ Genetics.Visualization.processCageEvents_ = function() {
 
 /**
  * Add a mouse to mapping and update  internal counts.
- * @param {Genetics.Mouse} mouse
+ * @param {!Genetics.Mouse} mouse
  * @private
  */
 Genetics.Visualization.addMouse_ = function(mouse) {
@@ -485,7 +470,7 @@ Genetics.Visualization.addMouse_ = function(mouse) {
 
 /**
  * Remove a mouse and update internal counts.
- * @param {Genetics.Mouse} mouse
+ * @param {!Genetics.Mouse} mouse
  * @private
  */
 Genetics.Visualization.removeMouse_ = function(mouse) {
@@ -527,7 +512,7 @@ Genetics.Visualization.updateChartData_ = function() {
 
 /**
  * Returns a string representation of the mouse.
- * @param {Genetics.Mouse} mouse The mouse to represent as a string.
+ * @param {!Genetics.Mouse} mouse The mouse to represent as a string.
  * @param {boolean=} opt_showStats Whether to add the mouse stats to the string
  * representation.
  * @param {boolean=} opt_showGenes Whether to add the gene owners to the string
