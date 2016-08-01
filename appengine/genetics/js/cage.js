@@ -93,10 +93,8 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
   'RETIRE': ['TYPE', 'ID'],
   // The oldest mouse dies when there is no room for it.
   'OVERPOPULATION': ['TYPE', 'ID'],
-  // A mouse dies if it throws an exception.
-  'EXPLODE': ['TYPE', 'ID', 'SOURCE', 'OPT_CAUSE'],
-  // A mouse dies if it does not complete execution.
-  'SPIN': ['TYPE', 'ID'],
+  // A mouse dies if it throws an exception or times out.
+  'EXPLODE': ['TYPE', 'ID', 'SOURCE', 'CAUSE'],
   'END_GAME': ['TYPE', 'CAUSE', 'PICK_FIGHT_WINNER', 'PROPOSE_MATE_WINNER',
     'ACCEPT_MATE_WINNER']
 };
@@ -138,7 +136,7 @@ Genetics.Cage.endTime_ = 0;
  * Time limit of game (in milliseconds).
  * @type {number}
  */
-Genetics.Cage.GAME_TIME_LIMIT_MSC = 5 * 60 * 1000;
+Genetics.Cage.GAME_TIME_LIMIT_MSEC = 5 * 60 * 1000;
 
 /**
  * Time limit for mouse function execution in number of interpreter steps (100k
@@ -214,7 +212,7 @@ Genetics.Cage.start = function(doneCallback) {
           Genetics.Cage.players[playerId][0]).addToQueue();
     }
   }
-  Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSC;
+  Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSEC;
   new Genetics.Cage.Event('START_GAME').addToQueue();
 };
 
@@ -248,7 +246,7 @@ Genetics.Cage.simulateLife = function(mouse) {
   } else {
     // Mouse has completed life cycle and dies.
     new Genetics.Cage.Event('RETIRE', mouse.id).addToQueue();
-    Genetics.Cage.death(mouse);
+    Genetics.Cage.die(mouse);
   }
   // Queue life simulation again if mouse is still alive.
   if (Genetics.Cage.isAlive(mouse)) {
@@ -265,30 +263,34 @@ Genetics.Cage.simulateLife = function(mouse) {
  */
 Genetics.Cage.instigateFight = function(mouse) {
   var result = Genetics.Cage.runMouseFunction(mouse, 'pickFight');
-  // Check if function threw an error or caused a timeout.
   if (!result.success) {
+    // Explode mouse if function threw an error or caused a timeout.
+    new Genetics.Cage.Event('EXPLODE', mouse.id, 'pickFight', result.cause)
+        .addToQueue();
+    Genetics.Cage.die(mouse);
     return;
   }
   var chosen = result.value;
-  // Check if no mouse was chosen.
   if (chosen === null) {
+    // If no mouse was chosen, mouse has elected to never fight again.
     new Genetics.Cage.Event('FIGHT', mouse.id, 'NONE').addToQueue();
     mouse.aggressiveness = 0;
     return;
   }
-  // Check if return value is invalid.
   if (typeof chosen != 'object' || 
       Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
-    new Genetics.Cage.Event('FIGHT', mouse.id, 'INVALID').addToQueue();
-    mouse.aggressiveness = 0;
+    // If return is invalid, mouse explodes.
+    new Genetics.Cage.Event('EXPLODE', mouse.id, 'pickFight',
+        'Invalid return').addToQueue();
+    Genetics.Cage.die(mouse);
     return;
   }
   // Retrieve local copy of mouse to ensure that mouse was not modified.
   var opponent = Genetics.Cage.miceMap_[chosen.id];
-  // Check if opponent is itself.
   if (mouse.id == opponent.id) {
+    // If mouse chooses to fight against itself, it dies.
     new Genetics.Cage.Event('FIGHT', mouse.id, 'SELF').addToQueue();
-    Genetics.Cage.death(mouse);
+    Genetics.Cage.die(mouse);
     return;
   }
   // Compute winner using size to weigh probability of winning.
@@ -298,11 +300,11 @@ Genetics.Cage.instigateFight = function(mouse) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'TIE', opponent.id).addToQueue();
   } else if (fightResult < 0) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'WIN', opponent.id).addToQueue();
-    Genetics.Cage.death(opponent);
+    Genetics.Cage.die(opponent);
   } else {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'LOSS', opponent.id)
         .addToQueue();
-    Genetics.Cage.death(mouse);
+    Genetics.Cage.die(mouse);
   }
 };
 
@@ -315,20 +317,25 @@ Genetics.Cage.tryMate = function(mouse) {
   var result = Genetics.Cage.runMouseFunction(mouse, 'proposeMate');
   // Check if function threw an error or caused a timeout.
   if (!result.success) {
+    // Explode mouse if function threw an error or caused a timeout.
+    new Genetics.Cage.Event('EXPLODE', mouse.id, 'proposeMate', result.cause)
+        .addToQueue();
+    Genetics.Cage.die(mouse);
     return;
   }
   var chosen = result.value;
-  // Check if no mouse was chosen.
   if (chosen === null) {
+    // If no mouse was chosen, mouse has elected to stop mating.
     new Genetics.Cage.Event('MATE', mouse.id, 'NONE').addToQueue();
     mouse.fertility = 0;
     return;
   }
-  // Check if return value is invalid
   if (typeof chosen != 'object' ||
       Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
-    new Genetics.Cage.Event('MATE', mouse.id, 'INVALID').addToQueue();
-    mouse.fertility = 0;
+    // If return is invalid, mouse explodes.
+    new Genetics.Cage.Event('EXPLODE', mouse.id, 'proposeMate',
+        'Invalid return').addToQueue();
+    Genetics.Cage.die(mouse);
     return;
   }
   // Retrieve local copy of mate to ensure that mouse was not modified.
@@ -348,7 +355,7 @@ Genetics.Cage.tryMate = function(mouse) {
       }
       // Kill oldest mouse.
       new Genetics.Cage.Event('OVERPOPULATION', oldestMouse.id).addToQueue();
-      Genetics.Cage.death(oldestMouse);
+      Genetics.Cage.die(oldestMouse);
     }
   } else {
     // Use up one mating attempt for mouse.
@@ -393,7 +400,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
  */
 Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
   if (proposingMouse.id == askedMouse.id) {
-    // If mouse tries to mate with itself, it does not succed.
+    // If mouse tries to mate with itself, it does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'SELF').addToQueue();
     return false;
   }
@@ -442,7 +449,7 @@ Genetics.Cage.born = function(mouse) {
  * Kills the mouse.
  * @param {!Genetics.Mouse} mouse The mouse to kill.
  */
-Genetics.Cage.death = function(mouse) {
+Genetics.Cage.die = function(mouse) {
   var index = Genetics.Cage.aliveMice_.indexOf(mouse);
   if (index > -1) {
     Genetics.Cage.aliveMice_.splice(index, 1);
@@ -533,6 +540,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
   // Get a new interpreter to run the player code.
   var interpreter = Genetics.Cage.getInterpreter(mouse, mouseFunction,
       opt_param);
+  var result = {};
   // Try running the player code.
   try {
     var ticks = Genetics.Cage.FUNCTION_TIMEOUT_STEPS;
@@ -541,19 +549,18 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
         throw Infinity;
       }
     }
-    return {success: true, value: interpreter.pseudoToNative(interpreter.value)};
+    result.success = true;
+    result.value = interpreter.pseudoToNative(interpreter.value);
   } catch (e) {
     if (e === Infinity) {
-      new Genetics.Cage.Event('SPIN', mouse.id, mouseFunction)
-          .addToQueue();
+      result.cause = 'Timeout';
     } else {
-      new Genetics.Cage.Event('EXPLODE', mouse.id, mouseFunction, e)
-          .addToQueue();
+      result.cause = e;
     }
+    // Failed to retrieve a return value.
+    result.success = false;
   }
-  // Failed to retrieve a return value.
-  Genetics.Cage.death(mouse);
-  return {success: false};
+  return result;
 };
 
 /**
