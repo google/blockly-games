@@ -27,6 +27,7 @@ goog.provide('Genetics.Cage');
 
 goog.require('Genetics.Mouse');
 
+
 /**
  * The maximum population in a cage.
  * @type {number}
@@ -103,7 +104,7 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
 /**
  * Creates an event.
  * @param {string } type The type of event.
- * @param {...string|number|Genetics.Mouse} var_args The properties on
+ * @param {...string|number|!Genetics.Mouse} var_args The properties on
  * the event.
  * @constructor
  */
@@ -219,7 +220,7 @@ Genetics.Cage.start = function(doneCallback) {
 
 /**
  * Queues life simulation for mouse.
- * @param {Genetics.Mouse} mouse The mouse to queue the simulation for.
+ * @param {!Genetics.Mouse} mouse The mouse to queue the simulation for.
  */
 Genetics.Cage.life = function(mouse) {
   // Queue life simulation for mouse with some variation in timeout to allow for
@@ -231,7 +232,7 @@ Genetics.Cage.life = function(mouse) {
 
 /**
  * Runs life simulation on mouse.
- * @param {Genetics.Mouse} mouse The mouse to run the simulation for.
+ * @param {!Genetics.Mouse} mouse The mouse to run the simulation for.
  */
 Genetics.Cage.simulateLife = function(mouse) {
   // Remove life from mapping of lives that are queued to run.
@@ -258,17 +259,17 @@ Genetics.Cage.simulateLife = function(mouse) {
 };
 
 /**
- * Uses up up agression for mouse and simulates a fight between the given mouse
+ * Uses up agression for mouse and simulates a fight between the given mouse
  * and opponent it requests. Any mouse that loses in a fight dies.
- * @param {Genetics.Mouse} mouse The mouse to initiate fighting.
+ * @param {!Genetics.Mouse} mouse The mouse that initiate fighting.
  */
 Genetics.Cage.instigateFight = function(mouse) {
   var result = Genetics.Cage.runMouseFunction(mouse, 'pickFight');
   // Check if function threw an error or caused a timeout.
-  if (result[0] == 'FAILURE') {
+  if (!result.success) {
     return;
   }
-  var chosen = result[1];
+  var chosen = result.value;
   // Check if no mouse was chosen.
   if (chosen === null) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'NONE').addToQueue();
@@ -276,8 +277,8 @@ Genetics.Cage.instigateFight = function(mouse) {
     return;
   }
   // Check if return value is invalid.
-  if (typeof chosen != 'object' ||
-      Genetics.Cage.miceMap_[chosen.id] == undefined) {
+  if (typeof chosen != 'object' || 
+      Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'INVALID').addToQueue();
     mouse.aggressiveness = 0;
     return;
@@ -292,13 +293,13 @@ Genetics.Cage.instigateFight = function(mouse) {
   }
   // Compute winner using size to weigh probability of winning.
   var fightResult = Math.random() - mouse.size / (mouse.size + opponent.size);
-  if (fightResult < 0) {  // If fight proposer won.
+  // Determine the outcome of the fight.  
+  if (Math.abs(fightResult) < 0.1) {
+    new Genetics.Cage.Event('FIGHT', mouse.id, 'TIE', opponent.id).addToQueue();
+  } else if (fightResult < 0) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'WIN', opponent.id).addToQueue();
     Genetics.Cage.death(opponent);
-  }
-  else if (fightResult == 0) {  // If it was a tie.
-    new Genetics.Cage.Event('FIGHT', mouse.id, 'TIE', opponent.id).addToQueue();
-  } else {  // If opponent won.
+  } else {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'LOSS', opponent.id)
         .addToQueue();
     Genetics.Cage.death(mouse);
@@ -308,15 +309,15 @@ Genetics.Cage.instigateFight = function(mouse) {
 /**
  * Gets requested mate of mouse, attempts mating and starts life of any
  * resultant child.
- * @param {Genetics.Mouse} mouse The mouse to initiate mating.
+ * @param {!Genetics.Mouse} mouse The mouse to initiate mating.
  */
 Genetics.Cage.tryMate = function(mouse) {
   var result = Genetics.Cage.runMouseFunction(mouse, 'proposeMate');
   // Check if function threw an error or caused a timeout.
-  if (result[0] == 'FAILURE') {
+  if (!result.success) {
     return;
   }
-  var chosen = result[1];
+  var chosen = result.value;
   // Check if no mouse was chosen.
   if (chosen === null) {
     new Genetics.Cage.Event('MATE', mouse.id, 'NONE').addToQueue();
@@ -325,7 +326,7 @@ Genetics.Cage.tryMate = function(mouse) {
   }
   // Check if return value is invalid
   if (typeof chosen != 'object' ||
-      Genetics.Cage.miceMap_[chosen.id] == undefined) {
+      Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     new Genetics.Cage.Event('MATE', mouse.id, 'INVALID').addToQueue();
     mouse.fertility = 0;
     return;
@@ -341,7 +342,7 @@ Genetics.Cage.tryMate = function(mouse) {
       var oldestMouse = Genetics.Cage.aliveMice_[0];
       for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
         var aliveMouse = Genetics.Cage.aliveMice_[i];
-        if (!oldestMouse || aliveMouse.age > oldestMouse.age) {
+        if (aliveMouse.age > oldestMouse.age) {
           oldestMouse = aliveMouse;
         }
       }
@@ -376,7 +377,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
       femaleFertility += aliveMouse.fertility;
     }
   }
-  var childSex = ( Math.random() < femaleFertility / populationFertility) ?
+  var childSex = (Math.random() < femaleFertility / populationFertility) ?
       Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE;
   var child = new Genetics.Mouse(mouseId, childSex, parent1, parent2);
   Genetics.Cage.born(child);
@@ -386,25 +387,24 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
 
 /**
  * Checks whether a mate between the two mice will succeed.
- * @param {Genetics.Mouse} proposingMouse The mouse that is proposing to mate.
- * @param {Genetics.Mouse} askedMouse The mouse that is being asked to mate.
+ * @param {!Genetics.Mouse} proposingMouse The mouse that is proposing to mate.
+ * @param {!Genetics.Mouse} askedMouse The mouse that is being asked to mate.
  * @return {boolean} Whether the mate succeeds.
  */
 Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
-  // Check if mice are the same.
   if (proposingMouse.id == askedMouse.id) {
+    // If mouse tries to mate with itself, it does not succed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'SELF').addToQueue();
     return false;
   }
-  // Check if mice are not of compatible sex.
-  if (proposingMouse.sex != Genetics.Mouse.Sex.HERMAPHRODITE &&
-      proposingMouse.sex == askedMouse.sex) {
+  if (proposingMouse.sex == askedMouse.sex) {
+   // If mice are not of different sex, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INCOMPATIBLE',
         askedMouse.id).addToQueue();
     return false;
   }
-  // Check if other mouse is infertile.
   if (askedMouse.fertility < 1) {
+    // If other mouse is infertile, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INFERTILE',
         askedMouse.id).addToQueue();
     return false;
@@ -412,15 +412,14 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
   // Ask second mouse whether it will mate with the proposing mouse.
   var result = Genetics.Cage.runMouseFunction(askedMouse, 'acceptMate',
       proposingMouse);
-  // Check if function threw an error or caused a timeout.
-  if (result[0] == 'FAILURE') {
+  if (!result.success) {
+    // Explode mouse if function threw an error or caused a timeout.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'MATE_EXPLODED')
         .addToQueue();
     return false;
   }
-  var response = result[1];
-  // Check if response is positive.
-  if (!response) {
+  if (!result.value) {
+    // If mouse's response is positive.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'REJECTION',
         askedMouse.id).addToQueue();
     return false;
@@ -430,7 +429,7 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
 
 /**
  * Adds the mouse to the cage.
- * @param {Genetics.Mouse} mouse The mouse to add to the cage.
+ * @param {!Genetics.Mouse} mouse The mouse to add to the cage.
  */
 Genetics.Cage.born = function(mouse) {
   // Adds child to population.
@@ -441,7 +440,7 @@ Genetics.Cage.born = function(mouse) {
 
 /**
  * Kills the mouse.
- * @param {Genetics.Mouse} mouse The mouse to kill.
+ * @param {!Genetics.Mouse} mouse The mouse to kill.
  */
 Genetics.Cage.death = function(mouse) {
   var index = Genetics.Cage.aliveMice_.indexOf(mouse);
@@ -455,7 +454,7 @@ Genetics.Cage.death = function(mouse) {
 
 /**
  * Checks if mouse is alive.
- * @param {Genetics.Mouse} mouse The mouse to check whether it is alive.
+ * @param {!Genetics.Mouse} mouse The mouse to check whether it is alive.
  * @return {boolean} True if mouse is alive, false otherwise.
  */
 Genetics.Cage.isAlive = function(mouse) {
@@ -518,9 +517,6 @@ Genetics.Cage.end = function(cause, opt_pickFightWinner, opt_proposeMateWinner,
   for (var mouseId in Genetics.Cage.lifePidsMap_) {
     clearTimeout(Genetics.Cage.lifePidsMap_[mouseId]);
   }
-  var pickFightWinner = opt_pickFightWinner || 'NONE';
-  var proposeMateWinner = opt_proposeMateWinner || 'NONE';
-  var acceptMateWinner = opt_acceptMateWinner || 'NONE';
   new Genetics.Cage.Event('END_GAME', cause, pickFightWinner, proposeMateWinner,
       acceptMateWinner).addToQueue();
 };
@@ -531,7 +527,7 @@ Genetics.Cage.end = function(cause, opt_pickFightWinner, opt_proposeMateWinner,
  * @param {string} mouseFunction The function call to evaluate.
  * @param {Genetics.Mouse=} opt_param The mouse passed as a parameter to the
  * function.
- * @return {Array.<*>}
+ * @return {!Object<string, *>}
  */
 Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
   // Get a new interpreter to run the player code.
@@ -541,11 +537,11 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
   try {
     var ticks = Genetics.Cage.FUNCTION_TIMEOUT_STEPS;
     while (interpreter.step()) {
-      if (ticks-- == 0) {
+      if (ticks-- <= 0) {
         throw Infinity;
       }
     }
-    return ['SUCCESS', interpreter.pseudoToNative(interpreter.value)];
+    return {success: true, value: interpreter.pseudoToNative(interpreter.value)};
   } catch (e) {
     if (e === Infinity) {
       new Genetics.Cage.Event('SPIN', mouse.id, mouseFunction)
@@ -557,14 +553,14 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
   }
   // Failed to retrieve a return value.
   Genetics.Cage.death(mouse);
-  return ['FAILURE'];
+  return {success: false};
 };
 
 /**
  * Returns an interpreter with player code from the mouse for the given
  * mouseFunction with a call appended.
  * @param {!Genetics.Mouse} mouse The mouse to get the code from.
- * @param {string} mouseFunction The function call to append to the code in the
+ * @param {string} mouseFunctionName The name of the function to append a call to in the
  * interpreter.
  * @param {Genetics.Mouse=} opt_suitor The mouse passed as a parameter to the
  * function (for acceptMate function call).
@@ -572,7 +568,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
  */
 Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
   var playerId;
-  switch (mouseFunction) {
+  switch (mouseFunctionName) {
     case 'pickFight':
       playerId = mouse.pickFightOwner;
       break;
@@ -593,7 +589,7 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunction, opt_suitor) {
   var interpreter = new Interpreter(code,
       goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor));
   // Overwrite other function calls and call function we need return value of.
-  switch (mouseFunction) {
+  switch (mouseFunctionName) {
     case 'pickFight':
       interpreter.appendCode('proposeMate = null;');
       interpreter.appendCode('acceptMate = null;');
@@ -629,12 +625,12 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
   var aliveMice = Genetics.Cage.aliveMice_;
   for (var i = 0; i < aliveMice.length; i++) {
     var aliveMouse = aliveMice[i];
-    // Create a clone of alive mouse with string keys so that keys wont be
+    // Create a clone of alive mouse with string keys so that keys won't be
     // renamed when compressed.
     var clonedMouse = {
-      'pickFightOwner': aliveMice.pickFightOwner,
-      'proposeMateOwner': aliveMice.proposeMateOwner,
-      'acceptMateOwner': aliveMice.acceptMateOwner,
+      'pickFightOwner': aliveMouse.pickFightOwner,
+      'proposeMateOwner': aliveMouse.proposeMateOwner,
+      'acceptMateOwner': aliveMouse.acceptMateOwner,
       'sex': aliveMouse.sex,
       'size': aliveMouse.size,
       'startAggressiveness': aliveMouse.startAggressiveness,
@@ -646,12 +642,11 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
     };
     var pseudoMouse = interpreter.nativeToPseudo(clonedMouse);
     interpreter.setProperty(pseudoAliveMice, i, pseudoMouse);
-    // Check if the mouse running the interpreter has been created.
     if (aliveMouse.id == mouse.id) {
+      // If the mouse running the interpreter has been created, save it.
       pseudoMe = pseudoMouse;
-    }
-    // Check if the suitor parameter, if defined, has been created.
-    else if (suitor && aliveMouse.id == suitor.id) {
+    } else if (suitor && aliveMouse.id == suitor.id) {
+      // If the suitor parameter was define and has been created, save it.
       pseudoSuitor = pseudoMouse;
     }
   }
@@ -670,8 +665,8 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
     wrapper = function() {
       return pseudoSuitor;
     };
-    var x = interpreter.createNativeFunction(wrapper);
-    interpreter.setProperty(scope, 'getSuitor', x);
+    interpreter.setProperty(scope, 'getSuitor', 
+        interpreter.createNativeFunction(wrapper));
   }
 
   var sex = interpreter.nativeToPseudo(Genetics.Mouse.Sex);

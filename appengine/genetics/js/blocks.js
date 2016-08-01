@@ -30,6 +30,7 @@ goog.require('Blockly.JavaScript');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 
+
 /**
  * HSV hue for all genetics mouse function blocks.
  */
@@ -210,7 +211,7 @@ Blockly.Blocks['genetics_getSelf'] = {
  * @param {Blockly.Block} block
  * @return {!Array.<string|number>}
  */
-Blockly.JavaScript['genetics_getSelf'] = function(block) {
+Blockly.JavaScript['genetics_getSelf'] = function(block) i{
   // Generate JavaScript function that returns the mouse object making the
   // decision.
   return ['getSelf()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
@@ -263,6 +264,8 @@ Blockly.Blocks['genetics_getProperties'] = {
          ['pickFightOwner', 'PICK_FIGHT'],
          ['proposeMateOwner', 'PROPOSE_MATE'],
          ['acceptMateOwner', 'ACCEPT_MATE']];
+    // Assign 'this' to a variable for use in closures below.
+    var thisBlock = this;
     this.setColour(Genetics.Blocks.GENETICS_HUE);
     this.appendValueInput('MOUSE')
         .setCheck('Mouse');
@@ -273,8 +276,6 @@ Blockly.Blocks['genetics_getProperties'] = {
         .appendField(dropdown, 'PROPERTY');
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
     this.setTooltip(function() {
       var mode = thisBlock.getFieldValue('PROPERTY');
       var TOOLTIPS = {
@@ -306,6 +307,24 @@ Blockly.Blocks['genetics_getProperties'] = {
     } else {
       this.outputConnection.setCheck('Number');
     }
+  },
+  /**
+   * Create XML to represent the output type.
+   * @return {Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('property', this.getFieldValue('PROPERTY'));
+    return container;
+  },
+  /**
+   * Parse XML to restore the output type.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    this.updateType_(xmlElement.getAttribute('property'));
   }
 };
 
@@ -317,7 +336,7 @@ Blockly.Blocks['genetics_getProperties'] = {
 Blockly.JavaScript['genetics_getProperties'] = function(block) {
   // Generate JavaScript for getting mouse property.
   var mouse = Blockly.JavaScript.valueToCode(block, 'MOUSE',
-          Blockly.JavaScript.ORDER_NONE) || 'me()';
+      Blockly.JavaScript.ORDER_NONE) || 'me()';
   var property = block.getFieldValue('PROPERTY');
   var code = mouse + '.';
   switch (property) {
@@ -437,9 +456,9 @@ Blockly.Blocks['genetics_math_randomInt'] = {
 Blockly.JavaScript['genetics_math_randomInt'] = function(block) {
   // Retrieves a random integer value between two numbers, inclusive.
   var minValue = Blockly.JavaScript.valueToCode(block, 'NUM',
-          Blockly.JavaScript.ORDER_COMMA) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var maxValue = Blockly.JavaScript.valueToCode(block, 'NUM',
-          Blockly.JavaScript.ORDER_COMMA) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var code = 'Math.randomInt(' + minValue + ', ' + maxValue + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };

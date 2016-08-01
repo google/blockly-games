@@ -655,7 +655,7 @@ Bird.execute = function() {
   try {
     var ticks = 100000;  // 100k ticks runs Bird for about 3 minutes.
     while (interpreter.step()) {
-      if (ticks-- == 0) {
+      if (ticks-- <= 0) {
         throw Infinity;
       }
     }

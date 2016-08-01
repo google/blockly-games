@@ -32,7 +32,7 @@ goog.require('goog.math');
  * Creates a mouse.
  * @constructor
  * @param {number} id The ID to assign the mouse.
- *  * @param {Genetics.Mouse.Sex} sex The sex of the mouse.
+ * @param {!Genetics.Mouse.Sex} sex The sex of the mouse.
  * @param {Genetics.Mouse=} opt_parentOne One of the parents of the mouse.
  * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.
  * @param {number=} opt_player The identifier of the player owning all
@@ -40,9 +40,10 @@ goog.require('goog.math');
  */
 Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
     opt_player) {
-  // Returns a random in between minValue (inclusive) and maxValue (inclusive).
+  // Returns a random integer between two integers; minValue (inclusive)
+  // and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
-    return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+    return goog.math.randomInt(maxValue-minValue + 1) + minValue;
   }
   if (opt_parentOne && opt_parentTwo) {
     // Choose which functions are inherited from parents.
@@ -58,16 +59,18 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
     this.acceptMateOwner = acceptMateParent ? opt_parentOne.acceptMateOwner :
         opt_parentTwo.acceptMateOwner;
     // Assign stats based on parents with some mutations.
-    this.size = goog.math.clamp((opt_parentOne.size + opt_parentTwo.size) / 2 +
+    this.size = goog.math.clamp(
+        goog.math.average(opt_parentOne.size + opt_parentTwo.size) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
         Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);
-    this.startAggressiveness = Math.max(0, Math.round((
-            opt_parentOne.startAggressiveness +
-        opt_parentTwo.startAggressiveness) / 2) +
+    this.startAggressiveness = Math.max(0, Math.round(
+        goog.math.average(opt_parentOne.startAggressiveness,
+                          opt_parentTwo.startAggressiveness) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
     this.aggressiveness = this.startAggressiveness;
-    this.startFertility = Math.max(0, Math.round((opt_parentOne.startFertility +
-            opt_parentTwo.startFertility) / 2) +
+    this.startFertility = Math.max(0, Math.round(
+        goog.math.average(opt_parentOne.startFertility,
+                          opt_parentTwo.startFertility) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
   } else {
     // Mouse is a first generation mouse.

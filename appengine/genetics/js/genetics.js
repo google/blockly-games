@@ -35,6 +35,7 @@ goog.require('Genetics.soy');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');
 
+
 /**
  * The name of the app.
  * @type {string}
@@ -74,10 +75,6 @@ Genetics.init = function() {
 
   BlocklyInterface.init();
   Genetics.Visualization.init();
-
-  // TODO(kozbial) remove after BlocklyGames indexing setting is set.
-  Blockly.JavaScript.ONE_BASED_INDEXING = false;
-  Blockly.Blocks.ONE_BASED_INDEXING = false;
 
   BlocklyGames.bindClick('runButton', Genetics.runButtonClick);
   BlocklyGames.bindClick('resetButton', Genetics.resetButtonClick);
@@ -396,6 +393,10 @@ Genetics.editorChanged = function() {
   }
 };
 
+/**
+ * Prints messages sent from Visualization to console.
+ * @param {string} msg The message to print.
+ */
 Genetics.log = function(msg) {
   console.log(msg);
 };
