@@ -229,6 +229,6 @@
 	"Pond.counterName": "Contatore",
 	"Pond.rookName": "Torre",
 	"Pond.sniperName": "Cecchino",
-	"Games.breakLink": "Una volta che hai iniziato a modificare in JavaScript, non puoi tornare indietro a modificare i blocchi. Va bene?",
-	"Games.blocks": "Blocchi"
+	"Pond.breakLink": "Una volta che hai iniziato a modificare in JavaScript, non puoi tornare indietro a modificare i blocchi. Va bene?",
+	"Pond.blocks": "Blocchi"
 }

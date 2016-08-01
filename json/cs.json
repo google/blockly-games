@@ -229,6 +229,6 @@
 	"Pond.counterName": "Počtář",
 	"Pond.rookName": "Věž",
 	"Pond.sniperName": "Odstřelovač",
-	"Games.breakLink": "Jakmile začnete upravovat JavaScript, nemůžete se vrátit k editaci bloků. Je to v POŘÁDKU?",
-	"Games.blocks": "Bloky"
+	"Pond.breakLink": "Jakmile začnete upravovat JavaScript, nemůžete se vrátit k editaci bloků. Je to v POŘÁDKU?",
+	"Pond.blocks": "Bloky"
 }

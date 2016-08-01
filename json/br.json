@@ -7,7 +7,7 @@
 			"Y-M D"
 		]
 	},
-	"Games.name": "C'hoarioù Blockly",
+	"Games.name": "C'hoarioù Blocky",
 	"Games.puzzle": "Miltamm",
 	"Games.maze": "Milendall",
 	"Games.bird": "Labous",
@@ -227,6 +227,6 @@
 	"Pond.counterName": "Konter",
 	"Pond.rookName": "Tour",
 	"Pond.sniperName": "Tenner",
-	"Games.breakLink": "Ur wech m'ho po kroget da zazkemmañ ar JavaScript ne c'hallit ket mui distreiñ d'an daskemmañ bloc'hoù. Ha mat eo evidoc'h ?",
-	"Games.blocks": "Bloc'hoù"
+	"Pond.breakLink": "Ur wech m'ho po kroget da zazkemmañ ar JavaScript ne c'hallit ket mui distreiñ d'an daskemmañ bloc'hoù. Ha mat eo evidoc'h ?",
+	"Pond.blocks": "Bloc'hoù"
 }

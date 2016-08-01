@@ -227,6 +227,6 @@
 	"Pond.counterName": "Räknare",
 	"Pond.rookName": "Schacktorn",
 	"Pond.sniperName": "Krypskytt",
-	"Games.breakLink": "När du väl börjar redigera JavaScript kan du inte gå tillbaka och redigera block. Är det okej med dig?",
-	"Games.blocks": "Block"
+	"Pond.breakLink": "När du väl börjar redigera JavaScript kan du inte gå tillbaka och redigera block. Är det okej med dig?",
+	"Pond.blocks": "Block"
 }

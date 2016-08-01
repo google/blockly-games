@@ -10,7 +10,7 @@
 			"Gchr"
 		]
 	},
-	"Games.name": "Παιχνίδια Blockly",
+	"Games.name": "Παιχνίδια Blocky",
 	"Games.puzzle": "Παζλ",
 	"Games.maze": "Λαβύρινθος",
 	"Games.bird": "Πουλί",
@@ -207,5 +207,5 @@
 	"Pond.counterName": "Μετρητής",
 	"Pond.rookName": "Πύργος",
 	"Pond.sniperName": "Σκοπευτής",
-	"Games.blocks": "Μπλοκ"
+	"Pond.blocks": "Μπλοκ"
 }
