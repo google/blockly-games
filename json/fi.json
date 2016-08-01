@@ -220,6 +220,6 @@
 	"Pond.counterName": "Laskuri",
 	"Pond.rookName": "Torni",
 	"Pond.sniperName": "Tarkka-ampuja",
-	"Pond.breakLink": "Kun alat muokkaamaan JavaScriptiä, et voi enää palata muokkaamaan lohkoja. Haluatko jatkaa?",
-	"Pond.blocks": "Lohkot"
+	"Games.breakLink": "Kun alat muokkaamaan JavaScriptiä, et voi enää palata muokkaamaan lohkoja. Haluatko jatkaa?",
+	"Games.blocks": "Lohkot"
 }

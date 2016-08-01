@@ -230,6 +230,6 @@
 	"Pond.counterName": "Számláló",
 	"Pond.rookName": "Bástya",
 	"Pond.sniperName": "Mesterlövész",
-	"Pond.breakLink": "Ha elkezded a JavaScriptet szerkeszteni akkor később nem léphetsz vissza a blokkok szerkesztésébe. Ezt akarod?",
-	"Pond.blocks": "Blokkok"
+	"Games.breakLink": "Ha elkezded a JavaScriptet szerkeszteni akkor később nem léphetsz vissza a blokkok szerkesztésébe. Ezt akarod?",
+	"Games.blocks": "Blokkok"
 }
