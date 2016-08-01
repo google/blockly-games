@@ -231,6 +231,6 @@
 	"Pond.counterName": "계산원",
 	"Pond.rookName": "루크",
 	"Pond.sniperName": "저격수",
-	"Pond.breakLink": "자바스크립트 편집을 시작하면 편집 블록으로 되돌아갈 수 없습니다. 그렇게 하시겠습니까?",
-	"Pond.blocks": "블록"
+	"Games.breakLink": "자바스크립트 편집을 시작하면 편집 블록으로 되돌아갈 수 없습니다. 그렇게 하시겠습니까?",
+	"Games.blocks": "블록"
 }

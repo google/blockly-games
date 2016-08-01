@@ -225,6 +225,6 @@
 	"Pond.counterName": "တန်ပြန်",
 	"Pond.rookName": "ကျီး",
 	"Pond.sniperName": "လက်ဖြောင့်တပ်သား",
-	"Pond.breakLink": "JavaScript ကိုစတင် edit လုပ်ပြီဆိုပါက block များကို ပြန်ပြီး edit လုပ်၍မရပါ။ အဆင်ပြေပါသလား။",
-	"Pond.blocks": "Blocks"
+	"Games.breakLink": "JavaScript ကိုစတင် edit လုပ်ပြီဆိုပါက block များကို ပြန်ပြီး edit လုပ်၍မရပါ။ အဆင်ပြေပါသလား။",
+	"Games.blocks": "Blocks"
 }

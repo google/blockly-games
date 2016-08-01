@@ -228,6 +228,6 @@
 	"Pond.counterName": "計數器",
 	"Pond.rookName": "車",
 	"Pond.sniperName": "狙擊手",
-	"Pond.breakLink": "一旦您開始編輯JavaScript，您不能返回編輯積木。OK嗎？",
-	"Pond.blocks": "積木"
+	"Games.breakLink": "一旦您開始編輯JavaScript，您不能返回編輯積木。OK嗎？",
+	"Games.blocks": "積木"
 }

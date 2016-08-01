@@ -226,6 +226,6 @@
 	"Pond.counterName": "Penghitung",
 	"Pond.rookName": "Benteng",
 	"Pond.sniperName": "Penembak",
-	"Pond.breakLink": "Sekali Anda mengedit JavaScript, Anda tidak dapat kembali mengedit blok. OK?",
-	"Pond.blocks": "Blok"
+	"Games.breakLink": "Sekali Anda mengedit JavaScript, Anda tidak dapat kembali mengedit blok. OK?",
+	"Games.blocks": "Blok"
 }

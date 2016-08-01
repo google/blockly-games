@@ -219,6 +219,6 @@
 	"Pond.counterName": "计数人",
 	"Pond.rookName": "车",
 	"Pond.sniperName": "狙击手",
-	"Pond.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
-	"Pond.blocks": "块"
+	"Games.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
+	"Games.blocks": "块"
 }
