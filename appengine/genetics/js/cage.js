@@ -47,7 +47,7 @@ Genetics.Cage.START_MICE_PER_PLAYER = 2;
 Genetics.Cage.HEADLESS = false;
 
 /**
- * Mapping of player id to array with player name and code.
+ * Mapping of player ID to array with player name and code.
  * @type {!Object.<number, Array.<string>>}
  */
 Genetics.Cage.players = {};
@@ -190,7 +190,7 @@ Genetics.Cage.reset = function() {
  * @param {string|!Function} code Player's code, or generator.
  */
 Genetics.Cage.addPlayer = function(playerName, code) {
-  // Assign a unique id to the player and add to the game.
+  // Assign a unique ID to the player and add to the game.
   var id = Genetics.Cage.nextAvailablePlayerId_++;
   Genetics.Cage.players[id] = [playerName, code];
 };
@@ -364,7 +364,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   // Use up one mating attempt for each of the parents.
   parent1.fertility--;
   parent2.fertility--;
-  // Allocate a new id for the mouse.
+  // Allocate a new ID for the mouse.
   var mouseId = Genetics.Cage.nextAvailableMouseId_++;
   // Determine sex of child based on the current population.
   var populationFertility = 0;

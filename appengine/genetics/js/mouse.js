@@ -31,7 +31,7 @@ goog.require('goog.math');
 /**
  * Creates a mouse.
  * @constructor
- * @param {number} id The id to assign the mouse.
+ * @param {number} id The ID to assign the mouse.
  *  * @param {Genetics.Mouse.Sex} sex The sex of the mouse.
  * @param {Genetics.Mouse=} opt_parentOne One of the parents of the mouse.
  * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.

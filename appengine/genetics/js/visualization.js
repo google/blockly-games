@@ -35,7 +35,7 @@ goog.require('goog.object');
 Genetics.Visualization.FPS = 36;
 
 /**
- * Mapping of mouse id to mouse for mice currently being visualized.
+ * Mapping of mouse ID to mouse for mice currently being visualized.
  * @type {!Object.<string, Genetics.Mouse>}
  */
 Genetics.Visualization.MICE = {};
@@ -83,7 +83,7 @@ Genetics.Visualization.acceptMateChartWrapper_ = null;
 Genetics.Visualization.mouseSexes_ = {};
 
 /**
- * Mapping of player id to number of mice with pickFight function of that
+ * Mapping of player ID to number of mice with pickFight function of that
  * player.
  * @type {!Object<number, number>}
  * @private
@@ -91,7 +91,7 @@ Genetics.Visualization.mouseSexes_ = {};
 Genetics.Visualization.pickFightOwners_ = {};
 
 /**
- * Mapping of player id to number of mice with proposeMate function of that
+ * Mapping of player ID to number of mice with proposeMate function of that
  * player.
  * @type {!Object<number, number>}
  * @private
@@ -99,7 +99,7 @@ Genetics.Visualization.pickFightOwners_ = {};
 Genetics.Visualization.proposeMateOwners_ = {};
 
 /**
- * Mapping of player id to number of mice with acceptMate function of that
+ * Mapping of player ID to number of mice with acceptMate function of that
  * player.
  * @type {!Object<number, number>}
  * @private
