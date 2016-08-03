@@ -225,6 +225,6 @@
 	"Pond.counterName": "Counter",
 	"Pond.rookName": "Rook",
 	"Pond.sniperName": "Sniper",
-	"Pond.breakLink": "Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?",
-	"Pond.blocks": "Blocks"
+	"Games.breakLink": "Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?",
+	"Games.blocks": "Blocks"
 }

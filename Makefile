@@ -10,8 +10,6 @@ APP_ENGINE_THIRD_PARTY = appengine/third-party
 SOY_COMPILER = java -jar third-party/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
 SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
-BLOCKY_DIR = $(PWD)
-
 ##############################
 # Rules
 ##############################
@@ -93,8 +91,9 @@ deps:
 	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
 	unzip -o closure-templates-msg-extractor-latest.zip SoyMsgExtractor.jar; \
 	wget -N https://dl.google.com/closure-compiler/compiler-latest.zip; \
-	unzip -o compiler-latest.zip compiler.jar
-	chmod +x third-party/build/closurebuilder.py
+	unzip -o compiler-latest.zip -x COPYING README.md; \
+	mv -f closure-compiler-v*.jar closure-compiler.jar; \
+	chmod +x build/closurebuilder.py
 
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)
 	svn checkout https://github.com/google/closure-library/trunk/closure/goog/ $(APP_ENGINE_THIRD_PARTY)/goog
@@ -115,7 +114,7 @@ deps:
 	@# messages.js confuses the compiler by also providing "Blockly.Msg.en".
 	rm $(APP_ENGINE_THIRD_PARTY)/blockly/msg/messages.js
 	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
-	java -jar third-party/compiler.jar\
+	java -jar third-party/closure-compiler.jar\
 	 --js appengine/third-party/JS-Interpreter/acorn.js\
 	 --js appengine/third-party/JS-Interpreter/interpreter.js\
 	 --js_output_file appengine/third-party/JS-Interpreter/compiled.js

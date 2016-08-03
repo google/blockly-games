@@ -159,7 +159,7 @@
           <br><br><img src="pond/docs/loc_x_50.png" height=37 width=191>
           <br><br><img src="pond/docs/stop.png" height=30 width=63>
         {elseif $ij.level == 10}
-          <pre>loc_x() &lt; 50</pre>
+          <pre>getX() &lt; 50</pre>
           <pre>stop();</pre>
         {/if}
       {elseif $ij.level == 10}
@@ -214,8 +214,8 @@
       <block type="pond_stop"></block>
   {/if}
   {if $ij.level >= 9}
-      <block type="pond_loc_x"></block>
-      <block type="pond_loc_y"></block>
+      <block type="pond_getX"></block>
+      <block type="pond_getY"></block>
   {/if}
     </category>
 {if $ij.level >= 3}
@@ -256,14 +256,14 @@
 var west = false;
 while (true) {
   if (west) {
-    if (loc_x() > 25) {
+    if (getX() > 25) {
       swim(180, 25);
     } else {
       west = false;
       swim(0, 0);
     }
   } else {
-    if (loc_x() < 75) {
+    if (getX() < 75) {
       swim(0, 25);
     } else {
       west = true;

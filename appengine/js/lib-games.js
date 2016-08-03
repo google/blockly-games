@@ -276,7 +276,7 @@ BlocklyGames.changeLanguage = function() {
  * May be used to simply determine if a level is complete.
  * @param {string} name Name of app (maze, bird, ...).
  * @param {number} level Level (1-10).
- * @return {string=} Serialized XML, or undefined.
+ * @return {string|undefined} Serialized XML, or undefined.
  */
 BlocklyGames.loadFromLocalStorage = function(name, level) {
   var xml;

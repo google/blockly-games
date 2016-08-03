@@ -84,9 +84,9 @@ Pond.Tutor.init = function() {
       blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
     };
     window.addEventListener('scroll', function() {
-        onresize();
-        Blockly.fireUiEvent(window, 'resize');
-      });
+      onresize();
+      Blockly.svgResize(BlocklyGames.workspace);
+    });
     window.addEventListener('resize', onresize);
     onresize();
 
@@ -97,7 +97,7 @@ Pond.Tutor.init = function() {
          'toolbox': toolbox,
          'trashcan': true});
     Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
-        'damage,health,loc_x,loc_y');
+        'damage,health,loc_x,getX,loc_y,getY,');
 
     var defaultXml;
     if (BlocklyGames.LEVEL == 7) {
@@ -157,7 +157,10 @@ Pond.Tutor.init = function() {
       editorDiv.style.left = rtl ? '10px' : '420px';
       editorDiv.style.width = (window.innerWidth - 440) + 'px';
     };
-    window.addEventListener('scroll', onresize);
+    window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.svgResize(BlocklyGames.workspace);
+    });
     window.addEventListener('resize', onresize);
   }
 

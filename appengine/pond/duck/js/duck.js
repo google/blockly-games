@@ -90,9 +90,9 @@ Pond.Duck.init = function() {
     }
   };
   window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+    onresize();
+    Blockly.svgResize(BlocklyGames.workspace);
+  });
   window.addEventListener('resize', onresize);
   onresize();
 
@@ -124,7 +124,7 @@ Pond.Duck.init = function() {
        'trashcan': true,
        'zoom': {'controls': true, 'wheel': true}});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
-      'damage,health,loc_x,loc_y');
+      'damage,health,loc_x,getX,loc_y,getY,');
   var defaultXml =
       '<xml>' +
       '  <block type="pond_cannon" x="70" y="70">' +
@@ -239,7 +239,7 @@ Pond.Duck.editorChanged = function() {
   }
   if (Pond.Duck.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Pond_breakLink'))) {
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link betweeen blocks and JS.
       Pond.Duck.tabbar.getChildAt(0).setEnabled(false);
       Pond.Duck.blocksEnabled_ = false;

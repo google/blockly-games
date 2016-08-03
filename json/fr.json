@@ -10,7 +10,7 @@
 			"Josee Desharnais"
 		]
 	},
-	"Games.name": "Jeux Blocky",
+	"Games.name": "Jeux Blockly",
 	"Games.puzzle": "Puzzle",
 	"Games.maze": "Labyrinthe",
 	"Games.bird": "Oiseau",
@@ -230,6 +230,6 @@
 	"Pond.counterName": "Compteur",
 	"Pond.rookName": "Tour",
 	"Pond.sniperName": "Tireur",
-	"Pond.breakLink": "Une fois que vous aurez commencé à modifier le JavaScript, vous ne pourrez pas revenir à la modification des blocs. Est-ce bon pour vous ?",
-	"Pond.blocks": "Blocs"
+	"Games.breakLink": "Une fois que vous aurez commencé à modifier le JavaScript, vous ne pourrez pas revenir à la modification des blocs. Est-ce bon pour vous ?",
+	"Games.blocks": "Blocs"
 }

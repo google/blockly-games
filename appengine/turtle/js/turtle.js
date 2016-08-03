@@ -105,9 +105,9 @@ Turtle.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+    onresize();
+    Blockly.svgResize(BlocklyGames.workspace);
+  });
   window.addEventListener('resize', onresize);
   onresize();
 
@@ -266,7 +266,7 @@ Turtle.categoryClicked_ = false;
 
 /**
  * Monitor to see if the user finds the categories in level one.
- * @param {!Blockly.Events.Abstract} event Custom data for event.
+ * @param {!Blockly.Events.Abstract} e Custom data for event.
  * @private
  */
 Turtle.watchCategories_ = function(event) {

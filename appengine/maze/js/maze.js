@@ -501,9 +501,9 @@ Maze.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
+    onresize();
+    Blockly.svgResize(BlocklyGames.workspace);
+  });
   window.addEventListener('resize', onresize);
   onresize();
 
