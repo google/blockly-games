@@ -48,14 +48,8 @@
   }
 }
 
-@-webkit-keyframes heart-beat {
-
-}
-
 .heart {
-  -webkit-animation-duration: 2s;
   animation-duration: 2s;
-  -webkit-animation-name: heart-beat;
   animation-name: heart-beat;
 }
 
