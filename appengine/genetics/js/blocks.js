@@ -55,20 +55,9 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
     args, block) {
   // Define a procedure with a return value.
   var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
-  if (Blockly.JavaScript.STATEMENT_PREFIX) {
-    branch = Blockly.JavaScript.prefixLines(
-        Blockly.JavaScript.STATEMENT_PREFIX.replace(/%1/g,
-            '\'' + block.id + '\''), Blockly.JavaScript.INDENT) + branch;
-  }
-  if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
-    branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
-        '\'' + block.id + '\'') + branch;
-  }
   var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
       Blockly.JavaScript.ORDER_NONE) || '';
-  if (returnValue) {
-    returnValue = '  return ' + returnValue + ';\n';
-  }
+  returnValue = '  return ' + returnValue + ';\n';
   var code = 'function ' + funcName + '(' + args + ') {\n' +
       branch + returnValue + '}';
   code = Blockly.JavaScript.scrub_(block, code);

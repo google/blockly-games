@@ -148,12 +148,12 @@ Genetics.Visualization.init = function() {
       'vAxis': {'minValue': 0},
       'legend': 'top',
       'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
-        'height': '70%' }
+        'height': '70%' },
+      'backgroundColor': 'white'
     };
     var stackGraphOpts = goog.object.unsafeClone(chartOpts);
     stackGraphOpts['isStacked'] = 'relative';
     stackGraphOpts['lineWidth'] = 0;
-    stackGraphOpts['chartArea']['backgroundColor'] = 'black';
     stackGraphOpts['areaOpacity'] = 0.8;
     stackGraphOpts['vAxis']['maxValue'] = 1;
     var populationChartOpts = chartOpts;
@@ -261,6 +261,15 @@ Genetics.Visualization.reset = function() {
   Genetics.Visualization.pickFightOwners_ = {};
   Genetics.Visualization.proposeMateOwners_ = {};
   Genetics.Visualization.acceptMateOwners_ = {};
+  // Reset chart colors
+  Genetics.Visualization.populationChartWrapper_
+      .setOption('backgroundColor', 'white');
+  Genetics.Visualization.pickFightChartWrapper_
+      .setOption('backgroundColor', 'white');
+  Genetics.Visualization.proposeMateChartWrapper_
+      .setOption('backgroundColor', 'white');
+  Genetics.Visualization.acceptMateChartWrapper_
+      .setOption('backgroundColor', 'white');
   // Clear chart and set labels for data table.
   Genetics.Visualization.resetChartData_();
   // Set count for all players to 0.
@@ -473,6 +482,16 @@ Genetics.Visualization.processCageEvents_ = function() {
         var pickFightWinner = event['PICK_FIGHT_WINNER'];
         var proposeMateWinner = event['PROPOSE_MATE_WINNER'];
         var acceptMateWinner = event['ACCEPT_MATE_WINNER'];
+        if(cause != 'DOMINATION') {
+          Genetics.Visualization.populationChartWrapper_
+              .setOption('backgroundColor', 'black');
+          Genetics.Visualization.pickFightChartWrapper_
+              .setOption('backgroundColor', 'black');
+          Genetics.Visualization.proposeMateChartWrapper_
+              .setOption('backgroundColor', 'black');
+          Genetics.Visualization.acceptMateChartWrapper_
+              .setOption('backgroundColor', 'black');
+        }
         Genetics.log('Game ended because ' + cause + '. PickFight Winner: ' +
             pickFightWinner + ' proposeMate Winner: ' + proposeMateWinner +
             ' acceptMate Winner: ' + acceptMateWinner);

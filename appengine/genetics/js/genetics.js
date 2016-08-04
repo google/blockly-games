@@ -63,7 +63,7 @@ Genetics.blocksEnabled_ = true;
 Genetics.ignoreEditorChanges_ = true;
 
 /**
- * Initialize Blocky, Ace, and the cage.  Called on page load.
+ * Initialize Blockly, Ace, and the cage.  Called on page load.
  */
 Genetics.init = function() {
   // Render the Soy template.
@@ -371,7 +371,7 @@ Genetics.editorChanged = function() {
   }
   if (Genetics.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Genetics_breakLink'))) {
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link betweeen blocks and JS.
       Genetics.tabbar.getChildAt(0).setEnabled(false);
       Genetics.blocksEnabled_ = false;

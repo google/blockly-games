@@ -11,7 +11,7 @@
 			"Diniscoelho"
 		]
 	},
-	"Games.name": "Jogos Blocky",
+	"Games.name": "Jogos Blockly",
 	"Games.puzzle": "Quebra-cabeça",
 	"Games.maze": "Labirinto",
 	"Games.bird": "Pássaro",
@@ -231,6 +231,6 @@
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
 	"Pond.sniperName": "Franco-atirador",
-	"Pond.breakLink": "Assim que começar a editar JavaScript, não pode voltar a editar blocos. Clique em OK para continuar.",
-	"Pond.blocks": "Blocos"
+	"Games.breakLink": "Assim que começar a editar JavaScript, não pode voltar a editar blocos. Clique em OK para continuar.",
+	"Games.blocks": "Blocos"
 }

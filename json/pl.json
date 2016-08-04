@@ -221,6 +221,6 @@
 	"Pond.counterName": "Licznik",
 	"Pond.rookName": "Wieża",
 	"Pond.sniperName": "Snajper",
-	"Pond.breakLink": "Jak zaczniesz edytować JavaScript, nie możesz powrócić do edycji bloków. Kontynuować?",
-	"Pond.blocks": "Bloki"
+	"Games.breakLink": "Jak zaczniesz edytować JavaScript, nie możesz powrócić do edycji bloków. Kontynuować?",
+	"Games.blocks": "Bloki"
 }

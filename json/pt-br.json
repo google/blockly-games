@@ -238,6 +238,6 @@
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
 	"Pond.sniperName": "Francoatirador",
-	"Pond.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
-	"Pond.blocks": "Blocos"
+	"Games.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
+	"Games.blocks": "Blocos"
 }
