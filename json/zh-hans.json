@@ -84,7 +84,7 @@
 	"Maze.doCode": "执行",
 	"Maze.elseCode": "其他",
 	"Maze.helpIfElse": "if-else模块会一句条件执行某事，若不符合则执行其他事。",
-	"Maze.pathAhead": "如前方有路",
+	"Maze.pathAhead": "如果前面有路",
 	"Maze.pathLeft": "如果路径向左",
 	"Maze.pathRight": "如果路径向右",
 	"Maze.repeatUntil": "重复直到",
@@ -165,7 +165,7 @@
 	"Turtle.helpText7": "画出星星，然后画四条白色直线。",
 	"Turtle.helpText8": "绘制360条白色直线将看起来像满月一样。",
 	"Turtle.helpText9": "你能加入一个黑色的圆圈使月亮变成新月吗？",
-	"Turtle.helpText10": "画出任何你想画的东西。你还有许多可以探索的新板块。玩的开心！",
+	"Turtle.helpText10": "画出任何您想画的东西。您还有许多可以探索的新板块。玩的开心！",
 	"Turtle.helpText10Reddit": "使用&quot;See Gallery&quot;按钮来观看其他人的作品。如果你画了些有趣的东西，使用&quot;Submit按钮来发布。",
 	"Turtle.helpToolbox": "选择一个分类以查看这些块。",
 	"Turtle.catTurtle": "乌龟",
@@ -196,7 +196,10 @@
 	"Movie.helpText2a": "该等级是一个电影。你想要一个在屏幕上滚动的红球的话，请按下播放键来观看预演。",
 	"Movie.helpText2b": "作为电影戏剧，“time”区块的值从0到100。由于您希望红色小球的水平位置从0开始运动至100，这将会变得很容易。",
 	"Movie.helpText3": "“time”区块的值从0到100。但此时您希望红色小球的水平位置从0开始运动至100。您可以算出一个简单的求翻转方向的数学公式么？",
+	"Movie.helpText4": "使用您在前面等级中学到的知识，使4个绿球沿着所有4个方向移动。",
+	"Movie.helpText5": "使老鼠头移动比较容易。您可以通过算出数学公式，也移动耳朵么？",
 	"Movie.helpText6": "两条简单的线。计算出线两端在干什么吧。",
+	"Movie.helpText7": "此落球运动的数学公式有些难懂。这里有答案：",
 	"Movie.helpText10Reddit": "使用&quot;See Gallery&quot;按钮来观看其他人制作的视频。如果您制作了一段有趣的视频，使用&quot;Submit to Gallery&quot;按钮来发布它。",
 	"Pond.cannonTooltip": "试射大炮。指定一个方向（0~360）和一个范围（0~70）。",
 	"Pond.swimTooltip": "向前游，并指定一个方向（0-360）。",
@@ -219,6 +222,6 @@
 	"Pond.counterName": "计数人",
 	"Pond.rookName": "车",
 	"Pond.sniperName": "狙击手",
-	"Pond.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
-	"Pond.blocks": "块"
+	"Games.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
+	"Games.blocks": "块"
 }

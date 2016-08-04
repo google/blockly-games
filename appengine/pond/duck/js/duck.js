@@ -239,7 +239,7 @@ Pond.Duck.editorChanged = function() {
   }
   if (Pond.Duck.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Pond_breakLink'))) {
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link betweeen blocks and JS.
       Pond.Duck.tabbar.getChildAt(0).setEnabled(false);
       Pond.Duck.blocksEnabled_ = false;

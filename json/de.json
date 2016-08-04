@@ -227,6 +227,6 @@
 	"Pond.counterName": "Zähler",
 	"Pond.rookName": "Turm",
 	"Pond.sniperName": "Scharfschütze",
-	"Pond.breakLink": "Sobald du anfängst, JavaScript zu bearbeiten, kannst du zurück gehen, um Blöcke zu bearbeiten. Ist das in Ordnung?",
-	"Pond.blocks": "Bausteine"
+	"Games.breakLink": "Sobald du anfängst, JavaScript zu bearbeiten, kannst du zurück gehen, um Blöcke zu bearbeiten. Ist das in Ordnung?",
+	"Games.blocks": "Bausteine"
 }
