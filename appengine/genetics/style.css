@@ -20,15 +20,20 @@
   vertical-align: bottom;
   width: 400px;
   height: 400px;
+  position: absolute;
 }
 
 .vizTabContent {
   width: 400px;
   height: 400px;
-  overflow: auto;
 }
-.vizTabContent>div {
-  position: absolute !important;
+
+#charts {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #tabarea {

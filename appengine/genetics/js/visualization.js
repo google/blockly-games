@@ -124,8 +124,7 @@ Genetics.Visualization.init = function() {
 
   var changeTab = function(index) {
     // Show the correct tab contents.
-    var names = ['display', 'populationChart', 'pickFightChart',
-      'proposeMateChart', 'acceptMateChart'];
+    var names = ['display', 'charts'];
     for (var i = 0, name; name = names[i]; i++) {
       var div = document.getElementById(name);
       div.style.visibility = (i == index) ? 'visible' : 'hidden';
@@ -146,7 +145,6 @@ Genetics.Visualization.init = function() {
       'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
         'format': '0'},
       'vAxis': {'minValue': 0},
-      'legend': 'top',
       'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
         'height': '70%' },
       'backgroundColor': 'white'
