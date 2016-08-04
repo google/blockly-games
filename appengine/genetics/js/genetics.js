@@ -63,7 +63,7 @@ Genetics.blocksEnabled_ = true;
 Genetics.ignoreEditorChanges_ = true;
 
 /**
- * Initialize Blocky, Ace, and the cage.  Called on page load.
+ * Initialize Blockly, Ace, and the cage.  Called on page load.
  */
 Genetics.init = function() {
   // Render the Soy template.
