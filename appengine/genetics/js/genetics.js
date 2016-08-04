@@ -371,7 +371,7 @@ Genetics.editorChanged = function() {
   }
   if (Genetics.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Genetics_breakLink'))) {
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link betweeen blocks and JS.
       Genetics.tabbar.getChildAt(0).setEnabled(false);
       Genetics.blocksEnabled_ = false;
