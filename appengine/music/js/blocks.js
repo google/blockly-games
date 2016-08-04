@@ -1,4 +1,5 @@
 /**
+ * @license
  * Blockly Games: Music Graphics Blocks
  *
  * Copyright 2012 Google Inc.
@@ -223,8 +224,11 @@ Blockly.Blocks['music_start'] = {
 Blockly.JavaScript['music_start'] = function(block) {
   Music.startCount++;
   var statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
-  return 'function start' + Music.startCount + '() {\n' +
+  var code = 'function start' + Music.startCount + '() {\n' +
       statements_stack + '}\n';
+  // Add % so as not to collide with helper functions in definitions list.
+  Blockly.JavaScript.definitions_['%start' + Music.startCount] = code;
+  return null;
 };
 
 if (BlocklyGames.LEVEL < 10) {

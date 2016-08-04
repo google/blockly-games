@@ -1,4 +1,5 @@
 /**
+ * @license
  * Blockly Games: Music
  *
  * Copyright 2016 Google Inc.
@@ -99,7 +100,7 @@ Music.init = function() {
   };
   window.addEventListener('scroll', function() {
       onresize();
-      Blockly.fireUiEvent(window, 'resize');
+      Blockly.svgResize(BlocklyGames.workspace);
     });
   window.addEventListener('resize', onresize);
   onresize();
