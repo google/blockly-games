@@ -18,25 +18,47 @@
 #display {
   border: 1px solid #ddd;
   vertical-align: bottom;
+  width: 400px;
+  height: 400px;
 }
 
-#geneticsStatTable {
-  width: 406px;
-  max-width: 406px;
-  margin-left: -2px;
-  height: 20px;
+.vizTabContent {
+  width: 400px;
+  height: 400px;
+  overflow: auto;
 }
-
-#geneticsStatTable>tr>td {
-  padding: 0;
-  border: 1px solid;
-  background: #ccc;
-  border-radius: 2px;
+.vizTabContent>div {
+  position: absolute !important;
 }
 
 #tabarea {
   position: fixed !important;
 }
+
+.mouse {
+  position: absolute;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes heart-beat {
+  0% {
+    transform: scale(0, 1);
+  }
+}
+
+@-webkit-keyframes heart-beat {
+
+}
+
+.heart {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-name: heart-beat;
+  animation-name: heart-beat;
+}
+
 
 /*
  * Copyright 2008 The Closure Library Authors. All Rights Reserved.

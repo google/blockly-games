@@ -48,26 +48,22 @@
  */
 {template .visualization}
   <div id="visualization">
-    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-    <canvas id="display" width="400" height="400" style="display: none"></canvas>
+    <div id="vizTabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">Visualization</div>
+      <div class="goog-tab">Population</div>
+      <div class="goog-tab">pickFight</div>
+      <div class="goog-tab">proposeMate</div>
+      <div class="goog-tab">acceptMate</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    <div class="vizTabContent">
+      <div id="display"></div>
+      <div id="populationChart"></div>
+      <div id="pickFightChart"></div>
+      <div id="proposeMateChart"></div>
+      <div id="acceptMateChart"></div>
+    </div>
   </div>
-
-  <table id="geneticsStatTable">
-    <tbody>
-        <tr>
-          <td><div id="populationChart"></div></td>
-        </tr>
-        <tr>
-          <td><div id="pickFightChart"></div></td>
-        </tr>
-        <tr>
-          <td><div id="proposeMateChart"></div></td>
-        </tr>
-        <tr>
-          <td><div id="acceptMateChart"></div></td>
-        </tr>
-    </tbody>
-  </table>
 
   <table width="400">
     <tr>

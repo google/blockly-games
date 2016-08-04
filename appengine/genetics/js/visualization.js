@@ -75,6 +75,8 @@ Genetics.Visualization.proposeMateChartWrapper_ = null;
  */
 Genetics.Visualization.acceptMateChartWrapper_ = null;
 
+Genetics.Visualization.display_ = null;
+
 /**
  * Mapping of mouse sex to number of mice.
  * @type {!Object.<!Genetics.Mouse.Sex, number>}
@@ -116,12 +118,35 @@ Genetics.Visualization.pid = 0;
  * Setup the visualization (run once).
  */
 Genetics.Visualization.init = function() {
+  // Setup the tabs.
+  Genetics.tabbar = new goog.ui.TabBar();
+  Genetics.tabbar.decorate(document.getElementById('vizTabbar'));
+
+  var changeTab = function(index) {
+    // Show the correct tab contents.
+    var names = ['display', 'populationChart', 'pickFightChart',
+      'proposeMateChart', 'acceptMateChart'];
+    for (var i = 0, name; name = names[i]; i++) {
+      var div = document.getElementById(name);
+      div.style.visibility = (i == index) ? 'visible' : 'hidden';
+    }
+  };
+  // Handle SELECT events dispatched by tabs.
+  goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
+      function(e) {
+        var index = e.target.getParent().getSelectedTabIndex();
+        changeTab(index);
+      });
+
+  changeTab(0);
+
   var createCharts = function() {
     // Create the base options for chart style shared between charts.
     var chartOpts = {
       'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
         'format': '0'},
       'vAxis': {'minValue': 0},
+      'legend': 'top',
       'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
         'height': '70%' }
     };
@@ -178,6 +203,8 @@ Genetics.Visualization.init = function() {
   };
   google.charts.load('current', {'packages': ['corechart']});
   google.charts.setOnLoadCallback(createCharts);
+
+  Genetics.Visualization.display_ = document.getElementById('display');
 };
 
 /**
@@ -266,7 +293,7 @@ Genetics.Visualization.start = function() {
  * Start the visualization running.
  */
 Genetics.Visualization.update = function() {
-  Genetics.Visualization.display_();
+  Genetics.Visualization.draw_();
   Genetics.Visualization.processCageEvents_();
   // Frame done.  Calculate the actual elapsed time and schedule the next frame.
   var now = Date.now();
@@ -289,9 +316,9 @@ Genetics.Visualization.chartsUpdated_ = true;
  * Visualize the current state of the cage simulation (Genetics.Cage).
  * @private
  */
-Genetics.Visualization.display_ = function() {
-  // TODO(kozbial) draw current state of the cage.
-  if (Genetics.Visualization.chartsUpdated_) {
+Genetics.Visualization.draw_ = function() {
+  if(Genetics.Visualization.chartsUpdated_) {
+    // Update the chart data on the screen.
     Genetics.Visualization.populationChartWrapper_.draw();
     Genetics.Visualization.pickFightChartWrapper_.draw();
     Genetics.Visualization.proposeMateChartWrapper_.draw();
@@ -319,6 +346,9 @@ Genetics.Visualization.processCageEvents_ = function() {
       case 'ADD':
         var mouse = event['MOUSE'];
         Genetics.Visualization.addMouse_(mouse);
+        var x = Genetics.Visualization.display_.contentWidth/2;
+        var y = Genetics.Visualization.display_.contentHeight/2;
+        Genetics.Visualization.MouseAvatar(mouse, x, y, 0);
         Genetics.log(getMouseName(mouse, true, true) + ' added to game.');
         break;
       case 'START_GAME':
@@ -561,4 +591,27 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
     name += ' ' + mouseStats;
   }
   return name;
+};
+
+/**
+ *
+ * @param mouse
+ * @param x
+ * @param y
+ * @constructor
+ */
+Genetics.Visualization.MouseAvatar = function(mouse, x, y, direction) {
+  this.mouse = mouse;
+  this.x = x;
+  this.y = y;
+  this.direction = direction;
+  this.busy = false;
+
+  // Create html element for the mouse
+  this.element = document.createElement('div')
+  this.element.className += ' mouse';
+  this.element.id = 'mouse-' + this.mouse.id;
+  this.element.left = x - 10 + 'px';
+  this.element.top = y - 10 + 'px';
+  Genetics.Visualization.display_.appendChild(this.element);
 };
