@@ -11,34 +11,35 @@
     <script src="../third-party/blockly/msg/js/en.js"></script>
 
     <!-- Load accessibleBlockly -->
+    <script src="../third-party/blockly/accessible/messages.js"></script>
+
     <script src="../third-party/blockly/accessible/libs/es6-shim.min.js"></script>
     <script src="../third-party/blockly/accessible/libs/angular2-polyfills.min.js"></script>
     <script src="../third-party/blockly/accessible/libs/Rx.umd.min.js"></script>
     <script src="../third-party/blockly/accessible/libs/angular2-all.umd.min.js"></script>
+
     <script src="../third-party/blockly/accessible/utils.service.js"></script>
+    <script src="../third-party/blockly/accessible/notifications.service.js"></script>
     <script src="../third-party/blockly/accessible/clipboard.service.js"></script>
     <script src="../third-party/blockly/accessible/tree.service.js"></script>
-    <script src="../third-party/blockly/accessible/fieldview.component.js"></script>
-    <script src="../third-party/blockly/accessible/workspace_treeview.component.js"></script>
-    <script src="../third-party/blockly/accessible/toolbox_treeview.component.js"></script>
-    <script src="../third-party/blockly/accessible/toolboxview.component.js"></script>
-    <script src="../third-party/blockly/accessible/workspaceview.component.js"></script>
-    <script src="../third-party/blockly/accessible/appview.component.js"></script>
+    <script src="../third-party/blockly/accessible/translate.pipe.js"></script>
 
-    <!--
-      TODO(sll): Put this in the appropriate place so that automated
-      translations can happen.
-    -->
-    <script src="../third-party/blockly/accessible/messages.js"></script>
+    <script src="../third-party/blockly/accessible/field.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace.component.js"></script>
+    <script src="../third-party/blockly/accessible/app.component.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../third-party/blockly/media/accessible.css">
 
     <!-- Libraries for MIDI playback. -->
-    <script src="../third-party/midi-js/build/MIDI.js"></script>
-    <script src="../third-party/midi-js/inc/shim/Base64binary.js"></script>
+    <script src="../third-party/midi-js/trunk/build/MIDI.js"></script>
+    <script src="../third-party/midi-js/trunk/inc/shim/Base64binary.js"></script>
 
     <script src="js/blocks.js"></script>
     <script src="js/music-player.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="../third-party/blockly/media/accessible.css">
     <style>
       body {
         background-color: #e5ffff;
