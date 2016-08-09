@@ -53,22 +53,28 @@
       h2 {
         font-size: 120%;
       }
+      ul.musicGameNavigation {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      ul.musicGameNavigation li {
+        float: left;
+        margin: 0 20px 0 0;
+      }
     </style>
   </head>
   <body>
-    <h1>Blockly Games: Music</h1>
-
     <div style="float: right;">
       <a href="./help.html">
         Learn more...
       </a>
     </div>
 
-    <h2>Current Level: Level 1</h2>
+    <h1>Blockly Games: Music</h1>
 
-    <ul role="navigation">
-      <level-navigator></level-navigator>
-    </ul>
+    <level-navigator></level-navigator>
 
     <levelview></levelview>
 

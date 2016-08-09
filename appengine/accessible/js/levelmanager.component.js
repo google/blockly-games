@@ -113,14 +113,17 @@ musicGame.LevelNavigatorView = ng.core
   .Component({
     selector: 'level-navigator',
     template: `
-    <li *ngFor="#levelNumber of levelNumbers">
-      <a *ngIf="hasReached(levelNumber)" href="./index.html?l={{levelNumber}}">
-        Level {{levelNumber}}
-      </a>
-      <span *ngIf="!hasReached(levelNumber)">
-        Level {{levelNumber}}
-      </span>
-    </li>
+    <h2>Current Level: Level {{currentLevelNumber}}</h2>
+    <ul role="navigation" class="musicGameNavigation">
+      <li *ngFor="#levelNumber of levelNumbers">
+        <a *ngIf="hasReached(levelNumber)" href="./index.html?l={{levelNumber}}">
+          Level {{levelNumber}}
+        </a>
+        <span *ngIf="!hasReached(levelNumber)">
+          Level {{levelNumber}}
+        </span>
+      </li>
+    </ul>
     `,
   })
   .Class({
@@ -137,7 +140,7 @@ musicGame.LevelManagerView = ng.core
   .Component({
     selector: 'levelview',
     template: `
-    <h3>Instructions: Level {{level}}</h3>
+    <h3>Instructions</h3>
     <p *ngFor="#para of instructions">{{para}}</p>
     <h2 *ngIf="hints">Hints</h2>
     <p *ngFor="#para of hints">{{para}}</p>
