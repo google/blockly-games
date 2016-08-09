@@ -140,11 +140,13 @@ musicGame.LevelManagerView = ng.core
   .Component({
     selector: 'levelview',
     template: `
-    <h3>Instructions</h3>
-    <p *ngFor="#para of instructions">{{para}}</p>
-    <h2 *ngIf="hints">Hints</h2>
-    <p *ngFor="#para of hints">{{para}}</p>
-    <blockly-app></blockly-app>
+    <div role="main">
+      <h3>Instructions</h3>
+      <p *ngFor="#para of instructions">{{para}}</p>
+      <h3 *ngIf="hints">Hints</h3>
+      <p *ngFor="#para of hints">{{para}}</p>
+      <blockly-app></blockly-app>
+    </div>
     `,
     directives: [blocklyApp.AppView],
   })
