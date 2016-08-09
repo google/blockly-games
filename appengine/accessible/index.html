@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <title>Screen Reader Accessible Blockly Game</title>
 
     <!-- Load Blockly -->
@@ -42,21 +42,34 @@
 
     <style>
       body {
-        background-color: #e5ffff;
         font-family: sans-serif;
       }
-      h1 {
+      h1, h2 {
         font-weight: normal;
+      }
+      h1 {
         font-size: 140%;
       }
-
-      textarea {
-        width: 100%;
-        height: 20em;
+      h2 {
+        font-size: 120%;
       }
     </style>
   </head>
   <body>
+    <h1>Blockly Games: Music</h1>
+
+    <div style="float: right;">
+      <a href="./help.html">
+        Learn more...
+      </a>
+    </div>
+
+    <h2>Current Level: Level 1</h2>
+
+    <ul role="navigation">
+      <level-navigator></level-navigator>
+    </ul>
+
     <levelview></levelview>
 
     <script src="js/levelmanager.component.js"></script>
@@ -64,6 +77,7 @@
       // Start up the angular app.
       document.addEventListener('DOMContentLoaded', function() {
         ng.platform.browser.bootstrap(musicGame.LevelManagerView);
+        ng.platform.browser.bootstrap(musicGame.LevelNavigatorView);
       });
 
       var musicPlayer = new MusicPlayer();
