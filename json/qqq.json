@@ -78,8 +78,8 @@
 	"Maze.moveForward": "block text - Imperative or infinitive of a verb for a person moving (walking) in the direction he/she is facing.",
 	"Maze.turnLeft": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Imperative or infinitive of a verb for a person turning his head and body one quarter rotation counter-clockwise.  Prefer a translation that has text in common with the translation of 'turn right'.  See [[Translating:Blockly#Drop-Down_Menus]].",
 	"Maze.turnRight": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Imperative or infinitive of a verb for a person turning his head and body one quarter rotation clockwise.  Prefer a translation that has text in common with the translation of 'turn left'.  See [[Translating:Blockly#Drop-Down_Menus]].",
-	"Maze.doCode": "block text - Imperative or infinitive of a verb preceding one or more commands to a person.  This is part of [https://github.com/google/blockly/wiki/Loops#repeat repeat] and [https://github.com/google/blockly/wiki/IfElse#If_blocks if] blocks.",
-	"Maze.elseCode": "block text - Conjunction meaning 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'.  See [https://github.com/google/blockly/wiki/IfElse#If-Else_blocks].",
+	"Maze.doCode": "block text - Imperative or infinitive of a verb preceding one or more commands to a person.  This is part of [https://github.com/google/blockly/wiki/Loops#repeat repeat] and [https://github.com/google/blockly/wiki/IfElse#If_blocks if] blocks.\n{{Identical|Do}}",
+	"Maze.elseCode": "block text - Conjunction meaning 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'.  See [https://github.com/google/blockly/wiki/IfElse#If-Else_blocks].\n{{Identical|Else}}",
 	"Maze.helpIfElse": "callout - This is shown when the 'if-else' block is introduced.  For 'if-else' concatenate the words for 'if' and 'else/otherwise'.",
 	"Maze.pathAhead": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'.  Prefer translation that has text in common with 'if path to the left' and 'if path to the right'.",
 	"Maze.pathLeft": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path to the left', as in: 'if path to the left, turn left'.",
@@ -229,5 +229,5 @@
 	"Pond.rookName": "Name for a player that behaves like a rook (castle) in chess.\n{{Identical|Rook}}",
 	"Pond.sniperName": "Name for a player that hides in a corner and shoots.\n{{Identical|Sniper}}",
 	"Games.breakLink": "Warning dialog. Options are 'OK' and 'Cancel'.",
-	"Games.blocks": "Label on a tab that contains blocks editor.\n{{Identical|Blocks}}"
+	"Games.blocks": "Label on a tab that contains blocks editor.\n{{Identical|Block}}"
 }
