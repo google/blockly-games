@@ -28,32 +28,34 @@ musicGame.gameManager.levelInstructions = {};
 musicGame.gameManager.levelHints = {};
 musicGame.gameManager.expectedPlayerLines = {};
 musicGame.gameManager.levelInstructions[1] = [
-    `Let us start by navigating to the toolbox and copying the 'play note C3'
-    block onto the workspace.`];
+    'Play a single note, C3.'];
 musicGame.gameManager.levelInstructions[2] = [
-    `Play the G3 note.`];
+    'Play a single note, G3.'];
 musicGame.gameManager.levelInstructions[3] = [
-    `Play 2 G3 notes. Make sure the blocks are connected to each other.`
-    ];
-musicGame.gameManager.levelHints[3] = [`Each list in the workspace is a set of connected blocks. So if you have two blocks,
-    each item number 1 of its own list, then those blocks are not connected.
-    If you have two blocks, one item 1 of a list and one item 2 of a list, then they are connected.`,
-    `Try to make use of the 'copy to Blockly clipboard' and 'paste above'/'paste below' options in the block menus.`];
-musicGame.gameManager.expectedPlayerLines[1] = [
-      [[36], 1],
-    ];
-musicGame.gameManager.expectedPlayerLines[2] = [
-      [[43], 1],
-    ];
+    'Play C3, then E3, then G3. Make sure the blocks are connected to each ' +
+    'other.'];
+musicGame.gameManager.levelHints[1] = [
+    'You can start by navigating to the toolbox, finding the "play note" ' +
+    'block, and copying it to the workspace.'];
+musicGame.gameManager.levelHints[2] = [
+    'Create a "play note" block, then change the pitch of the note that it ' +
+    'plays.'];
+musicGame.gameManager.levelHints[3] = [
+    'Each workspace component is a set of connected blocks. You need to ' +
+    'three blocks into a single component. You can join blocks together by ' +
+    'copying and pasting, or by marking a spot and then moving a block to it.'];
+musicGame.gameManager.expectedPlayerLines[1] = [[[36], 1]];
+musicGame.gameManager.expectedPlayerLines[2] = [[[43], 1]];
 musicGame.gameManager.expectedPlayerLines[3] = [
-      [[43], 1],
-      [[43], 1]
-    ];
+    [[36], 1],
+    [[40], 1],
+    [[43], 1]
+];
 musicGame.gameManager.expectedBlockType = [undefined, 'music_play_note',
    'music_play_note', 'music_play_note'];
-musicGame.gameManager.levelToolboxes=['', 'level1_ToolboxXml.xml',
+musicGame.gameManager.levelToolboxes = ['', 'level1_ToolboxXml.xml',
   'level1_ToolboxXml.xml', 'level1_ToolboxXml.xml'];
-musicGame.gameManager.maxLevelAllowed=1;
+musicGame.gameManager.maxLevelAllowed = 1;
 
 musicGame.gameManager.validateLevel = function(){
   var correct = true;
