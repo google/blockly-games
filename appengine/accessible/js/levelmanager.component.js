@@ -28,11 +28,11 @@ musicGame.gameManager.levelInstructions = {};
 musicGame.gameManager.levelHints = {};
 musicGame.gameManager.expectedPlayerLines = {};
 musicGame.gameManager.levelInstructions[1] = [
-    'Play a single note, C3.'];
+    'Play a single note, C4.'];
 musicGame.gameManager.levelInstructions[2] = [
-    'Play a single note, G3.'];
+    'Play a single note, G4.'];
 musicGame.gameManager.levelInstructions[3] = [
-    'Play C3, then E3, then G3. Make sure the blocks are connected to each ' +
+    'Play C4, then E4, then G4. Make sure the blocks are connected to each ' +
     'other.'];
 musicGame.gameManager.levelHints[1] = [
     'You can start by navigating to the toolbox, finding the "play note" ' +
@@ -44,12 +44,12 @@ musicGame.gameManager.levelHints[3] = [
     'Each workspace component is a set of connected blocks. You need to ' +
     'three blocks into a single component. You can join blocks together by ' +
     'copying and pasting, or by marking a spot and then moving a block to it.'];
-musicGame.gameManager.expectedPlayerLines[1] = [[[36], 1]];
-musicGame.gameManager.expectedPlayerLines[2] = [[[43], 1]];
+musicGame.gameManager.expectedPlayerLines[1] = [[[48], 1]];
+musicGame.gameManager.expectedPlayerLines[2] = [[[55], 1]];
 musicGame.gameManager.expectedPlayerLines[3] = [
-    [[36], 1],
-    [[40], 1],
-    [[43], 1]
+    [[48], 1],
+    [[52], 1],
+    [[55], 1]
 ];
 musicGame.gameManager.expectedBlockType = [undefined, 'music_play_note',
    'music_play_note', 'music_play_note'];
@@ -106,6 +106,16 @@ musicGame.gameManager.validateLevel = function(){
   if (correct) {
     alert('Good job! You completed the level!');
     musicGame.gameManager.maxLevelAllowed = Math.min(musicGame.gameManager.maxLevelAllowed + 1, 3);
+
+    var newUrl = window.location.href;
+    if (newUrl.lastIndexOf('?') + 4 === newUrl.length) {
+      newUrl = newUrl.substring(0, newUrl.length - 1) +
+        Number(musicGame.gameManager.maxLevelAllowed);
+    } else {
+      newUrl += '?l=' + Number(musicGame.gameManager.maxLevelAllowed);
+    }
+
+    window.location = newUrl;
   } else {
     alert(errorMessage);
   }
@@ -131,7 +141,13 @@ musicGame.LevelNavigatorView = ng.core
   .Class({
     constructor: [function() {
       this.levelNumbers = Object.keys(musicGame.gameManager.levelInstructions);
-      this.currentLevelNumber = location.search.split('l=')[1] || '1';
+
+      this.currentLevelNumber = '1';
+      var levelNumberFromUrl = location.search.split('l=')[1];
+      if (['1', '2', '3'].indexOf(levelNumberFromUrl) !== -1) {
+        this.currentLevelNumber = levelNumberFromUrl;
+      }
+      musicGame.gameManager.maxLevelAllowed = Number(this.currentLevelNumber);
     }],
     hasReached: function(levelNumber) {
       return Number(levelNumber) <= Number(this.currentLevelNumber);
