@@ -27,23 +27,18 @@ musicGame.gameManager.level = 1;
 musicGame.gameManager.levelInstructions = {};
 musicGame.gameManager.levelHints = {};
 musicGame.gameManager.expectedPlayerLines = {};
-musicGame.gameManager.levelInstructions[1] = [
-    'Play a single note, C4.'];
-musicGame.gameManager.levelInstructions[2] = [
-    'Play a single note, G4.'];
-musicGame.gameManager.levelInstructions[3] = [
-    'Play C4, then E4, then G4. Make sure the blocks are connected to each ' +
-    'other.'];
+musicGame.gameManager.levelInstructions[1] = ['Play the note, C4.'];
+musicGame.gameManager.levelInstructions[2] = ['Play the note, G4.'];
+musicGame.gameManager.levelInstructions[3] = ['Play C4, then E4, then G4.'];
 musicGame.gameManager.levelHints[1] = [
-    'You can start by navigating to the toolbox, finding the "play note" ' +
-    'block, and copying it to the workspace.'];
+    'Start by going to the toolbox and finding the block called "play note". ' +
+    'Then, copy it to the workspace.'];
 musicGame.gameManager.levelHints[2] = [
-    'Create a "play note" block, then change the pitch of the note that it ' +
-    'plays.'];
+    'Put a "play note" block in the workspace, then change the value to G4.'];
 musicGame.gameManager.levelHints[3] = [
-    'Each workspace component is a set of connected blocks. You need to ' +
-    'three blocks into a single component. You can join blocks together by ' +
-    'copying and pasting, or by marking a spot and then moving a block to it.'];
+    'Make sure the blocks are connected to each other. You can connect ' +
+    'blocks by copying and pasting them from the workspace, or by marking a ' +
+    'spot in the block, and then copying a new block to that marked spot.'];
 musicGame.gameManager.expectedPlayerLines[1] = [[[48], 1]];
 musicGame.gameManager.expectedPlayerLines[2] = [[[55], 1]];
 musicGame.gameManager.expectedPlayerLines[3] = [
