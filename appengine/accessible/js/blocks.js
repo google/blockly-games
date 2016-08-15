@@ -36,13 +36,6 @@ goog.require('Blockly.JavaScript');
 Music.Blocks.HUE = 20;
 
 Music.Blocks.NOTE_OPTIONS = [
-  ["C3", "36"],
-  ["D3", "38"],
-  ["E3", "40"],
-  ["F3", "41"],
-  ["G3", "43"],
-  ["A3", "45"],
-  ["B3", "47"],
   ["C4", "48"],
   ["D4", "50"],
   ["E4", "52"],
