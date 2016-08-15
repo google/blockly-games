@@ -10,7 +10,8 @@
 			"Macofe",
 			"Sucsuzz",
 			"Gurkanht",
-			"HakanIST"
+			"HakanIST",
+			"Kumkumuk"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -19,6 +20,7 @@
 	"Games.bird": "Kuş",
 	"Games.turtle": "Kaplumbağa",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Eğitim havuzu",
 	"Games.pond": "Gölet",
 	"Games.linesOfCode1": "Bu seviyeyi 1 satır JavaScript ile çözdünüz:",
 	"Games.linesOfCode2": "Bu seviyeyi %1 satır JavaScript ile çözdünüz:",
@@ -232,5 +234,6 @@
 	"Pond.counterName": "Sayaç",
 	"Pond.rookName": "Kale",
 	"Pond.sniperName": "Sniper",
+	"Games.breakLink": "Öncelikle javaScipti düzenleyemerek başlayın, blokları düzenlemeye dönemeyebilirsiniz. Ilur mu?",
 	"Games.blocks": "Bloklar"
 }
