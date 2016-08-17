@@ -15,25 +15,17 @@
   position: relative;
 }
 
-#display {
-  border: 1px solid #ddd;
-  vertical-align: bottom;
-  width: 400px;
-  height: 400px;
-  position: absolute;
-}
-
 .vizTabContent {
+  position: relative;
+  border: 1px solid #ddd;
   width: 400px;
   height: 400px;
 }
 
 #charts {
-  position: absolute;
-  width: 400px;
-  height: 400px;
   overflow-x: hidden;
   overflow-y: auto;
+  resize: vertical;
 }
 
 #tabarea {
