@@ -171,7 +171,6 @@ Genetics.Cage.doneCallback_ = null;
  * Stop and reset the cage.
  */
 Genetics.Cage.reset = function() {
-  clearTimeout(Genetics.Cage.pid);
   Genetics.Cage.EVENTS.length = 0;
   Genetics.Cage.aliveMice_.length = 0;
   Genetics.Cage.miceMap_ = {};

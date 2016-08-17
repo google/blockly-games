@@ -197,13 +197,13 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
 };
 
 /**
- * Block for 'for' loop.
+ * Initialization for 'for' loop Block.
  * @this Blockly.Block
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
     // TODO(kozbial) Set "?" to %1 variable name.
-    "message0": "for (%1 = %2;  ? < %3;  ? += 1) { %4 %5 }",
+    "message0": "for (%1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
     "args0": [
       {
         "type": "field_variable",
@@ -217,10 +217,20 @@ Blockly.Blocks['controls_for'].init = function() {
         "align": "RIGHT"
       },
       {
+        "type": "field_label",
+        "name": "VAR1",
+        "text": '?'
+      },
+      {
         "type": "input_value",
         "name": "TO",
         "check": "Number",
         "align": "RIGHT"
+      },
+      {
+        "type": "field_label",
+        "name": "VAR2",
+        "text": "?"
       },
       {
         "type": "input_dummy"
@@ -244,6 +254,16 @@ Blockly.Blocks['controls_for'].init = function() {
     return Blockly.Msg.CONTROLS_FOR_TOOLTIP.replace('%1',
         thisBlock.getFieldValue('VAR'));
   });
+};
+
+/**
+ * E for 'for' loop.
+ * @this Blockly.Block
+ */
+Blockly.Blocks['controls_for'].onchange = function(e) {
+  var varName = this.getFieldValue('VAR');
+  this.setFieldValue(varName, 'VAR1');
+  this.setFieldValue(varName, 'VAR2');
 };
 
 Blockly.JavaScript['controls_for'] = function(block) {
