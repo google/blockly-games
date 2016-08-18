@@ -47,12 +47,12 @@ musicGame.AppView = ng.core
     </div>
 
     <xml id="blockly-toolbox-xml" style="display: none">
-      <category name="Music">
+      <category name="Music" *ngIf="musicBlockTypes.length > 0">
         <block *ngFor="#blockType of musicBlockTypes"
                [attr.type]="blockType">
         </block>
       </category>
-      <category name="Loops">
+      <category name="Loops" *ngIf="loopsBlockTypes.length > 0">
         <block *ngFor="#blockType of loopsBlockTypes"
                [attr.type]="blockType">
         </block>

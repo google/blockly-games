@@ -85,6 +85,11 @@ musicGame.LevelManagerService = ng.core
       }
 
       if (correct) {
+        if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
+          alert('Congratulations, you have finished the tutorial!');
+          return;
+        }
+
         alert('Good job! You completed the level!');
 
         var newUrl = window.location.href;
