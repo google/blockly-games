@@ -25,6 +25,7 @@
 #charts {
   overflow-x: hidden;
   overflow-y: auto;
+  max-height: 808px;
   resize: vertical;
 }
 
