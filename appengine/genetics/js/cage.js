@@ -473,7 +473,7 @@ Genetics.Cage.isAlive = function(mouse) {
 Genetics.Cage.checkForEnd = function() {
   // Check if there are no mice left.
   if (Genetics.Cage.aliveMice_.length == 0) {
-    Genetics.Cage.end('NONE_LEFT');
+    Genetics.Cage.end('ONE_LEFT');
     return;
   }
   // Check which genes have won.
