@@ -83,21 +83,12 @@ Blockly.Blocks['music_play_note'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.jsonInit({
-      "message0": "play %1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PITCH",
-          "options": Music.Blocks.NOTE_OPTIONS
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Music.Blocks.HUE,
-      "tooltip": MUSIC_DUMMY_TOOLTIP,
-      "helpUrl": MUSIC_DUMMY_HELPURL
-    });
+    this.appendDummyInput().appendField("play");
+    this.appendDummyInput().appendField(
+        new Blockly.FieldDropdown(Music.Blocks.NOTE_OPTIONS), "PITCH");
+    this.setColour(Music.Blocks.HUE);
+    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
+    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   }
 };
 

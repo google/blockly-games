@@ -82,7 +82,10 @@
     ],
     expectedBlockTypes: ['music_play_note_with_duration'],
     allowedBlockTypes: ['music_play_note_with_duration'],
-    hints: [],
+    hints: [
+        'You can change the duration by navigating to the input field and ' +
+        'pressing Enter. After entering it, press the Escape key.'
+    ],
     beatsPerMinute: 80,
     accompaniment: null
   }, {
@@ -99,7 +102,9 @@
     ],
     expectedBlockTypes: ['music_play_note', 'controls_repeat'],
     allowedBlockTypes: ['music_play_note', 'controls_repeat'],
-    hints: [],
+    hints: [
+        'You can do this with only two blocks, by using a repeat block.'
+    ],
     beatsPerMinute: 80,
     accompaniment: null
   }],
