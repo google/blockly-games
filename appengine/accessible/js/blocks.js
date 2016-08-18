@@ -86,6 +86,8 @@ Blockly.Blocks['music_play_note'] = {
     this.appendDummyInput().appendField("play");
     this.appendDummyInput().appendField(
         new Blockly.FieldDropdown(Music.Blocks.NOTE_OPTIONS), "PITCH");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
     this.setTooltip(MUSIC_DUMMY_TOOLTIP);
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
@@ -118,6 +120,8 @@ Blockly.Blocks['music_play_note_with_duration'] = {
             ["3/4", "0.75"]
         ]), "DURATION");
     this.appendDummyInput().appendField("beat(s)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
     this.setTooltip(MUSIC_DUMMY_TOOLTIP);
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
