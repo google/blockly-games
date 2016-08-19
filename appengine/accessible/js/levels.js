@@ -77,7 +77,7 @@
            chords[1].midiPitches[0] != 52 ||
            chords[2].midiPitches[0] != 55)) {
         return 'Not quite. Are you playing the right notes?';
-      } else if (chords.length < 3) {
+      } else if (chords.length != 3) {
         return (
             'Not quite. Are you using the right number of blocks? They need ' +
             'to be connected to each other.');
@@ -99,7 +99,8 @@
       [[55], 2]
     ],
     getTargetedFeedback: function(chords) {
-      if (chords.length == 1 && chords[0].midiPitches[0] == 55) {
+      if (chords.length == 1 && chords[0].midiPitches[0] == 55 &&
+          chords[0].durationInBeats != 2) {
         return 'Remember to change the duration to 2 beats.';
       }
     },
