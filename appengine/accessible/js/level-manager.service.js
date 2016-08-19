@@ -75,15 +75,8 @@ musicGame.LevelManagerService = ng.core
       var expectedPlayerLine = new MusicLine();
       expectedPlayerLine.setFromChordsAndDurations(
           currentLevelData.expectedLine);
+
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
-
-      var errorMessage = 'Not quite! Try again!';
-      var errorMessageChanged = false;
-      if (!correct && !errorMessageChanged) {
-        errorMessage = 'Not quite! Are you playing the right note?'
-        errorMessageChanged = true;
-      }
-
       if (correct) {
         if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
           alert('Congratulations, you have finished the tutorial!');
@@ -102,6 +95,10 @@ musicGame.LevelManagerService = ng.core
 
         window.location = newUrl;
       } else {
+        var playerChords = musicPlayer.getPlayerChords();
+        var errorMessage = (
+          currentLevelData.getTargetedFeedback(playerChords) ||
+          'Not quite! Are you playing the right note?')
         alert(errorMessage);
       }
     }

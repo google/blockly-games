@@ -204,6 +204,10 @@ MusicPlayer.prototype.addPlayerChord = function(midiPitches, durationInBeats) {
   this.lines_[CONSTANTS.LINE_PLAYER].addChord(midiPitches, durationInBeats);
 };
 
+MusicPlayer.prototype.getPlayerChords = function() {
+  return this.lines_[CONSTANTS.LINE_PLAYER].chords_;
+};
+
 MusicPlayer.prototype.playPlayerLine = function(
     beatsPerMinute, onFinishPlayerLineCallback) {
   this.playLines_(

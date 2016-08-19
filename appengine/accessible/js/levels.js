@@ -37,6 +37,7 @@
     expectedLine: [
       [[48], 1]
     ],
+    getTargetedFeedback: function() {},
     allowedBlockTypes: ['music_play_note'],
     hints: [
         'Start by going to the toolbox and finding the block called ' +
@@ -50,6 +51,11 @@
     expectedLine: [
       [[55], 1]
     ],
+    getTargetedFeedback: function(chords) {
+      if (chords.length == 1 && chords[0].midiPitches[0] == 48) {
+        return 'Not quite. Did you change C4 to the correct note?';
+      }
+    },
     allowedBlockTypes: ['music_play_note'],
     hints: [
         'Put a "play note" block in the workspace, then change the value ' +
@@ -65,6 +71,18 @@
       [[52], 1],
       [[55], 1]
     ],
+    getTargetedFeedback: function(chords) {
+      if (chords.length == 3 &&
+          (chords[0].midiPitches[0] != 48 ||
+           chords[1].midiPitches[0] != 52 ||
+           chords[2].midiPitches[0] != 55)) {
+        return 'Not quite. Are you playing the right notes?';
+      } else if (chords.length < 3) {
+        return (
+            'Not quite. Are you using the right number of blocks? They need ' +
+            'to be connected to each other.');
+      }
+    },
     expectedBlockTypes: ['music_play_note'],
     allowedBlockTypes: ['music_play_note'],
     hints: [
@@ -80,6 +98,11 @@
     expectedLine: [
       [[55], 2]
     ],
+    getTargetedFeedback: function(chords) {
+      if (chords.length == 1 && chords[0].midiPitches[0] == 55) {
+        return 'Remember to change the duration to 2 beats.';
+      }
+    },
     expectedBlockTypes: ['music_play_note_with_duration'],
     allowedBlockTypes: ['music_play_note_with_duration'],
     hints: [
@@ -100,6 +123,11 @@
       [[48], 1],
       [[48], 1]
     ],
+    getTargetedFeedback: function(chords) {
+      if (chords.length != 8) {
+        return 'Not quite! Are you playing the right number of notes?';
+      }
+    },
     expectedBlockTypes: ['music_play_note', 'loops_repeat'],
     allowedBlockTypes: ['music_play_note', 'loops_repeat'],
     hints: [
