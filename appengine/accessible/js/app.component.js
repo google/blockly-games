@@ -79,7 +79,7 @@ musicGame.AppView = ng.core
       levelManagerService.getAllowedBlockTypes().forEach(function(blockType) {
         if (blockType.indexOf('music_') == 0) {
           that.musicBlockTypes.push(blockType);
-        } else if (blockType.indexOf('controls_') == 0) {
+        } else if (blockType.indexOf('loops_') == 0) {
           that.loopsBlockTypes.push(blockType);
         } else {
           throw Error('Unknown block type: ' + blockType);

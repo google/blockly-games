@@ -135,3 +135,28 @@ Blockly.JavaScript['music_play_note_with_duration'] = function(block) {
       block.getFieldValue('DURATION') + ');\n';
   return code;
 };
+
+// We declare a different block here because the one in core Blockly does not
+// split up different fields well.
+Blockly.Blocks['loops_repeat']= {
+  /**
+   * Block for repeat n times (internal number).
+   */
+  init: function() {
+    this.appendDummyInput().appendField('repeat');
+    this.appendDummyInput().appendField(
+        new Blockly.FieldNumber('10'), "TIMES");
+    this.appendDummyInput().appendField("times");
+
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Blocks.loops.HUE);
+    this.setTooltip(Blockly.Msg.CONTROLS_REPEAT_TOOLTIP);
+    this.setHelpUrl(Blockly.Msg.CONTROLS_REPEAT_HELPURL);
+
+    this.appendStatementInput('DO')
+        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+  }
+};
+
+Blockly.JavaScript['loops_repeat'] = Blockly.JavaScript['controls_repeat'];

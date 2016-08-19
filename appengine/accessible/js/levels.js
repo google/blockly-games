@@ -100,8 +100,8 @@
       [[48], 1],
       [[48], 1]
     ],
-    expectedBlockTypes: ['music_play_note', 'controls_repeat'],
-    allowedBlockTypes: ['music_play_note', 'controls_repeat'],
+    expectedBlockTypes: ['music_play_note', 'loops_repeat'],
+    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
     hints: [
         'You can do this with only two blocks, by using a repeat block.'
     ],
