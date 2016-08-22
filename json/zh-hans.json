@@ -116,7 +116,7 @@
 	"Maze.helpMenu": "在“if”块中点击$1来改变其条件。",
 	"Maze.helpWallFollow": "您可以解决这个复杂的迷宫吗？试着沿着左边的墙行走。仅限高级程序员！",
 	"Bird.noWorm": "没有蠕虫",
-	"Bird.heading": "标题",
+	"Bird.heading": "飞行方向",
 	"Bird.noWormTooltip": "鸟没有捉到虫子的条件。",
 	"Bird.headingTooltip": "移动到指定角度的方向：0是向右，90则是正上方等。",
 	"Bird.positionTooltip": "横坐标和纵坐标记录鸟的位置。当 x = 0 时鸟靠近左边，当 x = 100 时靠近右边。当 y = 0 时鸟在底部，当 y = 100 时在顶部。",
