@@ -43,7 +43,6 @@
         'Start by going to the toolbox and finding the block called ' +
         '"play note". Then, copy it to the workspace.'
     ],
-    expectedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     accompaniment: null
   }, {
@@ -61,7 +60,6 @@
         'Put a "play note" block in the workspace, then change the value ' +
         'to G4.'
     ],
-    expectedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     accompaniment: null
   }, {
@@ -83,7 +81,6 @@
             'to be connected to each other.');
       }
     },
-    expectedBlockTypes: ['music_play_note'],
     allowedBlockTypes: ['music_play_note'],
     hints: [
         'Make sure the blocks are connected to each other. You can connect ' +
@@ -104,7 +101,6 @@
         return 'Remember to change the duration to 2 beats.';
       }
     },
-    expectedBlockTypes: ['music_play_note_with_duration'],
     allowedBlockTypes: ['music_play_note_with_duration'],
     hints: [
         'You can change the duration by navigating to the input field and ' +
@@ -129,7 +125,6 @@
         return 'Not quite! Are you playing the right number of notes?';
       }
     },
-    expectedBlockTypes: ['music_play_note', 'loops_repeat'],
     allowedBlockTypes: ['music_play_note', 'loops_repeat'],
     hints: [
         'You can do this with only two blocks, by using a repeat block.'

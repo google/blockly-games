@@ -70,8 +70,14 @@ musicGame.LevelManagerService = ng.core
       return this.levelSet_[this.currentLevelNumber_];
     },
     gradeCurrentLevel: function() {
-      var currentLevelData = this.getCurrentLevelData();
+      if (blocklyApp.workspace.topBlocks_.length > 1) {
+        alert(
+            'Not quite! Make sure all your blocks are connected to each ' +
+            'other.');
+        return;
+      }
 
+      var currentLevelData = this.getCurrentLevelData();
       var expectedPlayerLine = new MusicLine();
       expectedPlayerLine.setFromChordsAndDurations(
           currentLevelData.expectedLine);
