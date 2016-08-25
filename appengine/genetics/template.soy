@@ -41,6 +41,27 @@
 {/template}
 
 /**
+ * Game elements used for visualization.
+ */
+{template .gameElementTemplates}
+</style>
+<div id="gameElements" style="display:none;">
+  <div id="dust" class="dust gameElement">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <p class="star1">&#9734;</p>
+    <p class="star2">&#9734;</p>
+    <p class="star3">&#9734;</p>
+    <p class="star4">&#9734;</p>
+  </div>
+  <div id="heart" class="gameElement">
+    <!-- Heart defined in inner div because it is rotated. -->
+    <div class="heart"></div>
+  </div>
+</div>
+{/template}
+
+/**
  * Canvas, statistic graphs, and buttons.
  */
 {template .visualization}
@@ -50,12 +71,15 @@
       <div class="goog-tab">Charts</div>
     </div>
     <div class="goog-tab-bar-clear"></div>
-    <div id="display" class="vizTabContent"></div>
-    <div id="charts" class="vizTabContent">
-      <div id="populationChart"></div>
-      <div id="pickFightChart"></div>
-      <div id="proposeMateChart"></div>
-      <div id="acceptMateChart"></div>
+    {call .gameElementTemplates /}
+    <div class="vizTabContent">
+      <div id="display"></div>
+      <div id="charts">
+        <div id="populationChart"></div>
+        <div id="pickFightChart"></div>
+        <div id="proposeMateChart"></div>
+        <div id="acceptMateChart"></div>
+      </div>
     </div>
   </div>
 

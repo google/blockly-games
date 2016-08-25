@@ -15,16 +15,27 @@
   position: relative;
 }
 
+#display {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: #ccc;
+  overflow: hidden;
+  z-index: -1;
+}
+
 .vizTabContent {
   position: relative;
   border: 1px solid #ddd;
   width: 400px;
   height: 400px;
+  min-height: 400px;
 }
 
 #charts {
   overflow-x: hidden;
   overflow-y: auto;
+  height: 400px;
   max-height: 808px;
   resize: vertical;
 }
@@ -33,24 +44,237 @@
   position: fixed !important;
 }
 
-.mouse {
-  position: absolute;
-  background-color: red;
-  width: 20px;
-  height: 20px;
-}
-
-@keyframes heart-beat {
-  0% {
-    transform: scale(0, 1);
+@keyframes bounceIn{
+  0%{
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50%{
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+  80%{
+    opacity: 1;
+    transform: scale(0.89);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
-.heart {
-  animation-duration: 2s;
-  animation-name: heart-beat;
+@keyframes fadeOut {
+  from {opacity:1;}
+  to {opacity:0;}
 }
 
+.mouse {
+  position: absolute;
+}
+
+.deadMouse {
+
+}
+
+.tooltip {
+  font-size: 12px;
+}
+
+
+@keyframes antiClockwiseSpin {
+  0%  {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes clockwiseSpin {
+  0%  {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dust {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  opacity:1;
+  animation: fadeIn 1500ms ease-out;
+  animation-iteration-count: 1;
+}
+
+.cloud1 {
+  animation: clockwiseSpin 4s infinite linear;
+}
+
+.cloud2 {
+  animation: antiClockwiseSpin 4s infinite linear;
+}
+
+.cloud {
+  position: absolute;
+  width: 50px;
+  height: 30px;
+  top: 10px;
+  background: #dde7ee;
+  border-radius: 50%;
+  opacity: .6;
+}
+
+.cloud:before, .cloud:after {
+  content: '';
+  position: absolute;
+  top: -10px; left: 13px;
+  width: 24px;
+  height: 50px;
+  border-radius: 50%;
+  background: #dde7ee;
+}
+
+.cloud:before {
+  transform: rotate(30deg);
+}
+
+.cloud:after {
+  transform: rotate(-30deg);
+}
+
+.heart {
+  position: absolute;
+  height: 30px;
+  transform: rotate(-45deg);
+  width: 30px;
+}
+
+.heart:before,
+.heart:after {
+  content: "";
+  border-radius: 50%;
+  height: 30px;
+  position: absolute;
+  width: 30px;
+}
+
+.heart:before {
+  top: -15px;
+  left: 0;
+}
+
+.heart:after {
+  left: 15px;
+  top: 0;
+}
+
+.heart-success,
+.heart-success:before,
+.heart-success:after {
+  background: red;
+}
+
+.heart-infertile,
+.heart-infertile:before,
+.heart-infertile:after {
+  background: gray;
+}
+
+.heart-incompatible {
+  background: linear-gradient(to bottom left, orangered, yellow, green, blue, indigo);
+}
+.heart-incompatible:before,
+.heart-incompatible:after {
+  background: linear-gradient(to bottom left, red, orangered, yellow, green, blue);
+}
+
+@keyframes flyRight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(180deg);
+    transform-origin: 15px 5px;
+    opacity: 0;
+  }
+}
+@keyframes flyLeft {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-180deg);
+    transform-origin: -15px 5px;
+    opacity: 0;
+  }
+}
+
+.star1, .star2, .star3, .star4 {
+  position:absolute;
+  font-size: 6px;
+  opacity: 0;
+}
+
+.star1 {
+  animation: flyRight 500ms ease-in-out;
+  top: 3px; left: 26px;
+}
+
+.star2 {
+  animation: flyLeft 500ms ease-in-out;
+  top: 11px; left: 18px;
+  animation-delay: 250ms
+}
+
+.star3 {
+  animation: flyRight 500ms ease-in-out;
+  top: 11px; left: 26px;
+  animation-delay: 500ms
+}
+
+.star4 {
+  animation: flyLeft 500ms ease-in-out;
+  top: 3px; left: 18px;
+  animation-delay: 1s
+}
+
+@keyframes fadeInOut {
+  0% {opacity:0;}
+  20% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0;}
+}
+
+@keyframes fadeIn {
+  0% {opacity:0.5;}
+  100% {opacity:1;}
+}
+
+.gameElement {
+  position: absolute;
+}
+
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.close {
+  background-position: -21px 0px;
+}
+.link {
+  background-position: 0px 0px;
+}
+.run {
+  background-position: 0px -21px;
+}
+.stop {
+  background-position: -21px -21px;
+}
 
 /*
  * Copyright 2008 The Closure Library Authors. All Rights Reserved.

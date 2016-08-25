@@ -32,7 +32,7 @@ goog.require('Genetics.Mouse');
  * The maximum population in a cage.
  * @type {number}
  */
-Genetics.Cage.MAX_POPULATION = 10;
+Genetics.Cage.MAX_POPULATION = 50;
 
 /**
  * The number of mice added to the cage for each player at the start of the
@@ -47,9 +47,11 @@ Genetics.Cage.START_MICE_PER_PLAYER = 2;
  */
 Genetics.Cage.HEADLESS = false;
 
+Genetics.Cage.TEMPO = 50;
+
 /**
- * Mapping of player ID to array with player name and code.
- * @type {!Object.<number, Array.<string>>}
+ * Mapping of player ID to object with player name and code.
+ * @type {!Object.<number, !Object.<>>}
  */
 Genetics.Cage.players = {};
 
@@ -85,7 +87,7 @@ Genetics.Cage.EVENTS = [];
  * @type {Object.<string, Array.<string>>}
  */
 Genetics.Cage.EVENT_PROPERTY_NAMES = {
-  'ADD': ['TYPE', 'MOUSE', 'PLAYER_NAME'],
+  'ADD': ['TYPE', 'MOUSE'],
   'START_GAME': [],
   'FIGHT': ['TYPE', 'ID', 'RESULT', 'OPT_OPPONENT'],
   'MATE': ['TYPE', 'ID', 'RESULT', 'OPT_PARTNER', 'OPT_OFFSPRING'],
@@ -190,7 +192,7 @@ Genetics.Cage.reset = function() {
 Genetics.Cage.addPlayer = function(playerName, code) {
   // Assign a unique ID to the player and add to the game.
   var id = Genetics.Cage.nextAvailablePlayerId_++;
-  Genetics.Cage.players[id] = [playerName, code];
+  Genetics.Cage.players[id] = {name: playerName, code: code};
 };
 
 /**
@@ -207,8 +209,7 @@ Genetics.Cage.start = function(doneCallback) {
       var mouseId = Genetics.Cage.nextAvailableMouseId_++;
       var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
       Genetics.Cage.born(mouse);
-      new Genetics.Cage.Event('ADD', goog.object.clone(mouse),
-          Genetics.Cage.players[playerId][0]).addToQueue();
+      new Genetics.Cage.Event('ADD', goog.object.clone(mouse)).addToQueue();
     }
   }
   Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSEC;
@@ -224,7 +225,7 @@ Genetics.Cage.life = function(mouse) {
   // variation in order.
   Genetics.Cage.lifePidsMap_[mouse.id] =
       setTimeout(goog.partial(Genetics.Cage.simulateLife, mouse),
-          10 * Math.random());
+          Genetics.Cage.TEMPO * Math.random());
 };
 
 /**
@@ -232,6 +233,13 @@ Genetics.Cage.life = function(mouse) {
  * @param {!Genetics.Mouse} mouse The mouse to run the simulation for.
  */
 Genetics.Cage.simulateLife = function(mouse) {
+  // Delay execution if there are a lot of events backed up and we're not
+  // running headless.
+  if(Genetics.Cage.EVENTS.length > 20 && !Genetics.Cage.HEADLESS) {
+    Genetics.Cage.life(mouse);
+    return;
+  }
+
   // Remove life from mapping of lives that are queued to run.
   delete Genetics.Cage.lifePidsMap_[mouse.id];
   // Age mouse.
@@ -585,11 +593,11 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunctionName, opt_suitor) {
       playerId = mouse.acceptMateOwner;
       break;
   }
-  var code = Genetics.Cage.players[playerId][1];
+  var code = Genetics.Cage.players[playerId].code;
   if (goog.isFunction(code)) {
     code = code();
   } else if (!goog.isString(code)) {
-    var player = Genetics.Cage.players[playerId][0];
+    var player = Genetics.Cage.players[playerId].name;
     throw 'Player ' + player + ' has invalid code: ' + code;
   }
   var interpreter = new Interpreter(code,
