@@ -27,16 +27,21 @@ musicGame.AppView = ng.core
     selector: 'music-game-app',
     template: `
     <div>
-      <h1>Blockly Games: Music Tutorial</h1>
+      <h1>Blockly Games: {{levelSetName}}</h1>
       <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
       <ul role="navigation" class="musicGameNavigation">
         <li *ngFor="#levelNumber1Indexed of levelNumbers">
-          <a *ngIf="hasReached(levelNumber1Indexed)" href="./index.html?l={{levelNumber1Indexed}}">
+          <a *ngIf="hasReached(levelNumber1Indexed)" href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetId}}">
             Level {{levelNumber1Indexed}}
           </a>
           <span *ngIf="!hasReached(levelNumber1Indexed)">
             Level {{levelNumber1Indexed}}
           </span>
+        </li>
+        <li *ngFor="#levelSetData of otherLevelSetsMetadata">
+          <a href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetData.id}}">
+            {{levelSetData.name}}
+          </a>
         </li>
       </ul>
     </div>
@@ -46,10 +51,7 @@ musicGame.AppView = ng.core
     <div role="main">
       <h3>Instructions</h3>
       <p *ngFor="#para of instructions">{{para}}</p>
-      <p *ngIf="hints.length > 0">
-        Hint: <span *ngFor="#hint of hints">{{hint}}</span>
-      </p>
-
+      <p *ngIf="hint">Hint: {{hint}}</p>
       <hr>
 
       <blockly-app></blockly-app>
@@ -69,13 +71,17 @@ musicGame.AppView = ng.core
     </xml>
     `,
     directives: [blocklyApp.AppView],
-    providers: [musicGame.LevelManagerService]
+    providers: [musicGame.LevelManagerService, musicGame.UtilsService]
   })
   .Class({
     constructor: [
         musicGame.LevelManagerService, function(levelManagerService) {
       var currentLevelData = levelManagerService.getCurrentLevelData();
 
+      this.otherLevelSetsMetadata =
+          levelManagerService.getOtherLevelSetsMetadata();
+      this.levelSetId = levelManagerService.getLevelSetId();
+      this.levelSetName = levelManagerService.getLevelSetName();
       this.currentLevelNumber = levelManagerService.getCurrentLevelNumber();
       this.levelNumbers = [];
       for (var i = 0; i < levelManagerService.getNumberOfLevels(); i++) {
@@ -96,7 +102,7 @@ musicGame.AppView = ng.core
       });
 
       blocklyApp.workspace.clear();
-      this.hints = currentLevelData.hints;
+      this.hint = currentLevelData.hint;
       this.instructions = currentLevelData.htmlInstructions;
     }],
     hasReached: function(levelNumber1Indexed) {

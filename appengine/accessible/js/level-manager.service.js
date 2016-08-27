@@ -22,20 +22,27 @@
  * @author sll@google.com (Sean Lip)
  */
 
-var musicGame = {};
-
 musicGame.LevelManagerService = ng.core
   .Class({
-    constructor: [function() {
-      this.levelSet_ = LEVELS['TUTORIAL'];
+    constructor: [musicGame.UtilsService, function(utilsService) {
+      this.levelSetId_ = utilsService.getStringParamFromUrl(
+          'levelset', 'tutorial');
+
+      this.otherLevelSetsMetadata = [];
+      for (var levelSetId in LEVEL_SETS) {
+        if (levelSetId !== this.levelSetId_) {
+          this.otherLevelSetsMetadata.push({
+            id: levelSetId,
+            name: LEVEL_SETS[levelSetId].name
+          });
+        }
+      }
+
+      this.levelSet_ = LEVEL_SETS[this.levelSetId_].levels;
 
       // Level numbers here are 0-indexed.
-      this.currentLevelNumber_ = 0;
-      var levelNumberFromUrl = Number(location.search.split('l=')[1]);
-      if (levelNumberFromUrl - 1 >= 0 &&
-          levelNumberFromUrl - 1 < this.levelSet_.length) {
-        this.currentLevelNumber_ = levelNumberFromUrl - 1;
-      }
+      var levelNumberFromUrl = utilsService.getStringParamFromUrl('l', '1');
+      this.currentLevelNumber_ = levelNumberFromUrl - 1;
 
       // TODO(sll): Load from local storage.
       this.latestAvailableLevelNumber_ = this.currentLevelNumber_;
@@ -49,6 +56,15 @@ musicGame.LevelManagerService = ng.core
         });
       }
     }],
+    getLevelSetId: function() {
+      return this.levelSetId_;
+    },
+    getLevelSetName: function() {
+      return LEVEL_SETS[this.levelSetId_].name;
+    },
+    getOtherLevelSetsMetadata: function() {
+      return this.otherLevelSetsMetadata;
+    },
     getCurrentLevelNumber: function() {
       return this.currentLevelNumber_;
     },
@@ -91,15 +107,11 @@ musicGame.LevelManagerService = ng.core
 
         alert('Good job! You completed the level!');
 
-        var newUrl = window.location.href;
-        if (newUrl.lastIndexOf('?') + 4 === newUrl.length) {
-          newUrl = newUrl.substring(0, newUrl.length - 1) +
-            Number(this.currentLevelNumber_ + 2);
-        } else {
-          newUrl += '?l=' + Number(this.currentLevelNumber_ + 2);
-        }
-
-        window.location = newUrl;
+        window.location =
+            window.location.protocol + '//' +
+            window.location.host + window.location.pathname +
+            '?l=' + Number(this.currentLevelNumber_ + 2) +
+            '&levelset=' + this.levelSetId_;
       } else {
         var playerChords = musicPlayer.getPlayerChords();
         var errorMessage = (

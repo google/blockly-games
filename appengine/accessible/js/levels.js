@@ -31,22 +31,26 @@
  *     actually used in index.html.
  */
 
- var LEVELS = {
-  TUTORIAL: [{
-    htmlInstructions: ['Play the note C4.'],
+ var LEVEL_SETS = {};
+
+ LEVEL_SETS.tutorial = {
+  name: 'Music Tutorial',
+  levels: [{
+    accompaniment: null,
+    allowedBlockTypes: ['music_play_note'],
+    beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
     ],
     getTargetedFeedback: function() {},
-    allowedBlockTypes: ['music_play_note'],
-    hints: [
+    hint: (
         'Start by going to the toolbox and finding the block called ' +
-        '"play note". Then, copy it to the workspace.'
-    ],
-    beatsPerMinute: 80,
-    accompaniment: null
+        '"play note". Then copy it to the workspace.'),
+    htmlInstructions: ['Play the note C4.']
   }, {
-    htmlInstructions: ['Play the note G4.'],
+    accompaniment: null,
+    allowedBlockTypes: ['music_play_note'],
+    beatsPerMinute: 80,
     expectedLine: [
       [[55], 1]
     ],
@@ -55,15 +59,14 @@
         return 'Not quite. Did you change C4 to the correct note?';
       }
     },
-    allowedBlockTypes: ['music_play_note'],
-    hints: [
+    htmlInstructions: ['Play the note G4.'],
+    hint: (
         'Put a "play note" block in the workspace, then change the value ' +
-        'to G4.'
-    ],
-    beatsPerMinute: 80,
-    accompaniment: null
+        'to G4.')
   }, {
-    htmlInstructions: ['Play C4, then E4, then G4.'],
+    accompaniment: null,
+    allowedBlockTypes: ['music_play_note'],
+    beatsPerMinute: 80,
     expectedLine: [
       [[48], 1],
       [[52], 1],
@@ -81,17 +84,16 @@
             'to be connected to each other.');
       }
     },
-    allowedBlockTypes: ['music_play_note'],
-    hints: [
+    hint: (
         'Make sure the blocks are connected to each other. You can connect ' +
         'blocks by copying and pasting them from the workspace, or by ' +
         'marking a spot in the block, and then copying a new block to that ' +
-        'marked spot.'
-    ],
-    beatsPerMinute: 80,
-    accompaniment: null
+        'marked spot.'),
+    htmlInstructions: ['Play C4, then E4, then G4.']
   }, {
-    htmlInstructions: ['Play G4 for two beats.'],
+    accompaniment: null,
+    allowedBlockTypes: ['music_play_note_with_duration'],
+    beatsPerMinute: 80,
     expectedLine: [
       [[55], 2]
     ],
@@ -101,15 +103,14 @@
         return 'Remember to change the duration to 2 beats.';
       }
     },
-    allowedBlockTypes: ['music_play_note_with_duration'],
-    hints: [
+    hint: (
         'You can change the duration by navigating to the input field and ' +
-        'pressing Enter. After entering it, press the Escape key.'
-    ],
-    beatsPerMinute: 80,
-    accompaniment: null
+        'pressing Enter. After entering it, press the Escape key.'),
+    htmlInstructions: ['Play G4 for two beats.']
   }, {
-    htmlInstructions: ['Play C4 eight times.'],
+    accompaniment: null,
+    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    beatsPerMinute: 80,
     expectedLine: [
       [[48], 1],
       [[48], 1],
@@ -125,15 +126,14 @@
         return 'Not quite! Are you playing the right number of notes?';
       }
     },
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
-    hints: [
-        'You can do this with only two blocks, by using a repeat block.'
-    ],
-    beatsPerMinute: 80,
-    accompaniment: null
-  }],
+    hint: 'You can do this with only two blocks, by using a repeat block.',
+    htmlInstructions: ['Play C4 eight times.']
+  }]
+};
 
-  BEGINNER: [{
+LEVEL_SETS.game1 = {
+  name: 'Music Game',
+  levels: [{
     htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.'],
     expectedLine: [
       [[52], 1],
@@ -446,11 +446,3 @@
     accompaniment: null
   }]
 };
-
-var LEVEL_SETS = [{
-  name: 'Tutorial',
-  levels: LEVELS.TUTORIAL
-}, {
-  name: 'Beginner',
-  levels: LEVELS.BEGINNER
-}];
