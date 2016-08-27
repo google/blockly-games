@@ -114,9 +114,14 @@ musicGame.LevelManagerService = ng.core
             '&levelset=' + this.levelSetId_;
       } else {
         var playerChords = musicPlayer.getPlayerChords();
-        var errorMessage = (
-          currentLevelData.getTargetedFeedback(playerChords) ||
-          'Not quite! Are you playing the right note?')
+        var errorMessage = 'Not quite! Are you playing the right note?';
+        if (currentLevelData.getTargetedFeedback) {
+          var targetedMessage = currentLevelData.getTargetedFeedback(
+              playerChords);
+          if (targetedMessage) {
+            errorMessage = targetedMessage;
+          }
+        }
         alert(errorMessage);
       }
     }

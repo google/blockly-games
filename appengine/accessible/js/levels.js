@@ -158,7 +158,7 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[52], 1]
     ],
-    allowedBlockTypes: ['music_play_note', 'controls_repeat'],
+    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
     beatsPerMinute: 120,
     accompaniment: null
   }, {
@@ -181,7 +181,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 120,
     accompaniment: null
@@ -200,7 +200,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 150,
     accompaniment: null
@@ -226,7 +226,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 150,
     accompaniment: null
@@ -265,7 +265,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 150,
     accompaniment: null
@@ -311,7 +311,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 150,
     accompaniment: null
@@ -394,7 +394,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 150,
     accompaniment: null
@@ -417,7 +417,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 100,
     accompaniment: [
@@ -440,7 +440,7 @@ LEVEL_SETS.game1 = {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
-      'controls_repeat'
+      'loops_repeat'
     ],
     beatsPerMinute: 120,
     accompaniment: null
