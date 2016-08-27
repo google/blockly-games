@@ -26,23 +26,32 @@ musicGame.AppView = ng.core
   .Component({
     selector: 'music-game-app',
     template: `
-    <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
-    <ul role="navigation" class="musicGameNavigation">
-      <li *ngFor="#levelNumber1Indexed of levelNumbers">
-        <a *ngIf="hasReached(levelNumber1Indexed)" href="./index.html?l={{levelNumber1Indexed}}">
-          Level {{levelNumber1Indexed}}
-        </a>
-        <span *ngIf="!hasReached(levelNumber1Indexed)">
-          Level {{levelNumber1Indexed}}
-        </span>
-      </li>
-    </ul>
+    <div>
+      <h1>Blockly Games: Music Tutorial</h1>
+      <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
+      <ul role="navigation" class="musicGameNavigation">
+        <li *ngFor="#levelNumber1Indexed of levelNumbers">
+          <a *ngIf="hasReached(levelNumber1Indexed)" href="./index.html?l={{levelNumber1Indexed}}">
+            Level {{levelNumber1Indexed}}
+          </a>
+          <span *ngIf="!hasReached(levelNumber1Indexed)">
+            Level {{levelNumber1Indexed}}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div style="clear: both;"></div>
 
     <div role="main">
       <h3>Instructions</h3>
       <p *ngFor="#para of instructions">{{para}}</p>
-      <h3 *ngIf="hints.length > 0">Hints</h3>
-      <p *ngFor="#para of hints">{{para}}</p>
+      <p *ngIf="hints.length > 0">
+        Hint: <span *ngFor="#hint of hints">{{hint}}</span>
+      </p>
+
+      <hr>
+
       <blockly-app></blockly-app>
     </div>
 
