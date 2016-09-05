@@ -11,7 +11,8 @@
 			"Sucsuzz",
 			"Gurkanht",
 			"HakanIST",
-			"Kumkumuk"
+			"Kumkumuk",
+			"Ece Alpdeniz"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -234,6 +235,6 @@
 	"Pond.counterName": "Sayaç",
 	"Pond.rookName": "Kale",
 	"Pond.sniperName": "Sniper",
-	"Games.breakLink": "Öncelikle javaScipti düzenleyemerek başlayın, blokları düzenlemeye dönemeyebilirsiniz. Ilur mu?",
+	"Games.breakLink": "Bir kere JavaScripti düzenlemeye başladığınızda,blokları düzenlemeye geri dönemezsiniz.Bu iyi mi?",
 	"Games.blocks": "Bloklar"
 }
