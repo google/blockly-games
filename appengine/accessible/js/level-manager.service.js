@@ -105,7 +105,9 @@ musicGame.LevelManagerService = ng.core
           return;
         }
 
-        alert('Good job! You completed the level!');
+        alert(
+            'Good job! You completed the level! Press Enter to continue to ' +
+            'level ' + (this.currentLevelNumber_ + 2) + '.');
 
         window.location =
             window.location.protocol + '//' +

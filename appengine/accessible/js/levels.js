@@ -45,7 +45,7 @@
     getTargetedFeedback: function() {},
     hint: (
         'Start by going to the toolbox and finding the block called ' +
-        '"play note". Then copy it to the workspace.'),
+        '"play note C4". Then, create a new group with this block.'),
     htmlInstructions: ['Play the note C4.']
   }, {
     accompaniment: null,

@@ -83,8 +83,7 @@ Blockly.Blocks['music_play_note'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.appendDummyInput().appendField("play");
-    this.appendDummyInput().appendField(
+    this.appendDummyInput().appendField("play note").appendField(
         new Blockly.FieldDropdown(Music.Blocks.NOTE_OPTIONS), "PITCH");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -105,21 +104,17 @@ Blockly.Blocks['music_play_note_with_duration'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.appendDummyInput().appendField("play");
-    this.appendDummyInput().appendField(
+    this.appendDummyInput().appendField("play note").appendField(
         new Blockly.FieldDropdown(Music.Blocks.NOTE_OPTIONS), "PITCH");
-    this.appendDummyInput().appendField("for");
-    this.appendDummyInput().appendField(
+    this.appendDummyInput().appendField("for duration").appendField(
         new Blockly.FieldDropdown([
-            ["1", "1"],
-            ["2", "2"],
-            ["3", "3"],
-            ["4", "4"],
-            ["1/2", "0.5"],
-            ["1/4", "0.25"],
-            ["3/4", "0.75"]
-        ]), "DURATION");
-    this.appendDummyInput().appendField("beat(s)");
+            ["1 beat", "1"],
+            ["2 beats", "2"],
+            ["3 beats", "3"],
+            ["4 beats", "4"],
+            ["1/2 beat", "0.5"]
+        ]),
+        "DURATION");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
@@ -143,19 +138,17 @@ Blockly.Blocks['loops_repeat']= {
    * Block for repeat n times (internal number).
    */
   init: function() {
-    this.appendDummyInput().appendField('repeat');
-    this.appendDummyInput().appendField(
-        new Blockly.FieldNumber('10'), "TIMES");
-    this.appendDummyInput().appendField("times");
+    this.appendDummyInput().appendField('repeat').appendField(
+        new Blockly.FieldNumber('10'), "TIMES"
+    ).appendField("times");
+    this.appendStatementInput('DO')
+        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
 
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Blockly.Blocks.loops.HUE);
     this.setTooltip(Blockly.Msg.CONTROLS_REPEAT_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.CONTROLS_REPEAT_HELPURL);
-
-    this.appendStatementInput('DO')
-        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
   }
 };
 
