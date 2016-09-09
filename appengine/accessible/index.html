@@ -75,18 +75,12 @@
 
     <h1>Blockly Games: Music</h1>
 
-    <level-navigator></level-navigator>
+    <music-game-app></music-game-app>
 
-    <levelview></levelview>
-
-    <script src="js/levelmanager.component.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/level-manager.service.js"></script>
+    <script src="js/app.component.js"></script>
     <script>
-      // Start up the angular app.
-      document.addEventListener('DOMContentLoaded', function() {
-        ng.platform.browser.bootstrap(musicGame.LevelManagerView);
-        ng.platform.browser.bootstrap(musicGame.LevelNavigatorView);
-      });
-
       var musicPlayer = new MusicPlayer();
       var activeTimeouts = [];
 
@@ -114,20 +108,14 @@
         // go before the "Clear Workspace" button.
         toolbarButtonConfig: [{
           text: 'Run Code',
-          action: function() {
-            musicPlayer.reset();
-            runCodeToPopulatePlayerLine();
-            musicPlayer.playPlayerLine(
-                100, musicGame.gameManager.validateLevel);
-          }
+          // Gets set by musicGame.LevelManagerService.
+          action: null
         }]
       };
-    </script>
 
-    <xml id="blockly-toolbox-xml" style="display: none">
-      <category name="Music" colour="230">
-        <block type="music_play_note"></block>
-      </category>
-    </xml>
+      document.addEventListener('DOMContentLoaded', function() {
+        ng.platform.browser.bootstrap(musicGame.AppView);
+      });
+    </script>
   </body>
 </html>

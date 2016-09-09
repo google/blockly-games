@@ -33,54 +33,79 @@
 
  var LEVELS = {
   TUTORIAL: [{
-    htmlInstructions: 'Play a single note, C3.',
+    htmlInstructions: ['Play the note C4.'],
     expectedLine: [
-      [[36], 1]
+      [[48], 1]
     ],
-    blocks: ['music_play_note'],
+    allowedBlockTypes: ['music_play_note'],
+    hints: [
+        'Start by going to the toolbox and finding the block called ' +
+        '"play note". Then, copy it to the workspace.'
+    ],
+    expectedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     accompaniment: null
   }, {
-    htmlInstructions: 'Modify the note to become E3 instead.',
+    htmlInstructions: ['Play the note G4.'],
     expectedLine: [
-      [[40], 1]
+      [[55], 1]
     ],
-    blocks: ['music_play_note'],
+    allowedBlockTypes: ['music_play_note'],
+    hints: [
+        'Put a "play note" block in the workspace, then change the value ' +
+        'to G4.'
+    ],
+    expectedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     accompaniment: null
   }, {
-    htmlInstructions: 'Play the sequence G3-A3-F3 in order.',
-    expectedLine: [
-      [[43], 1],
-      [[45], 1],
-      [[41], 1]
-    ],
-    blocks: ['music_play_note'],
-    beatsPerMinute: 80,
-    accompaniment: null
-  }, {
-    htmlInstructions: 'Play the note D3 for two beats.',
-    expectedLine: [
-      [[38], 2]
-    ],
-    blocks: ['music_play_note_with_duration'],
-    beatsPerMinute: 80,
-    accompaniment: null
-  }, {
-    htmlInstructions: 'Play the sequence C4-G3-E3-C3. Hold the last note for two beats.',
+    htmlInstructions: ['Play C4, then E4, then G4.'],
     expectedLine: [
       [[48], 1],
-      [[43], 1],
-      [[40], 1],
-      [[36], 2]
+      [[52], 1],
+      [[55], 1]
     ],
-    blocks: ['music_play_note', 'music_play_note_with_duration'],
+    expectedBlockTypes: ['music_play_note'],
+    allowedBlockTypes: ['music_play_note'],
+    hints: [
+        'Make sure the blocks are connected to each other. You can connect ' +
+        'blocks by copying and pasting them from the workspace, or by ' +
+        'marking a spot in the block, and then copying a new block to that ' +
+        'marked spot.'
+    ],
+    beatsPerMinute: 80,
+    accompaniment: null
+  }, {
+    htmlInstructions: ['Play G4 for two beats.'],
+    expectedLine: [
+      [[55], 2]
+    ],
+    expectedBlockTypes: ['music_play_note_with_duration'],
+    allowedBlockTypes: ['music_play_note_with_duration'],
+    hints: [],
+    beatsPerMinute: 80,
+    accompaniment: null
+  }, {
+    htmlInstructions: ['Play C4 eight times.'],
+    expectedLine: [
+      [[48], 1],
+      [[48], 1],
+      [[48], 1],
+      [[48], 1],
+      [[48], 1],
+      [[48], 1],
+      [[48], 1],
+      [[48], 1]
+    ],
+    expectedBlockTypes: ['music_play_note', 'controls_repeat'],
+    allowedBlockTypes: ['music_play_note', 'controls_repeat'],
+    hints: [],
     beatsPerMinute: 80,
     accompaniment: null
   }],
 
   BEGINNER: [{
-    htmlInstructions: 'Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.',
+    htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.'],
     expectedLine: [
       [[52], 1],
       [[50], 1],
@@ -90,11 +115,11 @@
       [[52], 1],
       [[52], 1]
     ],
-    blocks: ['music_play_note'],
+    allowedBlockTypes: ['music_play_note'],
     beatsPerMinute: 120,
     accompaniment: null
   }, {
-    htmlInstructions: 'Same thing, but now try to use only 6 blocks.',
+    htmlInstructions: ['Same thing, but now try to use only 6 blocks.'],
     expectedLine: [
       [[52], 1],
       [[50], 1],
@@ -104,11 +129,11 @@
       [[52], 1],
       [[52], 1]
     ],
-    blocks: ['music_play_note', 'controls_repeat'],
+    allowedBlockTypes: ['music_play_note', 'controls_repeat'],
     beatsPerMinute: 120,
     accompaniment: null
   }, {
-    htmlInstructions: 'Add on the rest of the tune!',
+    htmlInstructions: ['Add on the rest of the tune!'],
     expectedLine: [
       [[52], 1],
       [[50], 1],
@@ -124,7 +149,7 @@
       [[55], 1],
       [[55], 2]
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -132,7 +157,7 @@
     beatsPerMinute: 120,
     accompaniment: null
   }, {
-    htmlInstructions: 'Play the first part of Frere Jacques. Use only 5 blocks.',
+    htmlInstructions: ['Play the first part of Frere Jacques. Use only 5 blocks.'],
     expectedLine: [
       [[48], 1],
       [[50], 1],
@@ -143,7 +168,7 @@
       [[52], 1],
       [[48], 1]
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -151,7 +176,7 @@
     beatsPerMinute: 150,
     accompaniment: null
   }, {
-    htmlInstructions: 'Add four more blocks for the next part.',
+    htmlInstructions: ['Add four more blocks for the next part.'],
     expectedLine: [
       [[48], 1],
       [[50], 1],
@@ -169,7 +194,7 @@
       [[53], 1],
       [[55], 2],
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -177,7 +202,7 @@
     beatsPerMinute: 150,
     accompaniment: null
   }, {
-    htmlInstructions: 'Add the third part.',
+    htmlInstructions: ['Add the third part.'],
     expectedLine: [
       [[48], 1],
       [[50], 1],
@@ -208,7 +233,7 @@
       [[52], 1],
       [[48], 1]
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -216,7 +241,7 @@
     beatsPerMinute: 150,
     accompaniment: null
   }, {
-    htmlInstructions: 'Add the last part.',
+    htmlInstructions: ['Add the last part.'],
     expectedLine: [
       [[48], 1],
       [[50], 1],
@@ -254,7 +279,7 @@
       [[43], 1],
       [[48], 2],
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -262,7 +287,7 @@
     beatsPerMinute: 150,
     accompaniment: null
   }, {
-    htmlInstructions: 'Now play the whole thing twice, but include a pick-up at the end of the first one. Can you use the if block to make it easier?',
+    htmlInstructions: ['Now play the whole thing twice, but include a pick-up at the end of the first one. Can you use the if block to make it easier?'],
     expectedLine: [
       [[48], 1],
       [[50], 1],
@@ -337,7 +362,7 @@
       [[43], 1],
       [[48], 2]
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -345,7 +370,7 @@
     beatsPerMinute: 150,
     accompaniment: null
   }, {
-    htmlInstructions: 'Challenge -- can you play Happy Birthday? G3..G3 A3 G3 C4 B3 - G3..G3 A3 G3 D4 C4 -',
+    htmlInstructions: ['Challenge -- can you play Happy Birthday? G3..G3 A3 G3 C4 B3 - G3..G3 A3 G3 D4 C4 -'],
     expectedLine: [
       [[43], 0.75],
       [[43], 0.25],
@@ -360,7 +385,7 @@
       [[50], 1],
       [[48], 2]
     ],
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
@@ -381,9 +406,9 @@
       [[40, 43], 1]
     ]
   }, {
-    htmlInstructions: 'Play anything you like. Experiment!',
+    htmlInstructions: ['Play anything you like. Experiment!'],
     expectedLine: null,
-    blocks: [
+    allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'controls_repeat'
