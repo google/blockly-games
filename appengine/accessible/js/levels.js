@@ -36,7 +36,6 @@
  LEVEL_SETS.tutorial = {
   name: 'Music Tutorial',
   levels: [{
-    accompaniment: null,
     allowedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     expectedLine: [
@@ -48,7 +47,6 @@
         '"play note C4". Then, create a new group with this block.'),
     htmlInstructions: ['Play the note C4.']
   }, {
-    accompaniment: null,
     allowedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     expectedLine: [
@@ -64,7 +62,6 @@
         'Put a "play note" block in the workspace, then change the value ' +
         'to G4.')
   }, {
-    accompaniment: null,
     allowedBlockTypes: ['music_play_note'],
     beatsPerMinute: 80,
     expectedLine: [
@@ -91,7 +88,6 @@
         'marked spot.'),
     htmlInstructions: ['Play C4, then E4, then G4.']
   }, {
-    accompaniment: null,
     allowedBlockTypes: ['music_play_note_with_duration'],
     beatsPerMinute: 80,
     expectedLine: [
@@ -108,7 +104,6 @@
         'pressing Enter. After entering it, press the Escape key.'),
     htmlInstructions: ['Play G4 for two beats.']
   }, {
-    accompaniment: null,
     allowedBlockTypes: ['music_play_note', 'loops_repeat'],
     beatsPerMinute: 80,
     expectedLine: [
@@ -134,7 +129,42 @@
 LEVEL_SETS.game1 = {
   name: 'Music Game',
   levels: [{
-    htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.'],
+    allowedBlockTypes: ['music_play_phrase'],
+    beatsPerMinute: 120,
+    expectedLine: [
+      [[55], 0.75],
+      [[55], 0.25],
+      [[57], 1],
+      [[55], 1],
+      [[60], 1],
+      [[59], 2],
+
+      [[55], 0.75],
+      [[55], 0.25],
+      [[57], 1],
+      [[55], 1],
+      [[62], 1],
+      [[60], 2],
+
+      [[55], 0.75],
+      [[55], 0.25],
+      [[67], 1],
+      [[64], 1],
+      [[60], 1],
+      [[59], 1],
+      [[57], 2],
+
+      [[65], 0.75],
+      [[64], 0.25],
+      [[63], 1],
+      [[60], 1],
+      [[62], 1],
+      [[60], 2]
+    ],
+    htmlInstructions: ['Use four blocks to play the familiar "Happy Birthday" tune.']
+  }, {
+    allowedBlockTypes: ['music_play_phrase'],
+    beatsPerMinute: 120,
     expectedLine: [
       [[52], 1],
       [[50], 1],
@@ -144,305 +174,185 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[52], 1]
     ],
+    htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.']
+  }, {
     allowedBlockTypes: ['music_play_note'],
     beatsPerMinute: 120,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Same thing, but now try to use only 6 blocks.'],
     expectedLine: [
-      [[52], 1],
-      [[50], 1],
       [[48], 1],
       [[50], 1],
       [[52], 1],
-      [[52], 1],
-      [[52], 1]
+      [[48], 1],
     ],
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
-    beatsPerMinute: 120,
-    accompaniment: null
+    htmlInstructions: ['Play the first bar of Frere Jacques: C-D-E-C.']
   }, {
-    htmlInstructions: ['Add on the rest of the tune!'],
+    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    beatsPerMinute: 150,
     expectedLine: [
-      [[52], 1],
-      [[50], 1],
       [[48], 1],
       [[50], 1],
       [[52], 1],
-      [[52], 1],
-      [[52], 2],
+      [[48], 1],
+      [[48], 1],
       [[50], 1],
-      [[50], 1],
-      [[50], 2],
       [[52], 1],
-      [[55], 1],
+      [[48], 1]
+    ],
+    htmlInstructions: ['Play the first part of Frere Jacques, twice.']
+  }, {
+    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    beatsPerMinute: 150,
+    expectedLine: [
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1]
+    ],
+    htmlInstructions: [
+        'Play the first part of Frere Jacques twice as before, but now, use ' +
+        'only 5 blocks.']
+  }, {
+    allowedBlockTypes: [
+      'music_play_note',
+      'music_play_note_with_duration',
+      'loops_repeat'
+    ],
+    beatsPerMinute: 150,
+    expectedLine: [
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+
+      [[52], 1],
+      [[53], 1],
       [[55], 2]
     ],
+    htmlInstructions: ['Add on the part after that: E-F-G']
+  }, {
+    allowedBlockTypes: [
+      'music_play_note',
+      'music_play_note_with_duration',
+      'loops_repeat'
+    ],
+    beatsPerMinute: 150,
+    expectedLine: [
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+
+      [[52], 1],
+      [[53], 1],
+      [[55], 2],
+      [[52], 1],
+      [[53], 1],
+      [[55], 2]
+    ],
+    htmlInstructions: ['Add on an additional E-F-G']
+  }, {
+    allowedBlockTypes: [
+      'music_play_note',
+      'music_play_note_with_duration',
+      'loops_repeat'
+    ],
+    beatsPerMinute: 150,
+    expectedLine: [
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+
+      [[52], 1],
+      [[53], 1],
+      [[55], 2],
+      [[52], 1],
+      [[53], 1],
+      [[55], 2],
+
+      [[55], 0.5],
+      [[57], 0.5],
+      [[55], 0.5],
+      [[53], 0.5],
+      [[52], 1],
+      [[48], 1],
+      [[55], 0.5],
+      [[57], 0.5],
+      [[55], 0.5],
+      [[53], 0.5],
+      [[52], 1],
+      [[48], 1]
+    ],
+    htmlInstructions: ['Add the third part, twice.'],
+  }, {
+    allowedBlockTypes: [
+      'music_play_note',
+      'music_play_note_with_duration',
+      'loops_repeat'
+    ],
+    beatsPerMinute: 150,
+    expectedLine: [
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+      [[48], 1],
+      [[50], 1],
+      [[52], 1],
+      [[48], 1],
+
+      [[52], 1],
+      [[53], 1],
+      [[55], 2],
+      [[52], 1],
+      [[53], 1],
+      [[55], 2],
+
+      [[55], 0.5],
+      [[57], 0.5],
+      [[55], 0.5],
+      [[53], 0.5],
+      [[52], 1],
+      [[48], 1],
+      [[55], 0.5],
+      [[57], 0.5],
+      [[55], 0.5],
+      [[53], 0.5],
+      [[52], 1],
+      [[48], 1],
+
+      [[48], 1],
+      [[43], 1],
+      [[48], 2],
+      [[48], 1],
+      [[43], 1],
+      [[48], 2],
+    ],
+    htmlInstructions: ['Add the last part, twice.']
+  }, {
     allowedBlockTypes: [
       'music_play_note',
       'music_play_note_with_duration',
       'loops_repeat'
     ],
     beatsPerMinute: 120,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Play the first part of Frere Jacques. Use only 5 blocks.'],
-    expectedLine: [
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1]
-    ],
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 150,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Add four more blocks for the next part.'],
-    expectedLine: [
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-    ],
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 150,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Add the third part.'],
-    expectedLine: [
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1]
-    ],
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 150,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Add the last part.'],
-    expectedLine: [
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-
-      [[48], 1],
-      [[43], 1],
-      [[48], 2],
-      [[48], 1],
-      [[43], 1],
-      [[48], 2],
-    ],
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 150,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Now play the whole thing twice, but include a pick-up at the end of the first one. Can you use the if block to make it easier?'],
-    expectedLine: [
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-
-      [[48], 1],
-      [[43], 1],
-      [[48], 2],
-      [[48], 1],
-      [[43], 1],
-      [[45], 1],
-      [[47], 1],
-
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-      [[48], 1],
-      [[50], 1],
-      [[52], 1],
-      [[48], 1],
-
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-      [[52], 1],
-      [[53], 1],
-      [[55], 2],
-
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-      [[55], 0.5],
-      [[57], 0.5],
-      [[55], 0.5],
-      [[53], 0.5],
-      [[52], 1],
-      [[48], 1],
-
-      [[48], 1],
-      [[43], 1],
-      [[48], 2],
-      [[48], 1],
-      [[43], 1],
-      [[48], 2]
-    ],
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 150,
-    accompaniment: null
-  }, {
-    htmlInstructions: ['Challenge -- can you play Happy Birthday? G3..G3 A3 G3 C4 B3 - G3..G3 A3 G3 D4 C4 -'],
-    expectedLine: [
-      [[43], 0.75],
-      [[43], 0.25],
-      [[45], 1],
-      [[43], 1],
-      [[48], 1],
-      [[47], 2],
-      [[43], 0.75],
-      [[43], 0.25],
-      [[45], 1],
-      [[43], 1],
-      [[50], 1],
-      [[48], 2]
-    ],
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 100,
-    accompaniment: [
-      [[], 1],
-      [[36], 1],
-      [[40, 43], 1],
-      [[40, 43], 1],
-      [[35], 1],
-      [[38, 43], 1],
-      [[38, 43], 1],
-      [[35], 1],
-      [[38, 43], 1],
-      [[38, 43], 1],
-      [[36], 1],
-      [[40, 43], 1]
-    ]
-  }, {
-    htmlInstructions: ['Play anything you like. Experiment!'],
     expectedLine: null,
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
-    beatsPerMinute: 120,
-    accompaniment: null
+    htmlInstructions: ['Play anything you like. Experiment!']
   }]
 };
