@@ -52,6 +52,9 @@ musicGame.AppView = ng.core
       <h3>Instructions</h3>
       <p *ngFor="#para of instructions">{{para}}</p>
       <p *ngIf="hint">Hint: {{hint}}</p>
+      <p *ngIf="expectedLineData">
+        <button (click)="playTune()">Play desired tune</button>
+      </p>
       <hr>
 
       <blockly-app></blockly-app>
@@ -86,10 +89,20 @@ musicGame.AppView = ng.core
 
       this.blockDefns = levelManagerService.getToolboxBlockDefns();
 
+      this.beatsPerMinute = currentLevelData.beatsPerMinute;
+      this.expectedLineData = currentLevelData.expectedLine;
+
       blocklyApp.workspace.clear();
       this.hint = currentLevelData.hint;
       this.instructions = currentLevelData.htmlInstructions;
     }],
+    playTune: function() {
+      var expectedLine = new MusicLine();
+      expectedLine.setFromChordsAndDurations(this.expectedLineData);
+
+      musicPlayer.reset();
+      musicPlayer.play(expectedLine, this.beatsPerMinute);
+    },
     hasReached: function(levelNumber1Indexed) {
       return Number(levelNumber1Indexed - 1) <= Number(this.currentLevelNumber);
     }
