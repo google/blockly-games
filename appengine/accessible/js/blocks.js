@@ -98,6 +98,67 @@ Blockly.JavaScript['music_play_note'] = function(block) {
   return 'addChord([' + block.getFieldValue('PITCH') + '], 1);\n';
 };
 
+Blockly.Blocks['music_play_phrase'] = {
+  /**
+   * Block for playing a music phrase. This requires a mutation to set the
+   * phrase options.
+   * @this Blockly.Block
+   */
+  init: function() {
+    // Stores the options for the phrases. The default phrases represent "Happy
+    // Birthday to You".
+    this.options_ = [
+        ["type 1", "55:0.75-55:0.25-57:1-55:1-60:1-59:2"],
+        ["type 2", "55:0.75-55:0.25-57:1-55:1-62:1-60:2"],
+        ["type 3", "55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],
+        ["type 4", "65:0.75-65:0.25-64:1-60:1-62:1-60:2"]
+    ];
+
+    this.appendDummyInput('PHRASE').appendField("play phrase").appendField(
+        new Blockly.FieldDropdown(this.options_), 'OPTIONS');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Music.Blocks.HUE);
+    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
+    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+  },
+  /**
+   * Parse XML to restore the values of the phrases.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    var optionsJson = xmlElement.getAttribute('options_json');
+
+    this.options_ = JSON.parse(optionsJson);
+    this.removeInput('PHRASE');
+    this.appendDummyInput('PHRASE').appendField("play phrase").appendField(
+        new Blockly.FieldDropdown(this.options_), 'OPTIONS');
+  },
+  /**
+   * Create XML to represent whether the block is a statement or a value.
+   * Also represent whether there is an 'AT' input.
+   * @return {Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('options_json', JSON.stringify(this.options_));
+    return container;
+  }
+};
+
+Blockly.JavaScript['music_play_phrase'] = function(block) {
+  var phraseParts = block.getFieldValue('OPTIONS').split('-');
+  var code = '';
+  phraseParts.forEach(function(phrasePart) {
+    var noteAndDuration = phrasePart.split(':');
+    code += 'addChord([' + noteAndDuration[0] + '], ' +
+        noteAndDuration[1] + ');\n';
+  });
+  return code;
+};
+
 Blockly.Blocks['music_play_note_with_duration'] = {
   /**
    * Block for playing a note with a specified duration.

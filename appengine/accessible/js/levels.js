@@ -36,7 +36,9 @@
  LEVEL_SETS.tutorial = {
   name: 'Music Tutorial',
   levels: [{
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
@@ -47,7 +49,9 @@
         '"play note C4". Then, create a new group with this block.'),
     htmlInstructions: ['Play the note C4.']
   }, {
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[55], 1]
@@ -62,7 +66,9 @@
         'Put a "play note" block in the workspace, then change the value ' +
         'to G4.')
   }, {
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1],
@@ -88,7 +94,9 @@
         'marked spot.'),
     htmlInstructions: ['Play C4, then E4, then G4.']
   }, {
-    allowedBlockTypes: ['music_play_note_with_duration'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note_with_duration'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[55], 2]
@@ -104,7 +112,11 @@
         'pressing Enter. After entering it, press the Escape key.'),
     htmlInstructions: ['Play G4 for two beats.']
   }, {
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1],
@@ -129,8 +141,15 @@
 LEVEL_SETS.game1 = {
   name: 'Music Game',
   levels: [{
-    allowedBlockTypes: ['music_play_phrase'],
-    beatsPerMinute: 120,
+    toolboxBlockDefns: [{
+      type: 'music_play_phrase',
+      optionsJson: (
+          '[["type 1","55:0.75-55:0.25-57:1-55:1-60:1-59:2"],' +
+          '["type 2","55:0.75-55:0.25-57:1-55:1-62:1-60:2"],' +
+          '["type 3","55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],' +
+          '["type 4","65:0.75-65:0.25-64:1-60:1-62:1-60:2"]]')
+    }],
+    beatsPerMinute: 160,
     expectedLine: [
       [[55], 0.75],
       [[55], 0.25],
@@ -155,15 +174,21 @@ LEVEL_SETS.game1 = {
       [[57], 2],
 
       [[65], 0.75],
-      [[64], 0.25],
-      [[63], 1],
+      [[65], 0.25],
+      [[64], 1],
       [[60], 1],
       [[62], 1],
       [[60], 2]
     ],
     htmlInstructions: ['Use four blocks to play the familiar "Happy Birthday" tune.']
   }, {
-    allowedBlockTypes: ['music_play_phrase'],
+    toolboxBlockDefns: [{
+      type: 'music_play_phrase',
+      optionsJson: (
+          '[["type 1","52:1-50:1"],' +
+          '["type 2", "48:1-50:1"],' +
+          '["type 3", "52:1"]]')
+    }],
     beatsPerMinute: 120,
     expectedLine: [
       [[52], 1],
@@ -176,7 +201,9 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.']
   }, {
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 120,
     expectedLine: [
       [[48], 1],
@@ -186,7 +213,11 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Play the first bar of Frere Jacques: C-D-E-C.']
   }, {
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -200,7 +231,11 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Play the first part of Frere Jacques, twice.']
   }, {
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -216,11 +251,13 @@ LEVEL_SETS.game1 = {
         'Play the first part of Frere Jacques twice as before, but now, use ' +
         'only 5 blocks.']
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -238,11 +275,13 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Add on the part after that: E-F-G']
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -263,11 +302,13 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Add on an additional E-F-G']
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -301,11 +342,13 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Add the third part, twice.'],
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -346,11 +389,13 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: ['Add the last part, twice.']
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 120,
     expectedLine: null,
     htmlInstructions: ['Play anything you like. Experiment!']

@@ -71,8 +71,8 @@ musicGame.LevelManagerService = ng.core
     getNumberOfLevels: function() {
       return this.levelSet_.length;
     },
-    getAllowedBlockTypes: function() {
-      return this.getCurrentLevelData().allowedBlockTypes;
+    getToolboxBlockDefns: function() {
+      return this.getCurrentLevelData().toolboxBlockDefns;
     },
     setCurrentLevel: function(current1IndexedLevelNumber) {
       this.currentLevelNumber_ = current1IndexedLevelNumber - 1;

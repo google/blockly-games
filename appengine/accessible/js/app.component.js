@@ -58,14 +58,11 @@ musicGame.AppView = ng.core
     </div>
 
     <xml id="blockly-toolbox-xml" style="display: none">
-      <category name="Loops" *ngIf="loopsBlockTypes.length > 0">
-        <block *ngFor="#blockType of loopsBlockTypes"
-               [attr.type]="blockType">
-        </block>
-      </category>
-      <category name="Music" *ngIf="musicBlockTypes.length > 0">
-        <block *ngFor="#blockType of musicBlockTypes"
-               [attr.type]="blockType">
+      <category name="Blocks" *ngIf="blockDefns.length > 0">
+        <block *ngFor="#blockDefn of blockDefns"
+               [attr.type]="blockDefn.type">
+          <mutation [attr.options_json]="blockDefn.optionsJson">
+          </mutation>
         </block>
       </category>
     </xml>
@@ -77,7 +74,6 @@ musicGame.AppView = ng.core
     constructor: [
         musicGame.LevelManagerService, function(levelManagerService) {
       var currentLevelData = levelManagerService.getCurrentLevelData();
-
       this.otherLevelSetsMetadata =
           levelManagerService.getOtherLevelSetsMetadata();
       this.levelSetId = levelManagerService.getLevelSetId();
@@ -88,18 +84,7 @@ musicGame.AppView = ng.core
         this.levelNumbers.push(i + 1);
       }
 
-      this.musicBlockTypes = [];
-      this.loopsBlockTypes = [];
-      var that = this;
-      levelManagerService.getAllowedBlockTypes().forEach(function(blockType) {
-        if (blockType.indexOf('music_') == 0) {
-          that.musicBlockTypes.push(blockType);
-        } else if (blockType.indexOf('loops_') == 0) {
-          that.loopsBlockTypes.push(blockType);
-        } else {
-          throw Error('Unknown block type: ' + blockType);
-        }
-      });
+      this.blockDefns = levelManagerService.getToolboxBlockDefns();
 
       blocklyApp.workspace.clear();
       this.hint = currentLevelData.hint;
