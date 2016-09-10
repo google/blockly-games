@@ -109,7 +109,7 @@ MusicLine.prototype.setFromChordsAndDurations = function(chordsAndDurations) {
 var MusicPlayer = function() {
   // Initialize the MIDI player.
   MIDI.loadPlugin({
-    soundfontUrl: '../third-party/midi-js/examples/soundfont/',
+    soundfontUrl: '../third-party/midi-js/trunk/examples/soundfont/',
     instrument: 'acoustic_grand_piano',
     callback: function() {}
   });
@@ -202,6 +202,10 @@ MusicPlayer.prototype.doesPlayerLineEqual = function(otherLine) {
 
 MusicPlayer.prototype.addPlayerChord = function(midiPitches, durationInBeats) {
   this.lines_[CONSTANTS.LINE_PLAYER].addChord(midiPitches, durationInBeats);
+};
+
+MusicPlayer.prototype.getPlayerChords = function() {
+  return this.lines_[CONSTANTS.LINE_PLAYER].chords_;
 };
 
 MusicPlayer.prototype.playPlayerLine = function(

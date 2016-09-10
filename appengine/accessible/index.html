@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <title>Screen Reader Accessible Blockly Game</title>
 
     <!-- Load Blockly -->
@@ -11,60 +11,78 @@
     <script src="../third-party/blockly/msg/js/en.js"></script>
 
     <!-- Load accessibleBlockly -->
+    <script src="../third-party/blockly/accessible/messages.js"></script>
+
     <script src="../third-party/blockly/accessible/libs/es6-shim.min.js"></script>
     <script src="../third-party/blockly/accessible/libs/angular2-polyfills.min.js"></script>
     <script src="../third-party/blockly/accessible/libs/Rx.umd.min.js"></script>
     <script src="../third-party/blockly/accessible/libs/angular2-all.umd.min.js"></script>
+
     <script src="../third-party/blockly/accessible/utils.service.js"></script>
+    <script src="../third-party/blockly/accessible/audio.service.js"></script>
+    <script src="../third-party/blockly/accessible/notifications.service.js"></script>
     <script src="../third-party/blockly/accessible/clipboard.service.js"></script>
     <script src="../third-party/blockly/accessible/tree.service.js"></script>
-    <script src="../third-party/blockly/accessible/fieldview.component.js"></script>
-    <script src="../third-party/blockly/accessible/workspace_treeview.component.js"></script>
-    <script src="../third-party/blockly/accessible/toolbox_treeview.component.js"></script>
-    <script src="../third-party/blockly/accessible/toolboxview.component.js"></script>
-    <script src="../third-party/blockly/accessible/workspaceview.component.js"></script>
-    <script src="../third-party/blockly/accessible/appview.component.js"></script>
+    <script src="../third-party/blockly/accessible/translate.pipe.js"></script>
 
-    <!--
-      TODO(sll): Put this in the appropriate place so that automated
-      translations can happen.
-    -->
-    <script src="../third-party/blockly/accessible/messages.js"></script>
+    <script src="../third-party/blockly/accessible/field.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace.component.js"></script>
+    <script src="../third-party/blockly/accessible/app.component.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../third-party/blockly/accessible/media/accessible.css">
 
     <!-- Libraries for MIDI playback. -->
-    <script src="../third-party/midi-js/build/MIDI.js"></script>
-    <script src="../third-party/midi-js/inc/shim/Base64binary.js"></script>
+    <script src="../third-party/midi-js/trunk/build/MIDI.js"></script>
+    <script src="../third-party/midi-js/trunk/inc/shim/Base64binary.js"></script>
 
     <script src="js/blocks.js"></script>
     <script src="js/music-player.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="../third-party/blockly/media/accessible.css">
     <style>
       body {
-        background-color: #e5ffff;
         font-family: sans-serif;
       }
-      h1 {
+      h1, h2 {
+        float: left;
         font-weight: normal;
+        margin: 0 50px 0 0;
+      }
+      h1 {
         font-size: 140%;
       }
-
-      textarea {
-        width: 100%;
-        height: 20em;
+      h2 {
+        font-size: 120%;
+        margin-top: 4px;
+      }
+      ul.musicGameNavigation {
+        list-style-type: none;
+        margin: 0;
+        overflow: hidden;
+        padding-top: 4px;
+      }
+      ul.musicGameNavigation li {
+        float: left;
+        margin: 0 20px 0 0;
       }
     </style>
   </head>
   <body>
-    <levelview></levelview>
+    <div style="float: right;">
+      <a href="./help.html">
+        Learn more...
+      </a>
+    </div>
 
-    <script src="js/levelmanager.component.js"></script>
+    <music-game-app></music-game-app>
+
+    <script src="js/utils.service.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/level-manager.service.js"></script>
+    <script src="js/app.component.js"></script>
     <script>
-      // Start up the angular app.
-      document.addEventListener('DOMContentLoaded', function() {
-        ng.platform.browser.bootstrap(musicGame.LevelManagerView);
-      });
-
       var musicPlayer = new MusicPlayer();
       var activeTimeouts = [];
 
@@ -92,21 +110,14 @@
         // go before the "Clear Workspace" button.
         toolbarButtonConfig: [{
           text: 'Run Code',
-          action: function() {
-            musicPlayer.reset();
-            runCodeToPopulatePlayerLine();
-            musicPlayer.playPlayerLine(
-                100, musicGame.gameManager.validateLevel);
-          }
+          // Gets set by musicGame.LevelManagerService.
+          action: null
         }]
       };
-    </script>
 
-    <xml id="blockly-toolbox-xml" style="display: none">
-      <category name="Music" colour="230">
-        <block type="music_play_random_note"></block>
-        <block type="music_play_note"></block>
-      </category>
-    </xml>
+      document.addEventListener('DOMContentLoaded', function() {
+        ng.platform.browser.bootstrap(musicGame.AppView);
+      });
+    </script>
   </body>
 </html>

@@ -7,7 +7,8 @@
 			"Macofe",
 			"NemesisIII",
 			"Od1n",
-			"Josee Desharnais"
+			"Josee Desharnais",
+			"Urhixidur"
 		]
 	},
 	"Games.name": "Jeux Blockly",
@@ -39,7 +40,7 @@
 	"Games.catVariables": "Variables",
 	"Games.catProcedures": "Fonctions",
 	"Games.httpRequestError": "Il y a eu un problème avec la demande.",
-	"Games.linkAlert": "Partagez vos blocs grâce à ce lien:\n\n%1",
+	"Games.linkAlert": "Partagez vos blocs grâce à ce lien :\n\n%1",
 	"Games.hashError": "Désolé, '%1' ne correspond à aucun programme sauvegardé.",
 	"Games.xmlError": "Impossible de charger le fichier de sauvegarde.  Peut être a t-il été créé avec une autre version de Blockly?",
 	"Games.listVariable": "liste",

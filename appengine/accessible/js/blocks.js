@@ -36,13 +36,6 @@ goog.require('Blockly.JavaScript');
 Music.Blocks.HUE = 20;
 
 Music.Blocks.NOTE_OPTIONS = [
-  ["C3", "36"],
-  ["D3", "38"],
-  ["E3", "40"],
-  ["F3", "41"],
-  ["G3", "43"],
-  ["A3", "45"],
-  ["B3", "47"],
   ["C4", "48"],
   ["D4", "50"],
   ["E4", "52"],
@@ -90,21 +83,13 @@ Blockly.Blocks['music_play_note'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.jsonInit({
-      "message0": "play note %1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PITCH",
-          "options": Music.Blocks.NOTE_OPTIONS
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Music.Blocks.HUE,
-      "tooltip": MUSIC_DUMMY_TOOLTIP,
-      "helpUrl": MUSIC_DUMMY_HELPURL
-    });
+    this.appendDummyInput().appendField("play note").appendField(
+        new Blockly.FieldDropdown(Music.Blocks.NOTE_OPTIONS), "PITCH");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Music.Blocks.HUE);
+    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
+    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   }
 };
 
@@ -119,34 +104,22 @@ Blockly.Blocks['music_play_note_with_duration'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.jsonInit({
-      "message0": "play note %1 for %2 beat(s)",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PITCH",
-          "options": Music.Blocks.NOTE_OPTIONS
-        },
-        {
-          "type": "field_dropdown",
-          "name": "DURATION",
-          "options": [
-            ["1", "1"],
-            ["2", "2"],
-            ["3", "3"],
-            ["4", "4"],
-            ["1/2", "0.5"],
-            ["1/4", "0.25"],
-            ["3/4", "0.75"]
-          ]
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Music.Blocks.HUE,
-      "tooltip": MUSIC_DUMMY_TOOLTIP,
-      "helpUrl": MUSIC_DUMMY_HELPURL
-    });
+    this.appendDummyInput().appendField("play note").appendField(
+        new Blockly.FieldDropdown(Music.Blocks.NOTE_OPTIONS), "PITCH");
+    this.appendDummyInput().appendField("for duration").appendField(
+        new Blockly.FieldDropdown([
+            ["1 beat", "1"],
+            ["2 beats", "2"],
+            ["3 beats", "3"],
+            ["4 beats", "4"],
+            ["1/2 beat", "0.5"]
+        ]),
+        "DURATION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Music.Blocks.HUE);
+    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
+    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   }
 };
 
@@ -157,3 +130,26 @@ Blockly.JavaScript['music_play_note_with_duration'] = function(block) {
       block.getFieldValue('DURATION') + ');\n';
   return code;
 };
+
+// We declare a different block here because the one in core Blockly does not
+// split up different fields well.
+Blockly.Blocks['loops_repeat']= {
+  /**
+   * Block for repeat n times (internal number).
+   */
+  init: function() {
+    this.appendDummyInput().appendField('repeat').appendField(
+        new Blockly.FieldNumber('10'), "TIMES"
+    ).appendField("times");
+    this.appendStatementInput('DO')
+        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Blocks.loops.HUE);
+    this.setTooltip(Blockly.Msg.CONTROLS_REPEAT_TOOLTIP);
+    this.setHelpUrl(Blockly.Msg.CONTROLS_REPEAT_HELPURL);
+  }
+};
+
+Blockly.JavaScript['loops_repeat'] = Blockly.JavaScript['controls_repeat'];
