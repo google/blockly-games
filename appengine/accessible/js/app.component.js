@@ -22,6 +22,8 @@
  * @author sll@google.com (Sean Lip)
  */
 
+musicGame.NAME = 'MUSIC_ACCESSIBLE';
+
 musicGame.AppView = ng.core
   .Component({
     selector: 'music-game-app',

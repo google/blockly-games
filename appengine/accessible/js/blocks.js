@@ -115,7 +115,7 @@ Blockly.Blocks['music_play_phrase'] = {
     ];
 
     this.appendDummyInput('PHRASE').appendField("play phrase").appendField(
-        new Blockly.FieldDropdown(this.options_), 'OPTIONS');
+        new Blockly.FieldDropdown(this.options_), 'MIDI_VALUES');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
@@ -133,7 +133,7 @@ Blockly.Blocks['music_play_phrase'] = {
     this.options_ = JSON.parse(optionsJson);
     this.removeInput('PHRASE');
     this.appendDummyInput('PHRASE').appendField("play phrase").appendField(
-        new Blockly.FieldDropdown(this.options_), 'OPTIONS');
+        new Blockly.FieldDropdown(this.options_), 'MIDI_VALUES');
   },
   /**
    * Create XML to represent whether the block is a statement or a value.
@@ -149,7 +149,7 @@ Blockly.Blocks['music_play_phrase'] = {
 };
 
 Blockly.JavaScript['music_play_phrase'] = function(block) {
-  var phraseParts = block.getFieldValue('OPTIONS').split('-');
+  var phraseParts = block.getFieldValue('MIDI_VALUES').split('-');
   var code = '';
   phraseParts.forEach(function(phrasePart) {
     var noteAndDuration = phrasePart.split(':');

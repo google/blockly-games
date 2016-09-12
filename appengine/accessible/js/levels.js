@@ -180,7 +180,19 @@ LEVEL_SETS.game1 = {
       [[62], 1],
       [[60], 2]
     ],
-    htmlInstructions: ['Use four blocks to play the familiar "Happy Birthday" tune.']
+    htmlInstructions: ['Use four blocks to play the familiar "Happy Birthday" tune.'],
+    defaultXml: [
+      '<xml xmlns="http://www.w3.org/1999/xhtml">',
+      '  <block type="music_play_phrase">',
+      '    <field name="MIDI_VALUES">55:0.75-55:0.25-57:1-55:1-60:1-59:2</field>',
+      '    <next>',
+      '      <block type="music_play_phrase">',
+      '        <field name="MIDI_VALUES">55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2</field>',
+      '      </block>',
+      '    </next>',
+      '  </block>',
+      '</xml>'
+    ].join('\n')
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_phrase',
@@ -211,7 +223,7 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1],
     ],
-    htmlInstructions: ['Play the first bar of Frere Jacques: C-D-E-C.']
+    htmlInstructions: ['Play the first bar of Frere Jacques: C-D-E-C.'],
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -229,7 +241,8 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: ['Play the first part of Frere Jacques, twice.']
+    htmlInstructions: ['Play the first part of Frere Jacques, twice.'],
+    continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -249,7 +262,8 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: [
         'Play the first part of Frere Jacques twice as before, but now, use ' +
-        'only 5 blocks.']
+        'only 5 blocks.'],
+    continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -273,7 +287,8 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on the part after that: E-F-G']
+    htmlInstructions: ['Add on the part after that: E-F-G'],
+    continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -300,7 +315,8 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on an additional E-F-G']
+    htmlInstructions: ['Add on an additional E-F-G'],
+    continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -341,6 +357,7 @@ LEVEL_SETS.game1 = {
       [[48], 1]
     ],
     htmlInstructions: ['Add the third part, twice.'],
+    continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -387,7 +404,8 @@ LEVEL_SETS.game1 = {
       [[43], 1],
       [[48], 2],
     ],
-    htmlInstructions: ['Add the last part, twice.']
+    htmlInstructions: ['Add the last part, twice.'],
+    continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'

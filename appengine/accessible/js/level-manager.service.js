@@ -44,7 +44,7 @@ musicGame.LevelManagerService = ng.core
       var levelNumberFromUrl = utilsService.getStringParamFromUrl('l', '1');
       this.currentLevelNumber_ = levelNumberFromUrl - 1;
 
-      // TODO(sll): Load from local storage.
+      // TODO(sll): Drop this; make all levels available.
       this.latestAvailableLevelNumber_ = this.currentLevelNumber_;
 
       var that = this;
@@ -55,7 +55,57 @@ musicGame.LevelManagerService = ng.core
           that.gradeCurrentLevel();
         });
       }
+
+      var inherit =
+          this.levelSet_[this.currentLevelNumber_].continueFromPreviousLevel;
+      var defaultXmlText = this.levelSet_[this.currentLevelNumber_].defaultXml;
+
+      // Try loading saved XML for this level, saved XML from previous level,
+      // or default XML for this level, in that order.
+      var xmlTextToRestore = this.loadFromLocalStorage(
+          this.currentLevelNumber_);
+      if (!xmlTextToRestore && inherit) {
+        var inheritedXmlText = this.loadFromLocalStorage(
+            this.currentLevelNumber_ - 1);
+        if (inheritedXmlText) {
+          xmlTextToRestore = inheritedXmlText;
+        }
+      }
+      if (!xmlTextToRestore && defaultXmlText) {
+        xmlTextToRestore = defaultXmlText;
+      }
+
+      if (xmlTextToRestore) {
+        // The timeout is needed to give the workspace a chance to load before
+        // the initial XML is converted to blocks.
+        setTimeout(function() {
+          var xml = Blockly.Xml.textToDom(xmlTextToRestore);
+          Blockly.Xml.domToWorkspace(xml, blocklyApp.workspace);
+        }, 0);
+      }
     }],
+    saveToLocalStorage: function() {
+      // MSIE 11 does not support localStorage on file:// URLs.
+      if (!window.localStorage) {
+        return;
+      }
+      var key = [
+          musicGame.NAME,
+          this.getLevelSetId(),
+          this.getCurrentLevelNumber()
+      ].join('.');
+
+      var xml = Blockly.Xml.workspaceToDom(blocklyApp.workspace);
+      window.localStorage[key] = Blockly.Xml.domToText(xml);
+    },
+    loadFromLocalStorage: function(levelNumber) {
+      if (!window.localStorage) {
+        return;
+      }
+
+      var key = [musicGame.NAME, this.getLevelSetId(), levelNumber].join('.');
+      return window.localStorage[key];
+    },
     getLevelSetId: function() {
       return this.levelSetId_;
     },
@@ -101,13 +151,15 @@ musicGame.LevelManagerService = ng.core
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
       if (correct) {
         if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
-          alert('Congratulations, you have finished the tutorial!');
+          alert('Congratulations, you have finished the levels!');
           return;
         }
 
         alert(
             'Good job! You completed the level! Press Enter to continue to ' +
             'level ' + (this.currentLevelNumber_ + 2) + '.');
+
+        this.saveToLocalStorage();
 
         window.location =
             window.location.protocol + '//' +
