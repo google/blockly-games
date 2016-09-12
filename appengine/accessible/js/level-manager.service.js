@@ -44,9 +44,6 @@ musicGame.LevelManagerService = ng.core
       var levelNumberFromUrl = utilsService.getStringParamFromUrl('l', '1');
       this.currentLevelNumber_ = levelNumberFromUrl - 1;
 
-      // TODO(sll): Drop this; make all levels available.
-      this.latestAvailableLevelNumber_ = this.currentLevelNumber_;
-
       var that = this;
       ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
         musicPlayer.reset();
@@ -126,11 +123,6 @@ musicGame.LevelManagerService = ng.core
     },
     setCurrentLevel: function(current1IndexedLevelNumber) {
       this.currentLevelNumber_ = current1IndexedLevelNumber - 1;
-      this.latestAvailableLevelNumber_ = Math.max(
-          this.latestAvailableLevelNumber_, current1IndexedLevelNumber - 1);
-    },
-    setLatestAvailableLevel: function(levelNumber) {
-      this.latestAvailableLevelNumber_ = levelNumber;
     },
     getCurrentLevelData: function() {
       return this.levelSet_[this.currentLevelNumber_];

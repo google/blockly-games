@@ -33,11 +33,16 @@ musicGame.AppView = ng.core
       <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
       <ul role="navigation" class="musicGameNavigation">
         <li *ngFor="#levelNumber1Indexed of levelNumbers">
-          <a *ngIf="hasReached(levelNumber1Indexed)" href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetId}}">
-            Level {{levelNumber1Indexed}}
+          <a *ngIf="!isCurrentLevelNumber(levelNumber1Indexed)"
+             href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetId}}"
+             [attr.aria-label]="'Level ' + levelNumber1Indexed"
+             class="levelDot otherLevel">
+            {{levelNumber1Indexed}}
           </a>
-          <span *ngIf="!hasReached(levelNumber1Indexed)">
-            Level {{levelNumber1Indexed}}
+          <span *ngIf="isCurrentLevelNumber(levelNumber1Indexed)"
+                [attr.aria-label]="'Level ' + levelNumber1Indexed"
+                class="levelDot currentLevel">
+            {{levelNumber1Indexed}}
           </span>
         </li>
         <li *ngFor="#levelSetData of otherLevelSetsMetadata">
@@ -105,7 +110,7 @@ musicGame.AppView = ng.core
       musicPlayer.reset();
       musicPlayer.play(expectedLine, this.beatsPerMinute);
     },
-    hasReached: function(levelNumber1Indexed) {
-      return Number(levelNumber1Indexed - 1) <= Number(this.currentLevelNumber);
+    isCurrentLevelNumber: function(levelNumber1Indexed) {
+      return Number(levelNumber1Indexed - 1) == Number(this.currentLevelNumber);
     }
   });
