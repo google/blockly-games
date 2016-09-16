@@ -261,7 +261,7 @@ Blockly.Blocks['math_change'].init = function() {
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": Blockly.Blocks.math.HUE,
+    "colour": Blockly.Blocks.variables.HUE,
     "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
