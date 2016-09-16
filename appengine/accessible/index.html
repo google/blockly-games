@@ -46,23 +46,49 @@
         font-family: sans-serif;
       }
       h1, h2 {
+        float: left;
         font-weight: normal;
+        margin: 0 50px 0 0;
       }
       h1 {
         font-size: 140%;
       }
       h2 {
         font-size: 120%;
+        margin-top: 4px;
       }
       ul.musicGameNavigation {
         list-style-type: none;
         margin: 0;
-        padding: 0;
         overflow: hidden;
+        padding-top: 4px;
       }
       ul.musicGameNavigation li {
         float: left;
-        margin: 0 20px 0 0;
+        margin: 0 12px 0 0;
+      }
+      .levelDot {
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        color: #333;
+        display: inline-block;
+        font-size: 0.9em;
+        height: 15px;
+        padding: 4px 4px;
+        text-align: center;
+        text-decoration: none;
+        width: 15px;
+      }
+      .levelDot.otherLevel:hover {
+        background-color: #ddd;
+        color: #000;
+        cursor: pointer;
+      }
+      .levelDot.currentLevel {
+        background-color: #ddd;
+        border: 2px solid #888;
+        color: #000;
+        cursor: default;
       }
     </style>
   </head>
@@ -73,10 +99,9 @@
       </a>
     </div>
 
-    <h1>Blockly Games: Music</h1>
-
     <music-game-app></music-game-app>
 
+    <script src="js/utils.service.js"></script>
     <script src="js/levels.js"></script>
     <script src="js/level-manager.service.js"></script>
     <script src="js/app.component.js"></script>

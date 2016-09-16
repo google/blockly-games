@@ -22,75 +22,93 @@
  * @author sll@google.com (Sean Lip)
  */
 
+musicGame.NAME = 'MUSIC_ACCESSIBLE';
+
 musicGame.AppView = ng.core
   .Component({
     selector: 'music-game-app',
     template: `
-    <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
-    <ul role="navigation" class="musicGameNavigation">
-      <li *ngFor="#levelNumber1Indexed of levelNumbers">
-        <a *ngIf="hasReached(levelNumber1Indexed)" href="./index.html?l={{levelNumber1Indexed}}">
-          Level {{levelNumber1Indexed}}
-        </a>
-        <span *ngIf="!hasReached(levelNumber1Indexed)">
-          Level {{levelNumber1Indexed}}
-        </span>
-      </li>
-    </ul>
+    <div>
+      <h1>Blockly Games: {{levelSetName}}</h1>
+      <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
+      <ul role="navigation" class="musicGameNavigation">
+        <li *ngFor="#levelNumber1Indexed of levelNumbers">
+          <a *ngIf="!isCurrentLevelNumber(levelNumber1Indexed)"
+             href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetId}}"
+             [attr.aria-label]="'Level ' + levelNumber1Indexed"
+             class="levelDot otherLevel">
+            {{levelNumber1Indexed}}
+          </a>
+          <span *ngIf="isCurrentLevelNumber(levelNumber1Indexed)"
+                [attr.aria-label]="'Level ' + levelNumber1Indexed"
+                class="levelDot currentLevel">
+            {{levelNumber1Indexed}}
+          </span>
+        </li>
+        <li *ngFor="#levelSetData of otherLevelSetsMetadata">
+          <a href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetData.id}}">
+            {{levelSetData.name}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div style="clear: both;"></div>
 
     <div role="main">
       <h3>Instructions</h3>
       <p *ngFor="#para of instructions">{{para}}</p>
-      <h3 *ngIf="hints">Hints</h3>
-      <p *ngFor="#para of hints">{{para}}</p>
+      <p *ngIf="hint">Hint: {{hint}}</p>
+      <p *ngIf="expectedLineData">
+        <button (click)="playTune()">Play desired tune</button>
+      </p>
+      <hr>
+
       <blockly-app></blockly-app>
     </div>
 
     <xml id="blockly-toolbox-xml" style="display: none">
-      <category name="Music">
-        <block *ngFor="#blockType of musicBlockTypes"
-               [attr.type]="blockType">
-        </block>
-      </category>
-      <category name="Loops">
-        <block *ngFor="#blockType of loopsBlockTypes"
-               [attr.type]="blockType">
-        </block>
-      </category>
+      <block *ngFor="#blockDefn of blockDefns"
+             [attr.type]="blockDefn.type">
+        <mutation [attr.options_json]="blockDefn.optionsJson">
+        </mutation>
+      </block>
     </xml>
     `,
     directives: [blocklyApp.AppView],
-    providers: [musicGame.LevelManagerService]
+    providers: [musicGame.LevelManagerService, musicGame.UtilsService]
   })
   .Class({
     constructor: [
         musicGame.LevelManagerService, function(levelManagerService) {
       var currentLevelData = levelManagerService.getCurrentLevelData();
-
+      this.otherLevelSetsMetadata =
+          levelManagerService.getOtherLevelSetsMetadata();
+      this.levelSetId = levelManagerService.getLevelSetId();
+      this.levelSetName = levelManagerService.getLevelSetName();
       this.currentLevelNumber = levelManagerService.getCurrentLevelNumber();
       this.levelNumbers = [];
       for (var i = 0; i < levelManagerService.getNumberOfLevels(); i++) {
         this.levelNumbers.push(i + 1);
       }
 
-      this.musicBlockTypes = [];
-      this.loopsBlockTypes = [];
-      var that = this;
-      levelManagerService.getAllowedBlockTypes().forEach(function(blockType) {
-        if (blockType.indexOf('music_') == 0) {
-          that.musicBlockTypes.push(blockType);
-        } else if (blockType.indexOf('controls_') == 0) {
-          that.loopsBlockTypes.push(blockType);
-        } else {
-          throw Error('Unknown block type: ' + blockType);
-        }
-      });
+      this.blockDefns = levelManagerService.getToolboxBlockDefns();
+
+      this.beatsPerMinute = currentLevelData.beatsPerMinute;
+      this.expectedLineData = currentLevelData.expectedLine;
 
       blocklyApp.workspace.clear();
-      this.hints = currentLevelData.hints;
+      this.hint = currentLevelData.hint;
       this.instructions = currentLevelData.htmlInstructions;
     }],
-    hasReached: function(levelNumber1Indexed) {
-      return Number(levelNumber1Indexed - 1) <= Number(this.currentLevelNumber);
+    playTune: function() {
+      var expectedLine = new MusicLine();
+      expectedLine.setFromChordsAndDurations(this.expectedLineData);
+
+      musicPlayer.reset();
+      musicPlayer.play(expectedLine, this.beatsPerMinute);
+    },
+    isCurrentLevelNumber: function(levelNumber1Indexed) {
+      return Number(levelNumber1Indexed - 1) == Number(this.currentLevelNumber);
     }
   });

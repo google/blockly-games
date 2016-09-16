@@ -22,23 +22,27 @@
  * @author sll@google.com (Sean Lip)
  */
 
-var musicGame = {};
-
 musicGame.LevelManagerService = ng.core
   .Class({
-    constructor: [function() {
-      this.levelSet_ = LEVELS['TUTORIAL'];
+    constructor: [musicGame.UtilsService, function(utilsService) {
+      this.levelSetId_ = utilsService.getStringParamFromUrl(
+          'levelset', 'tutorial');
 
-      // Level numbers here are 0-indexed.
-      this.currentLevelNumber_ = 0;
-      var levelNumberFromUrl = Number(location.search.split('l=')[1]);
-      if (levelNumberFromUrl - 1 >= 0 &&
-          levelNumberFromUrl - 1 < this.levelSet_.length) {
-        this.currentLevelNumber_ = levelNumberFromUrl - 1;
+      this.otherLevelSetsMetadata = [];
+      for (var levelSetId in LEVEL_SETS) {
+        if (levelSetId !== this.levelSetId_) {
+          this.otherLevelSetsMetadata.push({
+            id: levelSetId,
+            name: LEVEL_SETS[levelSetId].name
+          });
+        }
       }
 
-      // TODO(sll): Load from local storage.
-      this.latestAvailableLevelNumber_ = this.currentLevelNumber_;
+      this.levelSet_ = LEVEL_SETS[this.levelSetId_].levels;
+
+      // Level numbers here are 0-indexed.
+      var levelNumberFromUrl = utilsService.getStringParamFromUrl('l', '1');
+      this.currentLevelNumber_ = levelNumberFromUrl - 1;
 
       var that = this;
       ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
@@ -48,55 +52,122 @@ musicGame.LevelManagerService = ng.core
           that.gradeCurrentLevel();
         });
       }
+
+      var inherit =
+          this.levelSet_[this.currentLevelNumber_].continueFromPreviousLevel;
+      var defaultXmlText = this.levelSet_[this.currentLevelNumber_].defaultXml;
+
+      // Try loading saved XML for this level, saved XML from previous level,
+      // or default XML for this level, in that order.
+      var xmlTextToRestore = this.loadFromLocalStorage(
+          this.currentLevelNumber_);
+      if (!xmlTextToRestore && inherit) {
+        var inheritedXmlText = this.loadFromLocalStorage(
+            this.currentLevelNumber_ - 1);
+        if (inheritedXmlText) {
+          xmlTextToRestore = inheritedXmlText;
+        }
+      }
+      if (!xmlTextToRestore && defaultXmlText) {
+        xmlTextToRestore = defaultXmlText;
+      }
+
+      if (xmlTextToRestore) {
+        // The timeout is needed to give the workspace a chance to load before
+        // the initial XML is converted to blocks.
+        setTimeout(function() {
+          var xml = Blockly.Xml.textToDom(xmlTextToRestore);
+          Blockly.Xml.domToWorkspace(xml, blocklyApp.workspace);
+        }, 0);
+      }
     }],
+    saveToLocalStorage: function() {
+      // MSIE 11 does not support localStorage on file:// URLs.
+      if (!window.localStorage) {
+        return;
+      }
+      var key = [
+          musicGame.NAME,
+          this.getLevelSetId(),
+          this.getCurrentLevelNumber()
+      ].join('.');
+
+      var xml = Blockly.Xml.workspaceToDom(blocklyApp.workspace);
+      window.localStorage[key] = Blockly.Xml.domToText(xml);
+    },
+    loadFromLocalStorage: function(levelNumber) {
+      if (!window.localStorage) {
+        return;
+      }
+
+      var key = [musicGame.NAME, this.getLevelSetId(), levelNumber].join('.');
+      return window.localStorage[key];
+    },
+    getLevelSetId: function() {
+      return this.levelSetId_;
+    },
+    getLevelSetName: function() {
+      return LEVEL_SETS[this.levelSetId_].name;
+    },
+    getOtherLevelSetsMetadata: function() {
+      return this.otherLevelSetsMetadata;
+    },
     getCurrentLevelNumber: function() {
       return this.currentLevelNumber_;
     },
     getNumberOfLevels: function() {
       return this.levelSet_.length;
     },
-    getAllowedBlockTypes: function() {
-      return this.getCurrentLevelData().allowedBlockTypes;
+    getToolboxBlockDefns: function() {
+      return this.getCurrentLevelData().toolboxBlockDefns;
     },
     setCurrentLevel: function(current1IndexedLevelNumber) {
       this.currentLevelNumber_ = current1IndexedLevelNumber - 1;
-      this.latestAvailableLevelNumber_ = Math.max(
-          this.latestAvailableLevelNumber_, current1IndexedLevelNumber - 1);
-    },
-    setLatestAvailableLevel: function(levelNumber) {
-      this.latestAvailableLevelNumber_ = levelNumber;
     },
     getCurrentLevelData: function() {
       return this.levelSet_[this.currentLevelNumber_];
     },
     gradeCurrentLevel: function() {
-      var currentLevelData = this.getCurrentLevelData();
+      if (blocklyApp.workspace.topBlocks_.length > 1) {
+        alert(
+            'Not quite! Make sure all your blocks are connected to each ' +
+            'other.');
+        return;
+      }
 
+      var currentLevelData = this.getCurrentLevelData();
       var expectedPlayerLine = new MusicLine();
       expectedPlayerLine.setFromChordsAndDurations(
           currentLevelData.expectedLine);
+
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
-
-      var errorMessage = 'Not quite! Try again!';
-      var errorMessageChanged = false;
-      if (!correct && !errorMessageChanged) {
-        errorMessage = 'Not quite! Are you playing the right note?'
-        errorMessageChanged = true;
-      }
-
       if (correct) {
-        alert('Good job! You completed the level!');
-
-        var newUrl = window.location.href;
-        if (newUrl.lastIndexOf('?') + 4 === newUrl.length) {
-          newUrl = newUrl.substring(0, newUrl.length - 1) +
-            Number(this.currentLevelNumber_ + 2);
-        } else {
-          newUrl += '?l=' + Number(this.currentLevelNumber_ + 2);
+        if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
+          alert('Congratulations, you have finished the levels!');
+          return;
         }
 
-        window.location = newUrl;
+        alert(
+            'Good job! You completed the level! Press Enter to continue to ' +
+            'level ' + (this.currentLevelNumber_ + 2) + '.');
+
+        this.saveToLocalStorage();
+
+        window.location =
+            window.location.protocol + '//' +
+            window.location.host + window.location.pathname +
+            '?l=' + Number(this.currentLevelNumber_ + 2) +
+            '&levelset=' + this.levelSetId_;
       } else {
+        var playerChords = musicPlayer.getPlayerChords();
+        var errorMessage = 'Not quite! Are you playing the right note?';
+        if (currentLevelData.getTargetedFeedback) {
+          var targetedMessage = currentLevelData.getTargetedFeedback(
+              playerChords);
+          if (targetedMessage) {
+            errorMessage = targetedMessage;
+          }
+        }
         alert(errorMessage);
       }
     }
