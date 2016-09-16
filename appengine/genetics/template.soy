@@ -73,7 +73,9 @@
     <div class="goog-tab-bar-clear"></div>
     {call .gameElementTemplates /}
     <div class="vizTabContent">
-      <div id="display"></div>
+      <div id="displayContent">
+        <div id="display"></div>
+      </div>
       <div id="charts">
         <div id="populationChart"></div>
         <div id="pickFightChart"></div>
@@ -82,6 +84,17 @@
       </div>
     </div>
   </div>
+
+  <table class="playerStatTable">
+    <tbody>
+      <tr id="playerNameRow"></tr>
+    </tbody>
+  </table>
+  <table class="playerStatTable">
+   <tbody>
+      <tr id="playerStatRow"></tr>
+    </tbody>
+  </table>
 
   <table width="400">
     <tr>

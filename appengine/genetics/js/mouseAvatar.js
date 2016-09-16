@@ -48,40 +48,36 @@ Genetics.MouseAvatar = function(mouse) {
 
   // Create html element for the mouse.
   this.element = document.createElementNS(Blockly.SVG_NS, 'svg');
-  this.element.setAttribute('id', 'mouse-' + mouse.id);
+  this.element.setAttribute('id', 'mouse' + mouse.id);
   this.element.setAttribute('class', 'mouse');
-  this.element.setAttribute('width', Genetics.MouseAvatar.SIZE + 'px'); // TODO, do we need this?
-  this.element.setAttribute('height', Genetics.MouseAvatar.SIZE + 'px');
   this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' + Genetics.MouseAvatar.HALF_SIZE + 'px';
 
-  // Add mouse sprite to element.
+  // Create clip path for mouse image
+  var mouseClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
+  mouseClip.setAttribute('id', 'mouse' + mouse.id + 'ClipPath');
+  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
+  clipRect.setAttribute('width', Genetics.MouseAvatar.WIDTH + 'px');
+  clipRect.setAttribute('height', Genetics.MouseAvatar.HEIGHT + Genetics.MouseAvatar.TAIL_HEIGHT + 'px');
+  mouseClip.appendChild(clipRect);
+  this.element.appendChild(mouseClip);
+
+  // Add mouse image to element.
   var image = document.createElementNS(Blockly.SVG_NS, 'image');
   image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       Genetics.MouseAvatar.MOUSE_SRC);
-  image.setAttribute('height', Genetics.MouseAvatar.SIZE + 'px');
-  image.setAttribute('width', Genetics.MouseAvatar.SIZE + 'px');
+  image.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
+  image.setAttribute('height', (Genetics.MouseAvatar.HEIGHT + Genetics.MouseAvatar.TAIL_HEIGHT) * 2 + 'px');
+  image.setAttribute('x', '0px');
+  if(this.sex === Genetics.Mouse.Sex.FEMALE) {
+    image.setAttribute('y', - (Genetics.MouseAvatar.HEIGHT + Genetics.MouseAvatar.TAIL_HEIGHT) + 'px');
+  }
   image.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' + Genetics.MouseAvatar.HALF_SIZE + 'px'; // TODO are both transform origins necessary?
+  image.setAttribute('clip-path', 'url(#mouse' + mouse.id + 'ClipPath)');
   this.element.appendChild(image);
 
-  // // Add tooltip for element.
-  // var tooltip = document.createElementNS(Blockly.SVG_NS, 'text');
-  // tooltip.setAttribute('class', 'tooltip');
-  // // tooltip.setAttribute('visibility', 'hidden');
-  // tooltip.innerHTML = 'sdfsdf';
-  // // Genetics.Visualization.display_.appendChild(tooltip);
-  //
-  // var showTooltip = function(e) {
-  //
-  // };
-  // var hideTooltip = function(e) {
-  //
-  // };
-  // this.element.addEventListener('mousemove', showTooltip, true);
-  // this.element.addEventListener('onmouseout', hideTooltip, true);
-
   // Calculate the pie chart arc start/end based on avatar size.
-  var xOffset = Genetics.MouseAvatar.HALF_SIZE - Genetics.MouseAvatar.CHART_HALF_SIZE;
-  var yOffset = xOffset + Genetics.MouseAvatar.HALF_SIZE / 4;
+  var xOffset = Genetics.MouseAvatar.WIDTH / 2 - Genetics.MouseAvatar.CHART_HALF_SIZE;
+  var yOffset = Genetics.MouseAvatar.HEIGHT * 4 / 5 - Genetics.MouseAvatar.CHART_HALF_SIZE;
   var radius = Genetics.MouseAvatar.CHART_HALF_SIZE;
   var x1 = radius + xOffset;
   var y1 = yOffset;
@@ -98,7 +94,7 @@ Genetics.MouseAvatar = function(mouse) {
       ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
       x2 + ' ' + y2 + ' L ' + centerX + ' ' + centerY + ' Z');
   proposeMateSlice.setAttribute('fill',
-      Genetics.MouseAvatar.playerColors[this.proposeMateOwner]);
+      Genetics.Visualization.COLOURS[this.proposeMateOwner]);
   this.element.appendChild(proposeMateSlice);
 
   // Draw bottom slice.
@@ -107,7 +103,7 @@ Genetics.MouseAvatar = function(mouse) {
       ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
       x3 + ' ' + y3 + ' L ' + centerX + ' ' + centerY + ' Z');
   pickFightSlice.setAttribute('fill',
-      Genetics.MouseAvatar.playerColors[this.pickFightOwner]);
+      Genetics.Visualization.COLOURS[this.pickFightOwner]);
   this.element.appendChild(pickFightSlice);
 
   // Draw top left slice.
@@ -116,7 +112,7 @@ Genetics.MouseAvatar = function(mouse) {
       ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
       x1 + ' ' + y1 + ' L ' + centerX + ' ' + centerY + ' Z');
   acceptMateSlice.setAttribute('fill',
-      Genetics.MouseAvatar.playerColors[this.acceptMateOwner]);
+      Genetics.Visualization.COLOURS[this.acceptMateOwner]);
   this.element.appendChild(acceptMateSlice);
 
   Object.defineProperty(this, 'direction', {
@@ -141,12 +137,19 @@ Genetics.MouseAvatar = function(mouse) {
       } else if (delta < -Math.PI) {
         delta += 2 * Math.PI;
       }
-      if (delta > 0) {
-        // If the mouse turned right.
-      } else if (delta < 0) {
-        // If the mouse turned left.
-      } else {
-        // Mouse went straight
+      if (Math.abs(delta) > Math.PI/10) {
+        var resetStraight = function() {
+          image.setAttribute('x', '0px');
+        };
+        if (delta > 0) {
+          // If the mouse turned right.
+          image.setAttribute('x', -Genetics.MouseAvatar.WIDTH + 'px');
+          setTimeout(resetStraight, 150)
+        } else if (delta < 0) {
+          // If the mouse turned left.
+          image.setAttribute('x', -2 * Genetics.MouseAvatar.WIDTH + 'px');
+          setTimeout(resetStraight, 150)
+        }
       }
       // Rotate mouse image to match direction facing.
       this.element.style.transform =
@@ -183,9 +186,11 @@ Genetics.MouseAvatar = function(mouse) {
 
 Genetics.MouseAvatar.MOUSE_SRC = 'genetics/mouse.png';
 
-Genetics.MouseAvatar.SIZE = 40;
-Genetics.MouseAvatar.HALF_SIZE = Genetics.MouseAvatar.SIZE / 2;
-Genetics.MouseAvatar.CHART_SIZE = 10;
+Genetics.MouseAvatar.WIDTH = 40;
+Genetics.MouseAvatar.HEIGHT = 45;
+Genetics.MouseAvatar.TAIL_HEIGHT = 15;
+Genetics.MouseAvatar.HALF_SIZE = Genetics.MouseAvatar.WIDTH / 2;
+Genetics.MouseAvatar.CHART_SIZE = 15;
 Genetics.MouseAvatar.CHART_HALF_SIZE = Genetics.MouseAvatar.CHART_SIZE / 2;
 
 Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX = 0;
@@ -211,15 +216,6 @@ Genetics.MouseAvatar.IDLE_SPEED = .05;
  */
 Genetics.MouseAvatar.DISPLAY_SIZE = 0;
 
-/**
- * Mapping of player id to the color assigned to them.
- * Set in Visualization.
- * @type {Object.<number, string>}
- * @private
- * @const
- */
-Genetics.MouseAvatar.playerColors = {};
-
 Genetics.MouseAvatar.prototype.stop = function() {
   for (var i = 0; i < this.actionPids.length; i++) {
     clearTimeout(this.actionPids[i]);
@@ -243,10 +239,10 @@ Genetics.MouseAvatar.prototype.stop = function() {
 Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
   var xClamped = goog.math.clamp(x, 0,
       Genetics.MouseAvatar.DISPLAY_SIZE -
-  Genetics.MouseAvatar.SIZE);
+  Genetics.MouseAvatar.WIDTH);
   var yClamped = goog.math.clamp(y, 0,
       Genetics.MouseAvatar.DISPLAY_SIZE -
-      Genetics.MouseAvatar.SIZE);
+      Genetics.MouseAvatar.WIDTH);
 
   var mouseX = parseInt(this.element.style.left, 10);
   var mouseY = parseInt(this.element.style.top, 10);

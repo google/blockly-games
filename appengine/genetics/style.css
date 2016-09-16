@@ -15,13 +15,54 @@
   position: relative;
 }
 
-#display {
+#displayContent {
   position: absolute;
   width: 400px;
   height: 400px;
-  background: #ccc;
   overflow: hidden;
+}
+
+#display {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background: #ccc;
   z-index: -1;
+}
+
+.playerStatTable {
+  width: 406px;
+  max-width: 406px;
+  margin-left: -2px;
+  height: 20px;
+}
+
+.playerStatTable>tbody>tr>td {
+  padding: 0;
+  border: 1px solid;
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.playerStatContainer {
+  position: absolute;
+}
+
+.playerStatName {
+  position: absolute;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mouseFunctionIcons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 60px;
+  background-image: url(mouseFunctionIcons.png);
 }
 
 .vizTabContent {
@@ -240,13 +281,6 @@
   animation-delay: 1s
 }
 
-@keyframes fadeInOut {
-  0% {opacity:0;}
-  20% {opacity:1;}
-  80% {opacity:1;}
-  100% {opacity:0;}
-}
-
 @keyframes fadeIn {
   0% {opacity:0.5;}
   100% {opacity:1;}
@@ -254,6 +288,31 @@
 
 .gameElement {
   position: absolute;
+}
+
+.kickedOut {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  animation: bounceIn 1s;
+  background-image: url(kickedOut.png);
+}
+
+.retire {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  animation: bounceIn 1s;
+  background-image: url(retire.png);
+}
+
+
+.explode {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  animation: bounceIn 1s;
+  background-image: url(explode.png);
 }
 
 

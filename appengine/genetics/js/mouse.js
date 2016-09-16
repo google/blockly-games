@@ -50,7 +50,7 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
     var pickFightParent = goog.math.randomInt(2);
     var mateQuestionParent = goog.math.randomInt(2);
     // Guarantee that at least one function is inherited from each parent.
-    var acceptMateParent = (pickFightParent == mateQuestionParent) ?
+    var acceptMateParent = (pickFightParent === mateQuestionParent) ?
         !mateQuestionParent : goog.math.randomInt(2);
     this.pickFightOwner = pickFightParent ? opt_parentOne.pickFightOwner :
         opt_parentTwo.pickFightOwner;
