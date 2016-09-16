@@ -41,28 +41,58 @@
 {/template}
 
 /**
+ * Game elements used for visualization.
+ */
+{template .gameElementTemplates}
+</style>
+<div id="gameElements" style="display:none;">
+  <div id="dust" class="dust gameElement">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <p class="star1">&#9734;</p>
+    <p class="star2">&#9734;</p>
+    <p class="star3">&#9734;</p>
+    <p class="star4">&#9734;</p>
+  </div>
+  <div id="heart" class="gameElement">
+    <!-- Heart defined in inner div because it is rotated. -->
+    <div class="heart"></div>
+  </div>
+</div>
+{/template}
+
+/**
  * Canvas, statistic graphs, and buttons.
  */
 {template .visualization}
   <div id="visualization">
-    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-    <canvas id="display" width="400" height="400" style="display: none"></canvas>
+    <div id="vizTabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">Visualization</div>
+      <div class="goog-tab">Charts</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    {call .gameElementTemplates /}
+    <div class="vizTabContent">
+      <div id="displayContent">
+        <div id="display"></div>
+      </div>
+      <div id="charts">
+        <div id="populationChart"></div>
+        <div id="pickFightChart"></div>
+        <div id="proposeMateChart"></div>
+        <div id="acceptMateChart"></div>
+      </div>
+    </div>
   </div>
 
-  <table id="geneticsStatTable">
+  <table class="playerStatTable">
     <tbody>
-        <tr>
-          <td><div id="populationChart"></div></td>
-        </tr>
-        <tr>
-          <td><div id="pickFightChart"></div></td>
-        </tr>
-        <tr>
-          <td><div id="proposeMateChart"></div></td>
-        </tr>
-        <tr>
-          <td><div id="acceptMateChart"></div></td>
-        </tr>
+      <tr id="playerNameRow"></tr>
+    </tbody>
+  </table>
+  <table class="playerStatTable">
+   <tbody>
+      <tr id="playerStatRow"></tr>
     </tbody>
   </table>
 
@@ -168,13 +198,6 @@
           </shadow>
         </value>
         <value name="B">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_change">
-        <value name="DELTA">
           <shadow type="math_number">
             <field name="NUM">1</field>
           </shadow>
