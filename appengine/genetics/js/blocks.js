@@ -101,6 +101,8 @@ Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
   });
 };
 
+// TODO(kozbial) Add function flag to mouseFunctions once it has be implemented.
+
 /**
  * Block for defining mouse decision on which other mouse to fight.
  * @type {{init: !Function}}
@@ -291,7 +293,7 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this Blockly.Block
    */
   updateType_: function(newProp) {
-    if (newProp == 'SEX') {
+    if (newProp === 'SEX') {
       this.outputConnection.setCheck('String');
     } else {
       this.outputConnection.setCheck('Number');
@@ -404,7 +406,7 @@ Blockly.JavaScript['genetics_sex'] = function(block) {
   // Generate JavaScript for getting sex enum.
   var type = block.getFieldValue('TYPE');
   var code = mouse + 'Sex.';
-  if(type == 'MALE') {
+  if(type === 'MALE') {
     code += 'Male';
   } else {
     code += 'Female';
@@ -444,9 +446,9 @@ Blockly.Blocks['genetics_math_randomInt'] = {
 
 Blockly.JavaScript['genetics_math_randomInt'] = function(block) {
   // Retrieves a random integer value between two numbers, inclusive.
-  var minValue = Blockly.JavaScript.valueToCode(block, 'NUM',
+  var minValue = Blockly.JavaScript.valueToCode(block, 'MIN_VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
-  var maxValue = Blockly.JavaScript.valueToCode(block, 'NUM',
+  var maxValue = Blockly.JavaScript.valueToCode(block, 'MAX_VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
   var code = 'Math.randomInt(' + minValue + ', ' + maxValue + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
