@@ -475,33 +475,77 @@ Genetics.Cage.checkForEnd = function() {
     return;
   }
   // Check which genes have won.
-  var pickFightWinner = Genetics.Cage.aliveMice_[0].pickFightOwner;
-  var mateQuestionWinner = Genetics.Cage.aliveMice_[0].proposeMateOwner;
-  var acceptMateWinner = Genetics.Cage.aliveMice_[0].acceptMateOwner;
-  for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
-    var mouse = Genetics.Cage.aliveMice_[i];
-    if (pickFightWinner && pickFightWinner != mouse.pickFightOwner) {
-      pickFightWinner = null;
-    }
-    if (mateQuestionWinner && mateQuestionWinner != mouse.proposeMateOwner) {
-      mateQuestionWinner = null;
-    }
-    if (acceptMateWinner && acceptMateWinner != mouse.acceptMateOwner) {
-      acceptMateWinner = null;
-    }
-    if (!pickFightWinner && !mateQuestionWinner && !acceptMateWinner) {
+  var isDominationVictory = true;
+  var pickFightWinner = null;
+  var proposeMateWinner = null;
+  var acceptMateWinner = null;
+  for (var i = 0; i < Genetics.Cage.aliveMice_.length; i++) {
+    var mouse = Genetics.Cage.aliveMice_[i]
+    if ((pickFightWinner != null && pickFightWinner != mouse.pickFightOwner) ||
+        (proposeMateWinner != null && proposeMateWinner != mouse.proposeMateOwner) ||
+        (acceptMateWinner != null && acceptMateWinner != mouse.acceptMateOwner)) {
+      isDominationVictory = false;
       break;
     }
+    pickFightWinner = mouse.pickFightOwner;
+    proposeMateWinner = mouse.proposeMateOwner;
+    acceptMateWinner = mouse.acceptMateOwner;
   }
+
   // End the game if there is a winner for all functions.
-  if (pickFightWinner && mateQuestionWinner && acceptMateWinner) {
-    Genetics.Cage.end('DOMINATION', pickFightWinner, mateQuestionWinner,
+  if (isDominationVictory) {
+    Genetics.Cage.end('DOMINATION', pickFightWinner, proposeMateWinner,
         acceptMateWinner);
     return;
   }
   // Check if game has gone on too long.
   if (Date.now() > Genetics.Cage.endTime_) {
-    Genetics.Cage.end('TIMEOUT', pickFightWinner, mateQuestionWinner,
+    // Find which players have majority for each function.
+    var pickFightCounts = [];
+    var proposeMateCounts = [];
+    var acceptMateCounts = [];
+    for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
+      pickFightCounts.push(0);
+      proposeMateCounts.push(0);
+      acceptMateCounts.push(0);
+    }
+    for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
+      var mouse = Genetics.Cage.aliveMice_[i];
+      pickFightCounts[i] = mouse.pickFightOwner;
+      proposeMateCounts[i] = mouse.proposeMateOwner;
+      acceptMateCounts[i] = mouse.acceptMateOwner;
+    }
+    var pickFightWinner = 0;
+    var proposeMateWinner = 0;
+    var acceptMateWinner = 0;
+    var pickFightTie = false;
+    var proposeMateTie = false;
+    var acceptMateTie = false;
+    for (var playerId = 1; playerId < Genetics.Cage.players.length; playerId++) {
+      if (pickFightCounts[playerId] > pickFightCounts[pickFightWinner]) {
+        pickFightWinner = playerId;
+        pickFightTie = false;
+      } else if (pickFightCounts[playerId] == pickFightCounts[pickFightWinner]) {
+        pickFightTie = true;
+      }
+      if (proposeMateCounts[playerId] > proposeMateCounts[proposeMateWinner]) {
+        proposeMateWinner = playerId;
+        proposeMateTie = false;
+      } else if (proposeMateCounts[playerId] == proposeMateCounts[proposeMateWinner]) {
+        proposeMateTie = true;
+      }
+      if (acceptMateCounts[playerId] > acceptMateCounts[acceptMateWinner]) {
+        acceptMateWinner = playerId;
+        proposeMateTie = false;
+      } else if (acceptMateCounts[playerId] == acceptMateCounts[acceptMateWinner]) {
+        acceptMateTie = true;
+      }
+    }
+    pickFightWinner = (pickFightTie) ? null : pickFightWinner;
+    proposeMateWinner = (proposeMateTie) ? null : proposeMateWinner;
+    acceptMateWinner = (acceptMateTie) ? null : acceptMateWinner;
+
+    Genetics.Cage.end('TIMEOUT', pickFightWinner, proposeMateWinner,
         acceptMateWinner);
   }
 };
