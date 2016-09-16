@@ -1,0 +1,416 @@
+{namespace Genetics.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make genetics-lab-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    <span id="Genetics_simpleName">{{msg meaning="Genetics.simpleName" desc="Name for a player that makes simple decisions to randomly pick mates and opponents.\n{lb}{lb}Identical|Simple{rb}{rb}"}}Simple{{/msg}}</span>
+    <span id="Genetics_aggressiveName">{{msg meaning="Genetics.aggressiveName" desc="Name for a player that has an aggressive strategy to breed with the biggest mice and always fight against smaller mice.\n{lb}{lb}Identical|Aggressive {rb}{rb}"}}Aggressive{{/msg}}</span>
+    <span id="Genetics_highBreedingName">{{msg meaning="Genetics.highBreedingName" desc="Name for a player that has a strategy to never fight and breed with mice with high fertility.\n{lb}{lb}Identical|High Breeding{rb}{rb}"}}High Breeding{{/msg}}</span>
+    <span id="Genetics_variantName">{{msg meaning="Genetics.variantName" desc="Name for a player that has a complex strategy that is a variant of other mice AI.\n{lb}{lb}Identical|Variant{rb}{rb}"}}Variant{{/msg}}</span>
+    <span id="Genetics_myName">{{msg meaning="Genetics.playerName" desc="IBID"}}Player{{/msg}}</span>
+
+    // Tooltips
+    <span id="Genetics_getSelfTooltip">{msg meaning="Genetics.getSelfTooltip" desc="Tooltip for the block that returns the mouse making the decision."}Returns the mouse making the decision.{/msg}</span>
+    <span id="Genetics_pickFightTooltip">{msg meaning="Genetics.pickFightTooltip" desc="Tooltip for the block that defines the logic for picking a mouse to fight against."}Defines the function for picking a mouse to fight against.{/msg}</span>
+    <span id="Genetics_proposeMateTooltip">{msg meaning="Genetics.proposeMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
+    <span id="Genetics_acceptMateTooltip">{msg meaning="Genetics.acceptMateTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
+    <span id="Genetics_sizeTooltip">{msg meaning="Genetics.sizeTooltip" desc="Tooltip for the block that reports the size of the specified mouse."}Reports the size of the specified mouse.{/msg}</span>
+    <span id="Genetics_aggressivenessTooltip">{msg meaning="Genetics.aggressivenessTooltip" desc="Tooltip for the block that reports the aggressiveness of the specified mouse."}Reports the aggressiveness of the specified mouse.{/msg}</span>
+    <span id="Genetics_fertilityTooltip">{msg meaning="Genetics.fertilityTooltip" desc="Tooltip for the block that reports the fertility of the specified mouse."}Reports the fertility of the specified mouse.{/msg}</span>
+    <span id="Genetics_startFertilityTooltip">{msg meaning="Genetics.startFertilityTooltip" desc="Tooltip for the block that reports the starting fertility of the specified mouse."}Reports the starting fertility of the specified mouse.{/msg}</span>
+    <span id="Genetics_sexTooltip">{msg meaning="Genetics.sexTooltip" desc="Tooltip for the block that reports the sex of the specified mouse."}Reports the sex of the specified mouse.{/msg}</span>
+    <span id="Genetics_ageTooltip">{msg meaning="Genetics.ageTooltip" desc="Tooltip for the block that reports the age of the specified mouse."}Reports the age of the specified mouse.{/msg}</span>
+    <span id="Genetics_idTooltip">{msg meaning="Genetics.idTooltip" desc="Tooltip for the block that reports the id of the specified mouse."}Reports the id of the specified mouse.{/msg}</span>
+    <span id="Genetics_pickFightOwnerTooltip">{msg meaning="Genetics.pickFightOwnerTooltip" desc="Tooltip for the block that reports the owner of the pickFight function of the specified mouse."}Reports the owner of the pickFight function of the specified mouse.{/msg}</span>
+    <span id="Genetics_proposeMateOwnerTooltip">{msg meaning="Genetics.proposeMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the proposeMate function of the specified mouse."}Reports the owner of the proposeMate function of the specified mouse.{/msg}</span>
+    <span id="Genetics_acceptMateOwnerTooltip">{msg meaning="Genetics.acceptMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the acceptMate function of the specified mouse."}Reports the owner of the acceptMate function of the specified mouse.{/msg}</span>
+  </div>
+{/template}
+
+/**
+ * Canvas, statistic graphs, and buttons.
+ */
+{template .visualization}
+  <div id="visualization">
+    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+    <canvas id="display" width="400" height="400" style="display: none"></canvas>
+  </div>
+
+  <table id="geneticsStatTable">
+    <tbody>
+        <tr>
+          <td><div id="populationChart"></div></td>
+        </tr>
+        <tr>
+          <td><div id="pickFightChart"></div></td>
+        </tr>
+        <tr>
+          <td><div id="proposeMateChart"></div></td>
+        </tr>
+        <tr>
+          <td><div id="acceptMateChart"></div></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <table width="400">
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <button id="docsButton" title="{msg meaning="Genetics.docsTooltip" desc="Tooltip for the button that opens the language reference documentation."}Display the language documentation.{/msg}">
+          {{msg meaning="Genetics.documentation" desc="Text on the button that opens the language reference documentation.\n{lb}{lb}Identical|Documentation{rb}{rb}"}}Documentation{{/msg}}
+        </button>
+      </td>
+      <td>
+        <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
+          <img src="common/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+        </button>
+        <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
+          <img src="common/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <div id="dialogDocs" style="display: none">
+    <img src="common/1x1.gif" class="close icon21" id="closeDocs">
+    <iframe id="frameDocs"></iframe>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <h1>
+    {call BlocklyGames.soy.titleSpan}
+      {param appName}
+        {msg meaning="Games.genetics" desc="IBID"}Genetics{/msg}
+      {/param}
+    {/call}
+  </h1>
+
+  {call .visualization /}
+
+  <div id="tabarea">
+    <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">{msg meaning="Games.blocks" desc="IBID"}Blocks{/msg}</div>
+      <div class="goog-tab">JavaScript</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    <div id="blockly"></div>
+    <div id="editor"></div>
+  </div>
+
+  {call .toolbox /}
+  {call .playerSimple /}
+  {call .playerAggressive /}
+  {call .playerHighBreeding /}
+
+  {call BlocklyGames.soy.dialog /}
+{/template}
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none;">
+  <category name="{msg meaning="Games.genetics" desc="IBID"}Genetics{/msg}">
+      <block type="genetics_getSelf"></block>
+      <block type="genetics_getMice"></block>
+      <block type="genetics_getProperties"></block>
+      <block type="genetics_sex"></block>
+    </category>
+    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+    </category>
+    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="lists_length">
+            <value name="VALUE">
+              <shadow type="genetics_getMice"></shadow>
+            </value>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+      <block type="math_number"></block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_change">
+        <value name="DELTA">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="genetics_math_randomInt">
+        <value name="MIN_VALUE">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="MAX_VALUE">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <category name="{msg meaning="Games.catLists" desc="Lists"}Lists{/msg}">
+      <block type="lists_create_with">
+        <mutation items="0"></mutation>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_getIndex"></block>
+      <block type="lists_setIndex"></block>
+    </category>
+    <sep></sep>
+    <category name="{msg meaning="Games.catVariables" desc="Variables"}Variables{/msg}" custom="VARIABLE"></category>
+    <category name="{msg meaning="Games.catProcedures" desc="Functions"}Functions{/msg}" custom="PROCEDURE"></category>
+  </xml>
+{/template}
+
+/**
+ * Simple player code.
+ */
+{template .playerSimple}
+{literal}
+<div id="playerSimple" style="display: none">
+/* Simple player */
+var suitor;
+function pickFight() {
+  var mice = getMice();
+  var opponent = mice[Math.randomInt(0,mice.length-1)];
+  return opponent;
+}
+function proposeMate() {
+  var mice = getMice();
+  var mate = mice[Math.randomInt(0,mice.length-1)];
+  return mate;
+}
+function acceptMate(suitor) {
+  return true;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Aggressive player code.
+ */
+{template .playerAggressive}
+{literal}
+<div id="playerAggressive" style="display: none">
+/* Aggressive player */
+var suitor;
+function pickFight() {
+  var mice = getMice();
+  // Choose the smallest opponent.
+  var opponent = null;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that mouse is not me and is smaller.
+    if (mouse != getSelf() && mouse.size < getSelf().size) {
+      // Set opponent choice if opponent is smallest we have seen.
+      if (!opponent || mouse.size < opponent.size) {
+        opponent = mouse;
+      }
+    }
+  }
+  return opponent;
+}
+function proposeMate() {
+  var mice = getMice();
+  // Choose the biggest valid mate.
+  var mate = null;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that potential mate is valid.
+    if (mouse != getSelf() && mouse.sex != getSelf().sex) {
+      // Set mate choice if new mate is biggest we have seen.
+      if (!mate || mouse.size > mate.size) {
+        mate = mouse;
+      }
+    }
+  }
+  return mate;
+}
+function acceptMate(suitor) {
+  return suitor.size >= getSelf().size;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * High Breeding player code.
+ */
+{template .playerHighBreeding}
+{literal}
+<div id="playerHighBreeding" style="display: none">
+/* High Breeding player */
+var suitor;
+function pickFight() {
+  // Always choose not to fight.
+  return null;
+}
+function proposeMate() {
+  var mice = getMice();
+  // Choose the mate with the highest fertility gene.
+  var mate = null;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that potential mate is valid.
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
+      // Change mate choice if new mate would pass on higher fertility.
+      if (!mate || mouse.startingFertility > mate.startingFertility) {
+        mate = mouse;
+      }
+    }
+  }
+  return mate;
+}
+function acceptMate(suitor) {
+  return true;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Variant player code.
+ */
+{template .playerVariant}
+{literal}
+<div id="playerVariant" style="display: none">
+/* Variant player */
+var suitor;
+function pickFight() {
+  // Always choose not to fight.
+  return null;
+}
+function proposeMate() {
+  var mice = getMice();
+  // Choose the mate with the highest fertility gene.
+  var mate;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that potential mate is valid.
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
+      // Change mate choice if new mate would pass on higher fertility.
+      if (!mate || mouse.startingFertility > mate.startingFertility) {
+        mate = mouse;
+      }
+    }
+  }
+  return mate;
+}
+function acceptMate(suitor) {
+  // Survey for how many mice own target gene.
+  var bestGeneOwner = getSelf().acceptMateOwner;
+  // Check how many of suitor's genes are the same as the best gene.
+  var suitorGeneCount = 0;
+  if (suitor.pickFightOwner == bestGeneOwner) {
+    suitorGeneCount++;
+  }
+  if (suitor.mateQuestionOwner == bestGeneOwner) {
+    suitorGeneCount++;
+  }
+  if (suitor.acceptMateOwner == bestGeneOwner) {
+    suitorGeneCount++;
+  }
+  // If suitor owns all the right genes, they are perfect.
+  if (suitorGeneCount == 3) {
+    return true;
+  }
+  // Otherwise, survey the population to see what other potential mates have.
+  var okayMice = 0; // Count of how many mice own 1 if the 'best' gene.
+  var greatMice = 0; // Count of how many mice have 2 of the 'best' genes.
+  var bestMice = 0; // Count of how many mice have all the 'best' genes.
+  var totalValidMates = 0; // Count of total valid mates.
+  var mice = getMice();
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    if (mouse == getSelf()) {
+      continue;
+    }
+    if (mouse.fertility && mouse.sex != getSelf().sex) {
+      totalValidMates++;
+      // Count how many of the 'right' genes the mouse has.
+      var rightGeneCount = 0;
+      if (mouse.mateQuestionOwner == bestGeneOwner) {
+        rightGeneCount++;
+      }
+      if (mouse.acceptMateOwner == bestGeneOwner) {
+        rightGeneCount++;
+       }
+      if (mouse.pickFightOwner == bestGeneOwner) {
+        rightGeneCount++;
+      }
+      if (rightGeneCount == 1) {
+        okayMice++;
+      } else if (rightGeneCount == 2) {
+        greatMice++;
+      } else if (rightGeneCount == 3) {
+        bestMice++;
+      }
+    }
+  }
+  // Be very selective if there are a lot of best choices.
+  if (totalValidMates > 4 && bestMice/totalValidMates > 0.5) {
+    return false;
+  }
+  // Otherwise be less selective if there are still a lot of great choices
+  if (totalValidMates > 4 && (greatMice + bestMice)/totalValidMates > 0.5) {
+    return suitorGeneCount > 1;
+  }
+  // Otherwise be somewhat selective if there are some okay choices
+  if (totalValidMates > 4 && (okayMice + greatMice + bestMice)/totalValidMates > 0.5) {
+    return suitorGeneCount > 2;
+  }
+  // Otherwise take what you can get
+  return true;
+}
+</div>
+{/literal}
+{/template}
+
+
