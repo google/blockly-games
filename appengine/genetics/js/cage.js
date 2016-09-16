@@ -358,10 +358,9 @@ Genetics.Cage.tryMate = function(mouse) {
       new Genetics.Cage.Event('OVERPOPULATION', oldestMouse.id).addToQueue();
       Genetics.Cage.die(oldestMouse);
     }
-  } else {
-    // Use up one mating attempt for mouse.
-    mouse.fertility--;
   }
+  // Use up one mating attempt for mouse.
+  mouse.fertility--;
 };
 
 /**
@@ -425,6 +424,9 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
         askedMouse.id).addToQueue();
     return false;
   }
+  // Asked mouse accepted the mating request.
+  // Use up one mating attempt for asked Mouse.
+  askedMouse.fertility--;
   if (proposingMouse.sex === askedMouse.sex) {
     // If mice are not of different sex, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INCOMPATIBLE',
