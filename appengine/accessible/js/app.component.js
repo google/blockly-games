@@ -68,13 +68,11 @@ musicGame.AppView = ng.core
     </div>
 
     <xml id="blockly-toolbox-xml" style="display: none">
-      <category name="Blocks" *ngIf="blockDefns.length > 0">
-        <block *ngFor="#blockDefn of blockDefns"
-               [attr.type]="blockDefn.type">
-          <mutation [attr.options_json]="blockDefn.optionsJson">
-          </mutation>
-        </block>
-      </category>
+      <block *ngFor="#blockDefn of blockDefns"
+             [attr.type]="blockDefn.type">
+        <mutation [attr.options_json]="blockDefn.optionsJson">
+        </mutation>
+      </block>
     </xml>
     `,
     directives: [blocklyApp.AppView],
