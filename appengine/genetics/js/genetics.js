@@ -202,6 +202,7 @@ Genetics.init = function() {
   // Clear the workspace to avoid merge.
   BlocklyGames.workspace.clear();
   Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+  BlocklyGames.workspace.clearUndo();
 
   var players = [
     {
@@ -237,7 +238,7 @@ Genetics.init = function() {
     var name = BlocklyGames.getMsg(playerData.name);
     Genetics.Cage.addPlayer(name, code);
   }
-  Genetics.Cage.reset();
+  Genetics.reset();
   Genetics.changeTab(0);
   Genetics.ignoreEditorChanges_ = false;
 };
@@ -372,7 +373,7 @@ Genetics.editorChanged = function() {
   if (Genetics.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
-      // Break link betweeen blocks and JS.
+      // Break link between blocks and JS.
       Genetics.tabbar.getChildAt(0).setEnabled(false);
       Genetics.blocksEnabled_ = false;
     } else {
