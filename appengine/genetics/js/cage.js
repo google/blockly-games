@@ -264,6 +264,7 @@ Genetics.Cage.simulateLife = function(mouse) {
  */
 Genetics.Cage.instigateFight = function(mouse) {
   var result = Genetics.Cage.runMouseFunction(mouse, 'pickFight');
+  mouse.aggressiveness--;
   if (!result.success) {
     // Explode mouse if function threw an error or caused a timeout.
     new Genetics.Cage.Event('EXPLODE', mouse.id, 'pickFight', result.cause)
