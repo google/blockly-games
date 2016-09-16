@@ -405,8 +405,28 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'SELF').addToQueue();
     return false;
   }
+  // Ask second mouse whether it will mate with the proposing mouse.
+  var result = Genetics.Cage.runMouseFunction(askedMouse, 'acceptMate',
+      proposingMouse);
+  if (!result.success) {
+    // Explode mouse if function threw an error or caused a timeout.
+    new Genetics.Cage.Event('MATE', proposingMouse.id, 'MATE_EXPLODED',
+        askedMouse.id)
+        .addToQueue();
+    new Genetics.Cage.Event('EXPLODE', askedMouse.id, 'acceptMate',
+        result.cause)
+        .addToQueue();
+    Genetics.Cage.die(askedMouse);
+    return false;
+  }
+  if (!result.value) {
+    // If mouse's response is negative.
+    new Genetics.Cage.Event('MATE', proposingMouse.id, 'REJECTION',
+        askedMouse.id).addToQueue();
+    return false;
+  }
   if (proposingMouse.sex === askedMouse.sex) {
-   // If mice are not of different sex, mate does not succeed.
+    // If mice are not of different sex, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INCOMPATIBLE',
         askedMouse.id).addToQueue();
     return false;
@@ -414,21 +434,6 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
   if (askedMouse.fertility < 1) {
     // If other mouse is infertile, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INFERTILE',
-        askedMouse.id).addToQueue();
-    return false;
-  }
-  // Ask second mouse whether it will mate with the proposing mouse.
-  var result = Genetics.Cage.runMouseFunction(askedMouse, 'acceptMate',
-      proposingMouse);
-  if (!result.success) {
-    // Explode mouse if function threw an error or caused a timeout.
-    new Genetics.Cage.Event('MATE', proposingMouse.id, 'MATE_EXPLODED')
-        .addToQueue();
-    return false;
-  }
-  if (!result.value) {
-    // If mouse's response is positive.
-    new Genetics.Cage.Event('MATE', proposingMouse.id, 'REJECTION',
         askedMouse.id).addToQueue();
     return false;
   }

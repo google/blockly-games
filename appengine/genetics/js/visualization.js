@@ -539,7 +539,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         var cause = event['CAUSE'];
         Genetics.Visualization.killMouse(mouse, 'EXPLOSION');
         Genetics.log(getMouseName(mouse) + ' exploded in ' + source +
-            ' because ' + cause);
+            ' because \"' + cause + '\"');
         break;
       case 'SPIN':
         var source = event['SOURCE'];
@@ -607,6 +607,12 @@ Genetics.Visualization.processFightEvent = function(event, instigator, opt_oppon
   }
 };
 
+/**
+ *
+ * @param {string} event
+ * @param {Genetics.MouseAvatar} proposingMouse
+ * @param {Genetics.MouseAvatar} opt_askedMouse
+ */
 Genetics.Visualization.processMateEvent = function(event, proposingMouse,
     opt_askedMouse) {
   var getMouseName = Genetics.Visualization.getMouseName;
@@ -620,7 +626,6 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
     Genetics.log(getMouseName(proposingMouse) +
         ' caught trying to mate with itself.');
   } else if (result === 'MATE_EXPLODED') {
-    Genetics.Visualization.killMouse(askedMouse, 'EXPLOSION');
     Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
         getMouseName(proposingMouse) + ' asked it out.');
   } else if (result === 'REJECTION') {
