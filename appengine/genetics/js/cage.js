@@ -56,7 +56,7 @@ Genetics.Cage.TEMPO = 50;
 Genetics.Cage.players = {};
 
 /**
- * List of mice currently alive.
+ * List of mice currently alive and queued to run.
  * @type {!Array.<!Genetics.Mouse>}
  * @private
  */
@@ -600,25 +600,34 @@ Genetics.Cage.getInterpreter = function(mouse, mouseFunctionName, opt_suitor) {
     var player = Genetics.Cage.players[playerId].name;
     throw 'Player ' + player + ' has invalid code: ' + code;
   }
-  var interpreter = new Interpreter(code,
-      goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor));
-  // Overwrite other function calls and call function we need return value of.
-  switch (mouseFunctionName) {
-    case 'pickFight':
-      interpreter.appendCode('proposeMate = null;');
-      interpreter.appendCode('acceptMate = null;');
-      interpreter.appendCode('pickFight();');
-      break;
-    case 'proposeMate':
-      interpreter.appendCode('pickFight = null;');
-      interpreter.appendCode('acceptMate = null;');
-      interpreter.appendCode('proposeMate();');
-      break;
-    case 'acceptMate':
-      interpreter.appendCode('pickFight = null;');
-      interpreter.appendCode('proposeMate = null;');
-      interpreter.appendCode('acceptMate(getSuitor());');
-      break;
+
+  var interpreter;
+  try {
+    // Catch any syntax errors in the given code.
+    interpreter = new Interpreter(code,
+        goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor));
+    // Overwrite other function calls and call function we need return value of.
+    switch (mouseFunctionName) {
+      case 'pickFight':
+        interpreter.appendCode('proposeMate = null;');
+        interpreter.appendCode('acceptMate = null;');
+        interpreter.appendCode('pickFight();');
+        break;
+      case 'proposeMate':
+        interpreter.appendCode('pickFight = null;');
+        interpreter.appendCode('acceptMate = null;');
+        interpreter.appendCode('proposeMate();');
+        break;
+      case 'acceptMate':
+        interpreter.appendCode('pickFight = null;');
+        interpreter.appendCode('proposeMate = null;');
+        interpreter.appendCode('acceptMate(getSuitor());');
+        break;
+    }
+  } catch (e) {
+    code = 'throw SyntaxError(\'' + mouseFunctionName + '\')';
+    interpreter = new Interpreter(code,
+        goog.partial(Genetics.Cage.initInterpreter, mouse, opt_suitor));
   }
   return interpreter;
 };
