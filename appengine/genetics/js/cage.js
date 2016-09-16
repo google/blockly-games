@@ -626,6 +626,7 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
   var pseudoSuitor = interpreter.ARRAY;
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);
   var aliveMice = Genetics.Cage.aliveMice_;
+  var aliveMiceIndex = 0;
   for (var i = 0; i < aliveMice.length; i++) {
     var aliveMouse = aliveMice[i];
     // Create a clone of alive mouse with string keys so that keys won't be
@@ -649,7 +650,7 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
       pseudoMe = pseudoMouse;
     } else {
       // If the mouse is not the mouse running the interpreter, add to list.
-      interpreter.setProperty(pseudoAliveMice, i, pseudoMouse);
+      interpreter.setProperty(pseudoAliveMice, aliveMiceIndex++, pseudoMouse);
       if (suitor && aliveMouse.id === suitor.id) {
         // If the suitor parameter was define and has been created, save it.
         pseudoSuitor = pseudoMouse;
