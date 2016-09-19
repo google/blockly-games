@@ -297,7 +297,7 @@ function proposeMate() {
   return mate;
 }
 function acceptMate(suitor) {
-  return suitor.size >= getSelf().size;
+  return suitor.size >= getSelf().size && suitor.sex != getSelf().sex;
 }
 </div>
 {/literal}
@@ -332,7 +332,7 @@ function proposeMate() {
   return mate;
 }
 function acceptMate(suitor) {
-  return true;
+  return suitor.sex != getSelf().sex;
 }
 </div>
 {/literal}
