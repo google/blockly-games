@@ -370,9 +370,6 @@ Genetics.Cage.tryMate = function(mouse) {
  * @param {!Genetics.Mouse} parent2 One of the parents of the new mouse.
  */
 Genetics.Cage.createOffspring = function(parent1, parent2) {
-  // Use up one mating attempt for each of the parents.
-  parent1.fertility--;
-  parent2.fertility--;
   // Allocate a new ID for the mouse.
   var mouseId = Genetics.Cage.nextAvailableMouseId_++;
   // Determine sex of child based on the current population.
