@@ -56,7 +56,7 @@ musicGame.AppView = ng.core
     <div style="clear: both;"></div>
 
     <div role="main">
-      <h3>Instructions</h3>
+      <h3 id="instructions" tabindex="-1">Instructions</h3>
       <p *ngFor="#para of instructions">{{para}}</p>
       <p *ngIf="hint">Hint: {{hint}}</p>
       <p *ngIf="expectedLineData">

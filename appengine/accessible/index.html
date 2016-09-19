@@ -90,9 +90,32 @@
         color: #000;
         cursor: default;
       }
+
+      #skipLink a {
+        background-color: #9e340b;
+        color: white;
+        height: 1px;
+        left: -10000px;
+        overflow: hidden;
+        padding: 15px 20px 10px;
+        position: absolute;
+        text-decoration: none;
+        top: auto;
+        width: 1px;
+      }
+      #skipLink a:focus {
+        height: auto;
+        margin-left: -10px;
+        position: static;
+        width: auto;
+      }
     </style>
   </head>
   <body>
+    <div id="skipLink">
+      <a href="#instructions">Skip to Instructions</a>
+    </div>
+
     <div style="float: right;">
       <a href="./help.html">
         Learn more...
