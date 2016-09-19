@@ -265,15 +265,17 @@ function acceptMate(suitor) {
 /* Aggressive player */
 var suitor;
 function pickFight() {
+  var targetOwner = getSelf().pickFightOwner;
   var mice = getMice();
-  // Choose the smallest opponent.
+  // Choose the biggest opponent, smaller than itself.
   var opponent = null;
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
-    // Check that mouse is not me and is smaller.
-    if (mouse != getSelf() && mouse.size < getSelf().size) {
-      // Set opponent choice if opponent is smallest we have seen.
-      if (!opponent || mouse.size < opponent.size) {
+    // Check that mouse is smaller than self and doesn't share function owner.
+    if (mouse.size < getSelf().size && mouse.pickFightOwner != targetOwner &&
+        mouse.proposeMateOwner != targetOwner && mouse.acceptMateOwner != targetOwner) {
+      // Set opponent choice if opponent is biggest we have seen.
+      if (!opponent || mouse.size > opponent.size) {
         opponent = mouse;
       }
     }
@@ -297,7 +299,8 @@ function proposeMate() {
   return mate;
 }
 function acceptMate(suitor) {
-  return suitor.size >= getSelf().size && suitor.sex != getSelf().sex;
+  return suitor.proposeMateOwner == getSelf().acceptMateOwner ||
+      suitor.sex != getSelf().sex && suitor.size > getSelf().size;
 }
 </div>
 {/literal}
