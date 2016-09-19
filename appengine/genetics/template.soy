@@ -289,7 +289,7 @@ function proposeMate() {
   for(var i = 0; i < mice.length; i++) {
     var mouse = mice[i];
     // Check that potential mate is valid.
-    if (mouse != getSelf() && mouse.sex != getSelf().sex) {
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
       // Set mate choice if new mate is biggest we have seen.
       if (!mate || mouse.size > mate.size) {
         mate = mouse;
