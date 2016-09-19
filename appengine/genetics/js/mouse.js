@@ -103,13 +103,13 @@ Genetics.Mouse.Sex = {
  * The smallest change that a mutation in assigning mouse stats can be.
  * @type {number}
  */
-Genetics.Mouse.MIN_MUTATION = -2;
+Genetics.Mouse.MIN_MUTATION = -1;
 
 /**
  * The greatest change that a mutation in assigning mouse stats can be.
  * @type {number}
  */
-Genetics.Mouse.MAX_MUTATION = 2;
+Genetics.Mouse.MAX_MUTATION = 1;
 
 /**
  * The minimum size of a mouse.
@@ -127,7 +127,7 @@ Genetics.Mouse.MAX_SIZE = 10;
  * The size of a first generation mouse.
  * @type {number}
  */
-Genetics.Mouse.SIZE = 5;
+Genetics.Mouse.SIZE = 2;
 
 /**
  * Number of fight opportunities that a first generation mouse will pass on to
