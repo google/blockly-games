@@ -508,9 +508,9 @@ Genetics.Cage.checkForEnd = function() {
     }
     for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
       var mouse = Genetics.Cage.aliveMice_[i];
-      pickFightCounts[i] = mouse.pickFightOwner;
-      proposeMateCounts[i] = mouse.proposeMateOwner;
-      acceptMateCounts[i] = mouse.acceptMateOwner;
+      pickFightCounts[mouse.pickFightOwner]++;
+      proposeMateCounts[mouse.proposeMateOwner]++;
+      acceptMateCounts[mouse.acceptMateOwner]++;
     }
     var pickFightWinner = 0;
     var proposeMateWinner = 0;
