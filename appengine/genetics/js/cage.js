@@ -141,7 +141,7 @@ Genetics.Cage.endTime_ = 0;
  * Time limit of game (in milliseconds).
  * @type {number}
  */
-Genetics.Cage.GAME_TIME_LIMIT_MSEC = 5 * 60 * 1000;
+Genetics.Cage.GAME_TIME_LIMIT_MSEC = 1 * 1000; // TODO used to be 5 * 60 * 1000
 
 /**
  * Time limit for mouse function execution in number of interpreter steps (100k
@@ -431,7 +431,7 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
         askedMouse.id).addToQueue();
     return false;
   }
-  if (askedMouse.fertility < 1) {
+  if (askedMouse.fertility < 0) {
     // If other mouse is infertile, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INFERTILE',
         askedMouse.id).addToQueue();
