@@ -48,7 +48,7 @@ musicGame.LevelManagerService = ng.core
       ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
         musicPlayer.reset();
         runCodeToPopulatePlayerLine();
-        musicPlayer.playPlayerLine(100, function() {
+        musicPlayer.playPlayerLine(120, function() {
           that.gradeCurrentLevel();
         });
       }
@@ -80,6 +80,8 @@ musicGame.LevelManagerService = ng.core
           Blockly.Xml.domToWorkspace(xml, blocklyApp.workspace);
         }, 0);
       }
+
+      this.applauseAudioFile = new Audio('media/applause.mp3');
     }],
     saveToLocalStorage: function() {
       // MSIE 11 does not support localStorage on file:// URLs.
@@ -127,6 +129,9 @@ musicGame.LevelManagerService = ng.core
     getCurrentLevelData: function() {
       return this.levelSet_[this.currentLevelNumber_];
     },
+    playApplause: function() {
+      this.applauseAudioFile.play();
+    },
     gradeCurrentLevel: function() {
       if (blocklyApp.workspace.topBlocks_.length > 1) {
         alert(
@@ -142,22 +147,32 @@ musicGame.LevelManagerService = ng.core
 
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
       if (correct) {
-        if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
-          alert('Congratulations, you have finished the levels!');
-          return;
-        }
-
-        alert(
-            'Good job! You completed the level! Press Enter to continue to ' +
-            'level ' + (this.currentLevelNumber_ + 2) + '.');
-
         this.saveToLocalStorage();
 
-        window.location =
-            window.location.protocol + '//' +
-            window.location.host + window.location.pathname +
-            '?l=' + Number(this.currentLevelNumber_ + 2) +
-            '&levelset=' + this.levelSetId_;
+        if (this.levelSetId_ != 'tutorial') {
+          this.playApplause();
+        }
+
+        if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
+          if (this.levelSetId_ == 'tutorial') {
+            alert(
+                'Congratulations, you have finished the tutorial levels! ' +
+                'Press Enter to continue to the main game.');
+            window.location =
+                window.location.protocol + '//' +
+                window.location.host + window.location.pathname +
+                '?l=1&levelset=game1';
+          }
+        } else {
+          alert(
+              'Good job! You completed the level! Press Enter to continue ' +
+              'to level ' + (this.currentLevelNumber_ + 2) + '.');
+          window.location =
+              window.location.protocol + '//' +
+              window.location.host + window.location.pathname +
+              '?l=' + Number(this.currentLevelNumber_ + 2) +
+              '&levelset=' + this.levelSetId_;
+        }
       } else {
         var playerChords = musicPlayer.getPlayerChords();
         var errorMessage = 'Not quite! Are you playing the right note?';
