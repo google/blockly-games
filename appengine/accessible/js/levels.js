@@ -180,14 +180,16 @@ LEVEL_SETS.game1 = {
       [[62], 1],
       [[60], 2]
     ],
-    htmlInstructions: ['Use four blocks to play the familiar "Happy Birthday" tune.'],
+    htmlInstructions: [
+        'Add a type-3 phrase block and a type-4 phrase block to complete ' +
+        'the "Happy Birthday" tune.'],
     defaultXml: [
       '<xml xmlns="http://www.w3.org/1999/xhtml">',
       '  <block type="music_play_phrase">',
       '    <field name="MIDI_VALUES">55:0.75-55:0.25-57:1-55:1-60:1-59:2</field>',
       '    <next>',
       '      <block type="music_play_phrase">',
-      '        <field name="MIDI_VALUES">55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2</field>',
+      '        <field name="MIDI_VALUES">55:0.75-55:0.25-57:1-55:1-62:1-60:2</field>',
       '      </block>',
       '    </next>',
       '  </block>',
@@ -211,7 +213,9 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[52], 1]
     ],
-    htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.']
+    htmlInstructions: [
+        'Play Mary Had a Little Lamb by using a type-1 phrase, a type-2 ' +
+        'phrase, and three type-3 phrases.']
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -223,7 +227,7 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1],
     ],
-    htmlInstructions: ['Play the first bar of Frere Jacques: C-D-E-C.'],
+    htmlInstructions: ['Play the first part of Frere Jacques: C4-D4-E4-C4.'],
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'

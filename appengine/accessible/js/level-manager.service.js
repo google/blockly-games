@@ -135,8 +135,8 @@ musicGame.LevelManagerService = ng.core
     gradeCurrentLevel: function() {
       if (blocklyApp.workspace.topBlocks_.length > 1) {
         alert(
-            'Not quite! Make sure all your blocks are connected to each ' +
-            'other.');
+            'Not quite! You currently have more than one "island" in the ' +
+            'workspace. Make sure your blocks are all joined together.');
         return;
       }
 
