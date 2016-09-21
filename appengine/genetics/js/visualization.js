@@ -60,6 +60,19 @@ Genetics.Visualization.stopped_ = true;
 Genetics.Visualization.gameOverReached_ = true;
 
 /**
+ *
+ * @type {string}
+ */
+Genetics.Visualization.gameOverCause = '';
+
+/**
+ *
+ * @type {!Object.<!Array.<number>>}
+ * @const
+ */
+Genetics.Visualization.gameRankings = {};
+
+/**
  * Mapping of mouse ID to mouse for mice currently being visualized.
  * @type {!Object.<string, !Genetics.MouseAvatar>}
  * @private
@@ -410,18 +423,29 @@ Genetics.Visualization.reset = function() {
  */
 Genetics.Visualization.start = function() {
   Genetics.Visualization.gameOverReached_ = false;
+  Genetics.Visualization.gameRankings = {};
+  Genetics.Visualization.gameOverCause = '';
   Genetics.Visualization.stopped_ = false;
   Genetics.Visualization.update();
 };
+
+Genetics.Visualization.pendingAnimationsCount = 0;
 
 /**
  * Update the visualization.
  */
 Genetics.Visualization.update = function() {
   if (!Genetics.Visualization.stopped_) {
-    Genetics.Visualization.processCageEvents_();
-    Genetics.Visualization.drawCharts_();
-
+    if (!Genetics.Visualization.gameOverReached_) {
+      Genetics.Visualization.processCageEvents_();
+      Genetics.Visualization.drawCharts_();
+    } else {
+      if (Genetics.Visualization.pendingAnimationsCount == 0) {
+        // Display end game.
+        Genetics.Visualization.displayGameEnd();
+        return;
+      }
+    }
     Genetics.Visualization.pid_ = setTimeout(Genetics.Visualization.update,
         Genetics.Visualization.UPDATE_DELAY_MSC);
   }
@@ -443,7 +467,8 @@ Genetics.Visualization.playerStatsDivs_ = [];
 
 Genetics.Visualization.updateStats_ = function() {
   // Update the health bars.
-  var mouseCount = Object.keys(Genetics.Visualization.mice_).length;
+  var mouseCount = Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE] +
+      Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE];
   for (var playerId = 0; playerId < Genetics.Visualization.playerStatsDivs_.length; playerId++) {
     var playerStats = Genetics.Visualization.playerStatsDivs_[playerId];
     var pickFightPercent = 100 *
@@ -549,34 +574,50 @@ Genetics.Visualization.processCageEvents_ = function() {
         break;
       case 'END_GAME':
         Genetics.Visualization.gameOverReached_ = true;
-        var cause = event['CAUSE'];
-        var pickFightWinnerId = event['PICK_FIGHT_WINNER'];
-        var proposeMateWinnerId = event['PROPOSE_MATE_WINNER'];
-        var acceptMateWinnerId = event['ACCEPT_MATE_WINNER'];
-
-        var pickFightWinner = (pickFightWinnerId == null) ? 'none' :
-            Genetics.Cage.players[pickFightWinnerId].name;
-        var proposeMateWinner = (proposeMateWinnerId == null) ? 'none' :
-            Genetics.Cage.players[proposeMateWinnerId].name;
-        var acceptMateWinner = (acceptMateWinnerId == null) ? 'none' :
-            Genetics.Cage.players[acceptMateWinnerId].name;
-        if (cause != 'DOMINATION') {
-          Genetics.Visualization.populationChartWrapper_
-              .setOption('backgroundColor', 'black');
-          Genetics.Visualization.pickFightChartWrapper_
-              .setOption('backgroundColor', 'black');
-          Genetics.Visualization.proposeMateChartWrapper_
-              .setOption('backgroundColor', 'black');
-          Genetics.Visualization.acceptMateChartWrapper_
-              .setOption('backgroundColor', 'black');
-        }
-        Genetics.log('Game ended because ' + cause + '. PickFight Winner: ' +
-            pickFightWinner + ' proposeMate Winner: ' + proposeMateWinner +
-            ' acceptMate Winner: ' + acceptMateWinner);
+        Genetics.Visualization.gameOverCause = event['CAUSE'];
+        Genetics.Visualization.gameRankings = {
+          pickFight: event['PICK_FIGHT_RANK'],
+          proposeMate: event['PROPOSE_MATE_RANK'],
+          acceptMate: event['ACCEPT_MATE_RANK']};
         break;
     }
 
   }
+};
+
+Genetics.Visualization.displayGameEnd = function() {
+  var pickFightWinners = '';
+  var proposeMateWinners = '';
+  var acceptMateWinners = '';
+  for (var i = 0; i < Genetics.Visualization.gameRankings.pickFight[0].length; i++) {
+    var playerId = Genetics.Visualization.gameRankings.pickFight[0][i];
+    Genetics.Visualization.playerStatsDivs_[playerId].pickFightDiv.classList += 'winningFunction';
+    pickFightWinners += Genetics.Cage.players[playerId].name + ' ';
+  }
+  for (var i = 0; i < Genetics.Visualization.gameRankings.proposeMate[0].length; i++) {
+    var playerId = Genetics.Visualization.gameRankings.proposeMate[0][i];
+    Genetics.Visualization.playerStatsDivs_[playerId].proposeMateDiv.classList += 'winningFunction';
+    proposeMateWinners += Genetics.Cage.players[playerId].name + ' ';
+  }
+  for (var i = 0; i < Genetics.Visualization.gameRankings.acceptMate[0].length; i++) {
+    var playerId = Genetics.Visualization.gameRankings.acceptMate[0][i];
+    Genetics.Visualization.playerStatsDivs_[playerId].acceptMateDiv.classList += 'winningFunction';
+    acceptMateWinners += Genetics.Cage.players[playerId].name + ' ';
+  }
+
+  // Stop visualization.
+  // Genetics.Visualization.stop();
+
+  var endGameDiv = document.createElement('div');
+  endGameDiv.setAttribute('class', 'endGameDisplay');
+  Genetics.Visualization.display_.appendChild(endGameDiv);
+
+
+
+  Genetics.log('Game ended because ' + Genetics.Visualization.gameOverCause +
+      '. PickFight Winners: ' + pickFightWinners +
+      ' proposeMate Winners: ' + proposeMateWinners +
+      ' acceptMate Winners: ' + acceptMateWinners);
 };
 
 Genetics.Visualization.processFightEvent = function(event, instigator, opt_opponent) {
@@ -778,8 +819,10 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
     var afterAnimation = function() {
       explosion.removeEventListener('animationend', afterAnimation, false);
       Genetics.Visualization.display_.removeChild(explosion);
+      Genetics.Visualization.pendingAnimationsCount--;
     };
     explosion.addEventListener('animationend', afterAnimation, false);
+    Genetics.Visualization.pendingAnimationsCount++;
     Genetics.Visualization.display_.appendChild(explosion);
   } else if (reason === 'OVERPOPULATION') {
     // The mouse died because of overpopulation
@@ -790,8 +833,10 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
     var afterAnimation = function() {
       kick.removeEventListener('animationend', afterAnimation, false);
       Genetics.Visualization.display_.removeChild(kick);
+      Genetics.Visualization.pendingAnimationsCount--;
     };
     kick.addEventListener('animationend', afterAnimation, false);
+    Genetics.Visualization.pendingAnimationsCount++;
     Genetics.Visualization.display_.appendChild(kick);
   } else if (reason === 'RETIRE') {
     // The mouse died normally.
@@ -802,8 +847,10 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
     var afterAnimation = function() {
       tombstone.removeEventListener('animationend', afterAnimation, false);
       Genetics.Visualization.display_.removeChild(tombstone);
+      Genetics.Visualization.pendingAnimationsCount--;
     };
     tombstone.addEventListener('animationend', afterAnimation, false);
+    Genetics.Visualization.pendingAnimationsCount++;
     Genetics.Visualization.display_.appendChild(tombstone);
   }
 
@@ -886,6 +933,7 @@ Genetics.Visualization.fight = function(instigator, opponent, result, callback) 
   var afterFightCloud = function(e) {
     if (e.target === fightCloud) {
       fightCloud.removeEventListener('animationend', afterFightCloud, false);
+      Genetics.Visualization.pendingAnimationsCount--;
       instigator.element.style.display = '';
       opponent.element.style.display = '';
       if (result === 'WIN') {
@@ -912,6 +960,7 @@ Genetics.Visualization.fight = function(instigator, opponent, result, callback) 
     }
   };
   fightCloud.addEventListener('animationend', afterFightCloud, false);
+  Genetics.Visualization.pendingAnimationsCount++;
 
   Genetics.Visualization.display_.appendChild(fightCloud);
 
@@ -957,10 +1006,12 @@ Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth, callback)
     mouseAvatar.element.style['animationName'] = 'none';
     mouseAvatar.element
         .removeEventListener('animationEnd', afterDroppingIn, false);
+    Genetics.Visualization.pendingAnimationsCount--;
     callback();
   };
 
   mouseAvatar.element.addEventListener('animationend', afterDroppingIn, false);
+  Genetics.Visualization.pendingAnimationsCount++;
   mouseAvatar.element.style['animation'] = 'bounceIn 500ms';
 
   mouseAvatar.element.style.display = 'block';
@@ -988,10 +1039,12 @@ Genetics.Visualization.showHeart_ = function(type, x, y, callback) {
   var afterDisplay = function(e) {
     if (e.target === heart) {
       heart.parentNode.removeChild(heart);
+      Genetics.Visualization.pendingAnimationsCount--;
       callback();
     }
   };
   heart.addEventListener('animationend', afterDisplay, false);
+  Genetics.Visualization.pendingAnimationsCount++;
   heart.style['animation'] = 'bounceIn 700ms';
   Genetics.Visualization.display_.appendChild(heart);
 };

@@ -100,14 +100,14 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
   'OVERPOPULATION': ['TYPE', 'ID'],
   // A mouse dies if it throws an exception or times out.
   'EXPLODE': ['TYPE', 'ID', 'SOURCE', 'CAUSE'],
-  'END_GAME': ['TYPE', 'CAUSE', 'PICK_FIGHT_WINNER', 'PROPOSE_MATE_WINNER',
-    'ACCEPT_MATE_WINNER']
+  'END_GAME': ['TYPE', 'CAUSE', 'PICK_FIGHT_RANK', 'PROPOSE_MATE_RANK',
+    'ACCEPT_MATE_RANK']
 };
 
 /**
  * Creates an event.
  * @param {string } type The type of event.
- * @param {...string|number|!Genetics.Mouse} var_args The properties on
+ * @param {...string|number|!Genetics.Mouse|!Array.<!Array.<number>>} var_args The properties on
  * the event.
  * @constructor
  */
@@ -210,7 +210,7 @@ Genetics.Cage.start = function(doneCallback) {
       var mouseId = Genetics.Cage.nextAvailableMouseId_++;
       var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
       Genetics.Cage.born(mouse);
-      new Genetics.Cage.Event('ADD', goog.object.clone(mouse)).addToQueue();
+      new Genetics.Cage.Event('ADD', mouse).addToQueue();
     }
   }
   Genetics.Cage.endTime_ = Date.now() + Genetics.Cage.GAME_TIME_LIMIT_MSEC;
@@ -387,7 +387,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   var child = new Genetics.Mouse(mouseId, childSex, parent1, parent2);
   Genetics.Cage.born(child);
   new Genetics.Cage.Event('MATE', parent1.id, 'SUCCESS', parent2.id,
-      goog.object.clone(child)).addToQueue();
+      child).addToQueue();
 };
 
 /**
@@ -471,97 +471,116 @@ Genetics.Cage.checkForEnd = function() {
     Genetics.Cage.end('NONE_LEFT');
     return;
   }
-  // Check which genes have won.
-  var isDominationVictory = true;
-  var pickFightWinner = null;
-  var proposeMateWinner = null;
-  var acceptMateWinner = null;
-  for (var i = 0; i < Genetics.Cage.aliveMice_.length; i++) {
-    var mouse = Genetics.Cage.aliveMice_[i]
-    if ((pickFightWinner != null && pickFightWinner != mouse.pickFightOwner) ||
-        (proposeMateWinner != null && proposeMateWinner != mouse.proposeMateOwner) ||
-        (acceptMateWinner != null && acceptMateWinner != mouse.acceptMateOwner)) {
-      isDominationVictory = false;
-      break;
-    }
-    pickFightWinner = mouse.pickFightOwner;
-    proposeMateWinner = mouse.proposeMateOwner;
-    acceptMateWinner = mouse.acceptMateOwner;
+  // Find which players have majority for each function.
+  var pickFightCounts = [];
+  var proposeMateCounts = [];
+  var acceptMateCounts = [];
+  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
+    pickFightCounts.push(0);
+    proposeMateCounts.push(0);
+    acceptMateCounts.push(0);
   }
-
-  // End the game if there is a winner for all functions.
-  if (isDominationVictory) {
-    Genetics.Cage.end('DOMINATION', pickFightWinner, proposeMateWinner,
-        acceptMateWinner);
-    return;
+  var isTimeExpired = Date.now() > Genetics.Cage.endTime_;
+  for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
+    var mouse = Genetics.Cage.aliveMice_[i];
+    if (!isTimeExpired &&
+        (mouse.pickFightOwner != Genetics.Cage.aliveMice_[0].pickFightOwner ||
+        mouse.proposeMateOwner != Genetics.Cage.aliveMice_[0].proposeMateOwner ||
+        mouse.acceptMateOwner != Genetics.Cage.aliveMice_[0].acceptMateOwner)) {
+      // If time hasn't expired and there is not a domination victory, it is not
+      // game end yet.
+      return;
+    }
+    pickFightCounts[mouse.pickFightOwner]++;
+    proposeMateCounts[mouse.proposeMateOwner]++;
+    acceptMateCounts[mouse.acceptMateOwner]++;
   }
-  // Check if game has gone on too long.
-  if (Date.now() > Genetics.Cage.endTime_) {
-    // Find which players have majority for each function.
-    var pickFightCounts = [];
-    var proposeMateCounts = [];
-    var acceptMateCounts = [];
-    for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-      pickFightCounts.push(0);
-      proposeMateCounts.push(0);
-      acceptMateCounts.push(0);
-    }
-    for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
-      var mouse = Genetics.Cage.aliveMice_[i];
-      pickFightCounts[mouse.pickFightOwner]++;
-      proposeMateCounts[mouse.proposeMateOwner]++;
-      acceptMateCounts[mouse.acceptMateOwner]++;
-    }
-    var pickFightWinner = 0;
-    var proposeMateWinner = 0;
-    var acceptMateWinner = 0;
-    var pickFightTie = false;
-    var proposeMateTie = false;
-    var acceptMateTie = false;
-    for (var playerId = 1; playerId < Genetics.Cage.players.length; playerId++) {
-      if (pickFightCounts[playerId] > pickFightCounts[pickFightWinner]) {
-        pickFightWinner = playerId;
-        pickFightTie = false;
-      } else if (pickFightCounts[playerId] == pickFightCounts[pickFightWinner]) {
-        pickFightTie = true;
-      }
-      if (proposeMateCounts[playerId] > proposeMateCounts[proposeMateWinner]) {
-        proposeMateWinner = playerId;
-        proposeMateTie = false;
-      } else if (proposeMateCounts[playerId] == proposeMateCounts[proposeMateWinner]) {
-        proposeMateTie = true;
-      }
-      if (acceptMateCounts[playerId] > acceptMateCounts[acceptMateWinner]) {
-        acceptMateWinner = playerId;
-        proposeMateTie = false;
-      } else if (acceptMateCounts[playerId] == acceptMateCounts[acceptMateWinner]) {
-        acceptMateTie = true;
+  if (!isTimeExpired) { // TODO?
+    Genetics.Cage.end('DOMINATION',
+        [[Genetics.Cage.aliveMice_[0].pickFightOwner],[],[]],
+        [[Genetics.Cage.aliveMice_[0].proposeMateOwner],[],[]],
+        [[Genetics.Cage.aliveMice_[0].acceptMateOwner],[],[]]);
+  }
+  Genetics.pickFightCounts = pickFightCounts;
+  Genetics.proposeMateCounts = proposeMateCounts;
+  Genetics.acceptMateCounts = acceptMateCounts;
+  // Determine first/second/third place for each function
+  var pickFightRank = [[],[],[]];
+  var proposeMateRank = [[],[],[]];
+  var acceptMateRank = [[],[],[]];
+  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
+    for (var i = 0; i < pickFightRank.length; i++) {
+      if (pickFightRank[i].length == 0 ||
+          pickFightCounts[playerId] == pickFightCounts[pickFightRank[i][0]]) {
+        pickFightRank[i].push(playerId);
+        break;
+      } else if (pickFightCounts[playerId] > pickFightCounts[pickFightRank[i][0]]) {
+        var shiftedList = pickFightRank[i];
+        pickFightRank[i] = [playerId];
+        for (var j = i + 1; j < pickFightRank.length; j++) {
+          var oldList = pickFightRank[j];
+          pickFightRank[j] = shiftedList;
+          shiftedList = oldList;
+        }
+        break;
       }
     }
-    pickFightWinner = (pickFightTie) ? null : pickFightWinner;
-    proposeMateWinner = (proposeMateTie) ? null : proposeMateWinner;
-    acceptMateWinner = (acceptMateTie) ? null : acceptMateWinner;
-
-    Genetics.Cage.end('TIMEOUT', pickFightWinner, proposeMateWinner,
-        acceptMateWinner);
+    for (var i = 0; i < proposeMateRank.length; i++) {
+      if (proposeMateRank[i].length == 0 ||
+          proposeMateCounts[playerId]
+          == proposeMateCounts[proposeMateRank[i][0]]) {
+        proposeMateRank[i].push(playerId);
+        break;
+      } else if (proposeMateCounts[playerId] > proposeMateCounts[proposeMateRank[i][0]]) {
+        var shiftedList = proposeMateRank[i];
+        proposeMateRank[i] = [playerId];
+        for (var j = i + 1; j < proposeMateRank.length; j++) {
+          var oldList = proposeMateRank[j];
+          proposeMateRank[j] = shiftedList;
+          shiftedList = oldList;
+        }
+        break;
+      }
+    }
+    for (var i = 0; i < acceptMateRank.length; i++) {
+      if (acceptMateRank[i].length == 0 ||
+          acceptMateCounts[playerId] == acceptMateCounts[acceptMateRank[i][0]]) {
+        acceptMateRank[i].push(playerId);
+        break;
+      } else if (acceptMateCounts[playerId] > acceptMateCounts[acceptMateRank[i][0]]) {
+        var shiftedList = acceptMateRank[i];
+        acceptMateRank[i] = [playerId];
+        for (var j = i + 1; j < acceptMateRank.length; j++) {
+          var oldList = acceptMateRank[j];
+          acceptMateRank[j] = shiftedList;
+          shiftedList = oldList;
+        }
+        break;
+      }
+    }
   }
+  Genetics.pickFightRank = pickFightRank;
+  Genetics.proposeMateRank = proposeMateRank;
+  Genetics.acceptMateRank = acceptMateRank;
+  Genetics.Cage.end('TIMEOUT', pickFightRank, proposeMateRank,
+      acceptMateRank);
 };
 
 /**
  * Clears queued events for end of simulation.
  * @param {string} cause The cause of game end.
- * @param {string=} opt_pickFightWinner The owner of all the pickFight functions
- * in alive mice.
- * @param {string=} opt_proposeMateWinner The owner of all the proposeMate
- * functions in alive mice.
- * @param {string=} opt_acceptMateWinner The owner of all the acceptMate
- * functions in alive mice.
+ * @param {!Array.<!Array<number>>} pickFightRank A list of lists of first,
+ * second, and third place players for the pickFight function.
+ * @param {!Array.<!Array<number>>} proposeMateRank A list of lists of first,
+ * second, and third place players for the proposeMate function.
+ * @param {!Array.<!Array<number>>} acceptMateRank A list of lists of first,
+ * second, and third place players for the acceptMate function.
  */
-Genetics.Cage.end = function(cause, opt_pickFightWinner, opt_proposeMateWinner,
-    opt_acceptMateWinner) {
+Genetics.Cage.end = function(cause, pickFightRank, proposeMateRank,
+    acceptMateRank) {
   Genetics.Cage.stop();
-  new Genetics.Cage.Event('END_GAME', cause, opt_pickFightWinner,
-      opt_proposeMateWinner, opt_acceptMateWinner).addToQueue();
+  new Genetics.Cage.Event('END_GAME', cause, pickFightRank,
+      proposeMateRank, acceptMateRank).addToQueue();
 };
 
 /**

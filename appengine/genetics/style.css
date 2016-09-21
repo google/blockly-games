@@ -30,6 +30,18 @@
   z-index: -1;
 }
 
+.endGameDisplay {
+  position: absolute;
+  z-index: 1;
+  top: 25px;
+  left: 25px;
+  width: 350px;
+  height: 350px;
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, 0.8);
+}
+
 .playerStatTable {
   width: 406px;
   max-width: 406px;
@@ -63,6 +75,12 @@
   width: 20px;
   height: 60px;
   background-image: url(mouseFunctionIcons.png);
+}
+
+.winningFunction {
+  box-shadow: inset 0 0 2px white;
+  border: 1px solid white;
+  box-sizing: border-box;
 }
 
 .vizTabContent {
