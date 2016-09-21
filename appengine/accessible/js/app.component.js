@@ -57,8 +57,9 @@ musicGame.AppView = ng.core
 
     <div role="main">
       <h3 id="instructions" tabindex="-1">Instructions</h3>
-      <p *ngFor="#para of instructions">{{para}}</p>
+      <p id="instructionsText">{{instructionsText}}</p>
       <p *ngIf="hint">Hint: {{hint}}</p>
+
       <p *ngIf="expectedLineData">
         <button (click)="playTune()">Play desired tune</button>
       </p>
@@ -99,7 +100,7 @@ musicGame.AppView = ng.core
 
       blocklyApp.workspace.clear();
       this.hint = currentLevelData.hint;
-      this.instructions = currentLevelData.htmlInstructions;
+      this.instructionsText = currentLevelData.instructions;
     }],
     playTune: function() {
       var expectedLine = new MusicLine();

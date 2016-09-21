@@ -130,8 +130,9 @@ Blockly.Blocks['music_play_phrase'] = {
   },
   onchange: function(changeEvent) {
     if (changeEvent.element == 'field' && changeEvent.name == 'MIDI_VALUES') {
-      var beatsPerMinute = 120;
+      var beatsPerMinute = 150;
       var secsPerBeat = 60.0 / beatsPerMinute;
+      musicPlayer.reset();
 
       var delaySecs = 0;
       var phraseParts = changeEvent.newValue.split('-');

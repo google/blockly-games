@@ -158,6 +158,17 @@
         // go before the "Clear Workspace" button.
         toolbarButtonConfig: [{
           text: 'Run Code',
+          ariaDescribedBy: null,
+          isHidden: function() {
+            return false;
+          },
+          // Gets set by musicGame.LevelManagerService.
+          action: null
+        }, {
+          text: 'Play Desired Tune',
+          ariaDescribedBy: 'instructionsText',
+          // Gets set by musicGame.LevelManagerService.
+          isHidden: null,
           // Gets set by musicGame.LevelManagerService.
           action: null
         }]

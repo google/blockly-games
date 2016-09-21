@@ -47,7 +47,7 @@
     hint: (
         'Start by going to the toolbox and finding the block called ' +
         '"play note C4". Then, create a new group with this block.'),
-    htmlInstructions: ['Play the note C4.']
+    instructions: 'Play the note C4.'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -61,7 +61,7 @@
         return 'Not quite. Did you change C4 to the correct note?';
       }
     },
-    htmlInstructions: ['Play the note G4.'],
+    instructions: 'Play the note G4.',
     hint: (
         'Put a "play note" block in the workspace, then change the value ' +
         'to G4.')
@@ -92,7 +92,7 @@
         'blocks by copying and pasting them from the workspace, or by ' +
         'marking a spot in the block, and then copying a new block to that ' +
         'marked spot.'),
-    htmlInstructions: ['Play C4, then E4, then G4.']
+    instructions: 'Play C4, then E4, then G4.'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note_with_duration'
@@ -110,7 +110,7 @@
     hint: (
         'You can change the duration by navigating to the input field and ' +
         'pressing Enter. After entering it, press the Escape key.'),
-    htmlInstructions: ['Play G4 for two beats.']
+    instructions: 'Play G4 for two beats.'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -134,7 +134,7 @@
       }
     },
     hint: 'You can do this with only two blocks, by using a repeat block.',
-    htmlInstructions: ['Play C4 eight times.']
+    instructions: 'Play C4 eight times.'
   }]
 };
 
@@ -180,9 +180,9 @@ LEVEL_SETS.game1 = {
       [[62], 1],
       [[60], 2]
     ],
-    htmlInstructions: [
+    instructions:
         'Add a type-3 phrase block and a type-4 phrase block to complete ' +
-        'the "Happy Birthday" tune.'],
+        'the "Happy Birthday" tune.',
     defaultXml: [
       '<xml xmlns="http://www.w3.org/1999/xhtml">',
       '  <block type="music_play_phrase">',
@@ -213,9 +213,9 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[52], 1]
     ],
-    htmlInstructions: [
+    instructions:
         'Play Mary Had a Little Lamb by using a type-1 phrase, a type-2 ' +
-        'phrase, and three type-3 phrases.']
+        'phrase, and three type-3 phrases.'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -227,7 +227,7 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1],
     ],
-    htmlInstructions: ['Play the first part of Frere Jacques: C4-D4-E4-C4.'],
+    instructions: 'Play the first part of Frere Jacques: C4-D4-E4-C4.',
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -243,7 +243,7 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: ['Play the first part of Frere Jacques, twice.'],
+    instructions: 'Play the first part of Frere Jacques, twice.',
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -262,11 +262,11 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: [
+    instructions:
         'Play the first part of Frere Jacques twice as before, but now, use ' +
         'only 5 blocks. Try playing the desired tune first to see how it ' +
         'sounds. You can compare your tune to it as many times as you like ' +
-        'by pressing "Run Code".']
+        'by pressing "Run Code".'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -290,9 +290,9 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: [
+    instructions:
         'Add on the part after that: E4-F4-G4. Make sure the last note is ' +
-        'played for two beats.'],
+        'played for two beats.',
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -320,7 +320,7 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on another E4-F4-G4.'],
+    instructions: 'Add on another E4-F4-G4.',
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -361,10 +361,10 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: [
+    instructions:
         'Add the third part: G4-A4-G4-F4 E4 C4, twice. You can listen to ' +
         'the desired tune to hear what it should sound like. Some notes ' +
-        'need to be played for only half a beat.'],
+        'need to be played for only half a beat.',
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -412,7 +412,7 @@ LEVEL_SETS.game1 = {
       [[48], 1],
       [[48], 2],
     ],
-    htmlInstructions: ['Add the last part: C4-C4-C4, twice.'],
+    instructions: 'Add the last part: C4-C4-C4, twice.',
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -424,6 +424,6 @@ LEVEL_SETS.game1 = {
     }],
     beatsPerMinute: 120,
     expectedLine: null,
-    htmlInstructions: ['Play anything you like. Experiment!']
+    instructions: 'Play anything you like. Experiment!'
   }]
 };

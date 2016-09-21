@@ -46,12 +46,25 @@ musicGame.LevelManagerService = ng.core
 
       var that = this;
       ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
+        var currentLevelData = that.getCurrentLevelData();
         musicPlayer.reset();
         runCodeToPopulatePlayerLine();
-        musicPlayer.playPlayerLine(120, function() {
+        musicPlayer.playPlayerLine(currentLevelData.beatsPerMinute, function() {
           that.gradeCurrentLevel();
         });
-      }
+      };
+      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].action = function() {
+        var expectedLine = new MusicLine();
+        expectedLine.setFromChordsAndDurations(
+            that.getCurrentLevelData().expectedLine);
+
+        musicPlayer.reset();
+        musicPlayer.play(
+            expectedLine, that.getCurrentLevelData().beatsPerMinute);
+      };
+      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].isHidden = function() {
+        return !that.getCurrentLevelData().expectedLine;
+      };
 
       var inherit =
           this.levelSet_[this.currentLevelNumber_].continueFromPreviousLevel;
