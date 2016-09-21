@@ -231,8 +231,6 @@ LEVEL_SETS.game1 = {
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
-    }, {
-      type: 'loops_repeat'
     }],
     beatsPerMinute: 150,
     expectedLine: [
@@ -266,8 +264,9 @@ LEVEL_SETS.game1 = {
     ],
     htmlInstructions: [
         'Play the first part of Frere Jacques twice as before, but now, use ' +
-        'only 5 blocks.'],
-    continueFromPreviousLevel: true
+        'only 5 blocks. Try playing the desired tune first to see how it ' +
+        'sounds. You can compare your tune to it as many times as you like ' +
+        'by pressing "Run Code".']
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -291,7 +290,9 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on the part after that: E-F-G'],
+    htmlInstructions: [
+        'Add on the part after that: E4-F4-G4. Make sure the last note is ' +
+        'played for two beats.'],
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -319,7 +320,7 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on an additional E-F-G'],
+    htmlInstructions: ['Add on another E4-F4-G4.'],
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -360,7 +361,10 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: ['Add the third part, twice.'],
+    htmlInstructions: [
+        'Add the third part: G4-A4-G4-F4 E4 C4, twice. You can listen to ' +
+        'the desired tune to hear what it should sound like. Some notes ' +
+        'need to be played for only half a beat.'],
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -402,13 +406,13 @@ LEVEL_SETS.game1 = {
       [[48], 1],
 
       [[48], 1],
-      [[43], 1],
+      [[48], 1],
       [[48], 2],
       [[48], 1],
-      [[43], 1],
+      [[48], 1],
       [[48], 2],
     ],
-    htmlInstructions: ['Add the last part, twice.'],
+    htmlInstructions: ['Add the last part: C4-C4-C4, twice.'],
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
