@@ -480,9 +480,10 @@ Genetics.Visualization.updateStats_ = function() {
     var acceptMatePercent = 100 *
         Genetics.Visualization.acceptMateOwners_[playerId]/mouseCount || 0;
     playerStats.acceptMateDiv.style.width = acceptMatePercent + '%';
-    playerStats.mainDiv.title = 'pickFight ' + Math.round(pickFightPercent) +
-        '%\nproposeMate ' + Math.round(proposeMatePercent) + '%\nacceptMate ' +
-        Math.round(acceptMatePercent) + '%';
+    playerStats.mainDiv.title = 'pickFight ' +
+        Math.round(pickFightPercent*100)/100 + '%\nproposeMate ' +
+        Math.round(proposeMatePercent*100)/100 + '%\nacceptMate ' +
+        Math.round(acceptMatePercent*100)/100 + '%';
   }
 };
 

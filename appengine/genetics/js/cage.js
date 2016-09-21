@@ -481,7 +481,7 @@ Genetics.Cage.checkForEnd = function() {
     acceptMateCounts.push(0);
   }
   var isTimeExpired = Date.now() > Genetics.Cage.endTime_;
-  for (var i = 1; i < Genetics.Cage.aliveMice_.length; i++) {
+  for (var i = 0; i < Genetics.Cage.aliveMice_.length; i++) {
     var mouse = Genetics.Cage.aliveMice_[i];
     if (!isTimeExpired &&
         (mouse.pickFightOwner != Genetics.Cage.aliveMice_[0].pickFightOwner ||
@@ -495,7 +495,7 @@ Genetics.Cage.checkForEnd = function() {
     proposeMateCounts[mouse.proposeMateOwner]++;
     acceptMateCounts[mouse.acceptMateOwner]++;
   }
-  if (!isTimeExpired) { // TODO?
+  if (!isTimeExpired) {
     Genetics.Cage.end('DOMINATION',
         [[Genetics.Cage.aliveMice_[0].pickFightOwner],[],[]],
         [[Genetics.Cage.aliveMice_[0].proposeMateOwner],[],[]],
