@@ -429,8 +429,6 @@ Genetics.Visualization.start = function() {
   Genetics.Visualization.update();
 };
 
-Genetics.Visualization.pendingAnimationsCount = 0;
-
 /**
  * Update the visualization.
  */
@@ -440,7 +438,16 @@ Genetics.Visualization.update = function() {
       Genetics.Visualization.processCageEvents_();
       Genetics.Visualization.drawCharts_();
     } else {
-      if (Genetics.Visualization.pendingAnimationsCount == 0) {
+      // Check that no mice are currently busy performing an animation sequence.
+      var allMiceFree = true;
+      for (var mouseID in Genetics.Visualization.mice_) {
+        var mouseAvatar = Genetics.Visualization.mice_[mouseID];
+        if (mouseAvatar.busy) {
+          allMiceFree = false;
+          break;
+        }
+      }
+      if (allMiceFree) {
         // Display end game.
         Genetics.Visualization.displayGameEnd();
         return;
@@ -820,10 +827,8 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
     var afterAnimation = function() {
       explosion.removeEventListener('animationend', afterAnimation, false);
       Genetics.Visualization.display_.removeChild(explosion);
-      Genetics.Visualization.pendingAnimationsCount--;
     };
     explosion.addEventListener('animationend', afterAnimation, false);
-    Genetics.Visualization.pendingAnimationsCount++;
     Genetics.Visualization.display_.appendChild(explosion);
   } else if (reason === 'OVERPOPULATION') {
     // The mouse died because of overpopulation
@@ -834,10 +839,8 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
     var afterAnimation = function() {
       kick.removeEventListener('animationend', afterAnimation, false);
       Genetics.Visualization.display_.removeChild(kick);
-      Genetics.Visualization.pendingAnimationsCount--;
     };
     kick.addEventListener('animationend', afterAnimation, false);
-    Genetics.Visualization.pendingAnimationsCount++;
     Genetics.Visualization.display_.appendChild(kick);
   } else if (reason === 'RETIRE') {
     // The mouse died normally.
@@ -848,10 +851,8 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
     var afterAnimation = function() {
       tombstone.removeEventListener('animationend', afterAnimation, false);
       Genetics.Visualization.display_.removeChild(tombstone);
-      Genetics.Visualization.pendingAnimationsCount--;
     };
     tombstone.addEventListener('animationend', afterAnimation, false);
-    Genetics.Visualization.pendingAnimationsCount++;
     Genetics.Visualization.display_.appendChild(tombstone);
   }
 
@@ -934,7 +935,6 @@ Genetics.Visualization.fight = function(instigator, opponent, result, callback) 
   var afterFightCloud = function(e) {
     if (e.target === fightCloud) {
       fightCloud.removeEventListener('animationend', afterFightCloud, false);
-      Genetics.Visualization.pendingAnimationsCount--;
       instigator.element.style.display = '';
       opponent.element.style.display = '';
       if (result === 'WIN') {
@@ -961,7 +961,6 @@ Genetics.Visualization.fight = function(instigator, opponent, result, callback) 
     }
   };
   fightCloud.addEventListener('animationend', afterFightCloud, false);
-  Genetics.Visualization.pendingAnimationsCount++;
 
   Genetics.Visualization.display_.appendChild(fightCloud);
 
@@ -1007,12 +1006,10 @@ Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth, callback)
     mouseAvatar.element.style['animationName'] = 'none';
     mouseAvatar.element
         .removeEventListener('animationEnd', afterDroppingIn, false);
-    Genetics.Visualization.pendingAnimationsCount--;
     callback();
   };
 
   mouseAvatar.element.addEventListener('animationend', afterDroppingIn, false);
-  Genetics.Visualization.pendingAnimationsCount++;
   mouseAvatar.element.style['animation'] = 'bounceIn 500ms';
 
   mouseAvatar.element.style.display = 'block';
@@ -1040,12 +1037,10 @@ Genetics.Visualization.showHeart_ = function(type, x, y, callback) {
   var afterDisplay = function(e) {
     if (e.target === heart) {
       heart.parentNode.removeChild(heart);
-      Genetics.Visualization.pendingAnimationsCount--;
       callback();
     }
   };
   heart.addEventListener('animationend', afterDisplay, false);
-  Genetics.Visualization.pendingAnimationsCount++;
   heart.style['animation'] = 'bounceIn 700ms';
   Genetics.Visualization.display_.appendChild(heart);
 };
