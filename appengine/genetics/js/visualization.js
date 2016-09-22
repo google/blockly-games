@@ -574,12 +574,6 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.log(getMouseName(mouse) + ' exploded in ' + source +
             ' because \"' + cause + '\"');
         break;
-      case 'SPIN':
-        var source = event['SOURCE'];
-        Genetics.Visualization.killMouse(mouse, 'EXPLOSION');
-        Genetics.log(getMouseName(mouse) + ' spun in circles after ' + source +
-            ' was called.');
-        break;
       case 'END_GAME':
         Genetics.Visualization.gameOverReached_ = true;
         Genetics.Visualization.gameOverCause = event['CAUSE'];
@@ -594,25 +588,20 @@ Genetics.Visualization.processCageEvents_ = function() {
 };
 
 Genetics.Visualization.displayGameEnd = function() {
-  var pickFightWinners = '';
-  var proposeMateWinners = '';
-  var acceptMateWinners = '';
-  for (var i = 0; i < Genetics.Visualization.gameRankings.pickFight[0].length; i++) {
-    var playerId = Genetics.Visualization.gameRankings.pickFight[0][i];
-    Genetics.Visualization.playerStatsDivs_[playerId].pickFightDiv.classList += 'winningFunction';
-    pickFightWinners += Genetics.Cage.players[playerId].name + ' ';
-  }
-  for (var i = 0; i < Genetics.Visualization.gameRankings.proposeMate[0].length; i++) {
-    var playerId = Genetics.Visualization.gameRankings.proposeMate[0][i];
-    Genetics.Visualization.playerStatsDivs_[playerId].proposeMateDiv.classList += 'winningFunction';
-    proposeMateWinners += Genetics.Cage.players[playerId].name + ' ';
-  }
-  for (var i = 0; i < Genetics.Visualization.gameRankings.acceptMate[0].length; i++) {
-    var playerId = Genetics.Visualization.gameRankings.acceptMate[0][i];
-    Genetics.Visualization.playerStatsDivs_[playerId].acceptMateDiv.classList += 'winningFunction';
-    acceptMateWinners += Genetics.Cage.players[playerId].name + ' ';
+  var functionWinnersText = {'pickFight': '', 'proposeMate': '',
+    'acceptMate': '' };
+  var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
+  for (var i = 0; i < mouseFunctions.length; i++) {
+    var mouseFunction = mouseFunctions[i];
+    var functionWinnersList = Genetics.Visualization.gameRankings[mouseFunction][0];
+    for (var j = 0; functionWinnersList && j < functionWinnersList.length; j++ ) {
+      var playerId = functionWinnersList[j];
+      Genetics.Visualization.playerStatsDivs_[playerId].pickFightDiv.classList += 'winningFunction';
+      functionWinnersText[mouseFunction] += Genetics.Cage.players[playerId].name + ' ';
+    }
   }
 
+  // TODO decide whether to do this?
   // Stop visualization.
   // Genetics.Visualization.stop();
 
@@ -620,12 +609,10 @@ Genetics.Visualization.displayGameEnd = function() {
   endGameDiv.setAttribute('class', 'endGameDisplay');
   Genetics.Visualization.display_.appendChild(endGameDiv);
 
-
-
   Genetics.log('Game ended because ' + Genetics.Visualization.gameOverCause +
-      '. PickFight Winners: ' + pickFightWinners +
-      ' proposeMate Winners: ' + proposeMateWinners +
-      ' acceptMate Winners: ' + acceptMateWinners);
+      '. PickFight Winners: ' + functionWinnersText['pickFight'] +
+      ' proposeMate Winners: ' + functionWinnersText['proposeMate'] +
+      ' acceptMate Winners: ' + functionWinnersText['acceptMate']);
 };
 
 Genetics.Visualization.processFightEvent = function(event, instigator, opt_opponent) {
