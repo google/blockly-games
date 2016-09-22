@@ -275,7 +275,8 @@ Genetics.Visualization.resetChartData_ = function() {
             false));
 
     var playerLabels = [{label: 'Time', type: 'number'}];
-    for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
+    for (var playerId = 0; playerId < Genetics.Cage.players.length;
+        playerId++) {
       playerLabels.push({label: Genetics.Cage.players[playerId].name,
         type: 'number'});
     }
@@ -377,19 +378,19 @@ Genetics.Visualization.reset = function() {
     pickFightDiv.style.background = hexColour;
     pickFightDiv.style.width = '0%';
     pickFightDiv.style.height = 100 / 3 + '%';
-    playerStat.pickFightDiv = pickFightDiv;
+    playerStat['pickFightDiv'] = pickFightDiv;
     statsDiv.appendChild(pickFightDiv);
     var proposeMateDiv = document.createElement('div');
     proposeMateDiv.style.background = hexColour;
     proposeMateDiv.style.width = '0%';
     proposeMateDiv.style.height = 100 / 3 + '%';
-    playerStat.proposeMateDiv = proposeMateDiv;
+    playerStat['proposeMateDiv'] = proposeMateDiv;
     statsDiv.appendChild(proposeMateDiv);
     var acceptMateDiv = document.createElement('div');
     acceptMateDiv.style.background = hexColour;
     acceptMateDiv.style.width = '0%';
     acceptMateDiv.style.height = 100 / 3 + '%';
-    playerStat.acceptMateDiv = acceptMateDiv;
+    playerStat['acceptMateDiv'] = acceptMateDiv;
     statsDiv.appendChild(acceptMateDiv);
 
     var div = document.createElement('div');
@@ -476,21 +477,22 @@ Genetics.Visualization.updateStats_ = function() {
   // Update the health bars.
   var mouseCount = Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE] +
       Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE];
-  for (var playerId = 0; playerId < Genetics.Visualization.playerStatsDivs_.length; playerId++) {
+  for (var playerId = 0;
+       playerId < Genetics.Visualization.playerStatsDivs_.length; playerId++) {
     var playerStats = Genetics.Visualization.playerStatsDivs_[playerId];
     var pickFightPercent = 100 *
-        Genetics.Visualization.pickFightOwners_[playerId]/mouseCount || 0;
+        Genetics.Visualization.pickFightOwners_[playerId] / mouseCount || 0;
     playerStats.pickFightDiv.style.width = pickFightPercent + '%';
     var proposeMatePercent = 100 *
-        Genetics.Visualization.proposeMateOwners_[playerId]/mouseCount || 0;
+        Genetics.Visualization.proposeMateOwners_[playerId] / mouseCount || 0;
     playerStats.proposeMateDiv.style.width = proposeMatePercent + '%';
     var acceptMatePercent = 100 *
-        Genetics.Visualization.acceptMateOwners_[playerId]/mouseCount || 0;
+        Genetics.Visualization.acceptMateOwners_[playerId] / mouseCount || 0;
     playerStats.acceptMateDiv.style.width = acceptMatePercent + '%';
     playerStats.mainDiv.title = 'pickFight ' +
-        Math.round(pickFightPercent*100)/100 + '%\nproposeMate ' +
-        Math.round(proposeMatePercent*100)/100 + '%\nacceptMate ' +
-        Math.round(acceptMatePercent*100)/100 + '%';
+        Math.round(pickFightPercent * 100) / 100 + '%\nproposeMate ' +
+        Math.round(proposeMatePercent * 100) / 100 + '%\nacceptMate ' +
+        Math.round(acceptMatePercent * 100) / 100 + '%';
   }
 };
 
@@ -527,19 +529,22 @@ Genetics.Visualization.processCageEvents_ = function() {
   while (Genetics.Cage.EVENTS.length) {
     var event = Genetics.Cage.EVENTS.shift();
 
-    var mouse = (event['ID'] != null) ? Genetics.Visualization.mice_[event['ID']] : null;
+    var mouse = (event['ID'] != null) ?
+        Genetics.Visualization.mice_[event['ID']] : null;
     var opponent = (event['OPT_OPPONENT'] != null) ?
         Genetics.Visualization.mice_[event['OPT_OPPONENT']] : null;
     var askedMouse = (event['OPT_PARTNER'] != null) ?
         Genetics.Visualization.mice_[event['OPT_PARTNER']] : null;
-    if ((mouse && mouse.busy) || (opponent && opponent.busy) || (askedMouse && askedMouse.busy)) {
-      // If any involved mice are busy, process event and execute animation later.
+    if ((mouse && mouse.busy) || (opponent && opponent.busy) ||
+        (askedMouse && askedMouse.busy)) {
+      // If any involved mice are busy, process event later.
       Genetics.Cage.EVENTS.unshift(event);
       break;
     }
     switch (event['TYPE']) {
       case 'ADD':
-        var addedMouse = Genetics.Visualization.createMouseAvatar(event['MOUSE']);
+        var addedMouse =
+            Genetics.Visualization.createMouseAvatar(event['MOUSE']);
         var x = Math.random() * Genetics.Visualization.DISPLAY_SIZE -
             Genetics.MouseAvatar.WIDTH;
         var y = Math.random() * Genetics.Visualization.DISPLAY_SIZE -
@@ -578,9 +583,9 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Visualization.gameOverReached_ = true;
         Genetics.Visualization.gameOverCause = event['CAUSE'];
         Genetics.Visualization.gameRankings = {
-          pickFight: event['PICK_FIGHT_RANK'],
-          proposeMate: event['PROPOSE_MATE_RANK'],
-          acceptMate: event['ACCEPT_MATE_RANK']};
+          'pickFight': event['PICK_FIGHT_RANK'],
+          'proposeMate': event['PROPOSE_MATE_RANK'],
+          'acceptMate': event['ACCEPT_MATE_RANK']};
         break;
     }
 
@@ -593,11 +598,15 @@ Genetics.Visualization.displayGameEnd = function() {
   var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
   for (var i = 0; i < mouseFunctions.length; i++) {
     var mouseFunction = mouseFunctions[i];
-    var functionWinnersList = Genetics.Visualization.gameRankings[mouseFunction][0];
-    for (var j = 0; functionWinnersList && j < functionWinnersList.length; j++ ) {
+    var functionWinnersList =
+        Genetics.Visualization.gameRankings[mouseFunction][0];
+    for (var j = 0; functionWinnersList && j < functionWinnersList.length;
+        j++) {
       var playerId = functionWinnersList[j];
-      Genetics.Visualization.playerStatsDivs_[playerId].pickFightDiv.classList += 'winningFunction';
-      functionWinnersText[mouseFunction] += Genetics.Cage.players[playerId].name + ' ';
+      Genetics.Visualization.playerStatsDivs_[playerId][mouseFunction + 'Div']
+          .classList += 'winningFunction';
+      functionWinnersText[mouseFunction] +=
+          Genetics.Cage.players[playerId].name + ' ';
     }
   }
 
@@ -615,7 +624,8 @@ Genetics.Visualization.displayGameEnd = function() {
       ' acceptMate Winners: ' + functionWinnersText['acceptMate']);
 };
 
-Genetics.Visualization.processFightEvent = function(event, instigator, opt_opponent) {
+Genetics.Visualization.processFightEvent = function(event, instigator,
+    opt_opponent) {
   var getMouseName = Genetics.Visualization.getMouseName;
   var opponent = opt_opponent || null;
   var result = event['RESULT'];
@@ -638,7 +648,8 @@ Genetics.Visualization.processFightEvent = function(event, instigator, opt_oppon
     } else {
       opponent.busy = true;
       Genetics.Visualization.moveMiceTogether_(instigator, opponent,
-          goog.bind(Genetics.Visualization.fight, null, instigator, opponent, result, endFight));
+          goog.bind(Genetics.Visualization.fight, null, instigator, opponent,
+              result, endFight));
     }
   }
 };
@@ -684,7 +695,8 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
       // If mating is successful, create and add reference to offspring so that
       // future events involving that mouse that are detected before the end
       // of the birth animation will be able to access it.
-      var offspring = Genetics.Visualization.createMouseAvatar(event['OPT_OFFSPRING']);
+      var offspring = Genetics.Visualization
+          .createMouseAvatar(event['OPT_OFFSPRING']);
     }
 
     var mateResult = function() {
@@ -707,7 +719,8 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.bind(Genetics.Visualization.showHeart_, null, result, x, y, mateResult));
+        goog.bind(Genetics.Visualization.showHeart_, null, result, x, y,
+            mateResult));
 
   }
 };
@@ -903,7 +916,8 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
  * 'SELF".
  * @param {function} callback Function to call at the end of fight animation.
  */
-Genetics.Visualization.fight = function(instigator, opponent, result, callback) {
+Genetics.Visualization.fight = function(instigator, opponent, result,
+    callback) {
   var getMouseName = Genetics.Visualization.getMouseName;
   var fightCloud = document.getElementById('dust').cloneNode(true);
   // Calculate the position of the cloud over the mice.
@@ -966,7 +980,8 @@ Genetics.Visualization.fight = function(instigator, opponent, result, callback) 
  * @param {function} callback
  * @private
  */
-Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth, callback) {
+Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth,
+    callback) {
   var getMouseName = Genetics.Visualization.getMouseName;
 
   var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
@@ -1004,7 +1019,8 @@ Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth, callback)
 
 /**
  *
- * @param {string} type Type of heart to display, either "SUCCESS", "INFERTILE", or "INCOMPATIBLE".
+ * @param {string} type Type of heart to display, either "SUCCESS", "INFERTILE",
+ * or "INCOMPATIBLE".
  * @param x
  * @param y
  * @param callback
@@ -1035,7 +1051,7 @@ Genetics.Visualization.showHeart_ = function(type, x, y, callback) {
 /**
  *
  * @param {Genetics.Mouse} mouse
- * @returns {Genetics.MouseAvatar}
+ * @return {Genetics.MouseAvatar}
  */
 Genetics.Visualization.createMouseAvatar = function(mouse) {
   var mouseAvatar = new Genetics.MouseAvatar(mouse);

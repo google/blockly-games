@@ -33,7 +33,7 @@ goog.require('goog.object');
 
 /**
  * Stores mouse attributes and visualization information for a mouse.
- * @param {Genetics.Mouse} mouse The mouse to create a avatar for.
+ * @param {!Genetics.Mouse} mouse The mouse to create a avatar for.
  * @constructor
  * @private
  */
@@ -46,18 +46,20 @@ Genetics.MouseAvatar = function(mouse) {
   this.proposeMateOwner = mouse.proposeMateOwner;
   this.acceptMateOwner = mouse.acceptMateOwner;
 
-  // Create html element for the mouse.
+  // Create HTML element for the mouse.
   this.element = document.createElementNS(Blockly.SVG_NS, 'svg');
   this.element.setAttribute('id', 'mouse' + mouse.id);
   this.element.setAttribute('class', 'mouse');
-  this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' + Genetics.MouseAvatar.HALF_SIZE + 'px';
+  this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' +
+      Genetics.MouseAvatar.HALF_SIZE + 'px';
 
   // Create clip path for mouse image
   var mouseClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
   mouseClip.setAttribute('id', 'mouse' + mouse.id + 'ClipPath');
   var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
   clipRect.setAttribute('width', Genetics.MouseAvatar.WIDTH + 'px');
-  clipRect.setAttribute('height', Genetics.MouseAvatar.HEIGHT + Genetics.MouseAvatar.TAIL_HEIGHT + 'px');
+  clipRect.setAttribute('height', Genetics.MouseAvatar.HEIGHT +
+      Genetics.MouseAvatar.TAIL_HEIGHT + 'px');
   mouseClip.appendChild(clipRect);
   this.element.appendChild(mouseClip);
 
@@ -66,18 +68,22 @@ Genetics.MouseAvatar = function(mouse) {
   image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       Genetics.MouseAvatar.MOUSE_SRC);
   image.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
-  image.setAttribute('height', (Genetics.MouseAvatar.HEIGHT + Genetics.MouseAvatar.TAIL_HEIGHT) * 2 + 'px');
-  image.setAttribute('x', '0px');
-  if(this.sex === Genetics.Mouse.Sex.FEMALE) {
-    image.setAttribute('y', - (Genetics.MouseAvatar.HEIGHT + Genetics.MouseAvatar.TAIL_HEIGHT) + 'px');
+  image.setAttribute('height', (Genetics.MouseAvatar.HEIGHT +
+      Genetics.MouseAvatar.TAIL_HEIGHT) * 2 + 'px');
+  if (this.sex === Genetics.Mouse.Sex.FEMALE) {
+    image.setAttribute('y', - (Genetics.MouseAvatar.HEIGHT +
+        Genetics.MouseAvatar.TAIL_HEIGHT) + 'px');
   }
-  image.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' + Genetics.MouseAvatar.HALF_SIZE + 'px'; // TODO are both transform origins necessary?
+  image.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' +
+      Genetics.MouseAvatar.HALF_SIZE + 'px'; // TODO are both transform origins necessary?
   image.setAttribute('clip-path', 'url(#mouse' + mouse.id + 'ClipPath)');
   this.element.appendChild(image);
 
   // Calculate the pie chart arc start/end based on avatar size.
-  var xOffset = Genetics.MouseAvatar.WIDTH / 2 - Genetics.MouseAvatar.CHART_HALF_SIZE;
-  var yOffset = Genetics.MouseAvatar.HEIGHT * 4 / 5 - Genetics.MouseAvatar.CHART_HALF_SIZE;
+  var xOffset = Genetics.MouseAvatar.WIDTH / 2 -
+      Genetics.MouseAvatar.CHART_HALF_SIZE;
+  var yOffset = Genetics.MouseAvatar.HEIGHT * 4 / 5 -
+      Genetics.MouseAvatar.CHART_HALF_SIZE;
   var radius = Genetics.MouseAvatar.CHART_HALF_SIZE;
   var x1 = radius + xOffset;
   var y1 = yOffset;
@@ -137,18 +143,18 @@ Genetics.MouseAvatar = function(mouse) {
       } else if (delta < -Math.PI) {
         delta += 2 * Math.PI;
       }
-      if (Math.abs(delta) > Math.PI/10) {
+      if (Math.abs(delta) > Math.PI / 10) {
         var resetStraight = function() {
           image.setAttribute('x', '0px');
         };
         if (delta > 0) {
           // If the mouse turned right.
           image.setAttribute('x', -Genetics.MouseAvatar.WIDTH + 'px');
-          setTimeout(resetStraight, 150)
+          setTimeout(resetStraight, 150);
         } else if (delta < 0) {
           // If the mouse turned left.
           image.setAttribute('x', -2 * Genetics.MouseAvatar.WIDTH + 'px');
-          setTimeout(resetStraight, 150)
+          setTimeout(resetStraight, 150);
         }
       }
       // Rotate mouse image to match direction facing.
@@ -157,8 +163,8 @@ Genetics.MouseAvatar = function(mouse) {
       this.direction_ = direction;
     },
     /**
-     * Returns the direction the mouse is facing.
-     * @returns {number}
+     * Returns the direction the mouse is facing as an angle in radians.
+     * @return {number}
      */
     get: function() {
       return this.direction_;
@@ -238,11 +244,9 @@ Genetics.MouseAvatar.prototype.stop = function() {
  */
 Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
   var xClamped = goog.math.clamp(x, 0,
-      Genetics.MouseAvatar.DISPLAY_SIZE -
-  Genetics.MouseAvatar.WIDTH);
+      Genetics.MouseAvatar.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
   var yClamped = goog.math.clamp(y, 0,
-      Genetics.MouseAvatar.DISPLAY_SIZE -
-      Genetics.MouseAvatar.WIDTH);
+      Genetics.MouseAvatar.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
 
   var mouseX = parseInt(this.element.style.left, 10);
   var mouseY = parseInt(this.element.style.top, 10);
@@ -252,7 +256,8 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
 
   // Calculate the time it would take to get to destination if not set.
   var time = (opt_time != null) ? opt_time :
-  Math.hypot(Math.abs(xDelta), Math.abs(yDelta)) / Genetics.MouseAvatar.BUSY_SPEED;
+      Math.hypot(Math.abs(xDelta), Math.abs(yDelta)) /
+          Genetics.MouseAvatar.BUSY_SPEED;
 
   if (time < 10 || (Math.abs(xDelta) < 1 && Math.abs(yDelta) < 1)) {
     // If move is shorter than minimum transition time (10) or is too short.
@@ -277,6 +282,12 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
       setTimeout(callback, time);
 };
 
+/**
+ * Moves a mouse avatar in a random direction for the time specified.
+ * @param {number} time The time that the mouse should move in a direction in
+ * milliseconds.
+ * @private
+ */
 Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
   // Choose a direction based off current direction.
   var range = Math.PI / 2;
@@ -291,6 +302,14 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
   this.move(x, y, function() {}, time);
 };
 
+/**
+ * Moves a mouse avatar around in random directions for the specified number of
+ * steps.
+ * @param {number} steps The number of times the mouse should move in a random
+ * direction.
+ * @param {function} callback The function to call after the mouse as completed all
+ * requested movement.
+ */
 Genetics.MouseAvatar.prototype.moveAbout = function(steps, callback) {
   var count = 0;
   var moveStep = function() {

@@ -52,7 +52,7 @@ Genetics.Cage.TEMPO = 50;
 /**
  * Whether the simulation is stopped.
  * @type {boolean}
- * private
+ * @private
  */
 Genetics.Cage.stopped_ = true;
 
@@ -64,12 +64,17 @@ Genetics.Cage.stopped_ = true;
 Genetics.Cage.players = [];
 
 /**
- * List of mice currently alive and queued to run.
+ * List of mice currently alive and queued to run next round.
  * @type {!Array.<!Genetics.Mouse>}
  * @private
  */
-
 Genetics.Cage.nextRoundMice = [];
+
+/**
+ * List of mice currently alive and queued to run this round.
+ * @type {!Array.<!Genetics.Mouse>}
+ * @private
+ */
 Genetics.Cage.currentRoundmice = [];
 
 /**
@@ -79,6 +84,11 @@ Genetics.Cage.currentRoundmice = [];
  */
 Genetics.Cage.miceMap_ = {};
 
+/**
+ * The process ID of the update function for the game logic.
+ * @type {number}
+ * @private
+ */
 Genetics.Cage.pid_ = 0;
 
 /**
@@ -110,8 +120,8 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
 /**
  * Creates an event.
  * @param {string } type The type of event.
- * @param {...string|number|!Genetics.Mouse|!Array.<!Array.<number>>} var_args The properties on
- * the event.
+ * @param {...string|number|!Genetics.Mouse|!Array.<!Array.<number>>} var_args
+ * The properties on the event.
  * @constructor
  */
 Genetics.Cage.Event = function(type, var_args) {
@@ -134,17 +144,12 @@ Genetics.Cage.Event.prototype.addToQueue = function() {
 };
 
 /**
- * Time to end the battle.
+ * Time limit for end of the game in rounds.
  * @type {number}
- * @private
  */
-Genetics.Cage.endTime_ = 0;
+Genetics.Cage.MAX_ROUNDS = 1;
 
-/**
- * Time limit of game (in milliseconds).
- * @type {number}
- */
-Genetics.Cage.GAME_TIME_LIMIT_MSEC = 1* 1000; // TODO used to be 5 * 60 * 1000
+Genetics.Cage.roundNumber = 0;
 
 /**
  * Time limit for mouse function execution in number of interpreter steps (100k
@@ -167,6 +172,9 @@ Genetics.Cage.nextAvailableMouseId_ = 0;
  */
 Genetics.Cage.doneCallback_ = null;
 
+/**
+ * Stop the game.
+ */
 Genetics.Cage.stop = function() {
   Genetics.Cage.stopped_ = true;
   clearTimeout(Genetics.Cage.pid_);
@@ -182,6 +190,7 @@ Genetics.Cage.reset = function() {
   // Cancel all queued life simulations.
   Genetics.Cage.nextRoundMice.length = 0;
   Genetics.Cage.currentRoundmice.length = 0;
+  Genetics.Cage.roundNumber = 0;
   Genetics.Cage.nextAvailableMouseId_ = 0;
 };
 
@@ -201,15 +210,14 @@ Genetics.Cage.addPlayer = function(playerName, code) {
 Genetics.Cage.start = function(doneCallback) {
   Genetics.Cage.stopped_ = false;
   Genetics.Cage.doneCallback_ = doneCallback;
-  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-    var player = Genetics.Cage.players[playerId];
+  for (var playerId = 0, player; player = Genetics.Cage.players[playerId]; playerId++) {
     if (goog.isFunction(player.code)) {
       // Cache code if player code is generator.
       player.cachedCode = player.code();
     }
     for (var i = 0; i < Genetics.Cage.START_MICE_PER_PLAYER; i++) {
       // Create a mouse for the player.
-      var mouseSex = i % 2 === 0 ? Genetics.Mouse.Sex.MALE :
+      var mouseSex = i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
           Genetics.Mouse.Sex.FEMALE;
       var mouseId = Genetics.Cage.nextAvailableMouseId_++;
       var mouse = new Genetics.Mouse(mouseId, mouseSex, null, null, playerId);
@@ -224,13 +232,17 @@ Genetics.Cage.start = function(doneCallback) {
 };
 
 Genetics.Cage.update = function() {
-  if(!Genetics.Cage.HEADLESS && Genetics.Cage.EVENTS.length < 100) {
+  if (!Genetics.Cage.HEADLESS && Genetics.Cage.EVENTS.length < 100) {
     // If the events queue is not backed up, then continue computing.
     if (Genetics.Cage.currentRoundmice.length == 0) {
-      // Cycle to next round.
-      Genetics.Cage.currentRoundmice = Genetics.Cage.nextRoundMice.slice(0);
+      if (Genetics.Cage.roundNumber < Genetics.Cage.MAX_ROUNDS) {
+        // Cycle to next round.
+        Genetics.Cage.currentRoundmice = Genetics.Cage.nextRoundMice.slice(0);
+        new Genetics.Cage.Event('NEXT_ROUND').addToQueue();
+      }
+      Genetics.Cage.roundNumber++;
     }
-    if(Genetics.Cage.currentRoundmice.length) {
+    if (Genetics.Cage.currentRoundmice.length) {
       var mouse = Genetics.Cage.currentRoundmice.shift();
       Genetics.Cage.simulateLife(mouse);
     }
@@ -286,7 +298,7 @@ Genetics.Cage.instigateFight = function(mouse) {
     mouse.aggressiveness = 0;
     return;
   }
-  if (typeof chosen != 'object' || 
+  if (typeof chosen != 'object' ||
       !Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     // If return is invalid, mouse explodes.
     new Genetics.Cage.Event('EXPLODE', mouse.id, 'pickFight',
@@ -304,7 +316,7 @@ Genetics.Cage.instigateFight = function(mouse) {
   }
   // Compute winner using size to weigh probability of winning.
   var fightResult = Math.random() - mouse.size / (mouse.size + opponent.size);
-  // Determine the outcome of the fight.  
+  // Determine the outcome of the fight.
   if (Math.abs(fightResult) < 0.1) {
     new Genetics.Cage.Event('FIGHT', mouse.id, 'TIE', opponent.id).addToQueue();
   } else if (fightResult < 0) {
@@ -353,7 +365,8 @@ Genetics.Cage.tryMate = function(suitor) {
     // Create offspring from the two mice.
     Genetics.Cage.createOffspring(suitor, mate);
     // Account for overpopulation.
-    if (Object.keys(Genetics.Cage.miceMap_).length > Genetics.Cage.MAX_POPULATION) {
+    if (Object.keys(Genetics.Cage.miceMap_).length >
+        Genetics.Cage.MAX_POPULATION) {
       // Find oldest mouse.
       var oldestMouse = null;
       for (var mouseId in Genetics.Cage.miceMap_) {
@@ -382,8 +395,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   // Determine sex of child based on the current population.
   var populationFertility = 0;
   var femaleFertility = 0;
-  for (var i = 0; i < Genetics.Cage.nextRoundMice.length; i++) {
-    var aliveMouse = Genetics.Cage.nextRoundMice[i];
+  for (var i = 0, aliveMouse; aliveMouse = Genetics.Cage.nextRoundMice[i]; i++) {
     populationFertility += aliveMouse.fertility;
     if (aliveMouse.sex === Genetics.Mouse.Sex.FEMALE) {
       femaleFertility += aliveMouse.fertility;
@@ -466,6 +478,10 @@ Genetics.Cage.die = function(mouse) {
   if (index > -1) {
     Genetics.Cage.nextRoundMice.splice(index, 1);
   }
+  index = Genetics.Cage.currentRoundmice.indexOf(mouse);
+  if (index > -1) {
+    Genetics.Cage.currentRoundmice.splice(index, 1);
+  }
   delete Genetics.Cage.miceMap_[mouse.id];
 };
 
@@ -481,13 +497,13 @@ Genetics.Cage.checkForEnd = function() {
   // Find which players have majority for each function.
   var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
     'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
-  var isTimeExpired = Date.now() > Genetics.Cage.endTime_;
-  for (var i = 0; i < Genetics.Cage.nextRoundMice.length; i++) {
-    var mouse = Genetics.Cage.nextRoundMice[i];
+  var isTimeExpired = Genetics.Cage.roundNumber > Genetics.Cage.MAX_ROUNDS;
+  var firstMouseInQueue = Genetics.Cage.nextRoundMice[0];
+  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice[i]; i++) {
     if (!isTimeExpired &&
-        (mouse.pickFightOwner != Genetics.Cage.nextRoundMice[0].pickFightOwner ||
-        mouse.proposeMateOwner != Genetics.Cage.nextRoundMice[0].proposeMateOwner ||
-        mouse.acceptMateOwner != Genetics.Cage.nextRoundMice[0].acceptMateOwner)) {
+        (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
+        mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
+        mouse.acceptMateOwner != firstMouseInQueue.acceptMateOwner)) {
       // If time hasn't expired and there is not a domination victory, it is not
       // game end yet.
       return;
@@ -504,27 +520,29 @@ Genetics.Cage.checkForEnd = function() {
     return;
   }
   Genetics.functionCounts = playerFunctionCounts; // TODO rm
-  // Determine rankings for each function
-  var playerRankings = { 'pickFight': [], 'proposeMate' : [], 'acceptMate': []};
+  // Determine rankings for each function.
+  var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
   var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
   for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-    for (var i = 0; i < mouseFunctions.length; i++) {
-      var mouseFunc = mouseFunctions[i];
+    for (var i = 0, mouseFunc; mouseFunc = mouseFunctions[i]; i++) {
       var playerFunctionCount = playerFunctionCounts[mouseFunc];
       var playerFunctionRanking = playerRankings[mouseFunc];
       var isFunctionRanked = false;
 
-      for (var j = 0; !isFunctionRanked && j < playerFunctionRanking.length; j++) {
+      for (var j = 0; !isFunctionRanked && j < playerFunctionRanking.length;
+          j++) {
         var currentRankPlayerId = playerFunctionRanking[j][0];
-        if (playerFunctionCount[playerId] == playerFunctionCount[currentRankPlayerId]) {
+        if (playerFunctionCount[playerId] ==
+            playerFunctionCount[currentRankPlayerId]) {
           // If player has the same count as a player at the current rank,
           // add them to the same list.
           playerFunctionRanking[j].push(playerId);
           isFunctionRanked = true;
-        } else if (playerFunctionCount[playerId] > playerFunctionCount[currentRankPlayerId]) {
+        } else if (playerFunctionCount[playerId] >
+            playerFunctionCount[currentRankPlayerId]) {
           // If a player has a higher count as the player at the current rank,
           // add them to a list before this rank.
-          playerFunctionRanking.splice(j, 0, ['playerId']);
+          playerFunctionRanking.splice(j, 0, [playerId]);
           isFunctionRanked = true;
         }
       }
@@ -541,11 +559,11 @@ Genetics.Cage.checkForEnd = function() {
 /**
  * Clears queued events for end of simulation.
  * @param {string} cause The cause of game end.
- * @param {!Array.<!Array<number>>} pickFightRank A list of of lists
+ * @param {!Array.<!Array.<number>>} pickFightRank A list of of lists
  * representing rankings of players for pickFight function.
- * @param {!Array.<!Array<number>>} proposeMateRank A list of lists of first,
+ * @param {!Array.<!Array.<number>>} proposeMateRank A list of lists of first,
  * second, and third place players for the proposeMate function.
- * @param {!Array.<!Array<number>>} acceptMateRank A list of lists of first,
+ * @param {!Array.<!Array.<number>>} acceptMateRank A list of lists of first,
  * second, and third place players for the acceptMate function.
  */
 Genetics.Cage.end = function(cause, pickFightRank, proposeMateRank,
@@ -594,8 +612,8 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
  * Returns an interpreter with player code from the mouse for the given
  * mouseFunction with a call appended.
  * @param {!Genetics.Mouse} mouse The mouse to get the code from.
- * @param {string} mouseFunctionName The name of the function to append a call to in the
- * interpreter.
+ * @param {string} mouseFunctionName The name of the function to append a call
+ * to in the interpreter.
  * @param {Genetics.Mouse=} opt_suitor The mouse passed as a parameter to the
  * function (for acceptMate function call).
  * @return {!Interpreter} Interpreter set up for executing mouse function call.
@@ -666,8 +684,7 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
   var pseudoSuitor = interpreter.ARRAY;
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);
   var aliveMiceIndex = 0;
-  for (var i = 0; i < Genetics.Cage.nextRoundMice.length; i++) {
-    var aliveMouse = Genetics.Cage.nextRoundMice[i];
+  for (var i = 0, aliveMouse; aliveMouse = Genetics.Cage.nextRoundMice[i]; i++) {
     // Create a clone of alive mouse with string keys so that keys won't be
     // renamed when compressed.
     var clonedMouse = {
@@ -712,7 +729,7 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
     wrapper = function() {
       return pseudoSuitor;
     };
-    interpreter.setProperty(scope, 'getSuitor', 
+    interpreter.setProperty(scope, 'getSuitor',
         interpreter.createNativeFunction(wrapper));
   }
 
