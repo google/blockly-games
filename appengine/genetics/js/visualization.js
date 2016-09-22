@@ -67,7 +67,7 @@ Genetics.Visualization.gameOverCause = '';
 
 /**
  *
- * @type {!Object.<!Array.<number>>}
+ * @type {!Object.<string, !Array.<number>>}
  * @const
  */
 Genetics.Visualization.gameRankings = {};
@@ -79,7 +79,11 @@ Genetics.Visualization.gameRankings = {};
  */
 Genetics.Visualization.mice_ = {};
 
-
+/**
+ * Is the charts tab open?
+ * @type {boolean}
+ * @private
+ */
 Genetics.Visualization.areChartsVisible_ = false;
 
 /**
@@ -473,8 +477,11 @@ Genetics.Visualization.chartsNeedUpdate_ = true;
  */
 Genetics.Visualization.playerStatsDivs_ = [];
 
+/***
+ * Update the percentage bars for player functions under the visualization.
+ * @private
+ */
 Genetics.Visualization.updateStats_ = function() {
-  // Update the health bars.
   var mouseCount = Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE] +
       Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE];
   for (var playerId = 0;
@@ -550,7 +557,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         var y = Math.random() * Genetics.Visualization.DISPLAY_SIZE -
             Genetics.MouseAvatar.WIDTH;
 
-        Genetics.Visualization.addMouse(addedMouse, x, y, false,
+        Genetics.Visualization.addMouse_(addedMouse, x, y, false,
             function() { this.busy = false;}.bind(addedMouse));
         break;
       case 'START_GAME':
@@ -564,18 +571,18 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Visualization.processMateEvent(event, mouse, askedMouse);
         break;
       case 'RETIRE':
-        Genetics.Visualization.killMouse(mouse, 'RETIRE');
+        Genetics.Visualization.killMouse_(mouse, 'RETIRE');
         Genetics.log(getMouseName(mouse) + ' dies after a productive life.');
         break;
       case 'OVERPOPULATION':
-        Genetics.Visualization.killMouse(mouse, 'OVERPOPULATION');
+        Genetics.Visualization.killMouse_(mouse, 'OVERPOPULATION');
         Genetics.log('Cage has gotten too cramped ' + getMouseName(mouse) +
             ' can\'t compete with the younger mice and dies.');
         break;
       case 'EXPLODE':
         var source = event['SOURCE'];
         var cause = event['CAUSE'];
-        Genetics.Visualization.killMouse(mouse, 'EXPLOSION');
+        Genetics.Visualization.killMouse_(mouse, 'EXPLOSION');
         Genetics.log(getMouseName(mouse) + ' exploded in ' + source +
             ' because \"' + cause + '\"');
         break;
@@ -592,6 +599,9 @@ Genetics.Visualization.processCageEvents_ = function() {
   }
 };
 
+/**
+ * Display the end game summary.
+ */
 Genetics.Visualization.displayGameEnd = function() {
   var functionWinnersText = {'pickFight': '', 'proposeMate': '',
     'acceptMate': '' };
@@ -624,6 +634,12 @@ Genetics.Visualization.displayGameEnd = function() {
       ' acceptMate Winners: ' + functionWinnersText['acceptMate']);
 };
 
+/**
+ * Process fight events.
+ * @param {!Object.<string, string|!Genetics.Mouse>} event
+ * @param {!Genetics.MouseAvatar} instigator
+ * @param {!Genetics.MouseAvatar} opt_opponent
+ */
 Genetics.Visualization.processFightEvent = function(event, instigator,
     opt_opponent) {
   var getMouseName = Genetics.Visualization.getMouseName;
@@ -644,21 +660,21 @@ Genetics.Visualization.processFightEvent = function(event, instigator,
 
     instigator.busy = true;
     if (result == 'SELF') {
-      Genetics.Visualization.fight(instigator, instigator, result, endFight);
+      Genetics.Visualization.fight_(instigator, instigator, result, endFight);
     } else {
       opponent.busy = true;
       Genetics.Visualization.moveMiceTogether_(instigator, opponent,
-          goog.bind(Genetics.Visualization.fight, null, instigator, opponent,
+          goog.bind(Genetics.Visualization.fight_, null, instigator, opponent,
               result, endFight));
     }
   }
 };
 
 /**
- *
- * @param {string} event
- * @param {Genetics.MouseAvatar} proposingMouse
- * @param {Genetics.MouseAvatar} opt_askedMouse
+ * Process mate events.
+ * @param {!Object.<string, string|!Genetics.Mouse>} event
+ * @param {!Genetics.MouseAvatar} proposingMouse
+ * @param {!Genetics.MouseAvatar} opt_askedMouse
  */
 Genetics.Visualization.processMateEvent = function(event, proposingMouse,
     opt_askedMouse) {
@@ -701,7 +717,7 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
 
     var mateResult = function() {
       if (result == 'SUCCESS') {
-        Genetics.Visualization.addMouse(offspring, x, y, true,
+        Genetics.Visualization.addMouse_(offspring, x, y, true,
             function() { offspring.busy = false;});
       } else if (result == 'INCOMPATIBLE') {
         Genetics.log(getMouseName(proposingMouse) + ' mated with ' +
@@ -815,7 +831,7 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
  * "OVERPOPULATION", or "RETIRE".
  * @private
  */
-Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
+Genetics.Visualization.killMouse_ = function(mouseAvatar, reason) {
   Genetics.Visualization.removeMouseAvatar(mouseAvatar);
 
   if (reason == 'EXPLOSION') {
@@ -866,10 +882,12 @@ Genetics.Visualization.killMouse = function(mouseAvatar, reason) {
 };
 
 /**
- *
- * @param {Genetics.MouseAvatar} mouse0
- * @param {Genetics.MouseAvatar} mouse1
- * @param {function} callback
+ * Move the given two mice together to the same point on the screen.
+ * @param {Genetics.MouseAvatar} mouse0 A mouse to move together.
+ * @param {Genetics.MouseAvatar} mouse1 A mouse to move together.
+ * @param {function} callback The function to call once the two mice have
+ * reached the same place.
+ * @private
  */
 Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
   // Find point in between mice for them to move to.
@@ -915,8 +933,9 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
  * @param {string} result The type of result, either 'WIN', 'LOSS', 'TIE', or
  * 'SELF".
  * @param {function} callback Function to call at the end of fight animation.
+ * @private
  */
-Genetics.Visualization.fight = function(instigator, opponent, result,
+Genetics.Visualization.fight_ = function(instigator, opponent, result,
     callback) {
   var getMouseName = Genetics.Visualization.getMouseName;
   var fightCloud = document.getElementById('dust').cloneNode(true);
@@ -941,17 +960,17 @@ Genetics.Visualization.fight = function(instigator, opponent, result,
       if (result == 'WIN') {
         Genetics.log(getMouseName(instigator) + ' fights and kills ' +
             getMouseName(opponent) + '.');
-        Genetics.Visualization.killMouse(opponent, 'FIGHT');
+        Genetics.Visualization.killMouse_(opponent, 'FIGHT');
       } else if (result == 'LOSS') {
 
         Genetics.log(getMouseName(instigator) + ' fights and is ' +
             'killed by ' + getMouseName(opponent) + '.');
-        Genetics.Visualization.killMouse(instigator, 'FIGHT');
+        Genetics.Visualization.killMouse_(instigator, 'FIGHT');
       } else if (result == 'TIE') {
         Genetics.log(getMouseName(instigator) + ' fights ' +
             getMouseName(opponent) + ' to a draw.');
       } else {  // If result is 'SELF'.
-        Genetics.Visualization.killMouse(instigator, 'FIGHT');
+        Genetics.Visualization.killMouse_(instigator, 'FIGHT');
         Genetics.log(getMouseName(instigator) +
             ' chose itself when asked whom to fight with. ' +
             getMouseName(instigator) + ' is being executed to put ' +
@@ -980,7 +999,7 @@ Genetics.Visualization.fight = function(instigator, opponent, result,
  * @param {function} callback
  * @private
  */
-Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth,
+Genetics.Visualization.addMouse_ = function(mouseAvatar, x, y, isBirth,
     callback) {
   var getMouseName = Genetics.Visualization.getMouseName;
 
@@ -1000,7 +1019,8 @@ Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth,
     // Update statistics to include new mouse.
     Genetics.Visualization.mouseSexes_[mouseAvatar.sex] += 1;
     Genetics.Visualization.pickFightOwners_[mouseAvatar.pickFightOwner] += 1;
-    Genetics.Visualization.proposeMateOwners_[mouseAvatar.proposeMateOwner] += 1;
+    Genetics.Visualization.proposeMateOwners_[mouseAvatar.proposeMateOwner] +=
+        1;
     Genetics.Visualization.acceptMateOwners_[mouseAvatar.acceptMateOwner] += 1;
     Genetics.Visualization.updateChartData_();
     Genetics.Visualization.updateStats_();
@@ -1021,9 +1041,9 @@ Genetics.Visualization.addMouse = function(mouseAvatar, x, y, isBirth,
  *
  * @param {string} type Type of heart to display, either "SUCCESS", "INFERTILE",
  * or "INCOMPATIBLE".
- * @param x
- * @param y
- * @param callback
+ * @param {number} x
+ * @param {number} y
+ * @param {function} callback
  * @private
  */
 Genetics.Visualization.showHeart_ = function(type, x, y, callback) {
