@@ -39,7 +39,7 @@
   height: 350px;
   border-radius: 20px;
   background: rgb(255, 255, 255);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, .8);
 }
 
 .playerStatTable {
@@ -78,8 +78,8 @@
 }
 
 .winningFunction {
-  box-shadow: inset 0 0 2px white;
-  border: 1px solid white;
+  box-shadow: inset 0 0 2px #fff;
+  border: 1px solid #fff;
   box-sizing: border-box;
 }
 
@@ -105,15 +105,15 @@
 @keyframes bounceIn{
   0%{
     opacity: 0;
-    transform: scale(0.3);
+    transform: scale(.3);
   }
   50%{
-    opacity: 0.9;
+    opacity: .9;
     transform: scale(1.1);
   }
   80%{
     opacity: 1;
-    transform: scale(0.89);
+    transform: scale(.9);
   }
   100%{
     opacity: 1;
@@ -270,7 +270,7 @@
 }
 
 .star1, .star2, .star3, .star4 {
-  position:absolute;
+  position: absolute;
   font-size: 6px;
   opacity: 0;
 }
@@ -283,23 +283,23 @@
 .star2 {
   animation: flyLeft 500ms ease-in-out;
   top: 11px; left: 18px;
-  animation-delay: 250ms
+  animation-delay: 250ms;
 }
 
 .star3 {
   animation: flyRight 500ms ease-in-out;
   top: 11px; left: 26px;
-  animation-delay: 500ms
+  animation-delay: 500ms;
 }
 
 .star4 {
   animation: flyLeft 500ms ease-in-out;
   top: 3px; left: 18px;
-  animation-delay: 1s
+  animation-delay: 1s;
 }
 
 @keyframes fadeIn {
-  0% {opacity:0.5;}
+  0% {opacity:.5;}
   100% {opacity:1;}
 }
 
