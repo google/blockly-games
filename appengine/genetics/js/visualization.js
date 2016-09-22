@@ -534,11 +534,11 @@ Genetics.Visualization.processCageEvents_ = function() {
   while (Genetics.Cage.EVENTS.length) {
     var event = Genetics.Cage.EVENTS.shift();
 
-    var mouse = (event['ID'] != null) ?
+    var mouse = (event['ID'] !== null) ?
         Genetics.Visualization.mice_[event['ID']] : null;
     var opponent = (event['OPT_OPPONENT'] != null) ?
         Genetics.Visualization.mice_[event['OPT_OPPONENT']] : null;
-    var askedMouse = (event['OPT_PARTNER'] != null) ?
+    var askedMouse = (event['OPT_PARTNER'] !== null) ?
         Genetics.Visualization.mice_[event['OPT_PARTNER']] : null;
     if ((mouse && mouse.busy) || (opponent && opponent.busy) ||
         (askedMouse && askedMouse.busy)) {
