@@ -460,7 +460,7 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
 };
 
 /**
- * Adds the mouse to the cage and queues simulation for mouse
+ * Adds the mouse to the cage and queues simulation for mouse.
  * @param {!Genetics.Mouse} mouse The mouse to add to the cage.
  */
 Genetics.Cage.born = function(mouse) {
