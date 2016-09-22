@@ -90,9 +90,33 @@
         color: #000;
         cursor: default;
       }
+
+      #skipLink a {
+        background-color: #9e340b;
+        color: white;
+        height: 1px;
+        left: -10000px;
+        opacity: 0;
+        overflow: hidden;
+        padding: 15px 20px 10px;
+        position: absolute;
+        text-decoration: none;
+        width: 1px;
+      }
+      #skipLink a:focus {
+        height: auto;
+        margin-left: -10px;
+        opacity: 1;
+        position: static;
+        width: auto;
+      }
     </style>
   </head>
   <body>
+    <div id="skipLink">
+      <a href="#instructions">Skip to Instructions</a>
+    </div>
+
     <div style="float: right;">
       <a href="./help.html">
         Learn more...
@@ -129,10 +153,22 @@
       }
 
       var ACCESSIBLE_GLOBALS = {
+        mediaPathPrefix: '../third-party/blockly/accessible/media/',
         // Additional buttons for the workspace toolbar that
         // go before the "Clear Workspace" button.
         toolbarButtonConfig: [{
           text: 'Run Code',
+          ariaDescribedBy: null,
+          isHidden: function() {
+            return false;
+          },
+          // Gets set by musicGame.LevelManagerService.
+          action: null
+        }, {
+          text: 'Play Desired Tune',
+          ariaDescribedBy: 'instructionsText',
+          // Gets set by musicGame.LevelManagerService.
+          isHidden: null,
           // Gets set by musicGame.LevelManagerService.
           action: null
         }]

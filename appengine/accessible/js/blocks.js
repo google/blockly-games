@@ -90,6 +90,12 @@ Blockly.Blocks['music_play_note'] = {
     this.setColour(Music.Blocks.HUE);
     this.setTooltip(MUSIC_DUMMY_TOOLTIP);
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+  },
+  onchange: function(changeEvent) {
+    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+      musicPlayer.playNote_(
+          [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
+    }
   }
 };
 
@@ -121,6 +127,26 @@ Blockly.Blocks['music_play_phrase'] = {
     this.setColour(Music.Blocks.HUE);
     this.setTooltip(MUSIC_DUMMY_TOOLTIP);
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+  },
+  onchange: function(changeEvent) {
+    if (changeEvent.element == 'field' && changeEvent.name == 'MIDI_VALUES') {
+      var beatsPerMinute = 150;
+      var secsPerBeat = 60.0 / beatsPerMinute;
+      musicPlayer.reset();
+
+      var delaySecs = 0;
+      var phraseParts = changeEvent.newValue.split('-');
+      phraseParts.forEach(function(phrasePart) {
+        var noteAndDuration = phrasePart.split(':');
+        setTimeout(function() {
+          musicPlayer.playNote_(
+            [Number(noteAndDuration[0])],
+            Number(noteAndDuration[1]) * secsPerBeat,
+            (new Date).getTime());
+        }, delaySecs * 1000.0);
+        delaySecs += Number(noteAndDuration[1]) * secsPerBeat;
+      });
+    }
   },
   /**
    * Parse XML to restore the values of the phrases.
@@ -181,6 +207,12 @@ Blockly.Blocks['music_play_note_with_duration'] = {
     this.setColour(Music.Blocks.HUE);
     this.setTooltip(MUSIC_DUMMY_TOOLTIP);
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+  },
+  onchange: function(changeEvent) {
+    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+      musicPlayer.playNote_(
+          [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
+    }
   }
 };
 
