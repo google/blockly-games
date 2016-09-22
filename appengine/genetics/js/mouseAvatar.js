@@ -70,7 +70,7 @@ Genetics.MouseAvatar = function(mouse) {
   image.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
   image.setAttribute('height', (Genetics.MouseAvatar.HEIGHT +
       Genetics.MouseAvatar.TAIL_HEIGHT) * 2 + 'px');
-  if (this.sex === Genetics.Mouse.Sex.FEMALE) {
+  if (this.sex == Genetics.Mouse.Sex.FEMALE) {
     image.setAttribute('y', - (Genetics.MouseAvatar.HEIGHT +
         Genetics.MouseAvatar.TAIL_HEIGHT) + 'px');
   }

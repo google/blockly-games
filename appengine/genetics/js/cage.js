@@ -308,7 +308,7 @@ Genetics.Cage.instigateFight = function(mouse) {
   }
   // Retrieve local copy of mouse to ensure that mouse was not modified.
   var opponent = Genetics.Cage.miceMap_[chosen.id];
-  if (mouse.id === opponent.id) {
+  if (mouse.id == opponent.id) {
     // If mouse chooses to fight against itself, it dies.
     new Genetics.Cage.Event('FIGHT', mouse.id, 'SELF').addToQueue();
     Genetics.Cage.die(mouse);
@@ -397,7 +397,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   var femaleFertility = 0;
   for (var i = 0, aliveMouse; aliveMouse = Genetics.Cage.nextRoundMice[i]; i++) {
     populationFertility += aliveMouse.fertility;
-    if (aliveMouse.sex === Genetics.Mouse.Sex.FEMALE) {
+    if (aliveMouse.sex == Genetics.Mouse.Sex.FEMALE) {
       femaleFertility += aliveMouse.fertility;
     }
   }
@@ -416,7 +416,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
  * @return {boolean} Whether the mate succeeds.
  */
 Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
-  if (proposingMouse.id === askedMouse.id) {
+  if (proposingMouse.id == askedMouse.id) {
     // If mouse tries to mate with itself, it does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'SELF').addToQueue();
     return false;
@@ -444,7 +444,7 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
   // Asked mouse accepted the mating request.
   // Use up one mating attempt for asked Mouse.
   askedMouse.fertility--;
-  if (proposingMouse.sex === askedMouse.sex) {
+  if (proposingMouse.sex == askedMouse.sex) {
     // If mice are not of different sex, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INCOMPATIBLE',
         askedMouse.id).addToQueue();
@@ -490,7 +490,7 @@ Genetics.Cage.die = function(mouse) {
  */
 Genetics.Cage.checkForEnd = function() {
   // Check if there are no mice left.
-  if (Genetics.Cage.nextRoundMice.length === 0) {
+  if (Genetics.Cage.nextRoundMice.length == 0) {
     Genetics.Cage.end('NONE_LEFT', [], [], []);
     return;
   }
@@ -597,7 +597,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
     result.success = true;
     result.value = interpreter.pseudoToNative(interpreter.value);
   } catch (e) {
-    if (e === Infinity) {
+    if (e == Infinity) {
       result.cause = 'Timeout';
     } else {
       result.cause = e;
@@ -701,13 +701,13 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
       'id': aliveMouse.id
     };
     var pseudoMouse = interpreter.nativeToPseudo(clonedMouse);
-    if (aliveMouse.id === mouse.id) {
+    if (aliveMouse.id == mouse.id) {
       // If the mouse running the interpreter has been created, save it.
       pseudoMe = pseudoMouse;
     } else {
       // If the mouse is not the mouse running the interpreter, add to list.
       interpreter.setProperty(pseudoAliveMice, aliveMiceIndex++, pseudoMouse);
-      if (suitor && aliveMouse.id === suitor.id) {
+      if (suitor && aliveMouse.id == suitor.id) {
         // If the suitor parameter was define and has been created, save it.
         pseudoSuitor = pseudoMouse;
       }
