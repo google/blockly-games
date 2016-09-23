@@ -87,8 +87,25 @@
 
   <table class="playerStatTable">
    <tbody>
-      <tr id="playerNameRow"></tr>
-      <tr id="playerStatRow"></tr>
+      <tr id="playerNameRow">
+        {for $i in range(4)}
+          <td class="playerStatName">
+          </td>
+        {/for}
+      <tr id="playerStatRow">
+        {for $i in range(4)}
+          <td>
+            <div class="mouseFunctionIcons"></div>
+            <div class="pickFightStat" ></div>
+            {if $ij.level >= 5}
+              <div class="proposeMateStat"></div>
+              {if $ij.level >= 7}
+                <div class="acceptMateStat"></div>
+              {/if}
+            {/if}
+          </td>
+        {/for}
+      </tr>
     </tbody>
   </table>
 

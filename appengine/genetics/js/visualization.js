@@ -331,90 +331,50 @@ Genetics.Visualization.reset = function() {
   Genetics.Visualization.playerStatsDivs_.length = 0;
   var nameRow = document.getElementById('playerNameRow');
   var statsRow = document.getElementById('playerStatRow');
-  goog.dom.removeChildren(nameRow);
-  goog.dom.removeChildren(statsRow);
-
-  var needsWidthHeightSet = [];
 
   for (var playerId = 0, player; player = Genetics.Cage.players[playerId]; playerId++) {
     // Assign a colour to each avatar.
     var hexColour = Genetics.Visualization.COLOURS[playerId];
-    var playerStat = {};
-    // <td>
-    //   <div class="playerStatName">Rabbit</div>
-    //   <div>&nbsp;</div>
-    // </td>
-    var td = document.createElement('td');
+    // Setup player name cell in stats table.
+    var td =  nameRow.cells[playerId];
     td.style.borderColor = hexColour;
-    var nameDiv = document.createElement('div');
-    nameDiv.className = 'playerStatContainer';
+    var nameDiv = td;
     var playerName = player.name;
     nameDiv.title = playerName;
-    var div = document.createElement('div');
-    div.className = 'playerStatName';
-    div.style.background = hexColour;
-    div.style.width = '100%';
+    nameDiv.style.background = hexColour;
     var text = document.createTextNode(playerName);
-    div.appendChild(text);
-    nameDiv.appendChild(div);
-    td.appendChild(nameDiv);
-    needsWidthHeightSet.push(nameDiv);
-    var div = document.createElement('div');
-    var text = document.createTextNode('\u00a0');
-    div.appendChild(text);
-    td.appendChild(div);
-    nameRow.appendChild(td);
-    // <td>
-    //   <div class="playerStatName">Rabbit</div>
-    //   <div class="pickFightStat" ></div>
-    //   <div class="proposeMateStat" ></div>
-    //   <div class="acceptMateStat" ></div>
-    //   <div>&nbsp;</div>
-    // </td>
-    var td = document.createElement('td');
+    goog.dom.removeChildren(nameDiv);
+    nameDiv.appendChild(text);
+    // Setup stats percentages for each function if there is a div for it.
+    td = statsRow.cells[playerId];
     td.style.borderColor = hexColour;
-    var statsDiv = document.createElement('div');
-    statsDiv.className = 'playerStatContainer';
+    var playerStat = {};
+    // Setup pickFight percentage div.
+    var pickFightDiv = td.getElementsByClassName('pickFightStat')[0];
+    if (pickFightDiv) {
+      goog.dom.classlist.remove(pickFightDiv, 'winningFunction');
+      pickFightDiv.style.background = hexColour;
+      pickFightDiv.style.width = 0;
+      playerStat['pickFightDiv'] = pickFightDiv;
+    }
+    var proposeMateDiv = td.getElementsByClassName('proposeMateStat')[0];
+    if (proposeMateDiv) {
+      goog.dom.classlist.remove(proposeMateDiv, 'winningFunction');
+      proposeMateDiv.style.background = hexColour;
+      proposeMateDiv.style.width = 0;
+      playerStat['proposeMateDiv'] = proposeMateDiv;
+    }
+    var acceptMateDiv = td.getElementsByClassName('acceptMateStat')[0];
+    if (acceptMateDiv) {
+      goog.dom.classlist.remove(acceptMateDiv, 'winningFunction');
+      acceptMateDiv.style.background = hexColour;
+      acceptMateDiv.style.width = 0;
+      playerStat['acceptMateDiv'] = acceptMateDiv;
+    }
+    playerStat['td'] = td;
 
-    var pickFightDiv = document.createElement('div');
-    pickFightDiv.style.background = hexColour;
-    pickFightDiv.style.width = 0;
-    pickFightDiv.style.height = 100 / 3 + '%';
-    playerStat['pickFightDiv'] = pickFightDiv;
-    statsDiv.appendChild(pickFightDiv);
-    var proposeMateDiv = document.createElement('div');
-    proposeMateDiv.style.background = hexColour;
-    proposeMateDiv.style.width = 0;
-    proposeMateDiv.style.height = 100 / 3 + '%';
-    playerStat['proposeMateDiv'] = proposeMateDiv;
-    statsDiv.appendChild(proposeMateDiv);
-    var acceptMateDiv = document.createElement('div');
-    acceptMateDiv.style.background = hexColour;
-    acceptMateDiv.style.width = 0;
-    acceptMateDiv.style.height = 100 / 3 + '%';
-    playerStat['acceptMateDiv'] = acceptMateDiv;
-    statsDiv.appendChild(acceptMateDiv);
-
-    var div = document.createElement('div');
-    div.className = 'mouseFunctionIcons';
-    statsDiv.appendChild(div);
-
-    td.appendChild(statsDiv);
-    playerStat.mainDiv = statsDiv;
-    needsWidthHeightSet.push(statsDiv);
-    var div = document.createElement('div');
-    div.style.height = '60px';
-    var text = document.createTextNode('\u00a0');
-    div.appendChild(text);
-    td.appendChild(div);
-    statsRow.appendChild(td);
-
+    // Store a reference to all the percentage divs.
     Genetics.Visualization.playerStatsDivs_.push(playerStat);
-  }
-  for (var i = 0; i < needsWidthHeightSet.length; i++) {
-      var div = needsWidthHeightSet[i];
-      div.style.width = (div.parentNode.offsetWidth - 2) + 'px';
-      div.style.height = (div.parentNode.offsetHeight - 2) + 'px';
   }
 
   // Remove child DOM elements on display div.
@@ -470,7 +430,7 @@ Genetics.Visualization.chartsNeedUpdate_ = true;
 
 /**
  *
- * @type {!Array.<!Object.<HTMLDivElement>>}
+ * @type {!Array.<!Object.<string, HTMLDivElement|HTMLTableCellElement>>}
  * @private
  */
 Genetics.Visualization.playerStatsDivs_ = [];
@@ -487,14 +447,20 @@ Genetics.Visualization.updateStats_ = function() {
     var playerStats = Genetics.Visualization.playerStatsDivs_[playerId];
     var pickFightPercent = (100 *
         Genetics.Visualization.pickFightOwners_[playerId] / mouseCount) || 0;
-    playerStats.pickFightDiv.style.width = pickFightPercent + '%';
+    if (playerStats['pickFightDiv']) {
+      playerStats['pickFightDiv'].style.width = pickFightPercent + '%';
+    }
     var proposeMatePercent = (100 *
         Genetics.Visualization.proposeMateOwners_[playerId] / mouseCount) || 0;
-    playerStats.proposeMateDiv.style.width = proposeMatePercent + '%';
+    if (playerStats['proposeMateDiv']) {
+      playerStats['proposeMateDiv'].style.width = proposeMatePercent + '%';
+    }
     var acceptMatePercent = (100 *
         Genetics.Visualization.acceptMateOwners_[playerId] / mouseCount) || 0;
-    playerStats.acceptMateDiv.style.width = acceptMatePercent + '%';
-    playerStats.mainDiv.title = 'pickFight ' +
+    if (playerStats['acceptMateDiv']) {
+      playerStats['acceptMateDiv'].style.width = acceptMatePercent + '%';
+    }
+    playerStats['td'].title = 'pickFight ' +
         Math.round(pickFightPercent * 100) / 100 + '%\nproposeMate ' +
         Math.round(proposeMatePercent * 100) / 100 + '%\nacceptMate ' +
         Math.round(acceptMatePercent * 100) / 100 + '%';
@@ -611,8 +577,8 @@ Genetics.Visualization.displayGameEnd = function() {
     for (var j = 0; functionWinnersList && j < functionWinnersList.length;
         j++) {
       var playerId = functionWinnersList[j];
-      Genetics.Visualization.playerStatsDivs_[playerId][mouseFunction + 'Div']
-          .classList += 'winningFunction';
+      var stats = Genetics.Visualization.playerStatsDivs_[playerId];
+      goog.dom.classlist.add(stats[mouseFunction + 'Div'], 'winningFunction');
       functionWinnersText[mouseFunction] +=
           Genetics.Cage.players[playerId].name + ' ';
     }
@@ -807,7 +773,7 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
       mouse.sex + ']';
   var names = (mouse.sex == Genetics.Mouse.Sex.FEMALE) ? FEMININE_NAMES :
       MASCULINE_NAMES;
-  var name = names[Math.floor(mouse.id / 2) % names.length || 0];
+  var name = names[mouse.id % names.length || 0];
   var ordinal = Math.floor(mouse.id / names.length) + 1;
   if (ordinal > 1) {
     name += ' ' + romanize(ordinal);

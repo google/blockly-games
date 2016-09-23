@@ -43,6 +43,7 @@
 }
 
 .playerStatTable {
+  table-layout: fixed;
   width: 406px;
   max-width: 406px;
   margin-left: -2px;
@@ -50,18 +51,21 @@
 }
 
 .playerStatTable>tbody>tr>td {
+  position:relative;
   padding: 0;
   border: 1px solid;
+  overflow: hidden;
   background: #ccc;
   border-radius: 2px;
 }
 
-.playerStatContainer {
-  position: absolute;
+.pickFightStat, .proposeMateStat, .acceptMateStat {
+  height: 20px;
 }
 
 .playerStatName {
-  position: absolute;
+  width: 97px;
+  height: 18px;
   color: #fff;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -70,8 +74,6 @@
 
 .mouseFunctionIcons {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 20px;
   height: 60px;
   background-image: url(mouseFunctionIcons.png);
