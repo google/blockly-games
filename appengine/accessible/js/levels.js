@@ -262,6 +262,14 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
+    getTargetedFeedback: function(chords) {
+      var numBlocks = blocklyApp.workspace.getAllBlocks().length;
+      if (numBlocks > 5) {
+        return (
+            'You\'re currently using ' + numBlocks + ' blocks. Can you ' +
+            'do it with just 5 blocks?');
+      }
+    },
     instructions:
         'Play the first part of Frere Jacques twice as before, but now, use ' +
         'only 5 blocks. Try playing the desired tune first to see how it ' +

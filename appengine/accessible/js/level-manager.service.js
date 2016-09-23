@@ -46,12 +46,7 @@ musicGame.LevelManagerService = ng.core
 
       var that = this;
       ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
-        var currentLevelData = that.getCurrentLevelData();
-        musicPlayer.reset();
-        runCodeToPopulatePlayerLine();
-        musicPlayer.playPlayerLine(currentLevelData.beatsPerMinute, function() {
-          that.gradeCurrentLevel();
-        });
+        that.runCode();
       };
       ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].action = function() {
         var expectedLine = new MusicLine();
@@ -95,7 +90,14 @@ musicGame.LevelManagerService = ng.core
       }
 
       this.applauseAudioFile = new Audio('media/applause.mp3');
+      this.oopsAudioFile = new Audio('media/oops.mp3');
     }],
+    playApplause_: function() {
+      this.applauseAudioFile.play();
+    },
+    playOops_: function() {
+      this.oopsAudioFile.play();
+    },
     saveToLocalStorage: function() {
       // MSIE 11 does not support localStorage on file:// URLs.
       if (!window.localStorage) {
@@ -109,6 +111,34 @@ musicGame.LevelManagerService = ng.core
 
       var xml = Blockly.Xml.workspaceToDom(blocklyApp.workspace);
       window.localStorage[key] = Blockly.Xml.domToText(xml);
+    },
+    runCode: function() {
+      if (blocklyApp.workspace.topBlocks_.length != 1) {
+        if (this.levelSetId_ == 'tutorial') {
+          this.playOops_();
+        }
+
+        var alertMessage =
+            blocklyApp.workspace.topBlocks_.length == 0 ?
+            'There are no blocks in the workspace.' :
+            ('Not quite! You currently have more than one "island" in the ' +
+             'workspace. Make sure all your blocks are joined together ' +
+             'into a single program.');
+        setTimeout(function() {
+          alert(alertMessage);
+        }, 500);
+
+        return;
+      }
+
+      var currentLevelData = this.getCurrentLevelData();
+      musicPlayer.reset();
+      runCodeToPopulatePlayerLine();
+
+      var that = this;
+      musicPlayer.playPlayerLine(currentLevelData.beatsPerMinute, function() {
+        that.gradeCurrentLevel();
+      });
     },
     loadFromLocalStorage: function(levelNumber) {
       if (!window.localStorage) {
@@ -142,17 +172,7 @@ musicGame.LevelManagerService = ng.core
     getCurrentLevelData: function() {
       return this.levelSet_[this.currentLevelNumber_];
     },
-    playApplause: function() {
-      this.applauseAudioFile.play();
-    },
     gradeCurrentLevel: function() {
-      if (blocklyApp.workspace.topBlocks_.length > 1) {
-        alert(
-            'Not quite! You currently have more than one "island" in the ' +
-            'workspace. Make sure your blocks are all joined together.');
-        return;
-      }
-
       var currentLevelData = this.getCurrentLevelData();
       var expectedPlayerLine = new MusicLine();
       expectedPlayerLine.setFromChordsAndDurations(
@@ -163,7 +183,7 @@ musicGame.LevelManagerService = ng.core
         this.saveToLocalStorage();
 
         if (this.levelSetId_ != 'tutorial') {
-          this.playApplause();
+          this.playApplause_();
         }
 
         if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
@@ -188,7 +208,9 @@ musicGame.LevelManagerService = ng.core
         }
       } else {
         var playerChords = musicPlayer.getPlayerChords();
-        var errorMessage = 'Not quite! Are you playing the right note?';
+        var errorMessage = (
+            'Not quite! Are you playing the right notes? Compare your tune ' +
+            'and the desired tune to see if there\'s a difference.');
         if (currentLevelData.getTargetedFeedback) {
           var targetedMessage = currentLevelData.getTargetedFeedback(
               playerChords);
