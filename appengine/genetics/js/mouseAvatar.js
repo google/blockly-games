@@ -179,15 +179,17 @@ Genetics.MouseAvatar = function(mouse) {
 
   // The process ids for the idle mouse animation [0] and busy animation [1].
   this.actionPids = [0, 0];
-  var wanderAbout = function() {
-    var wanderTime = 400 + 100 * Math.random();
-    if (!this.busy) {
-      this.randomMove_(wanderTime);
-    }
-    this.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
-        setTimeout(wanderAbout, wanderTime);
-  }.bind(this);
-  wanderAbout();
+  if (!Genetics.MouseAvatar.wanderingDisabled) {
+    var wanderAbout = function() {
+      var wanderTime = 400 + 100 * Math.random();
+      if (!this.busy) {
+        this.randomMove_(wanderTime);
+      }
+      this.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
+          setTimeout(wanderAbout, wanderTime);
+    }.bind(this);
+    wanderAbout();
+  }
 };
 
 Genetics.MouseAvatar.MOUSE_SRC = 'genetics/mouse.png';
@@ -221,6 +223,9 @@ Genetics.MouseAvatar.IDLE_SPEED = .05;
  * @type {number}
  */
 Genetics.MouseAvatar.DISPLAY_SIZE = 0;
+
+
+Genetics.MouseAvatar.wanderingDisabled = false;
 
 Genetics.MouseAvatar.prototype.stop = function() {
   for (var i = 0; i < this.actionPids.length; i++) {
