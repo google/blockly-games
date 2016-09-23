@@ -147,7 +147,7 @@ Genetics.Cage.Event.prototype.addToQueue = function() {
  * Time limit for end of the game in rounds.
  * @type {number}
  */
-Genetics.Cage.MAX_ROUNDS = 1;
+Genetics.Cage.MAX_ROUNDS = 10;
 
 Genetics.Cage.roundNumber = 0;
 
@@ -164,13 +164,6 @@ Genetics.Cage.FUNCTION_TIMEOUT_STEPS = 100000;
  * @private
  */
 Genetics.Cage.nextAvailableMouseId_ = 0;
-
-/**
- * Callback function for end of game.
- * @type {Function}
- * @private
- */
-Genetics.Cage.doneCallback_ = null;
 
 /**
  * Stop the game.
@@ -205,11 +198,11 @@ Genetics.Cage.addPlayer = function(playerName, code) {
 
 /**
  * Start the Cage simulation. Players should be already added.
- * @param {Function} doneCallback Function to call when game ends.
+ * @param {!Function} checkForEnd Function to call when game ends.
  */
-Genetics.Cage.start = function(doneCallback) {
+Genetics.Cage.start = function(checkForEnd) {
+  Genetics.Cage.checkForEnd = checkForEnd;
   Genetics.Cage.stopped_ = false;
-  Genetics.Cage.doneCallback_ = doneCallback;
   for (var playerId = 0, player; player = Genetics.Cage.players[playerId]; playerId++) {
     if (goog.isFunction(player.code)) {
       // Cache code if player code is generator.
@@ -248,7 +241,9 @@ Genetics.Cage.update = function() {
     }
 
     // Check for end game.
-    Genetics.Cage.checkForEnd();
+    if (Genetics.Cage.checkForEnd()) {
+      Genetics.Cage.stop();
+    }
   }
 
   if (!Genetics.Cage.stopped_) {
@@ -371,7 +366,7 @@ Genetics.Cage.tryMate = function(suitor) {
       var oldestMouse = null;
       for (var mouseId in Genetics.Cage.miceMap_) {
         var aliveMouse = Genetics.Cage.miceMap_[mouseId];
-        if (!aliveMouse || aliveMouse.age > oldestMouse.age) {
+        if (!oldestMouse || aliveMouse.age > oldestMouse.age) {
           oldestMouse = aliveMouse;
         }
       }
@@ -483,94 +478,6 @@ Genetics.Cage.die = function(mouse) {
     Genetics.Cage.currentRoundmice.splice(index, 1);
   }
   delete Genetics.Cage.miceMap_[mouse.id];
-};
-
-/**
- * Stops the game if end condition is met.
- */
-Genetics.Cage.checkForEnd = function() {
-  // Check if there are no mice left.
-  if (Genetics.Cage.nextRoundMice.length == 0) {
-    Genetics.Cage.end('NONE_LEFT', [], [], []);
-    return;
-  }
-  // Find which players have majority for each function.
-  var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
-    'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
-  var isTimeExpired = Genetics.Cage.roundNumber > Genetics.Cage.MAX_ROUNDS;
-  var firstMouseInQueue = Genetics.Cage.nextRoundMice[0];
-  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice[i]; i++) {
-    if (!isTimeExpired &&
-        (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
-        mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
-        mouse.acceptMateOwner != firstMouseInQueue.acceptMateOwner)) {
-      // If time hasn't expired and there is not a domination victory, it is not
-      // game end yet.
-      return;
-    }
-    playerFunctionCounts['pickFight'][mouse.pickFightOwner]++;
-    playerFunctionCounts['proposeMate'][mouse.proposeMateOwner]++;
-    playerFunctionCounts['acceptMate'][mouse.acceptMateOwner]++;
-  }
-  if (!isTimeExpired) {
-    Genetics.Cage.end('DOMINATION',
-        [[Genetics.Cage.nextRoundMice[0].pickFightOwner]],
-        [[Genetics.Cage.nextRoundMice[0].proposeMateOwner]],
-        [[Genetics.Cage.nextRoundMice[0].acceptMateOwner]]);
-    return;
-  }
-  Genetics.functionCounts = playerFunctionCounts; // TODO rm
-  // Determine rankings for each function.
-  var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
-  var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
-  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-    for (var i = 0, mouseFunc; mouseFunc = mouseFunctions[i]; i++) {
-      var playerFunctionCount = playerFunctionCounts[mouseFunc];
-      var playerFunctionRanking = playerRankings[mouseFunc];
-      var isFunctionRanked = false;
-
-      for (var j = 0; !isFunctionRanked && j < playerFunctionRanking.length;
-          j++) {
-        var currentRankPlayerId = playerFunctionRanking[j][0];
-        if (playerFunctionCount[playerId] ==
-            playerFunctionCount[currentRankPlayerId]) {
-          // If player has the same count as a player at the current rank,
-          // add them to the same list.
-          playerFunctionRanking[j].push(playerId);
-          isFunctionRanked = true;
-        } else if (playerFunctionCount[playerId] >
-            playerFunctionCount[currentRankPlayerId]) {
-          // If a player has a higher count as the player at the current rank,
-          // add them to a list before this rank.
-          playerFunctionRanking.splice(j, 0, [playerId]);
-          isFunctionRanked = true;
-        }
-      }
-      if (!isFunctionRanked) {
-        playerFunctionRanking.push([playerId]);
-      }
-    }
-  }
-  Genetics.rankings = playerRankings; // TODO rm
-  Genetics.Cage.end('TIMEOUT', playerRankings['pickFight'],
-      playerRankings['proposeMate'], playerRankings['acceptMate']);
-};
-
-/**
- * Clears queued events for end of simulation.
- * @param {string} cause The cause of game end.
- * @param {!Array.<!Array.<number>>} pickFightRank A list of of lists
- * representing rankings of players for pickFight function.
- * @param {!Array.<!Array.<number>>} proposeMateRank A list of lists of first,
- * second, and third place players for the proposeMate function.
- * @param {!Array.<!Array.<number>>} acceptMateRank A list of lists of first,
- * second, and third place players for the acceptMate function.
- */
-Genetics.Cage.end = function(cause, pickFightRank, proposeMateRank,
-    acceptMateRank) {
-  Genetics.Cage.stop();
-  new Genetics.Cage.Event('END_GAME', cause, pickFightRank,
-      proposeMateRank, acceptMateRank).addToQueue();
 };
 
 /**

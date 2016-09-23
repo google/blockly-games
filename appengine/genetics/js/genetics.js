@@ -68,10 +68,10 @@ Genetics.ignoreEditorChanges_ = true;
 Genetics.init = function() {
   // Render the Soy template.
   document.body.innerHTML = Genetics.soy.start({}, null,
-      {
-        lang: BlocklyGames.LANG,
-        html: BlocklyGames.IS_HTML
-      });
+      {lang: BlocklyGames.LANG,
+       level: BlocklyGames.LEVEL,
+       maxLevel: BlocklyGames.MAX_LEVEL,
+       html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init();
   Genetics.Visualization.init();
@@ -158,12 +158,8 @@ Genetics.init = function() {
     '<block type="genetics_pickFight" deletable="false" editable="false" ' +
         'x="0" y="150">' +
       '<comment pinned="false">' +
-'Chooses and returns a mouse from mice to pick a fight with or null to ' +
-    'choose no\n' +
-'mouse and never fight again.\n' +
-'Choosing to fight against itself will kill the mouse.\n' +
-'@return the mouse chosen to attempt to mate with or null if no mouse is ' +
-    'chosen' +
+'Chooses and returns a mouse from mice to pick a fight with or null to choose no mouse and never fight again. Choosing to fight against itself will kill the mouse.\n' +
+'@return {Mouse|null} mouse The mouse chosen to fight with.' +
       '</comment>' +
       '<value name="RETURN">' +
         '<shadow type="logic_null"></shadow>' +
@@ -172,13 +168,8 @@ Genetics.init = function() {
     '<block type="genetics_proposeMate" deletable="false" editable="false" ' +
         'x="0" y="350">' +
       '<comment pinned="false">' +
-'Chooses and returns a mouse from mice to attempt to mate with or null ' +
-    'to choose\n' +
-'no mouse and never mate again. If the mate chosen is valid and agrees to ' +
-    'the\n' +
-'request then a child will be born.\n' +
-'@return the mouse chosen to attempt to mate with or null if no mouse is ' +
-    'chosen' +
+'Chooses and returns a mouse from mice to attempt to mate with. If the mate chosen accepts, is fertile, and is of the opposite sex then a child will be born.\n' +
+'@return {Mouse|null} mouse The mouse chosen to attempt to mate with.' +
       '</comment>' +
       '<value name="RETURN">' +
         '<shadow type="logic_null"></shadow>' +
@@ -187,9 +178,9 @@ Genetics.init = function() {
     '<block type="genetics_acceptMate" deletable="false" editable="false" ' +
         'x="0" y="550">' +
       '<comment pinned="false">' +
-'Returns true to agree to mate or false to decline.\n' +
-'@param suitor the mouse requesting to mate\n' +
-'@return the the answer to the mating request' +
+'Returns true to agree to a mate request or false to decline a mate request.\n' +
+'@param {Mouse} suitor the mouse requesting to mate.\n' +
+'@return {boolean} the the answer to the mate request.' +
       '</comment>' +
       '<value name="RETURN">' +
         '<shadow type="logic_boolean">' +
@@ -241,6 +232,82 @@ Genetics.init = function() {
   Genetics.reset();
   Genetics.changeTab(0);
   Genetics.ignoreEditorChanges_ = false;
+};
+
+/**
+ * Returns whether the game is over and adds events to the event queue if it is.
+ * @return {boolean}
+ */
+Genetics.checkForEnd = function() {
+  switch (BlocklyGames.LEVEL) {
+    
+  }
+  // Check if there are no mice left.
+  if (Genetics.Cage.nextRoundMice.length == 0) {
+    new Genetics.Cage.Event('END_GAME', 'NONE_LEFT', [], [], []).addToQueue();
+    return true;
+  }
+  // Find which players have majority for each function.
+  var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
+    'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
+  var isTimeExpired = Genetics.Cage.roundNumber > Genetics.Cage.MAX_ROUNDS;
+  var firstMouseInQueue = Genetics.Cage.nextRoundMice[0];
+  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice[i]; i++) {
+    if (!isTimeExpired &&
+        (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
+        mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
+        mouse.acceptMateOwner != firstMouseInQueue.acceptMateOwner)) {
+      // If time hasn't expired and there is not a domination victory, it is not
+      // game end yet.
+      return false;
+    }
+    playerFunctionCounts['pickFight'][mouse.pickFightOwner]++;
+    playerFunctionCounts['proposeMate'][mouse.proposeMateOwner]++;
+    playerFunctionCounts['acceptMate'][mouse.acceptMateOwner]++;
+  }
+  if (!isTimeExpired) {
+    new Genetics.Cage.Event('END_GAME', 'DOMINATION',
+        [[Genetics.Cage.nextRoundMice[0].pickFightOwner]],
+        [[Genetics.Cage.nextRoundMice[0].proposeMateOwner]],
+        [[Genetics.Cage.nextRoundMice[0].acceptMateOwner]]).addToQueue();
+    return true;
+  }
+  Genetics.functionCounts = playerFunctionCounts; // TODO rm
+  // Determine rankings for each function.
+  var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
+  var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
+  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
+    for (var i = 0, mouseFunc; mouseFunc = mouseFunctions[i]; i++) {
+      var playerFunctionCount = playerFunctionCounts[mouseFunc];
+      var playerFunctionRanking = playerRankings[mouseFunc];
+      var isFunctionRanked = false;
+
+      for (var j = 0; !isFunctionRanked && j < playerFunctionRanking.length;
+          j++) {
+        var currentRankPlayerId = playerFunctionRanking[j][0];
+        if (playerFunctionCount[playerId] ==
+            playerFunctionCount[currentRankPlayerId]) {
+          // If player has the same count as a player at the current rank,
+          // add them to the same list.
+          playerFunctionRanking[j].push(playerId);
+          isFunctionRanked = true;
+        } else if (playerFunctionCount[playerId] >
+            playerFunctionCount[currentRankPlayerId]) {
+          // If a player has a higher count as the player at the current rank,
+          // add them to a list before this rank.
+          playerFunctionRanking.splice(j, 0, [playerId]);
+          isFunctionRanked = true;
+        }
+      }
+      if (!isFunctionRanked) {
+        playerFunctionRanking.push([playerId]);
+      }
+    }
+  }
+  Genetics.rankings = playerRankings; // TODO rm
+  new Genetics.Cage.Event('END_GAME', 'TIMEOUT', playerRankings['pickFight'],
+      playerRankings['proposeMate'], playerRankings['acceptMate']).addToQueue();
+  return true;
 };
 
 /**
@@ -309,7 +376,7 @@ Genetics.execute = function() {
   }
   Genetics.reset();
 
-  Genetics.Cage.start(Genetics.endSimulation);
+  Genetics.Cage.start(Genetics.checkForEnd);
   Genetics.Visualization.start();
 };
 
