@@ -114,10 +114,10 @@ Blockly.Blocks['music_play_phrase'] = {
     // Stores the options for the phrases. The default phrases represent "Happy
     // Birthday to You".
     this.options_ = [
-        ["type 1", "55:0.75-55:0.25-57:1-55:1-60:1-59:2"],
-        ["type 2", "55:0.75-55:0.25-57:1-55:1-62:1-60:2"],
-        ["type 3", "55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],
-        ["type 4", "65:0.75-65:0.25-64:1-60:1-62:1-60:2"]
+        ["1", "55:0.75-55:0.25-57:1-55:1-60:1-59:2"],
+        ["2", "55:0.75-55:0.25-57:1-55:1-62:1-60:2"],
+        ["3", "55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],
+        ["4", "65:0.75-65:0.25-64:1-60:1-62:1-60:2"]
     ];
 
     this.appendDummyInput('PHRASE').appendField("play phrase").appendField(
