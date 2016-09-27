@@ -114,9 +114,7 @@ musicGame.LevelManagerService = ng.core
     },
     runCode: function() {
       if (blocklyApp.workspace.topBlocks_.length != 1) {
-        if (this.levelSetId_ == 'tutorial') {
-          this.playOops_();
-        }
+        this.playOops_();
 
         var alertMessage =
             blocklyApp.workspace.topBlocks_.length == 0 ?
@@ -181,10 +179,7 @@ musicGame.LevelManagerService = ng.core
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
       if (correct) {
         this.saveToLocalStorage();
-
-        if (this.levelSetId_ != 'tutorial') {
-          this.playApplause_();
-        }
+        this.playApplause_();
 
         if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
           if (this.levelSetId_ == 'tutorial') {
