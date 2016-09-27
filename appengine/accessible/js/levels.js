@@ -46,7 +46,9 @@
     getTargetedFeedback: function() {},
     hint: (
         'Start by going to the toolbox and finding the block called ' +
-        '"play note C4". Then, create a new group with this block.'),
+        '"play note C4". Press right to open the block menu, ' +
+        'and press the button to create a new group with this block. ' +
+        'Finally, press the "Run Code" button to run your code.'),
     instructions: 'Play the note C4.'
   }, {
     toolboxBlockDefns: [{
@@ -83,14 +85,14 @@
         return 'Not quite. Are you playing the right notes?';
       } else if (chords.length != 3) {
         return (
-            'Not quite. Are you using the right number of blocks? They need ' +
-            'to be connected to each other.');
+            'Not quite. Are you using the right number of blocks?');
       }
     },
     hint: (
         'Make sure the blocks are connected to each other. You can connect ' +
-        'blocks by marking a spot in the workspace, and then copying a new ' +
-        'block to that marked spot.'),
+        'blocks by going to the Block Options menu using the arrow keys, ' +
+        'and finding the button to mark a spot in the workspace. Then, ' +
+        'go to the block you want to copy, and copy it to the marked spot.'),
     instructions: 'Play C4, then E4, then G4.'
   }, {
     toolboxBlockDefns: [{
