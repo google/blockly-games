@@ -89,6 +89,10 @@ musicGame.LevelManagerService = ng.core
         }, 0);
       }
 
+      if (this.getCurrentLevelData().introMessage) {
+        alert(this.getCurrentLevelData().introMessage);
+      }
+
       this.applauseAudioFile = new Audio('media/applause.mp3');
       this.oopsAudioFile = new Audio('media/oops.mp3');
     }],

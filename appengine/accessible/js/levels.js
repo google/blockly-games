@@ -39,6 +39,18 @@
     toolboxBlockDefns: [{
       type: 'music_play_note'
     }],
+    introMessage: (
+        'Blockly is a way of programming that works by linking blocks of ' +
+        'code together. There are two sections: a toolbox and a workspace. ' +
+        'The toolbox is where all the blocks are kept. Each block has ' +
+        'different options for what you can do with it. ' +
+        'The workspace is where you put the blocks you want to use. Once ' +
+        'you put a block there, that block will have more options, like ' +
+        'choosing a value, copying the block, or marking a spot where you ' +
+        'will add another block. ' +
+        'When you\'re ready to try out your code, choose the button "Run ' +
+        'Code", which is at the top of the Workspace. ' +
+        'In this Blockly game, you\'ll be writing code that makes music.'),
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
@@ -65,8 +77,8 @@
     },
     instructions: 'Play the note G4.',
     hint: (
-        'Put a "play note" block in the workspace, then change the value ' +
-        'to G4.')
+        'Start by putting a "play note C4" block in the workspace. Then, ' +
+        'change its value to G4.')
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -114,9 +126,9 @@
     instructions: 'Play G4 for two beats.'
   }, {
     toolboxBlockDefns: [{
-      type: 'music_play_note'
-    }, {
       type: 'loops_repeat'
+    }, {
+      type: 'music_play_note'
     }],
     beatsPerMinute: 80,
     expectedLine: [
