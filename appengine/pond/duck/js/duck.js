@@ -144,6 +144,7 @@ Pond.Duck.init = function() {
   // Clear the workspace to avoid merge.
   BlocklyGames.workspace.clear();
   Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+  BlocklyGames.workspace.clearUndo();
 
   var players = [
     {
