@@ -22,8 +22,6 @@
  * @author sll@google.com (Sean Lip)
  */
 
-musicGame.NAME = 'MUSIC_ACCESSIBLE';
-
 musicGame.AppView = ng.core
   .Component({
     selector: 'music-game-app',
@@ -31,36 +29,16 @@ musicGame.AppView = ng.core
     <div>
       <h1>Blockly Games: {{levelSetName}}</h1>
       <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
-      <ul role="navigation" class="musicGameNavigation">
-        <li *ngFor="#levelNumber1Indexed of levelNumbers">
-          <a *ngIf="!isCurrentLevelNumber(levelNumber1Indexed)"
-             href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetId}}"
-             [attr.aria-label]="'Level ' + levelNumber1Indexed"
-             class="levelDot otherLevel">
-            {{levelNumber1Indexed}}
-          </a>
-          <span *ngIf="isCurrentLevelNumber(levelNumber1Indexed)"
-                [attr.aria-label]="'Level ' + levelNumber1Indexed"
-                class="levelDot currentLevel">
-            {{levelNumber1Indexed}}
-          </span>
-        </li>
-        <li *ngFor="#levelSetData of otherLevelSetsMetadata">
-          <a href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetData.id}}">
-            {{levelSetData.name}}
-          </a>
-        </li>
-      </ul>
     </div>
 
     <div style="clear: both;"></div>
 
     <div role="main">
       <h3 id="instructions" tabindex="-1">Instructions</h3>
-      <p id="instructionsText">{{instructionsText}}</p>
-      <p *ngIf="hint">Hint: {{hint}}</p>
+      <p id="instructionsText">{{levelData.instructions}}</p>
+      <p *ngIf="levelData.hint">Hint: {{levelData.hint}}</p>
 
-      <p *ngIf="expectedLineData">
+      <p *ngIf="levelData.expectedLine">
         <button (click)="playTune()">Play desired tune</button>
       </p>
       <hr>
@@ -81,35 +59,73 @@ musicGame.AppView = ng.core
   })
   .Class({
     constructor: [
-        musicGame.LevelManagerService, function(levelManagerService) {
-      var currentLevelData = levelManagerService.getCurrentLevelData();
-      this.otherLevelSetsMetadata =
-          levelManagerService.getOtherLevelSetsMetadata();
-      this.levelSetId = levelManagerService.getLevelSetId();
-      this.levelSetName = levelManagerService.getLevelSetName();
-      this.currentLevelNumber = levelManagerService.getCurrentLevelNumber();
+        musicGame.LevelManagerService, function(levelManagerService_) {
+      this.levelManagerService = levelManagerService_;
+
+      this.levelData = this.levelManagerService.getCurrentLevelData();
+      this.levelSetId = this.levelManagerService.getLevelSetId();
+      this.levelSetName = this.levelManagerService.getLevelSetName();
+      this.currentLevelNumber =
+          this.levelManagerService.getCurrentLevelNumber();
       this.levelNumbers = [];
-      for (var i = 0; i < levelManagerService.getNumberOfLevels(); i++) {
+      for (var i = 0; i < this.levelManagerService.getNumberOfLevels(); i++) {
         this.levelNumbers.push(i + 1);
       }
-
-      this.blockDefns = levelManagerService.getToolboxBlockDefns();
-
-      this.beatsPerMinute = currentLevelData.beatsPerMinute;
-      this.expectedLineData = currentLevelData.expectedLine;
+      this.blockDefns = this.levelManagerService.getToolboxBlockDefns();
 
       blocklyApp.workspace.clear();
-      this.hint = currentLevelData.hint;
-      this.instructionsText = currentLevelData.instructions;
+
+      var that = this;
+      ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
+        that.runCode();
+      };
+      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].action = function() {
+        var expectedLine = new MusicLine();
+        expectedLine.setFromChordsAndDurations(that.levelData.expectedLine);
+
+        musicPlayer.reset();
+        musicPlayer.play(expectedLine, that.levelData.beatsPerMinute);
+      };
+      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].isHidden = function() {
+        return !that.levelData.expectedLine;
+      };
+
+      this.levelManagerService.loadExistingCode();
+
+      if (this.levelData.introMessage) {
+        alert(this.levelData.introMessage);
+      }
     }],
     playTune: function() {
       var expectedLine = new MusicLine();
-      expectedLine.setFromChordsAndDurations(this.expectedLineData);
+      expectedLine.setFromChordsAndDurations(this.levelData.expectedLine);
 
       musicPlayer.reset();
-      musicPlayer.play(expectedLine, this.beatsPerMinute);
+      musicPlayer.play(expectedLine, this.levelData.beatsPerMinute);
     },
-    isCurrentLevelNumber: function(levelNumber1Indexed) {
-      return Number(levelNumber1Indexed - 1) == Number(this.currentLevelNumber);
-    }
+    runCode: function() {
+      if (blocklyApp.workspace.topBlocks_.length != 1) {
+        this.levelManagerService.playOops_();
+
+        var alertMessage =
+            blocklyApp.workspace.topBlocks_.length == 0 ?
+            'There are no blocks in the workspace.' :
+            ('Not quite! You currently have more than one "island" in the ' +
+             'workspace. Make sure all your blocks are joined together ' +
+             'into a single program.');
+        setTimeout(function() {
+          alert(alertMessage);
+        }, 500);
+
+        return;
+      }
+
+      musicPlayer.reset();
+      runCodeToPopulatePlayerLine();
+
+      var that = this;
+      musicPlayer.playPlayerLine(this.levelData.beatsPerMinute, function() {
+        that.levelManagerService.gradeCurrentLevel();
+      });
+    },
   });

@@ -22,20 +22,26 @@
  * @author sll@google.com (Sean Lip)
  */
 
+musicGame.NAME = 'MUSIC_ACCESSIBLE';
+
 musicGame.LevelManagerService = ng.core
   .Class({
     constructor: [musicGame.UtilsService, function(utilsService) {
       this.levelSetId_ = utilsService.getStringParamFromUrl(
           'levelset', 'tutorial');
 
-      this.otherLevelSetsMetadata = [];
+      this.levelSetsMetadata = [];
       for (var levelSetId in LEVEL_SETS) {
-        if (levelSetId !== this.levelSetId_) {
-          this.otherLevelSetsMetadata.push({
-            id: levelSetId,
-            name: LEVEL_SETS[levelSetId].name
-          });
-        }
+        var levels = LEVEL_SETS[levelSetId].levels;
+        var levelNumbers1Indexed = levels.map(function(_, index) {
+          return index + 1;
+        });
+
+        this.levelSetsMetadata.push({
+          id: levelSetId,
+          name: LEVEL_SETS[levelSetId].name,
+          levelNumbers1Indexed: levelNumbers1Indexed
+        });
       }
 
       this.levelSet_ = LEVEL_SETS[this.levelSetId_].levels;
@@ -44,26 +50,12 @@ musicGame.LevelManagerService = ng.core
       var levelNumberFromUrl = utilsService.getStringParamFromUrl('l', '1');
       this.currentLevelNumber_ = levelNumberFromUrl - 1;
 
-      var that = this;
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
-        that.runCode();
-      };
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].action = function() {
-        var expectedLine = new MusicLine();
-        expectedLine.setFromChordsAndDurations(
-            that.getCurrentLevelData().expectedLine);
-
-        musicPlayer.reset();
-        musicPlayer.play(
-            expectedLine, that.getCurrentLevelData().beatsPerMinute);
-      };
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].isHidden = function() {
-        return !that.getCurrentLevelData().expectedLine;
-      };
-
-      var inherit =
-          this.levelSet_[this.currentLevelNumber_].continueFromPreviousLevel;
-      var defaultXmlText = this.levelSet_[this.currentLevelNumber_].defaultXml;
+      this.applauseAudioFile = new Audio('media/applause.mp3');
+      this.oopsAudioFile = new Audio('media/oops.mp3');
+    }],
+    loadExistingCode: function() {
+      var inherit = this.getCurrentLevelData().continueFromPreviousLevel;
+      var defaultXmlText = this.getCurrentLevelData().defaultXml;
 
       // Try loading saved XML for this level, saved XML from previous level,
       // or default XML for this level, in that order.
@@ -88,14 +80,7 @@ musicGame.LevelManagerService = ng.core
           Blockly.Xml.domToWorkspace(xml, blocklyApp.workspace);
         }, 0);
       }
-
-      if (this.getCurrentLevelData().introMessage) {
-        alert(this.getCurrentLevelData().introMessage);
-      }
-
-      this.applauseAudioFile = new Audio('media/applause.mp3');
-      this.oopsAudioFile = new Audio('media/oops.mp3');
-    }],
+    },
     playApplause_: function() {
       this.applauseAudioFile.play();
     },
@@ -116,32 +101,6 @@ musicGame.LevelManagerService = ng.core
       var xml = Blockly.Xml.workspaceToDom(blocklyApp.workspace);
       window.localStorage[key] = Blockly.Xml.domToText(xml);
     },
-    runCode: function() {
-      if (blocklyApp.workspace.topBlocks_.length != 1) {
-        this.playOops_();
-
-        var alertMessage =
-            blocklyApp.workspace.topBlocks_.length == 0 ?
-            'There are no blocks in the workspace.' :
-            ('Not quite! You currently have more than one "island" in the ' +
-             'workspace. Make sure all your blocks are joined together ' +
-             'into a single program.');
-        setTimeout(function() {
-          alert(alertMessage);
-        }, 500);
-
-        return;
-      }
-
-      var currentLevelData = this.getCurrentLevelData();
-      musicPlayer.reset();
-      runCodeToPopulatePlayerLine();
-
-      var that = this;
-      musicPlayer.playPlayerLine(currentLevelData.beatsPerMinute, function() {
-        that.gradeCurrentLevel();
-      });
-    },
     loadFromLocalStorage: function(levelNumber) {
       if (!window.localStorage) {
         return;
@@ -156,8 +115,8 @@ musicGame.LevelManagerService = ng.core
     getLevelSetName: function() {
       return LEVEL_SETS[this.levelSetId_].name;
     },
-    getOtherLevelSetsMetadata: function() {
-      return this.otherLevelSetsMetadata;
+    getLevelSetsMetadata: function() {
+      return this.levelSetsMetadata;
     },
     getCurrentLevelNumber: function() {
       return this.currentLevelNumber_;
