@@ -29,17 +29,20 @@ musicGame.MenuView = ng.core
     <div *ngFor="#levelSetData of levelSetsMetadata">
       <h3>{{levelSetData.name}}</h3>
       <ul role="navigation" class="musicGameNavigation">
-        <li *ngFor="#levelNumber1Indexed of levelSetData.levelNumbers1Indexed">
-          <a href="./index.html?l={{levelNumber1Indexed}}&levelset={{levelSetId}}"
-             [attr.aria-label]="'Level ' + levelNumber1Indexed"
-             class="levelDot">
-            {{levelNumber1Indexed}}
+        <li *ngFor="#level of levelSetData.levels">
+          <a href="./index.html?l={{level.number1Indexed}}&levelset={{levelSetId}}"
+             [attr.aria-label]="getLevelDotAriaLabel(level)"
+             class="levelDot"
+             [ngClass]="{'levelDotCompleted': level.completed}">
+            {{level.number1Indexed}}
           </a>
         </li>
       </ul>
     </div>
 
-    <div style="clear: both;"></div>
+    <p class="footer">
+      Want to start over? <button (click)="clearData()">Clear data</button>
+    </p>
     `,
     directives: [],
     providers: [musicGame.LevelManagerService, musicGame.UtilsService]
@@ -47,16 +50,19 @@ musicGame.MenuView = ng.core
   .Class({
     constructor: [
         musicGame.LevelManagerService, function(levelManagerService) {
-      var levelData = levelManagerService.getCurrentLevelData();
+      this.levelManagerService = levelManagerService;
       this.levelSetsMetadata = levelManagerService.getLevelSetsMetadata();
-      this.levelSetId = levelManagerService.getLevelSetId();
-      this.levelSetName = levelManagerService.getLevelSetName();
-      this.currentLevelNumber = levelManagerService.getCurrentLevelNumber();
-      this.levelNumbers = [];
-      for (var i = 0; i < levelManagerService.getNumberOfLevels(); i++) {
-        this.levelNumbers.push(i + 1);
-      }
     }],
+    clearData: function() {
+      this.levelManagerService.clearData();
+    },
+    getLevelDotAriaLabel: function(level) {
+      var label = 'Level ' + level.number1Indexed;
+      if (level.isCompleted) {
+        label += ' completed';
+      }
+      return label;
+    },
     isCurrentLevelNumber: function(levelNumber1Indexed) {
       return Number(levelNumber1Indexed - 1) == Number(this.currentLevelNumber);
     }

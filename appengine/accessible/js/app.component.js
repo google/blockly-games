@@ -28,7 +28,7 @@ musicGame.AppView = ng.core
     template: `
     <div>
       <h1>Blockly Games: {{levelSetName}}</h1>
-      <h2>Current Level: Level {{currentLevelNumber + 1}}</h2>
+      <h2>Stage {{currentLevelNumber + 1}}</h2>
     </div>
 
     <div style="clear: both;"></div>

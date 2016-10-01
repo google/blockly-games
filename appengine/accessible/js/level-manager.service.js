@@ -30,20 +30,6 @@ musicGame.LevelManagerService = ng.core
       this.levelSetId_ = utilsService.getStringParamFromUrl(
           'levelset', 'tutorial');
 
-      this.levelSetsMetadata = [];
-      for (var levelSetId in LEVEL_SETS) {
-        var levels = LEVEL_SETS[levelSetId].levels;
-        var levelNumbers1Indexed = levels.map(function(_, index) {
-          return index + 1;
-        });
-
-        this.levelSetsMetadata.push({
-          id: levelSetId,
-          name: LEVEL_SETS[levelSetId].name,
-          levelNumbers1Indexed: levelNumbers1Indexed
-        });
-      }
-
       this.levelSet_ = LEVEL_SETS[this.levelSetId_].levels;
 
       // Level numbers here are 0-indexed.
@@ -59,11 +45,11 @@ musicGame.LevelManagerService = ng.core
 
       // Try loading saved XML for this level, saved XML from previous level,
       // or default XML for this level, in that order.
-      var xmlTextToRestore = this.loadFromLocalStorage(
-          this.currentLevelNumber_);
+      var xmlTextToRestore = this.loadCodeFromLocalStorage_(
+          this.levelSetId_, this.currentLevelNumber_);
       if (!xmlTextToRestore && inherit) {
-        var inheritedXmlText = this.loadFromLocalStorage(
-            this.currentLevelNumber_ - 1);
+        var inheritedXmlText = this.loadCodeFromLocalStorage_(
+            this.levelSetId_, this.currentLevelNumber_ - 1);
         if (inheritedXmlText) {
           xmlTextToRestore = inheritedXmlText;
         }
@@ -87,26 +73,40 @@ musicGame.LevelManagerService = ng.core
     playOops_: function() {
       this.oopsAudioFile.play();
     },
-    saveToLocalStorage: function() {
+    getLocalStorageCodeKey_: function(levelSetId, levelNumber) {
+      return [musicGame.NAME, levelSetId, levelNumber].join('.');
+    },
+    clearData: function() {
+      if (!confirm('Delete all your solutions?')) {
+        return;
+      }
+
+      var that = this;
+      this.getLevelSetsMetadata().forEach(function(levelSetMetadata) {
+        levelSetMetadata.levels.forEach(function(level) {
+          var key = that.getLocalStorageCodeKey_(
+              levelSetMetadata.id, level.number1Indexed - 1);
+          delete window.localStorage[key];
+        });
+      });
+
+      location.reload();
+    },
+    saveCodeToLocalStorage_: function(levelSetId, levelNumber) {
       // MSIE 11 does not support localStorage on file:// URLs.
       if (!window.localStorage) {
         return;
       }
-      var key = [
-          musicGame.NAME,
-          this.getLevelSetId(),
-          this.getCurrentLevelNumber()
-      ].join('.');
-
+      var key = this.getLocalStorageCodeKey_(levelSetId, levelNumber);
       var xml = Blockly.Xml.workspaceToDom(blocklyApp.workspace);
       window.localStorage[key] = Blockly.Xml.domToText(xml);
     },
-    loadFromLocalStorage: function(levelNumber) {
+    loadCodeFromLocalStorage_: function(levelSetId, levelNumber) {
       if (!window.localStorage) {
         return;
       }
 
-      var key = [musicGame.NAME, this.getLevelSetId(), levelNumber].join('.');
+      var key = this.getLocalStorageCodeKey_(levelSetId, levelNumber);
       return window.localStorage[key];
     },
     getLevelSetId: function() {
@@ -116,6 +116,26 @@ musicGame.LevelManagerService = ng.core
       return LEVEL_SETS[this.levelSetId_].name;
     },
     getLevelSetsMetadata: function() {
+      if (!this.levelSetsMetadata) {
+        this.levelSetsMetadata = [];
+
+        var that = this;
+        for (var levelSetId in LEVEL_SETS) {
+          var levels = LEVEL_SETS[levelSetId].levels.map(function(_, index) {
+            return {
+              number1Indexed: index + 1,
+              completed: that.loadCodeFromLocalStorage_(levelSetId, index)
+            };
+          });
+
+          this.levelSetsMetadata.push({
+            id: levelSetId,
+            name: LEVEL_SETS[levelSetId].name,
+            levels: levels
+          });
+        }
+      }
+
       return this.levelSetsMetadata;
     },
     getCurrentLevelNumber: function() {
@@ -141,7 +161,8 @@ musicGame.LevelManagerService = ng.core
 
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
       if (correct) {
-        this.saveToLocalStorage();
+        this.saveCodeToLocalStorage_(
+            this.getLevelSetId(), this.getCurrentLevelNumber());
         this.playApplause_();
 
         if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
