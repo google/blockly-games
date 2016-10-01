@@ -780,7 +780,7 @@ Genetics.addStartingMice = function() {
     if (mouseStats.aggressiveness != null) {
       mouse.aggressiveness = mouseStats.aggressiveness;
     }
-    Genetics.Cage.born(mouse);
+    Genetics.Cage.addMouse(mouse);
     if (BlocklyGames.LEVEL <= 8) {
       Genetics.Visualization.addMouse(mouse, mouseStats.x, mouseStats.y,
           mouseStats.direction);

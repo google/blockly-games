@@ -443,7 +443,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   var childSex = (Math.random() < femaleFertility / populationFertility) ?
       Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE;
   var child = new Genetics.Mouse(mouseId, childSex, parent1, parent2);
-  Genetics.Cage.born(child);
+  Genetics.Cage.addMouse(child);
   new Genetics.Cage.Event('MATE', parent1.id, 'SUCCESS', parent2.id,
       child).addToQueue();
 };
@@ -502,7 +502,7 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
  * Adds the mouse to the cage and queues simulation for mouse.
  * @param {!Genetics.Mouse} mouse The mouse to add to the cage.
  */
-Genetics.Cage.born = function(mouse) {
+Genetics.Cage.addMouse = function(mouse) {
   // Adds child to population and queue life simulation.
   Genetics.Cage.miceMap_[mouse.id] = mouse;
   Genetics.Cage.nextRoundMice_.unshift(mouse);
