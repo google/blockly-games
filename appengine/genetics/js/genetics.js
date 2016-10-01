@@ -30,8 +30,11 @@ goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Genetics.Blocks');
 goog.require('Genetics.Cage');
+goog.require('Genetics.Mouse');
+goog.require('Genetics.MouseAvatar');
 goog.require('Genetics.Visualization');
 goog.require('Genetics.soy');
+goog.require('goog.array');
 goog.require('goog.ui.Tab');
 goog.require('goog.ui.TabBar');
 
@@ -41,12 +44,6 @@ goog.require('goog.ui.TabBar');
  * @type {string}
  */
 BlocklyGames.NAME = 'genetics';
-
-/**
- * Optional callback function for when a simulation ends.
- * @type function(number)
- */
-Genetics.endSimulation = null;
 
 /**
  * Is the blocks editor the program source (true) or is the JS editor
@@ -61,6 +58,19 @@ Genetics.blocksEnabled_ = true;
  * @private
  */
 Genetics.ignoreEditorChanges_ = true;
+
+/**
+ * Go to the next level.
+ */
+BlocklyInterface.nextLevel = function() { // TODO is this needed?
+  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+    window.location = window.location.protocol + '//' +
+        window.location.host + window.location.pathname +
+        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
+  } else {
+    BlocklyInterface.indexPage();
+  }
+};
 
 /**
  * Initialize Blockly, Ace, and the cage.  Called on page load.
@@ -84,31 +94,58 @@ Genetics.init = function() {
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
 
-  // Setup the tabs.
-  Genetics.tabbar = new goog.ui.TabBar();
-  Genetics.tabbar.decorate(document.getElementById('tabbar'));
+  if (BlocklyGames.LEVEL > 8) {
+    // Setup the tabs.
+    Genetics.tabbar = new goog.ui.TabBar();
+    Genetics.tabbar.decorate(document.getElementById('tabbar'));
+
+    // Handle SELECT events dispatched by tabs.
+    goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
+        function(e) {
+          var index = e.target.getParent().getSelectedTabIndex();
+          Genetics.changeTab(index);
+        });
+  }
+
+  BlocklyGames.bindClick('helpButton', Genetics.showHelp);
+  if (location.hash.length < 2 &&
+      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+          BlocklyGames.LEVEL)) {
+    setTimeout(Genetics.showHelp, 1000);
+  }
 
   var rtl = BlocklyGames.isRtl();
   var visualization = document.getElementById('visualization');
   var tabDiv = document.getElementById('tabarea');
   var blocklyDiv = document.getElementById('blockly');
   var editorDiv = document.getElementById('editor');
-  var divs = [blocklyDiv, editorDiv];
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
-    tabDiv.style.top = (top - window.pageYOffset) + 'px';
-    tabDiv.style.left = rtl ? '10px' : '420px';
-    tabDiv.style.width = (window.innerWidth - 440) + 'px';
-    var divTop =
-        Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
-    var divLeft = rtl ? '10px' : '420px';
-    var divWidth = (window.innerWidth - 440) + 'px';
-    for (var i = 0, div; div = divs[i]; i++) {
-      div.style.top = divTop;
-      div.style.left = divLeft;
-      div.style.width = divWidth;
-    }
-  };
+  if (editorDiv && blocklyDiv) {
+    var divs = [blocklyDiv, editorDiv];
+    var onresize = function(e) {
+      var top = visualization.offsetTop;
+      tabDiv.style.top = (top - window.pageYOffset) + 'px';
+      tabDiv.style.left = rtl ? '10px' : '420px';
+      tabDiv.style.width = (window.innerWidth - 440) + 'px';
+      var divTop =
+          Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
+      var divLeft = rtl ? '10px' : '420px';
+      var divWidth = (window.innerWidth - 440) + 'px';
+      for (var i = 0, div; div = divs[i]; i++) {
+        div.style.top = divTop;
+        div.style.left = divLeft;
+        div.style.width = divWidth;
+      }
+    };
+  } else {
+    var mainEditorDiv = blocklyDiv || editorDiv;
+    var onresize = function(e) {
+      var top = visualization.offsetTop;
+      mainEditorDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
+      mainEditorDiv.style.left = rtl ? '10px' : '420px';
+      mainEditorDiv.style.width = (window.innerWidth - 440) + 'px';
+    };
+  }
+
   window.addEventListener('scroll', function() {
     onresize();
     Blockly.svgResize(BlocklyGames.workspace);
@@ -116,103 +153,350 @@ Genetics.init = function() {
   window.addEventListener('resize', onresize);
   onresize();
 
-  // Handle SELECT events dispatched by tabs.
-  goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
-      function(e) {
-        var index = e.target.getParent().getSelectedTabIndex();
-        Genetics.changeTab(index);
-      });
+  if (editorDiv) {
+    // Inject JS editor.
+    // Remove the container for source code in the 'done' dialog.
+    var containerCode = document.getElementById('containerCode');
+    containerCode.parentNode.removeChild(containerCode);
 
-  // Inject JS editor.
-  var defaultCode = '';
-  BlocklyInterface.editor = window['ace']['edit']('editor');
-  BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-  BlocklyInterface.editor['setShowPrintMargin'](false);
-  BlocklyInterface.editor['setOptions']({
-    'enableBasicAutocompletion': true,
-    'enableSnippets': true,
-    'enableLiveAutocompletion': false
-  });
-  var session = BlocklyInterface.editor['getSession']();
-  session['setMode']('ace/mode/javascript');
-  session['setTabSize'](2);
-  session['setUseSoftTabs'](true);
-  session['on']('change', Genetics.editorChanged);
-  BlocklyInterface.editor['setValue'](defaultCode, -1);
-
-  // Inject Blockly.
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {
-        'media': 'third-party/blockly/media/',
-        'rtl': false,
-        'toolbox': toolbox,
-        'trashcan': true,
-        'zoom': {'controls': true, 'wheel': true}
-      });
-  // Disable blocks not within a function.
-  BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
-  Blockly.JavaScript.addReservedWords('pickFight,proposeMate,acceptMate');
-  var defaultXml =
-  '<xml>' +
-    '<block type="genetics_pickFight" deletable="false" editable="false" ' +
-        'x="0" y="150">' +
-      '<comment pinned="false">' +
-'Chooses and returns a mouse from mice to pick a fight with or null to choose no mouse and never fight again. Choosing to fight against itself will kill the mouse.\n' +
-'@return {Mouse|null} mouse The mouse chosen to fight with.' +
-      '</comment>' +
-      '<value name="RETURN">' +
-        '<shadow type="logic_null"></shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="genetics_proposeMate" deletable="false" editable="false" ' +
-        'x="0" y="350">' +
-      '<comment pinned="false">' +
-'Chooses and returns a mouse from mice to attempt to mate with. If the mate chosen accepts, is fertile, and is of the opposite sex then a child will be born.\n' +
-'@return {Mouse|null} mouse The mouse chosen to attempt to mate with.' +
-      '</comment>' +
-      '<value name="RETURN">' +
-        '<shadow type="logic_null"></shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="genetics_acceptMate" deletable="false" editable="false" ' +
-        'x="0" y="550">' +
-      '<comment pinned="false">' +
-'Returns true to agree to a mate request or false to decline a mate request.\n' +
-'@param {Mouse} suitor the mouse requesting to mate.\n' +
-'@return {boolean} the the answer to the mate request.' +
-      '</comment>' +
-      '<value name="RETURN">' +
-        '<shadow type="logic_boolean">' +
-          '<field name="BOOL">TRUE</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-  '</xml>';
-  var xml = Blockly.Xml.textToDom(defaultXml);
-  // Clear the workspace to avoid merge.
-  BlocklyGames.workspace.clear();
-  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-  BlocklyGames.workspace.clearUndo();
-
-  var players = [
-    {
-      name: 'Genetics_myName',
-      code: null
-    },
-    {
-      name: 'Genetics_simpleName',
-      code: 'playerSimple'
-    },
-    {
-      name: 'Genetics_aggressiveName',
-      code: 'playerAggressive'
-    },
-    {
-      name: 'Genetics_highBreedingName',
-      code: 'playerHighBreeding'
+    var defaultCode = '';
+    switch (BlocklyGames.LEVEL) {
+      case 2:
+        defaultCode =
+            '/**\n' +
+            ' * Return the last mouse from getMice().\n' +
+            ' * @return {Mouse|null} The mouse chosen to fight with.\n' +
+            ' */\n' +
+            'function pickFight() {\n' +
+            '  return ;\n' +
+            '}';
+        break;
+      case 4:
+        defaultCode =
+            '/**\n' +
+            ' * Return a mouse from getMice() that is smaller than itself.\n' +
+            ' * @return {Mouse|null} The mouse chosen to fight with.\n' +
+            ' */\n' +
+            'function pickFight() {\n' +
+            '  for (var i = 0; i < getMice().length; i++) {\n' +
+            '    var mouse = getMice()[i];\n' +
+            '  }\n' +
+            '  return ;\n' +
+            '}';
+        break;
+      case 6:
+        defaultCode =
+            '/**\n' +
+            ' * Return a mouse from getMice() that is fertile, of the ' +
+            'opposite sex,\n' +
+            ' * and bigger than itself.\n' +
+            ' * @return {Mouse|null} The mouse chosen to attempt to mate ' +
+            'with.\n' +
+            ' */\n' +
+            'function proposeMate() {\n' +
+            '  for (var i = 0; i < getMice().length; i++) {\n' +
+            '    var mouse = getMice()[i];\n' +
+            '  }\n' +
+            '  return ;\n' +
+            '}';
+        break;
+      case 8:
+        defaultCode =
+            '/**\n' +
+            ' *  Return true if the suitor mouse is of the opposite sex and ' +
+            'bigger than itself.\n' +
+            ' *  @param {Mouse} suitor the mouse requesting to mate.\n' +
+            ' *  @return {boolean} Whether the mate request is accepted.\n' +
+            ' */\n' +
+            'function acceptMate(suitor) {\n' +
+            '  return ;\n' +
+            '}';
+        break;
     }
-  ];
+    BlocklyInterface.editor = window['ace']['edit']('editor');
+    BlocklyInterface.editor['setTheme']('ace/theme/chrome');
+    BlocklyInterface.editor['setShowPrintMargin'](false);
+    BlocklyInterface.editor['setOptions']({
+      'enableBasicAutocompletion': true,
+      'enableSnippets': true,
+      'enableLiveAutocompletion': false
+    });
+    var session = BlocklyInterface.editor['getSession']();
+    session['setMode']('ace/mode/javascript');
+    session['setTabSize'](2);
+    session['setUseSoftTabs'](true);
+    session['on']('change', Genetics.editorChanged);
+    BlocklyInterface.loadBlocks(defaultCode + '\n');
+  }
+
+  if (blocklyDiv) {
+    // Inject Blockly.
+    var toolbox = document.getElementById('toolbox');
+    BlocklyGames.workspace = Blockly.inject('blockly',
+        {
+          'media': 'third-party/blockly/media/',
+          'rtl': false,
+          'toolbox': toolbox,
+          'trashcan': true,
+          'zoom': {'controls': true, 'wheel': true}
+        });
+    // Disable blocks not within a function.
+    BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+
+    var defaultXml;
+    switch (BlocklyGames.LEVEL) {
+      case 1:
+        defaultXml =
+            '<xml>' +
+              '<block type="genetics_pickFight" deletable="false" ' +
+                  'editable="false" x="0" y="150">' +
+                '<comment pinned="true">' +
+                'Return the first mouse from getMice().\n' +
+                '@return {Mouse|null} The mouse chosen to fight with.' +
+                '</comment>' +
+              '</block>' +
+            '</xml>';
+        break;
+      case 3:
+        defaultXml =
+            '<xml>' +
+              '<block type="genetics_pickFight" deletable="false" ' +
+                  'editable="false" x="0" y="150">' +
+                '<comment pinned="true">' +
+                'Return a mouse from getMice() that is smaller than 2.\n' +
+                '@return {Mouse|null} The mouse chosen to fight with.' +
+                '</comment>' +
+                '<statement name="STACK">' +
+                  '<block type="controls_for">' +
+                    '<field name="VAR">i</field>' +
+                    '<value name="FROM">' +
+                      '<shadow type="math_number">' +
+                        '<field name="NUM">0</field>' +
+                      '</shadow>' +
+                    '</value>' +
+                    '<value name="TO">' +
+                      '<shadow type="lists_length">' +
+                        '<value name="VALUE">' +
+                          '<shadow type="genetics_getMice"></shadow>' +
+                        '</value>' +
+                      '</shadow>' +
+                    '</value>' +
+                    '<statement name="DO">' +
+                      '<block type="variables_set" >' +
+                        '<field name="VAR">mouse</field>' +
+                        '<value name="VALUE">' +
+                          '<block type="lists_getIndex">' +
+                            '<field name="MODE">GET</field>' +
+                            '<field name="WHERE">FROM_START</field>' +
+                            '<value name="VALUE">' +
+                              '<block type="genetics_getMice"></block>' +
+                            '</value>' +
+                            '<value name="AT">' +
+                              '<block type="variables_get">' +
+                                '<field name="VAR">i</field>' +
+                              '</block>' +
+                            '</value>' +
+                          '</block>' +
+                        '</value>' +
+                      '</block>' +
+                    '</statement>' +
+                  '</block>' +
+                '</statement>' +
+              '</block>' +
+            '</xml>';
+        break;
+      case 5:
+        defaultXml =
+            '<xml>' +
+              '<block type="genetics_proposeMate" deletable="false" ' +
+                  'editable="false" ' +
+              'x="0" y="150">' +
+                '<comment pinned="true">' +
+                'Return a mouse from getMice() that is fertile and of the ' +
+                    'opposite sex.\n' +
+                '@return {Mouse|null} The mouse chosen to attempt to mate ' +
+                    'with.' +
+                '</comment>' +
+                '<statement name="STACK">' +
+                  '<block type="controls_for">' +
+                    '<field name="VAR">i</field>' +
+                    '<value name="FROM">' +
+                      '<shadow type="math_number">' +
+                        '<field name="NUM">0</field>' +
+                      '</shadow>' +
+                    '</value>' +
+                    '<value name="TO">' +
+                      '<shadow type="lists_length">' +
+                        '<value name="VALUE">' +
+                          '<shadow type="genetics_getMice"></shadow>' +
+                        '</value>' +
+                      '</shadow>' +
+                    '</value>' +
+                    '<statement name="DO">' +
+                      '<block type="variables_set" >' +
+                        '<field name="VAR">mouse</field>' +
+                        '<value name="VALUE">' +
+                          '<block type="lists_getIndex">' +
+                            '<field name="MODE">GET</field>' +
+                            '<field name="WHERE">FROM_START</field>' +
+                            '<value name="VALUE">' +
+                              '<block type="genetics_getMice"></block>' +
+                            '</value>' +
+                            '<value name="AT">' +
+                              '<block type="variables_get">' +
+                                '<field name="VAR">i</field>' +
+                              '</block>' +
+                            '</value>' +
+                          '</block>' +
+                        '</value>' +
+                      '</block>' +
+                    '</statement>' +
+                  '</block>' +
+                '</statement>' +
+              '</block>' +
+            '</xml>';
+        break;
+      case 7:
+        defaultXml =
+            '<xml>' +
+              '<block type="genetics_acceptMate" deletable="false" ' +
+                  'editable="false" ' +
+              'x="0" y="150">' +
+                '<comment pinned="true">' +
+                'Return true if the suitor mouse is of the opposite sex.\n' +
+                '@param {Mouse} suitor the mouse requesting to mate.\n' +
+                '@return {boolean} Whether the mate request is accepted.' +
+                '</comment>' +
+              '</block>' +
+            '</xml>';
+        break;
+    }
+    if (defaultXml) {
+      BlocklyInterface.loadBlocks(defaultXml, false);
+    }
+  }
+
+  Blockly.JavaScript.addReservedWords('pickFight,proposeMate,acceptMate');
+
+  if (tabDiv) {
+    var defaultXml =
+        '<xml>' +
+          '<block type="genetics_pickFight" deletable="false" ' +
+              'editable="true" x="0" y="150">' +
+            '<comment pinned="true" h="65" w="560">' +
+            'Return a mouse from cage to pick a fight with. Returning itself ' +
+                'will kill the mouse and returning null will result in no ' +
+                'fights.\n' +
+            '@return {Mouse|null} The mouse chosen to fight with.' +
+            '</comment>' +
+            '<value name="RETURN">' +
+              '<shadow type="logic_null"></shadow>' +
+            '</value>' +
+          '</block>' +
+          '<block type="genetics_proposeMate" deletable="false" ' +
+              'editable="true" x="0" y="350">' +
+            '<comment pinned="true" h="80" w="590">' +
+            'Return a mouse from cage to attempt to mate with. If the mate ' +
+                'chosen accepts, is fertile, and is of the opposite sex, ' +
+                'then a child will be born.\n' +
+            '@return {Mouse|null} The mouse chosen to attempt to mate with.' +
+            '</comment>' +
+            '<value name="RETURN">' +
+              '<shadow type="logic_null"></shadow>' +
+            '</value>' +
+          '</block>' +
+          '<block type="genetics_acceptMate" deletable="false" ' +
+              'editable="true" x="0" y="550">' +
+            '<comment pinned="true" h="80" w="560">' +
+            'Return true to agree to a mate request or false to decline a ' +
+                'mate request.\n' +
+            '@param {Mouse} suitor the mouse requesting to mate.\n' +
+            '@return {boolean} Whether the mate request is accepted.' +
+            '</comment>' +
+            '<value name="RETURN">' +
+              '<shadow type="logic_boolean">' +
+                '<field name="BOOL">TRUE</field>' +
+              '</shadow>' +
+            '</value>' +
+          '</block>' +
+        '</xml>';
+    var xml = Blockly.Xml.textToDom(defaultXml);
+    // Clear the workspace to avoid merge.
+    BlocklyGames.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+    BlocklyGames.workspace.clearUndo();
+  }
+
+  Genetics.blocksEnabled_ = blocklyDiv != null;
+
+  // Set level specific settings in Cage.
+  Genetics.Cage.discreteFights = BlocklyGames.LEVEL <= 8;
+  Genetics.Cage.soloPlayerMouse = BlocklyGames.LEVEL <= 6;
+  Genetics.Cage.ignorePlayerMouse = BlocklyGames.LEVEL == 7 ||
+      BlocklyGames.LEVEL == 8;
+  Genetics.Cage.skipPickFight = BlocklyGames.LEVEL >= 5 &&
+      BlocklyGames.LEVEL <= 8;
+  Genetics.Visualization.wanderAfterMate = BlocklyGames.LEVEL >= 9;
+  Genetics.Cage.keepHistory = BlocklyGames.LEVEL <= 8;
+  var players;
+  if (BlocklyGames.LEVEL <= 8) {
+    players = [
+      {
+        name: 'Genetics_myName',
+        code: null
+      },
+      {
+        name: 'Genetics_tutorEnemy',
+        code: 'playerTutor'
+      },
+      {
+        name: 'Genetics_tutorEnemy',
+        code: 'playerTutor'
+      },
+      {
+        name: 'Genetics_tutorEnemy',
+        code: 'playerTutor'
+      }
+    ];
+  } else if (BlocklyGames.LEVEL == 9) {
+    players = [
+      {
+        name: 'Genetics_myName',
+        code: null
+      },
+      {
+        name: 'Genetics_simpleName',
+        code: 'playerSimple'
+      },
+      {
+        name: 'Genetics_simpleName',
+        code: 'playerSimple'
+      },
+      {
+        name: 'Genetics_simpleName',
+        code: 'playerSimple'
+      }
+    ];
+  } else {  // BlocklyGames.LEVEL == 10
+    players = [
+      {
+        name: 'Genetics_myName',
+        code: null
+      },
+      {
+        name: 'Genetics_aggressiveName',
+        code: 'playerAggressive'
+      },
+      {
+        name: 'Genetics_highBreedingName',
+        code: 'playerHighBreeding'
+      },
+      {
+        name: 'Genetics_simpleName',
+        code: 'playerSimple'
+      }
+    ];
+  }
   for (var playerData, i = 0; playerData = players[i]; i++) {
     if (playerData.code) {
       var div = document.getElementById(playerData.code);
@@ -229,9 +513,281 @@ Genetics.init = function() {
     var name = BlocklyGames.getMsg(playerData.name);
     Genetics.Cage.addPlayer(name, code);
   }
+
   Genetics.reset();
-  Genetics.changeTab(0);
-  Genetics.ignoreEditorChanges_ = false;
+  if (tabDiv) {
+    Genetics.changeTab(0);
+    Genetics.ignoreEditorChanges_ = false;
+  }
+};
+
+/**
+ * Determines the starting mice in the game based on the level and adds them
+ * to the game.
+ */
+Genetics.addStartingMice = function() {
+  var startingMice;
+  if (BlocklyGames.LEVEL == 1) {
+    startingMice = [
+      {
+        // Create player mouse.
+        id: 0,
+        playerId: 0,
+        x: 200,
+        y: 300,
+        direction: -Math.PI / 2,
+        size: 2,
+        aggressiveness: 1
+      },
+      {
+        // Create bigger mouse.
+        id: 1,
+        playerId: 3,
+        x: 300,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 3
+      },
+      {
+        // Create same size mouse.
+        id: 2,
+        playerId: 2,
+        x: 200,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 2
+      },
+      {
+        // Create smaller mouse.
+        id: 3,
+        playerId: 1,
+        x: 100,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 1
+      }
+    ];
+  } else if (BlocklyGames.LEVEL == 2) {
+    startingMice = [
+      {
+        // Create player mouse.
+        id: 0,
+        playerId: 0,
+        x: 200,
+        y: 300,
+        direction: -Math.PI / 2,
+        size: 2,
+        aggressiveness: 1
+      },
+      {
+        // Create smaller mouse.
+        id: 1,
+        playerId: 3,
+        x: 300,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 1
+      },
+      {
+        // Create same size mouse.
+        id: 2,
+        playerId: 2,
+        x: 200,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 2
+      },
+      {
+        // Create bigger mouse.
+        id: 3,
+        playerId: 1,
+        x: 100,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 2
+      }
+    ];
+  } else if (BlocklyGames.LEVEL <= 4) {
+    startingMice = [
+      {
+        // Create player mouse.
+        id: 0,
+        playerId: 0,
+        x: 200,
+        y: 200,
+        direction: -Math.PI / 2,
+        size: 2,
+        aggressiveness: 3
+      },
+      {
+        // Create bigger mouse.
+        id: 1,
+        playerId: 1,
+        x: 150,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 3
+      },
+      {
+        // Create bigger mouse.
+        id: 2,
+        playerId: 2,
+        x: 250,
+        y: 300,
+        direction: Math.PI / 2,
+        size: 3
+      },
+      {
+        // Create same size mouse.
+        id: 3,
+        playerId: 3,
+        x: 300,
+        y: 200,
+        direction: Math.PI / 2,
+        size: 2
+      },
+      {
+        // Create smaller mouse.
+        id: 4,
+        playerId: 1,
+        x: 250,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 1
+      },
+      {
+        // Create smaller mouse.
+        id: 5,
+        playerId: 2,
+        x: 150,
+        y: 300,
+        direction: Math.PI / 2,
+        size: 1
+      },
+      {
+        // Create smaller mouse.
+        id: 6,
+        playerId: 3,
+        x: 100,
+        y: 200,
+        direction: Math.PI / 2,
+        size: 1
+      }
+    ];
+    goog.array.shuffle(startingMice);
+  } else if (BlocklyGames.LEVEL <= 8) {
+    startingMice = [
+      {
+        // Create player mouse.
+        id: 0,
+        playerId: 0,
+        x: 200,
+        y: 200,
+        direction: -Math.PI / 2,
+        size: 2,
+        fertility: 5
+      },
+      {
+        // Create bigger mouse.
+        id: 1,
+        playerId: 1,
+        x: 150,
+        y: 100,
+        direction: Math.PI / 2,
+        size: 3,
+        sex: Genetics.Mouse.Sex.MALE
+      },
+      {
+        // Create bigger mouse.
+        id: 2,
+        playerId: 2,
+        x: 250,
+        y: 300,
+        direction: Math.PI / 2,
+        size: 3,
+        sex: Genetics.Mouse.Sex.FEMALE
+      },
+      {
+        // Create bigger mouse.
+        id: 3,
+        playerId: 3,
+        x: 300,
+        y: 200,
+        direction: Math.PI / 2,
+        size: 3,
+        sex: Genetics.Mouse.Sex.MALE
+      },
+      {
+        // Create bigger mouse.
+        id: 4,
+        playerId: 1,
+        x: '250 px',
+        y: '100 px',
+        direction: Math.PI / 2,
+        size: 3,
+        sex: Genetics.Mouse.Sex.FEMALE
+      },
+      {
+        // Create same size mouse.
+        id: 5,
+        playerId: 2,
+        x: 150,
+        y: 300,
+        direction: Math.PI / 2,
+        size: 2,
+        sex: Genetics.Mouse.Sex.FEMALE
+      },
+      {
+        // Create same size mouse.
+        id: 6,
+        playerId: 3,
+        x: 100,
+        y: 200,
+        direction: Math.PI / 2,
+        size: 2,
+        sex: Genetics.Mouse.Sex.MALE
+      }
+    ];
+    goog.array.shuffle(startingMice);
+  } else {  // BlocklyGames.LEVEL >= 9
+    startingMice = [];
+    var mouseId = 0;
+    for (var playerId = 0; playerId < 4; playerId++) {
+      for (var i = 0; i < 2; i++) {
+        startingMice.push({
+          id: mouseId++,
+          sex: i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
+              Genetics.Mouse.Sex.FEMALE,
+          playerId: playerId
+        });
+      }
+    }
+    goog.array.shuffle(startingMice);
+  }
+  for (var i = 0, mouseStats; mouseStats = startingMice[i]; i++) {
+    var sex = (mouseStats.sex != null) ? mouseStats.sex :
+        ((goog.math.randomInt(2) == 0) ? Genetics.Mouse.Sex.MALE :
+            Genetics.Mouse.Sex.FEMALE);
+    var mouse = new Genetics.Mouse(mouseStats.id, sex, null, null,
+        mouseStats.playerId);
+    // Set other mouse attributes if a value was declared.
+    if (mouseStats.size != null) {
+      mouse.size = mouseStats.size;
+    }
+    if (mouseStats.fertility != null) {
+      mouse.fertility = mouseStats.fertility;
+    }
+    if (mouseStats.aggressiveness != null) {
+      mouse.aggressiveness = mouseStats.aggressiveness;
+    }
+    Genetics.Cage.born(mouse);
+    if (BlocklyGames.LEVEL <= 8) {
+      Genetics.Visualization.addMouse(mouse, mouseStats.x, mouseStats.y,
+          mouseStats.direction);
+    } else {
+      new Genetics.Cage.Event('ADD', mouse).addToQueue();
+    }
+  }
 };
 
 /**
@@ -240,19 +796,161 @@ Genetics.init = function() {
  */
 Genetics.checkForEnd = function() {
   switch (BlocklyGames.LEVEL) {
-    
+    case 1:
+      // Player was asked to return the first mouse from the list (which also
+      // happens to be the only mouse smaller than the player mouse).
+      // fallthrough
+    case 2:
+      // Player was asked to return the last mouse from the list (which also
+      // happens to be the only mouse smaller than the player mouse).
+      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+        // This level should have only one fight event.
+        if (event['TYPE'] == 'FIGHT') {
+          new Genetics.Cage.Event('END_GAME',
+              event['RESULT'] == 'WIN').addToQueue();
+          return true;
+        } else if (event['TYPE'] != 'START_GAME' &&
+            event['TYPE'] != 'NEXT_ROUND') {
+          // If an unexpected event occurred, then the level is failed.
+          new Genetics.Cage.Event('END_GAME', false).addToQueue();
+          return true;
+        }
+      }
+      return false;
+    case 3:
+      // Player was asked to return a mouse that is smaller than two. They
+      // succeed if they win 3 fights.
+      // fallthrough
+    case 4:
+      // Player was asked to return a mouse that is smaller than itself. They
+      // succeed if they win 3 fights.
+      var successfulFights = 0;
+      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+        if (event['TYPE'] == 'FIGHT') {
+          if (event['RESULT'] == 'WIN') {
+            successfulFights++;
+            if (successfulFights == 3) {
+              new Genetics.Cage.Event('END_GAME', true).addToQueue();
+              return true;
+            }
+          } else {
+            // If the player did not win a fight, they fail the level.
+            new Genetics.Cage.Event('END_GAME', false).addToQueue();
+            return true;
+          }
+        } else if (event['TYPE'] != 'START_GAME' &&
+            event['TYPE'] != 'NEXT_ROUND') {
+          // If an unexpected event occurred, then the level is failed.
+          new Genetics.Cage.Event('END_GAME', false).addToQueue();
+          return true;
+        }
+      }
+      return false;
+    case 5:
+      // Player was asked to return a mouse that is a valid mate. The player
+      // succeeds if they mate 3 times successfully.
+      // fallthrough
+    case 6:
+      // Player was asked to return a mouse that is a valid mate and bigger
+      // than itself. The player succeeds if they mate 5 times successfully with
+      // a mate that fits this criteria.
+      var successfulMates = 0;
+      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+        if (event['TYPE'] == 'MATE') {
+          if (event['RESULT'] == 'SUCCESS') {
+            if (BlocklyGames.LEVEL == 6 &&
+                Genetics.Cage.miceMap_[event['OPT_PARTNER']].size <=
+                Genetics.Mouse.SIZE) {
+              // If it is level 6 and the player tried to mate with someone
+              // that wasn't bigger than itself, they fail.
+              new Genetics.Cage.Event('END_GAME', false).addToQueue();
+              return true;
+            }
+            successfulMates++;
+            if (successfulMates == 5) {
+              new Genetics.Cage.Event('END_GAME', true).addToQueue();
+              return true;
+            }
+          } else {
+            // If the player had an unsuccessful mating attempt, then the level
+            // is failed.
+            new Genetics.Cage.Event('END_GAME', false).addToQueue();
+            return true;
+          }
+        } else if (event['TYPE'] != 'START_GAME' &&
+            event['TYPE'] != 'NEXT_ROUND') {
+          // If an unexpected event occurred, then the level is failed.
+          new Genetics.Cage.Event('END_GAME', false).addToQueue();
+          return true;
+        }
+      }
+      return false;
+    case 7:
+      // Player was asked to respond to mate request such that they return true
+      // if a mate is valid, false otherwise. The player succeeds if they
+      // correctly respond 5 times.
+      // fallthrough
+    case 8:
+      // Player was asked to respond to mate request such that they return true
+      // if a mate is valid and bigger than itself, false otherwise. The player
+      // succeeds if they correctly respond 5 times.
+      var successfulMates = 0;
+      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+        if (event['TYPE'] == 'MATE') {
+          if (event['RESULT'] == 'SUCCESS') {
+            if (BlocklyGames.LEVEL == 8 &&
+                Genetics.Cage.miceMap_[event['ID']].size <=
+                Genetics.Mouse.SIZE) {
+              // If it is level 8 and the player tried to mate with someone
+              // that wasn't bigger than itself, they fail.
+              new Genetics.Cage.Event('END_GAME', false).addToQueue();
+              return true;
+            }
+            successfulMates++;
+            if (successfulMates == 5) {
+              new Genetics.Cage.Event('END_GAME', true).addToQueue();
+              return true;
+            }
+          } else if (event['RESULT'] == 'REJECTION') {
+            var self = Genetics.Cage.miceMap_[0];
+            var mate = Genetics.Cage.miceMap_[event['ID']];
+            if (self.sex != mate.sex && (BlocklyGames.LEVEL != 8 ||
+                self.size < mate.sex)) {
+              // If the player rejected a correct mate request, then they fail.
+              new Genetics.Cage.Event('END_GAME', false).addToQueue();
+              return true;
+            }
+          } else {
+            // If the mate event is anything other than a success or rejection,
+            // then the level is failed.
+            new Genetics.Cage.Event('END_GAME', false).addToQueue();
+            return true;
+          }
+        } else if (event['TYPE'] != 'START_GAME' &&
+            event['TYPE'] != 'NEXT_ROUND' && event['TYPE'] != 'RETIRE') {
+          // If an unexpected event occurred, then the level is failed.
+          new Genetics.Cage.Event('END_GAME', false).addToQueue();
+          return true;
+        }
+      }
+      return false;
+    default:
+      // Continue on to handle level 9 or 10.
+      break;
   }
+
+  var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
   // Check if there are no mice left.
-  if (Genetics.Cage.nextRoundMice.length == 0) {
-    new Genetics.Cage.Event('END_GAME', 'NONE_LEFT', [], [], []).addToQueue();
+  if (Genetics.Cage.nextRoundMice_.length == 0) {
+    new Genetics.Cage.Event('END_GAME', false, playerRankings).addToQueue();
     return true;
   }
   // Find which players have majority for each function.
   var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
     'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
   var isTimeExpired = Genetics.Cage.roundNumber > Genetics.Cage.MAX_ROUNDS;
-  var firstMouseInQueue = Genetics.Cage.nextRoundMice[0];
-  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice[i]; i++) {
+  var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
+  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice_[i]; i++) {
     if (!isTimeExpired &&
         (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
         mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
@@ -266,13 +964,18 @@ Genetics.checkForEnd = function() {
     playerFunctionCounts['acceptMate'][mouse.acceptMateOwner]++;
   }
   if (!isTimeExpired) {
-    new Genetics.Cage.Event('END_GAME', 'DOMINATION',
-        [[Genetics.Cage.nextRoundMice[0].pickFightOwner]],
-        [[Genetics.Cage.nextRoundMice[0].proposeMateOwner]],
-        [[Genetics.Cage.nextRoundMice[0].acceptMateOwner]]).addToQueue();
+    // If it is a domination victory.
+    var pickFightWinner = Genetics.Cage.nextRoundMice_[0].pickFightOwner;
+    var proposeMateWinner = Genetics.Cage.nextRoundMice_[0].proposeMate;
+    var acceptMateWinner = Genetics.Cage.nextRoundMice_[0].acceptMate;
+    playerRankings['pickFight'].push([pickFightWinner]);
+    playerRankings['proposeMate'].push(proposeMateWinner);
+    playerRankings['acceptMate'].push(acceptMateWinner);
+    new Genetics.Cage.Event('END_GAME',
+        pickFightWinner == 0 && proposeMateWinner == 0 && acceptMateWinner == 0,
+        playerRankings).addToQueue();
     return true;
   }
-  Genetics.functionCounts = playerFunctionCounts; // TODO rm
   // Determine rankings for each function.
   var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
   var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
@@ -304,9 +1007,7 @@ Genetics.checkForEnd = function() {
       }
     }
   }
-  Genetics.rankings = playerRankings; // TODO rm
-  new Genetics.Cage.Event('END_GAME', 'TIMEOUT', playerRankings['pickFight'],
-      playerRankings['proposeMate'], playerRankings['acceptMate']).addToQueue();
+  new Genetics.Cage.Event('END_GAME', false, playerRankings).addToQueue();
   return true;
 };
 
@@ -374,7 +1075,9 @@ Genetics.execute = function() {
     setTimeout(Genetics.execute, 250);
     return;
   }
-  Genetics.reset();
+
+  // Enable wandering if level is not level 1-2.
+  Genetics.MouseAvatar.wanderingDisabled = BlocklyGames.LEVEL <= 2;
 
   Genetics.Cage.start(Genetics.checkForEnd);
   Genetics.Visualization.start();
@@ -386,13 +1089,26 @@ Genetics.execute = function() {
 Genetics.reset = function() {
   Genetics.Cage.reset();
   Genetics.Visualization.reset();
+  // Disable wandering so that mice don't move until game plays.
+  Genetics.MouseAvatar.wanderingDisabled = true;
+  Genetics.addStartingMice();
+
 };
 
 /**
  * Show the help pop-up.
  */
 Genetics.showHelp = function() {
-  // TODO(kozbial)
+  var help = document.getElementById('help');
+  var button = document.getElementById('helpButton');
+  var style = {
+    width: '50%',
+    left: '25%',
+    top: '5em'
+  };
+  BlocklyDialogs.showDialog(help, button, true, true, style,
+      BlocklyDialogs.stopDialogKeyDown);
+  BlocklyDialogs.startDialogKeyDown();
 };
 
 /**
@@ -414,7 +1130,6 @@ Genetics.changeTab = function(index) {
     var div = document.querySelector(name);
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
-  BlocklyGames.LEVEL = (index == BLOCKS) ? 11 : 12;
   if (Genetics.isDocsVisible_) {
     var frame = document.getElementById('frameDocs');
     frame.src = 'genetics/docs.html?lang=' + BlocklyGames.LANG +

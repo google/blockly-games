@@ -43,7 +43,7 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
   // Returns a random integer between two integers; minValue (inclusive)
   // and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
-    return goog.math.randomInt(maxValue-minValue + 1) + minValue;
+    return goog.math.randomInt(maxValue - minValue + 1) + minValue;
   }
   if (opt_parentOne && opt_parentTwo) {
     // Choose which functions are inherited from parents.

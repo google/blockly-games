@@ -34,14 +34,29 @@ goog.require('goog.object');
 /**
  * Number of milliseconds between update calls.
  * @type {number}
+ * @const
  */
-Genetics.Visualization.UPDATE_DELAY_MSC = 500;
+Genetics.Visualization.UPDATE_DELAY_MSC = 50;
 
-Genetics.Visualization.DUST_SIZE = 50;
-Genetics.Visualization.HEART_SIZE = 30;
-
+/**
+ * The width/height of the display in pixels.
+ * @type {number}
+ * @const
+ */
 Genetics.Visualization.DISPLAY_SIZE = 400;
 
+/**
+ * The width/height of the dust cloud in pixels.
+ * @type {number}
+ * @const
+ */
+Genetics.Visualization.DUST_SIZE = 50;
+
+/**
+ * The hex values of the player colors.
+ * @type {!Array.<string>}
+ * @const
+ */
 Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
 
 /**
@@ -51,7 +66,6 @@ Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
  */
 Genetics.Visualization.stopped_ = true;
 
-
 /**
  * Indicates whether the game has ended.
  * @type {boolean}
@@ -60,21 +74,15 @@ Genetics.Visualization.stopped_ = true;
 Genetics.Visualization.gameOverReached_ = true;
 
 /**
- *
- * @type {string}
+ * The ranking of players after the end of the game.
+ * @type {Object.<string, !Array.<number>>}
+ * @private
  */
-Genetics.Visualization.gameOverCause = '';
-
-/**
- *
- * @type {!Object.<string, !Array.<number>>}
- * @const
- */
-Genetics.Visualization.gameRankings = {};
+Genetics.Visualization.gameRankings_ = null;
 
 /**
  * Mapping of mouse ID to mouse for mice currently being visualized.
- * @type {!Object.<string, !Genetics.MouseAvatar>}
+ * @type {!Object.<number, !Genetics.MouseAvatar>}
  * @private
  */
 Genetics.Visualization.mice_ = {};
@@ -131,7 +139,7 @@ Genetics.Visualization.mouseSexes_ = {};
 /**
  * List indexed by player ID of number of mice with pickFight function of that
  * player.
- * @type {!List<number, number>}
+ * @type {!Array<number, number>}
  * @const
  * @private
  */
@@ -140,7 +148,7 @@ Genetics.Visualization.pickFightOwners_ = [];
 /**
  * List indexed by player ID of number of mice with proposeMate function of that
  * player.
- * @type {!List<number, number>}
+ * @type {!Array.<number, number>}
  * @const
  * @private
  */
@@ -149,7 +157,7 @@ Genetics.Visualization.proposeMateOwners_ = [];
 /**
  * List indexed by player ID of number of mice with acceptMate function of that
  * player.
- * @type {!List<number, number>}
+ * @type {!Array.<number, number>}
  * @const
  * @private
  */
@@ -169,98 +177,101 @@ Genetics.Visualization.init = function() {
   // Sync the display size constant on mouseAvatar.
   Genetics.MouseAvatar.DISPLAY_SIZE = Genetics.Visualization.DISPLAY_SIZE;
 
-  // Setup the tabs.
-  Genetics.tabbar = new goog.ui.TabBar();
-  Genetics.tabbar.decorate(document.getElementById('vizTabbar'));
+  var tabDiv = document.getElementById('vizTabbar');
+  if (tabDiv) {
+    // Setup the tabs.
+    Genetics.tabbar = new goog.ui.TabBar();
+    Genetics.tabbar.decorate(tabDiv);
 
-  var changeTab = function(index) {
-    // Show the correct tab contents.
-    var names = ['displayContent', 'charts'];
-    for (var i = 0, name; name = names[i]; i++) {
-      var div = document.getElementById(name);
-      if (name == 'displayContent') {
-        div.style.visibility = (i == index) ? 'visible' : 'hidden';
-      } else {
-        Genetics.Visualization.areChartsVisible_ = (i == index);
-        if (i == index) {
-          Genetics.Visualization.drawCharts_();
+    var changeTab = function(index) {
+      // Show the correct tab contents.
+      var names = ['displayContent', 'charts'];
+      for (var i = 0, name; name = names[i]; i++) {
+        var div = document.getElementById(name);
+        if (name == 'displayContent') {
+          div.style.visibility = (i == index) ? 'visible' : 'hidden';
+        } else {
+          Genetics.Visualization.areChartsVisible_ = (i == index);
+          if (i == index) {
+            Genetics.Visualization.drawCharts_();
+          }
+          div.style.display = (i == index) ? 'block' : 'none';
         }
-        div.style.display = (i == index) ? 'block' : 'none';
       }
-    }
-  };
-  // Handle SELECT events dispatched by tabs.
-  goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
-      function(e) {
-        var index = e.target.getParent().getSelectedTabIndex();
-        changeTab(index);
-      });
-
-  changeTab(0);
-
-  var createCharts = function() {
-    // Create the base options for chart style shared between charts.
-    var chartOpts = {
-      'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
-        'format': '0'},
-      'vAxis': {'minValue': 0},
-      'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
-        'height': '70%' },
-      'backgroundColor': 'white'
     };
-    var stackGraphOpts = goog.object.unsafeClone(chartOpts);
-    stackGraphOpts['colors'] = Genetics.Visualization.COLOURS;
-    stackGraphOpts['isStacked'] = 'relative';
-    stackGraphOpts['lineWidth'] = 0;
-    stackGraphOpts['areaOpacity'] = 0.8;
-    stackGraphOpts['vAxis']['maxValue'] = 1;
-    var populationChartOpts = chartOpts;
-    var pickFightOpts = stackGraphOpts;
-    var proposeMateOpts = goog.object.clone(stackGraphOpts);
-    var acceptMateOpts = goog.object.clone(stackGraphOpts);
-
-    populationChartOpts['title'] = 'Population';
-    populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
-    populationChartOpts['isStacked'] = true;
-    populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
-    Genetics.Visualization.populationChartWrapper_ =
-        new google.visualization.ChartWrapper({
-          'chartType': 'AreaChart',
-          'options': populationChartOpts,
-          'containerId': 'populationChart'
-        });
-    pickFightOpts['title'] = 'Pick Fight';
-    Genetics.Visualization.pickFightChartWrapper_ =
-        new google.visualization.ChartWrapper({
-          'chartType': 'AreaChart',
-          'options': pickFightOpts,
-          'containerId': 'pickFightChart'
-        });
-    proposeMateOpts['title'] = 'Propose Mate';
-    Genetics.Visualization.proposeMateChartWrapper_ =
-        new google.visualization.ChartWrapper({
-          'chartType': 'AreaChart',
-          'options': proposeMateOpts,
-          'containerId': 'proposeMateChart'
-        });
-    acceptMateOpts['title'] = 'Accept Mate';
-    Genetics.Visualization.acceptMateChartWrapper_ =
-        new google.visualization.ChartWrapper({
-          'chartType': 'AreaChart',
-          'options': acceptMateOpts,
-          'containerId': 'acceptMateChart'
+    // Handle SELECT events dispatched by tabs.
+    goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
+        function(e) {
+          var index = e.target.getParent().getSelectedTabIndex();
+          changeTab(index);
         });
 
-    // Set chart Data for all charts.
-    Genetics.Visualization.resetChartData_();
+    changeTab(0);
 
-    Genetics.Visualization.populationChartWrapper_.draw();
-    Genetics.Visualization.pickFightChartWrapper_.draw();
-    Genetics.Visualization.proposeMateChartWrapper_.draw();
-    Genetics.Visualization.acceptMateChartWrapper_.draw();
-  };
-  google.charts.load('current', {'packages': ['corechart']});
-  google.charts.setOnLoadCallback(createCharts);
+    var createCharts = function() {
+      // Create the base options for chart style shared between charts.
+      var chartOpts = {
+        'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
+          'format': '0'},
+        'vAxis': {'minValue': 0},
+        'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
+          'height': '70%' },
+        'backgroundColor': 'white'
+      };
+      var stackGraphOpts = goog.object.unsafeClone(chartOpts);
+      stackGraphOpts['colors'] = Genetics.Visualization.COLOURS;
+      stackGraphOpts['isStacked'] = 'relative';
+      stackGraphOpts['lineWidth'] = 0;
+      stackGraphOpts['areaOpacity'] = 0.8;
+      stackGraphOpts['vAxis']['maxValue'] = 1;
+      var populationChartOpts = chartOpts;
+      var pickFightOpts = stackGraphOpts;
+      var proposeMateOpts = goog.object.clone(stackGraphOpts);
+      var acceptMateOpts = goog.object.clone(stackGraphOpts);
+
+      populationChartOpts['title'] = 'Population';
+      populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
+      populationChartOpts['isStacked'] = true;
+      populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
+      Genetics.Visualization.populationChartWrapper_ =
+          new google.visualization.ChartWrapper({
+            'chartType': 'AreaChart',
+            'options': populationChartOpts,
+            'containerId': 'populationChart'
+          });
+      pickFightOpts['title'] = 'Pick Fight';
+      Genetics.Visualization.pickFightChartWrapper_ =
+          new google.visualization.ChartWrapper({
+            'chartType': 'AreaChart',
+            'options': pickFightOpts,
+            'containerId': 'pickFightChart'
+          });
+      proposeMateOpts['title'] = 'Propose Mate';
+      Genetics.Visualization.proposeMateChartWrapper_ =
+          new google.visualization.ChartWrapper({
+            'chartType': 'AreaChart',
+            'options': proposeMateOpts,
+            'containerId': 'proposeMateChart'
+          });
+      acceptMateOpts['title'] = 'Accept Mate';
+      Genetics.Visualization.acceptMateChartWrapper_ =
+          new google.visualization.ChartWrapper({
+            'chartType': 'AreaChart',
+            'options': acceptMateOpts,
+            'containerId': 'acceptMateChart'
+          });
+
+      // Set chart Data for all charts.
+      Genetics.Visualization.resetChartData_();
+
+      Genetics.Visualization.populationChartWrapper_.draw();
+      Genetics.Visualization.pickFightChartWrapper_.draw();
+      Genetics.Visualization.proposeMateChartWrapper_.draw();
+      Genetics.Visualization.acceptMateChartWrapper_.draw();
+    };
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(createCharts);
+  }
 
   Genetics.Visualization.display_ = document.getElementById('display');
 };
@@ -311,7 +322,9 @@ Genetics.Visualization.stop = function() {
 Genetics.Visualization.reset = function() {
   Genetics.Visualization.stop();
 
+  Genetics.Visualization.areChartsVisible_ = false;
   Genetics.Visualization.eventNumber = 0;
+  Genetics.Visualization.eventIndex_ = 0;
   // Reset stored information about mouse population.
   Genetics.Visualization.mice_ = {};
   Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE] = 0;
@@ -332,11 +345,12 @@ Genetics.Visualization.reset = function() {
   var nameRow = document.getElementById('playerNameRow');
   var statsRow = document.getElementById('playerStatRow');
 
-  for (var playerId = 0, player; player = Genetics.Cage.players[playerId]; playerId++) {
+  for (var playerId = 0, player; player = Genetics.Cage.players[playerId];
+      playerId++) {
     // Assign a colour to each avatar.
     var hexColour = Genetics.Visualization.COLOURS[playerId];
     // Setup player name cell in stats table.
-    var td =  nameRow.cells[playerId];
+    var td = nameRow.cells[playerId];
     td.style.borderColor = hexColour;
     var nameDiv = td;
     var playerName = player.name;
@@ -386,8 +400,7 @@ Genetics.Visualization.reset = function() {
  */
 Genetics.Visualization.start = function() {
   Genetics.Visualization.gameOverReached_ = false;
-  Genetics.Visualization.gameRankings = {};
-  Genetics.Visualization.gameOverCause = '';
+  Genetics.Visualization.gameRankings_ = null;
   Genetics.Visualization.stopped_ = false;
   Genetics.Visualization.update();
 };
@@ -412,7 +425,7 @@ Genetics.Visualization.update = function() {
       }
       if (allMiceFree) {
         // Display end game.
-        Genetics.Visualization.displayGameEnd();
+        Genetics.Visualization.displayGameEnd_();
         return;
       }
     }
@@ -429,7 +442,8 @@ Genetics.Visualization.update = function() {
 Genetics.Visualization.chartsNeedUpdate_ = true;
 
 /**
- *
+ * A reference to all the divs displaying the percentage of function ownership
+ * for each player.
  * @type {!Array.<!Object.<string, HTMLDivElement|HTMLTableCellElement>>}
  * @private
  */
@@ -468,7 +482,7 @@ Genetics.Visualization.updateStats_ = function() {
 };
 
 /**
- * Visualize the current state of the cage simulation (Genetics.Cage).
+ * Redraw game charts.
  * @private
  */
 Genetics.Visualization.drawCharts_ = function() {
@@ -487,8 +501,17 @@ Genetics.Visualization.drawCharts_ = function() {
 /**
  * Count for events to keep track of time passed for charts.
  * @type {number}
+ *
  */
-Genetics.Visualization.eventNumber = 0;
+Genetics.Visualization.eventNumber = 0;  // TODO rm
+
+/**
+ * The index of the next event to be processed or 0 if events are not
+ * removed from EVENTS queue.
+ * @type {number}
+ * @private
+ */
+Genetics.Visualization.eventIndex_ = 0;
 
 /**
  * Process events in Cage events queue.
@@ -496,9 +519,11 @@ Genetics.Visualization.eventNumber = 0;
  */
 Genetics.Visualization.processCageEvents_ = function() {
   // Handle any queued events.
-  var getMouseName = Genetics.Visualization.getMouseName;
-  while (Genetics.Cage.EVENTS.length) {
-    var event = Genetics.Cage.EVENTS.shift();
+  var getMouseName = Genetics.Visualization.getMouseName_;
+  while (Genetics.Visualization.eventIndex_ < Genetics.Cage.Events.length) {
+    var event = Genetics.Cage.keepHistory ?
+        Genetics.Cage.Events[Genetics.Visualization.eventIndex_++] :
+        Genetics.Cage.Events.shift();
 
     var mouse = (event['ID'] !== null) ?
         Genetics.Visualization.mice_[event['ID']] : null;
@@ -509,19 +534,23 @@ Genetics.Visualization.processCageEvents_ = function() {
     if ((mouse && mouse.busy) || (opponent && opponent.busy) ||
         (askedMouse && askedMouse.busy)) {
       // If any involved mice are busy, process event later.
-      Genetics.Cage.EVENTS.unshift(event);
+      if (Genetics.Visualization.keepHistory) {
+        Genetics.Visualization.eventIndex_--;
+      } else {
+        Genetics.Cage.Events.unshift(event);
+      }
       break;
     }
     switch (event['TYPE']) {
       case 'ADD':
         var addedMouse =
-            Genetics.Visualization.createMouseAvatar(event['MOUSE']);
+            Genetics.Visualization.createMouseAvatar_(event['MOUSE']);
         var x = Math.random() * Genetics.Visualization.DISPLAY_SIZE -
             Genetics.MouseAvatar.WIDTH;
         var y = Math.random() * Genetics.Visualization.DISPLAY_SIZE -
             Genetics.MouseAvatar.WIDTH;
 
-        Genetics.Visualization.addMouse_(addedMouse, x, y, false,
+        Genetics.Visualization.animateAddMouse_(addedMouse, x, y, false,
             function() { this.busy = false;}.bind(addedMouse));
         break;
       case 'START_GAME':
@@ -529,10 +558,10 @@ Genetics.Visualization.processCageEvents_ = function() {
             ' players.');
         break;
       case 'FIGHT':
-        Genetics.Visualization.processFightEvent(event, mouse, opponent);
+        Genetics.Visualization.processFightEvent_(event, mouse, opponent);
         break;
       case 'MATE':
-        Genetics.Visualization.processMateEvent(event, mouse, askedMouse);
+        Genetics.Visualization.processMateEvent_(event, mouse, askedMouse);
         break;
       case 'RETIRE':
         Genetics.Visualization.killMouse_(mouse, 'RETIRE');
@@ -552,11 +581,11 @@ Genetics.Visualization.processCageEvents_ = function() {
         break;
       case 'END_GAME':
         Genetics.Visualization.gameOverReached_ = true;
-        Genetics.Visualization.gameOverCause = event['CAUSE'];
-        Genetics.Visualization.gameRankings = {
-          'pickFight': event['PICK_FIGHT_RANK'],
-          'proposeMate': event['PROPOSE_MATE_RANK'],
-          'acceptMate': event['ACCEPT_MATE_RANK']};
+        Genetics.Visualization.levelSucceeded = event['IS_SUCCESS'];
+        Genetics.Visualization.gameRankings_ = event['OPT_RANKINGS'];
+        break;
+      default:
+        // Should never happen.
         break;
     }
 
@@ -564,57 +593,30 @@ Genetics.Visualization.processCageEvents_ = function() {
 };
 
 /**
- * Display the end game summary.
- */
-Genetics.Visualization.displayGameEnd = function() {
-  var functionWinnersText = {'pickFight': '', 'proposeMate': '',
-    'acceptMate': '' };
-  var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
-  for (var i = 0; i < mouseFunctions.length; i++) {
-    var mouseFunction = mouseFunctions[i];
-    var functionWinnersList =
-        Genetics.Visualization.gameRankings[mouseFunction][0];
-    for (var j = 0; functionWinnersList && j < functionWinnersList.length;
-        j++) {
-      var playerId = functionWinnersList[j];
-      var stats = Genetics.Visualization.playerStatsDivs_[playerId];
-      goog.dom.classlist.add(stats[mouseFunction + 'Div'], 'winningFunction');
-      functionWinnersText[mouseFunction] +=
-          Genetics.Cage.players[playerId].name + ' ';
-    }
-  }
-
-  // TODO decide whether to do this?
-  // Stop visualization.
-  // Genetics.Visualization.stop();
-
-  var endGameDiv = document.createElement('div');
-  endGameDiv.setAttribute('class', 'endGameDisplay');
-  Genetics.Visualization.display_.appendChild(endGameDiv);
-
-  Genetics.log('Game ended because ' + Genetics.Visualization.gameOverCause +
-      '. PickFight Winners: ' + functionWinnersText['pickFight'] +
-      ' proposeMate Winners: ' + functionWinnersText['proposeMate'] +
-      ' acceptMate Winners: ' + functionWinnersText['acceptMate']);
-};
-
-/**
  * Process fight events.
  * @param {!Object.<string, string|!Genetics.Mouse>} event
  * @param {!Genetics.MouseAvatar} instigator
  * @param {!Genetics.MouseAvatar} opt_opponent
+ * @private
  */
-Genetics.Visualization.processFightEvent = function(event, instigator,
+Genetics.Visualization.processFightEvent_ = function(event, instigator,
     opt_opponent) {
-  var getMouseName = Genetics.Visualization.getMouseName;
+  var getMouseName = Genetics.Visualization.getMouseName_;
   var opponent = opt_opponent || null;
   var result = event['RESULT'];
 
   if (result == 'NONE') {
-    // TODO Show peace sign over mouse.
-    Genetics.log(getMouseName(instigator) +
-        ' elected to never fight again.');
+    // Show a peace sign.
+    var afterPeace = function() {
+      instigator.busy = false;
+      Genetics.log(getMouseName(instigator) + ' elected to never fight again.');
+    };
+
+    instigator.busy = true;
+    Genetics.Visualization.showImageOverMouse_(instigator, 'genetics/peace.png',
+        Genetics.MouseAvatar.WIDTH, 1000, afterPeace);
   } else {
+    // Show a fight animation.
     var endFight = function() {
       instigator.busy = false;
       if (result != 'SELF') {
@@ -635,14 +637,21 @@ Genetics.Visualization.processFightEvent = function(event, instigator,
 };
 
 /**
+ * Whether mice wander after mating before being available for a new event.
+ * @type {boolean}
+ */
+Genetics.Visualization.wanderAfterMate = true;
+
+/**
  * Process mate events.
  * @param {!Object.<string, string|!Genetics.Mouse>} event
  * @param {!Genetics.MouseAvatar} proposingMouse
  * @param {!Genetics.MouseAvatar} opt_askedMouse
+ * @private
  */
-Genetics.Visualization.processMateEvent = function(event, proposingMouse,
+Genetics.Visualization.processMateEvent_ = function(event, proposingMouse,
     opt_askedMouse) {
-  var getMouseName = Genetics.Visualization.getMouseName;
+  var getMouseName = Genetics.Visualization.getMouseName_;
   var askedMouse = opt_askedMouse || null;
 
   var result = event['RESULT'];
@@ -650,14 +659,30 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
     Genetics.log(getMouseName(proposingMouse) +
         ' elected to never mate again.');
   } else if (result == 'SELF') {
-    Genetics.log(getMouseName(proposingMouse) +
-        ' caught trying to mate with itself.');
+    // Show a heart.
+    var afterHeart = function() {
+      proposingMouse.busy = false;
+      Genetics.log(getMouseName(proposingMouse) +
+          ' caught trying to mate with itself.');
+    };
+
+    proposingMouse.busy = true;
+    Genetics.Visualization.showImageOverMouse_(proposingMouse,
+        'genetics/heart.png', Genetics.MouseAvatar.WIDTH, 1000, afterHeart);
   } else if (result == 'MATE_EXPLODED') {
     Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
         getMouseName(proposingMouse) + ' asked it out.');
   } else if (result == 'REJECTION') {
-    Genetics.log(getMouseName(proposingMouse) + ' asked ' +
-        getMouseName(askedMouse) + ' to mate, The answer is NO!');
+    // Show a broken heart.
+    var afterBroken = function() {
+      proposingMouse.busy = false;
+      Genetics.log(getMouseName(proposingMouse) + ' asked ' +
+          getMouseName(askedMouse) + ' to mate, The answer is NO!');
+    };
+
+    proposingMouse.busy = true;
+    Genetics.Visualization.showImageOverMouse_(proposingMouse,
+        'genetics/reject.png', Genetics.MouseAvatar.WIDTH, 1000, afterBroken);
   } else {
     // result == 'SUCCESS' || result == 'INCOMPATIBLE' || result == 'INFERTILE'
     Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
@@ -671,37 +696,103 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
             parseInt(askedMouse.element.style.top, 10)) +
         Genetics.MouseAvatar.HALF_SIZE;
 
+    var message;
+    var heartType;
     if (result == 'SUCCESS') {
       // If mating is successful, create and add reference to offspring so that
       // future events involving that mouse that are detected before the end
       // of the birth animation will be able to access it.
       var offspring = Genetics.Visualization
-          .createMouseAvatar(event['OPT_OFFSPRING']);
+          .createMouseAvatar_(event['OPT_OFFSPRING']);
+      heartType = 'heart';
+    }else if (result == 'INCOMPATIBLE') {
+      message = getMouseName(proposingMouse) + ' mated with ' +
+          getMouseName(askedMouse) + ', another ' + proposingMouse.sex +
+          '.';
+      heartType = 'rainbow-heart';
+    } else {  // result == 'INFERTILE'
+      message = 'Mating between ' + getMouseName(proposingMouse) +
+          ' and ' + getMouseName(askedMouse) + ' failed because ' +
+          getMouseName(askedMouse) + ' is sterile.';
+      heartType = 'grey-heart';
     }
 
     var mateResult = function() {
       if (result == 'SUCCESS') {
-        Genetics.Visualization.addMouse_(offspring, x, y, true,
+        Genetics.Visualization.animateAddMouse_(offspring, x, y, true,
             function() { offspring.busy = false;});
-      } else if (result == 'INCOMPATIBLE') {
-        Genetics.log(getMouseName(proposingMouse) + ' mated with ' +
-            getMouseName(askedMouse) + ', another ' + proposingMouse.sex +
-            '.');
-      } else {  // result == 'INFERTILE'
-        Genetics.log('Mating between ' + getMouseName(proposingMouse) +
-            ' and ' + getMouseName(askedMouse) + ' failed because ' +
-            getMouseName(askedMouse) + ' is sterile.');
+      } else {
+        Genetics.log(message);
       }
-      // Have the parent mice move around before participating in a new event.
-      proposingMouse.moveAbout(3, function() { proposingMouse.busy = false; });
-      askedMouse.moveAbout(3, function() { askedMouse.busy = false; });
+      if (Genetics.Visualization.wanderAfterMate) {
+        // Have the parent mice move around before participating in a new event.
+        proposingMouse.moveAbout(3,
+            function() { proposingMouse.busy = false; });
+        askedMouse.moveAbout(3, function() { askedMouse.busy = false; });
+      } else {
+        proposingMouse.busy = false;
+        askedMouse.busy = false;
+      }
     };
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.bind(Genetics.Visualization.showHeart_, null, result, x, y,
-            mateResult));
+        goog.partial(Genetics.Visualization.showImage_, 'genetics/' +
+            heartType + '.png', x, y, 50, 700, mateResult));
+  }
+};
 
+
+/**
+ * Display the end game summary.
+ * @private
+ */
+Genetics.Visualization.displayGameEnd_ = function() {
+  Genetics.Visualization.stop();
+  if (Genetics.Visualization.gameRankings_) {
+    var functionWinnersText = {
+      'pickFight': '', 'proposeMate': '',
+      'acceptMate': ''
+    };
+    var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
+    for (var i = 0; i < mouseFunctions.length; i++) {
+      var mouseFunction = mouseFunctions[i];
+      var functionWinnersList =
+          Genetics.Visualization.gameRankings_[mouseFunction][0];
+      for (var j = 0; functionWinnersList && j < functionWinnersList.length;
+          j++) {
+        var playerId = functionWinnersList[j];
+        var stats = Genetics.Visualization.playerStatsDivs_[playerId];
+        if (stats[mouseFunction + 'Div']) {
+          goog.dom.classlist.add(stats[mouseFunction + 'Div'],
+              'winningFunction');
+        }
+        functionWinnersText[mouseFunction] +=
+            Genetics.Cage.players[playerId].name + ' ';
+      }
+    }
+
+    // var endGameDiv = document.createElement('div');
+    // var summary = document.createTextNode(
+    //     'PickFight Winners: ' + functionWinnersText['pickFight'] +
+    //     '\n proposeMate Winners: ' + functionWinnersText['proposeMate'] +
+    //     '\n acceptMate Winners: ' + functionWinnersText['acceptMate']);
+    // endGameDiv.appendChild(summary);
+    // endGameDiv.setAttribute('class', 'endGameDisplay');
+    // Genetics.Visualization.display_.appendChild(endGameDiv);
+
+    Genetics.log('Game ended with:' +
+        ' PickFight Winners: ' + functionWinnersText['pickFight'] +
+        ' proposeMate Winners: ' + functionWinnersText['proposeMate'] +
+        ' acceptMate Winners: ' + functionWinnersText['acceptMate']);
+  }
+
+  if (Genetics.Visualization.levelSucceeded) {
+    BlocklyInterface.saveToLocalStorage();
+    BlocklyDialogs.congratulations();
+    Genetics.log('Level Succeeded');
+  } else if (!Genetics.Visualization.gameRankings_) {
+    Genetics.log('Level Failed');
   }
 };
 
@@ -710,28 +801,32 @@ Genetics.Visualization.processMateEvent = function(event, proposingMouse,
  * @private
  */
 Genetics.Visualization.updateChartData_ = function() {
-  Genetics.Visualization.eventNumber++;
-  Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
-      [Genetics.Visualization.eventNumber,
-       Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
-       Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
+  if (google.visualization) {
+    Genetics.Visualization.eventNumber++;
+    Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
+        [Genetics.Visualization.eventNumber,
+          Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
+          Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
 
-  var pickFightState = [Genetics.Visualization.eventNumber];
-  var proposeMateState = [Genetics.Visualization.eventNumber];
-  var acceptMateState = [Genetics.Visualization.eventNumber];
-  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-    pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
-    proposeMateState.push(Genetics.Visualization.proposeMateOwners_[playerId]);
-    acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
+    var pickFightState = [Genetics.Visualization.eventNumber];
+    var proposeMateState = [Genetics.Visualization.eventNumber];
+    var acceptMateState = [Genetics.Visualization.eventNumber];
+    for (var playerId = 0; playerId < Genetics.Cage.players.length;
+        playerId++) {
+      pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
+      proposeMateState.push(
+          Genetics.Visualization.proposeMateOwners_[playerId]);
+      acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
+    }
+    Genetics.Visualization.pickFightChartWrapper_.getDataTable()
+        .addRow(pickFightState);
+    Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
+        .addRow(proposeMateState);
+    Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
+        .addRow(acceptMateState);
+
+    Genetics.Visualization.chartsNeedUpdate_ = true;
   }
-  Genetics.Visualization.pickFightChartWrapper_.getDataTable()
-      .addRow(pickFightState);
-  Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
-      .addRow(proposeMateState);
-  Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
-      .addRow(acceptMateState);
-
-  Genetics.Visualization.chartsNeedUpdate_ = true;
 };
 
 /**
@@ -743,8 +838,9 @@ Genetics.Visualization.updateChartData_ = function() {
  * @param {boolean=} opt_showGenes Whether to add the gene owners to the string
  * representation.
  * @return {string} The string representation of the mouse.
+ * @private
  */
-Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
+Genetics.Visualization.getMouseName_ = function(mouse, opt_showStats,
     opt_showGenes) {
   // Credit: http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
   function romanize(value) {
@@ -796,44 +892,26 @@ Genetics.Visualization.getMouseName = function(mouse, opt_showStats,
  * @private
  */
 Genetics.Visualization.killMouse_ = function(mouseAvatar, reason) {
-  Genetics.Visualization.removeMouseAvatar(mouseAvatar);
+  Genetics.Visualization.removeMouseAvatar_(mouseAvatar);
 
-  if (reason == 'EXPLOSION') {
-    // The mouse exploded.
-    var explosion = document.createElement('div');
-    explosion.setAttribute('class', 'explode');
-    explosion.style.top = mouseAvatar.element.style.top;
-    explosion.style.left = mouseAvatar.element.style.left;
-    var afterAnimation = function() {
-      explosion.removeEventListener('animationend', afterAnimation, false);
-      Genetics.Visualization.display_.removeChild(explosion);
-    };
-    explosion.addEventListener('animationend', afterAnimation, false);
-    Genetics.Visualization.display_.appendChild(explosion);
-  } else if (reason == 'OVERPOPULATION') {
-    // The mouse died because of overpopulation
-    var kick = document.createElement('div');
-    kick.setAttribute('class', 'kickedOut');
-    kick.style.top = mouseAvatar.element.style.top;
-    kick.style.left = mouseAvatar.element.style.left;
-    var afterAnimation = function() {
-      kick.removeEventListener('animationend', afterAnimation, false);
-      Genetics.Visualization.display_.removeChild(kick);
-    };
-    kick.addEventListener('animationend', afterAnimation, false);
-    Genetics.Visualization.display_.appendChild(kick);
-  } else if (reason == 'RETIRE') {
-    // The mouse died normally.
-    var tombstone = document.createElement('div');
-    tombstone.setAttribute('class', 'retire');
-    tombstone.style.top = mouseAvatar.element.style.top;
-    tombstone.style.left = mouseAvatar.element.style.left;
-    var afterAnimation = function() {
-      tombstone.removeEventListener('animationend', afterAnimation, false);
-      Genetics.Visualization.display_.removeChild(tombstone);
-    };
-    tombstone.addEventListener('animationend', afterAnimation, false);
-    Genetics.Visualization.display_.appendChild(tombstone);
+  if (reason != 'FIGHT') {
+    var x = parseInt(mouseAvatar.element.style.left) +
+        Genetics.MouseAvatar.WIDTH / 2;
+    var y = parseInt(mouseAvatar.element.style.top) +
+        Genetics.MouseAvatar.WIDTH / 2;
+    if (reason == 'EXPLOSION') {
+      // The mouse exploded.
+      Genetics.Visualization.showImage_('genetics/explode.png', x, y,
+          Genetics.MouseAvatar.WIDTH, 1000);
+    } else if (reason == 'OVERPOPULATION') {
+      // The mouse died because of overpopulation
+      Genetics.Visualization.showImage_('genetics/kickedOut.png', x, y,
+          Genetics.MouseAvatar.WIDTH, 1000);
+    } else {  // reason == 'RETIRE'
+      // The mouse died normally.
+      Genetics.Visualization.showImage_('genetics/retire.png', x, y,
+          Genetics.MouseAvatar.WIDTH, 1000);
+    }
   }
 
   // Update statistics to no longer count dead mouse.
@@ -891,17 +969,17 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
 };
 
 /**
- *
- * @param {!Genetics.MouseAvatar} instigator
- * @param {!Genetics.MouseAvatar} opponent
+ * Animate a fight between the the instigator and opponent mouse.
+ * @param {!Genetics.MouseAvatar} instigator The mouse instigating the fight.
+ * @param {!Genetics.MouseAvatar} opponent The mouse challenged in the fight.
  * @param {string} result The type of result, either 'WIN', 'LOSS', 'TIE', or
  * 'SELF".
- * @param {function} callback Function to call at the end of fight animation.
+ * @param {function} callback The function to call after the event is animated.
  * @private
  */
 Genetics.Visualization.fight_ = function(instigator, opponent, result,
     callback) {
-  var getMouseName = Genetics.Visualization.getMouseName;
+  var getMouseName = Genetics.Visualization.getMouseName_;
   var fightCloud = document.getElementById('dust').cloneNode(true);
   // Calculate the position of the cloud over the mice.
   var cloudTop = goog.math.average(parseInt(instigator.element.style.top, 10),
@@ -954,18 +1032,49 @@ Genetics.Visualization.fight_ = function(instigator, opponent, result,
 };
 
 /**
+ * Adds a mouse to the display without animation.
+ * @param {Genetics.Mouse} mouse The mouse to add to the display.
+ * @param {number} x The x position of the mouse.
+ * @param {number} y The y position of the mouse.
+ * @param {number} direction The direction of the mouse in radians.
+ */
+Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
+  var getMouseName = Genetics.Visualization.getMouseName_;
+  var mouseAvatar = Genetics.Visualization.createMouseAvatar_(mouse);
+  mouseAvatar.direction = direction;
+
+  var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
+      Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
+  var yPos = goog.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
+      Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.HEIGHT);
+  mouseAvatar.element.style.left = xPos + 'px';
+  mouseAvatar.element.style.top = yPos + 'px';
+
+  // Update statistics to include new mouse.
+  Genetics.Visualization.mouseSexes_[mouseAvatar.sex]++;
+  Genetics.Visualization.pickFightOwners_[mouseAvatar.pickFightOwner]++;
+  Genetics.Visualization.proposeMateOwners_[mouseAvatar.proposeMateOwner]++;
+  Genetics.Visualization.acceptMateOwners_[mouseAvatar.acceptMateOwner]++;
+  Genetics.Visualization.updateStats_();
+
+  mouseAvatar.element.style.display = 'block';
+  mouseAvatar.busy = false;
+  Genetics.log(getMouseName(mouseAvatar, true, true) + ' added to game.');
+};
+
+/**
  * Adds mouse html element to display div, animates the mouse appearing and
  * updates the statistics after animation.
- * @param {!Genetics.MouseAvatar} mouseAvatar
- * @param {number} x
- * @param {number} y
- * @param {boolean} isBirth
- * @param {function} callback
+ * @param {!Genetics.MouseAvatar} mouseAvatar The mouse to animate adding.
+ * @param {number} x The x position of the mouse.
+ * @param {number} y The y position of the mouse.
+ * @param {boolean} isBirth Whether the add event is a birth.
+ * @param {function} callback The function to call after the event is animated.
  * @private
  */
-Genetics.Visualization.addMouse_ = function(mouseAvatar, x, y, isBirth,
+Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
     callback) {
-  var getMouseName = Genetics.Visualization.getMouseName;
+  var getMouseName = Genetics.Visualization.getMouseName_;
 
   var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
@@ -975,23 +1084,25 @@ Genetics.Visualization.addMouse_ = function(mouseAvatar, x, y, isBirth,
   mouseAvatar.element.style.top = yPos + 'px';
 
   var afterDroppingIn = function(e) {
-    if (isBirth) {
-      Genetics.log(getMouseName(mouseAvatar, true, true) + ' was born!');
-    } else {
-      Genetics.log(getMouseName(mouseAvatar, true, true) + ' added to game.');
-    }
-    // Update statistics to include new mouse.
-    Genetics.Visualization.mouseSexes_[mouseAvatar.sex]++;
-    Genetics.Visualization.pickFightOwners_[mouseAvatar.pickFightOwner]++;
-    Genetics.Visualization.proposeMateOwners_[mouseAvatar.proposeMateOwner]++;
-    Genetics.Visualization.acceptMateOwners_[mouseAvatar.acceptMateOwner]++;
-    Genetics.Visualization.updateChartData_();
-    Genetics.Visualization.updateStats_();
+    if (e.target == mouseAvatar.element) {
+      if (isBirth) {
+        Genetics.log(getMouseName(mouseAvatar, true, true) + ' was born!');
+      } else {
+        Genetics.log(getMouseName(mouseAvatar, true, true) + ' added to game.');
+      }
+      // Update statistics to include new mouse.
+      Genetics.Visualization.mouseSexes_[mouseAvatar.sex]++;
+      Genetics.Visualization.pickFightOwners_[mouseAvatar.pickFightOwner]++;
+      Genetics.Visualization.proposeMateOwners_[mouseAvatar.proposeMateOwner]++;
+      Genetics.Visualization.acceptMateOwners_[mouseAvatar.acceptMateOwner]++;
+      if (isBirth) Genetics.Visualization.updateChartData_();
+      Genetics.Visualization.updateStats_();
 
-    mouseAvatar.element.style['animationName'] = 'none';
-    mouseAvatar.element
-        .removeEventListener('animationEnd', afterDroppingIn, false);
-    callback();
+      mouseAvatar.element.style['animationName'] = 'none';
+      mouseAvatar.element
+          .removeEventListener('animationEnd', afterDroppingIn, false);
+      callback();
+    }
   };
 
   mouseAvatar.element.addEventListener('animationend', afterDroppingIn, false);
@@ -1001,42 +1112,69 @@ Genetics.Visualization.addMouse_ = function(mouseAvatar, x, y, isBirth,
 };
 
 /**
- *
- * @param {string} type Type of heart to display, either "SUCCESS", "INFERTILE",
- * or "INCOMPATIBLE".
- * @param {number} x
- * @param {number} y
- * @param {function} callback
+ * Shows image over mouse for specified duration.
+ * @param {Genetics.MouseAvatar} mouseAvatar The mouse to display the image
+ * above.
+ * @param {string} imageSrc The image source.
+ * @param {number} size The size of the image to display in pixels.
+ * @param {number} duration The duration to show the image in milliseconds.
+ * @param {=function} opt_callback The function to call after finishing
+ * displaying the image.
  * @private
  */
-Genetics.Visualization.showHeart_ = function(type, x, y, callback) {
-  var heart = document.getElementById('heart').cloneNode(true);
-  heart.style.left = x - Genetics.Visualization.HEART_SIZE / 2 + 'px';
-  heart.style.top = y - Genetics.Visualization.HEART_SIZE / 2 + 'px';
-  if (type == 'SUCCESS') {
-    heart.children[0].className += ' heart-success';
-  } else if (type == 'INFERTILE') {
-    heart.children[0].className += ' heart-infertile';
-  } else {
-    heart.children[0].className += ' heart-incompatible';
-  }
-  var afterDisplay = function(e) {
-    if (e.target == heart) {
-      heart.parentNode.removeChild(heart);
-      callback();
-    }
-  };
-  heart.addEventListener('animationend', afterDisplay, false);
-  heart.style['animation'] = 'bounceIn 700ms';
-  Genetics.Visualization.display_.appendChild(heart);
+Genetics.Visualization.showImageOverMouse_ = function(mouseAvatar, imageSrc,
+    size, duration, opt_callback) {
+  mouseAvatar.stopMove();
+  var x = parseInt(mouseAvatar.element.style.left, 10) +
+      Genetics.MouseAvatar.WIDTH / 2;
+  var y = parseInt(mouseAvatar.element.style.top, 10) +
+      Genetics.MouseAvatar.WIDTH / 2;
+
+  Genetics.Visualization.showImage_(imageSrc, x, y, size, duration,
+      opt_callback);
 };
 
 /**
- *
+ * Shows image at specified position for specified duration.
+ * @param {string} imageSrc The image source.
+ * @param {number} x The x position of the image.
+ * @param {number} y The y position of the image.
+ * @param {number} size The size of the image to display in pixels.
+ * @param {number} duration The duration to show the image in milliseconds.
+ * @param {=function} opt_callback The function to call after finishing
+ * displaying the image.
+ * @private
+ */
+Genetics.Visualization.showImage_ = function(imageSrc, x, y, size, duration,
+    opt_callback) {
+  var img = document.createElement('img');
+  img.src = imageSrc;
+  img.style.width = size + 'px';
+  img.style.height = size + 'px';
+  img.style.position = 'absolute';
+  img.style.left = x - size / 2 + 'px';
+  img.style.top = y - size / 2 + 'px';
+
+  var afterShow = function(e) {
+    if (e.target == img) {
+      img.parentNode.removeChild(img);
+      if (opt_callback) {
+        opt_callback();
+      }
+    }
+  };
+  img.addEventListener('animationend', afterShow, false);
+  img.style['animation'] = 'bounceIn ' + duration + 'ms';
+  Genetics.Visualization.display_.appendChild(img);
+};
+
+/**
+ * Creates a mouse avatar from the mouse and adds to mapping.
  * @param {!Genetics.Mouse} mouse
  * @return {!Genetics.MouseAvatar}
+ * @private
  */
-Genetics.Visualization.createMouseAvatar = function(mouse) {
+Genetics.Visualization.createMouseAvatar_ = function(mouse) {
   var mouseAvatar = new Genetics.MouseAvatar(mouse);
   // Store mapping to this mouse avatar.
   Genetics.Visualization.mice_[mouseAvatar.id] = mouseAvatar;
@@ -1047,10 +1185,11 @@ Genetics.Visualization.createMouseAvatar = function(mouse) {
 };
 
 /**
- *
+ * Removes mouse from display and upates mapping.
  * @param {!Genetics.MouseAvatar} mouseAvatar
+ * @private
  */
-Genetics.Visualization.removeMouseAvatar = function(mouseAvatar) {
+Genetics.Visualization.removeMouseAvatar_ = function(mouseAvatar) {
   // Stop any queued mouse animations.
   mouseAvatar.stop();
   // Remove mouse from display
