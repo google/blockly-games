@@ -721,8 +721,8 @@ Genetics.addStartingMice = function() {
         // Create bigger mouse.
         id: 4,
         playerId: 1,
-        x: '250 px',
-        y: '100 px',
+        x: 250,
+        y: 100,
         direction: Math.PI / 2,
         size: 3,
         sex: Genetics.Mouse.Sex.FEMALE

@@ -927,7 +927,7 @@ Genetics.Visualization.killMouse_ = function(mouseAvatar, reason) {
  * Move the given two mice together to the same point on the screen.
  * @param {!Genetics.MouseAvatar} mouse0 A mouse to move together.
  * @param {!Genetics.MouseAvatar} mouse1 A mouse to move together.
- * @param {function} callback The function to call once the two mice have
+ * @param {!Function} callback The function to call once the two mice have
  * reached the same place.
  * @private
  */
@@ -974,7 +974,7 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
  * @param {!Genetics.MouseAvatar} opponent The mouse challenged in the fight.
  * @param {string} result The type of result, either 'WIN', 'LOSS', 'TIE', or
  * 'SELF".
- * @param {function} callback The function to call after the event is animated.
+ * @param {!Function} callback The function to call after the event is animated.
  * @private
  */
 Genetics.Visualization.fight_ = function(instigator, opponent, result,
@@ -1069,7 +1069,7 @@ Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
  * @param {number} x The x position of the mouse.
  * @param {number} y The y position of the mouse.
  * @param {boolean} isBirth Whether the add event is a birth.
- * @param {function} callback The function to call after the event is animated.
+ * @param {!Function} callback The function to call after the event is animated.
  * @private
  */
 Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
@@ -1118,7 +1118,7 @@ Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
  * @param {string} imageSrc The image source.
  * @param {number} size The size of the image to display in pixels.
  * @param {number} duration The duration to show the image in milliseconds.
- * @param {=function} opt_callback The function to call after finishing
+ * @param {Function=} opt_callback The function to call after finishing
  * displaying the image.
  * @private
  */
@@ -1141,7 +1141,7 @@ Genetics.Visualization.showImageOverMouse_ = function(mouseAvatar, imageSrc,
  * @param {number} y The y position of the image.
  * @param {number} size The size of the image to display in pixels.
  * @param {number} duration The duration to show the image in milliseconds.
- * @param {=function} opt_callback The function to call after finishing
+ * @param {Function=} opt_callback The function to call after finishing
  * displaying the image.
  * @private
  */

@@ -172,6 +172,7 @@ Object.defineProperty(Genetics.MouseAvatar.prototype, 'direction', {
   /**
    * Returns the direction the mouse is facing as an angle in radians.
    * @return {number}
+   * @this Genetics.MouseAvatar
    */
   get: function() {
     return this.direction_;
@@ -281,7 +282,7 @@ Genetics.MouseAvatar.prototype.stopMove = function() {
  * calls the callback.
  * @param {number} x The x position of the target destination.
  * @param {number} y The y position of the target destination.
- * @param {!function} callback
+ * @param {!Function} callback The function to call after the event is animated.
  * @param {number=} opt_time The duration of the move in milliseconds.
  */
 Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
@@ -349,7 +350,7 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
  * of steps.
  * @param {number} steps The number of times the mouse should move in a random
  * direction.
- * @param {function} callback The function to call after the mouse as completed
+ * @param {!Function} callback The function to call after the mouse as completed
  * all requested movement.
  */
 Genetics.MouseAvatar.prototype.moveAbout = function(steps, callback) {
