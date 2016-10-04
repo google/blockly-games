@@ -61,112 +61,97 @@ Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
 
 /**
  * Indicates whether the game has been stopped.
- * @type {boolean}
- * @private
+ * @private {boolean}
  */
 Genetics.Visualization.stopped_ = true;
 
 /**
  * Indicates whether the game has ended.
- * @type {boolean}
- * @private
+ * @private {boolean}
  */
 Genetics.Visualization.gameOverReached_ = true;
 
 /**
  * The ranking of players after the end of the game.
- * @type {Object.<string, !Array.<number>>}
- * @private
+ * @private {Object.<string, !Array.<number>>}
  */
 Genetics.Visualization.gameRankings_ = null;
 
 /**
  * Mapping of mouse ID to mouse for mice currently being visualized.
- * @type {!Object.<number, !Genetics.MouseAvatar>}
- * @private
+ * @private {!Object.<number, !Genetics.MouseAvatar>}
  */
 Genetics.Visualization.mice_ = {};
 
 /**
  * Is the charts tab open?
- * @type {boolean}
- * @private
+ * @private {boolean}
  */
 Genetics.Visualization.areChartsVisible_ = false;
 
 /**
  * Chart wrapper for chart with mice sex to count.
- * @type {google.visualization.ChartWrapper}
- * @private
+ * @private {google.visualization.ChartWrapper}
  */
 Genetics.Visualization.populationChartWrapper_ = null;
 
 /**
  * Chart wrapper for chart with count of pickFight owners.
- * @type {google.visualization.ChartWrapper}
- * @private
+ * @private {google.visualization.ChartWrapper}
  */
 Genetics.Visualization.pickFightChartWrapper_ = null;
 
 /**
  * Chart wrapper for chart with count of proposeMate owners.
- * @type {google.visualization.ChartWrapper}
- * @private
+ * @private {google.visualization.ChartWrapper}
  */
 Genetics.Visualization.proposeMateChartWrapper_ = null;
 
 /**
  * Chart wrapper for chart with count of acceptMate owners.
- * @type {google.visualization.ChartWrapper}
- * @private
+ * @private {google.visualization.ChartWrapper}
  */
 Genetics.Visualization.acceptMateChartWrapper_ = null;
 
 /**
  * The div that contains the HTML elements
- * @type {HTMLDivElement}
- * @private
+ * @private {HTMLDivElement}
  */
 Genetics.Visualization.display_ = null;
 
 /**
  * Mapping of mouse sex to number of mice.
- * @type {!Object.<!Genetics.Mouse.Sex, number>}
- * @private
+ * @private {!Object.<!Genetics.Mouse.Sex, number>}
  */
 Genetics.Visualization.mouseSexes_ = {};
 
 /**
  * List indexed by player ID of number of mice with pickFight function of that
  * player.
- * @type {!Array<number, number>}
+ * @private {!Array<number, number>}
  * @const
- * @private
  */
 Genetics.Visualization.pickFightOwners_ = [];
 
 /**
  * List indexed by player ID of number of mice with proposeMate function of that
  * player.
- * @type {!Array.<number, number>}
+ * @private {!Array.<number, number>}
  * @const
- * @private
  */
 Genetics.Visualization.proposeMateOwners_ = [];
 
 /**
  * List indexed by player ID of number of mice with acceptMate function of that
  * player.
- * @type {!Array.<number, number>}
+ * @private {!Array.<number, number>}
  * @const
- * @private
  */
 Genetics.Visualization.acceptMateOwners_ = [];
 
 /**
  * PID of executing task.
- * @type {number}
- * @private
+ * @private {number}
  */
 Genetics.Visualization.pid_ = 0;
 

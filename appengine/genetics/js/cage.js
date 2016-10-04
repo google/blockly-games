@@ -58,8 +58,7 @@ Genetics.Cage.HEADLESS = false;
 
 /**
  * Whether the simulation is stopped.
- * @type {boolean}
- * @private
+ * @private {boolean}
  */
 Genetics.Cage.stopped_ = true;
 
@@ -71,29 +70,25 @@ Genetics.Cage.players = [];
 
 /**
  * List of mice currently alive and queued to run next round.
- * @type {!Array.<!Genetics.Mouse>}
- * @private
+ * @private {!Array.<!Genetics.Mouse>}
  */
 Genetics.Cage.nextRoundMice_ = [];
 
 /**
  * List of mice currently alive and queued to run this round.
- * @type {!Array.<!Genetics.Mouse>}
- * @private
+ * @private {!Array.<!Genetics.Mouse>}
  */
 Genetics.Cage.currentRoundmice_ = [];
 
 /**
  * Mapping of mouse ID to mouse for quick lookup.
- * @type {!Object.<number, !Genetics.Mouse>}
- * @private
+ * @private {!Object.<number, !Genetics.Mouse>}
  */
 Genetics.Cage.miceMap_ = {};
 
 /**
  * The process ID of the update function for the game logic.
- * @type {number}
- * @private
+ * @private {number}
  */
 Genetics.Cage.pid_ = 0;
 
@@ -176,8 +171,7 @@ Genetics.Cage.FUNCTION_TIMEOUT_STEPS = 100000;
 
 /**
  * The next available mouse ID.
- * @type {number}
- * @private
+ * @private {number}
  */
 Genetics.Cage.nextAvailableMouseId_ = 0;
 

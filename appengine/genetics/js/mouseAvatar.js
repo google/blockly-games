@@ -37,15 +37,48 @@ goog.require('goog.object');
  * @constructor
  */
 Genetics.MouseAvatar = function(mouse) {
-  // Store mouse information
+  /**
+   * The unique ID of the mouse.
+   * @type {number}
+   * @const
+   */
   this.id = mouse.id;
+  /**
+   * The sex of the mouse.
+   * @type {Genetics.Mouse.Sex}
+   * @const
+   */
   this.sex = mouse.sex;
+  /**
+   * The size of the mouse.
+   * @type {number}
+   * @const
+   */
   this.size = mouse.size;
+  /**
+   * The ID of the player owning the pickFight function on this mouse.
+   * @type {number}
+   * @const
+   */
   this.pickFightOwner = mouse.pickFightOwner;
+  /**
+   * The ID of the player owning the proposeMate function on this mouse.
+   * @type {number}
+   * @const
+   */
   this.proposeMateOwner = mouse.proposeMateOwner;
+  /**
+   * The ID of the player owning the acceptMate function on this mouse.
+   * @type {number}
+   * @const
+   */
   this.acceptMateOwner = mouse.acceptMateOwner;
 
-  // Create HTML element for the mouse.
+  /**
+   * The SVG element containing the mouse.
+   * @type {SVGElement}
+   * @const
+   */
   this.element = document.createElementNS(Blockly.SVG_NS, 'svg');
   this.element.setAttribute('id', 'mouse' + mouse.id);
   this.element.setAttribute('class', 'mouse');
@@ -61,7 +94,11 @@ Genetics.MouseAvatar = function(mouse) {
   mouseClip.appendChild(clipRect);
   this.element.appendChild(mouseClip);
 
-  // Add mouse image to element.
+  /**
+   * The image element containing the mouse sprite.
+   * @private {HTMLImageElement}
+   * @const
+   */
   this.image_ = document.createElementNS(Blockly.SVG_NS, 'image');
   this.image_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       Genetics.MouseAvatar.MOUSE_SRC);
@@ -116,13 +153,23 @@ Genetics.MouseAvatar = function(mouse) {
       Genetics.Visualization.COLOURS[this.acceptMateOwner]);
   this.element.appendChild(acceptMateSlice);
 
-  // Choose a random direction for the mouse to face between 0 to 2PI.
-  this.direction_ = Math.random() * 2 * Math.PI;
+  /**
+   * The direction of the mouse, in radians, between 0 and 2PI.
+   * @private {number}
+   */
+  this.direction_ = Math.random() * 2 * Math.PI; // Choose a random direction.
 
-  // Mouse is busy until it is added to the display.
-  this.busy = true;
+  /**
+   * Whether the mouse is performing a busy animation.
+   * @type {boolean}
+   */
+  this.busy = true;  // Mouse is busy until it is added to the display.
 
-  // The process ids for the idle mouse animation [0] and busy animation [1].
+  /**
+   * The process ids for the idle mouse animation [0] and busy animation [1].
+   * @type {Array.<number>}
+   * @const
+   */
   this.actionPids = [0, 0];
   var wanderAbout = goog.bind(function() {
     var wanderTime = 400 + 100 * Math.random();

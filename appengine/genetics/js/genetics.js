@@ -48,14 +48,14 @@ BlocklyGames.NAME = 'genetics';
 /**
  * Is the blocks editor the program source (true) or is the JS editor
  * the program source (false).
- * @private
+ * @private {boolean}
  */
 Genetics.blocksEnabled_ = true;
 
 /**
  * ACE editor fires change events even on programatically caused changes.
  * This property is used to signal times when a programatic change is made.
- * @private
+ * @private {boolean}
  */
 Genetics.ignoreEditorChanges_ = true;
 
@@ -1013,7 +1013,7 @@ Genetics.checkForEnd = function() {
 
 /**
  * Is the documentation open?
- * @private
+ * @private {boolean}
  */
 Genetics.isDocsVisible_ = false;
 
