@@ -30,23 +30,20 @@ goog.require('Genetics.Mouse');
 
 /**
  * The maximum population in a cage.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Cage.MAX_POPULATION = 50;
 
 /**
  * The number of mice added to the cage for each player at the start of the
  * game. Should be less than MAX_POPULATION / number of players.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Cage.START_MICE_PER_PLAYER = 2;
 
 /**
  * Number of milliseconds between update calls.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Cage.UPDATE_DELAY_MSC = 50;
 
@@ -54,7 +51,7 @@ Genetics.Cage.UPDATE_DELAY_MSC = 50;
  * Whether the simulation is running without a visualization.
  * @type {boolean}
  */
-Genetics.Cage.HEADLESS = false;
+Genetics.Cage.isHeadless = false;
 
 /**
  * Whether the simulation is stopped.
@@ -106,7 +103,7 @@ Genetics.Cage.keepHistory = false;
 
 /**
  * Mapping of event types to a list of properties of the event.
- * @type {Object.<string, Array.<string>>}
+ * @const {Object.<string, Array.<string>>}
  */
 Genetics.Cage.EVENT_PROPERTY_NAMES = {
   'ADD': ['MOUSE'],
@@ -129,6 +126,7 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
  * @param {...string|number|boolean|!Genetics.Mouse|!Object<string,!Array.<!Array.<number>>>} var_args
  * The properties on the event.
  * @constructor
+ * @dict
  */
 Genetics.Cage.Event = function(type, var_args) {
   var template = Genetics.Cage.EVENT_PROPERTY_NAMES[type];
@@ -143,7 +141,7 @@ Genetics.Cage.Event = function(type, var_args) {
  */
 Genetics.Cage.Event.prototype.addToQueue = function() {
   // Headless does not need to keep track of events that are not END_GAME.
-  if (Genetics.Cage.HEADLESS &&
+  if (Genetics.Cage.isHeadless &&
       this.TYPE != 'END_GAME') {
     return;
   }
@@ -160,12 +158,12 @@ Genetics.Cage.MAX_ROUNDS = 10;
  * The current round of the game.
  * @type {number}
  */
-Genetics.Cage.roundNumber = 0;
+Genetics.Cage.roundNumber_ = 0;
 
 /**
  * Time limit for mouse function execution in number of interpreter steps (100k
  * ticks runs for about 3 minutes).
- * @type {number}
+ * @const {number}
  */
 Genetics.Cage.FUNCTION_TIMEOUT_STEPS = 100000;
 
@@ -200,7 +198,7 @@ Genetics.Cage.reset = function() {
   // Cancel all queued life simulations.
   Genetics.Cage.nextRoundMice_.length = 0;
   Genetics.Cage.currentRoundmice_.length = 0;
-  Genetics.Cage.roundNumber = 0;
+  Genetics.Cage.roundNumber_ = 0;
 };
 
 /**
@@ -256,16 +254,16 @@ Genetics.Cage.skipPickFight = false;
  * Executes the next mouse's action and checks for end game.
  */
 Genetics.Cage.update = function() {
-  if (Genetics.Cage.HEADLESS || Genetics.Cage.keepHistory ||
+  if (Genetics.Cage.isHeadless || Genetics.Cage.keepHistory ||
       Genetics.Cage.Events.length < 100) {
     // If the events queue is not backed up, then continue computing.
     if (Genetics.Cage.currentRoundmice_.length == 0) {
-      if (Genetics.Cage.roundNumber < Genetics.Cage.MAX_ROUNDS) {
+      if (Genetics.Cage.roundNumber_ < Genetics.Cage.MAX_ROUNDS) {
         // Cycle to next round.
         Genetics.Cage.currentRoundmice_ = Genetics.Cage.nextRoundMice_.slice(0);
         new Genetics.Cage.Event('NEXT_ROUND').addToQueue();
       }
-      Genetics.Cage.roundNumber++;
+      Genetics.Cage.roundNumber_++;
     }
     if (Genetics.Cage.currentRoundmice_.length) {
       var mouse = Genetics.Cage.currentRoundmice_.shift();

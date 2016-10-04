@@ -948,7 +948,7 @@ Genetics.checkForEnd = function() {
   // Find which players have majority for each function.
   var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
     'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
-  var isTimeExpired = Genetics.Cage.roundNumber > Genetics.Cage.MAX_ROUNDS;
+  var isTimeExpired = Genetics.Cage.roundNumber_ > Genetics.Cage.MAX_ROUNDS;
   var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
   for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice_[i]; i++) {
     if (!isTimeExpired &&
