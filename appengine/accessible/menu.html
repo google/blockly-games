@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Screen Reader Accessible Blockly Game: Menu</title>
+
+    <script src="../third-party/blockly/accessible/libs/es6-shim.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/angular2-polyfills.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/Rx.umd.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/angular2-all.umd.min.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      h1, h2 {
+        font-size: 140%;
+        font-weight: normal;
+        margin: 0 50px 0 0;
+      }
+      ul.musicGameNavigation {
+        list-style-type: none;
+        margin: 0;
+        overflow: hidden;
+        padding-top: 4px;
+      }
+      ul.musicGameNavigation li {
+        float: left;
+        margin: 0 12px 0 0;
+      }
+
+      .footer {
+        margin-top: 50px;
+      }
+
+      .levelDot {
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        color: #333;
+        display: inline-block;
+        font-size: 0.9em;
+        height: 15px;
+        padding: 4px 4px;
+        text-align: center;
+        text-decoration: none;
+        width: 15px;
+      }
+      .levelDot:hover {
+        background-color: #ddd;
+        color: #000;
+        cursor: pointer;
+      }
+
+      .levelDotCompleted {
+        background-color: #a5ffa5;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="float: right;">
+      <a href="./help.html">
+        Learn more...
+      </a>
+    </div>
+
+    <div>
+      <h1>Blockly Games: Home</h1>
+      <music-game-menu></music-game-menu>
+    </div>
+
+    <script src="js/utils.service.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/level-manager.service.js"></script>
+    <script src="js/menu.component.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        ng.platform.browser.bootstrap(musicGame.MenuView);
+      });
+    </script>
+  </body>
+</html>

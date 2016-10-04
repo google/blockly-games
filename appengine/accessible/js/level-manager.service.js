@@ -22,21 +22,13 @@
  * @author sll@google.com (Sean Lip)
  */
 
+musicGame.NAME = 'MUSIC_ACCESSIBLE';
+
 musicGame.LevelManagerService = ng.core
   .Class({
     constructor: [musicGame.UtilsService, function(utilsService) {
       this.levelSetId_ = utilsService.getStringParamFromUrl(
           'levelset', 'tutorial');
-
-      this.otherLevelSetsMetadata = [];
-      for (var levelSetId in LEVEL_SETS) {
-        if (levelSetId !== this.levelSetId_) {
-          this.otherLevelSetsMetadata.push({
-            id: levelSetId,
-            name: LEVEL_SETS[levelSetId].name
-          });
-        }
-      }
 
       this.levelSet_ = LEVEL_SETS[this.levelSetId_].levels;
 
@@ -44,39 +36,20 @@ musicGame.LevelManagerService = ng.core
       var levelNumberFromUrl = utilsService.getStringParamFromUrl('l', '1');
       this.currentLevelNumber_ = levelNumberFromUrl - 1;
 
-      var that = this;
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
-        var currentLevelData = that.getCurrentLevelData();
-        musicPlayer.reset();
-        runCodeToPopulatePlayerLine();
-        musicPlayer.playPlayerLine(currentLevelData.beatsPerMinute, function() {
-          that.gradeCurrentLevel();
-        });
-      };
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].action = function() {
-        var expectedLine = new MusicLine();
-        expectedLine.setFromChordsAndDurations(
-            that.getCurrentLevelData().expectedLine);
-
-        musicPlayer.reset();
-        musicPlayer.play(
-            expectedLine, that.getCurrentLevelData().beatsPerMinute);
-      };
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].isHidden = function() {
-        return !that.getCurrentLevelData().expectedLine;
-      };
-
-      var inherit =
-          this.levelSet_[this.currentLevelNumber_].continueFromPreviousLevel;
-      var defaultXmlText = this.levelSet_[this.currentLevelNumber_].defaultXml;
+      this.applauseAudioFile = new Audio('media/applause.mp3');
+      this.oopsAudioFile = new Audio('media/oops.mp3');
+    }],
+    loadExistingCode: function() {
+      var inherit = this.getCurrentLevelData().continueFromPreviousLevel;
+      var defaultXmlText = this.getCurrentLevelData().defaultXml;
 
       // Try loading saved XML for this level, saved XML from previous level,
       // or default XML for this level, in that order.
-      var xmlTextToRestore = this.loadFromLocalStorage(
-          this.currentLevelNumber_);
+      var xmlTextToRestore = this.loadCodeFromLocalStorage_(
+          this.levelSetId_, this.currentLevelNumber_);
       if (!xmlTextToRestore && inherit) {
-        var inheritedXmlText = this.loadFromLocalStorage(
-            this.currentLevelNumber_ - 1);
+        var inheritedXmlText = this.loadCodeFromLocalStorage_(
+            this.levelSetId_, this.currentLevelNumber_ - 1);
         if (inheritedXmlText) {
           xmlTextToRestore = inheritedXmlText;
         }
@@ -93,29 +66,47 @@ musicGame.LevelManagerService = ng.core
           Blockly.Xml.domToWorkspace(xml, blocklyApp.workspace);
         }, 0);
       }
+    },
+    playApplause_: function() {
+      this.applauseAudioFile.play();
+    },
+    playOops_: function() {
+      this.oopsAudioFile.play();
+    },
+    getLocalStorageCodeKey_: function(levelSetId, levelNumber) {
+      return [musicGame.NAME, levelSetId, levelNumber].join('.');
+    },
+    clearData: function() {
+      if (!confirm('Delete all your solutions?')) {
+        return;
+      }
 
-      this.applauseAudioFile = new Audio('media/applause.mp3');
-    }],
-    saveToLocalStorage: function() {
+      var that = this;
+      this.getLevelSetsMetadata().forEach(function(levelSetMetadata) {
+        levelSetMetadata.levels.forEach(function(level) {
+          var key = that.getLocalStorageCodeKey_(
+              levelSetMetadata.id, level.number1Indexed - 1);
+          delete window.localStorage[key];
+        });
+      });
+
+      location.reload();
+    },
+    saveCodeToLocalStorage_: function(levelSetId, levelNumber) {
       // MSIE 11 does not support localStorage on file:// URLs.
       if (!window.localStorage) {
         return;
       }
-      var key = [
-          musicGame.NAME,
-          this.getLevelSetId(),
-          this.getCurrentLevelNumber()
-      ].join('.');
-
+      var key = this.getLocalStorageCodeKey_(levelSetId, levelNumber);
       var xml = Blockly.Xml.workspaceToDom(blocklyApp.workspace);
       window.localStorage[key] = Blockly.Xml.domToText(xml);
     },
-    loadFromLocalStorage: function(levelNumber) {
+    loadCodeFromLocalStorage_: function(levelSetId, levelNumber) {
       if (!window.localStorage) {
         return;
       }
 
-      var key = [musicGame.NAME, this.getLevelSetId(), levelNumber].join('.');
+      var key = this.getLocalStorageCodeKey_(levelSetId, levelNumber);
       return window.localStorage[key];
     },
     getLevelSetId: function() {
@@ -124,8 +115,28 @@ musicGame.LevelManagerService = ng.core
     getLevelSetName: function() {
       return LEVEL_SETS[this.levelSetId_].name;
     },
-    getOtherLevelSetsMetadata: function() {
-      return this.otherLevelSetsMetadata;
+    getLevelSetsMetadata: function() {
+      if (!this.levelSetsMetadata) {
+        this.levelSetsMetadata = [];
+
+        var that = this;
+        for (var levelSetId in LEVEL_SETS) {
+          var levels = LEVEL_SETS[levelSetId].levels.map(function(_, index) {
+            return {
+              number1Indexed: index + 1,
+              completed: that.loadCodeFromLocalStorage_(levelSetId, index)
+            };
+          });
+
+          this.levelSetsMetadata.push({
+            id: levelSetId,
+            name: LEVEL_SETS[levelSetId].name,
+            levels: levels
+          });
+        }
+      }
+
+      return this.levelSetsMetadata;
     },
     getCurrentLevelNumber: function() {
       return this.currentLevelNumber_;
@@ -142,17 +153,7 @@ musicGame.LevelManagerService = ng.core
     getCurrentLevelData: function() {
       return this.levelSet_[this.currentLevelNumber_];
     },
-    playApplause: function() {
-      this.applauseAudioFile.play();
-    },
     gradeCurrentLevel: function() {
-      if (blocklyApp.workspace.topBlocks_.length > 1) {
-        alert(
-            'Not quite! You currently have more than one "island" in the ' +
-            'workspace. Make sure your blocks are all joined together.');
-        return;
-      }
-
       var currentLevelData = this.getCurrentLevelData();
       var expectedPlayerLine = new MusicLine();
       expectedPlayerLine.setFromChordsAndDurations(
@@ -160,11 +161,9 @@ musicGame.LevelManagerService = ng.core
 
       var correct = musicPlayer.doesPlayerLineEqual(expectedPlayerLine);
       if (correct) {
-        this.saveToLocalStorage();
-
-        if (this.levelSetId_ != 'tutorial') {
-          this.playApplause();
-        }
+        this.saveCodeToLocalStorage_(
+            this.getLevelSetId(), this.getCurrentLevelNumber());
+        this.playApplause_();
 
         if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
           if (this.levelSetId_ == 'tutorial') {
@@ -188,7 +187,9 @@ musicGame.LevelManagerService = ng.core
         }
       } else {
         var playerChords = musicPlayer.getPlayerChords();
-        var errorMessage = 'Not quite! Are you playing the right note?';
+        var errorMessage = (
+            'Not quite! Are you playing the right notes? Compare your tune ' +
+            'and the desired tune to see if there\'s a difference.');
         if (currentLevelData.getTargetedFeedback) {
           var targetedMessage = currentLevelData.getTargetedFeedback(
               playerChords);
