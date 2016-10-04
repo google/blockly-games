@@ -324,6 +324,7 @@ Genetics.Visualization.reset = function() {
 
   Genetics.Visualization.areChartsVisible_ = false;
   Genetics.Visualization.eventNumber = 0;
+  Genetics.Visualization.roundNumber = 0;
   Genetics.Visualization.eventIndex_ = 0;
   // Reset stored information about mouse population.
   Genetics.Visualization.mice_ = {};
@@ -506,6 +507,13 @@ Genetics.Visualization.drawCharts_ = function() {
 Genetics.Visualization.eventNumber = 0;  // TODO rm
 
 /**
+ * The current round number.
+ * @type {number}
+ *
+ */
+Genetics.Visualization.roundNumber = 0;
+
+/**
  * The index of the next event to be processed or 0 if events are not
  * removed from EVENTS queue.
  * @type {number}
@@ -551,11 +559,14 @@ Genetics.Visualization.processCageEvents_ = function() {
             Genetics.MouseAvatar.WIDTH;
 
         Genetics.Visualization.animateAddMouse_(addedMouse, x, y, false,
-            function() { this.busy = false;}.bind(addedMouse));
+            goog.bind(addedMouse.freeMouse, addedMouse));
         break;
       case 'START_GAME':
         Genetics.log('Starting game with ' + Genetics.Cage.players.length +
             ' players.');
+        break;
+      case 'NEXT_ROUND':
+          Genetics.Visualization.roundNumber++;
         break;
       case 'FIGHT':
         Genetics.Visualization.processFightEvent_(event, mouse, opponent);
@@ -608,8 +619,8 @@ Genetics.Visualization.processFightEvent_ = function(event, instigator,
   if (result == 'NONE') {
     // Show a peace sign.
     var afterPeace = function() {
-      instigator.busy = false;
       Genetics.log(getMouseName(instigator) + ' elected to never fight again.');
+      instigator.freeMouse();
     };
 
     instigator.busy = true;
@@ -618,9 +629,9 @@ Genetics.Visualization.processFightEvent_ = function(event, instigator,
   } else {
     // Show a fight animation.
     var endFight = function() {
-      instigator.busy = false;
+      instigator.freeMouse();
       if (result != 'SELF') {
-        opponent.busy = false;
+        opponent.freeMouse();
       }
     };
 
@@ -630,7 +641,7 @@ Genetics.Visualization.processFightEvent_ = function(event, instigator,
     } else {
       opponent.busy = true;
       Genetics.Visualization.moveMiceTogether_(instigator, opponent,
-          goog.bind(Genetics.Visualization.fight_, null, instigator, opponent,
+          goog.partial(Genetics.Visualization.fight_, instigator, opponent,
               result, endFight));
     }
   }
@@ -661,9 +672,9 @@ Genetics.Visualization.processMateEvent_ = function(event, proposingMouse,
   } else if (result == 'SELF') {
     // Show a heart.
     var afterHeart = function() {
-      proposingMouse.busy = false;
       Genetics.log(getMouseName(proposingMouse) +
           ' caught trying to mate with itself.');
+      proposingMouse.freeMouse();
     };
 
     proposingMouse.busy = true;
@@ -673,21 +684,31 @@ Genetics.Visualization.processMateEvent_ = function(event, proposingMouse,
     Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
         getMouseName(proposingMouse) + ' asked it out.');
   } else if (result == 'REJECTION') {
+    var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
+            parseInt(askedMouse.element.style.left, 10)) +
+        Genetics.MouseAvatar.HALF_SIZE;
+    var y = goog.math.average(parseInt(proposingMouse.element.style.top, 10),
+            parseInt(askedMouse.element.style.top, 10)) +
+        Genetics.MouseAvatar.HALF_SIZE;
+
     // Show a broken heart.
     var afterBroken = function() {
-      proposingMouse.busy = false;
       Genetics.log(getMouseName(proposingMouse) + ' asked ' +
           getMouseName(askedMouse) + ' to mate, The answer is NO!');
-    };
 
+      proposingMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
+      askedMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
+    };
     proposingMouse.busy = true;
-    Genetics.Visualization.showImageOverMouse_(proposingMouse,
-        'genetics/reject.png', Genetics.MouseAvatar.WIDTH, 1000, afterBroken);
+    askedMouse.busy = true;
+    Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
+        goog.partial(Genetics.Visualization.showImageOverMouse_, proposingMouse,
+            'genetics/broken-heart.png', Genetics.MouseAvatar.WIDTH, 1000,
+            afterBroken));
   } else {
     // result == 'SUCCESS' || result == 'INCOMPATIBLE' || result == 'INFERTILE'
     Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
-        getMouseName(askedMouse, true, true) + ' to mate, The answer ' +
-        'is YES!');
+        getMouseName(askedMouse, true, true) + ' to mate, The answer is YES!');
 
     var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
             parseInt(askedMouse.element.style.left, 10)) +
@@ -697,48 +718,40 @@ Genetics.Visualization.processMateEvent_ = function(event, proposingMouse,
         Genetics.MouseAvatar.HALF_SIZE;
 
     var message;
-    var heartType;
+    var heartSrc;
     if (result == 'SUCCESS') {
       // If mating is successful, create and add reference to offspring so that
       // future events involving that mouse that are detected before the end
       // of the birth animation will be able to access it.
       var offspring = Genetics.Visualization
           .createMouseAvatar_(event['OPT_OFFSPRING']);
-      heartType = 'heart';
-    }else if (result == 'INCOMPATIBLE') {
+      heartSrc = 'genetics/heart.png';
+    } else if (result == 'INCOMPATIBLE') {
       message = getMouseName(proposingMouse) + ' mated with ' +
-          getMouseName(askedMouse) + ', another ' + proposingMouse.sex +
-          '.';
-      heartType = 'rainbow-heart';
-    } else {  // result == 'INFERTILE'
+          getMouseName(askedMouse) + ', another ' + proposingMouse.sex + '.';
+      heartSrc = 'genetics/rainbow-heart.png';
+    } else if (result == 'INFERTILE') {
       message = 'Mating between ' + getMouseName(proposingMouse) +
           ' and ' + getMouseName(askedMouse) + ' failed because ' +
           getMouseName(askedMouse) + ' is sterile.';
-      heartType = 'grey-heart';
+      heartSrc = 'genetics/grey-heart.png';
     }
 
     var mateResult = function() {
       if (result == 'SUCCESS') {
         Genetics.Visualization.animateAddMouse_(offspring, x, y, true,
-            function() { offspring.busy = false;});
+            goog.bind(offspring.freeMouse, offspring));
       } else {
         Genetics.log(message);
       }
-      if (Genetics.Visualization.wanderAfterMate) {
-        // Have the parent mice move around before participating in a new event.
-        proposingMouse.moveAbout(3,
-            function() { proposingMouse.busy = false; });
-        askedMouse.moveAbout(3, function() { askedMouse.busy = false; });
-      } else {
-        proposingMouse.busy = false;
-        askedMouse.busy = false;
-      }
+      proposingMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
+      askedMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
     };
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.partial(Genetics.Visualization.showImage_, 'genetics/' +
-            heartType + '.png', x, y, 50, 700, mateResult));
+        goog.partial(Genetics.Visualization.showImage_, heartSrc, x, y, 50, 700,
+            mateResult));
   }
 };
 
@@ -804,13 +817,13 @@ Genetics.Visualization.updateChartData_ = function() {
   if (google.visualization) {
     Genetics.Visualization.eventNumber++;
     Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
-        [Genetics.Visualization.eventNumber,
+        [Genetics.Visualization.roundNumber,
           Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
           Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
 
-    var pickFightState = [Genetics.Visualization.eventNumber];
-    var proposeMateState = [Genetics.Visualization.eventNumber];
-    var acceptMateState = [Genetics.Visualization.eventNumber];
+    var pickFightState = [Genetics.Visualization.roundNumber];
+    var proposeMateState = [Genetics.Visualization.roundNumber];
+    var acceptMateState = [Genetics.Visualization.roundNumber];
     for (var playerId = 0; playerId < Genetics.Cage.players.length;
         playerId++) {
       pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
@@ -1058,7 +1071,7 @@ Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
   Genetics.Visualization.updateStats_();
 
   mouseAvatar.element.style.display = 'block';
-  mouseAvatar.busy = false;
+  mouseAvatar.freeMouse();
   Genetics.log(getMouseName(mouseAvatar, true, true) + ' added to game.');
 };
 

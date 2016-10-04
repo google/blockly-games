@@ -206,7 +206,7 @@ Genetics.init = function() {
             ' *  Return true if the suitor mouse is of the opposite sex and ' +
             'bigger than itself.\n' +
             ' *  @param {Mouse} suitor the mouse requesting to mate.\n' +
-            ' *  @return {boolean} Whether the mate request is accepted.\n' +
+            ' *  @return {Boolean} Whether the mate request is accepted.\n' +
             ' */\n' +
             'function acceptMate(suitor) {\n' +
             '  return ;\n' +
@@ -365,7 +365,7 @@ Genetics.init = function() {
                 '<comment pinned="true">' +
                 'Return true if the suitor mouse is of the opposite sex.\n' +
                 '@param {Mouse} suitor the mouse requesting to mate.\n' +
-                '@return {boolean} Whether the mate request is accepted.' +
+                '@return {Boolean} Whether the mate request is accepted.' +
                 '</comment>' +
               '</block>' +
             '</xml>';
@@ -411,7 +411,7 @@ Genetics.init = function() {
             'Return true to agree to a mate request or false to decline a ' +
                 'mate request.\n' +
             '@param {Mouse} suitor the mouse requesting to mate.\n' +
-            '@return {boolean} Whether the mate request is accepted.' +
+            '@return {Boolean} Whether the mate request is accepted.' +
             '</comment>' +
             '<value name="RETURN">' +
               '<shadow type="logic_boolean">' +
@@ -964,13 +964,13 @@ Genetics.checkForEnd = function() {
     playerFunctionCounts['acceptMate'][mouse.acceptMateOwner]++;
   }
   if (!isTimeExpired) {
-    // If it is a domination victory.
+    // If it is a domination victory and time has not expired.
     var pickFightWinner = Genetics.Cage.nextRoundMice_[0].pickFightOwner;
     var proposeMateWinner = Genetics.Cage.nextRoundMice_[0].proposeMate;
     var acceptMateWinner = Genetics.Cage.nextRoundMice_[0].acceptMate;
     playerRankings['pickFight'].push([pickFightWinner]);
-    playerRankings['proposeMate'].push(proposeMateWinner);
-    playerRankings['acceptMate'].push(acceptMateWinner);
+    playerRankings['proposeMate'].push([proposeMateWinner]);
+    playerRankings['acceptMate'].push([acceptMateWinner]);
     new Genetics.Cage.Event('END_GAME',
         pickFightWinner == 0 && proposeMateWinner == 0 && acceptMateWinner == 0,
         playerRankings).addToQueue();

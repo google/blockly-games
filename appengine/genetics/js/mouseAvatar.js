@@ -124,14 +124,14 @@ Genetics.MouseAvatar = function(mouse) {
 
   // The process ids for the idle mouse animation [0] and busy animation [1].
   this.actionPids = [0, 0];
-  var wanderAbout = function() {
+  var wanderAbout = goog.bind(function() {
     var wanderTime = 400 + 100 * Math.random();
     if (!Genetics.MouseAvatar.wanderingDisabled && !this.busy) {
       this.randomMove_(wanderTime);
     }
     this.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
         setTimeout(wanderAbout, wanderTime);
-  }.bind(this);
+  }, this);
   wanderAbout();
 };
 
@@ -345,6 +345,15 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
   this.move(x, y, function() {}, time);
 };
 
+Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
+  if (opt_wanderBeforeFree) {
+    this.moveAbout_(3, 
+        goog.bind(Genetics.MouseAvatar.prototype.freeMouse, this));
+  } else {
+    this.busy = false;
+  }
+};
+
 /**
  * Moves a mouse avatar around in random directions for the specified number
  * of steps.
@@ -352,10 +361,11 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
  * direction.
  * @param {!Function} callback The function to call after the mouse as completed
  * all requested movement.
+ * @private
  */
-Genetics.MouseAvatar.prototype.moveAbout = function(steps, callback) {
+Genetics.MouseAvatar.prototype.moveAbout_ = function(steps, callback) {
   var count = 0;
-  var moveStep = function() {
+  var moveStep = goog.bind(function() {
     var moveTime = 400 + 100 * Math.random();
     this.randomMove_(moveTime);
     if (++count < steps) {
@@ -364,6 +374,6 @@ Genetics.MouseAvatar.prototype.moveAbout = function(steps, callback) {
     } else {
       callback();
     }
-  }.bind(this);
+  }, this);
   moveStep();
 };
