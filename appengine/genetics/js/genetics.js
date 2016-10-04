@@ -966,8 +966,8 @@ Genetics.checkForEnd = function() {
   if (!isTimeExpired) {
     // If it is a domination victory and time has not expired.
     var pickFightWinner = Genetics.Cage.nextRoundMice_[0].pickFightOwner;
-    var proposeMateWinner = Genetics.Cage.nextRoundMice_[0].proposeMate;
-    var acceptMateWinner = Genetics.Cage.nextRoundMice_[0].acceptMate;
+    var proposeMateWinner = Genetics.Cage.nextRoundMice_[0].proposeMateOwner;
+    var acceptMateWinner = Genetics.Cage.nextRoundMice_[0].acceptMateOwner;
     playerRankings['pickFight'].push([pickFightWinner]);
     playerRankings['proposeMate'].push([proposeMateWinner]);
     playerRankings['acceptMate'].push([acceptMateWinner]);
