@@ -27,23 +27,25 @@ musicGame.AppView = ng.core
     selector: 'music-game-app',
     template: `
     <div>
-      <h1>Blockly Games: {{levelSetName}}</h1>
-      <h2>Stage {{currentLevelNumber + 1}}</h2>
+      <h1>Blockly Games: {{levelSetName}} (Stage {{currentLevelNumber + 1}})</h1>
     </div>
 
     <div style="clear: both;"></div>
 
     <div role="main">
-      <h3 id="instructions" tabindex="-1">Instructions</h3>
-      <p id="instructionsText">{{levelData.instructions}}</p>
-      <p *ngIf="levelData.hint">Hint: {{levelData.hint}}</p>
+      <div class="instructionsDiv">
+        <h3 id="instructions" tabindex="-1">Instructions</h3>
+        <p id="instructionsText">{{levelData.instructions}}</p>
+        <p *ngIf="levelData.hint">Hint: {{levelData.hint}}</p>
 
-      <p *ngIf="levelData.expectedLine">
-        <button (click)="playTune()">Play desired tune</button>
-      </p>
-      <hr>
+        <p *ngIf="levelData.expectedLine">
+          <button (click)="playTune()">Play desired tune</button>
+        </p>
+      </div>
 
-      <blockly-app></blockly-app>
+      <div class="mainBlocklyDiv">
+        <blockly-app></blockly-app>
+      </div>
     </div>
 
     <xml id="blockly-toolbox-xml" style="display: none">

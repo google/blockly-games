@@ -30,7 +30,7 @@ musicGame.MenuView = ng.core
       <h3>{{levelSetData.name}}</h3>
       <ul role="navigation" class="musicGameNavigation">
         <li *ngFor="#level of levelSetData.levels">
-          <a href="./index.html?l={{level.number1Indexed}}&levelset={{levelSetId}}"
+          <a href="./index.html?l={{level.number1Indexed}}&levelset={{levelSetData.id}}"
              [attr.aria-label]="getLevelDotAriaLabel(level)"
              class="levelDot"
              [ngClass]="{'levelDotCompleted': level.completed}">
