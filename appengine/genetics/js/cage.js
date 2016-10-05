@@ -61,19 +61,21 @@ Genetics.Cage.stopped_ = true;
 
 /**
  * Mapping of player ID to object with player name and code.
- * @type {!Array.<number, !Object.<>>}
+ * @const {!Array.<number, !Object.<>>}
  */
 Genetics.Cage.players = [];
 
 /**
  * List of mice currently alive and queued to run next round.
  * @private {!Array.<!Genetics.Mouse>}
+ * @const
  */
 Genetics.Cage.nextRoundMice_ = [];
 
 /**
  * List of mice currently alive and queued to run this round.
  * @private {!Array.<!Genetics.Mouse>}
+ * @const
  */
 Genetics.Cage.currentRoundmice_ = [];
 
@@ -151,7 +153,7 @@ Genetics.Cage.Event.prototype.addToQueue = function() {
 
 /**
  * Time limit for end of the game in rounds.
- * @type {number}
+ * @const {number}
  */
 Genetics.Cage.MAX_ROUNDS = 10;
 
@@ -210,6 +212,13 @@ Genetics.Cage.reset = function() {
 Genetics.Cage.addPlayer = function(playerName, code) {
   Genetics.Cage.players.push({name: playerName, code: code});
 };
+
+/**
+ * Whether to prepend the code belonging to the AI to the user code. This
+ * assumes that the AI code is stored on second through forth player.
+ * @type {boolean}
+ */
+Genetics.Cage.prependAiCode = false;
 
 /**
  * Start the Cage simulation. Players should be already added.
