@@ -62,7 +62,7 @@ Genetics.ignoreEditorChanges_ = true;
 /**
  * Go to the next level.
  */
-BlocklyInterface.nextLevel = function() { // TODO is this needed?
+BlocklyInterface.nextLevel = function() {
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     window.location = window.location.protocol + '//' +
         window.location.host + window.location.pathname +
@@ -437,7 +437,7 @@ Genetics.init = function() {
   Genetics.Cage.skipPickFight = BlocklyGames.LEVEL >= 5 &&
       BlocklyGames.LEVEL <= 8;
   Genetics.Visualization.wanderAfterMate = BlocklyGames.LEVEL >= 9;
-  Genetics.Cage.keepHistory = BlocklyGames.LEVEL <= 8;
+  Genetics.Cage.historyPreserved = BlocklyGames.LEVEL <= 8;
   var players;
   if (BlocklyGames.LEVEL <= 8) {
     players = [
@@ -768,8 +768,7 @@ Genetics.addStartingMice = function() {
     var sex = (mouseStats.sex != null) ? mouseStats.sex :
         ((goog.math.randomInt(2) == 0) ? Genetics.Mouse.Sex.MALE :
             Genetics.Mouse.Sex.FEMALE);
-    var mouse = new Genetics.Mouse(mouseStats.id, sex, null, null,
-        mouseStats.playerId);
+    var mouse = new Genetics.Mouse(mouseStats.id, sex, mouseStats.playerId);
     // Set other mouse attributes if a value was declared.
     if (mouseStats.size != null) {
       mouse.size = mouseStats.size;
@@ -948,7 +947,7 @@ Genetics.checkForEnd = function() {
   // Find which players have majority for each function.
   var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
     'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
-  var isTimeExpired = Genetics.Cage.roundNumber > Genetics.Cage.MAX_ROUNDS;
+  var isTimeExpired = Genetics.Cage.roundNumber_ > Genetics.Cage.MAX_ROUNDS;
   var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
   for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice_[i]; i++) {
     if (!isTimeExpired &&

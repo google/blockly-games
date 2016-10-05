@@ -101,7 +101,8 @@ Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
   });
 };
 
-// TODO(kozbial) Add function flag to mouseFunctions once it has be implemented.
+// TODO Add function flag to mouseFunctions once it has been implemented in
+// Blockly so that comment blocks are handled correctly.
 
 /**
  * Block for defining mouse decision on which other mouse to fight.

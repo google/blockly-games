@@ -30,31 +30,28 @@ goog.require('Genetics.Mouse');
 
 /**
  * The maximum population in a cage.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Cage.MAX_POPULATION = 50;
 
 /**
  * The number of mice added to the cage for each player at the start of the
  * game. Should be less than MAX_POPULATION / number of players.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Cage.START_MICE_PER_PLAYER = 2;
 
 /**
  * Number of milliseconds between update calls.
- * @type {number}
- * @const
+ * @const {number}
  */
-Genetics.Cage.UPDATE_DELAY_MSC = 50;
+Genetics.Cage.UPDATE_DELAY_MS = 50;
 
 /**
  * Whether the simulation is running without a visualization.
  * @type {boolean}
  */
-Genetics.Cage.HEADLESS = false;
+Genetics.Cage.isHeadless = false;
 
 /**
  * Whether the simulation is stopped.
@@ -94,19 +91,20 @@ Genetics.Cage.pid_ = 0;
 
 /**
  * List of events to be visualized.
- * @type {!Array.<!Event>}
+ * @const {!Array.<!Event>}
  */
 Genetics.Cage.Events = [];
 
 /**
- * Whether events in the Event queue will not be cleared.
+ * Whether events in the Event queue are preserved or if they are removed as
+ * they are handled by some external class.
  * @type {boolean}
  */
-Genetics.Cage.keepHistory = false;
+Genetics.Cage.historyPreserved = false;
 
 /**
  * Mapping of event types to a list of properties of the event.
- * @type {Object.<string, Array.<string>>}
+ * @const {Object.<string, Array.<string>>}
  */
 Genetics.Cage.EVENT_PROPERTY_NAMES = {
   'ADD': ['MOUSE'],
@@ -129,6 +127,7 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
  * @param {...string|number|boolean|!Genetics.Mouse|!Object<string,!Array.<!Array.<number>>>} var_args
  * The properties on the event.
  * @constructor
+ * @dict
  */
 Genetics.Cage.Event = function(type, var_args) {
   var template = Genetics.Cage.EVENT_PROPERTY_NAMES[type];
@@ -143,7 +142,7 @@ Genetics.Cage.Event = function(type, var_args) {
  */
 Genetics.Cage.Event.prototype.addToQueue = function() {
   // Headless does not need to keep track of events that are not END_GAME.
-  if (Genetics.Cage.HEADLESS &&
+  if (Genetics.Cage.isHeadless &&
       this.TYPE != 'END_GAME') {
     return;
   }
@@ -160,12 +159,12 @@ Genetics.Cage.MAX_ROUNDS = 10;
  * The current round of the game.
  * @type {number}
  */
-Genetics.Cage.roundNumber = 0;
+Genetics.Cage.roundNumber_ = 0;
 
 /**
  * Time limit for mouse function execution in number of interpreter steps (100k
  * ticks runs for about 3 minutes).
- * @type {number}
+ * @const {number}
  */
 Genetics.Cage.FUNCTION_TIMEOUT_STEPS = 100000;
 
@@ -176,8 +175,8 @@ Genetics.Cage.FUNCTION_TIMEOUT_STEPS = 100000;
 Genetics.Cage.nextAvailableMouseId_ = 0;
 
 /**
- * Whether fights are discrete (a bigger mouse will always win and same size
- * ties) or probability based on size.
+ * Whether fights are deterministic (a bigger mouse will always win and same
+ * size ties) or probability based on size.
  * @type {boolean}
  */
 Genetics.Cage.discreteFights = false;
@@ -199,8 +198,8 @@ Genetics.Cage.reset = function() {
   Genetics.Cage.miceMap_ = {};
   // Cancel all queued life simulations.
   Genetics.Cage.nextRoundMice_.length = 0;
-  Genetics.Cage.currentRoundmice_.length = 0;
-  Genetics.Cage.roundNumber = 0;
+  Genetics.Cage.currentRoundMice_.length = 0;
+  Genetics.Cage.roundNumber_ = 0;
 };
 
 /**
@@ -215,7 +214,6 @@ Genetics.Cage.addPlayer = function(playerName, code) {
 /**
  * Start the Cage simulation. Players should be already added.
  * @param {!Function} checkForEnd Function to call when game ends.
- * that should be skipped in simulateLife.
  */
 Genetics.Cage.start = function(checkForEnd) {
   Genetics.Cage.checkForEnd = checkForEnd;
@@ -225,7 +223,10 @@ Genetics.Cage.start = function(checkForEnd) {
       playerId++) {
     if (goog.isFunction(player.code)) {
       // Cache code if player code is generator.
-      player.cachedCode = Genetics.Cage.players[1].code + '\n' + player.code();
+      player.cachedCode = player.code();
+      if (Genetics.Cage.prependAiCode) {
+        player.cachedCode = Genetics.Cage.players[1].code + '\n' + player.cachedCode;
+      }
     }
   }
   new Genetics.Cage.Event('START_GAME').addToQueue();
@@ -256,19 +257,20 @@ Genetics.Cage.skipPickFight = false;
  * Executes the next mouse's action and checks for end game.
  */
 Genetics.Cage.update = function() {
-  if (Genetics.Cage.HEADLESS || Genetics.Cage.keepHistory ||
-      Genetics.Cage.Events.length < 100) {
-    // If the events queue is not backed up, then continue computing.
-    if (Genetics.Cage.currentRoundmice_.length == 0) {
-      if (Genetics.Cage.roundNumber < Genetics.Cage.MAX_ROUNDS) {
+  // If history is not being preserved as it is processed, delay computation of
+  // new events if the Events queue has become very large.
+  if (Genetics.Cage.historyPreserved || Genetics.Cage.Events.length < 100) {
+    if (Genetics.Cage.currentRoundMice_.length == 0) {
+      if (Genetics.Cage.roundNumber_ < Genetics.Cage.MAX_ROUNDS) {
         // Cycle to next round.
-        Genetics.Cage.currentRoundmice_ = Genetics.Cage.nextRoundMice_.slice(0);
+        Genetics.Cage.currentRoundMice_ = Genetics.Cage.nextRoundMice_.slice(0);
         new Genetics.Cage.Event('NEXT_ROUND').addToQueue();
       }
-      Genetics.Cage.roundNumber++;
+      Genetics.Cage.roundNumber_++;
     }
-    if (Genetics.Cage.currentRoundmice_.length) {
-      var mouse = Genetics.Cage.currentRoundmice_.shift();
+
+    if (Genetics.Cage.currentRoundMice_.length) {
+      var mouse = Genetics.Cage.currentRoundMice_.shift();
       if ((mouse.id != 0 && !Genetics.Cage.soloPlayerMouse) ||
           (mouse.id == 0 && !Genetics.Cage.ignorePlayerMouse)) {
         Genetics.Cage.simulateLife(mouse);
@@ -283,7 +285,7 @@ Genetics.Cage.update = function() {
 
   if (!Genetics.Cage.stopped_) {
     Genetics.Cage.pid_ = setTimeout(Genetics.Cage.update,
-        Genetics.Cage.UPDATE_DELAY_MSC);
+        Genetics.Cage.UPDATE_DELAY_MS);
   }
 };
 
@@ -436,7 +438,7 @@ Genetics.Cage.createOffspring = function(parent1, parent2) {
   }
   var childSex = (Math.random() < femaleFertility / populationFertility) ?
       Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE;
-  var child = new Genetics.Mouse(mouseId, childSex, parent1, parent2);
+  var child = new Genetics.Mouse(mouseId, childSex, null, parent1, parent2);
   Genetics.Cage.addMouse(child);
   new Genetics.Cage.Event('MATE', parent1.id, 'SUCCESS', parent2.id,
       child).addToQueue();
@@ -475,10 +477,10 @@ Genetics.Cage.isMatingSuccessful = function(proposingMouse, askedMouse) {
     return false;
   }
   // Asked mouse accepted the mating request.
-  // Use up one mating attempt for asked Mouse.
+  // Use up one mating attempt for asked mouse.
   askedMouse.fertility--;
   if (proposingMouse.sex == askedMouse.sex) {
-    // If mice are not of different sex, mate does not succeed.
+    // If mice have the same sex, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INCOMPATIBLE',
         askedMouse.id).addToQueue();
     return false;
@@ -511,9 +513,9 @@ Genetics.Cage.die = function(mouse) {
   if (index > -1) {
     Genetics.Cage.nextRoundMice_.splice(index, 1);
   }
-  index = Genetics.Cage.currentRoundmice_.indexOf(mouse);
+  index = Genetics.Cage.currentRoundMice_.indexOf(mouse);
   if (index > -1) {
-    Genetics.Cage.currentRoundmice_.splice(index, 1);
+    Genetics.Cage.currentRoundMice_.splice(index, 1);
   }
   delete Genetics.Cage.miceMap_[mouse.id];
 };
@@ -522,7 +524,7 @@ Genetics.Cage.die = function(mouse) {
  * Starts up a new interpreter and gets the return value of the function.
  * @param {!Genetics.Mouse} mouse The mouse to get the code from.
  * @param {string} mouseFunction The function call to evaluate.
- * @param {Genetics.Mouse=} opt_param The mouse passed as a parameter to the
+ * @param {!Genetics.Mouse=} opt_param The mouse passed as a parameter to the
  * function.
  * @return {!Object<string, *>}
  */
@@ -559,7 +561,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
  * @param {!Genetics.Mouse} mouse The mouse to get the code from.
  * @param {string} mouseFunctionName The name of the function to append a call
  * to in the interpreter.
- * @param {Genetics.Mouse=} opt_suitor The mouse passed as a parameter to the
+ * @param {!Genetics.Mouse=} opt_suitor The mouse passed as a parameter to the
  * function (for acceptMate function call).
  * @return {!Interpreter} Interpreter set up for executing mouse function call.
  */
@@ -654,7 +656,7 @@ Genetics.Cage.initInterpreter = function(mouse, suitor, interpreter,
       // If the mouse is not the mouse running the interpreter, add to list.
       interpreter.setProperty(pseudoAliveMice, aliveMiceIndex++, pseudoMouse);
       if (suitor && aliveMouse.id == suitor.id) {
-        // If the suitor parameter was define and has been created, save it.
+        // If the suitor parameter was defined and has been created, save it.
         pseudoSuitor = pseudoMouse;
       }
     }

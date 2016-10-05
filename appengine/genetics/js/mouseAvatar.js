@@ -35,49 +35,43 @@ goog.require('goog.object');
  * Stores mouse attributes and visualization information for a mouse.
  * @param {!Genetics.Mouse} mouse The mouse to create a avatar for.
  * @constructor
+ * @struct
  */
 Genetics.MouseAvatar = function(mouse) {
   /**
    * The unique ID of the mouse.
-   * @type {number}
-   * @const
+   * @const {number}
    */
   this.id = mouse.id;
   /**
    * The sex of the mouse.
-   * @type {Genetics.Mouse.Sex}
-   * @const
+   * @const {Genetics.Mouse.Sex}
    */
   this.sex = mouse.sex;
   /**
    * The size of the mouse.
-   * @type {number}
-   * @const
+   * @const {number}
    */
   this.size = mouse.size;
   /**
    * The ID of the player owning the pickFight function on this mouse.
-   * @type {number}
-   * @const
+   * @const {number}
    */
   this.pickFightOwner = mouse.pickFightOwner;
   /**
    * The ID of the player owning the proposeMate function on this mouse.
-   * @type {number}
-   * @const
+   * @const {number}
    */
   this.proposeMateOwner = mouse.proposeMateOwner;
   /**
    * The ID of the player owning the acceptMate function on this mouse.
-   * @type {number}
-   * @const
+   * @const {number}
    */
   this.acceptMateOwner = mouse.acceptMateOwner;
 
   /**
    * The SVG element containing the mouse.
-   * @type {SVGElement}
-   * @const
+   * @const {SVGElement}
    */
   this.element = document.createElementNS(Blockly.SVG_NS, 'svg');
   this.element.setAttribute('id', 'mouse' + mouse.id);
@@ -101,7 +95,7 @@ Genetics.MouseAvatar = function(mouse) {
    */
   this.image_ = document.createElementNS(Blockly.SVG_NS, 'image');
   this.image_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      Genetics.MouseAvatar.MOUSE_SRC);
+      'genetics/mouse.png');
   this.image_.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
   this.image_.setAttribute('height',
       Genetics.MouseAvatar.FULL_HEIGHT * 2 + 'px');
@@ -167,8 +161,7 @@ Genetics.MouseAvatar = function(mouse) {
 
   /**
    * The process ids for the idle mouse animation [0] and busy animation [1].
-   * @type {Array.<number>}
-   * @const
+   * @const {Array.<number>}
    */
   this.actionPids = [0, 0];
   var wanderAbout = goog.bind(function() {
@@ -227,63 +220,57 @@ Object.defineProperty(Genetics.MouseAvatar.prototype, 'direction', {
 });
 
 /**
- * The source file for the mouse sprite.
- * @type {string}
- */
-Genetics.MouseAvatar.MOUSE_SRC = 'genetics/mouse.png';
-
-/**
  * The width of a mouse.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.WIDTH = 40;
 
 /**
  * The height of a mouse (without tail).
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.HEIGHT = 45;
 
 /**
  * The height of a mouse (with tail).
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.FULL_HEIGHT = 60;
 
 /**
  * The half of the width of the mouse.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.HALF_SIZE = Genetics.MouseAvatar.WIDTH / 2;
 
 /**
  * The radius of the chart on the mouse.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.CHART_RADIUS = 15 / 2;
 
 /**
  * The index at which process ids for idle actions is stored.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX = 0;
 
 /**
  * The index at which process ids for busy actions is stored.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX = 1;
 
 /**
  * Speed of mouse in pixels per second when moving to a destination with
  * purpose.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.BUSY_SPEED = .07;
 
 /**
  * Speed of a mouse in pixels per second when wandering.
- * @type {number}
+ * @const {number}
  */
 Genetics.MouseAvatar.IDLE_SPEED = .05;
 
@@ -375,7 +362,7 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
 /**
  * Moves a mouse avatar in a random direction for the time specified.
  * @param {number} time The time that the mouse should move in a direction in
- * milliseconds.
+ *     milliseconds.
  * @private
  */
 Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
@@ -392,10 +379,14 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
   this.move(x, y, function() {}, time);
 };
 
+/**
+ * Sets the mouse's state to not busy.
+ * @param {boolean=} opt_wanderBeforeFree Whether the mouse should wander before
+ * switch to not busy state.
+ */
 Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
   if (opt_wanderBeforeFree) {
-    this.moveAbout_(3, 
-        goog.bind(Genetics.MouseAvatar.prototype.freeMouse, this));
+    this.moveAbout_(3, goog.bind(this.freeMouse, this));
   } else {
     this.busy = false;
   }
@@ -405,9 +396,9 @@ Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
  * Moves a mouse avatar around in random directions for the specified number
  * of steps.
  * @param {number} steps The number of times the mouse should move in a random
- * direction.
+ *     direction.
  * @param {!Function} callback The function to call after the mouse as completed
- * all requested movement.
+ *     all requested movement.
  * @private
  */
 Genetics.MouseAvatar.prototype.moveAbout_ = function(steps, callback) {

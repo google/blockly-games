@@ -33,29 +33,25 @@ goog.require('goog.object');
 
 /**
  * Number of milliseconds between update calls.
- * @type {number}
- * @const
+ * @const {number}
  */
-Genetics.Visualization.UPDATE_DELAY_MSC = 50;
+Genetics.Visualization.UPDATE_DELAY_MS = 50;
 
 /**
  * The width/height of the display in pixels.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Visualization.DISPLAY_SIZE = 400;
 
 /**
  * The width/height of the dust cloud in pixels.
- * @type {number}
- * @const
+ * @const {number}
  */
 Genetics.Visualization.DUST_SIZE = 50;
 
 /**
  * The hex values of the player colors.
- * @type {!Array.<string>}
- * @const
+ * @const {!Array.<string>}
  */
 Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
 
@@ -309,7 +305,7 @@ Genetics.Visualization.reset = function() {
 
   Genetics.Visualization.areChartsVisible_ = false;
   Genetics.Visualization.eventNumber = 0;
-  Genetics.Visualization.roundNumber = 0;
+  Genetics.Visualization.roundNumber_ = 0;
   Genetics.Visualization.eventIndex_ = 0;
   // Reset stored information about mouse population.
   Genetics.Visualization.mice_ = {};
@@ -416,22 +412,20 @@ Genetics.Visualization.update = function() {
       }
     }
     Genetics.Visualization.pid_ = setTimeout(Genetics.Visualization.update,
-        Genetics.Visualization.UPDATE_DELAY_MSC);
+        Genetics.Visualization.UPDATE_DELAY_MS);
   }
 };
 
 /**
  * Whether the charts need to be redrawn because they were updated.
- * @type {boolean}
- * @private
+ * @private {boolean}
  */
 Genetics.Visualization.chartsNeedUpdate_ = true;
 
 /**
  * A reference to all the divs displaying the percentage of function ownership
  * for each player.
- * @type {!Array.<!Object.<string, HTMLDivElement|HTMLTableCellElement>>}
- * @private
+ * @private {!Array.<!Object.<string, HTMLDivElement|HTMLTableCellElement>>}
  */
 Genetics.Visualization.playerStatsDivs_ = [];
 
@@ -469,11 +463,12 @@ Genetics.Visualization.updateStats_ = function() {
 
 /**
  * Redraw game charts.
+ * @param {boolean=} force Whether to draw charts even if they are not visible.
  * @private
  */
-Genetics.Visualization.drawCharts_ = function() {
+Genetics.Visualization.drawCharts_ = function(opt_force) {
   if (Genetics.Visualization.chartsNeedUpdate_ &&
-      Genetics.Visualization.areChartsVisible_) {
+      (opt_force || Genetics.Visualization.areChartsVisible_)) {
     // Redraw the charts in the charts tab.
     Genetics.Visualization.populationChartWrapper_.draw();
     Genetics.Visualization.pickFightChartWrapper_.draw();
@@ -485,24 +480,15 @@ Genetics.Visualization.drawCharts_ = function() {
 };
 
 /**
- * Count for events to keep track of time passed for charts.
- * @type {number}
- *
- */
-Genetics.Visualization.eventNumber = 0;  // TODO rm
-
-/**
  * The current round number.
- * @type {number}
- *
+ * @private {number}
  */
-Genetics.Visualization.roundNumber = 0;
+Genetics.Visualization.roundNumber_ = 0;
 
 /**
  * The index of the next event to be processed or 0 if events are not
  * removed from EVENTS queue.
- * @type {number}
- * @private
+ * @private {number}
  */
 Genetics.Visualization.eventIndex_ = 0;
 
@@ -514,7 +500,7 @@ Genetics.Visualization.processCageEvents_ = function() {
   // Handle any queued events.
   var getMouseName = Genetics.Visualization.getMouseName_;
   while (Genetics.Visualization.eventIndex_ < Genetics.Cage.Events.length) {
-    var event = Genetics.Cage.keepHistory ?
+    var event = Genetics.Cage.historyPreserved ?
         Genetics.Cage.Events[Genetics.Visualization.eventIndex_++] :
         Genetics.Cage.Events.shift();
 
@@ -527,7 +513,7 @@ Genetics.Visualization.processCageEvents_ = function() {
     if ((mouse && mouse.busy) || (opponent && opponent.busy) ||
         (askedMouse && askedMouse.busy)) {
       // If any involved mice are busy, process event later.
-      if (Genetics.Visualization.keepHistory) {
+      if (Genetics.Visualization.historyPreserved) {
         Genetics.Visualization.eventIndex_--;
       } else {
         Genetics.Cage.Events.unshift(event);
@@ -551,7 +537,7 @@ Genetics.Visualization.processCageEvents_ = function() {
             ' players.');
         break;
       case 'NEXT_ROUND':
-          Genetics.Visualization.roundNumber++;
+          Genetics.Visualization.roundNumber_++;
         break;
       case 'FIGHT':
         Genetics.Visualization.processFightEvent_(event, mouse, opponent);
@@ -592,13 +578,12 @@ Genetics.Visualization.processCageEvents_ = function() {
  * Process fight events.
  * @param {!Object.<string, string|!Genetics.Mouse>} event
  * @param {!Genetics.MouseAvatar} instigator
- * @param {!Genetics.MouseAvatar} opt_opponent
+ * @param {Genetics.MouseAvatar} opponent
  * @private
  */
 Genetics.Visualization.processFightEvent_ = function(event, instigator,
-    opt_opponent) {
+    opponent) {
   var getMouseName = Genetics.Visualization.getMouseName_;
-  var opponent = opt_opponent || null;
   var result = event['RESULT'];
 
   if (result == 'NONE') {
@@ -642,13 +627,12 @@ Genetics.Visualization.wanderAfterMate = true;
  * Process mate events.
  * @param {!Object.<string, string|!Genetics.Mouse>} event
  * @param {!Genetics.MouseAvatar} proposingMouse
- * @param {!Genetics.MouseAvatar} opt_askedMouse
+ * @param {Genetics.MouseAvatar} askedMouse
  * @private
  */
 Genetics.Visualization.processMateEvent_ = function(event, proposingMouse,
-    opt_askedMouse) {
+    askedMouse) {
   var getMouseName = Genetics.Visualization.getMouseName_;
-  var askedMouse = opt_askedMouse || null;
 
   var result = event['RESULT'];
   if (result == 'NONE') {
@@ -800,15 +784,14 @@ Genetics.Visualization.displayGameEnd_ = function() {
  */
 Genetics.Visualization.updateChartData_ = function() {
   if (google.visualization) {
-    Genetics.Visualization.eventNumber++;
     Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
-        [Genetics.Visualization.roundNumber,
+        [Genetics.Visualization.roundNumber_,
           Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
           Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
 
-    var pickFightState = [Genetics.Visualization.roundNumber];
-    var proposeMateState = [Genetics.Visualization.roundNumber];
-    var acceptMateState = [Genetics.Visualization.roundNumber];
+    var pickFightState = [Genetics.Visualization.roundNumber_];
+    var proposeMateState = [Genetics.Visualization.roundNumber_];
+    var acceptMateState = [Genetics.Visualization.roundNumber_];
     for (var playerId = 0; playerId < Genetics.Cage.players.length;
         playerId++) {
       pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
@@ -885,7 +868,7 @@ Genetics.Visualization.getMouseName_ = function(mouse, opt_showStats,
 /**
  *
  * @param {!Genetics.MouseAvatar} mouseAvatar
- * @param {string} reason Type of death, either "EXPLODE", "FIGHT",
+ * @param {string} reason Type of death, either "EXPLOSION", "FIGHT",
  * "OVERPOPULATION", or "RETIRE".
  * @private
  */
@@ -1116,7 +1099,7 @@ Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
  * @param {string} imageSrc The image source.
  * @param {number} size The size of the image to display in pixels.
  * @param {number} duration The duration to show the image in milliseconds.
- * @param {Function=} opt_callback The function to call after finishing
+ * @param {!Function=} opt_callback The function to call after finishing
  * displaying the image.
  * @private
  */
@@ -1183,7 +1166,7 @@ Genetics.Visualization.createMouseAvatar_ = function(mouse) {
 };
 
 /**
- * Removes mouse from display and upates mapping.
+ * Removes mouse from display and updates mapping.
  * @param {!Genetics.MouseAvatar} mouseAvatar
  * @private
  */

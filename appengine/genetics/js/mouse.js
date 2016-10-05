@@ -30,16 +30,16 @@ goog.require('goog.math');
 
 /**
  * Creates a mouse.
- * @constructor
  * @param {number} id The ID to assign the mouse.
  * @param {!Genetics.Mouse.Sex} sex The sex of the mouse.
+ * @param {?number} playerId The identifier of the player owning all
+ *     the genes (passed if there are no parents).
  * @param {Genetics.Mouse=} opt_parentOne One of the parents of the mouse.
  * @param {Genetics.Mouse=} opt_parentTwo One of the parents of the mouse.
- * @param {number=} opt_player The identifier of the player owning all
- * the genes (passed if there are no parents).
+ * @constructor
+ * @struct
  */
-Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
-    opt_player) {
+Genetics.Mouse = function(id, sex, playerId, opt_parentOne, opt_parentTwo) {
   // Returns a random integer between two integers; minValue (inclusive)
   // and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
@@ -74,9 +74,9 @@ Genetics.Mouse = function(id, sex, opt_parentOne, opt_parentTwo,
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
   } else {
     // Mouse is a first generation mouse.
-    this.pickFightOwner = opt_player;
-    this.proposeMateOwner = opt_player;
-    this.acceptMateOwner = opt_player;
+    this.pickFightOwner = playerId;
+    this.proposeMateOwner = playerId;
+    this.acceptMateOwner = playerId;
     this.size = Genetics.Mouse.SIZE;
     this.startAggressiveness = Genetics.Mouse.START_AGGRESSIVENESS;
     // First generation mice do not fight.
@@ -101,43 +101,43 @@ Genetics.Mouse.Sex = {
 
 /**
  * The smallest change that a mutation in assigning mouse stats can be.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.MIN_MUTATION = -1;
 
 /**
  * The greatest change that a mutation in assigning mouse stats can be.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.MAX_MUTATION = 1;
 
 /**
  * The minimum size of a mouse.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.MIN_SIZE = 1;
 
 /**
  * The maximum size of a mouse.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.MAX_SIZE = 10;
 
 /**
  * The size of a first generation mouse.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.SIZE = 2;
 
 /**
  * Number of fight opportunities that a first generation mouse will pass on to
  * its children.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.START_AGGRESSIVENESS = 2;
 
 /**
  * The number of mating attempts that a first generation mouse starts with.
- * @type {number}
+ * @const {number}
  */
 Genetics.Mouse.START_FERTILITY = 4;
