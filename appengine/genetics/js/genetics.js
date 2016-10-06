@@ -60,19 +60,6 @@ Genetics.blocksEnabled_ = true;
 Genetics.ignoreEditorChanges_ = true;
 
 /**
- * Go to the next level.
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
-
-/**
  * Initialize Blockly, Ace, and the cage.  Called on page load.
  */
 Genetics.init = function() {
