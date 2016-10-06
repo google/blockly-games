@@ -202,8 +202,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
-    // TODO(kozbial) Set "?" to %1 variable name.
-    "message0": "for (%1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
+    "message0": "for (var %1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
     "args0": [
       {
         "type": "field_variable",
@@ -277,7 +276,7 @@ Blockly.JavaScript['controls_for'] = function(block) {
   var branch = Blockly.JavaScript.statementToCode(block, 'DO');
 
   branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
-  var code = 'for (' + variable + ' = ' + from + '; ' +
+  var code = 'for (var ' + variable + ' = ' + from + '; ' +
       variable + ' < ' + to + '; ' +
       variable + ' += 1) {\n' +
       branch + '}\n';

@@ -39,19 +39,6 @@ goog.require('goog.math.Coordinate');
 BlocklyGames.NAME = 'pond-tutor';
 
 /**
- * Go to the next level.
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
-
-/**
  * Initialize Blockly xor Ace, and the pond.  Called on page load.
  */
 Pond.Tutor.init = function() {

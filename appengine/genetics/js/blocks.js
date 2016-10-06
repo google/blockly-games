@@ -45,41 +45,41 @@ Genetics.Blocks.GENETICS_HUE = 20;
 /**
  * Generates the JavaScript from a "mouse function" block (pickFight,
  * proposeMate, acceptMate) given the name and arguments of the function.
- * @param {string} funcName The name of the mouse function.
+ * @param {string} name The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {!Blockly.Block} block The block.
  * @return {null}
  * @private
  */
-Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(funcName,
+Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(name,
     args, block) {
   // Define a procedure with a return value.
   var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
   var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
       Blockly.JavaScript.ORDER_NONE) || '';
   returnValue = '  return ' + returnValue + ';\n';
-  var code = 'function ' + funcName + '(' + args + ') {\n' +
+  var code = 'function ' + name + '(' + args + ') {\n' +
       branch + returnValue + '}';
   code = Blockly.JavaScript.scrub_(block, code);
-  Blockly.JavaScript.definitions_[funcName] = code;
+  Blockly.JavaScript.definitions_[name] = code;
   return null;
 };
 
 /**
  * Initializes a "mouse function" block (pickFight, proposeMate, acceptMate)
  * given the name and arguments for the block.
- * @param {string} funcName The name of the mouse function.
+ * @param {string} name The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {string} returnType The return type of the mouse function.
  * @this Blockly.Block
  * @private
  */
 Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
-    function(funcName, args, returnType) {
+    function(name, args, returnType) {
   this.jsonInit({
     "message0": "function %1(%2) { %3 %4 return %5 }",
     "args0": [
-      funcName,
+      name,
       args,
       {
         "type": "input_dummy"
@@ -97,9 +97,12 @@ Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
     ],
     "inputsInline": true,
     "colour": Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE,
-    "tooltip": BlocklyGames.getMsg('Genetics_' + funcName + 'Tooltip')
+    "tooltip": BlocklyGames.getMsg('Genetics_' + name + 'Tooltip')
   });
 };
+
+// TODO Add function flag to mouseFunctions once it has been implemented in
+// Blockly so that comment blocks are handled correctly.
 
 /**
  * Block for defining mouse decision on which other mouse to fight.
@@ -444,9 +447,9 @@ Blockly.Blocks['genetics_math_randomInt'] = {
 
 Blockly.JavaScript['genetics_math_randomInt'] = function(block) {
   // Retrieves a random integer value between two numbers, inclusive.
-  var minValue = Blockly.JavaScript.valueToCode(block, 'NUM',
+  var minValue = Blockly.JavaScript.valueToCode(block, 'MIN_VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
-  var maxValue = Blockly.JavaScript.valueToCode(block, 'NUM',
+  var maxValue = Blockly.JavaScript.valueToCode(block, 'MAX_VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
   var code = 'Math.randomInt(' + minValue + ', ' + maxValue + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
