@@ -425,6 +425,7 @@ Genetics.init = function() {
       BlocklyGames.LEVEL <= 8;
   Genetics.Visualization.wanderAfterMate = BlocklyGames.LEVEL >= 9;
   Genetics.Cage.historyPreserved = BlocklyGames.LEVEL <= 8;
+  Genetics.Cage.prependAiCode = BlocklyGames.LEVEL <= 8;
   var players;
   if (BlocklyGames.LEVEL <= 8) {
     players = [
