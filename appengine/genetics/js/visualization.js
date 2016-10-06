@@ -35,7 +35,7 @@ goog.require('goog.object');
  * Number of milliseconds between update calls.
  * @const {number}
  */
-Genetics.Visualization.UPDATE_DELAY_MS = 50;
+Genetics.Visualization.UPDATE_DELAY_MSEC = 50;
 
 /**
  * The width/height of the display in pixels.
@@ -409,7 +409,7 @@ Genetics.Visualization.update = function() {
       }
     }
     Genetics.Visualization.pid_ = setTimeout(Genetics.Visualization.update,
-        Genetics.Visualization.UPDATE_DELAY_MS);
+        Genetics.Visualization.UPDATE_DELAY_MSEC);
   }
 };
 
@@ -460,7 +460,8 @@ Genetics.Visualization.updateStats_ = function() {
 
 /**
  * Redraw game charts.
- * @param {boolean=} force Whether to draw charts even if they are not visible.
+ * @param {boolean=} opt_force Whether to draw charts even if they are not
+ *     visible.
  * @private
  */
 Genetics.Visualization.drawCharts_ = function(opt_force) {
@@ -563,8 +564,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Visualization.gameRankings_ = event['OPT_RANKINGS'];
         break;
       default:
-        // Should never happen.
-        break;
+        throw 'unhandled visualization event ' + JSON.stringify(event);
     }
 
   }

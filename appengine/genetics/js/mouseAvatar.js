@@ -178,7 +178,7 @@ Genetics.MouseAvatar = function(mouse) {
 Object.defineProperty(Genetics.MouseAvatar.prototype, 'direction', {
   /**
    * Sets the direction to a value between 0-2PI in radians and rotates the
-   * mouse to  match the direction facing. Direction angle is clockwise, with 0
+   * mouse to match the direction. Direction angle is clockwise, with 0
    * indicating the mouse facing right.
    * @param {number} direction The new value for direction.
    * @this Genetics.MouseAvatar

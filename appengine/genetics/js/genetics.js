@@ -744,7 +744,7 @@ Genetics.addStartingMice = function() {
       for (var i = 0; i < 2; i++) {
         startingMice.push({
           id: mouseId++,
-          sex: i % 2 == 0 ? Genetics.Mouse.Sex.MALE :
+          sex: (i % 2 == 0) ? Genetics.Mouse.Sex.MALE :
               Genetics.Mouse.Sex.FEMALE,
           playerId: playerId
         });
@@ -779,9 +779,10 @@ Genetics.addStartingMice = function() {
 
 /**
  * Returns whether the game is over and adds events to the event queue if it is.
+ * Handles Genetics levels 1 to 8 only.
  * @return {boolean}
  */
-Genetics.checkForEnd = function() {
+Genetics.checkForLevelEnd = function() {
   switch (BlocklyGames.LEVEL) {
     case 1:
       // Player was asked to return the first mouse from the list (which also
@@ -790,6 +791,7 @@ Genetics.checkForEnd = function() {
     case 2:
       // Player was asked to return the last mouse from the list (which also
       // happens to be the only mouse smaller than the player mouse).
+      // Case 1 and Case 2
       for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
         // This level should have only one fight event.
         if (event['TYPE'] == 'FIGHT') {
@@ -811,6 +813,7 @@ Genetics.checkForEnd = function() {
     case 4:
       // Player was asked to return a mouse that is smaller than itself. They
       // succeed if they win 3 fights.
+      // Case 3 and Case 4
       var successfulFights = 0;
       for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
         if (event['TYPE'] == 'FIGHT') {
@@ -841,6 +844,7 @@ Genetics.checkForEnd = function() {
       // Player was asked to return a mouse that is a valid mate and bigger
       // than itself. The player succeeds if they mate 5 times successfully with
       // a mate that fits this criteria.
+      // Case 5 and Case 6
       var successfulMates = 0;
       for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
         if (event['TYPE'] == 'MATE') {
@@ -881,6 +885,7 @@ Genetics.checkForEnd = function() {
       // Player was asked to respond to mate request such that they return true
       // if a mate is valid and bigger than itself, false otherwise. The player
       // succeeds if they correctly respond 5 times.
+      // Case 7 and Case 8
       var successfulMates = 0;
       for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
         if (event['TYPE'] == 'MATE') {
@@ -922,83 +927,8 @@ Genetics.checkForEnd = function() {
       }
       return false;
     default:
-      // Continue on to handle level 9 or 10.
-      break;
+      throw 'unhandled checkForLevelEnd for level ' + BlocklyGames.LEVEL;
   }
-
-  var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
-  // Check if there are no mice left.
-  if (Genetics.Cage.nextRoundMice_.length == 0) {
-    new Genetics.Cage.Event('END_GAME', false, playerRankings).addToQueue();
-    return true;
-  }
-  // Find which players have majority for each function.
-  var playerFunctionCounts = {
-    'pickFight' : [0, 0, 0, 0],
-    'proposeMate' : [0, 0, 0, 0],
-    'acceptMate' : [0, 0, 0, 0]
-  };
-  var isTimeExpired = Genetics.Cage.roundNumber_ > Genetics.Cage.MAX_ROUNDS;
-  var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
-  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice_[i]; i++) {
-    if (!isTimeExpired &&
-        (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
-        mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
-        mouse.acceptMateOwner != firstMouseInQueue.acceptMateOwner)) {
-      // If time hasn't expired and there is not a domination victory, it is not
-      // game end yet.
-      return false;
-    }
-    playerFunctionCounts['pickFight'][mouse.pickFightOwner]++;
-    playerFunctionCounts['proposeMate'][mouse.proposeMateOwner]++;
-    playerFunctionCounts['acceptMate'][mouse.acceptMateOwner]++;
-  }
-  if (!isTimeExpired) {
-    // If it is a domination victory and time has not expired.
-    var pickFightWinner = Genetics.Cage.nextRoundMice_[0].pickFightOwner;
-    var proposeMateWinner = Genetics.Cage.nextRoundMice_[0].proposeMateOwner;
-    var acceptMateWinner = Genetics.Cage.nextRoundMice_[0].acceptMateOwner;
-    playerRankings['pickFight'].push([pickFightWinner]);
-    playerRankings['proposeMate'].push([proposeMateWinner]);
-    playerRankings['acceptMate'].push([acceptMateWinner]);
-    new Genetics.Cage.Event('END_GAME',
-        pickFightWinner == 0 && proposeMateWinner == 0 && acceptMateWinner == 0,
-        playerRankings).addToQueue();
-    return true;
-  }
-  // Determine rankings for each function.
-  var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
-  var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
-  for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-    for (var i = 0, mouseFunc; mouseFunc = mouseFunctions[i]; i++) {
-      var playerFunctionCount = playerFunctionCounts[mouseFunc];
-      var playerFunctionRanking = playerRankings[mouseFunc];
-      var isFunctionRanked = false;
-
-      for (var j = 0; !isFunctionRanked && j < playerFunctionRanking.length;
-          j++) {
-        var currentRankPlayerId = playerFunctionRanking[j][0];
-        if (playerFunctionCount[playerId] ==
-            playerFunctionCount[currentRankPlayerId]) {
-          // If player has the same count as a player at the current rank,
-          // add them to the same list.
-          playerFunctionRanking[j].push(playerId);
-          isFunctionRanked = true;
-        } else if (playerFunctionCount[playerId] >
-            playerFunctionCount[currentRankPlayerId]) {
-          // If a player has a higher count as the player at the current rank,
-          // add them to a list before this rank.
-          playerFunctionRanking.splice(j, 0, [playerId]);
-          isFunctionRanked = true;
-        }
-      }
-      if (!isFunctionRanked) {
-        playerFunctionRanking.push([playerId]);
-      }
-    }
-  }
-  new Genetics.Cage.Event('END_GAME', false, playerRankings).addToQueue();
-  return true;
 };
 
 /**
@@ -1069,7 +999,9 @@ Genetics.execute = function() {
   // Enable wandering if level is not level 1-2.
   Genetics.MouseAvatar.wanderingDisabled = BlocklyGames.LEVEL <= 2;
 
-  Genetics.Cage.start(Genetics.checkForEnd);
+  var checkForEnd =
+      (BlocklyGames.LEVEL <= 8) ? Genetics.checkForLevelEnd : null;
+  Genetics.Cage.start(checkForEnd);
   Genetics.Visualization.start();
 };
 
