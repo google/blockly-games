@@ -502,11 +502,12 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Cage.Events[Genetics.Visualization.eventIndex_++] :
         Genetics.Cage.Events.shift();
 
-    var mouse = event['ID'] && Genetics.Visualization.mice_[event['ID']];
-    var opponent = event['OPT_OPPONENT'] &&
-        Genetics.Visualization.mice_[event['OPT_OPPONENT']];
-    var askedMouse = event['OPT_PARTNER'] &&
-        Genetics.Visualization.mice_[event['OPT_PARTNER']];
+    var mouse = (event['ID'] !== undefined) ?
+        Genetics.Visualization.mice_[event['ID']] : null;
+    var opponent = (event['OPT_OPPONENT'] !== undefined) ?
+        Genetics.Visualization.mice_[event['OPT_OPPONENT']] : null;
+    var askedMouse = (event['OPT_PARTNER'] !== undefined) ?
+        Genetics.Visualization.mice_[event['OPT_PARTNER']] : null;
     if ((mouse && mouse.busy) || (opponent && opponent.busy) ||
         (askedMouse && askedMouse.busy)) {
       // If any involved mice are busy, process event later.
