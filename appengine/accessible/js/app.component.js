@@ -39,7 +39,7 @@ musicGame.AppView = ng.core
         <p *ngIf="levelData.hint">Hint: {{levelData.hint}}</p>
 
         <p *ngIf="levelData.expectedLine">
-          <button (click)="playTune()">Play desired tune</button>
+          <button (click)="playTune()">Listen to desired tune</button>
         </p>
       </div>
 
