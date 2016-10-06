@@ -348,21 +348,18 @@ Genetics.Visualization.reset = function() {
     // Setup pickFight percentage div.
     var pickFightDiv = td.getElementsByClassName('pickFightStat')[0];
     if (pickFightDiv) {
-      goog.dom.classlist.remove(pickFightDiv, 'winningFunction');
       pickFightDiv.style.background = hexColour;
       pickFightDiv.style.width = 0;
       playerStat['pickFightDiv'] = pickFightDiv;
     }
     var proposeMateDiv = td.getElementsByClassName('proposeMateStat')[0];
-    if (proposeMateDiv) {
-      goog.dom.classlist.remove(proposeMateDiv, 'winningFunction');
+    if (proposeMateDiv) {;
       proposeMateDiv.style.background = hexColour;
       proposeMateDiv.style.width = 0;
       playerStat['proposeMateDiv'] = proposeMateDiv;
     }
     var acceptMateDiv = td.getElementsByClassName('acceptMateStat')[0];
     if (acceptMateDiv) {
-      goog.dom.classlist.remove(acceptMateDiv, 'winningFunction');
       acceptMateDiv.style.background = hexColour;
       acceptMateDiv.style.width = 0;
       playerStat['acceptMateDiv'] = acceptMateDiv;
@@ -504,12 +501,11 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Cage.Events[Genetics.Visualization.eventIndex_++] :
         Genetics.Cage.Events.shift();
 
-    var mouse = (event['ID'] !== null) ?
-        Genetics.Visualization.mice_[event['ID']] : null;
-    var opponent = (event['OPT_OPPONENT'] != null) ?
-        Genetics.Visualization.mice_[event['OPT_OPPONENT']] : null;
-    var askedMouse = (event['OPT_PARTNER'] !== null) ?
-        Genetics.Visualization.mice_[event['OPT_PARTNER']] : null;
+    var mouse = event['ID'] && Genetics.Visualization.mice_[event['ID']];
+    var opponent = event['OPT_OPPONENT'] &&
+        Genetics.Visualization.mice_[event['OPT_OPPONENT']];
+    var askedMouse = event['OPT_PARTNER'] &&
+        Genetics.Visualization.mice_[event['OPT_PARTNER']];
     if ((mouse && mouse.busy) || (opponent && opponent.busy) ||
         (askedMouse && askedMouse.busy)) {
       // If any involved mice are busy, process event later.
@@ -537,7 +533,7 @@ Genetics.Visualization.processCageEvents_ = function() {
             ' players.');
         break;
       case 'NEXT_ROUND':
-          Genetics.Visualization.roundNumber_++;
+        Genetics.Visualization.roundNumber_++;
         break;
       case 'FIGHT':
         Genetics.Visualization.processFightEvent_(event, mouse, opponent);
@@ -733,7 +729,8 @@ Genetics.Visualization.displayGameEnd_ = function() {
   Genetics.Visualization.stop();
   if (Genetics.Visualization.gameRankings_) {
     var functionWinnersText = {
-      'pickFight': '', 'proposeMate': '',
+      'pickFight': '',
+      'proposeMate': '',
       'acceptMate': ''
     };
     var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
@@ -744,24 +741,10 @@ Genetics.Visualization.displayGameEnd_ = function() {
       for (var j = 0; functionWinnersList && j < functionWinnersList.length;
           j++) {
         var playerId = functionWinnersList[j];
-        var stats = Genetics.Visualization.playerStatsDivs_[playerId];
-        if (stats[mouseFunction + 'Div']) {
-          goog.dom.classlist.add(stats[mouseFunction + 'Div'],
-              'winningFunction');
-        }
         functionWinnersText[mouseFunction] +=
             Genetics.Cage.players[playerId].name + ' ';
       }
     }
-
-    // var endGameDiv = document.createElement('div');
-    // var summary = document.createTextNode(
-    //     'PickFight Winners: ' + functionWinnersText['pickFight'] +
-    //     '\n proposeMate Winners: ' + functionWinnersText['proposeMate'] +
-    //     '\n acceptMate Winners: ' + functionWinnersText['acceptMate']);
-    // endGameDiv.appendChild(summary);
-    // endGameDiv.setAttribute('class', 'endGameDisplay');
-    // Genetics.Visualization.display_.appendChild(endGameDiv);
 
     Genetics.log('Game ended with:' +
         ' PickFight Winners: ' + functionWinnersText['pickFight'] +
@@ -812,12 +795,12 @@ Genetics.Visualization.updateChartData_ = function() {
 
 /**
  * Returns a string representation of the mouse.
- * @param {!Genetics.Mouse|!Genetics.MouseAvatar} mouse
- * The mouse to represent as a string.
+ * @param {!Genetics.Mouse|!Genetics.MouseAvatar} mouse The mouse to represent
+ *     as a string.
  * @param {boolean=} opt_showStats Whether to add the mouse stats to the string
- * representation.
+ *     representation.
  * @param {boolean=} opt_showGenes Whether to add the gene owners to the string
- * representation.
+ *     representation.
  * @return {string} The string representation of the mouse.
  * @private
  */
@@ -866,10 +849,11 @@ Genetics.Visualization.getMouseName_ = function(mouse, opt_showStats,
 };
 
 /**
- *
+ * Play death animation (unless 'FIGHT'), remove mouse from display, and update
+ * game statistics.
  * @param {!Genetics.MouseAvatar} mouseAvatar
  * @param {string} reason Type of death, either "EXPLOSION", "FIGHT",
- * "OVERPOPULATION", or "RETIRE".
+ *     "OVERPOPULATION", or "RETIRE".
  * @private
  */
 Genetics.Visualization.killMouse_ = function(mouseAvatar, reason) {
@@ -909,7 +893,7 @@ Genetics.Visualization.killMouse_ = function(mouseAvatar, reason) {
  * @param {!Genetics.MouseAvatar} mouse0 A mouse to move together.
  * @param {!Genetics.MouseAvatar} mouse1 A mouse to move together.
  * @param {!Function} callback The function to call once the two mice have
- * reached the same place.
+ *     reached the same place.
  * @private
  */
 Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
@@ -954,7 +938,7 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
  * @param {!Genetics.MouseAvatar} instigator The mouse instigating the fight.
  * @param {!Genetics.MouseAvatar} opponent The mouse challenged in the fight.
  * @param {string} result The type of result, either 'WIN', 'LOSS', 'TIE', or
- * 'SELF".
+ *     'SELF".
  * @param {!Function} callback The function to call after the event is animated.
  * @private
  */
@@ -1014,7 +998,7 @@ Genetics.Visualization.fight_ = function(instigator, opponent, result,
 
 /**
  * Adds a mouse to the display without animation.
- * @param {Genetics.Mouse} mouse The mouse to add to the display.
+ * @param {!Genetics.Mouse} mouse The mouse to add to the display.
  * @param {number} x The x position of the mouse.
  * @param {number} y The y position of the mouse.
  * @param {number} direction The direction of the mouse in radians.
@@ -1095,12 +1079,12 @@ Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
 /**
  * Shows image over mouse for specified duration.
  * @param {Genetics.MouseAvatar} mouseAvatar The mouse to display the image
- * above.
+ *     above.
  * @param {string} imageSrc The image source.
  * @param {number} size The size of the image to display in pixels.
  * @param {number} duration The duration to show the image in milliseconds.
  * @param {!Function=} opt_callback The function to call after finishing
- * displaying the image.
+ *     displaying the image.
  * @private
  */
 Genetics.Visualization.showImageOverMouse_ = function(mouseAvatar, imageSrc,
@@ -1123,7 +1107,7 @@ Genetics.Visualization.showImageOverMouse_ = function(mouseAvatar, imageSrc,
  * @param {number} size The size of the image to display in pixels.
  * @param {number} duration The duration to show the image in milliseconds.
  * @param {Function=} opt_callback The function to call after finishing
- * displaying the image.
+ *     displaying the image.
  * @private
  */
 Genetics.Visualization.showImage_ = function(imageSrc, x, y, size, duration,

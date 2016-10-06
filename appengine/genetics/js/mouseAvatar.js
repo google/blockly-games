@@ -177,10 +177,10 @@ Genetics.MouseAvatar = function(mouse) {
 
 Object.defineProperty(Genetics.MouseAvatar.prototype, 'direction', {
   /**
-   * Sets the direction to a value between 0-2PI in radians
-   * and rotates the mouse to  match the direction facing.
-   * Direction angle is clockwise, with 0 indicating the mouse facing right.
-   * @param {number} direction
+   * Sets the direction to a value between 0-2PI in radians and rotates the
+   * mouse to  match the direction facing. Direction angle is clockwise, with 0
+   * indicating the mouse facing right.
+   * @param {number} direction The new value for direction.
    * @this Genetics.MouseAvatar
    */
   set: function(direction) {
@@ -266,13 +266,13 @@ Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX = 1;
  * purpose.
  * @const {number}
  */
-Genetics.MouseAvatar.BUSY_SPEED = .07;
+Genetics.MouseAvatar.BUSY_SPEED = 0.07;
 
 /**
  * Speed of a mouse in pixels per second when wandering.
  * @const {number}
  */
-Genetics.MouseAvatar.IDLE_SPEED = .05;
+Genetics.MouseAvatar.IDLE_SPEED = 0.05;
 
 /**
  * The width/height of the display div containing the mice.
@@ -382,7 +382,7 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
 /**
  * Sets the mouse's state to not busy.
  * @param {boolean=} opt_wanderBeforeFree Whether the mouse should wander before
- * switch to not busy state.
+ *     switch to not busy state.
  */
 Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
   if (opt_wanderBeforeFree) {
@@ -397,8 +397,8 @@ Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
  * of steps.
  * @param {number} steps The number of times the mouse should move in a random
  *     direction.
- * @param {!Function} callback The function to call after the mouse as completed
- *     all requested movement.
+ * @param {!Function} callback The function to call after the mouse has
+ *      completed all requested movement.
  * @private
  */
 Genetics.MouseAvatar.prototype.moveAbout_ = function(steps, callback) {

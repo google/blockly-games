@@ -51,7 +51,7 @@
 }
 
 .playerStatTable>tbody>tr>td {
-  position:relative;
+  position: relative;
   padding: 0;
   border: 1px solid;
   overflow: hidden;
@@ -77,12 +77,6 @@
   width: 20px;
   height: 60px;
   background-image: url(mouseFunctionIcons.png);
-}
-
-.winningFunction {
-  box-shadow: inset 0 0 2px #fff;
-  border: 1px solid #fff;
-  box-sizing: border-box;
 }
 
 .vizTabContent {
@@ -123,23 +117,9 @@
   }
 }
 
-@keyframes fadeOut {
-  from {opacity:1;}
-  to {opacity:0;}
-}
-
 .mouse {
   position: absolute;
 }
-
-.deadMouse {
-
-}
-
-.tooltip {
-  font-size: 12px;
-}
-
 
 @keyframes antiClockwiseSpin {
   0%  {
@@ -163,7 +143,7 @@
   position: absolute;
   width: 50px;
   height: 50px;
-  opacity:1;
+  opacity: 1;
   animation: fadeIn 1500ms ease-out;
   animation-iteration-count: 1;
 }
@@ -202,52 +182,6 @@
 
 .cloud:after {
   transform: rotate(-30deg);
-}
-
-.heart {
-  position: absolute;
-  height: 30px;
-  transform: rotate(-45deg);
-  width: 30px;
-}
-
-.heart:before,
-.heart:after {
-  content: "";
-  border-radius: 50%;
-  height: 30px;
-  position: absolute;
-  width: 30px;
-}
-
-.heart:before {
-  top: -15px;
-  left: 0;
-}
-
-.heart:after {
-  left: 15px;
-  top: 0;
-}
-
-.heart-success,
-.heart-success:before,
-.heart-success:after {
-  background: red;
-}
-
-.heart-infertile,
-.heart-infertile:before,
-.heart-infertile:after {
-  background: gray;
-}
-
-.heart-incompatible {
-  background: linear-gradient(to bottom left, orangered, yellow, green, blue, indigo);
-}
-.heart-incompatible:before,
-.heart-incompatible:after {
-  background: linear-gradient(to bottom left, red, orangered, yellow, green, blue);
 }
 
 @keyframes flyRight {
@@ -301,39 +235,9 @@
 }
 
 @keyframes fadeIn {
-  0% {opacity:.5;}
-  100% {opacity:1;}
+  0% {opacity: .5;}
+  100% {opacity: 1;}
 }
-
-.gameElement {
-  position: absolute;
-}
-
-.kickedOut {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  animation: bounceIn 1s;
-  background-image: url(kickedOut.png);
-}
-
-.retire {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  animation: bounceIn 1s;
-  background-image: url(retire.png);
-}
-
-
-.explode {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  animation: bounceIn 1s;
-  background-image: url(explode.png);
-}
-
 
 /* Sprited icons. */
 .icon21 {

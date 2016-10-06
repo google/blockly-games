@@ -41,7 +41,7 @@ goog.require('goog.ui.TabBar');
 
 /**
  * The name of the app.
- * @type {string}
+ * @const {string}
  */
 BlocklyGames.NAME = 'genetics';
 
@@ -150,54 +150,54 @@ Genetics.init = function() {
     switch (BlocklyGames.LEVEL) {
       case 2:
         defaultCode =
-            '/**\n' +
-            ' * Return the last mouse from getMice().\n' +
-            ' * @return {Mouse|null} The mouse chosen to fight with.\n' +
-            ' */\n' +
-            'function pickFight() {\n' +
-            '  return ;\n' +
-            '}';
+           ['/**\n',
+            ' * Return the last mouse from getMice().\n',
+            ' * @return {Mouse|null} The mouse chosen to fight with.\n',
+            ' */\n',
+            'function pickFight() {\n',
+            '  return ;\n',
+            '}'].join('');
         break;
       case 4:
         defaultCode =
-            '/**\n' +
-            ' * Return a mouse from getMice() that is smaller than itself.\n' +
-            ' * @return {Mouse|null} The mouse chosen to fight with.\n' +
-            ' */\n' +
-            'function pickFight() {\n' +
-            '  for (var i = 0; i < getMice().length; i++) {\n' +
-            '    var mouse = getMice()[i];\n' +
-            '  }\n' +
-            '  return ;\n' +
-            '}';
+           ['/**\n',
+            ' * Return a mouse from getMice() that is smaller than itself.\n',
+            ' * @return {Mouse|null} The mouse chosen to fight with.\n',
+            ' */\n',
+            'function pickFight() {\n',
+            '  for (var i = 0; i < getMice().length; i++) {\n',
+            '    var mouse = getMice()[i];\n',
+            '  }\n',
+            '  return ;\n',
+            '}'].join('');
         break;
       case 6:
         defaultCode =
-            '/**\n' +
-            ' * Return a mouse from getMice() that is fertile, of the ' +
-            'opposite sex,\n' +
-            ' * and bigger than itself.\n' +
-            ' * @return {Mouse|null} The mouse chosen to attempt to mate ' +
-            'with.\n' +
-            ' */\n' +
-            'function proposeMate() {\n' +
-            '  for (var i = 0; i < getMice().length; i++) {\n' +
-            '    var mouse = getMice()[i];\n' +
-            '  }\n' +
-            '  return ;\n' +
-            '}';
+           ['/**\n',
+            ' * Return a mouse from getMice() that is fertile, of the ',
+            'opposite sex,\n',
+            ' * and bigger than itself.\n',
+            ' * @return {Mouse|null} The mouse chosen to attempt to mate with.',
+            '\n',
+            ' */\n',
+            'function proposeMate() {\n',
+            '  for (var i = 0; i < getMice().length; i++) {\n',
+            '    var mouse = getMice()[i];\n',
+            '  }\n',
+            '  return ;\n',
+            '}'].join('');
         break;
       case 8:
         defaultCode =
-            '/**\n' +
-            ' *  Return true if the suitor mouse is of the opposite sex and ' +
-            'bigger than itself.\n' +
-            ' *  @param {Mouse} suitor the mouse requesting to mate.\n' +
-            ' *  @return {Boolean} Whether the mate request is accepted.\n' +
-            ' */\n' +
-            'function acceptMate(suitor) {\n' +
-            '  return ;\n' +
-            '}';
+           ['/**\n',
+            ' *  Return true if the suitor mouse is of the opposite sex and ',
+            'bigger than itself.\n',
+            ' *  @param {Mouse} suitor the mouse requesting to mate.\n',
+            ' *  @return {Boolean} Whether the mate request is accepted.\n',
+            ' */\n',
+            'function acceptMate(suitor) {\n',
+            '  return ;\n',
+            '}'].join('');
         break;
     }
     BlocklyInterface.editor = window['ace']['edit']('editor');
@@ -213,7 +213,9 @@ Genetics.init = function() {
     session['setTabSize'](2);
     session['setUseSoftTabs'](true);
     session['on']('change', Genetics.editorChanged);
-    BlocklyInterface.loadBlocks(defaultCode + '\n');
+    if (defaultCode) {
+      BlocklyInterface.loadBlocks(defaultCode + '\n', false);
+    }
   }
 
   if (blocklyDiv) {
@@ -234,128 +236,126 @@ Genetics.init = function() {
     switch (BlocklyGames.LEVEL) {
       case 1:
         defaultXml =
-            '<xml>' +
-              '<block type="genetics_pickFight" deletable="false" ' +
-                  'editable="false" x="0" y="150">' +
-                '<comment pinned="true">' +
-                'Return the first mouse from getMice().\n' +
-                '@return {Mouse|null} The mouse chosen to fight with.' +
-                '</comment>' +
-              '</block>' +
-            '</xml>';
+           ['<xml>',
+              '<block type="genetics_pickFight" deletable="false" ',
+                  'editable="false" x="0" y="150">',
+                '<comment pinned="true">',
+                'Return the first mouse from getMice().\n',
+                '@return {Mouse|null} The mouse chosen to fight with.',
+                '</comment>',
+              '</block>',
+            '</xml>'].join('');
         break;
       case 3:
         defaultXml =
-            '<xml>' +
-              '<block type="genetics_pickFight" deletable="false" ' +
-                  'editable="false" x="0" y="150">' +
-                '<comment pinned="true">' +
-                'Return a mouse from getMice() that is smaller than 2.\n' +
-                '@return {Mouse|null} The mouse chosen to fight with.' +
-                '</comment>' +
-                '<statement name="STACK">' +
-                  '<block type="controls_for">' +
-                    '<field name="VAR">i</field>' +
-                    '<value name="FROM">' +
-                      '<shadow type="math_number">' +
-                        '<field name="NUM">0</field>' +
-                      '</shadow>' +
-                    '</value>' +
-                    '<value name="TO">' +
-                      '<shadow type="lists_length">' +
-                        '<value name="VALUE">' +
-                          '<shadow type="genetics_getMice"></shadow>' +
-                        '</value>' +
-                      '</shadow>' +
-                    '</value>' +
-                    '<statement name="DO">' +
-                      '<block type="variables_set" >' +
-                        '<field name="VAR">mouse</field>' +
-                        '<value name="VALUE">' +
-                          '<block type="lists_getIndex">' +
-                            '<field name="MODE">GET</field>' +
-                            '<field name="WHERE">FROM_START</field>' +
-                            '<value name="VALUE">' +
-                              '<block type="genetics_getMice"></block>' +
-                            '</value>' +
-                            '<value name="AT">' +
-                              '<block type="variables_get">' +
-                                '<field name="VAR">i</field>' +
-                              '</block>' +
-                            '</value>' +
-                          '</block>' +
-                        '</value>' +
-                      '</block>' +
-                    '</statement>' +
-                  '</block>' +
-                '</statement>' +
-              '</block>' +
-            '</xml>';
+           ['<xml>',
+              '<block type="genetics_pickFight" deletable="false" ',
+                  'editable="false" x="0" y="150">',
+                '<comment pinned="true">',
+                'Return a mouse from getMice() that is smaller than 2.\n',
+                '@return {Mouse|null} The mouse chosen to fight with.',
+                '</comment>',
+                '<statement name="STACK">',
+                  '<block type="controls_for">',
+                    '<field name="VAR">i</field>',
+                    '<value name="FROM">',
+                      '<shadow type="math_number">',
+                        '<field name="NUM">0</field>',
+                      '</shadow>',
+                    '</value>',
+                    '<value name="TO">',
+                      '<shadow type="lists_length">',
+                        '<value name="VALUE">',
+                          '<shadow type="genetics_getMice"></shadow>',
+                        '</value>',
+                      '</shadow>',
+                    '</value>',
+                    '<statement name="DO">',
+                      '<block type="variables_set" >',
+                        '<field name="VAR">mouse</field>',
+                        '<value name="VALUE">',
+                          '<block type="lists_getIndex">',
+                            '<field name="MODE">GET</field>',
+                            '<field name="WHERE">FROM_START</field>',
+                            '<value name="VALUE">',
+                              '<block type="genetics_getMice"></block>',
+                            '</value>',
+                            '<value name="AT">',
+                              '<block type="variables_get">',
+                                '<field name="VAR">i</field>',
+                              '</block>',
+                            '</value>',
+                          '</block>',
+                        '</value>',
+                      '</block>',
+                    '</statement>',
+                  '</block>',
+                '</statement>',
+              '</block>',
+            '</xml>'].join('');
         break;
       case 5:
         defaultXml =
-            '<xml>' +
-              '<block type="genetics_proposeMate" deletable="false" ' +
-                  'editable="false" ' +
-              'x="0" y="150">' +
-                '<comment pinned="true">' +
-                'Return a mouse from getMice() that is fertile and of the ' +
-                    'opposite sex.\n' +
-                '@return {Mouse|null} The mouse chosen to attempt to mate ' +
-                    'with.' +
-                '</comment>' +
-                '<statement name="STACK">' +
-                  '<block type="controls_for">' +
-                    '<field name="VAR">i</field>' +
-                    '<value name="FROM">' +
-                      '<shadow type="math_number">' +
-                        '<field name="NUM">0</field>' +
-                      '</shadow>' +
-                    '</value>' +
-                    '<value name="TO">' +
-                      '<shadow type="lists_length">' +
-                        '<value name="VALUE">' +
-                          '<shadow type="genetics_getMice"></shadow>' +
-                        '</value>' +
-                      '</shadow>' +
-                    '</value>' +
-                    '<statement name="DO">' +
-                      '<block type="variables_set" >' +
-                        '<field name="VAR">mouse</field>' +
-                        '<value name="VALUE">' +
-                          '<block type="lists_getIndex">' +
-                            '<field name="MODE">GET</field>' +
-                            '<field name="WHERE">FROM_START</field>' +
-                            '<value name="VALUE">' +
-                              '<block type="genetics_getMice"></block>' +
-                            '</value>' +
-                            '<value name="AT">' +
-                              '<block type="variables_get">' +
-                                '<field name="VAR">i</field>' +
-                              '</block>' +
-                            '</value>' +
-                          '</block>' +
-                        '</value>' +
-                      '</block>' +
-                    '</statement>' +
-                  '</block>' +
-                '</statement>' +
-              '</block>' +
-            '</xml>';
+           ['<xml>',
+              '<block type="genetics_proposeMate" deletable="false" ',
+                  'editable="false" x="0" y="150">',
+                '<comment pinned="true">',
+                'Return a mouse from getMice() that is fertile and of the ',
+                    'opposite sex.\n',
+                '@return {Mouse|null} The mouse chosen to attempt to mate ',
+                    'with.',
+                '</comment>',
+                '<statement name="STACK">',
+                  '<block type="controls_for">',
+                    '<field name="VAR">i</field>',
+                    '<value name="FROM">',
+                      '<shadow type="math_number">',
+                        '<field name="NUM">0</field>',
+                      '</shadow>',
+                    '</value>',
+                    '<value name="TO">',
+                      '<shadow type="lists_length">',
+                        '<value name="VALUE">',
+                          '<shadow type="genetics_getMice"></shadow>',
+                        '</value>',
+                      '</shadow>',
+                    '</value>',
+                    '<statement name="DO">',
+                      '<block type="variables_set" >',
+                        '<field name="VAR">mouse</field>',
+                        '<value name="VALUE">',
+                          '<block type="lists_getIndex">',
+                            '<field name="MODE">GET</field>',
+                            '<field name="WHERE">FROM_START</field>',
+                            '<value name="VALUE">',
+                              '<block type="genetics_getMice"></block>',
+                            '</value>',
+                            '<value name="AT">',
+                              '<block type="variables_get">',
+                                '<field name="VAR">i</field>',
+                              '</block>',
+                            '</value>',
+                          '</block>',
+                        '</value>',
+                      '</block>',
+                    '</statement>',
+                  '</block>',
+                '</statement>',
+              '</block>',
+            '</xml>'].join('');
         break;
       case 7:
         defaultXml =
-            '<xml>' +
-              '<block type="genetics_acceptMate" deletable="false" ' +
-                  'editable="false" ' +
-              'x="0" y="150">' +
-                '<comment pinned="true">' +
-                'Return true if the suitor mouse is of the opposite sex.\n' +
-                '@param {Mouse} suitor the mouse requesting to mate.\n' +
-                '@return {Boolean} Whether the mate request is accepted.' +
-                '</comment>' +
-              '</block>' +
-            '</xml>';
+           ['<xml>',
+              '<block type="genetics_acceptMate" deletable="false" ',
+                  'editable="false" x="0" y="150">',
+                '<comment pinned="true">',
+                'Return true if the suitor mouse is of the opposite sex.\n',
+                '@param {Mouse} suitor the mouse requesting to mate.\n',
+                '@return {Boolean} Whether the mate request is accepted.',
+                '</comment>',
+              '</block>',
+            '</xml>'].join('');
         break;
     }
     if (defaultXml) {
@@ -367,46 +367,46 @@ Genetics.init = function() {
 
   if (tabDiv) {
     var defaultXml =
-        '<xml>' +
-          '<block type="genetics_pickFight" deletable="false" ' +
-              'editable="true" x="0" y="150">' +
-            '<comment pinned="true" h="65" w="560">' +
-            'Return a mouse from cage to pick a fight with. Returning itself ' +
-                'will kill the mouse and returning null will result in no ' +
-                'fights.\n' +
-            '@return {Mouse|null} The mouse chosen to fight with.' +
-            '</comment>' +
-            '<value name="RETURN">' +
-              '<shadow type="logic_null"></shadow>' +
-            '</value>' +
-          '</block>' +
-          '<block type="genetics_proposeMate" deletable="false" ' +
-              'editable="true" x="0" y="350">' +
-            '<comment pinned="true" h="80" w="590">' +
-            'Return a mouse from cage to attempt to mate with. If the mate ' +
-                'chosen accepts, is fertile, and is of the opposite sex, ' +
-                'then a child will be born.\n' +
-            '@return {Mouse|null} The mouse chosen to attempt to mate with.' +
-            '</comment>' +
-            '<value name="RETURN">' +
-              '<shadow type="logic_null"></shadow>' +
-            '</value>' +
-          '</block>' +
-          '<block type="genetics_acceptMate" deletable="false" ' +
-              'editable="true" x="0" y="550">' +
-            '<comment pinned="true" h="80" w="560">' +
-            'Return true to agree to a mate request or false to decline a ' +
-                'mate request.\n' +
-            '@param {Mouse} suitor the mouse requesting to mate.\n' +
-            '@return {Boolean} Whether the mate request is accepted.' +
-            '</comment>' +
-            '<value name="RETURN">' +
-              '<shadow type="logic_boolean">' +
-                '<field name="BOOL">TRUE</field>' +
-              '</shadow>' +
-            '</value>' +
-          '</block>' +
-        '</xml>';
+       ['<xml>',
+          '<block type="genetics_pickFight" deletable="false" ',
+              'editable="true" x="0" y="150">',
+            '<comment pinned="false" h="65" w="560">',
+            'Return a mouse from cage to pick a fight with. Returning itself ',
+                'will kill the mouse and returning null will result in no ',
+                'fights.\n',
+            '@return {Mouse|null} The mouse chosen to fight with.',
+            '</comment>',
+            '<value name="RETURN">',
+              '<shadow type="logic_null"></shadow>',
+            '</value>',
+          '</block>',
+          '<block type="genetics_proposeMate" deletable="false" ',
+              'editable="true" x="0" y="350">',
+            '<comment pinned="false" h="80" w="590">',
+            'Return a mouse from cage to attempt to mate with. If the mate ',
+                'chosen accepts, is fertile, and is of the opposite sex, ',
+                'then a child will be born.\n',
+            '@return {Mouse|null} The mouse chosen to attempt to mate with.',
+            '</comment>',
+            '<value name="RETURN">',
+              '<shadow type="logic_null"></shadow>',
+            '</value>',
+          '</block>',
+          '<block type="genetics_acceptMate" deletable="false" ',
+              'editable="true" x="0" y="550">',
+            '<comment pinned="false" h="80" w="560">',
+            'Return true to agree to a mate request or false to decline a ',
+                'mate request.\n',
+            '@param {Mouse} suitor the mouse requesting to mate.\n',
+            '@return {Boolean} Whether the mate request is accepted.',
+            '</comment>',
+            '<value name="RETURN">',
+              '<shadow type="logic_boolean">',
+                '<field name="BOOL">TRUE</field>',
+              '</shadow>',
+            '</value>',
+          '</block>',
+        '</xml>'].join('');
     var xml = Blockly.Xml.textToDom(defaultXml);
     // Clear the workspace to avoid merge.
     BlocklyGames.workspace.clear();
@@ -417,15 +417,6 @@ Genetics.init = function() {
   Genetics.blocksEnabled_ = blocklyDiv != null;
 
   // Set level specific settings in Cage.
-  Genetics.Cage.discreteFights = BlocklyGames.LEVEL <= 8;
-  Genetics.Cage.soloPlayerMouse = BlocklyGames.LEVEL <= 6;
-  Genetics.Cage.ignorePlayerMouse = BlocklyGames.LEVEL == 7 ||
-      BlocklyGames.LEVEL == 8;
-  Genetics.Cage.skipPickFight = BlocklyGames.LEVEL >= 5 &&
-      BlocklyGames.LEVEL <= 8;
-  Genetics.Visualization.wanderAfterMate = BlocklyGames.LEVEL >= 9;
-  Genetics.Cage.historyPreserved = BlocklyGames.LEVEL <= 8;
-  Genetics.Cage.prependAiCode = BlocklyGames.LEVEL <= 8;
   var players;
   if (BlocklyGames.LEVEL <= 8) {
     players = [
@@ -446,6 +437,15 @@ Genetics.init = function() {
         code: 'playerTutor'
       }
     ];
+    Genetics.Visualization.wanderAfterMate = false;
+    Genetics.Cage.historyPreserved = true;
+    Genetics.Cage.discreteFights = true;
+    Genetics.Cage.soloPlayerMouse = BlocklyGames.LEVEL <= 6;
+    Genetics.Cage.skipPickFight = BlocklyGames.LEVEL >= 5;
+    Genetics.Cage.ignorePlayerMouse =
+        BlocklyGames.LEVEL == 7 || BlocklyGames.LEVEL == 8;
+    Genetics.Cage.prependedCode =
+        document.getElementById('playerTutor').textContent;
   } else if (BlocklyGames.LEVEL == 9) {
     players = [
       {
@@ -753,7 +753,7 @@ Genetics.addStartingMice = function() {
     goog.array.shuffle(startingMice);
   }
   for (var i = 0, mouseStats; mouseStats = startingMice[i]; i++) {
-    var sex = (mouseStats.sex != null) ? mouseStats.sex :
+    var sex = mouseStats.sex ||
         ((goog.math.randomInt(2) == 0) ? Genetics.Mouse.Sex.MALE :
             Genetics.Mouse.Sex.FEMALE);
     var mouse = new Genetics.Mouse(mouseStats.id, sex, mouseStats.playerId);
@@ -933,8 +933,11 @@ Genetics.checkForEnd = function() {
     return true;
   }
   // Find which players have majority for each function.
-  var playerFunctionCounts = { 'pickFight' : [0, 0, 0, 0],
-    'proposeMate' : [0, 0, 0, 0], 'acceptMate' : [0, 0, 0, 0]};
+  var playerFunctionCounts = {
+    'pickFight' : [0, 0, 0, 0],
+    'proposeMate' : [0, 0, 0, 0],
+    'acceptMate' : [0, 0, 0, 0]
+  };
   var isTimeExpired = Genetics.Cage.roundNumber_ > Genetics.Cage.MAX_ROUNDS;
   var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
   for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice_[i]; i++) {
