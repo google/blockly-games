@@ -716,8 +716,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
  * @param {!Object} scope Global scope.
  * @private
  */
-Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter,
-    scope) {
+Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
   var pseudoMe = interpreter.UNDEFINED;
   var pseudoSuitor = interpreter.ARRAY;
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);

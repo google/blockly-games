@@ -577,8 +577,8 @@ Genetics.Visualization.processCageEvents_ = function() {
  * @param {Genetics.MouseAvatar} opponent
  * @private
  */
-Genetics.Visualization.processFightEvent_ = function(event, instigator,
-    opponent) {
+Genetics.Visualization.processFightEvent_ = function(
+    event, instigator, opponent) {
   var getMouseName = Genetics.Visualization.getMouseName_;
   var result = event['RESULT'];
 
@@ -626,8 +626,8 @@ Genetics.Visualization.wanderAfterMate = true;
  * @param {Genetics.MouseAvatar} askedMouse
  * @private
  */
-Genetics.Visualization.processMateEvent_ = function(event, proposingMouse,
-    askedMouse) {
+Genetics.Visualization.processMateEvent_ = function(
+    event, proposingMouse, askedMouse) {
   var getMouseName = Genetics.Visualization.getMouseName_;
 
   var result = event['RESULT'];
@@ -804,8 +804,8 @@ Genetics.Visualization.updateChartData_ = function() {
  * @return {string} The string representation of the mouse.
  * @private
  */
-Genetics.Visualization.getMouseName_ = function(mouse, opt_showStats,
-    opt_showGenes) {
+Genetics.Visualization.getMouseName_ = function(
+    mouse, opt_showStats, opt_showGenes) {
   // Credit: http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
   function romanize(value) {
     var roman = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V',
@@ -942,8 +942,8 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
  * @param {!Function} callback The function to call after the event is animated.
  * @private
  */
-Genetics.Visualization.fight_ = function(instigator, opponent, result,
-    callback) {
+Genetics.Visualization.fight_ = function(
+    instigator, opponent, result, callback) {
   var getMouseName = Genetics.Visualization.getMouseName_;
   var fightCloud = document.getElementById('dust').cloneNode(true);
   // Calculate the position of the cloud over the mice.
@@ -1037,8 +1037,8 @@ Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
  * @param {!Function} callback The function to call after the event is animated.
  * @private
  */
-Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
-    callback) {
+Genetics.Visualization.animateAddMouse_ = function(
+    mouseAvatar, x, y, isBirth, callback) {
   var getMouseName = Genetics.Visualization.getMouseName_;
 
   var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
@@ -1087,8 +1087,8 @@ Genetics.Visualization.animateAddMouse_ = function(mouseAvatar, x, y, isBirth,
  *     displaying the image.
  * @private
  */
-Genetics.Visualization.showImageOverMouse_ = function(mouseAvatar, imageSrc,
-    size, duration, opt_callback) {
+Genetics.Visualization.showImageOverMouse_ = function(
+    mouseAvatar, imageSrc, size, duration, opt_callback) {
   mouseAvatar.stopMove();
   var x = parseInt(mouseAvatar.element.style.left, 10) +
       Genetics.MouseAvatar.WIDTH / 2;
@@ -1110,8 +1110,8 @@ Genetics.Visualization.showImageOverMouse_ = function(mouseAvatar, imageSrc,
  *     displaying the image.
  * @private
  */
-Genetics.Visualization.showImage_ = function(imageSrc, x, y, size, duration,
-    opt_callback) {
+Genetics.Visualization.showImage_ = function(
+    imageSrc, x, y, size, duration, opt_callback) {
   var img = document.createElement('img');
   img.src = imageSrc;
   img.style.width = size + 'px';
