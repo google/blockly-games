@@ -125,9 +125,8 @@ Genetics.Cage.EVENT_PROPERTY_NAMES = {
 
 /**
  * Creates an event.
- * @param {string } type The type of event.
- * @param {...string|number|boolean|!Genetics.Mouse|!Object<string,!Array.<!Array.<number>>>} var_args
- *     The properties on the event.
+ * @param {string} type The type of event.
+ * @param {...*} var_args The properties on the event.
  * @constructor
  * @dict
  */
