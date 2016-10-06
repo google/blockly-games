@@ -202,6 +202,7 @@ Genetics.init = function() {
         break;
     }
     BlocklyInterface.editor = window['ace']['edit']('editor');
+    BlocklyInterface.editor['require']("ace/ext/language_tools");
     BlocklyInterface.editor['setTheme']('ace/theme/chrome');
     BlocklyInterface.editor['setShowPrintMargin'](false);
     BlocklyInterface.editor['setOptions']({

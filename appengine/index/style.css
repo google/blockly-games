@@ -59,8 +59,8 @@ a {
   fill: none;
   stroke-dasharray: 180;
   stroke-dashoffset: 180;
-  animation: dash .6s linear forwards;
-  -webkit-animation: dash .6s linear forwards;
+  animation: dash .7s linear forwards;
+  -webkit-animation: dash .7s linear forwards;
 }
 
 @keyframes dash {
@@ -138,6 +138,11 @@ a:hover > text {
   -webkit-animation-delay: 0.6s;
 }
 
+#icon-genetics {
+  animation-delay: 0.7s;
+  -webkit-animation-delay: 0.7s;
+}
+
 #back-puzzle {
   animation-delay: 0.3s;
   -webkit-animation-delay: 0.3s;
@@ -171,6 +176,11 @@ a:hover > text {
 #back-pond-duck {
   animation-delay: 0.9s;
   -webkit-animation-delay: 0.9s;
+}
+
+#back-genetics {
+  animation-delay: 1.0s;
+  -webkit-animation-delay: 1.0s;
 }
 
 @keyframes pop {
