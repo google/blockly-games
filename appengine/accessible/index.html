@@ -165,6 +165,7 @@
         toolbarButtonConfig: [{
           text: 'Run Code',
           ariaDescribedBy: null,
+          onClickNotification: 'Your tune.',
           isHidden: function() {
             return false;
           },
@@ -173,6 +174,7 @@
         }, {
           text: 'Play Desired Tune',
           ariaDescribedBy: 'instructionsText',
+          onClickNotification: 'This is what the tune should sound like.',
           // Gets set by musicGame.LevelManagerService.
           isHidden: null,
           // Gets set by musicGame.LevelManagerService.
