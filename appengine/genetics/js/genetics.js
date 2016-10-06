@@ -155,7 +155,7 @@ Genetics.init = function() {
             ' * @return {Mouse|null} The mouse chosen to fight with.\n',
             ' */\n',
             'function pickFight() {\n',
-            '  return ;\n',
+            '  return null;\n',
             '}'].join('');
         break;
       case 4:
@@ -168,7 +168,7 @@ Genetics.init = function() {
             '  for (var i = 0; i < getMice().length; i++) {\n',
             '    var mouse = getMice()[i];\n',
             '  }\n',
-            '  return ;\n',
+            '  return null;\n',
             '}'].join('');
         break;
       case 6:
@@ -184,7 +184,7 @@ Genetics.init = function() {
             '  for (var i = 0; i < getMice().length; i++) {\n',
             '    var mouse = getMice()[i];\n',
             '  }\n',
-            '  return ;\n',
+            '  return null;\n',
             '}'].join('');
         break;
       case 8:
@@ -196,7 +196,7 @@ Genetics.init = function() {
             ' *  @return {Boolean} Whether the mate request is accepted.\n',
             ' */\n',
             'function acceptMate(suitor) {\n',
-            '  return ;\n',
+            '  return false;\n',
             '}'].join('');
         break;
     }
