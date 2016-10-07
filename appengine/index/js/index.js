@@ -33,7 +33,7 @@ goog.require('Index.soy');
  * Array of application names.
  */
 Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie',
-              'pond-tutor', 'pond-duck', 'genetics'];
+              'pond-tutor', 'pond-duck', 'genetics-tutor'];
 
 /**
  * Initialize Blockly and the maze.  Called on page load.

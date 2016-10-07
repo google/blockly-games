@@ -431,7 +431,8 @@ Genetics.Tutor.init = function() {
         code: 'playerTutor'
       }
     ];
-    Genetics.checkForEnd = Genetics.checkForLevelEnd;
+    Genetics.Cage.checkForEnd = Genetics.Tutor.checkForEnd;
+    Genetics.Cage.addStartingMice = Genetics.Tutor.addStartingMice;
     Genetics.Visualization.wanderAfterMate = false;
     Genetics.Cage.historyPreserved = true;
     Genetics.Cage.discreteFights = true;
@@ -574,9 +575,9 @@ Genetics.Tutor.editorChanged = function() {
 /**
  * Determines the starting mice in the game based on the level and adds them
  * to the game.
- * @suppress {duplicate}
+ * Handles Genetics levels 1 to 8 only.
  */
-Genetics.Cage.addStartingMice = function() {
+Genetics.Tutor.addStartingMice = function() {
   var startingMice;
   if (BlocklyGames.LEVEL == 1) {
     startingMice = [
@@ -726,7 +727,7 @@ Genetics.Cage.addStartingMice = function() {
       }
     ];
     goog.array.shuffle(startingMice);
-  } else if (BlocklyGames.LEVEL <= 8) {
+  } else {  // BlocklyGames.LEVEL <= 5
     startingMice = [
       {
         // Create player mouse.
@@ -800,20 +801,6 @@ Genetics.Cage.addStartingMice = function() {
       }
     ];
     goog.array.shuffle(startingMice);
-  } else {  // BlocklyGames.LEVEL >= 9
-    startingMice = [];
-    var mouseId = 0;
-    for (var playerId = 0; playerId < 4; playerId++) {
-      for (var i = 0; i < 2; i++) {
-        startingMice.push({
-          id: mouseId++,
-          sex: (i % 2 == 0) ? Genetics.Mouse.Sex.MALE :
-              Genetics.Mouse.Sex.FEMALE,
-          playerId: playerId
-        });
-      }
-    }
-    goog.array.shuffle(startingMice);
   }
 
   Genetics.Cage.nextAvailableMouseId_ = Genetics.Cage.nextRoundMice_.length;
@@ -847,9 +834,8 @@ Genetics.Cage.addStartingMice = function() {
  * Returns whether the game is over and adds events to the event queue if it is.
  * Handles Genetics levels 1 to 8 only.
  * @return {boolean}
- * @suppress {duplicate}
  */
-Genetics.Cage.checkForEnd = function() {
+Genetics.Tutor.checkForEnd = function() {
   switch (BlocklyGames.LEVEL) {
     case 1:
       // Player was asked to return the first mouse from the list (which also
