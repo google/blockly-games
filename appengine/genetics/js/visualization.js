@@ -297,6 +297,7 @@ Genetics.Visualization.resetChartData_ = function() {
 Genetics.Visualization.stop = function() {
   clearTimeout(Genetics.Visualization.pid_);
   Genetics.Visualization.stopped_ = true;
+  Genetics.MouseAvatar.wanderingDisabled = true;
   for (var mouseId in Genetics.Visualization.mice_) {
     var mouseAvatar = Genetics.Visualization.mice_[mouseId];
     mouseAvatar.stop();
@@ -386,6 +387,7 @@ Genetics.Visualization.reset = function() {
  */
 Genetics.Visualization.start = function(doneCallback) {
   Genetics.Visualization.doneCallback_ = doneCallback;
+  Genetics.MouseAvatar.wanderingDisabled = false; // TODO lvl <= 2
   Genetics.Visualization.gameOverReached_ = false;
   Genetics.Visualization.gameRankings_ = null;
   Genetics.Visualization.stopped_ = false;

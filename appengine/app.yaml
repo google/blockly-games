@@ -102,9 +102,9 @@ handlers:
   secure: always
 
 # Genetics app.
-- url: /genetics
-  static_files: genetics.html
-  upload: genetics\.html
+- url: /genetics-tutor
+  static_files: genetics-tutor.html
+  upload: genetics-tutor\.html
   secure: always
 - url: /genetics/
   static_dir: genetics

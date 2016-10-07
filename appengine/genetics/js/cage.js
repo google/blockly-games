@@ -197,11 +197,29 @@ Genetics.Cage.stop = function() {
 Genetics.Cage.reset = function() {
   Genetics.Cage.stop();
   Genetics.Cage.Events.length = 0;
+  Genetics.Cage.roundNumber_ = 0;
+  // Reset starting population.
   Genetics.Cage.miceMap_ = {};
-  // Cancel all queued life simulations.
   Genetics.Cage.nextRoundMice_.length = 0;
   Genetics.Cage.currentRoundMice_.length = 0;
-  Genetics.Cage.roundNumber_ = 0;
+};
+
+/**
+ * Adds starting mice to the game.
+ * @type {!Function}
+ */
+Genetics.Cage.addStartingMice = function() {
+  for (var playerId = 0; playerId < 4; playerId++) {
+    for (var i = 0; i < 2; i++) {
+      var sex = (i % 2 == 0) ? Genetics.Mouse.Sex.MALE :
+          Genetics.Mouse.Sex.FEMALE;
+      var mouse = new Genetics.Mouse(
+          Genetics.Cage.nextAvailableMouseId_++, sex, playerId);
+      Genetics.Cage.addMouse(mouse);
+      new Genetics.Cage.Event('ADD', mouse).addToQueue();
+    }
+  }
+  goog.array.shuffle(Genetics.Cage.nextRoundMice_);
 };
 
 /**
@@ -222,15 +240,8 @@ Genetics.Cage.prependedCode = '';
 
 /**
  * Start the Cage simulation. Players should be already added.
- * @param {Function=} opt_checkForEndOverride Function to handle checking
- *     whether the game has ended to override the default check.
  */
-Genetics.Cage.start = function(opt_checkForEndOverride) {
-  if (opt_checkForEndOverride) {
-    Genetics.Cage.checkForEnd = opt_checkForEndOverride;
-  }
-  Genetics.Cage.stopped_ = false;
-  Genetics.Cage.nextAvailableMouseId_ = Genetics.Cage.nextRoundMice_.length;
+Genetics.Cage.start = function() {
   for (var playerId = 0, player; player = Genetics.Cage.players[playerId];
       playerId++) {
     if (goog.isFunction(player.code)) {
@@ -238,6 +249,7 @@ Genetics.Cage.start = function(opt_checkForEndOverride) {
       player.cachedCode = Genetics.Cage.prependedCode + '\n' + player.code();
     }
   }
+  Genetics.Cage.stopped_ = false;
   new Genetics.Cage.Event('START_GAME').addToQueue();
 
   Genetics.Cage.update();
