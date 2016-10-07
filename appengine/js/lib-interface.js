@@ -28,6 +28,7 @@ goog.provide('BlocklyInterface');
 goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
+goog.require('goog.userAgent');
 goog.require('goog.string');
 
 
@@ -295,6 +296,76 @@ BlocklyInterface.importPrettify = function() {
   script.setAttribute('type', 'text/javascript');
   script.setAttribute('src', 'common/prettify.js');
   document.head.appendChild(script);
+};
+
+
+/**
+ * Load an audio file.  Cache it, ready for instantaneous playing.
+ * @param {!Array.<string>} filenames List of file types in decreasing order of
+ *   preference (i.e. increasing size).  E.g. ['media/go.mp3', 'media/go.wav']
+ *   Filenames include path from Blockly's root.  File extensions matter.
+ * @param {string} name Name of sound.
+ */
+Pond.Visualization.loadAudio = function(filenames, name) {
+  if (!window['Audio'] || !filenames.length) {
+    // No browser support for Audio.
+    return;
+  }
+  var sound;
+  var audioTest = new window['Audio']();
+  for (var i = 0; i < filenames.length; i++) {
+    var filename = filenames[i];
+    var ext = filename.match(/\.(\w+)$/);
+    if (ext && audioTest.canPlayType('audio/' + ext[1])) {
+      // Found an audio format we can play.
+      sound = new window['Audio'](filename);
+      break;
+    }
+  }
+  if (sound && sound.play) {
+    BlocklyInterface.SOUNDS_[name] = sound;
+  }
+};
+
+/**
+ * Preload all the audio files so that they play quickly when asked for.
+ */
+BlocklyInterface.preloadAudio = function() {
+  // iOS can only process one sound at a time.  Trying to load more than one
+  // corrupts the earlier ones. Since the Blockly workspace would also preload
+  // a sound file, leave all game sounds uncached.
+  if (goog.userAgent.IPAD || goog.userAgent.IPHONE) {
+    return;
+  }
+  for (var name in BlocklyInterface.SOUNDS_) {
+    var sound = BlocklyInterface.SOUNDS_[name];
+    sound.volume = .01;
+    sound.play();
+    sound.pause();
+  }
+};
+
+/**
+ * Play an audio file at specified value.  If volume is not specified,
+ * use full volume (1).
+ * @param {string} name Name of sound.
+ * @param {number=} opt_volume Volume of sound (0-1).
+ */
+BlocklyInterface.playAudio = function(name, opt_volume) {
+  var sound = Pond.Visualization.SOUNDS_[name];
+  var mySound;
+  var ie9 = goog.userAgent.DOCUMENT_MODE &&
+      goog.userAgent.DOCUMENT_MODE === 9;
+  if (ie9 || goog.userAgent.IPAD || goog.userAgent.ANDROID) {
+    // Creating a new audio node causes lag in IE9, Android and iPad. Android
+    // and IE9 refetch the file from the server, iPad uses a singleton audio
+    // node which must be deleted and recreated for each new audio tag.
+    mySound = sound;
+  } else {
+    mySound = sound.cloneNode();
+  }
+  mySound.volume = (opt_volume === undefined ? 1 : opt_volume);
+  mySound.play();
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.

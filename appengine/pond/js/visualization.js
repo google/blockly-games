@@ -26,6 +26,7 @@
 goog.provide('Pond.Visualization');
 
 goog.require('Blockly');
+goog.require('BlocklyInterface');
 goog.require('Pond.Battle');
 goog.require('goog.userAgent');
 
@@ -67,15 +68,11 @@ Pond.Visualization.init = function() {
   Pond.Visualization.ctxDisplay_ = ctxDisplay;
   Pond.Visualization.CANVAS_SIZE = ctxDisplay.canvas.width;
   ctxDisplay.globalCompositeOperation = 'copy';
-  Pond.Visualization.loadAudio_(['pond/whack.mp3', 'pond/whack.ogg'], 'whack');
-  Pond.Visualization.loadAudio_(['pond/boom.mp3', 'pond/boom.ogg'], 'boom');
-  Pond.Visualization.loadAudio_(['pond/splash.mp3', 'pond/splash.ogg'],
+  BlocklyInterface.loadAudio(['pond/whack.mp3', 'pond/whack.ogg'], 'whack');
+  BlocklyInterface.loadAudio(['pond/boom.mp3', 'pond/boom.ogg'], 'boom');
+  BlocklyInterface.loadAudio(['pond/splash.mp3', 'pond/splash.ogg'],
       'splash');
-  // iOS can only process one sound at a time.  Trying to load more than one
-  // corrupts the earlier ones.  Just load one and leave the others uncached.
-  if (!goog.userAgent.IPAD && !goog.userAgent.IPHONE) {
-    Pond.Visualization.preloadAudio_();
-  }
+  BlocklyInterface.preloadAudio();
 };
 
 /**
@@ -315,7 +312,7 @@ Pond.Visualization.display_ = function() {
       // Only play the crash sound if this avatar hasn't crashed recently.
       var lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
       if (!lastCrash || lastCrash + 1000 < goog.now()) {
-        Pond.Visualization.playAudio_('whack', event['damage'] /
+        BlocklyInterface.playAudio('whack', event['damage'] /
                           Pond.Battle.COLLISION_DAMAGE);
         Pond.Visualization.CRASH_LOG[avatar.id] = goog.now();
       }
@@ -344,12 +341,12 @@ Pond.Visualization.display_ = function() {
       // A missile has landed.
       if (event['damage']) {
         // A avatar has taken damage.
-        Pond.Visualization.playAudio_('boom', event['damage'] / 10);
+        BlocklyInterface.playAudio('boom', event['damage'] / 10);
       }
       Pond.Visualization.EXPLOSIONS.push({x: event['x'], y: event['y'], t: 0});
     } else if (event['type'] == 'DIE') {
       // A avatar just sustained fatal damage.
-      Pond.Visualization.playAudio_('splash');
+      BlocklyInterface.playAudio('splash');
     }
   }
   Pond.Battle.EVENTS.length = 0;
@@ -382,70 +379,4 @@ Pond.Visualization.display_ = function() {
     var width = div.parentNode.offsetWidth * (1 - avatar.damage / 100) - 2;
     div.style.width = Math.max(0, width) + 'px';
   }
-};
-
-/**
- * Load an audio file.  Cache it, ready for instantaneous playing.
- * @param {!Array.<string>} filenames List of file types in decreasing order of
- *   preference (i.e. increasing size).  E.g. ['media/go.mp3', 'media/go.wav']
- *   Filenames include path from Blockly's root.  File extensions matter.
- * @param {string} name Name of sound.
- * @private
- */
-Pond.Visualization.loadAudio_ = function(filenames, name) {
-  if (!window['Audio'] || !filenames.length) {
-    // No browser support for Audio.
-    return;
-  }
-  var sound;
-  var audioTest = new window['Audio']();
-  for (var i = 0; i < filenames.length; i++) {
-    var filename = filenames[i];
-    var ext = filename.match(/\.(\w+)$/);
-    if (ext && audioTest.canPlayType('audio/' + ext[1])) {
-      // Found an audio format we can play.
-      sound = new window['Audio'](filename);
-      break;
-    }
-  }
-  if (sound && sound.play) {
-    Pond.Visualization.SOUNDS_[name] = sound;
-  }
-};
-
-/**
- * Preload all the audio files so that they play quickly when asked for.
- * @private
- */
-Pond.Visualization.preloadAudio_ = function() {
-  for (var name in Pond.Visualization.SOUNDS_) {
-    var sound = Pond.Visualization.SOUNDS_[name];
-    sound.volume = .01;
-    sound.play();
-    sound.pause();
-  }
-};
-
-/**
- * Play an audio file at specified value.  If volume is not specified,
- * use full volume (1).
- * @param {string} name Name of sound.
- * @param {?number} opt_volume Volume of sound (0-1).
- * @private
- */
-Pond.Visualization.playAudio_ = function(name, opt_volume) {
-  var sound = Pond.Visualization.SOUNDS_[name];
-  var mySound;
-  var ie9 = goog.userAgent.DOCUMENT_MODE &&
-            goog.userAgent.DOCUMENT_MODE === 9;
-  if (ie9 || goog.userAgent.IPAD || goog.userAgent.ANDROID) {
-    // Creating a new audio node causes lag in IE9, Android and iPad. Android
-    // and IE9 refetch the file from the server, iPad uses a singleton audio
-    // node which must be deleted and recreated for each new audio tag.
-    mySound = sound;
-  } else {
-    mySound = sound.cloneNode();
-  }
-  mySound.volume = (opt_volume === undefined ? 1 : opt_volume);
-  mySound.play();
 };
