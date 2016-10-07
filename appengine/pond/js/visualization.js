@@ -51,13 +51,6 @@ Pond.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
 Pond.Visualization.pid = 0;
 
 /**
- * Database of pre-loaded sounds.
- * @private
- * @const
- */
-Pond.Visualization.SOUNDS_ = Object.create(null);
-
-/**
  * Setup the visualization (run once).
  */
 Pond.Visualization.init = function() {

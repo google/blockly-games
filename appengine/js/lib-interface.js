@@ -298,6 +298,12 @@ BlocklyInterface.importPrettify = function() {
   document.head.appendChild(script);
 };
 
+/**
+ * Database of pre-loaded sounds.
+ * @private
+ * @const
+ */
+BlocklyInterface.SOUNDS_ = Object.create(null);
 
 /**
  * Load an audio file.  Cache it, ready for instantaneous playing.
@@ -306,7 +312,7 @@ BlocklyInterface.importPrettify = function() {
  *   Filenames include path from Blockly's root.  File extensions matter.
  * @param {string} name Name of sound.
  */
-Pond.Visualization.loadAudio = function(filenames, name) {
+BlocklyInterface.loadAudio = function(filenames, name) {
   if (!window['Audio'] || !filenames.length) {
     // No browser support for Audio.
     return;
@@ -352,7 +358,7 @@ BlocklyInterface.preloadAudio = function() {
  * @param {number=} opt_volume Volume of sound (0-1).
  */
 BlocklyInterface.playAudio = function(name, opt_volume) {
-  var sound = Pond.Visualization.SOUNDS_[name];
+  var sound = BlocklyInterface.SOUNDS_[name];
   var mySound;
   var ie9 = goog.userAgent.DOCUMENT_MODE &&
       goog.userAgent.DOCUMENT_MODE === 9;
