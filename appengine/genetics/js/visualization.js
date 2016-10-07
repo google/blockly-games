@@ -146,6 +146,12 @@ Genetics.Visualization.proposeMateOwners_ = [];
 Genetics.Visualization.acceptMateOwners_ = [];
 
 /**
+ * Callback function for end of game.
+ * @type Function
+ */
+Genetics.Visualization.doneCallback_ = null;
+
+/**
  * PID of executing task.
  * @private {number}
  */
@@ -376,8 +382,10 @@ Genetics.Visualization.reset = function() {
 
 /**
  * Start the visualization running.
+ * @param {Function} doneCallback Function to call when game ends.
  */
-Genetics.Visualization.start = function() {
+Genetics.Visualization.start = function(doneCallback) {
+  Genetics.Visualization.doneCallback_ = doneCallback;
   Genetics.Visualization.gameOverReached_ = false;
   Genetics.Visualization.gameRankings_ = null;
   Genetics.Visualization.stopped_ = false;
@@ -753,12 +761,8 @@ Genetics.Visualization.displayGameEnd_ = function() {
         ' acceptMate Winners: ' + functionWinnersText['acceptMate']);
   }
 
-  if (Genetics.Visualization.levelSucceeded) {
-    BlocklyInterface.saveToLocalStorage();
-    BlocklyDialogs.congratulations();
-    Genetics.log('Level Succeeded');
-  } else if (!Genetics.Visualization.gameRankings_) {
-    Genetics.log('Level Failed');
+  if (Genetics.Visualization.doneCallback_) {
+    Genetics.Visualization.doneCallback_(Genetics.Visualization.levelSucceeded);
   }
 };
 

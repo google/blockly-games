@@ -412,6 +412,13 @@ Genetics.init = function() {
 
   Genetics.blocksEnabled_ = blocklyDiv != null;
 
+  // Load sounds for level success and failure.
+  BlocklyInterface.loadAudio(
+      ['genetics/success.mp3', 'genetics/success.ogg'], 'success');
+  BlocklyInterface.loadAudio(
+      ['genetics/fail.mp3', 'genetics/fail.ogg'], 'fail');
+  BlocklyInterface.preloadAudio();
+
   // Set level specific settings in Cage.
   var players;
   if (BlocklyGames.LEVEL <= 8) {
@@ -998,7 +1005,7 @@ Genetics.execute = function() {
   var checkForEnd =
       (BlocklyGames.LEVEL <= 8) ? Genetics.checkForLevelEnd : null;
   Genetics.Cage.start(checkForEnd);
-  Genetics.Visualization.start();
+  Genetics.Visualization.start(Genetics.endGame);
 };
 
 /**
@@ -1011,6 +1018,23 @@ Genetics.reset = function() {
   Genetics.MouseAvatar.wanderingDisabled = true;
   Genetics.addStartingMice();
 
+};
+
+/**
+ * Callback function for when a game ends.
+ * @param {boolean} success Whether the game/level was succeeded.
+ * @suppress {duplicate}
+ */
+Genetics.endGame = function(success) {
+  if (success) {
+    BlocklyInterface.playAudio('success', 0.5);
+    BlocklyInterface.saveToLocalStorage();
+    BlocklyDialogs.congratulations();
+    Genetics.log('Level Succeeded');
+  } else {
+    BlocklyInterface.playAudio('fail', 0.5);
+    Genetics.log('Level Failed');
+  }
 };
 
 /**
