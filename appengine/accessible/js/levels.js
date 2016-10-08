@@ -40,17 +40,15 @@
       type: 'music_play_note'
     }],
     introMessage: (
-        'Blockly is a way of programming that works by linking blocks of ' +
-        'code together. There are two sections: a toolbox and a workspace. ' +
-        'The toolbox is where all the blocks are kept. Each block has ' +
-        'different options for what you can do with it. ' +
-        'The workspace is where you put the blocks you want to use. Once ' +
-        'you put a block there, that block will have more options, like ' +
-        'choosing a value, copying the block, or marking a spot where you ' +
-        'will add another block. ' +
-        'When you\'re ready to try out your code, choose the button "Run ' +
-        'Code", which is at the top of the Workspace. ' +
-        'In this Blockly game, you\'ll be writing code that makes music.'),
+        'Welcome to Blockly! Blockly teaches you how to program using ' +
+        'blocks of code you link together. Here\'s what you need to know. ' +
+        'There are two main sections, the toolbox on the left, and the ' +
+        'workspace on the right. The toolblox is where the blocks are kept. ' +
+        'Add a block from the toolbox to the workspace. Then, go to the ' +
+        'workspace and explore up and down in the block. The block will ' +
+        'have different options for what you can do with it, like adding a ' +
+        'link to connect another block. When you\'re ready to try out your ' +
+        'program, choose the button called, "Try my program."'),
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
@@ -160,10 +158,10 @@ LEVEL_SETS.game1 = {
     toolboxBlockDefns: [{
       type: 'music_play_phrase',
       optionsJson: (
-          '[["1","55:0.75-55:0.25-57:1-55:1-60:1-59:2"],' +
-          '["2","55:0.75-55:0.25-57:1-55:1-62:1-60:2"],' +
-          '["3","55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],' +
-          '["4","65:0.75-65:0.25-64:1-60:1-62:1-60:2"]]')
+          '[["A","55:0.75-55:0.25-57:1-55:1-60:1-59:2"],' +
+          '["B","55:0.75-55:0.25-57:1-55:1-62:1-60:2"],' +
+          '["C","55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],' +
+          '["D","65:0.75-65:0.25-64:1-60:1-62:1-60:2"]]')
     }],
     beatsPerMinute: 160,
     expectedLine: [
@@ -197,26 +195,14 @@ LEVEL_SETS.game1 = {
       [[60], 2]
     ],
     instructions:
-        'Add phrase 3 and phrase 4 to play the tune "Happy Birthday".',
-    defaultXml: [
-      '<xml xmlns="http://www.w3.org/1999/xhtml">',
-      '  <block type="music_play_phrase">',
-      '    <field name="MIDI_VALUES">55:0.75-55:0.25-57:1-55:1-60:1-59:2</field>',
-      '    <next>',
-      '      <block type="music_play_phrase">',
-      '        <field name="MIDI_VALUES">55:0.75-55:0.25-57:1-55:1-62:1-60:2</field>',
-      '      </block>',
-      '    </next>',
-      '  </block>',
-      '</xml>'
-    ].join('\n')
+        'Play the tune to "Happy Birthday". The phrases go like this: A, B, C, D.'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_phrase',
       optionsJson: (
-          '[["1","52:1-50:1"],' +
-          '["2", "48:1-50:1"],' +
-          '["3", "52:1"]]')
+          '[["A","52:1-50:1"],' +
+          '["B", "48:1-50:1"],' +
+          '["C", "52:1"]]')
     }],
     beatsPerMinute: 120,
     expectedLine: [
@@ -229,8 +215,8 @@ LEVEL_SETS.game1 = {
       [[52], 1]
     ],
     instructions:
-        'Play the tune to "Mary Had a Little Lamb". It\'s made of one ' +
-        'phrase 1 block, one phrase-2 block, and three phrase-3 blocks.'
+        'Play the tune to "Mary Had a Little Lamb". The phrases go like ' +
+        'this: A, B, C, C, C.'
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
@@ -261,8 +247,9 @@ LEVEL_SETS.game1 = {
       [[48], 1]
     ],
     instructions: (
-        'Play the first part of "Frere Jacques" and have it repeat. ' +
-        'Remember, the notes are C4, D4, E4, and C4.'),
+        'Now, repeat the first part of "Frere Jacques". The part you just ' +
+        'made is already in the workspace. Remember, the notes are C4, D4, ' +
+        'E4, and C4.'),
     continueFromPreviousLevel: true
   }, {
     toolboxBlockDefns: [{
@@ -289,10 +276,10 @@ LEVEL_SETS.game1 = {
             'do it with just 5 blocks?');
       }
     },
-    hint: 'Remember, the notes are C4, D4, E4, and C4.',
+    hint: 'Use a repeat block. The notes are C4, D4, E4, and C4.',
     instructions: (
-        'Play the first part of "Frere Jacques" and have it repeat again, ' +
-        'but this time, you can only use 5 blocks.'),
+        'Repeat the first part of "Frere Jacques" again, but this time, ' +
+        'only use 5 blocks.'),
   }, {
     toolboxBlockDefns: [{
       type: 'music_play_note'
