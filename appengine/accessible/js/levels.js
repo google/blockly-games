@@ -43,7 +43,7 @@
         'Welcome to Blockly! Blockly teaches you how to program using ' +
         'blocks of code you link together. Here\'s what you need to know. ' +
         'There are two main sections, the toolbox on the left, and the ' +
-        'workspace on the right. The toolblox is where the blocks are kept. ' +
+        'workspace on the right. The toolbox is where the blocks are kept. ' +
         'Add a block from the toolbox to the workspace. Then, go to the ' +
         'workspace and explore up and down in the block. The block will ' +
         'have different options for what you can do with it, like adding a ' +
