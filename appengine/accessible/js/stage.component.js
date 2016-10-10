@@ -18,13 +18,13 @@
  */
 
 /**
- * @fileoverview Angular2 Component for the music game.
+ * @fileoverview Angular2 Component for a stage of the music game.
  * @author sll@google.com (Sean Lip)
  */
 
-musicGame.AppView = ng.core
+musicGame.StageView = ng.core
   .Component({
-    selector: 'music-game-app',
+    selector: 'music-game-stage',
     template: `
     <div>
       <h1>Blockly Games: {{levelSetName}} (Stage {{currentLevelNumber + 1}})</h1>
