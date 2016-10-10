@@ -181,13 +181,7 @@ Turtle.init = function() {
   }
 };
 
-if (window.location.pathname.match(/readonly.html$/)) {
-  window.addEventListener('load', function() {
-    BlocklyInterface.initReadonly(Turtle.soy.readonly());
-  });
-} else {
-  window.addEventListener('load', Turtle.init);
-}
+window.addEventListener('load', Turtle.init);
 
 /**
  * Show the help pop-up.
