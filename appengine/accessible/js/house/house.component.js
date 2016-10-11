@@ -26,7 +26,16 @@ houseApp.HouseView = ng.core
   .Component({
     selector: 'house-app',
     template: `
+    <h3>Instructions</h3>
+    <p class="instructions">
+      {{getInstructions()}}
+    </p>
+
     <div>
+      <div *ngIf="getStatusMessage()" aria-hidden="true" class="blocklyAriaLiveStatus">
+        <span aria-live="polite" role="status">{{getStatusMessage()}}</span>
+      </div>
+
       <h3 #houseTitle id="house-title">House</h3>
 
       <div>
@@ -47,17 +56,23 @@ houseApp.HouseView = ng.core
     `,
     directives: [houseApp.HouseTreeView],
     providers: [
-        houseApp.NotificationsService, houseApp.TreeService]
+        houseApp.NotificationsService, houseApp.TreeService,
+        houseApp.LevelManagerService]
   })
   .Class({
     constructor: [
         houseApp.NotificationsService, houseApp.TreeService,
-        function(_notificationsService, _treeService) {
+        houseApp.LevelManagerService,
+        function(_notificationsService, _treeService, _levelManagerService) {
       this.notificationsService = _notificationsService;
       this.treeService = _treeService;
+      this.levelManagerService = _levelManagerService;
 
       this.houseData = houseData;
     }],
+    getInstructions: function() {
+      return this.levelManagerService.getCurrentInstructions();
+    },
     getStatusMessage: function() {
       return this.notificationsService.getStatusMessage();
     },

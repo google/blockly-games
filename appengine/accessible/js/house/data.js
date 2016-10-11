@@ -57,7 +57,8 @@ var houseData = [{
       name: 'Baby',
       actions: [{
         name: 'play with baby',
-        alert: 'You play with the baby and she giggles.'
+        alert: 'You play with the baby and she giggles.',
+        levelSolved: 2
       }, {
         name: 'change diaper',
         alert: 'You change the baby\'s diaper.  She smells much better now.'
@@ -84,7 +85,8 @@ var houseData = [{
       name: 'Toilet',
       actions: [{
         name: 'flush toilet',
-        alert: 'You flush the toilet and it makes a gurgling noise.'
+        alert: 'You flush the toilet and it makes a gurgling noise.',
+        levelSolved: 3
       }, {
         name: 'clean toilet',
         alert: 'The toilet was quite dirty, you clean it up so it shines.'
@@ -114,7 +116,8 @@ var houseData = [{
         alert: 'You stroke the cat.  He rolls over and purrs happily.'
       }, {
         name: 'feed cat',
-        alert: 'You give a can of tuna to the cat.  He eats it quickly and looks around for more.'
+        alert: 'You give a can of tuna to the cat.  He eats it quickly and looks around for more.',
+        levelSolved: 0
       }, {
         name: 'pick up cat',
         alert: 'The cat screaches, scratches your arm, and runs under the sofa.'
@@ -141,7 +144,8 @@ var houseData = [{
         alert: 'You find the keys and start the car.  But you turn it off quickly to avoid carbon-monoxide poisoning.'
       }, {
         name: 'wash car',
-        alert: 'You use soap and water to wash the car.  Now it is nice and shiny.'
+        alert: 'You use soap and water to wash the car.  Now it is nice and shiny.',
+        levelSolved: 1
       }, {
         name: 'pick up car',
         alert: 'The car is too heavy to pick up.'
@@ -160,7 +164,8 @@ var houseData = [{
     name: 'Box #2',
     actions: [{
       name: 'look in box',
-      alert: 'This box is filled with family photographs.'
+      alert: 'This box is filled with family photographs.',
+      levelSolved: 4
     }]
   }, {
     name: 'Box #3',

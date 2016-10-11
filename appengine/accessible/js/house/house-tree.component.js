@@ -45,7 +45,7 @@ houseApp.HouseTreeView = ng.core
               [attr.aria-labelledBy]="generateAriaLabelledByAttr(idPrefix + contentIndex + 'action' + i + 'button', 'blockly-button')"
               [attr.aria-level]="level + 1">
             <button [id]="idPrefix + contentIndex + 'action' + i"
-                    (click)="onClickButton(action.alert)" tabindex="-1">
+                    (click)="onClickButton(action.alert, action.levelSolved)" tabindex="-1">
               {{action.name}}
             </button>
           </li>
@@ -56,23 +56,18 @@ houseApp.HouseTreeView = ng.core
     directives: [ng.core.forwardRef(function() {
       return houseApp.HouseTreeView;
     })],
-    inputs: ['contents', 'level', 'tree', 'isTopLevel', 'idPrefix']
+    inputs: [
+        'contents', 'level', 'tree', 'isTopLevel', 'idPrefix']
   })
   .Class({
-    constructor: [houseApp.TreeService, function(_treeService) {
+    constructor: [
+        houseApp.TreeService, houseApp.NotificationsService,
+        houseApp.LevelManagerService,
+        function(_treeService, _notificationsService, _levelManagerService) {
       this.treeService = _treeService;
+      this.notificationsService = _notificationsService;
+      this.levelManagerService = _levelManagerService;
     }],
-    ngOnInit: function() {
-      // TODO(sll): Redo this.
-      // Make a list of all the id keys.
-      this.idKeys = ['blockRoot', 'blockSummary', 'listItem', 'label'];
-
-      if (this.contents.actions) {
-        this.contents.actions.forEach(function(action, index) {
-          that.idKeys.push('action' + index, 'action' + index + 'Button');
-        });
-      }
-    },
     ngAfterViewInit: function() {
       // TODO(sll): Redo this.
       // If this is a top-level tree in the workspace, set its id and active
@@ -89,9 +84,13 @@ houseApp.HouseTreeView = ng.core
         }
       });
     },
-    onClickButton: function(message) {
-      // TODO(sll): Replace with an aria-live notification.
-      alert(message);
+    onClickButton: function(message, levelSolved) {
+      if (levelSolved !== undefined &&
+          levelSolved === this.levelManagerService.getCurrentLevelNumber()) {
+        this.levelManagerService.onCurrentLevelSuccess(message);
+      } else {
+        this.notificationsService.setStatusMessage(message);
+      }
     },
     generateAriaLabelledByAttr: function(mainLabel, secondLabel) {
       return mainLabel + (secondLabel ? ' ' + secondLabel : '');
