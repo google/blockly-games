@@ -221,8 +221,7 @@ Genetics.Tutor.init = function() {
           'zoom': {'controls': true, 'wheel': true}
         });
     // Disable blocks not within a function.
-    // TODO undo
-    // BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+    BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
 
     var defaultXml;
     switch (BlocklyGames.LEVEL) {
