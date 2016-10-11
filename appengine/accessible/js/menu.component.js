@@ -26,6 +26,17 @@ musicGame.MenuView = ng.core
   .Component({
     selector: 'music-game-menu',
     template: `
+    <div>
+      <h3>House</h3>
+      <ul role="navigation" class="musicGameNavigation">
+        <li>
+          <a href="./house.html" [attr.aria-label]="'Level 1'" class="levelDot">
+            1
+          </a>
+        </li>
+      </ul>
+    </div>
+
     <div *ngFor="#levelSetData of levelSetsMetadata">
       <h3>{{levelSetData.name}}</h3>
       <ul role="navigation" class="musicGameNavigation">
