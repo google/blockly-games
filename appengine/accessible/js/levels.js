@@ -62,7 +62,7 @@
     instructions: 'Play the note C4.'
   }, {
     toolboxBlockDefns: [{
-      type: 'music_play_note'
+      type: 'music_play_note_blank'
     }],
     beatsPerMinute: 80,
     expectedLine: [

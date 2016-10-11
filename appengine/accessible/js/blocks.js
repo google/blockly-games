@@ -92,7 +92,8 @@ Blockly.Blocks['music_play_note'] = {
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH' &&
+        changeEvent.newValue) {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }
@@ -102,6 +103,41 @@ Blockly.Blocks['music_play_note'] = {
 Blockly.JavaScript['music_play_note'] = function(block) {
   // Play a single note.
   return 'addChord([' + block.getFieldValue('PITCH') + '], 1);\n';
+};
+
+Blockly.Blocks['music_play_note_blank'] = {
+  /**
+   * Block for playing a music note without any options pre-selected.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var noteOptionsWithDummy = [[
+      "Choose a note...", ""
+    ]].concat(Music.Blocks.NOTE_OPTIONS);
+
+    this.appendDummyInput().appendField("play note").appendField(
+        new Blockly.FieldDropdown(noteOptionsWithDummy), "PITCH");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Music.Blocks.HUE);
+    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
+    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+  },
+  onchange: function(changeEvent) {
+    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+      musicPlayer.playNote_(
+          [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
+    }
+  }
+};
+
+Blockly.JavaScript['music_play_note_blank'] = function(block) {
+  // Play a single note.
+  if (block.getFieldValue('PITCH')) {
+    return 'addChord([' + block.getFieldValue('PITCH') + '], 1);\n';
+  } else {
+    return '';
+  }
 };
 
 Blockly.Blocks['music_play_phrase'] = {
