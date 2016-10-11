@@ -144,14 +144,13 @@
         return 'Not quite! Are you playing the right number of notes?';
       }
     },
+    introMessage: 'New block unlocked: Repeat block!',
     hint: (
       'To use only two blocks, link a play note block inside a repeat ' +
       'block. In the repeat block, find the "repeat BLANK times" part, ' +
       'press Enter, and type the number of times you want it to repeat. ' +
       'Then, press the Escape key.'),
-    instructions: (
-      'New block unlocked: Repeat block! Play C4 eight times. Try using ' +
-      'only two blocks.')
+    instructions: 'Play C4 eight times. Try using only two blocks.'
   }]
 };
 
