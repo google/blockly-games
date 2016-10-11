@@ -23,21 +23,21 @@
  */
 'use strict';
 
-goog.provide('Pond.Docs');
+goog.provide('Docs.Pond');
 
-goog.require('Pond.Docs.soy');
-goog.require('goog.ui.AnimatedZippy');
+goog.require('Docs');
+goog.require('Docs.Pond.soy');
 
 /**
  * Print the page.  Called on page load.
  */
-Pond.Docs.init = function() {
-  var param = window.location.search.match(/[?&]mode=([^&]+)/);
+Docs.Pond.init = function() {
+  var param = window.location.search.match(/[?&]level=([^&]+)/);
   var level = param ? Number(param[1]) : Infinity;
-  var pond = level % 2 ? 'blocks' : 'js';
-  document.body.innerHTML = Pond.Docs.soy.start({}, null,
+  var mode = level % 2 ? 'blocks' : 'js';
+  document.body.innerHTML = Docs.Pond.soy.start({}, null,
       {level: level,
-       pond: pond});
+        mode: mode});
 
   // Turn all h2 tags into zippies.
   var headers = document.getElementsByTagName('h2');
@@ -46,4 +46,4 @@ Pond.Docs.init = function() {
   }
 };
 
-window.addEventListener('load', Pond.Docs.init);
+window.addEventListener('load', Docs.Pond.init);

@@ -1,0 +1,364 @@
+{namespace Docs.Pond.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pond-docs-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Web page structure.
+ */
+{template .start}
+<h1>Pond Documentation</h1>
+
+<h2 id="pond"><img src="../common/1x1.gif">Pond</h2>
+
+<div id="pond-content">
+  <h3>Angles</h3>
+
+  <p>The compass is oriented so that due east (right) is 0 degrees, 90 is north,
+  180 is west, 270 is south.
+  Angles wrap as expected: -90 is south, 450 is north.</p>
+
+  <p><img src="pond/compass.png" height="145" width="150" style="padding: 0 2em;"></p>
+
+
+  <h3>Cannon</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p><img src="pond/cannon.png" height="41" width="231"></p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">cannon(<i>angle</i>, <i>range</i>)</pre>
+  {/if}
+
+  <p>The <code>cannon()</code> function fires a cannonball towards the specified
+  angle and range.  The angle is independent of the direction of the duck.
+  The range can be 0-70 metres, with greater ranges truncated to 70.</p>
+
+  <p>The cannon takes about one second to reload after firing.
+  If <code>cannon()</code> is called during this time, nothing happens.
+  {if $ij.mode == 'js'}{sp}
+    <code>cannon()</code> returns <code>true</code> if a cannonball was fired,
+    or <code>false</code> if the cannon is reloading.
+  {/if}
+  </p>
+
+
+  {if $ij.level >= 5}
+  <h3>Scan</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p><img src="pond/scan.png" height="36" width="134"></p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">scan(<i>angle</i>){\n}
+  scan(<i>angle</i>, <i>width</i>)</pre>
+  {/if}
+
+  <p>The <code>scan()</code> function activates the duck's radar.  This function
+  returns the range to the nearest opponent in the specified direction.
+  The angle is independent of the direction of the duck.  Sunk opponents are
+  not detected.  If there is no opponent in that direction,
+  then <code>Infinity</code> is returned.</p>
+
+  {if $ij.mode == 'js'}
+    <p>
+      The second (optional) parameter of <code>scan()</code> specifies the width
+      of the scanning beam.  This can be from 1 degree to 20 degrees.  Advanced
+      players may wish to start scanning with a width of 20 for a fast scan, then
+      progressively decrease the width to get more accuracy.  If not specified,
+      the width is 5.
+      This parameter is only available with JavaScript, not with blocks.
+    </p>
+  {/if}
+  {/if}
+
+
+  {if $ij.level >= 7}
+  <h3>Swim</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p><img src="pond/swim.png" height="41" width="131"></p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">swim(<i>angle</i>){\n}
+  swim(<i>angle</i>, <i>speed</i>)</pre>
+  {/if}
+
+  <p>The <code>swim()</code> function starts the duck moving.  The duck will
+  continue moving in the specified direction indefinitely.</p>
+
+  {if $ij.mode == 'js'}
+    <p>
+      The second (optional) parameter of <code>swim()</code> specifies the speed.
+      This can be from 0 (stopped) to 100 (fast).  Direction of movement may only
+      be changed if the speed is 50 or less.  If not specified, the speed is 50.
+      This parameter is only available with JavaScript, not with blocks.
+    </p>
+  {/if}
+
+  <p>Crashing into the edges of the pond will damage your duck.  Crashing into
+  other ducks will damage both ducks.  The amount of damage is proportional to
+  your speed.</p>
+  {/if}
+
+
+  {if $ij.level >= 9}
+  <h3>Stop</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p><img src="pond/stop.png" height="31" width="63"></p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">stop()</pre>
+  {/if}
+
+  <p>The <code>stop()</code> function stops the duck from moving.  The duck will
+  take a moment to slow down before stopping completely.
+  {if $ij.mode == 'js'}
+    This is the same as calling <code>swim()</code> with a speed of zero.
+  {/if}
+  </p>
+  {/if}
+
+
+  {if $ij.level >= 9}
+  <h3>Location</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p>
+      <img src="pond/loc_x.png" height="26" width="74">
+      {sp}&nbsp;{sp}
+      <img src="pond/loc_y.png" height="26" width="74">
+    </p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">loc_x(){\n}
+  loc_y()</pre>
+  {/if}
+
+  <p>The <code>loc_x()</code> and <code>loc_y()</code> functions return the
+  duck's horizontal and vertical positions.  Values are between 0 and 100,
+  starting from the lower-left corner.</p>
+
+  <p><img src="pond/map.png" height="190" width="244" style="padding: 0 2em;"></p>
+  {/if}
+
+
+  {if $ij.level >= 11}
+  <h3>Speed</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p>
+      <img src="pond/speed.png" height="26" width="79">
+    </p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">speed()</pre>
+  {/if}
+
+  <p>The <code>speed()</code> function returns the duck's current speed.
+  Values are between 0 (stopped) and 100 (fast).  This function may be used to
+  detect collisions (which instantly stop the duck).</p>
+  {/if}
+
+
+  {if $ij.level >= 11}
+  <h3>Health</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p>
+      <img src="pond/health.png" height="26" width="78">
+    </p>
+  {elseif $ij.mode == 'js'}
+    <pre class="pondSpec spec">health()</pre>
+  {/if}
+
+  <p>The <code>health()</code> function returns the duck's current health level.
+  Values are between 0 (sunk) and 100 (perfect).  Advanced players may wish to
+  store the health in a variable, then periodically check to see if the
+  health has decreased, thus indicating that the duck is under attack.</p>
+
+  <p>There is no way to repair health.</p>
+  {/if}
+</div>
+
+{if $ij.level >= 3}
+<!-- ---------------------------------------------------------------------- -->
+<h2 id="logic"><img src="../common/1x1.gif">Logic</h2>
+
+<div id="logic-content">
+  {if $ij.level >= 9}
+    {call Docs.soy.controls_if /}
+  {/if}
+
+
+  {if $ij.level >= 9}
+    {call Docs.soy.logic_compare /}
+
+    <p>Use of <code>!=</code> may be dangerous if the numbers being compared are
+    fractions.  Consider this code that is designed to swim to 50 then stop:</p>
+
+    <pre>while (loc_y() <b>!=</b> 50) {lb}{\n}
+    {sp}{sp}swim(90{if $ij.mode == 'js'}, 50{/if});{\n}
+    {rb}{\n}
+    stop();</pre>
+
+    <p>The above code will fail because <code>loc_y()</code> may be 49.4 on one
+    execution, then 50.6 on the next execution.  Since the value was not seen at
+    exactly 50, the loop continues forever.  Below is better code:</p>
+
+    <pre>while (loc_y() <b>&lt;</b> 50) {lb}{\n}
+    {sp}{sp}swim(90{if $ij.mode == 'js'}, 50{/if});{\n}
+    {rb}{\n}
+    stop();</pre>
+  {/if}
+
+  {if $ij.level >= 11}
+    {call Docs.soy.logic_operation /}
+    <p>For example this code will only fire the cannon if the range is both greater
+    than 5 and less than 70:</p>
+
+    <pre>if (range &gt; 5 <b>&amp;&amp;</b> range &lt; 70) {lb}{\n}
+    {sp}{sp}cannon(angle, range);{\n}
+    {rb}</pre>
+
+
+    <p>This code will stop if the duck is close to any wall:</p>
+
+    <pre>if (loc_x() &lt; 10 <b>||</b> loc_x() &gt; 90 <b>||</b>{\n}
+    {sp}{sp}{sp}{sp}loc_y() &lt; 10 <b>||</b> loc_y() &gt; 90) {lb}{\n}
+    {sp}{sp}stop();{\n}
+    {rb}</pre>
+  {/if}
+
+  {call Docs.soy.logic_boolean /}
+</div>
+{/if}
+
+{if $ij.level >= 3}
+<!-- ---------------------------------------------------------------------- -->
+<h2 id="loops"><img src="../common/1x1.gif">Loops</h2>
+
+<div id="loops-content">
+  {call Docs.soy.controls_whileUntil /}
+
+  <p>Thus, the following will fire the cannon west forever:</p>
+
+  <pre>while (true) {lb}{\n}
+  {sp}{sp}cannon(180, 50);{\n}
+  {rb}</pre>
+
+  <p>Whereas the following will fire the canon west as long as an opponent is in
+  range:</p>
+
+  <pre>while (scan(180{if $ij.mode == 'js'}, 5{/if}) &lt;= 70) {lb}{\n}
+  {sp}{sp}cannon(180, scan(180{if $ij.mode == 'js'}, 5{/if}));{\n}
+  {rb}</pre>
+</div>
+{/if}
+
+<!-- ---------------------------------------------------------------------- -->
+<h2 id="math"><img src="../common/1x1.gif">Math</h2>
+
+<div id="math-content">
+  {call Docs.soy.math_number /}
+
+  {if $ij.level >= 11}
+    {call Docs.soy.math_arithmetic /}
+  {/if}
+
+
+  {if $ij.level >= 11}
+  <h3>Trigonometry</h3>
+
+  {if $ij.mode == 'blocks'}
+    <p>
+      <img src="math_sqrt.png" height="36" width="164">
+    </p>
+  {elseif $ij.mode == 'js'}
+    <pre class="mathSpec spec">Math.<i>operation</i>(<i>number</i>)</pre>
+  {/if}
+
+  <p>These functions take a number and return a number.
+  The eight available functions are:</p>
+
+  <table>
+    <tr>
+      <th>Function</td>
+      <th>Example</td>
+      <th>Returns</td>
+    </tr>
+    <tr>
+      <td>Square root</td>
+      <td><code>Math.sqrt(25)</code></td>
+      <td><code>5</code></td>
+    </tr>
+    <tr>
+      <td>Absolute</td>
+      <td><code>Math.abs(-25)</code></td>
+      <td><code>25</code></td>
+    </tr>
+    <tr>
+      <td>Sine</td>
+      <td><code>Math.sin_deg(30)</code></td>
+      <td><code>0.5</code></td>
+    </tr>
+    <tr>
+      <td>Cosine</td>
+      <td><code>Math.cos_deg(30)</code></td>
+      <td><code>0.866</code></td>
+    </tr>
+    <tr>
+      <td>Tangent</td>
+      <td><code>Math.tan_deg(30)</code></td>
+      <td><code>0.577</code></td>
+    </tr>
+    <tr>
+      <td>Arcsine</td>
+      <td><code>Math.asin_deg(0.5)</code></td>
+      <td><code>30</code></td>
+    </tr>
+    <tr>
+      <td>Arccosine</td>
+      <td><code>Math.acos_deg(0.866)</code></td>
+      <td><code>30.003</code></td>
+    </tr>
+    <tr>
+      <td>Arctangent</td>
+      <td><code>Math.atan_deg(0.577)</code></td>
+      <td><code>29.985</code></td>
+    </tr>
+  </table>
+
+  <p>Note that these trigonmetric functions are custom to the Pond game and
+  all use degrees.  The standard JavaScript functions use radians.</p>
+  {/if}
+
+  {if $ij.level >= 11}
+    {call Docs.soy.math_random_float /}
+    <p>Here's an example of getting a random angle:</p>
+
+    <pre>var angle = Math.random() * 360;</pre>
+  {/if}
+</div>
+
+{if $ij.level >= 11}
+<!-- ---------------------------------------------------------------------- -->
+<h2 id="variables"><img src="../common/1x1.gif">Variables</h2>
+
+<div id="variables-content">
+{call Docs.soy.variables /}
+</div>
+{/if}
+
+{if $ij.level >= 11}
+<!-- ---------------------------------------------------------------------- -->
+<h2 id="functions"><img src="../common/1x1.gif">Functions</h2>
+
+<div id="functions-content">
+{call Docs.soy.functions /}
+</div>
+{/if}
+
+{/template}

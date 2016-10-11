@@ -218,8 +218,8 @@ Pond.Duck.changeTab = function(index) {
   BlocklyGames.LEVEL = (index == BLOCKS) ? 11 : 12;
   if (Pond.isDocsVisible_) {
     var frame = document.getElementById('frameDocs');
-    frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-        '&mode=' + BlocklyGames.LEVEL;
+    frame.src = 'docs/pond.html?lang=' + BlocklyGames.LANG +
+        '&level=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
   if (index == JAVASCRIPT && Pond.Duck.blocksEnabled_) {

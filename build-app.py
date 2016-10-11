@@ -110,7 +110,7 @@ def write_uncompressed(name, lang):
   proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
   files = proc.stdout.readlines()
 
-  if name == 'pond/docs':
+  if name == 'docs/pond':
     path = '../'
   else:
     path = ''

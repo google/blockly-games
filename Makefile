@@ -41,11 +41,6 @@ movie-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/movie/generated/en/soy.js --srcs appengine/movie/template.soy
 	python build-app.py movie en
 
-pond-docs-en:
-	mkdir -p appengine/pond/generated/en/
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/docs/generated/en/soy.js --srcs appengine/pond/docs/template.soy
-	python build-app.py pond/docs en
-
 pond-tutor-en: pond-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/tutor/generated/en/soy.js --srcs appengine/pond/tutor/template.soy
 	python build-app.py pond/tutor en
@@ -67,7 +62,15 @@ genetics-common-en: common-en
 common-en:
 	$(SOY_COMPILER) --outputPathFormat appengine/generated/en/soy.js --srcs appengine/template.soy
 
-en: index-en puzzle-en maze-en bird-en turtle-en movie-en pond-docs-en pond-tutor-en pond-duck-en genetics-tutor-en
+docs-pond-en: docs-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/docs/pond/generated/en/soy.js --srcs appengine/docs/pond/template.soy
+	python build-app.py docs/pond en
+
+docs-common-en:
+	mkdir -p appengine/generated/en/
+	$(SOY_COMPILER) --outputPathFormat appengine/docs/generated/en/soy.js --srcs appengine/docs/template.soy
+
+en: index-en puzzle-en maze-en bird-en turtle-en movie-en docs-pond-en pond-tutor-en pond-duck-en genetics-tutor-en
 
 languages:
 	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)

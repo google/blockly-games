@@ -99,6 +99,7 @@ html[dir="RTL"] #closeDocs {
   transition: opacity .2s;
   transition-timing-function: ease;
 }
+
 .grey {
   -webkit-filter: grayscale(1);
   filter: grayscale(1);

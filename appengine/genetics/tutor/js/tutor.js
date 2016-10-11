@@ -73,6 +73,8 @@ Genetics.Tutor.init = function() {
 
   Genetics.init();
 
+
+
   if (BlocklyGames.LEVEL >= 9) {
     // Setup the tabs.
     Genetics.tabbar = new goog.ui.TabBar();
@@ -84,6 +86,8 @@ Genetics.Tutor.init = function() {
           var index = e.target.getParent().getSelectedTabIndex();
           Genetics.Tutor.changeTab(index);
         });
+  } else {
+    Genetics.mode = (BlocklyGames.LEVEL % 2) ? 'js' : 'blockly';
   }
 
   BlocklyGames.bindClick('helpButton', Genetics.showHelp);
@@ -526,10 +530,12 @@ Genetics.Tutor.changeTab = function(index) {
     var div = document.querySelector(name);
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
+  // Update documentation
+  Genetics.mode = (index == BLOCKS) ? 'blockly' : 'js';
   if (Genetics.isDocsVisible_) {
     var frame = document.getElementById('frameDocs');
-    frame.src = 'genetics/docs.html?lang=' + BlocklyGames.LANG +
-        '&mode=' + BlocklyGames.LEVEL;
+    frame.src = 'docs/genetics.html?lang=' + BlocklyGames.LANG +
+        '&level=' + BlocklyGames.LEVEL + '&mode=' + Genetics.mode;
   }
   // Synchronize the JS editor.
   if (index == JAVASCRIPT && Genetics.Tutor.blocksEnabled_) {

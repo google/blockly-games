@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 h2 {
@@ -66,7 +67,7 @@ pre, code {
   outline: 0;
   background-color: #eee;
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .goog-zippy-header>img {
