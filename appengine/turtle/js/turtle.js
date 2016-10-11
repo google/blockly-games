@@ -132,9 +132,9 @@ Turtle.init = function() {
         '<xml>' +
         '  <block type="turtle_move" x="70" y="70">' +
         '    <value name="VALUE">' +
-        '      <block type="math_number">' +
+        '      <shadow type="math_number">' +
         '        <field name="NUM">10</field>' +
-        '      </block>' +
+        '      </shadow>' +
         '    </value>' +
         '  </block>' +
         '</xml>';
