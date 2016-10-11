@@ -125,7 +125,7 @@
             Use .size to get the size of a mouse.
           {/msg}
           {if $ij.level == 3}
-            <br><br><img src="genetics/docs/sizeProperty.png" height=40 width=162>
+            <br><br><img src="docs/genetics/sizeProperty.png" height=36 width=161>
           {elseif $ij.level == 4}
             <pre>mouse.size</pre>
             <pre>getSelf()</pre>
@@ -142,8 +142,8 @@
                    desc="Instructions.."}
                 Return a mouse that is fertile (fertility greater than 0) and of the opposite sex.
               {/msg}
-              <br><br><img src="genetics/docs/fertilityProperty.png" height=43 width=180>
-              <br><br><img src="genetics/docs/sexProperty.png" height=55 width=178><br><br>
+              <br><br><img src="docs/genetics/fertilityProperty.png" height=35 width=177>
+              <br><br><img src="docs/genetics/sexProperty.png" height=37 width=158><br><br>
           {elseif $ij.level == 6}
               {msg meaning="Genetics.helpText4c"
                    desc="Instructions.."}
@@ -209,13 +209,12 @@
       {/if}
     </category>
     <category name="{msg meaning="Games.catLists" desc="Lists"}Lists{/msg}">
-      {if $ij.level >= 9}
-      <block type="lists_create_with">
-        <mutation items="0"></mutation>
-      </block>
-      {/if}
       {if $ij.level >= 2}
-      <block type="lists_length"></block>
+      <block type="lists_length">
+        <value name="VALUE">
+          <shadow type="genetics_getMice"></shadow>
+        </value>
+      </block>
       {/if}
       <block type="lists_getIndex">
         <value name="VALUE">
@@ -227,26 +226,15 @@
           </shadow>
         </value>
       </block>
-      {if $ij.level >= 9}
-      <block type="lists_setIndex">
-        <value name="AT">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      {/if}
     </category>
     {if $ij.level >= 3}
     <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
       {if $ij.level >= 7}
       <block type="logic_boolean"></block>
-      {/if}
-      {if $ij.level >= 9}
-      <block type="logic_negate"></block>
       {/if}
       <block type="logic_null"></block>
     </category>

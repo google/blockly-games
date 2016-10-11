@@ -10,6 +10,21 @@
  *   make languages
  */
 
+/**
+ * Documentation for lists.
+ */
+{template .lists_length}
+<h3>List Length</h3>
+  <p>TODO</p> <!-- TODO add explanation for list length. -->
+{/template}
+
+/**
+ * Documentation for lists.
+ */
+{template .lists_getIndex}
+<h3>Get Index</h3>
+  <p>TODO</p> <!-- TODO add explanation for get index. -->
+{/template}
 
 /**
  * Documentation for controls_if block.
@@ -138,6 +153,22 @@
 {/template}
 
 /**
+ * Documentation for logic_negate block.
+ */
+{template .logic_negate}
+<h3>Not</h3>
+  <p>TODO</p> <!-- TODO add explanation for negate. -->
+{/template}
+
+/**
+ * Documentation for null block.
+ */
+{template .logic_null}
+<h3>Null</h3>
+  <p>TODO</p> <!-- TODO add explanation for null. -->
+{/template}
+
+/**
  * Documentation for controls_whileUntil block.
  */
 {template .controls_whileUntil}
@@ -151,8 +182,24 @@
   {rb}</pre>
   {/if}
 
-  <p>Loops will repeat executing the enclosed statements as long as th3
+  <p>Loops will repeat executing the enclosed statements as long as the
   condition is true.</p>
+{/template}
+
+/**
+ * Documentation for controls_for block.
+ */
+{template .controls_for}
+<h3>For</h3>
+  <p>TODO</p> <!-- TODO add explanation for for loops. -->
+{/template}
+
+/**
+ * Documentation for controls_flow_statements block.
+ */
+{template .controls_flow_statements}
+<h3>Break/Continue</h3>
+  <p>TODO</p> <!-- TODO add explanation for break/continue. -->
 {/template}
 
 /**
@@ -302,7 +349,7 @@
 {/template}
 
 /**
- * Documentation for functions.
+ * Documentation for procedure definition and call blocks.
  */
 {template .functions}
   <h3>Defining</h3>
@@ -327,12 +374,14 @@
       {rb}</pre>
   {/if}
 
-  <p>TODO</p>
+
+  <p>TODO</p> <!-- TODO add explanation for procedure definitions. -->
 
   <h3>Calling</h3>
 
   {if $ij.mode == 'blocks'}
     <p>
+      <img src="call_procedure.png" height="31" width="142">
       <img src="call_procedure.png" height="31" width="142">
     </p>
   {elseif $ij.mode == 'js'}
@@ -347,6 +396,6 @@
     <pre class="functionsSpec spec"><i>do_something</i>()</pre>
   {/if}
 
-  <p>TODO</p>
+  <p>TODO</p> <!-- TODO add explanation for procedure calls. -->
 
 {/template}

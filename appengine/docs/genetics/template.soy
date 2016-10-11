@@ -1,0 +1,109 @@
+{namespace Docs.Genetics.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pond-docs-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  <h1>Genetics Documentation</h1>
+
+  <h2 id="genetics"><img src="../common/1x1.gif">Genetics</h2>
+
+  <div id="genetics-content">
+    <p>TODO</p> <!-- TODO add genetics block documentation-->
+  </div>
+
+  <!-- ---------------------------------------------------------------------- -->
+  <h2 id="lists"><img src="../common/1x1.gif">Lists</h2>
+
+  <div id="lists-content">
+    {call Docs.soy.lists_length /}
+
+    {call Docs.soy.lists_getIndex /}
+  </div>
+
+  {if $ij.level >= 3}
+  <!-- ---------------------------------------------------------------------- -->
+  <h2 id="logic"><img src="../common/1x1.gif">Logic</h2>
+
+  <div id="logic-content">
+    {call Docs.soy.controls_if /}
+
+    {call Docs.soy.logic_compare /}
+    <!-- TODO example -->
+
+    {call Docs.soy.logic_operation /}
+    <!-- TODO example -->
+
+    {call Docs.soy.logic_negate /}
+
+    {call Docs.soy.logic_boolean /}
+
+    {call Docs.soy.logic_null /}
+  </div>
+  {/if}
+
+  {if $ij.level >= 3}
+  <!-- ---------------------------------------------------------------------- -->
+  <h2 id="loops"><img src="../common/1x1.gif">Loops</h2>
+
+  <div id="loops-content">
+    {call Docs.soy.controls_whileUntil /}
+    <!-- TODO example -->
+
+    {call Docs.soy.controls_for /}
+    <!-- TODO example -->
+
+    {call Docs.soy.controls_flow_statements /}
+    <!-- TODO example -->
+  </div>
+  {/if}
+
+  <!-- ---------------------------------------------------------------------- -->
+  <h2 id="math"><img src="../common/1x1.gif">Math</h2>
+
+  <div id="math-content">
+    {call Docs.soy.math_number /}
+
+    {if $ij.level >= 3}
+      {call Docs.soy.math_arithmetic /}
+    {/if}
+
+    {if $ij.level >= 9}
+    <!-- TODO genetics_math_randomInt -->
+    {/if}
+
+    {if $ij.level >= 9}
+      {call Docs.soy.math_random_float /}
+    {/if}
+  </div>
+
+  {if $ij.level >= 3}
+  <!-- ---------------------------------------------------------------------- -->
+  <h2 id="variables"><img src="../common/1x1.gif">Variables</h2>
+
+  <div id="variables-content">
+    {call Docs.soy.variables /}
+  </div>
+  {/if}
+
+  {if $ij.level >= 11}
+  <!-- ---------------------------------------------------------------------- -->
+  <h2 id="functions"><img src="../common/1x1.gif">Functions</h2>
+
+  <div id="functions-content">
+    {call Docs.soy.functions /}
+
+    <!-- TODO return documentation -->
+  </div>
+  {/if}
+{/template}

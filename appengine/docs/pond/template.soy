@@ -192,7 +192,6 @@
     {call Docs.soy.controls_if /}
   {/if}
 
-
   {if $ij.level >= 9}
     {call Docs.soy.logic_compare /}
 
@@ -230,6 +229,10 @@
     {sp}{sp}{sp}{sp}loc_y() &lt; 10 <b>||</b> loc_y() &gt; 90) {lb}{\n}
     {sp}{sp}stop();{\n}
     {rb}</pre>
+  {/if}
+
+  {if $ij.level >= 11}
+    {call Docs.soy.logic_negate /}
   {/if}
 
   {call Docs.soy.logic_boolean /}

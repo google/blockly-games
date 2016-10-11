@@ -66,6 +66,10 @@ docs-pond-en: docs-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/docs/pond/generated/en/soy.js --srcs appengine/docs/pond/template.soy
 	python build-app.py docs/pond en
 
+docs-genetics-en: docs-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/docs/genetics/generated/en/soy.js --srcs appengine/docs/genetics/template.soy
+	python build-app.py docs/genetics en
+
 docs-common-en:
 	mkdir -p appengine/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/docs/generated/en/soy.js --srcs appengine/docs/template.soy

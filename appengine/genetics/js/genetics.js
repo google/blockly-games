@@ -49,6 +49,13 @@ Genetics.endGame = null;
 Genetics.checkForEnd = null;
 
 /**
+/**
+ * The mode that the editor is in. Either 'blocks' or 'js'.
+ * @type {string}
+ */
+Genetics.mode = 'blocks';
+
+/**
  * Initialize genetics.  Called on page load.
  */
 Genetics.init = function() {
@@ -76,14 +83,50 @@ Genetics.isDocsVisible_ = false;
  * Open the documentation frame.
  */
 Genetics.docsButtonClick = function() {
-  // TODO(kozbial)
+  if (Genetics.isDocsVisible_) {
+    return;
+  }
+  var origin = document.getElementById('docsButton');
+  var dialog = document.getElementById('dialogDocs');
+  var frame = document.getElementById('frameDocs');
+  var src = 'docs/genetics.html?lang=' + BlocklyGames.LANG +
+      '&level=' + BlocklyGames.LEVEL + '&mode=' + Genetics.mode;
+  if (frame.src != src) {
+    frame.src = src;
+  }
+
+  function endResult() {
+    dialog.style.visibility = 'visible';
+    var border = document.getElementById('dialogBorder');
+    border.style.visibility = 'hidden';
+  }
+  Genetics.isDocsVisible_ = true;
+  BlocklyDialogs.matchBorder_(origin, false, 0.2);
+  BlocklyDialogs.matchBorder_(dialog, true, 0.8);
+  // In 175ms show the dialog and hide the animated border.
+  setTimeout(endResult, 175);
 };
 
 /**
  * Close the documentation frame.
  */
 Genetics.docsCloseClick = function() {
-  // TODO(kozbial)
+  if (!Genetics.isDocsVisible_) {
+    return;
+  }
+  var origin = document.getElementById('docsButton');
+  var dialog = document.getElementById('dialogDocs');
+
+  function endResult() {
+    var border = document.getElementById('dialogBorder');
+    border.style.visibility = 'hidden';
+  }
+  Genetics.isDocsVisible_ = false;
+  BlocklyDialogs.matchBorder_(dialog, false, 0.8);
+  BlocklyDialogs.matchBorder_(origin, true, 0.2);
+  // In 175ms hide the animated border.
+  setTimeout(endResult, 175);
+  dialog.style.visibility = 'hidden';
 };
 
 /**
@@ -130,10 +173,6 @@ Genetics.execute = function() {
     setTimeout(Genetics.execute, 250);
     return;
   }
-
-  // TODO ?
-  // Enable wandering if level is not level 1-2.
-  // Genetics.MouseAvatar.wanderingDisabled = BlocklyGames.LEVEL <= 2;
 
   Genetics.Cage.start(Genetics.checkForEnd);
   Genetics.Visualization.start(Genetics.endGame);

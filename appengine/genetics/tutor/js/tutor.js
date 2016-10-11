@@ -87,7 +87,7 @@ Genetics.Tutor.init = function() {
           Genetics.Tutor.changeTab(index);
         });
   } else {
-    Genetics.mode = (BlocklyGames.LEVEL % 2) ? 'js' : 'blockly';
+    Genetics.mode = (BlocklyGames.LEVEL % 2) ? 'blocks' : 'js';
   }
 
   BlocklyGames.bindClick('helpButton', Genetics.showHelp);
@@ -221,7 +221,8 @@ Genetics.Tutor.init = function() {
           'zoom': {'controls': true, 'wheel': true}
         });
     // Disable blocks not within a function.
-    BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+    // TODO undo
+    // BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
 
     var defaultXml;
     switch (BlocklyGames.LEVEL) {
@@ -531,7 +532,7 @@ Genetics.Tutor.changeTab = function(index) {
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
   // Update documentation
-  Genetics.mode = (index == BLOCKS) ? 'blockly' : 'js';
+  Genetics.mode = (index == BLOCKS) ? 'blocks' : 'js';
   if (Genetics.isDocsVisible_) {
     var frame = document.getElementById('frameDocs');
     frame.src = 'docs/genetics.html?lang=' + BlocklyGames.LANG +
