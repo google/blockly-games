@@ -112,9 +112,8 @@ musicGame.StageView = ng.core
         var alertMessage =
             blocklyApp.workspace.topBlocks_.length == 0 ?
             'There are no blocks in the workspace.' :
-            ('Not quite! You currently have more than one "island" in the ' +
-             'workspace. Make sure all your blocks are joined together ' +
-             'into a single program.');
+            ('Looks like some of your blocks aren\'t linked together. ' +
+             'Try again!');
         setTimeout(function() {
           alert(alertMessage);
         }, 500);

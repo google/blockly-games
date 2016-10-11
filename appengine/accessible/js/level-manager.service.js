@@ -188,8 +188,8 @@ musicGame.LevelManagerService = ng.core
       } else {
         var playerChords = musicPlayer.getPlayerChords();
         var errorMessage = (
-            'Try again. Are you playing the right notes? Compare your tune ' +
-            'and the desired tune to see if there\'s a difference.');
+            'Are you playing the right notes? Compare your tune and the ' +
+            'desired tune to see if there\'s a difference. Try again!');
         if (currentLevelData.getTargetedFeedback) {
           var targetedMessage = currentLevelData.getTargetedFeedback(
               playerChords);

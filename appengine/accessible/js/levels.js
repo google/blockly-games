@@ -47,8 +47,8 @@
         'Add a block from the toolbox to the workspace. Then, go to the ' +
         'workspace and explore up and down in the block. The block will ' +
         'have different options for what you can do with it, like adding a ' +
-        'link to connect another block. When you\'re ready to try out your ' +
-        'program, choose the button called, "Try my program."'),
+        'link to attach another block. When you\'re ready to try out your ' +
+        'program, choose the button called, "Run your program."'),
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
@@ -145,10 +145,13 @@
       }
     },
     hint: (
-      'You can do this with only two blocks, by using a repeat block. To ' +
-      'change the number of repeats, go to the "repeat 10 times" part, ' +
-      'press Enter, and type a number. Then press the Escape key.'),
-    instructions: 'Play C4 eight times.'
+      'To use only two blocks, link a play note block inside a repeat ' +
+      'block. In the repeat block, find the "repeat BLANK times" part, ' +
+      'press Enter, and type the number of times you want it to repeat. ' +
+      'Then, press the Escape key.'),
+    instructions: (
+      'New block unlocked: Repeat block! Play C4 eight times. Try using ' +
+      'only two blocks.')
   }]
 };
 
