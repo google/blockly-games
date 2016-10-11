@@ -74,7 +74,7 @@ docs-common-en:
 	mkdir -p appengine/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/docs/generated/en/soy.js --srcs appengine/docs/template.soy
 
-en: index-en puzzle-en maze-en bird-en turtle-en movie-en docs-pond-en pond-tutor-en pond-duck-en genetics-tutor-en
+en: index-en puzzle-en maze-en bird-en turtle-en movie-en docs-pond-en pond-tutor-en pond-duck-en docs-genetics-en genetics-tutor-en
 
 languages:
 	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)
