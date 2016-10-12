@@ -419,7 +419,7 @@ Genetics.Tutor.init = function() {
   if (BlocklyGames.LEVEL <= 8) {
     players = [
       {
-        name: 'Genetics_myName',
+        name: 'Genetics_playerName',
         code: null
       },
       {
@@ -449,7 +449,7 @@ Genetics.Tutor.init = function() {
   } else if (BlocklyGames.LEVEL == 9) {
     players = [
       {
-        name: 'Genetics_myName',
+        name: 'Genetics_playerName',
         code: null
       },
       {
@@ -468,7 +468,7 @@ Genetics.Tutor.init = function() {
   } else {  // BlocklyGames.LEVEL == 10
     players = [
       {
-        name: 'Genetics_myName',
+        name: 'Genetics_playerName',
         code: null
       },
       {
