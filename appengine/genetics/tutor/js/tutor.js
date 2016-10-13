@@ -215,6 +215,7 @@ Genetics.Tutor.init = function() {
     BlocklyGames.workspace = Blockly.inject('blockly',
         {
           'media': 'third-party/blockly/media/',
+          'oneBasedIndex': false,
           'rtl': false,
           'toolbox': toolbox,
           'trashcan': true,
@@ -222,6 +223,9 @@ Genetics.Tutor.init = function() {
         });
     // Disable blocks not within a function.
     BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+
+    // TODO(fraser) Remove this after indexing fix is pushed in Blockly.
+    BlocklyGames.workspace.options.oneBasedIndex = false;
 
     var defaultXml;
     switch (BlocklyGames.LEVEL) {
