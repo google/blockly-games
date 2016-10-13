@@ -16,12 +16,11 @@
 {template .messages}
   {call Genetics.soy.messages /}
   <div style="display: none">
+    <span id="Genetics_playerName">{{msg meaning="Genetics.playerName" desc="Generic name for the player of this video game.\n{lb}{lb}Identical|Player{rb}{rb}"}}Player{{/msg}}</span>
     <span id="Genetics_tutorEnemy">{{msg meaning="Genetics.tutorEnemy" desc="Name for a player used in tutor levels.\n{lb}{lb}Identical|Enemy{rb}{rb}"}}Enemy{{/msg}}</span>
     <span id="Genetics_simpleName">{{msg meaning="Genetics.simpleName" desc="Name for a player that makes simple decisions to randomly pick mates and opponents.\n{lb}{lb}Identical|Simple{rb}{rb}"}}Simple{{/msg}}</span>
     <span id="Genetics_aggressiveName">{{msg meaning="Genetics.aggressiveName" desc="Name for a player that has an aggressive strategy to breed with the biggest mice and always fight against smaller mice.\n{lb}{lb}Identical|Aggressive {rb}{rb}"}}Aggressive{{/msg}}</span>
     <span id="Genetics_highBreedingName">{{msg meaning="Genetics.highBreedingName" desc="Name for a player that has a strategy to never fight and breed with mice with high fertility.\n{lb}{lb}Identical|High Breeding{rb}{rb}"}}High Breeding{{/msg}}</span>
-    <span id="Genetics_variantName">{{msg meaning="Genetics.variantName" desc="Name for a player that has a complex strategy that is a variant of other mice AI.\n{lb}{lb}Identical|Variant{rb}{rb}"}}Variant{{/msg}}</span>
-    <span id="Genetics_playerName">{{msg meaning="Genetics.playerName" desc="IBID"}}Player{{/msg}}</span>
   </div>
 {/template}
 
@@ -135,8 +134,9 @@
                desc="Instructions."}
             Mice mate to pass on their functions to their children. If the
             other mate accepts a mate request and the mate is valid, a child is
-            born.{\n}
+            born.
           {/msg}
+          <br>
           {if $ij.level == 5}
               {msg meaning="Genetics.helpText4b"
                    desc="Instructions.."}
