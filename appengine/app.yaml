@@ -117,6 +117,9 @@ handlers:
 - url: /js
   static_dir: js
   secure: always
+- url: /docs
+  static_dir: docs
+  secure: always
 - url: /generated
   static_dir: generated
   secure: always
