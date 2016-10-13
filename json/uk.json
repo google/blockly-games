@@ -42,6 +42,8 @@
 	"Games.xmlError": "Не вдалося завантажити ваш збережений файл. Можливо, він був створений з іншої версії Blockly?",
 	"Games.listVariable": "список",
 	"Games.textVariable": "текст",
+	"Games.breakLink": "Розпочавши редагувати JavaScript, ви не зможете повернутися до редагування блоків. Добре?",
+	"Games.blocks": "Блоки",
 	"Games.congratulations": "Вітаємо!",
 	"Games.helpAbort": "Цей рівень дуже складний. Бажаєте пропустити його і перейти до наступної гри? Ви завжди можете повернутися пізніше.",
 	"Index.clear": "Видалити всі ваші розв'язки?",
@@ -227,7 +229,5 @@
 	"Pond.rabbitName": "Кролик",
 	"Pond.counterName": "Обліковець",
 	"Pond.rookName": "Башта",
-	"Pond.sniperName": "Снайпер",
-	"Games.breakLink": "Розпочавши редагувати JavaScript, ви не зможете повернутися до редагування блоків. Добре?",
-	"Games.blocks": "Блоки"
+	"Pond.sniperName": "Снайпер"
 }

@@ -15,6 +15,7 @@
 	"Games.movie": "Филм",
 	"Games.pondTutor": "Езерце с инструктор",
 	"Games.pond": "Езерце",
+	"Games.genetics": "Генетика",
 	"Games.linesOfCode1": "Ти реши това ниво с 1 ред на JavaScript:",
 	"Games.linesOfCode2": "Ти реши това ниво с 1% редoве на JavaScript:",
 	"Games.nextLevel": "Готов ли си за ниво %1?",
@@ -41,6 +42,8 @@
 	"Games.xmlError": "Вашият записан файл не може да се зареди. Възможно ли е да е създаден с различна версия на Blockly?",
 	"Games.listVariable": "списък",
 	"Games.textVariable": "текст",
+	"Games.breakLink": "След като започнете да редактирате JavaScript, не можете да се върнете към редактиране на блокове. Искате ли да продължите?",
+	"Games.blocks": "Блокове",
 	"Games.congratulations": "Поздравления!",
 	"Games.helpAbort": "Това ниво е изключително сложно. Искате ли да го пропуснете и да преминете към следващата игра? Винаги може да се върнете по-късно.",
 	"Index.clear": "Изтриване на всички решения?",
@@ -226,7 +229,5 @@
 	"Pond.rabbitName": "Заек",
 	"Pond.counterName": "Брояч",
 	"Pond.rookName": "Врана",
-	"Pond.sniperName": "Снайперист",
-	"Games.breakLink": "След като започнете да редактирате JavaScript, не можете да се върнете към редактиране на блокове. Искате ли да продължите?",
-	"Games.blocks": "Блокове"
+	"Pond.sniperName": "Снайперист"
 }

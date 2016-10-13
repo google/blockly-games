@@ -7,7 +7,8 @@
 			"Lajthabalazs",
 			"Kiscsillag",
 			"Horvolgyinoemi",
-			"Grin"
+			"Grin",
+			"Tacsipacsi"
 		]
 	},
 	"Games.name": "Blockly Játékok",
@@ -18,6 +19,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Tó Gyakorló",
 	"Games.pond": "Tó",
+	"Games.genetics": "Genetika",
 	"Games.linesOfCode1": "Egyetlen sor JavaScript-tel megoldottad a feladatot:",
 	"Games.linesOfCode2": "%1 sor JavaScript kóddal oldottad meg a feladatot.",
 	"Games.nextLevel": "Készen állsz a %1. feladatra?",
@@ -44,6 +46,8 @@
 	"Games.xmlError": "A programodat nem lehet betölteni.  Elképzelhető, hogy a Blockly egy másik verziójában készült?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "szöveg",
+	"Games.breakLink": "Ha elkezded a JavaScriptet szerkeszteni akkor később nem léphetsz vissza a blokkok szerkesztésébe. Ezt akarod?",
+	"Games.blocks": "Blokkok",
 	"Games.congratulations": "Gratulálok!",
 	"Games.helpAbort": "Ez a szint különösen nehéz. Szeretnél a következő játékra ugrani? Bármikor megpróbálhatod újból!",
 	"Index.clear": "Biztos hogy törölni szeretnéd az összes megoldásod?",
@@ -229,7 +233,5 @@
 	"Pond.rabbitName": "Nyúl",
 	"Pond.counterName": "Számláló",
 	"Pond.rookName": "Bástya",
-	"Pond.sniperName": "Mesterlövész",
-	"Games.breakLink": "Ha elkezded a JavaScriptet szerkeszteni akkor később nem léphetsz vissza a blokkok szerkesztésébe. Ezt akarod?",
-	"Games.blocks": "Blokkok"
+	"Pond.sniperName": "Mesterlövész"
 }

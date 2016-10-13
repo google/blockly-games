@@ -36,6 +36,7 @@
 	"Games.hashError": "Melûlime, '%1' be qet yew programi ra yewbini nêgêno.",
 	"Games.listVariable": "liste",
 	"Games.textVariable": "nuşte",
+	"Games.blocks": "Astengkerdışi",
 	"Games.congratulations": "Tebrik kem!",
 	"Index.moreInfo": "Zêde melumat",
 	"Index.startOver": "Qayılê ke fına suru bıkerê?",
@@ -116,6 +117,5 @@
 	"Pond.rabbitName": "Arwêş",
 	"Pond.counterName": "Amardoğ",
 	"Pond.rookName": "Kela",
-	"Pond.sniperName": "Çekdar",
-	"Games.blocks": "Astengkerdışi"
+	"Pond.sniperName": "Çekdar"
 }

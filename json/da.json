@@ -42,6 +42,7 @@
 	"Games.xmlError": "Kunne ikke hente din gemte fil.  Måske er den lavet med en anden version af Blockly?",
 	"Games.listVariable": "liste",
 	"Games.textVariable": "tekst",
+	"Games.blocks": "Blokke",
 	"Games.congratulations": "Tillykke!",
 	"Games.helpAbort": "Dette niveau er yderst vanskeligt. Vil du springe det over og gå videre til det næste spil? Du kan altid komme tilbage senere.",
 	"Index.clear": "Slette alle dine løsninger?",
@@ -227,6 +228,5 @@
 	"Pond.rabbitName": "Kanin",
 	"Pond.counterName": "Tæller",
 	"Pond.rookName": "Tårn",
-	"Pond.sniperName": "Snigskytte",
-	"Games.blocks": "Blokke"
+	"Pond.sniperName": "Snigskytte"
 }

@@ -142,7 +142,7 @@
 	"Turtle.print": "block text - Infinitive or imperative of a verb telling a turtle to display text on the screen.  This is always followed by a block indicating what should be printed.\n{{Identical|Print}}",
 	"Turtle.fontHelpUrl": "URL - Information about typographic fonts.",
 	"Turtle.fontTooltip": "tooltip - This is shown on the block that lets the user specify the font [family], size, and style that should be used for subsequent displays of text.",
-	"Turtle.font": "block text - This precedes a dropdown menu specifying the typographic font [family] that should be used when displaying text.",
+	"Turtle.font": "block text - This precedes a dropdown menu specifying the typographic font [family] that should be used when displaying text.\n{{Identical|Font}}",
 	"Turtle.fontSize": "block text - This precedes a number specifying the size of the typographic font that should be used when displaying text.  This appears in the same block as 'font', so that word should not be repeated.\n{{Identical|Font size}}",
 	"Turtle.fontNormal": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Specifies that a typographic font should be normal (neither in italics or bold).",
 	"Turtle.fontBold": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Specifies that a typographic font should be [https://en.wikipedia.org/wiki/Emphasis_(typography) bold].",

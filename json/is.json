@@ -39,6 +39,8 @@
 	"Games.xmlError": "Gat ekki hlaðið vistuðu skrána þína. Var hún kannske búin til í annarri útgáfu af Blockly?",
 	"Games.listVariable": "listi",
 	"Games.textVariable": "texti",
+	"Games.breakLink": "Þegar þú byrjar að breyta JavaScript, geturðu ekki farið til baka í að breyta blokkum. Er það í lagi?",
+	"Games.blocks": "Kubbar",
 	"Games.congratulations": "Til hamingju!",
 	"Games.helpAbort": "Þessi áfangi er mjög erfiður. Viltu sleppa honum og fara í næsta leik? Þú getur alltaf reynt aftur seinna.",
 	"Index.clear": "Eyða öllum lausnum þínum?",
@@ -224,7 +226,5 @@
 	"Pond.rabbitName": "Kanína",
 	"Pond.counterName": "Teljari",
 	"Pond.rookName": "Hrókur",
-	"Pond.sniperName": "Leyniskytta",
-	"Games.breakLink": "Þegar þú byrjar að breyta JavaScript, geturðu ekki farið til baka í að breyta blokkum. Er það í lagi?",
-	"Games.blocks": "Kubbar"
+	"Pond.sniperName": "Leyniskytta"
 }

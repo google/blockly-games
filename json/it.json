@@ -6,7 +6,8 @@
 			"Nerimic",
 			"Gbonanome",
 			"Mario",
-			"Gianfranco"
+			"Gianfranco",
+			"Selven"
 		]
 	},
 	"Games.name": "Giochi Blockly",
@@ -17,6 +18,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Esercitazione stagno",
 	"Games.pond": "Stagno",
+	"Games.genetics": "Genetica",
 	"Games.linesOfCode1": "Hai risolto questo livello con 1 riga di codice JavaScript:",
 	"Games.linesOfCode2": "Hai risolto questo livello con %1 righe di codice JavaScript:",
 	"Games.nextLevel": "Sei pronto per il livello %1?",
@@ -43,6 +45,8 @@
 	"Games.xmlError": "Non è stato possibile caricare il documento.  Forse è stato creato con una versione diversa di Blockly?",
 	"Games.listVariable": "elenco",
 	"Games.textVariable": "testo",
+	"Games.breakLink": "Una volta che hai iniziato a modificare in JavaScript, non puoi tornare indietro a modificare i blocchi. Va bene?",
+	"Games.blocks": "Blocchi",
 	"Games.congratulations": "Complimenti!",
 	"Games.helpAbort": "Questo livello è molto difficile. Desideri saltarlo e andare al successivo? Puoi sempre tornare indietro più tardi.",
 	"Index.clear": "Cancella tutte le sue soluzioni?",
@@ -228,7 +232,5 @@
 	"Pond.rabbitName": "Coniglio",
 	"Pond.counterName": "Contatore",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Cecchino",
-	"Games.breakLink": "Una volta che hai iniziato a modificare in JavaScript, non puoi tornare indietro a modificare i blocchi. Va bene?",
-	"Games.blocks": "Blocchi"
+	"Pond.sniperName": "Cecchino"
 }

@@ -34,6 +34,7 @@
 	"Games.catProcedures": "ಲೇಸ್‍ಲು",
 	"Games.listVariable": "ಪಟ್ಟಿ",
 	"Games.textVariable": "ಪಟ್ಯೊ",
+	"Games.blocks": "ನಿರ್ಬಂದೊ",
 	"Games.congratulations": "ಅಬಿನಂದನೆಲು!",
 	"Index.moreInfo": "ದಿಂಜದ ಮಾಯಿತಿ...",
 	"Index.clearData": "ಮಾಯಿತಿನ್ ತೆರವು ಮಲ್ಪುಲೆ",
@@ -86,6 +87,5 @@
 	"Pond.pendulumName": "ಲೋಲಕ್",
 	"Pond.scaredName": "ಪೋಡಿತ್‌ನ",
 	"Pond.rabbitName": "ಮೇರ್",
-	"Pond.counterName": "ಪ್ರತಿಕೂಲೊ",
-	"Games.blocks": "ನಿರ್ಬಂದೊ"
+	"Pond.counterName": "ಪ್ರತಿಕೂಲೊ"
 }

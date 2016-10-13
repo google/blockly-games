@@ -15,6 +15,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Damlærer",
 	"Games.pond": "Dam",
+	"Games.genetics": "Genetikk",
 	"Games.linesOfCode1": "Du løste dette nivået med 1 linje JavaScript:",
 	"Games.linesOfCode2": "Du løste dette nivået med %1 linjer JavaScript:",
 	"Games.nextLevel": "Er du klar for nivå %1?",
@@ -41,6 +42,8 @@
 	"Games.xmlError": "Kunne ikke laste inn filen. Kanskje den ble laget med en annen versjon av Blockly?",
 	"Games.listVariable": "Liste",
 	"Games.textVariable": "Tekst",
+	"Games.breakLink": "Når du begynner å redigere JavaScript kan du ikke gå tilbake til redigeringsblokker. Er det greit?",
+	"Games.blocks": "Blokker",
 	"Games.congratulations": "Gratulerer!",
 	"Games.helpAbort": "Dette nivået er veldig vanskelig. Ønsker du å hoppe over det og fortsette til neste spill? Du kan alltids komme tilbake senere.",
 	"Index.clear": "Slett alle løsningene dine?",
@@ -226,7 +229,5 @@
 	"Pond.rabbitName": "Kanin",
 	"Pond.counterName": "Teller",
 	"Pond.rookName": "Tårn",
-	"Pond.sniperName": "Skarpskytter",
-	"Games.breakLink": "Når du begynner å redigere JavaScript kan du ikke gå tilbake til redigeringsblokker. Er det greit?",
-	"Games.blocks": "Blokker"
+	"Pond.sniperName": "Skarpskytter"
 }

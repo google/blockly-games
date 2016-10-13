@@ -34,6 +34,7 @@
 	"Games.xmlError": "保存されたファイルを読み込めませんでした。別のバージョンのブロックリーで作成された可能性があります。",
 	"Games.listVariable": "リスト",
 	"Games.textVariable": "テキスト",
+	"Games.blocks": "ブロック",
 	"Games.congratulations": "おめでとう!",
 	"Index.moreInfo": "くわしい情報は...",
 	"Puzzle.animal1": "アヒル",
@@ -146,6 +147,5 @@
 	"Pond.scaredName": "こわがって",
 	"Pond.rabbitName": "ウサギ",
 	"Pond.rookName": "ルーク",
-	"Pond.sniperName": "スナイパー",
-	"Games.blocks": "ブロック"
+	"Pond.sniperName": "スナイパー"
 }

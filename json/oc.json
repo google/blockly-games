@@ -30,6 +30,7 @@
 	"Games.xmlError": "Impossible de cargar lo fichièr de salvament.  Benlèu qu'es estat creat amb una autra version de Blockly ?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "tèxte",
+	"Games.blocks": "Blòts",
 	"Puzzle.legsChoose": "causissètz...",
 	"Puzzle.error0": "Perfièit !  Totes los %1 blòts son corrèctes.",
 	"Puzzle.error1": "Gaireben !  Un blòt es incorrècte.",
@@ -87,6 +88,5 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "gras",
 	"Turtle.fontItalic": "italica",
-	"Turtle.catTurtle": "Tortuga",
-	"Games.blocks": "Blòts"
+	"Turtle.catTurtle": "Tortuga"
 }

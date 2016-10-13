@@ -38,6 +38,7 @@
 	"Games.xmlError": "Non potzu carrigai su file sarvau. Fortzis est stètiu fatu cun d-una versioni diferenti de Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "testu",
+	"Games.blocks": "Brocus",
 	"Games.congratulations": "Bravu!",
 	"Games.helpAbort": "Custu livellu est difìcili meda. Bolis andai a fai un'àteru giogu? Podis torrai a custu prus a tardu si bolis.",
 	"Index.clear": "Scancellu totu is solutzionis tuas?",
@@ -223,6 +224,5 @@
 	"Pond.rabbitName": "Conillu",
 	"Pond.counterName": "Contadori",
 	"Pond.rookName": "Turri",
-	"Pond.sniperName": "Francu Tiradori",
-	"Games.blocks": "Brocus"
+	"Pond.sniperName": "Francu Tiradori"
 }

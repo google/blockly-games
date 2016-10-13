@@ -42,6 +42,7 @@
 	"Games.xmlError": "נסיון הטעינה של הקובץ השמור שלך נכשל. האם ייתכן שהוא נוצר בגרסא שונה של בלוקלי?",
 	"Games.listVariable": "רשימה",
 	"Games.textVariable": "טקסט",
+	"Games.blocks": "קטעי קוד",
 	"Games.congratulations": "מזל טוב!",
 	"Games.helpAbort": "שלב זה הוא קשה למדי. האם תרצה לדלג עליו ולעבור למשחק הבא? תוכל לחזור מאוחר יותר.",
 	"Index.subTitle": "משחקים למתכנתים של מחר.",
@@ -153,6 +154,5 @@
 	"Pond.rabbitName": "ארנב",
 	"Pond.counterName": "מונה",
 	"Pond.rookName": "צריח",
-	"Pond.sniperName": "צלף",
-	"Games.blocks": "קטעי קוד"
+	"Pond.sniperName": "צלף"
 }

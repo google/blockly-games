@@ -19,6 +19,7 @@
 	"Games.movie": "电影",
 	"Games.pondTutor": "池塘导师",
 	"Games.pond": "池塘",
+	"Games.genetics": "遗传学",
 	"Games.linesOfCode1": "您通过一行JavaScript通过了这个等级：",
 	"Games.linesOfCode2": "您通过%1行JavaScript通过了这个等级：",
 	"Games.nextLevel": "准备好等级%1了么?",
@@ -45,6 +46,8 @@
 	"Games.xmlError": "无法载入您保存的文件。您是否使用其他版本的Blockly创建该文件的？",
 	"Games.listVariable": "列表",
 	"Games.textVariable": "文本",
+	"Games.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
+	"Games.blocks": "块",
 	"Games.congratulations": "祝贺！",
 	"Games.helpAbort": "此等级非常困难。您是否希望跳过它并进入下一个游戏？您总是可以稍后返回这里。",
 	"Index.clear": "删除您所有的解决方案？",
@@ -221,7 +224,5 @@
 	"Pond.rabbitName": "兔子",
 	"Pond.counterName": "计数人",
 	"Pond.rookName": "车",
-	"Pond.sniperName": "狙击手",
-	"Games.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
-	"Games.blocks": "块"
+	"Pond.sniperName": "狙击手"
 }

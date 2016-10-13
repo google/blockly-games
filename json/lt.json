@@ -43,6 +43,7 @@
 	"Games.xmlError": "Nesuprantu pateikto failo. Gal jis buvo sukurtas su kita Blocky versija?",
 	"Games.listVariable": "sąrašas",
 	"Games.textVariable": "tekstas",
+	"Games.blocks": "Blokai",
 	"Games.congratulations": "Sveikiname!",
 	"Index.clear": "Ištrinti visus sprendimus?",
 	"Index.subTitle": "Žaidimai rytojaus programuotojams.",
@@ -198,6 +199,5 @@
 	"Pond.rabbitName": "Triušis",
 	"Pond.counterName": "Skaitiklis",
 	"Pond.rookName": "Bokštas",
-	"Pond.sniperName": "Snaiperis",
-	"Games.blocks": "Blokai"
+	"Pond.sniperName": "Snaiperis"
 }

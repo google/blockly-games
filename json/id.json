@@ -40,6 +40,8 @@
 	"Games.xmlError": "Tidak dapat memuat file Anda yang tersimpan. Mungkin itu dibuat dengan versi yang berbeda dari Blockly?",
 	"Games.listVariable": "list",
 	"Games.textVariable": "teks",
+	"Games.breakLink": "Sekali Anda mengedit JavaScript, Anda tidak dapat kembali mengedit blok. OK?",
+	"Games.blocks": "Blok",
 	"Games.congratulations": "Selamat!",
 	"Games.helpAbort": "Tingkat ini sangat sulit. Apakah Anda ingin melewatkannya dan melanjutkan ke permainan berikutnya? Anda selalu bisa kembali lagi nanti.",
 	"Index.clear": "Hapus semua solusi Anda?",
@@ -225,7 +227,5 @@
 	"Pond.rabbitName": "Kelinci",
 	"Pond.counterName": "Penghitung",
 	"Pond.rookName": "Benteng",
-	"Pond.sniperName": "Penembak",
-	"Games.breakLink": "Sekali Anda mengedit JavaScript, Anda tidak dapat kembali mengedit blok. OK?",
-	"Games.blocks": "Blok"
+	"Pond.sniperName": "Penembak"
 }
