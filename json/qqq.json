@@ -44,7 +44,7 @@
 	"Games.listVariable": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Lists list].  This should be a single word, preferably short.\n{{Identical|List}}",
 	"Games.textVariable": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Text piece of text].  This should be a single word, preferably short.\n{{Identical|Text}}",
 	"Games.breakLink": "Warning dialog. Options are 'OK' and 'Cancel'.",
-	"Games.blocks": "Label on a tab that contains blocks editor.\n{{Identical|Blocks}}",
+	"Games.blocks": "Label on a tab that contains blocks editor.\n{{Identical|Block}}",
 	"Games.congratulations": "alert - This is displayed when the user solves the level.\n{{Identical|Congratulation}}",
 	"Games.helpAbort": "callout - This dialog gives the user the option to skip this level.",
 	"Index.clear": "Confirmation prompt for deleting all the user's data.",

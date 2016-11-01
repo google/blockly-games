@@ -5,7 +5,8 @@
 			"Alex Khimich",
 			"Gromko",
 			"Igor Zavadsky",
-			"Lxlalexlxl"
+			"Lxlalexlxl",
+			"Piramidion"
 		]
 	},
 	"Games.name": "Ігри Blockly",
@@ -16,6 +17,7 @@
 	"Games.movie": "Фільм",
 	"Games.pondTutor": "Ставочок",
 	"Games.pond": "Став",
+	"Games.genetics": "Генетика",
 	"Games.linesOfCode1": "Рівень пройдено за допомогою 1 рядка JavaScript:",
 	"Games.linesOfCode2": "Рівень пройдено за допомогою %1 рядків JavaScript:",
 	"Games.nextLevel": "Ви готові до рівня %1?",
