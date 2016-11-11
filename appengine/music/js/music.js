@@ -171,7 +171,7 @@ Music.init = function() {
       sounds.push({'src': instruments[i] + '/' + notes[midi] + '.mp3', id: instruments[i] + midi});
     }
   }
-  createjs.Sound.registerSounds(sounds, assetsPath);
+  createjs['Sound']['registerSounds'](sounds, assetsPath);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -423,13 +423,13 @@ Music.animate = function(id) {
  * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
 Music.play = function(duration, pitch, id, interpreter) {
-  var mySound = createjs.Sound.play(interpreter.instrument + pitch);
+  var mySound = createjs['Sound']['play'](interpreter.instrument + pitch);
   var scaleDuration = duration * 1000 *
       (2.5 - 2 * Music.speedSlider.getValue());
   interpreter.pauseMs = scaleDuration -
       (Number(new Date()) - interpreter.idealTime);
   interpreter.idealTime += scaleDuration;
-  setTimeout(function() {mySound.stop();}, interpreter.pauseMs);
+  setTimeout(function() {mySound['stop']();}, interpreter.pauseMs);
   interpreter.subStartBlock.push(pitch);
   interpreter.subStartBlock.push(duration);
   Music.animate(id);
