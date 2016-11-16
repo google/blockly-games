@@ -78,17 +78,17 @@ musicGame.StageView = ng.core
       blocklyApp.workspace.clear();
 
       var that = this;
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[0].action = function() {
+      ACCESSIBLE_GLOBALS.customSidebarButtons[0].action = function() {
         that.runCode();
       };
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].action = function() {
+      ACCESSIBLE_GLOBALS.customSidebarButtons[1].action = function() {
         var expectedLine = new MusicLine();
         expectedLine.setFromChordsAndDurations(that.levelData.expectedLine);
 
         musicPlayer.reset();
         musicPlayer.play(expectedLine, that.levelData.beatsPerMinute);
       };
-      ACCESSIBLE_GLOBALS.toolbarButtonConfig[1].isHidden = function() {
+      ACCESSIBLE_GLOBALS.customSidebarButtons[1].isHidden = function() {
         return !that.levelData.expectedLine;
       };
 
