@@ -28,6 +28,7 @@
 	"Games.xmlError": "No s'ha pogut carregar el teu fitxer desat.  Potser va ser creat amb una versió diferent de Blockly?",
 	"Games.listVariable": "llista",
 	"Games.textVariable": "text",
+	"Games.blocks": "Blocs",
 	"Puzzle.legsChoose": "triar...",
 	"Puzzle.error0": "Perfecte!\nTots els blocs de %1 són correctes.",
 	"Puzzle.error1": "Gairebé! Una bloc és incorrecte.",
@@ -92,6 +93,5 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "negreta",
 	"Turtle.fontItalic": "cursiva",
-	"Turtle.catTurtle": "Tortuga",
-	"Games.blocks": "Blocs"
+	"Turtle.catTurtle": "Tortuga"
 }

@@ -36,6 +36,7 @@
 	"Games.linkAlert": "சுட்டி பகிர் : %1",
 	"Games.listVariable": "பட்டியல்",
 	"Games.textVariable": "உரை",
+	"Games.blocks": "நிரல் துண்டு",
 	"Games.congratulations": "வாழ்த்துக்கள்!",
 	"Index.clear": "விடைகளை அழி",
 	"Index.subTitle": "நாளைய நிரலாளரின் விளையாட்டுக்கள்",
@@ -108,6 +109,5 @@
 	"Pond.rabbitName": "முயல்",
 	"Pond.counterName": "எண்ணி",
 	"Pond.rookName": "யானை",
-	"Pond.sniperName": "மறை வேடர்",
-	"Games.blocks": "நிரல் துண்டு"
+	"Pond.sniperName": "மறை வேடர்"
 }

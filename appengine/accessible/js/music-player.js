@@ -220,3 +220,10 @@ MusicPlayer.prototype.playAllLines = function(
     [CONSTANTS.LINE_PLAYER, CONSTANTS.LINE_ACCOMPANIMENT], beatsPerMinute,
     onFinishPlayerLineCallback);
 };
+
+MusicPlayer.prototype.play = function(line, beatsPerMinute) {
+  // TODO(sll): Refactor to use a different line for this.
+  this.lines_[CONSTANTS.LINE_ACCOMPANIMENT] = line;
+  this.playLines_([CONSTANTS.LINE_ACCOMPANIMENT], beatsPerMinute);
+  this.lines_[CONSTANTS.LINE_ACCOMPANIMENT] = [];
+};

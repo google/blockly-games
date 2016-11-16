@@ -12,7 +12,7 @@
 	"Games.bird": "Ptič",
 	"Games.turtle": "Želva",
 	"Games.movie": "Film",
-	"Games.pondTutor": "Ribnik navodila",
+	"Games.pondTutor": "Ribnik Mentor",
 	"Games.pond": "Ribnik",
 	"Games.linesOfCode1": "Stopnjo si rešil/-a z 1 vrstico JavaScript-a:",
 	"Games.linesOfCode2": "To stopnjo si rešil z %1 vrsticami Javascript-a.",
@@ -40,6 +40,8 @@
 	"Games.xmlError": "Ni bilo mogoče naložiti shranjene datoteke. Mogoče je bila ustvarjena z drugo različico Blocklyja?",
 	"Games.listVariable": "seznam",
 	"Games.textVariable": "besedilo",
+	"Games.breakLink": "Ko začnete urejati JavaScript, se ne morete vrniti nazaj na urejanje blokov. Je to OK?",
+	"Games.blocks": "Bloki",
 	"Games.congratulations": "Čestitke!",
 	"Games.helpAbort": "Ta stopnja je zelo težka. Jo želite preskočiti in začeti z naslednjo igro? Vedno lahko kasneje pridete nazaj.",
 	"Index.clear": "Izbrišemo vse vaše rešitve?",
@@ -225,7 +227,5 @@
 	"Pond.rabbitName": "Zajec",
 	"Pond.counterName": "Števec",
 	"Pond.rookName": "Trdnjava",
-	"Pond.sniperName": "Ostrostrelec",
-	"Games.breakLink": "Ko začnete urejati JavaScript, se ne morete vrniti nazaj na urejanje blokov. Je to OK?",
-	"Games.blocks": "Bloki"
+	"Pond.sniperName": "Ostrostrelec"
 }

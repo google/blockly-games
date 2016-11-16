@@ -12,6 +12,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Magìster ëd Pond",
 	"Games.pond": "Baciass",
+	"Games.genetics": "Genética",
 	"Games.linesOfCode1": "A l'ha arzolvù 's livel con 1 linia ëd JavaScript:",
 	"Games.linesOfCode2": "A l'ha arzolvù 's livel con %1 linie ëd JavaScript:",
 	"Games.nextLevel": "É-lo pront për ël livel %1?",
@@ -38,6 +39,8 @@
 	"Games.xmlError": "A l'é nen podusse carié so archivi salvà. Miraco a l'é stàit creà con na version diferenta ëd Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "test",
+	"Games.breakLink": "Na vira ch'a l'avrà ancaminà a modifiché ël JavaScript, a podrà pi nen torné a la modìfica dij blòch. A va bin?",
+	"Games.blocks": "Blòch",
 	"Games.congratulations": "Compliment!",
 	"Games.helpAbort": "Ës livel a l'é motobin difìcil. Veul-lo autelo e passer al gieugh apress? A peul sempe torné andré pi tard.",
 	"Index.clear": "Dëscancelé tute le soe solussion?",
@@ -223,7 +226,5 @@
 	"Pond.rabbitName": "Lapin",
 	"Pond.counterName": "Conteur",
 	"Pond.rookName": "Tor",
-	"Pond.sniperName": "Tirador",
-	"Games.breakLink": "Na vira ch'a l'avrà ancaminà a modifiché ël JavaScript, a podrà pi nen torné a la modìfica dij blòch. A va bin?",
-	"Games.blocks": "Blòch"
+	"Pond.sniperName": "Tirador"
 }

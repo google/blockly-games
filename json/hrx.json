@@ -27,6 +27,7 @@
 	"Games.xmlError": "Dein gespeicherte Datei könnt net gelood sin. Vielleicht woard se mit ener annre Version von Blockly erstellt.",
 	"Games.listVariable": "List",
 	"Games.textVariable": "Text",
+	"Games.blocks": "Bausten",
 	"Puzzle.legsChoose": "wähl …",
 	"Puzzle.error0": "Perfekt! All %1 Bausten sind richtich.",
 	"Puzzle.error1": "Nächst! En Baustein ist falsch.",
@@ -91,6 +92,5 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "fett",
 	"Turtle.fontItalic": "kursiv",
-	"Turtle.catTurtle": "Schildkrott",
-	"Games.blocks": "Bausten"
+	"Turtle.catTurtle": "Schildkrott"
 }

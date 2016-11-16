@@ -363,7 +363,12 @@ BlocklyDialogs.congratulations = function() {
     linesText.textContent = '';
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     code = BlocklyInterface.stripCode(code);
-    var lineCount = code.split('\n').length;
+    var noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
+    noComments = noComments.replace(/\/\*.*\*\//g, '');  /* Block comments. */
+    noComments = noComments.replace(/[ \t]+\n/g, '\n');  // Trailing spaces.
+    noComments = noComments.replace(/\n+/g, '\n');  // Blank lines.
+    noComments = noComments.trim();
+    var lineCount = noComments.split('\n').length;
     var pre = document.getElementById('containerCode');
     pre.textContent = code;
     if (typeof prettyPrintOne == 'function') {

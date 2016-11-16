@@ -15,6 +15,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Teichlehrer",
 	"Games.pond": "Teich",
+	"Games.genetics": "Genetik",
 	"Games.linesOfCode1": "Du hast dieses Level mit 1 Zeile JavaScript gelöst:",
 	"Games.linesOfCode2": "Du hast dieses Level mit %1 Zeilen JavaScript gelöst:",
 	"Games.nextLevel": "Bist du bereit für Level %1?",
@@ -41,6 +42,8 @@
 	"Games.xmlError": "Deine gespeicherte Datei konnte nicht geladen werden. Vielleicht wurde sie mit einer anderen Blockly-Version erstellt?",
 	"Games.listVariable": "Liste",
 	"Games.textVariable": "Text",
+	"Games.breakLink": "Sobald du anfängst, JavaScript zu bearbeiten, kannst du zurück gehen, um Blöcke zu bearbeiten. Ist das in Ordnung?",
+	"Games.blocks": "Bausteine",
 	"Games.congratulations": "Glückwunsch!",
 	"Games.helpAbort": "Dieses Level ist sehr schwierig. Möchtest du es überspringen und zum nächsten Spiel gehen? Du kannst später immer noch zurückkehren.",
 	"Index.clear": "Alle deine Lösungen löschen?",
@@ -226,7 +229,5 @@
 	"Pond.rabbitName": "Kaninchen",
 	"Pond.counterName": "Zähler",
 	"Pond.rookName": "Turm",
-	"Pond.sniperName": "Scharfschütze",
-	"Games.breakLink": "Sobald du anfängst, JavaScript zu bearbeiten, kannst du zurück gehen, um Blöcke zu bearbeiten. Ist das in Ordnung?",
-	"Games.blocks": "Bausteine"
+	"Pond.sniperName": "Scharfschütze"
 }

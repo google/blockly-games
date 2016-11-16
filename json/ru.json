@@ -16,6 +16,7 @@
 	"Games.movie": "Фильм",
 	"Games.pondTutor": "Пруд Tutor",
 	"Games.pond": "Пруд",
+	"Games.genetics": "Генетика",
 	"Games.linesOfCode1": "Ты решил задачу на этом уровне одной строкой на JavaScript.",
 	"Games.linesOfCode2": "Ты решил этот уровень. Число строк кода на JavaScript - %1:",
 	"Games.nextLevel": "Ты готов к уровню %1?",
@@ -42,6 +43,8 @@
 	"Games.xmlError": "Не удалось загрузить ваш сохраненный файл.  Возможно, он был создан в другой версии Блокли?",
 	"Games.listVariable": "список",
 	"Games.textVariable": "текст",
+	"Games.breakLink": "Как только вы начнёте редактировать JavaScript, вы не сможете вернуться к редактированию блоков. Продолжить?",
+	"Games.blocks": "Блоки",
 	"Games.congratulations": "Поздравляем!",
 	"Games.helpAbort": "Этот уровень очень сложен. Может, ты хочешь пропустить его и перейти к следующей игре? Ты всегда можешь вернуться сюда позже.",
 	"Index.clear": "Удалить все решения?",
@@ -227,7 +230,5 @@
 	"Pond.rabbitName": "Кролик",
 	"Pond.counterName": "Счетчик",
 	"Pond.rookName": "Шулер",
-	"Pond.sniperName": "Снайпер",
-	"Games.breakLink": "Как только вы начнёте редактировать JavaScript, вы не сможете вернуться к редактированию блоков. Продолжить?",
-	"Games.blocks": "Блоки"
+	"Pond.sniperName": "Снайпер"
 }

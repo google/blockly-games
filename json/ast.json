@@ -38,6 +38,7 @@
 	"Games.xmlError": "Nun pudo cargase l'archivu guardáu.\n¿Quiciabes foi creáu con otra versión de Blockyl?",
 	"Games.listVariable": "Llista",
 	"Games.textVariable": "Testu",
+	"Games.blocks": "Bloques",
 	"Games.congratulations": "¡Norabona!",
 	"Games.helpAbort": "Esti nivel ye desaxeradamente difícil. ¿Deseyes saltealu y dir al siguiente nivel? Siempres puedes tornar más palantre.",
 	"Index.clear": "¿Borrar toles tos soluciones?",
@@ -121,6 +122,5 @@
 	"Pond.rabbitName": "Coneyu",
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Francotirador",
-	"Games.blocks": "Bloques"
+	"Pond.sniperName": "Francotirador"
 }

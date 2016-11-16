@@ -8,7 +8,8 @@
 			"Qiyue2001",
 			"Yfdyh000",
 			"Jiang123aa",
-			"Sherry"
+			"Sherry",
+			"Irus"
 		]
 	},
 	"Games.name": "Blockly 游戏",
@@ -19,6 +20,7 @@
 	"Games.movie": "电影",
 	"Games.pondTutor": "池塘导师",
 	"Games.pond": "池塘",
+	"Games.genetics": "遗传学",
 	"Games.linesOfCode1": "您通过一行JavaScript通过了这个等级：",
 	"Games.linesOfCode2": "您通过%1行JavaScript通过了这个等级：",
 	"Games.nextLevel": "准备好等级%1了么?",
@@ -45,6 +47,8 @@
 	"Games.xmlError": "无法载入您保存的文件。您是否使用其他版本的Blockly创建该文件的？",
 	"Games.listVariable": "列表",
 	"Games.textVariable": "文本",
+	"Games.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
+	"Games.blocks": "块",
 	"Games.congratulations": "祝贺！",
 	"Games.helpAbort": "此等级非常困难。您是否希望跳过它并进入下一个游戏？您总是可以稍后返回这里。",
 	"Index.clear": "删除您所有的解决方案？",
@@ -115,6 +119,7 @@
 	"Bird.headingTooltip": "移动到指定角度的方向：0是向右，90则是正上方等。",
 	"Bird.positionTooltip": "横坐标和纵坐标记录鸟的位置。当 x = 0 时鸟靠近左边，当 x = 100 时靠近右边。当 y = 0 时鸟在底部，当 y = 100 时在顶部。",
 	"Bird.helpHeading": "更改航向角以使鸟有虫吃并落在她的巢中。",
+	"Bird.helpHasWorm": "如果你有蠕虫，使用这个块进入一个标题，如果你没有蠕虫，则使用不同的标题。",
 	"Bird.helpX": "'x'是您现在的水平位置。用这个版块来进入一个当'x'小于某个数字时的标题，或者另一个不同的标题。",
 	"Bird.helpElse": "点击图标以修改“if”方块。",
 	"Bird.helpElseIf": "此等级既需要“else if”又需要“else”方块。",
@@ -200,6 +205,7 @@
 	"Movie.helpText5": "使老鼠头移动比较容易。您可以通过算出数学公式，也移动耳朵么？",
 	"Movie.helpText6": "两条简单的线。计算出线两端在干什么吧。",
 	"Movie.helpText7": "此落球运动的数学公式有些难懂。这里有答案：",
+	"Movie.helpText8": "使用“if”块在电影的前半部分绘制红色和蓝色的球。 然后在电影的下半部画一个绿色的球。",
 	"Movie.helpText10Reddit": "使用&quot;See Gallery&quot;按钮来观看其他人制作的视频。如果您制作了一段有趣的视频，使用&quot;Submit to Gallery&quot;按钮来发布它。",
 	"Pond.cannonTooltip": "试射大炮。指定一个方向（0~360）和一个范围（0~70）。",
 	"Pond.swimTooltip": "向前游，并指定一个方向（0-360）。",
@@ -221,7 +227,5 @@
 	"Pond.rabbitName": "兔子",
 	"Pond.counterName": "计数人",
 	"Pond.rookName": "车",
-	"Pond.sniperName": "狙击手",
-	"Games.breakLink": "一旦您开始编辑JavaScript，您不能返回编辑块。这是真的么？",
-	"Games.blocks": "块"
+	"Pond.sniperName": "狙击手"
 }

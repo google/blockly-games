@@ -18,6 +18,7 @@
 	"Games.movie": "Película",
 	"Games.pondTutor": "Tutor del estanque",
 	"Games.pond": "Estanque",
+	"Games.genetics": "Genética",
 	"Games.linesOfCode1": "Resolviste este nivel con 1 línea de JavaScript:",
 	"Games.linesOfCode2": "Resolviste este nivel con %1 líneas de JavaScript:",
 	"Games.nextLevel": "¿Estás listo/a para el nivel %1?",
@@ -44,6 +45,8 @@
 	"Games.xmlError": "No se pudo cargar el archivo guardado.  ¿Quizá fue creado con otra versión de Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
+	"Games.breakLink": "Una vez que comiences la edición de JavaScript, no podrás volver a la edición de bloques. ¿Estás seguro?",
+	"Games.blocks": "Bloques",
 	"Games.congratulations": "¡Felicitaciones!",
 	"Games.helpAbort": "Este nivel es extremadamente difícil. ¿Deseas saltearlo e ir al siguiente nivel? Siempre puedes regresar más adelante.",
 	"Index.clear": "¿Borrar todas tus soluciones?",
@@ -229,7 +232,5 @@
 	"Pond.rabbitName": "Conejo",
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Francotirador",
-	"Games.breakLink": "Una vez que comiences la edición de JavaScript, no podrás volver a la edición de bloques. ¿Estás seguro?",
-	"Games.blocks": "Bloques"
+	"Pond.sniperName": "Francotirador"
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Screen Reader Accessible Blockly Game: House</title>
+
+    <script src="../third-party/blockly/accessible/libs/es6-shim.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/angular2-polyfills.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/Rx.umd.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/angular2-all.umd.min.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      h1 {
+        font-weight: normal;
+        font-size: 140%;
+      }
+
+      .blocklyAriaLiveStatus {
+        background: #c8f7be;
+        border-radius: 10px;
+        bottom: 80px;
+        right: 20px;
+        max-width: 275px;
+        padding: 10px;
+        position: fixed;
+      }
+
+      .blocklyTree .blocklyActiveDescendant > label,
+      .blocklyTree .blocklyActiveDescendant > div > label,
+      .blocklyActiveDescendant > button,
+      .blocklyActiveDescendant > input,
+      .blocklyActiveDescendant > blockly-field-segment > label,
+      .blocklyActiveDescendant > blockly-field-segment > input {
+        outline: 2px dotted #00f;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="float: right;">
+      <a href="./index.html">
+        Home
+      </a>
+    </div>
+
+    <h1>Accessible Blockly Music Game: House</h1>
+
+    <p>
+      Explore the house in the next section.  Use the up and down arrows to
+      navigate between items on the same level, the right arrow to step into a
+      level, and the left arrow to step out of a level.
+    </p>
+
+    <house-app></house-app>
+
+    <script src="js/house/data.js"></script>
+    <script src="js/house/notifications.service.js"></script>
+    <script src="js/house/level-manager.service.js"></script>
+    <script src="js/house/tree.service.js"></script>
+    <script src="js/house/house-tree.component.js"></script>
+    <script src="js/house/house.component.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        ng.platform.browser.bootstrap(houseApp.HouseView);
+      });
+    </script>
+
+  </body>
+</html>

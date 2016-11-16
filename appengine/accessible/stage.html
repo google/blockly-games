@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Screen Reader Accessible Blockly Game</title>
+
+    <!-- Load Blockly -->
+    <script src="../third-party/blockly/blockly_compressed.js"></script>
+    <script src="../third-party/blockly/blocks_compressed.js"></script>
+    <script src="../third-party/blockly/javascript_compressed.js"></script>
+    <script src="../third-party/blockly/msg/js/en.js"></script>
+
+    <!-- Load accessibleBlockly -->
+    <script src="../third-party/blockly/accessible/messages.js"></script>
+
+    <script src="../third-party/blockly/accessible/libs/es6-shim.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/angular2-polyfills.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/Rx.umd.min.js"></script>
+    <script src="../third-party/blockly/accessible/libs/angular2-all.umd.min.js"></script>
+
+    <script src="../third-party/blockly/accessible/utils.service.js"></script>
+    <script src="../third-party/blockly/accessible/audio.service.js"></script>
+    <script src="../third-party/blockly/accessible/modal.service.js"></script>
+    <script src="../third-party/blockly/accessible/keyboard-input.service.js"></script>
+    <script src="../third-party/blockly/accessible/notifications.service.js"></script>
+    <script src="../third-party/blockly/accessible/clipboard.service.js"></script>
+    <script src="../third-party/blockly/accessible/tree.service.js"></script>
+    <script src="../third-party/blockly/accessible/translate.pipe.js"></script>
+
+    <script src="../third-party/blockly/accessible/field-segment.component.js"></script>
+    <script src="../third-party/blockly/accessible/block-options-modal.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox.component.js"></script>
+    <script src="../third-party/blockly/accessible/sidebar.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace.component.js"></script>
+    <script src="../third-party/blockly/accessible/app.component.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../third-party/blockly/accessible/media/accessible.css">
+
+    <!-- Libraries for MIDI playback. -->
+    <script src="../third-party/midi-js/trunk/build/MIDI.js"></script>
+    <script src="../third-party/midi-js/trunk/inc/shim/Base64binary.js"></script>
+
+    <script src="js/blocks.js"></script>
+    <script src="js/music-player.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      h1, h2 {
+        float: left;
+        font-weight: normal;
+        margin: 0 50px 0 0;
+      }
+      h1 {
+        font-size: 140%;
+      }
+      h2 {
+        font-size: 120%;
+        margin-top: 4px;
+      }
+
+      button {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: .25rem;
+        color: #000;
+        cursor: pointer;
+        font-weight: 400;
+        line-height: 1.25;
+        margin: 2px 0;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: .65;
+      }
+
+      .instructionsDiv {
+        float: left;
+        margin-right: 20px;
+        margin-top: 20px;
+        width: 300px;
+      }
+      .mainBlocklyDiv {
+        border-left: 1px solid #888;
+        display: inline-block;
+        padding-left: 10px;
+        margin-top: 20px;
+        min-height: 1000px;
+        width: 865px;
+      }
+
+      #skipLink a {
+        background-color: #9e340b;
+        color: white;
+        height: 1px;
+        left: -10000px;
+        opacity: 0;
+        overflow: hidden;
+        padding: 15px 20px 10px;
+        position: absolute;
+        text-decoration: none;
+        width: 1px;
+      }
+      #skipLink a:focus {
+        height: auto;
+        margin-left: -10px;
+        opacity: 1;
+        position: static;
+        width: auto;
+      }
+
+      *:focus {
+        background: rgba(249, 237, 190, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="skipLink">
+      <a href="#instructions">Skip to Instructions</a>
+    </div>
+
+    <div style="float: right;">
+      <a href="./help.html">Learn more...</a>
+    </div>
+
+    <div style="float: right; margin-right: 30px;">
+      <a href="./index.html">Home</a>
+    </div>
+
+    <music-game-stage></music-game-stage>
+
+    <script src="js/utils.service.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/level-manager.service.js"></script>
+    <script src="js/stage.component.js"></script>
+    <script>
+      var musicPlayer = new MusicPlayer();
+      var activeTimeouts = [];
+
+      // The code generated by the blocks calls this function.
+      function addChord(pitches, durationInBeats) {
+        musicPlayer.addPlayerChord(pitches, durationInBeats);
+      }
+
+      function runCodeToPopulatePlayerLine() {
+        // Generate JavaScript code and run it.
+        window.LoopTrap = 1000;
+        Blockly.JavaScript.INFINITE_LOOP_TRAP =
+            'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';
+        var code = Blockly.JavaScript.workspaceToCode(blocklyApp.workspace);
+        Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+        try {
+          eval(code);
+        } catch (e) {
+          alert(e);
+        }
+      }
+
+      var ACCESSIBLE_GLOBALS = {
+        mediaPathPrefix: '../third-party/blockly/accessible/media/',
+        // Additional custom buttons for the sidebar.
+        customSidebarButtons: [{
+          text: 'Run your program',
+          ariaDescribedBy: null,
+          onClickNotification: 'Your tune.',
+          isHidden: function() {
+            return false;
+          },
+          // Gets set by musicGame.LevelManagerService.
+          action: null
+        }, {
+          text: 'Listen to example',
+          ariaDescribedBy: 'instructionsText',
+          onClickNotification: 'This is what the tune should sound like.',
+          // Gets set by musicGame.LevelManagerService.
+          isHidden: null,
+          // Gets set by musicGame.LevelManagerService.
+          action: null
+        }]
+      };
+
+      document.addEventListener('DOMContentLoaded', function() {
+        ng.platform.browser.bootstrap(musicGame.StageView);
+      });
+    </script>
+  </body>
+</html>

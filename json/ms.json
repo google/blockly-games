@@ -40,6 +40,7 @@
 	"Games.xmlError": "Fail simpanan anda tidak dapat dimuatkan. Jangan-jangan ia dicipta dengan versi Blockly yang berlainan?",
 	"Games.listVariable": "senarai",
 	"Games.textVariable": "teks",
+	"Games.blocks": "Blok",
 	"Games.congratulations": "Tahniah!",
 	"Games.helpAbort": "Tahap ini sangat susah. Adakah anda ingin melangkaunya dan beralih ke permainan seterusnya? Anda boleh sentiasa kembali nanti.",
 	"Index.clear": "Hapuskan semua penyelesaian anda?",
@@ -225,6 +226,5 @@
 	"Pond.rabbitName": "Rabbit",
 	"Pond.counterName": "Pengira",
 	"Pond.rookName": "Rook",
-	"Pond.sniperName": "Sniper",
-	"Games.blocks": "Blok"
+	"Pond.sniperName": "Sniper"
 }

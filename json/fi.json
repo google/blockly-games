@@ -45,6 +45,8 @@
 	"Games.xmlError": "Tallennuksen lataaminen epäonnistui. Ehkä se on tehty Blocklyn eri versiolla?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "teksti",
+	"Games.breakLink": "Kun alat muokkaamaan JavaScriptiä, et voi enää palata muokkaamaan lohkoja. Haluatko jatkaa?",
+	"Games.blocks": "Lohkot",
 	"Games.congratulations": "Onnittelut!",
 	"Games.helpAbort": "Tämä taso on erittäin haastava. Haluatko ohittaa sen ja siirtyä seuraavaan peliin? Voit palata takaisin myöhemmin.",
 	"Index.clear": "Haluatko varmasti poistaa kaikki ratkaisut?",
@@ -225,7 +227,5 @@
 	"Pond.rabbitName": "Jänis",
 	"Pond.counterName": "Laskuri",
 	"Pond.rookName": "Torni",
-	"Pond.sniperName": "Tarkka-ampuja",
-	"Games.breakLink": "Kun alat muokkaamaan JavaScriptiä, et voi enää palata muokkaamaan lohkoja. Haluatko jatkaa?",
-	"Games.blocks": "Lohkot"
+	"Pond.sniperName": "Tarkka-ampuja"
 }

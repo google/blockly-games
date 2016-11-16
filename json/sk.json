@@ -40,6 +40,8 @@
 	"Games.xmlError": "Nebolo možné načítať uložený súbor. Možno bol vytvorený v inej verzii Blockly.",
 	"Games.listVariable": "zoznam",
 	"Games.textVariable": "text",
+	"Games.breakLink": "Ak už raz začnete písať JavaScript, nemôžete sa vrátiť k úprave blokov. Je to v poriadku?",
+	"Games.blocks": "Bloky",
 	"Games.congratulations": "Blahoželáme!",
 	"Games.helpAbort": "Táto úroveň je veľmi ťažká. Chceš ju preskočiť a pozrieť sa na ďalšiu hru? Neskôr sa sem môžeš vrátiť.",
 	"Index.clear": "Zmazať všetky tvoje riešienia?",
@@ -225,7 +227,5 @@
 	"Pond.rabbitName": "Králik",
 	"Pond.counterName": "Počítadlo",
 	"Pond.rookName": "Veža",
-	"Pond.sniperName": "Strelec",
-	"Games.breakLink": "Ak už raz začnete písať JavaScript, nemôžete sa vrátiť k úprave blokov. Je to v poriadku?",
-	"Games.blocks": "Bloky"
+	"Pond.sniperName": "Strelec"
 }

@@ -52,6 +52,8 @@
 	"Games.xmlError": "Não foi possível carregar seu arquivo salvo. Talvez ele tenha sido criado com uma versão diferente do Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
+	"Games.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
+	"Games.blocks": "Blocos",
 	"Games.congratulations": "Parabéns!",
 	"Games.helpAbort": "Este nível é extremamente difícil. Você deseja pulá-lo e ir ao próximo jogo? Você sempre pode voltar mais tarde.",
 	"Index.clear": "Apagar todas as suas soluções?",
@@ -237,7 +239,5 @@
 	"Pond.rabbitName": "Coelho",
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Francoatirador",
-	"Games.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
-	"Games.blocks": "Blocos"
+	"Pond.sniperName": "Francoatirador"
 }

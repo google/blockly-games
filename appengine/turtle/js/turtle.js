@@ -36,19 +36,6 @@ goog.require('Turtle.soy');
 
 BlocklyGames.NAME = 'turtle';
 
-/**
- * Go to the next level.
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
-
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
 
@@ -145,9 +132,9 @@ Turtle.init = function() {
         '<xml>' +
         '  <block type="turtle_move" x="70" y="70">' +
         '    <value name="VALUE">' +
-        '      <block type="math_number">' +
+        '      <shadow type="math_number">' +
         '        <field name="NUM">10</field>' +
-        '      </block>' +
+        '      </shadow>' +
         '    </value>' +
         '  </block>' +
         '</xml>';
@@ -194,13 +181,7 @@ Turtle.init = function() {
   }
 };
 
-if (window.location.pathname.match(/readonly.html$/)) {
-  window.addEventListener('load', function() {
-    BlocklyInterface.initReadonly(Turtle.soy.readonly());
-  });
-} else {
-  window.addEventListener('load', Turtle.init);
-}
+window.addEventListener('load', Turtle.init);
 
 /**
  * Show the help pop-up.

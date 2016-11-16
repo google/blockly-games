@@ -36,7 +36,19 @@
  LEVEL_SETS.tutorial = {
   name: 'Music Tutorial',
   levels: [{
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
+    introMessage: (
+        'Welcome to Blockly! Blockly teaches you how to program using ' +
+        'blocks of code you link together. Here\'s what you need to know. ' +
+        'There are two main sections, the toolbox on the left, and the ' +
+        'workspace on the right. The toolbox is where the blocks are kept. ' +
+        'Add a block from the toolbox to the workspace. Then, go to the ' +
+        'workspace and explore up and down in the block. The block will ' +
+        'have different options for what you can do with it, like adding a ' +
+        'link to attach another block. When you\'re ready to try out your ' +
+        'program, choose the button called, "Run your program."'),
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
@@ -44,10 +56,14 @@
     getTargetedFeedback: function() {},
     hint: (
         'Start by going to the toolbox and finding the block called ' +
-        '"play note C4". Then, create a new group with this block.'),
-    htmlInstructions: ['Play the note C4.']
+        '"play note C4". Press right to open the block menu, ' +
+        'and press the button to create a new group with this block. ' +
+        'Finally, press the "Run Code" button to run your code.'),
+    instructions: 'Play the note C4.'
   }, {
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note_blank'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[55], 1]
@@ -57,12 +73,14 @@
         return 'Not quite. Did you change C4 to the correct note?';
       }
     },
-    htmlInstructions: ['Play the note G4.'],
+    instructions: 'Play the note G4.',
     hint: (
-        'Put a "play note" block in the workspace, then change the value ' +
-        'to G4.')
+        'Start by putting a "play note C4" block in the workspace. Then, ' +
+        'change its value to G4.')
   }, {
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1],
@@ -77,18 +95,19 @@
         return 'Not quite. Are you playing the right notes?';
       } else if (chords.length != 3) {
         return (
-            'Not quite. Are you using the right number of blocks? They need ' +
-            'to be connected to each other.');
+            'Not quite. Are you using the right number of blocks?');
       }
     },
     hint: (
         'Make sure the blocks are connected to each other. You can connect ' +
-        'blocks by copying and pasting them from the workspace, or by ' +
-        'marking a spot in the block, and then copying a new block to that ' +
-        'marked spot.'),
-    htmlInstructions: ['Play C4, then E4, then G4.']
+        'blocks by going to the Block Options menu using the arrow keys, ' +
+        'and finding the button to mark a spot in the workspace. Then, ' +
+        'go to the block you want to copy, and copy it to the marked spot.'),
+    instructions: 'Play C4, then E4, then G4.'
   }, {
-    allowedBlockTypes: ['music_play_note_with_duration'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note_with_duration'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[55], 2]
@@ -100,11 +119,15 @@
       }
     },
     hint: (
-        'You can change the duration by navigating to the input field and ' +
-        'pressing Enter. After entering it, press the Escape key.'),
-    htmlInstructions: ['Play G4 for two beats.']
+        'You can change how long a note plays by choosing a value for the ' +
+        'part of the block called "for duration".'),
+    instructions: 'Play G4 for two beats.'
   }, {
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    toolboxBlockDefns: [{
+      type: 'loops_repeat'
+    }, {
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1],
@@ -121,16 +144,28 @@
         return 'Not quite! Are you playing the right number of notes?';
       }
     },
-    hint: 'You can do this with only two blocks, by using a repeat block.',
-    htmlInstructions: ['Play C4 eight times.']
+    introMessage: 'New block unlocked: Repeat block!',
+    hint: (
+      'To use only two blocks, link a play note block inside a repeat ' +
+      'block. In the repeat block, find the "repeat BLANK times" part, ' +
+      'press Enter, and type the number of times you want it to repeat. ' +
+      'Then, press the Escape key.'),
+    instructions: 'Play C4 eight times. Try using only two blocks.'
   }]
 };
 
 LEVEL_SETS.game1 = {
   name: 'Music Game',
   levels: [{
-    allowedBlockTypes: ['music_play_phrase'],
-    beatsPerMinute: 120,
+    toolboxBlockDefns: [{
+      type: 'music_play_phrase',
+      optionsJson: (
+          '[["A","55:0.75-55:0.25-57:1-55:1-60:1-59:2"],' +
+          '["B","55:0.75-55:0.25-57:1-55:1-62:1-60:2"],' +
+          '["C","55:0.75-55:0.25-67:1-64:1-60:1-59:1-57:2"],' +
+          '["D","65:0.75-65:0.25-64:1-60:1-62:1-60:2"]]')
+    }],
+    beatsPerMinute: 160,
     expectedLine: [
       [[55], 0.75],
       [[55], 0.25],
@@ -155,15 +190,22 @@ LEVEL_SETS.game1 = {
       [[57], 2],
 
       [[65], 0.75],
-      [[64], 0.25],
-      [[63], 1],
+      [[65], 0.25],
+      [[64], 1],
       [[60], 1],
       [[62], 1],
       [[60], 2]
     ],
-    htmlInstructions: ['Use four blocks to play the familiar "Happy Birthday" tune.']
+    instructions:
+        'Play the tune to "Happy Birthday". The phrases go like this: A, B, C, D.'
   }, {
-    allowedBlockTypes: ['music_play_phrase'],
+    toolboxBlockDefns: [{
+      type: 'music_play_phrase',
+      optionsJson: (
+          '[["A","52:1-50:1"],' +
+          '["B", "48:1-50:1"],' +
+          '["C", "52:1"]]')
+    }],
     beatsPerMinute: 120,
     expectedLine: [
       [[52], 1],
@@ -174,9 +216,13 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[52], 1]
     ],
-    htmlInstructions: ['Play Mary Had a Little Lamb: E4-D4-C4-D4-E4-E4-E4.']
+    instructions:
+        'Play the tune to "Mary Had a Little Lamb". The phrases go like ' +
+        'this: A, B, C, C, C.'
   }, {
-    allowedBlockTypes: ['music_play_note'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 120,
     expectedLine: [
       [[48], 1],
@@ -184,9 +230,13 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1],
     ],
-    htmlInstructions: ['Play the first bar of Frere Jacques: C-D-E-C.']
+    instructions: (
+        'Play the first part of "Frere Jacques" using the notes C4, D4, E4 ' +
+        'and C4.'),
   }, {
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -198,9 +248,17 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: ['Play the first part of Frere Jacques, twice.']
+    instructions: (
+        'Now, repeat the first part of "Frere Jacques". The part you just ' +
+        'made is already in the workspace. Remember, the notes are C4, D4, ' +
+        'E4, and C4.'),
+    continueFromPreviousLevel: true
   }, {
-    allowedBlockTypes: ['music_play_note', 'loops_repeat'],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -212,15 +270,26 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: [
-        'Play the first part of Frere Jacques twice as before, but now, use ' +
-        'only 5 blocks.']
+    getTargetedFeedback: function(chords) {
+      var numBlocks = blocklyApp.workspace.getAllBlocks().length;
+      if (numBlocks > 5) {
+        return (
+            'You\'re currently using ' + numBlocks + ' blocks. Can you ' +
+            'do it with just 5 blocks?');
+      }
+    },
+    hint: 'Use a repeat block. The notes are C4, D4, E4, and C4.',
+    instructions: (
+        'Repeat the first part of "Frere Jacques" again, but this time, ' +
+        'only use 5 blocks.'),
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -236,13 +305,21 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on the part after that: E-F-G']
+    hint: (
+        'Altogether, the song now goes like this: C4, D4, E4, C4. Repeat. ' +
+        'Then, E4, F4, and G4 for two beats.'),
+    instructions: (
+        'Now, add notes E4, F4, and G4. The last note, G4, should play for ' +
+        'two beats.'),
+    continueFromPreviousLevel: true
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -261,13 +338,21 @@ LEVEL_SETS.game1 = {
       [[53], 1],
       [[55], 2]
     ],
-    htmlInstructions: ['Add on an additional E-F-G']
+    hint: (
+        'Altogether, the song now goes like this: C4, D4, E4, C4. Repeat. ' +
+        'Then, E4, F4, and G4 for two beats. Repeat.'),
+    instructions: (
+        'Now, add E4, F4, and G4 again. The last note, G4, should play for ' +
+        'two beats.'),
+    continueFromPreviousLevel: true
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -299,13 +384,23 @@ LEVEL_SETS.game1 = {
       [[52], 1],
       [[48], 1]
     ],
-    htmlInstructions: ['Add the third part, twice.'],
+    hint: (
+        'Altogether, the song now goes like this: C4, D4, E4, C4. Repeat. ' +
+        'Then, E4, F4, and G4 for two beats. Repeat. Then G4, A4, G4, F4, ' +
+        'E4, C4. Repeat.'),
+    instructions: (
+        'Now, add the third part. It goes G4, A4, G4, F4, E4, and C4. ' +
+        'Listen to the desired tune to hear what it should sound like. ' +
+        'Some notes need to be played for only half a beat.'),
+    continueFromPreviousLevel: true
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 150,
     expectedLine: [
       [[48], 1],
@@ -338,21 +433,31 @@ LEVEL_SETS.game1 = {
       [[48], 1],
 
       [[48], 1],
-      [[43], 1],
+      [[48], 1],
       [[48], 2],
       [[48], 1],
-      [[43], 1],
+      [[48], 1],
       [[48], 2],
     ],
-    htmlInstructions: ['Add the last part, twice.']
+    hint: (
+        'Altogether, the song now goes like this: C4, D4, E4, C4. Repeat. ' +
+        'Then, E4, F4, and G4 for two beats. Repeat. Then G4, A4, G4, F4, ' +
+        'E4, C4. Repeat. Then C4, C4, and C4 for two beats. Repeat.'),
+    instructions: (
+        'Finally, add the very last part, which is C4, C4, C4, played ' +
+        'twice. For each phrase, the last note, C4, should be played for ' +
+        'two beats.'),
+    continueFromPreviousLevel: true
   }, {
-    allowedBlockTypes: [
-      'music_play_note',
-      'music_play_note_with_duration',
-      'loops_repeat'
-    ],
+    toolboxBlockDefns: [{
+      type: 'music_play_note'
+    }, {
+      type: 'music_play_note_with_duration'
+    }, {
+      type: 'loops_repeat'
+    }],
     beatsPerMinute: 120,
     expectedLine: null,
-    htmlInstructions: ['Play anything you like. Experiment!']
+    instructions: 'Play anything you like. Experiment!'
   }]
 };
