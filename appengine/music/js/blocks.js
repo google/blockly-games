@@ -90,11 +90,16 @@ Blockly.Blocks['music_note'] = {
           "type": "field_dropdown",
           "name": "DURATION",
           "options": [
-            ["whole", "1"],
-            ["half", "0.5"],
-            ["quarter", "0.25"],
-            ["eighth", "0.125"],
-            ["sixteenth", "0.0625"]
+            [{"src": "music/note1.png",
+              "width": 9, "height": 19, "alt": "whole"}, "1"],
+            [{"src": "music/note2.png",
+              "width": 9, "height": 19, "alt": "half"}, "0.5"],
+            [{"src": "music/note4.png",
+              "width": 9, "height": 19, "alt": "quarter"}, "0.25"],
+            [{"src": "music/note8.png",
+              "width": 9, "height": 19, "alt": "eighth"}, "0.125"],
+            [{"src": "music/note16.png",
+              "width": 9, "height": 19, "alt": "sixteenth"}, "0.0625"]
           ]
         },
         {
