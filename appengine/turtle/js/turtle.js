@@ -239,7 +239,7 @@ Turtle.showCategoryHelp = function() {
 
 
 /**
- * Flag indicating if a toolbox categoriy has been clicked yet.
+ * Flag indicating if a toolbox category has been clicked yet.
  * Level one only.
  * @private
  */
@@ -247,7 +247,7 @@ Turtle.categoryClicked_ = false;
 
 /**
  * Monitor to see if the user finds the categories in level one.
- * @param {!Blockly.Events.Abstract} e Custom data for event.
+ * @param {!Blockly.Events.Abstract} event Custom data for event.
  * @private
  */
 Turtle.watchCategories_ = function(event) {
@@ -380,7 +380,6 @@ Turtle.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   document.getElementById('spinner').style.visibility = 'visible';
-  BlocklyGames.workspace.traceOn(true);
   Turtle.execute();
 };
 
@@ -397,7 +396,7 @@ Turtle.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  BlocklyGames.workspace.traceOn(false);
+  BlocklyGames.workspace.highlightBlock(null);
   Turtle.reset();
 
   // Image cleared; prevent user from submitting to Reddit.

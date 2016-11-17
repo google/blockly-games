@@ -196,15 +196,18 @@ BlocklyInterface.nextLevel = function() {
 /**
  * Highlight the block (or clear highlighting).
  * @param {?string} id ID of block that triggered this action.
+ * @param {boolean=} opt_state If undefined, highlight specified block and
+ * automatically unhighlight all others.  If true or false, manually
+ * highlight/unhighlight the specified block.
  */
-BlocklyInterface.highlight = function(id) {
+BlocklyInterface.highlight = function(id, opt_state) {
   if (id) {
     var m = id.match(/^block_id_([^']+)$/);
     if (m) {
       id = m[1];
     }
   }
-  BlocklyGames.workspace.highlightBlock(id);
+  BlocklyGames.workspace.highlightBlock(id, opt_state);
 };
 
 /**

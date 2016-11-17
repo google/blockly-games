@@ -546,7 +546,6 @@ Bird.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  BlocklyGames.workspace.traceOn(true);
   Bird.reset(false);
   Bird.execute();
 };
@@ -563,7 +562,7 @@ Bird.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
-  BlocklyGames.workspace.traceOn(false);
+  BlocklyGames.workspace.highlightBlock(null);
   Bird.reset(false);
 };
 

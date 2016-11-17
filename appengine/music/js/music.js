@@ -37,19 +37,6 @@ goog.require('goog.array');
 
 BlocklyGames.NAME = 'music';
 
-/**
- * Go to the next level.
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
-
 Music.HEIGHT = 400;
 Music.WIDTH = 400;
 
@@ -287,7 +274,6 @@ Music.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   document.getElementById('spinner').style.visibility = 'visible';
-  BlocklyGames.workspace.traceOn(true);
   Music.execute();
 };
 
@@ -304,7 +290,7 @@ Music.resetButtonClick = function(opt_e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  BlocklyGames.workspace.traceOn(false);
+  BlocklyGames.workspace.highlightBlock(null);
   Music.reset();
 };
 
@@ -407,11 +393,16 @@ Music.executeChunk_ = function(interpreter) {
 /**
  * Highlight a block and pause.
  * @param {?string} id ID of block.
+ * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
-Music.animate = function(id) {
+Music.animate = function(id, interpreter) {
   Music.display();
   if (id) {
-    BlocklyInterface.highlight(id);
+    if (interpreter.highlighedBlock_) {
+      BlocklyInterface.highlight(interpreter.highlighedBlock_, false);
+    }
+    BlocklyInterface.highlight(id, true);
+    interpreter.highlighedBlock_ = id;
   }
 };
 
@@ -432,7 +423,7 @@ Music.play = function(duration, pitch, id, interpreter) {
   setTimeout(function() {mySound['stop']();}, interpreter.pauseMs);
   interpreter.subStartBlock.push(pitch);
   interpreter.subStartBlock.push(duration);
-  Music.animate(id);
+  Music.animate(id, interpreter);
 };
 
 /**
@@ -454,7 +445,7 @@ Music.rest = function(duration, id, interpreter) {
     interpreter.subStartBlock.push(0);
     interpreter.subStartBlock.push(duration);
   }
-  Music.animate(id);
+  Music.animate(id, interpreter);
 }
 
 /**

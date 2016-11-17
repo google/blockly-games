@@ -35,7 +35,7 @@ goog.require('Maze.soy');
 BlocklyGames.NAME = 'maze';
 
 /**
- * Go to the next level.
+ * Go to the next level.  Add skin parameter.
  * @suppress {duplicate}
  */
 BlocklyInterface.nextLevel = function() {
@@ -920,7 +920,6 @@ Maze.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  BlocklyGames.workspace.traceOn(true);
   Maze.reset(false);
   Maze.execute();
 };
@@ -971,7 +970,7 @@ Maze.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
-  BlocklyGames.workspace.traceOn(false);
+  BlocklyGames.workspace.highlightBlock(null);
   Maze.reset(false);
   Maze.levelHelp();
 };
