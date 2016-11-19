@@ -371,6 +371,10 @@ Music.executeChunk_ = function(interpreter) {
   } while (go);
   // Wrap up if complete.
   if (!interpreter.pauseMs) {
+    if (interpreter.highlighedBlock_) {
+      BlocklyInterface.highlight(interpreter.highlighedBlock_, false);
+      interpreter.highlighedBlock_ = null;
+    }
     Music.userAnswer.push(interpreter.subStartBlock);
 
     Music.startCount--;
