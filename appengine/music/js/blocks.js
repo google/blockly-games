@@ -126,7 +126,7 @@ Blockly.JavaScript['music_note'] = function(block) {
 
 Blockly.Blocks['music_rest'] = {
   /**
-   * Block for playing note.
+   * Block for waiting.
    * @this Blockly.Block
    */
   init: function() {
@@ -137,11 +137,16 @@ Blockly.Blocks['music_rest'] = {
           "type": "field_dropdown",
           "name": "DURATION",
           "options": [
-            ["whole", "1"],
-            ["half", "0.5"],
-            ["quarter", "0.25"],
-            ["eighth", "0.125"],
-            ["sixteenth", "0.0625"]
+            [{"src": "music/wait1.png",
+              "width": 10, "height": 20, "alt": "whole"}, "1"],
+            [{"src": "music/wait2.png",
+              "width": 10, "height": 20, "alt": "half"}, "0.5"],
+            [{"src": "music/wait4.png",
+              "width": 10, "height": 20, "alt": "quarter"}, "0.25"],
+            [{"src": "music/wait8.png",
+              "width": 10, "height": 20, "alt": "eighth"}, "0.125"],
+            [{"src": "music/wait16.png",
+              "width": 10, "height": 20, "alt": "sixteenth"}, "0.0625"]
           ]
         }
       ],
@@ -160,7 +165,7 @@ Blockly.JavaScript['music_rest'] = function(block) {
 
 Blockly.Blocks['music_instrument'] = {
   /**
-   * Block for playing note.
+   * Block for changing instrument.
    * @this Blockly.Block
    */
   init: function() {
@@ -198,7 +203,7 @@ Blockly.JavaScript['music_instrument'] = function(block) {
 
 Blockly.Blocks['music_start'] = {
   /**
-   * Block for playing note.
+   * Block for starting an execution thread.
    * @this Blockly.Block
    */
   init: function() {
