@@ -78,9 +78,11 @@ Music.init = function() {
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
-  var visualization = document.getElementById('visualization');
+  var staffBox = document.getElementById('staffBox');
+  var musicBox = document.getElementById('musicBox');
   var onresize = function(e) {
-    var top = visualization.offsetTop;
+    var top = staffBox.offsetTop;
+    musicBox.style.top = (top + 1) + 'px';
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
@@ -125,7 +127,7 @@ Music.init = function() {
     }
   }
 
-  Music.ctxDisplay = document.getElementById('display').getContext('2d');
+  Music.initExpectedAnswer();
   Music.drawAnswer();
   Music.reset();
 
@@ -168,6 +170,29 @@ if (window.location.pathname.match(/readonly.html$/)) {
 } else {
   window.addEventListener('load', Music.init);
 }
+
+/**
+ * Draw and position the specified number of staff bars.
+ */
+Music.drawStaff = function(n) {
+  var staffHeight = 69;
+  var boxHeight = 400;
+  // <img src="music/staff.png" class="staff" style="top: 100px">
+  var box = document.getElementById('staffBox');
+  for (var i = 1; i <= n; i++) {
+    // Compact formula (by Quynh).
+    var top = i * (boxHeight - staffHeight * n) / (n + 1) ;
+    // Verbose equivalent formula (by Neil).
+    // Keeping it in case we need parts for note display.
+    //var top = ((2 * i - 1) / (2 * n) * boxHeight) - (staffHeight * (i - 1));
+    //top -= staffHeight / 2;  // Center the staff on the desired spot.
+    var img = document.createElement('img');
+    img.src = 'music/staff.png';
+    img.className = 'staff';
+    img.style.top = Math.round(top) + 'px';
+    box.appendChild(img);
+  }
+};
 
 /**
  * Show the help pop-up.
@@ -225,6 +250,7 @@ Music.showCategoryHelp = function() {
  * On startup draw the expected answer and save it to the answer canvas.
  */
 Music.drawAnswer = function() {
+  Music.drawStaff(Music.expectedAnswer ? Music.expectedAnswer.length : 4);
   Music.reset();
 };
 
@@ -248,12 +274,7 @@ Music.reset = function() {
  * Copy the scratch canvas to the display canvas. Add a music marker.
  */
 Music.display = function() {
-  // Clear the display with black.
-  Music.ctxDisplay.beginPath();
-  Music.ctxDisplay.rect(0, 0,
-      Music.ctxDisplay.canvas.width, Music.ctxDisplay.canvas.height);
-  Music.ctxDisplay.fillStyle = '#000000';
-  Music.ctxDisplay.fill();
+  // TODO
 };
 
 /**
@@ -463,10 +484,15 @@ Music.setInstrument = function(instrument, id, interpreter) {
 };
 
 /**
- * Verify if the answer is correct.
- * If so, move on to next level.
+ * Array containing all notes expected to be played for this level.
+ * @type Array.<Array.<number>>
  */
-Music.checkAnswer = function() {
+Music.expectedAnswer = undefined;
+
+/**
+ * Compute the expected answer for this level.
+ */
+Music.initExpectedAnswer = function() {
   var levelNotes = [];
   function doubleReplica(a) {
     levelNotes = levelNotes.concat(a).concat(a);
@@ -476,11 +502,7 @@ Music.checkAnswer = function() {
     levelNotes = levelNotes.concat(a);
     return levelNotes;
   }
-  /**
-   * Array containing all notes expected to be played for this level.
-   * @type !Array.<Array.<number>>
-   */
-  var expectedAnswer = [
+  Music.expectedAnswer = [
     // Level 0.
     undefined,
     // Level 1.
@@ -512,17 +534,24 @@ Music.checkAnswer = function() {
     // Level 10.
     undefined,
   ][BlocklyGames.LEVEL];
-  if (!expectedAnswer) {
+};
+
+/**
+ * Verify if the answer is correct.
+ * If so, move on to next level.
+ */
+Music.checkAnswer = function() {
+  if (!Music.expectedAnswer) {
     // On level 10 everyone is a winner.
     return true;
   }
-  if (expectedAnswer.length != Music.userAnswer.length) {
+  if (Music.expectedAnswer.length != Music.userAnswer.length) {
     return false;
   }
-  for (var i = 0; i < expectedAnswer.length; i++) {
+  for (var i = 0; i < Music.expectedAnswer.length; i++) {
     var isFound = false;
     for (var j = 0; j < Music.userAnswer.length; j++) {
-      if (goog.array.equals(expectedAnswer[i], Music.userAnswer[j])) {
+      if (goog.array.equals(Music.expectedAnswer[i], Music.userAnswer[j])) {
         isFound = true;
         break;
       }
@@ -532,7 +561,7 @@ Music.checkAnswer = function() {
     }
   }
   if (BlocklyGames.LEVEL == 6) {
-    // Also check for the existance of a "set instrument" block.
+    // Also check for the existence of a "set instrument" block.
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     if (code.indexOf('setInstrument') == -1) {
       // Yes, you can cheat with a comment.  In this case I don't care.

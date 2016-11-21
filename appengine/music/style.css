@@ -10,8 +10,24 @@ html[dir="RTL"] button.primary {
   position: fixed;
   bottom: 10px;
 }
-#display {
+#staffBox {
   border: 1px solid #ccc;
+  height: 400px;
+  width: 400px;
+  line-height: 0;
+}
+.staff {
+  height: 69px;
+  width: 400px;
+  position: relative;
+}
+#musicBox {
+  position: absolute;
+  height: 400px;
+  width: 365px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin-left: 36px;
 }
 #sampleHelp2 {
   height: 130px;
