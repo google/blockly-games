@@ -9,7 +9,8 @@
 			"Yfdyh000",
 			"Jiang123aa",
 			"Sherry",
-			"Irus"
+			"Irus",
+			"Yanjun Wu"
 		]
 	},
 	"Games.name": "Blockly 游戏",
@@ -206,7 +207,10 @@
 	"Movie.helpText6": "两条简单的线。计算出线两端在干什么吧。",
 	"Movie.helpText7": "此落球运动的数学公式有些难懂。这里有答案：",
 	"Movie.helpText8": "使用“if”块在电影的前半部分绘制红色和蓝色的球。然后在电影的下半部画一个绿色的球。",
+	"Movie.helpText9": "您能做一个跟随着线缆运动的球吗？线缆已经为您画好了。只要您能做到这个，您就可以做到其他任何事情。",
+	"Movie.helpText10": "制作一部您想要的电影。您将得到大量的新区块，您可以尽情探索。玩的开心！",
 	"Movie.helpText10Reddit": "使用&quot;See Gallery&quot;按钮来观看其他人制作的视频。如果您制作了一段有趣的视频，使用&quot;Submit to Gallery&quot;按钮来发布它。",
+	"Pond.scanTooltip": "寻找敌人。指定一个方向（0-360度之间）。返回该方向上最近敌人的距离值。如果该方向上没有发现敌人的话，就返回无限大。",
 	"Pond.cannonTooltip": "试射大炮。指定一个方向（0~360）和一个范围（0~70）。",
 	"Pond.swimTooltip": "向前游，并指定一个方向（0-360）。",
 	"Pond.stopTooltip": "停止游泳。玩家将缓慢停止。",
@@ -224,6 +228,10 @@
 	"Pond.helpText1": "使用“cannon”命令以打击目标。第一个参数是角度，第二个参数是范围。找到正确的组合。",
 	"Pond.helpText2": "此目标需要打很长时间。使用“while (true)”循环以便无限打击。",
 	"Pond.helpText3a": "此对手来回移动，使其很难被攻击。“scan”表达式返回特定位置具体范围内的对手。",
+	"Pond.helpText3b": "这个范围就是“cannon”命令需要发射精确火力的范围。",
+	"Pond.helpText4": "这个对手离得太远了，无法使用加农炮（仅限于70米内）。但是，可以使用“swim”命令开始向对手游过去，然后击溃它。",
+	"Pond.helpText5": "这个对手也离得太远了，不能使用加农炮。但是您在这场冲突中太脆弱了，很难生存下去。所以，好的办法是向对手游过去，直到您的水平位置小于50。然后使用“stop”命令停止，并发射加农炮。",
+	"Pond.helpText6": "对手如果被击中的话会逃离。如果逃到超过一定距离（70米）的话，您需要继续游向它。",
 	"Pond.rabbitName": "兔子",
 	"Pond.counterName": "计数人",
 	"Pond.rookName": "车",
