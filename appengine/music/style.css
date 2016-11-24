@@ -2,6 +2,7 @@ button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
 }
+
 html[dir="RTL"] button.primary {
   text-align: right;
 }
@@ -10,17 +11,20 @@ html[dir="RTL"] button.primary {
   position: fixed;
   bottom: 10px;
 }
+
 #staffBox {
   border: 1px solid #ccc;
   height: 400px;
   width: 400px;
   line-height: 0;
 }
+
 .staff {
   height: 69px;
   width: 400px;
   position: relative;
 }
+
 #musicBox {
   position: absolute;
   height: 400px;
@@ -29,10 +33,19 @@ html[dir="RTL"] button.primary {
   overflow-y: hidden;
   margin-left: 36px;
 }
+
+#notePicker {
+  background-image: url(notes.png);
+  border: 1px solid #ccc;
+  height: 109px;
+  width: 46px;
+}
+
 #sampleHelp2 {
   height: 130px;
   width: 250px;
 }
+
 #sampleHelp6, #sampleHelp7 {
   height: 50px;
   width: 250px;
