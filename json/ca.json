@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Alvaro Vidal-Abarca",
-			"Fitoschido"
+			"Fitoschido",
+			"Arnaugir"
 		]
 	},
 	"Games.puzzle": "Trencaclosques",
@@ -93,5 +94,6 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "negreta",
 	"Turtle.fontItalic": "cursiva",
-	"Turtle.catTurtle": "Tortuga"
+	"Turtle.catTurtle": "Tortuga",
+	"Pond.documentation": "Documentació"
 }
