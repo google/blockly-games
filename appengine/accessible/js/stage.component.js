@@ -113,7 +113,10 @@ musicGame.StageComponent = ng.core
 
         var that = this;
         setTimeout(function() {
-          that.levelManagerService.showSimpleModal(messageParagraphs);
+          that.levelManagerService.showSimpleModal(
+              messageParagraphs, function() {
+                document.getElementById('musicGameRunProgramBtn').focus();
+              });
         }, 500);
 
         return;

@@ -190,7 +190,11 @@ musicGame.LevelManagerService = ng.core.Class({
       });
     }
 
-    this.showModal_('Instructions', messageParagraphs, actionButtonsInfo);
+    this.showModal_(
+        'Instructions', messageParagraphs, actionButtonsInfo,
+        function() {
+          document.getElementById('musicGameInstructionsBtn').focus();
+        });
   },
   gradeCurrentLevel: function() {
     var currentLevelData = this.getCurrentLevelData();
@@ -242,7 +246,9 @@ musicGame.LevelManagerService = ng.core.Class({
           errorMessage = targetedMessage;
         }
       }
-      this.showSimpleModal([errorMessage]);
+      this.showSimpleModal([errorMessage], function() {
+        document.getElementById('musicGameRunProgramBtn').focus();
+      });
     }
   }
 });

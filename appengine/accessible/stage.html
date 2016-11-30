@@ -84,7 +84,6 @@
         padding-left: 10px;
         margin-top: 20px;
         min-height: 1000px;
-        width: 920px;
       }
 
       *:focus {
@@ -137,22 +136,14 @@
         // Additional custom buttons for the sidebar.
         customSidebarButtons: [{
           text: 'Instructions',
-          ariaDescribedBy: null,
-          onClickNotification: 'Instructions.',
-          isHidden: function() {
-            return false;
-          },
           // Gets set by musicGame.StageComponent.
-          action: null
+          action: null,
+          id: 'musicGameInstructionsBtn'
         }, {
           text: 'Run your program',
-          ariaDescribedBy: null,
-          onClickNotification: 'Your tune.',
-          isHidden: function() {
-            return false;
-          },
           // Gets set by musicGame.StageComponent.
-          action: null
+          action: null,
+          id: 'musicGameRunProgramBtn'
         }]
       };
 
