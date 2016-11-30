@@ -61,7 +61,7 @@ musicGame.StageComponent = ng.core
     directives: [blocklyApp.AppComponent, musicGame.GenericModalComponent],
     providers: [
         musicGame.GenericModalService, musicGame.LevelManagerService,
-        musicGame.UtilsService]
+        musicGame.UtilsService, blocklyApp.KeyboardInputService]
   })
   .Class({
     constructor: [
@@ -88,16 +88,6 @@ musicGame.StageComponent = ng.core
       ACCESSIBLE_GLOBALS.customSidebarButtons[1].action = function() {
         that.runCode();
       };
-      ACCESSIBLE_GLOBALS.customSidebarButtons[2].action = function() {
-        var expectedLine = new MusicLine();
-        expectedLine.setFromChordsAndDurations(that.levelData.expectedLine);
-
-        musicPlayer.reset();
-        musicPlayer.play(expectedLine, that.levelData.beatsPerMinute);
-      };
-      ACCESSIBLE_GLOBALS.customSidebarButtons[2].isHidden = function() {
-        return !that.levelData.expectedLine;
-      };
 
       this.levelManagerService.loadExistingCode();
     }],
@@ -123,7 +113,7 @@ musicGame.StageComponent = ng.core
     },
     runCode: function() {
       if (blocklyApp.workspace.topBlocks_.length != 1) {
-        this.levelManagerService.playOops_();
+        this.levelManagerService.playOopsSound();
 
         var alertMessage =
             blocklyApp.workspace.topBlocks_.length == 0 ?

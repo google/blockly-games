@@ -136,9 +136,9 @@
 
     <script src="js/utils.service.js"></script>
     <script src="js/generic-modal.service.js"></script>
-    <script src="js/generic-modal.component.js"></script>
-    <script src="js/levels.js"></script>
     <script src="js/level-manager.service.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/generic-modal.component.js"></script>
     <script src="js/stage.component.js"></script>
     <script>
       var musicPlayer = new MusicPlayer();
@@ -182,14 +182,6 @@
           isHidden: function() {
             return false;
           },
-          // Gets set by musicGame.StageComponent.
-          action: null
-        }, {
-          text: 'Listen to example',
-          ariaDescribedBy: 'instructionsText',
-          onClickNotification: 'This is what the tune should sound like.',
-          // Gets set by musicGame.StageComponent.
-          isHidden: null,
           // Gets set by musicGame.StageComponent.
           action: null
         }]

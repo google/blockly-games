@@ -70,10 +70,10 @@ musicGame.LevelManagerService = ng.core.Class({
       }, 0);
     }
   },
-  playApplause_: function() {
+  playApplauseSound: function() {
     this.applauseAudioFile.play();
   },
-  playOops_: function() {
+  playOopsSound: function() {
     this.oopsAudioFile.play();
   },
   getLocalStorageCodeKey_: function(levelSetId, levelNumber) {
@@ -156,9 +156,9 @@ musicGame.LevelManagerService = ng.core.Class({
   getCurrentLevelData: function() {
     return this.levelSet_[this.currentLevelNumber_];
   },
-  showModal_: function(header, message, actionButtons, onDismissCallback) {
+  showModal_: function(header, message, actionButtonsInfo, onDismissCallback) {
     this.genericModalService.showModal(
-        header, message, actionButtons, onDismissCallback);
+        header, message, actionButtonsInfo, onDismissCallback);
   },
   showSimpleModalWithHeader: function(header, message, onDismissCallback) {
     this.showModal_(header, message, [], onDismissCallback);
@@ -174,7 +174,21 @@ musicGame.LevelManagerService = ng.core.Class({
       fullMessage += ' Hint: ' + levelData.hint;
     }
 
-    this.showSimpleModalWithHeader('Instructions', fullMessage);
+    var actionButtonsInfo = [];
+    if (levelData.expectedLine) {
+      actionButtonsInfo.push({
+        text: 'Listen to example',
+        action: function() {
+          var expectedLine = new MusicLine();
+          expectedLine.setFromChordsAndDurations(levelData.expectedLine);
+
+          musicPlayer.reset();
+          musicPlayer.play(expectedLine, levelData.beatsPerMinute);
+        }
+      });
+    }
+
+    this.showModal_('Instructions', fullMessage, actionButtonsInfo);
   },
   gradeCurrentLevel: function() {
     var currentLevelData = this.getCurrentLevelData();
@@ -186,7 +200,7 @@ musicGame.LevelManagerService = ng.core.Class({
     if (correct) {
       this.saveCodeToLocalStorage_(
           this.getLevelSetId(), this.getCurrentLevelNumber());
-      this.playApplause_();
+      this.playApplauseSound();
 
       if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
         if (this.levelSetId_ == 'tutorial') {

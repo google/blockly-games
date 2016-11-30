@@ -36,38 +36,121 @@ musicGame.GenericModalComponent = ng.core.Component({
           <p>
             {{message}}
           </p>
-          <button (click)="hideModal()" id="modalOkButton">OK</button>
+          <div class="blocklyModalButtonContainer"
+               *ngFor="#buttonInfo of actionButtonsInfo; #i=index">
+            <button [id]="getOptionId(i)" (click)="buttonInfo.action()">
+              {{buttonInfo.text}}
+            </button>
+          </div>
+          <div class="blocklyModalButtonContainer">
+            <button [id]="getDismissOptionId()" (click)="hideModal()">OK</button>
+          </div>
         </div>
       </div>
     </div>
   `
 })
 .Class({
-  constructor: [musicGame.GenericModalService, function(genericModalService) {
-    this.genericModalService = genericModalService;
-    this.modalIsVisible = false;
-    this.header = '';
-    this.message = '';
-    this.actionButtons = [];
-    this.onDismissCallback = null;
+  constructor: [
+    musicGame.GenericModalService, musicGame.LevelManagerService,
+    function(genericModalService, levelManagerService) {
+      this.genericModalService = genericModalService;
+      this.levelManagerService = levelManagerService;
+      this.modalIsVisible = false;
+      this.header = '';
+      this.message = '';
+      this.actionButtonsInfo = [];
+      this.onDismissCallback = null;
+      this.activeActionButtonIndex = 0;
+      this.keysToActions = {};
 
-    var that = this;
-    this.genericModalService.registerPreShowHook(
-      function(header, message, actionButtons, onDismissCallback) {
-        that.modalIsVisible = true;
-        that.header = header || '';
-        that.message = message;
-        that.actionButtons = actionButtons;
-        that.onDismissCallback = onDismissCallback;
+      var that = this;
+      document.addEventListener('keydown', function(evt) {
+        var stringifiedKeycode = String(evt.keyCode);
+        if (that.keysToActions.hasOwnProperty(stringifiedKeycode)) {
+          that.keysToActions[stringifiedKeycode](evt);
+        }
+      });
 
-        setTimeout(function() {
-          document.getElementById('modalOkButton').focus();
-        }, 150);
-      }
-    );
-  }],
+      this.genericModalService.registerPreShowHook(
+        function(header, message, actionButtonsInfo, onDismissCallback) {
+          that.modalIsVisible = true;
+          that.header = header || '';
+          that.message = message;
+          that.actionButtonsInfo = actionButtonsInfo || [];
+          that.onDismissCallback = onDismissCallback;
+          that.activeActionButtonIndex = 0;
+
+          that.keysToActions = {
+            // Tab key: no-op.
+            '9': function(evt) {
+              evt.preventDefault();
+              evt.stopPropagation();
+            },
+            // Enter key: selects an action and performs it.
+            '13': function(evt) {
+              evt.preventDefault();
+              evt.stopPropagation();
+
+              var button = document.getElementById(
+                  that.getOptionId(that.activeActionButtonIndex));
+              if (that.activeActionButtonIndex <
+                  that.actionButtonsInfo.length) {
+                that.actionButtonsInfo[that.activeActionButtonIndex].action();
+              } else {
+                that.hideModal();
+              }
+            },
+            // Escape key: no-op.
+            '27': function() {
+              evt.preventDefault();
+              evt.stopPropagation();
+            },
+            // Up key: navigates to the previous item in the list.
+            '38': function(evt) {
+              // Prevent the page from scrolling.
+              evt.preventDefault();
+              if (that.activeActionButtonIndex == 0) {
+                that.levelManagerService.playOopsSound();
+              } else {
+                that.activeActionButtonIndex--;
+                that.focusOnOption(that.activeActionButtonIndex);
+              }
+            },
+            // Down key: navigates to the next item in the list.
+            '40': function(evt) {
+              // Prevent the page from scrolling.
+              evt.preventDefault();
+              if (that.activeActionButtonIndex ==
+                  that.actionButtonsInfo.length) {
+                that.levelManagerService.playOopsSound();
+              } else {
+                that.activeActionButtonIndex++;
+                that.focusOnOption(that.activeActionButtonIndex);
+              }
+            }
+          };
+
+          setTimeout(function() {
+            that.focusOnOption(0);
+          }, 150);
+        }
+      );
+    }
+  ],
+  focusOnOption: function(index) {
+    var button = document.getElementById(this.getOptionId(index));
+    button.focus();
+  },
+  getOptionId: function(index) {
+    return 'musicGameModalButton' + index;
+  },
+  getDismissOptionId: function(index) {
+    return this.getOptionId(this.actionButtonsInfo.length);
+  },
   hideModal: function() {
     this.modalIsVisible = false;
+    this.keysToActions = {};
     if (this.onDismissCallback) {
       this.onDismissCallback();
     }
