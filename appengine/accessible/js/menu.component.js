@@ -56,7 +56,9 @@ musicGame.MenuView = ng.core
     </p>
     `,
     directives: [],
-    providers: [musicGame.LevelManagerService, musicGame.UtilsService]
+    providers: [
+        musicGame.GenericModalService, musicGame.LevelManagerService,
+        musicGame.UtilsService]
   })
   .Class({
     constructor: [

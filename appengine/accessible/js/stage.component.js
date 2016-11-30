@@ -22,7 +22,7 @@
  * @author sll@google.com (Sean Lip)
  */
 
-musicGame.StageView = ng.core
+musicGame.StageComponent = ng.core
   .Component({
     selector: 'music-game-stage',
     template: `
@@ -55,9 +55,13 @@ musicGame.StageView = ng.core
         </mutation>
       </block>
     </xml>
+
+    <generic-modal></generic-modal>
     `,
-    directives: [blocklyApp.AppView],
-    providers: [musicGame.LevelManagerService, musicGame.UtilsService]
+    directives: [blocklyApp.AppComponent, musicGame.GenericModalComponent],
+    providers: [
+        musicGame.GenericModalService, musicGame.LevelManagerService,
+        musicGame.UtilsService]
   })
   .Class({
     constructor: [
@@ -93,11 +97,15 @@ musicGame.StageView = ng.core
       };
 
       this.levelManagerService.loadExistingCode();
-
-      if (this.levelData.introMessage) {
-        alert(this.levelData.introMessage);
-      }
     }],
+    ngAfterViewInit: function() {
+      var that = this;
+      setTimeout(function() {
+        if (that.levelData.introMessage) {
+          that.levelManagerService.showModal(that.levelData.introMessage);
+        }
+      }, 100);
+    },
     playTune: function() {
       var expectedLine = new MusicLine();
       expectedLine.setFromChordsAndDurations(this.levelData.expectedLine);
@@ -114,8 +122,10 @@ musicGame.StageView = ng.core
             'There are no blocks in the workspace.' :
             ('Looks like some of your blocks aren\'t linked together. ' +
              'Try again!');
+
+        var that = this;
         setTimeout(function() {
-          alert(alertMessage);
+          that.levelManagerService.showModal(alertMessage);
         }, 500);
 
         return;
