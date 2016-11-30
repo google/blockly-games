@@ -33,16 +33,6 @@ musicGame.StageComponent = ng.core
     <div style="clear: both;"></div>
 
     <div role="main">
-      <div class="instructionsDiv">
-        <h3 id="instructions" tabindex="-1">Instructions</h3>
-        <p id="instructionsText">{{levelData.instructions}}</p>
-        <p *ngIf="levelData.hint">Hint: {{levelData.hint}}</p>
-
-        <p *ngIf="levelData.expectedLine">
-          <button (click)="playTune()">Listen to example</button>
-        </p>
-      </div>
-
       <div class="mainBlocklyDiv">
         <blockly-app></blockly-app>
       </div>
