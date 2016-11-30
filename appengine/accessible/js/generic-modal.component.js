@@ -32,6 +32,7 @@ musicGame.GenericModalComponent = ng.core.Component({
         <!-- The $event.stopPropagation() here prevents the modal from
         closing when its interior is clicked. -->
         <div class="blocklyModal" (click)="$event.stopPropagation()" role="document">
+          <h3 *ngIf="header">{{header}}</h3>
           <p>
             {{message}}
           </p>
@@ -45,15 +46,19 @@ musicGame.GenericModalComponent = ng.core.Component({
   constructor: [musicGame.GenericModalService, function(genericModalService) {
     this.genericModalService = genericModalService;
     this.modalIsVisible = false;
+    this.header = '';
     this.message = '';
-    this.onCloseCallback = null;
+    this.actionButtons = [];
+    this.onDismissCallback = null;
 
     var that = this;
     this.genericModalService.registerPreShowHook(
-      function(message, onCloseCallback) {
+      function(header, message, actionButtons, onDismissCallback) {
         that.modalIsVisible = true;
+        that.header = header || '';
         that.message = message;
-        that.onCloseCallback = onCloseCallback;
+        that.actionButtons = actionButtons;
+        that.onDismissCallback = onDismissCallback;
 
         setTimeout(function() {
           document.getElementById('modalOkButton').focus();
@@ -63,9 +68,8 @@ musicGame.GenericModalComponent = ng.core.Component({
   }],
   hideModal: function() {
     this.modalIsVisible = false;
-    if (this.onCloseCallback) {
-      this.onCloseCallback();
+    if (this.onDismissCallback) {
+      this.onDismissCallback();
     }
-    this.message = '';
   }
 });

@@ -167,21 +167,30 @@
         mediaPathPrefix: '../third-party/blockly/accessible/media/',
         // Additional custom buttons for the sidebar.
         customSidebarButtons: [{
+          text: 'Instructions',
+          ariaDescribedBy: null,
+          onClickNotification: 'Instructions.',
+          isHidden: function() {
+            return false;
+          },
+          // Gets set by musicGame.StageComponent.
+          action: null
+        }, {
           text: 'Run your program',
           ariaDescribedBy: null,
           onClickNotification: 'Your tune.',
           isHidden: function() {
             return false;
           },
-          // Gets set by musicGame.LevelManagerService.
+          // Gets set by musicGame.StageComponent.
           action: null
         }, {
           text: 'Listen to example',
           ariaDescribedBy: 'instructionsText',
           onClickNotification: 'This is what the tune should sound like.',
-          // Gets set by musicGame.LevelManagerService.
+          // Gets set by musicGame.StageComponent.
           isHidden: null,
-          // Gets set by musicGame.LevelManagerService.
+          // Gets set by musicGame.StageComponent.
           action: null
         }]
       };

@@ -83,16 +83,19 @@ musicGame.StageComponent = ng.core
 
       var that = this;
       ACCESSIBLE_GLOBALS.customSidebarButtons[0].action = function() {
-        that.runCode();
+        that.levelManagerService.showInstructions();
       };
       ACCESSIBLE_GLOBALS.customSidebarButtons[1].action = function() {
+        that.runCode();
+      };
+      ACCESSIBLE_GLOBALS.customSidebarButtons[2].action = function() {
         var expectedLine = new MusicLine();
         expectedLine.setFromChordsAndDurations(that.levelData.expectedLine);
 
         musicPlayer.reset();
         musicPlayer.play(expectedLine, that.levelData.beatsPerMinute);
       };
-      ACCESSIBLE_GLOBALS.customSidebarButtons[1].isHidden = function() {
+      ACCESSIBLE_GLOBALS.customSidebarButtons[2].isHidden = function() {
         return !that.levelData.expectedLine;
       };
 
@@ -102,7 +105,12 @@ musicGame.StageComponent = ng.core
       var that = this;
       setTimeout(function() {
         if (that.levelData.introMessage) {
-          that.levelManagerService.showModal(that.levelData.introMessage);
+          that.levelManagerService.showSimpleModalWithHeader(
+              'Introduction', that.levelData.introMessage, function() {
+                that.levelManagerService.showInstructions();
+              });
+        } else {
+          that.levelManagerService.showInstructions();
         }
       }, 100);
     },
@@ -125,7 +133,7 @@ musicGame.StageComponent = ng.core
 
         var that = this;
         setTimeout(function() {
-          that.levelManagerService.showModal(alertMessage);
+          that.levelManagerService.showSimpleModal(alertMessage);
         }, 500);
 
         return;

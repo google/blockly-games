@@ -156,8 +156,25 @@ musicGame.LevelManagerService = ng.core.Class({
   getCurrentLevelData: function() {
     return this.levelSet_[this.currentLevelNumber_];
   },
-  showModal: function(message, opt_onCloseCallback) {
-    this.genericModalService.showModal(message, opt_onCloseCallback);
+  showModal_: function(header, message, actionButtons, onDismissCallback) {
+    this.genericModalService.showModal(
+        header, message, actionButtons, onDismissCallback);
+  },
+  showSimpleModalWithHeader: function(header, message, onDismissCallback) {
+    this.showModal_(header, message, [], onDismissCallback);
+  },
+  showSimpleModal: function(message, onDismissCallback) {
+    this.showModal_('', message, [], onDismissCallback);
+  },
+  showInstructions: function() {
+    var levelData = this.getCurrentLevelData();
+
+    var fullMessage = levelData.instructions;
+    if (levelData.hint) {
+      fullMessage += ' Hint: ' + levelData.hint;
+    }
+
+    this.showSimpleModalWithHeader('Instructions', fullMessage);
   },
   gradeCurrentLevel: function() {
     var currentLevelData = this.getCurrentLevelData();
@@ -176,7 +193,7 @@ musicGame.LevelManagerService = ng.core.Class({
           var message =
               'Congratulations, you have finished the tutorial levels! ' +
               'Press Enter to continue to the main game.';
-          this.showModal(message, function() {
+          this.showSimpleModal(message, function() {
             window.location =
                 window.location.protocol + '//' +
                 window.location.host + window.location.pathname +
@@ -190,7 +207,7 @@ musicGame.LevelManagerService = ng.core.Class({
         var message =
             'Good job! You completed the level! Press Enter to continue ' +
             'to level ' + nextLevelNumber1Indexed + '.';
-        this.showModal(message, function() {
+        this.showSimpleModal(message, function() {
           window.location =
               window.location.protocol + '//' +
               window.location.host + window.location.pathname +
@@ -209,7 +226,7 @@ musicGame.LevelManagerService = ng.core.Class({
           errorMessage = targetedMessage;
         }
       }
-      this.showModal(errorMessage);
+      this.showSimpleModal(errorMessage);
     }
   }
 });

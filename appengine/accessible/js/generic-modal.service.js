@@ -26,8 +26,10 @@
 musicGame.GenericModalService = ng.core.Class({
   constructor: [function() {
     this.modalIsShown = false;
+    this.header = '';
     this.message = '';
-    this.onCloseCallback = null;
+    this.actionButtons = [];
+    this.onDismissCallback = null;
     this.preShowHook = function() {
       throw Error(
           'A pre-show hook must be defined for the toolbox modal before it ' +
@@ -36,15 +38,19 @@ musicGame.GenericModalService = ng.core.Class({
   }],
   registerPreShowHook: function(preShowHook) {
     this.preShowHook = function() {
-      preShowHook(this.message, this.onCloseCallback);
+      preShowHook(
+          this.header, this.message, this.actionButtons,
+          this.onDismissCallback);
     };
   },
   isModalShown: function() {
     return this.modalIsShown;
   },
-  showModal: function(message, opt_onCloseCallback) {
+  showModal: function(header, message, actionButtons, onDismissCallback) {
+    this.header = header;
     this.message = message;
-    this.onCloseCallback = opt_onCloseCallback;
+    this.actionButtons = actionButtons;
+    this.onDismissCallback = onDismissCallback;
 
     this.preShowHook();
     this.modalIsShown = true;
