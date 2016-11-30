@@ -156,22 +156,24 @@ musicGame.LevelManagerService = ng.core.Class({
   getCurrentLevelData: function() {
     return this.levelSet_[this.currentLevelNumber_];
   },
-  showModal_: function(header, message, actionButtonsInfo, onDismissCallback) {
+  showModal_: function(
+      header, messageParagraphs, actionButtonsInfo, onDismissCallback) {
     this.genericModalService.showModal(
-        header, message, actionButtonsInfo, onDismissCallback);
+        header, messageParagraphs, actionButtonsInfo, onDismissCallback);
   },
-  showSimpleModalWithHeader: function(header, message, onDismissCallback) {
-    this.showModal_(header, message, [], onDismissCallback);
+  showSimpleModalWithHeader: function(
+      header, messageParagraphs, onDismissCallback) {
+    this.showModal_(header, messageParagraphs, [], onDismissCallback);
   },
-  showSimpleModal: function(message, onDismissCallback) {
-    this.showModal_('', message, [], onDismissCallback);
+  showSimpleModal: function(messageParagraphs, onDismissCallback) {
+    this.showModal_('', messageParagraphs, [], onDismissCallback);
   },
   showInstructions: function() {
     var levelData = this.getCurrentLevelData();
 
-    var fullMessage = levelData.instructions;
+    var messageParagraphs = [levelData.instructions];
     if (levelData.hint) {
-      fullMessage += ' Hint: ' + levelData.hint;
+      messageParagraphs.push('Hint: ' + levelData.hint);
     }
 
     var actionButtonsInfo = [];
@@ -188,7 +190,7 @@ musicGame.LevelManagerService = ng.core.Class({
       });
     }
 
-    this.showModal_('Instructions', fullMessage, actionButtonsInfo);
+    this.showModal_('Instructions', messageParagraphs, actionButtonsInfo);
   },
   gradeCurrentLevel: function() {
     var currentLevelData = this.getCurrentLevelData();
@@ -204,10 +206,10 @@ musicGame.LevelManagerService = ng.core.Class({
 
       if (this.currentLevelNumber_ == this.levelSet_.length - 1) {
         if (this.levelSetId_ == 'tutorial') {
-          var message =
-              'Congratulations, you have finished the tutorial levels! ' +
-              'Press Enter to continue to the main game.';
-          this.showSimpleModal(message, function() {
+          var messageParagraphs = [
+            'Congratulations, you have finished the tutorial levels!',
+            'Press Enter to continue to the main game.'];
+          this.showSimpleModal(messageParagraphs, function() {
             window.location =
                 window.location.protocol + '//' +
                 window.location.host + window.location.pathname +
@@ -218,10 +220,10 @@ musicGame.LevelManagerService = ng.core.Class({
       } else {
         var levelSetId = this.levelSetId_;
         var nextLevelNumber1Indexed = Number(this.currentLevelNumber_ + 2);
-        var message =
-            'Good job! You completed the level! Press Enter to continue ' +
-            'to level ' + nextLevelNumber1Indexed + '.';
-        this.showSimpleModal(message, function() {
+        var messageParagraphs = [
+          'Good job! You completed the level!',
+          'Press Enter to continue to level ' + nextLevelNumber1Indexed + '.'];
+        this.showSimpleModal(messageParagraphs, function() {
           window.location =
               window.location.protocol + '//' +
               window.location.host + window.location.pathname +
@@ -240,7 +242,7 @@ musicGame.LevelManagerService = ng.core.Class({
           errorMessage = targetedMessage;
         }
       }
-      this.showSimpleModal(errorMessage);
+      this.showSimpleModal([errorMessage]);
     }
   }
 });

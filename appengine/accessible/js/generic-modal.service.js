@@ -27,7 +27,7 @@ musicGame.GenericModalService = ng.core.Class({
   constructor: [function() {
     this.modalIsShown = false;
     this.header = '';
-    this.message = '';
+    this.messageParagraphs = '';
     this.actionButtonsInfo = [];
     this.onDismissCallback = null;
     this.preShowHook = function() {
@@ -39,16 +39,17 @@ musicGame.GenericModalService = ng.core.Class({
   registerPreShowHook: function(preShowHook) {
     this.preShowHook = function() {
       preShowHook(
-          this.header, this.message, this.actionButtonsInfo,
+          this.header, this.messageParagraphs, this.actionButtonsInfo,
           this.onDismissCallback);
     };
   },
   isModalShown: function() {
     return this.modalIsShown;
   },
-  showModal: function(header, message, actionButtonsInfo, onDismissCallback) {
+  showModal: function(
+      header, messageParagraphs, actionButtonsInfo, onDismissCallback) {
     this.header = header;
-    this.message = message;
+    this.messageParagraphs = messageParagraphs;
     this.actionButtonsInfo = actionButtonsInfo;
     this.onDismissCallback = onDismissCallback;
 

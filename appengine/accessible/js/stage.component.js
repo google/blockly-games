@@ -86,7 +86,7 @@ musicGame.StageComponent = ng.core
       setTimeout(function() {
         if (that.levelData.introMessage) {
           that.levelManagerService.showSimpleModalWithHeader(
-              'Introduction', that.levelData.introMessage, function() {
+              'Introduction', [that.levelData.introMessage], function() {
                 that.levelManagerService.showInstructions();
               });
         } else {
@@ -105,15 +105,15 @@ musicGame.StageComponent = ng.core
       if (blocklyApp.workspace.topBlocks_.length != 1) {
         this.levelManagerService.playOopsSound();
 
-        var alertMessage =
-            blocklyApp.workspace.topBlocks_.length == 0 ?
-            'There are no blocks in the workspace.' :
-            ('Looks like some of your blocks aren\'t linked together. ' +
-             'Try again!');
+        var messageParagraphs = [
+          blocklyApp.workspace.topBlocks_.length == 0 ?
+          'There are no blocks in the workspace.' :
+          'Looks like some of your blocks aren\'t linked together. Try again!'
+        ];
 
         var that = this;
         setTimeout(function() {
-          that.levelManagerService.showSimpleModal(alertMessage);
+          that.levelManagerService.showSimpleModal(messageParagraphs);
         }, 500);
 
         return;

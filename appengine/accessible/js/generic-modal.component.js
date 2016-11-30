@@ -33,7 +33,7 @@ musicGame.GenericModalComponent = ng.core.Component({
         closing when its interior is clicked. -->
         <div class="blocklyModal" (click)="$event.stopPropagation()" role="document">
           <h3 *ngIf="header">{{header}}</h3>
-          <p>
+          <p *ngFor="#message of messageParagraphs">
             {{message}}
           </p>
           <div class="blocklyModalButtonContainer"
@@ -58,7 +58,7 @@ musicGame.GenericModalComponent = ng.core.Component({
       this.levelManagerService = levelManagerService;
       this.modalIsVisible = false;
       this.header = '';
-      this.message = '';
+      this.messageParagraphs = '';
       this.actionButtonsInfo = [];
       this.onDismissCallback = null;
       this.activeActionButtonIndex = 0;
@@ -73,10 +73,10 @@ musicGame.GenericModalComponent = ng.core.Component({
       });
 
       this.genericModalService.registerPreShowHook(
-        function(header, message, actionButtonsInfo, onDismissCallback) {
+        function(header, messageParagraphs, actionButtonsInfo, onDismissCallback) {
           that.modalIsVisible = true;
           that.header = header || '';
-          that.message = message;
+          that.messageParagraphs = messageParagraphs;
           that.actionButtonsInfo = actionButtonsInfo || [];
           that.onDismissCallback = onDismissCallback;
           that.activeActionButtonIndex = 0;
