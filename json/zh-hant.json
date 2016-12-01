@@ -6,7 +6,8 @@
 			"Liuxinyu970226",
 			"LNDDYL",
 			"Kasimtan",
-			"Kly"
+			"Kly",
+			"Maskers"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -27,7 +28,7 @@
 	"Games.runProgram": "執行程式",
 	"Games.resetTooltip": "停止程式並重設關卡。",
 	"Games.resetProgram": "重設",
-	"Games.help": "說明",
+	"Games.help": "幫助",
 	"Games.dialogOk": "確定",
 	"Games.dialogCancel": "取消",
 	"Games.catLogic": "邏輯",
@@ -52,7 +53,7 @@
 	"Index.subTitle": "為了明天的程式設計師設計的遊戲。",
 	"Index.moreInfo": "更多資訊...",
 	"Index.startOver": "想重新開始嗎?",
-	"Index.clearData": "清空資料",
+	"Index.clearData": "清空數據",
 	"Puzzle.animal1": "鴨子",
 	"Puzzle.animal1Trait1": "羽毛",
 	"Puzzle.animal1Trait2": "鳥嘴",
