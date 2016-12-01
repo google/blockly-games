@@ -92,8 +92,8 @@ Blockly.Blocks['music_play_note'] = {
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH' &&
-        changeEvent.newValue) {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'PITCH' && changeEvent.newValue) {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }
@@ -124,7 +124,8 @@ Blockly.Blocks['music_play_note_blank'] = {
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'PITCH') {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }
@@ -165,7 +166,8 @@ Blockly.Blocks['music_play_phrase'] = {
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'MIDI_VALUES') {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'MIDI_VALUES') {
       var beatsPerMinute = 150;
       var secsPerBeat = 60.0 / beatsPerMinute;
       musicPlayer.reset();
@@ -245,7 +247,8 @@ Blockly.Blocks['music_play_note_with_duration'] = {
     this.setHelpUrl(MUSIC_DUMMY_HELPURL);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'PITCH') {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }

@@ -107,7 +107,7 @@ MusicLine.prototype.setFromChordsAndDurations = function(chordsAndDurations) {
 // MUSIC PLAYER OBJECT (SINGLETON)
 
 var MusicPlayer = function() {
-  var ASSETS_PATH = '../third-party/midi-js-soundfonts/flute/';
+  var ASSETS_PATH = '../third-party/midi-js-soundfonts/piano/';
   var notes = {
     '48': 'C3',
     '50': 'D3',
