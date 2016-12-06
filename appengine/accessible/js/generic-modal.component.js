@@ -27,11 +27,13 @@
 musicGame.GenericModalComponent = ng.core.Component({
   selector: 'generic-modal',
   template: `
-    <div *ngIf="modalIsVisible" role="dialog" tabindex="-1">
-      <div (click)="hideModal()" class="blocklyModalCurtain">
-        <!-- The $event.stopPropagation() here prevents the modal from
-        closing when its interior is clicked. -->
-        <div class="blocklyModal" (click)="$event.stopPropagation()" role="document">
+    <div *ngIf="modalIsVisible" class="blocklyModalCurtain"
+         (click)="hideModal()">
+      <!-- $event.stopPropagation() prevents the modal from closing when its
+      interior is clicked. -->
+      <div class="blocklyModal" role="dialog"
+           (click)="$event.stopPropagation()" tabindex="-1">
+        <div role="document">
           <h3 *ngIf="header">{{header}}</h3>
           <p *ngFor="#message of messageParagraphs">
             {{message}}
