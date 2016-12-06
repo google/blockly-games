@@ -40,25 +40,21 @@
       type: 'music_play_note'
     }],
     introMessage: (
-        'Welcome to Blockly! Blockly teaches you how to program using ' +
-        'blocks of code you link together. Here\'s what you need to know. ' +
-        'There are two main sections, the toolbox on the left, and the ' +
-        'workspace on the right. The toolbox is where the blocks are kept. ' +
-        'Add a block from the toolbox to the workspace. Then, go to the ' +
-        'workspace and explore up and down in the block. The block will ' +
-        'have different options for what you can do with it, like adding a ' +
-        'link to attach another block. When you\'re ready to try out your ' +
-        'program, choose the button called, "Run your program."'),
+        'Welcome to Blockly! Here\'s what you need to know. Blockly teaches ' +
+        'you how to program using blocks of code you link together. ' +
+        'The main section is the workspace, where you can build programs. ' +
+        'Next to the workspace, there is a sidebar with useful buttons.'),
     beatsPerMinute: 80,
     expectedLine: [
       [[48], 1]
     ],
     getTargetedFeedback: function() {},
     hint: (
-        'Start by going to the toolbox and finding the block called ' +
-        '"play note C4". Press right to open the block menu, ' +
-        'and press the button to create a new group with this block. ' +
-        'Finally, press the "Run Code" button to run your code.'),
+        'Start by tabbing to the sidebar and selecting the button called ' +
+        '"Create new block group" to open the list of blocks. Select the ' +
+        'block you need in order to create a new "play note C4" block in the ' +
+        'workspace. When you\'re ready to try out your program, choose the ' +
+        'button in the sidebar called, "Run your program."'),
     instructions: 'Play the note C4.'
   }, {
     toolboxBlockDefns: [{
@@ -75,7 +71,7 @@
     },
     instructions: 'Play the note G4.',
     hint: (
-        'Start by putting a "play note C4" block in the workspace. Then, ' +
+        'Start by putting a "play note C4" block in the workspace. Then ' +
         'change its value to G4.')
   }, {
     toolboxBlockDefns: [{
@@ -99,10 +95,10 @@
       }
     },
     hint: (
-        'Make sure the blocks are connected to each other. You can connect ' +
-        'blocks by going to the Block Options menu using the arrow keys, ' +
-        'and finding the button to mark a spot in the workspace. Then, ' +
-        'go to the block you want to copy, and copy it to the marked spot.'),
+        'Make sure the blocks are connected. You can connect blocks by ' +
+        'pressing Enter on a block, then selecting "Add link after". Once ' +
+        'you have set up the link, select the "Attach new block to link..." ' +
+        'button in the sidebar and choose a block to attach.'),
     instructions: 'Play C4, then E4, then G4.'
   }, {
     toolboxBlockDefns: [{
