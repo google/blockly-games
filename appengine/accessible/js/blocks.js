@@ -273,8 +273,8 @@ Blockly.Blocks['loops_repeat']= {
     this.appendDummyInput().appendField(
         new Blockly.FieldNumber('10'), 'TIMES'
     ).appendField('times');
-    this.appendStatementInput('repeat')
-        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+    this.appendStatementInput('DO')
+        .appendField('repeat');
 
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
