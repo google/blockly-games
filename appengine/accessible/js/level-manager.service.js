@@ -193,7 +193,12 @@ musicGame.LevelManagerService = ng.core.Class({
     this.showModal_(
         'Instructions', messageParagraphs, actionButtonsInfo,
         function() {
-          document.getElementById('musicGameInstructionsBtn').focus();
+          if (blocklyApp.workspace.topBlocks_.length > 0) {
+            document.getElementById('musicGameInstructionsBtn').focus();
+          } else {
+            document.getElementById(
+                blocklyApp.ID_FOR_EMPTY_WORKSPACE_BTN).focus();
+          }
         });
   },
   gradeCurrentLevel: function() {
