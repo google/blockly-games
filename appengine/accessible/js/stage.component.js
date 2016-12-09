@@ -87,7 +87,11 @@ musicGame.StageComponent = ng.core
         if (that.levelData.introMessage) {
           that.levelManagerService.showSimpleModalWithHeader(
               'Introduction', [that.levelData.introMessage], function() {
-                that.levelManagerService.showInstructions();
+                // Give the existing modal time to close before showing the
+                // next one.
+                setTimeout(function() {
+                  that.levelManagerService.showInstructions();
+                }, 50);
               });
         } else {
           that.levelManagerService.showInstructions();
