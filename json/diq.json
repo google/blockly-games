@@ -4,7 +4,8 @@
 			"Gorizon",
 			"Marmase",
 			"Mirzali",
-			"Kumkumuk"
+			"Kumkumuk",
+			"1917 Ekim Devrimi"
 		]
 	},
 	"Games.name": "Kayê Blockly",
@@ -15,6 +16,7 @@
 	"Games.movie": "Bere",
 	"Games.pondTutor": "Doleka musayışi",
 	"Games.pond": "Golık",
+	"Games.genetics": "Genetiki",
 	"Games.linkTooltip": "Qeyd ke û be blokan ra gıre de.",
 	"Games.runTooltip": "Proğramo ke to nusnayo bıxebetne",
 	"Games.runProgram": "Programi Akar fi",
@@ -38,6 +40,8 @@
 	"Games.textVariable": "nuşte",
 	"Games.blocks": "Astengkerdışi",
 	"Games.congratulations": "Tebrik kem!",
+	"Index.clear": "Agozi pêro wa bıesteri yê?",
+	"Index.subTitle": "Programwananê mesti rê kayi",
 	"Index.moreInfo": "Zêde melumat",
 	"Index.startOver": "Qayılê ke fına suru bıkerê?",
 	"Index.clearData": "Melumati bestere",
