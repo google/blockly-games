@@ -46,7 +46,7 @@
     document.cookie = 'lang=' + escape(lang) + '; path=/';
   } else {
     // Second choice: Language cookie.
-    var cookie = document.cookie.match(/(^|;)\s*lang=([\w-]+)/);
+    var cookie = document.cookie.match(/(^|;)\s*lang=([\w\-]+)/);
     lang = cookie ? unescape(cookie[2]) : null;
     if (window['BlocklyGamesLanguages'].indexOf(lang) == -1) {
       // Third choice: The browser's language.
