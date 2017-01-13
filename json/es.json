@@ -18,6 +18,7 @@
 	"Games.movie": "Película",
 	"Games.pondTutor": "Tutor del estanque",
 	"Games.pond": "Estanque",
+	"Games.genetics": "Genética",
 	"Games.linesOfCode1": "Resolviste este nivel con 1 línea de JavaScript:",
 	"Games.linesOfCode2": "Resolviste este nivel con %1 líneas de JavaScript:",
 	"Games.nextLevel": "¿Estás listo/a para el nivel %1?",
@@ -44,6 +45,8 @@
 	"Games.xmlError": "No se pudo cargar el archivo guardado.  ¿Quizá fue creado con otra versión de Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
+	"Games.breakLink": "Una vez que comiences la edición de JavaScript, no podrás volver a la edición de bloques. ¿Estás seguro?",
+	"Games.blocks": "Bloques",
 	"Games.congratulations": "¡Felicitaciones!",
 	"Games.helpAbort": "Este nivel es extremadamente difícil. ¿Deseas saltearlo e ir al siguiente nivel? Siempre puedes regresar más adelante.",
 	"Index.clear": "¿Borrar todas tus soluciones?",
@@ -223,13 +226,11 @@
 	"Pond.helpText2": "Este objetivo debe ser golpeado muchas veces. Usa un bucle 'while (true)'(mientras sea verdadero) para hacer algo de forma indefinida.",
 	"Pond.helpText3a": "Este oponente se mueve hacia atrás y adelante, haciéndolo difícil de golpear. La expresión 'scan' devuelve el alcance exacto al oponente en la dirección especificada.",
 	"Pond.helpText3b": "Este alcance es exactamente lo que el comando 'cannon' necesita para disparar con precisión.",
-	"Pond.helpText4": "Este oponente está demasiado lejos para usar el cañón (que tiene un límite de 70 metros). En su lugar, utilisa el comando 'swim' para comenzar a nadar hacia el oponente y chocar con él.",
+	"Pond.helpText4": "Este oponente está demasiado lejos para usar el cañón (que tiene un límite de 70 metros). En su lugar, utiliza la orden «swim» para comenzar a nadar hacia el oponente y chocar contra él.",
 	"Pond.helpText5": "Este oponente también está demasiado lejos como para usar el cañón. Pero eres demasiado débil para sobrevivir a una colisión. Nada hacia el oponente mientras su ubicación horizontal sea menor a 50. Luego detente (con 'stop') y usa el cañón.",
 	"Pond.helpText6": "Este oponente se alejará cuando sea golpeado. Nada hacia él si está fuera de alcance (70 metros).",
 	"Pond.rabbitName": "Conejo",
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Francotirador",
-	"Pond.breakLink": "Una vez que comiences la edición de JavaScript, no podrás volver a la edición de bloques. ¿Estás seguro?",
-	"Pond.blocks": "Bloques"
+	"Pond.sniperName": "Francotirador"
 }

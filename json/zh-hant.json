@@ -5,7 +5,9 @@
 			"Justincheng12345",
 			"Liuxinyu970226",
 			"LNDDYL",
-			"Kasimtan"
+			"Kasimtan",
+			"Kly",
+			"Maskers"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -16,6 +18,7 @@
 	"Games.movie": "影片",
 	"Games.pondTutor": "池塘導師",
 	"Games.pond": "池塘",
+	"Games.genetics": "遺傳",
 	"Games.linesOfCode1": "您僅使用一行JavaScript通過這關：",
 	"Games.linesOfCode2": "您使用%1行JavaScript通過這關：",
 	"Games.nextLevel": "準備好闖第%1關了嗎？",
@@ -25,7 +28,7 @@
 	"Games.runProgram": "執行程式",
 	"Games.resetTooltip": "停止程式並重設關卡。",
 	"Games.resetProgram": "重設",
-	"Games.help": "說明",
+	"Games.help": "幫助",
 	"Games.dialogOk": "確定",
 	"Games.dialogCancel": "取消",
 	"Games.catLogic": "邏輯",
@@ -42,13 +45,15 @@
 	"Games.xmlError": "未能載入您保存的檔案。或許它是由其他版本的Blockly創建？",
 	"Games.listVariable": "清單",
 	"Games.textVariable": "文字",
+	"Games.breakLink": "一旦您開始編輯JavaScript，您不能返回編輯積木。OK嗎？",
+	"Games.blocks": "積木",
 	"Games.congratulations": "恭喜！",
 	"Games.helpAbort": "此關卡非常困難。您是否要跳過並進入下一關？您隨時可以返回這關。",
 	"Index.clear": "刪除您所有的解答？",
 	"Index.subTitle": "為了明天的程式設計師設計的遊戲。",
 	"Index.moreInfo": "更多資訊...",
 	"Index.startOver": "想重新開始嗎?",
-	"Index.clearData": "清空資料",
+	"Index.clearData": "清空數據",
 	"Puzzle.animal1": "鴨子",
 	"Puzzle.animal1Trait1": "羽毛",
 	"Puzzle.animal1Trait2": "鳥嘴",
@@ -227,7 +232,5 @@
 	"Pond.rabbitName": "兔子",
 	"Pond.counterName": "計數器",
 	"Pond.rookName": "車",
-	"Pond.sniperName": "狙擊手",
-	"Pond.breakLink": "一旦您開始編輯JavaScript，您不能返回編輯積木。OK嗎？",
-	"Pond.blocks": "積木"
+	"Pond.sniperName": "狙擊手"
 }

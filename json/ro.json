@@ -30,6 +30,7 @@
 	"Games.xmlError": "Sistemul nu a putut încărca fișierul salvat. Poate că a fost creat cu o altă versiune de Blockly?",
 	"Games.listVariable": "listă",
 	"Games.textVariable": "text",
+	"Games.blocks": "Blocuri",
 	"Puzzle.legsChoose": "alege...",
 	"Puzzle.error0": "Perfect!\nToate cele %1 (de) blocuri sunt corecte.",
 	"Puzzle.error1": "Aproape! Un bloc este incorect.",
@@ -94,6 +95,5 @@
 	"Turtle.fontNormal": "normală",
 	"Turtle.fontBold": "aldin",
 	"Turtle.fontItalic": "cursiv",
-	"Turtle.catTurtle": "Țestoasă",
-	"Pond.blocks": "Blocuri"
+	"Turtle.catTurtle": "Țestoasă"
 }

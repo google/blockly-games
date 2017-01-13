@@ -10,7 +10,10 @@
 			"Macofe",
 			"Sucsuzz",
 			"Gurkanht",
-			"HakanIST"
+			"HakanIST",
+			"Kumkumuk",
+			"Ece Alpdeniz",
+			"Velg"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -19,7 +22,9 @@
 	"Games.bird": "Kuş",
 	"Games.turtle": "Kaplumbağa",
 	"Games.movie": "Film",
+	"Games.pondTutor": "Eğitim havuzu",
 	"Games.pond": "Gölet",
+	"Games.genetics": "Genetik",
 	"Games.linesOfCode1": "Bu seviyeyi 1 satır JavaScript ile çözdünüz:",
 	"Games.linesOfCode2": "Bu seviyeyi %1 satır JavaScript ile çözdünüz:",
 	"Games.nextLevel": "%1. seviye için hazır mısınız?",
@@ -46,6 +51,8 @@
 	"Games.xmlError": "Kaydedilen dosyanız yüklenemiyor\nBlockly'nin önceki sürümü ile kaydedilmiş olabilir mi?",
 	"Games.listVariable": "liste",
 	"Games.textVariable": "metin",
+	"Games.breakLink": "Bir kere JavaScripti düzenlemeye başladığınızda,blokları düzenlemeye geri dönemezsiniz.Bu iyi mi?",
+	"Games.blocks": "Bloklar",
 	"Games.congratulations": "Tebrikler!",
 	"Games.helpAbort": "Bu seviye son derece zordur. Bunu atlayıp bir sonraki oyuna gitmek ister misin? Her zaman daha sonra geri gelebilirsin.",
 	"Index.clear": "Tüm çözümlerini sil?",
@@ -231,6 +238,5 @@
 	"Pond.rabbitName": "Tavşan",
 	"Pond.counterName": "Sayaç",
 	"Pond.rookName": "Kale",
-	"Pond.sniperName": "Sniper",
-	"Pond.blocks": "Bloklar"
+	"Pond.sniperName": "Sniper"
 }

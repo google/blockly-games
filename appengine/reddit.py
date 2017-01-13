@@ -47,8 +47,8 @@ class Reddit(webapp.RequestHandler):
       """ % (url, app, uuid, app.title(), uuid))
 
     def post(self):
-      xml = str(self.request.get("xml"))
-      thumb = str(self.request.get("thumb"))
+      xml = self.request.get("xml")
+      thumb = self.request.get("thumb")
       uuid = storage.xmlToKey(xml)
       memcache.add("THUMB_" + uuid, thumb, 3600)
       self.redirect("https://www.reddit.com/r/BlocklyGames/submit?url=%s?%s"

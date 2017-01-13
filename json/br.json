@@ -7,7 +7,7 @@
 			"Y-M D"
 		]
 	},
-	"Games.name": "C'hoarioù Blocky",
+	"Games.name": "C'hoarioù Blockly",
 	"Games.puzzle": "Miltamm",
 	"Games.maze": "Milendall",
 	"Games.bird": "Labous",
@@ -15,6 +15,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Tutorial Stank",
 	"Games.pond": "Stank",
+	"Games.genetics": "Genetek",
 	"Games.linesOfCode1": "Diskoulmet ho peus al live-mañ gant 1 linenn JavaScript :",
 	"Games.linesOfCode2": "Diskoulmet ho peus al live-mañ gant %1 linenn JavaScript :",
 	"Games.nextLevel": "Ha prest oc'h evit al live %1 ?",
@@ -41,6 +42,8 @@
 	"Games.xmlError": "Ne c'haller ket kargañ ho restr enrollet. Marteze e oa bet krouet gant ur stumm disheñvel eus Blockly ?",
 	"Games.listVariable": "roll",
 	"Games.textVariable": "testenn",
+	"Games.breakLink": "Ur wech m'ho po kroget da zazkemmañ ar JavaScript ne c'hallit ket mui distreiñ d'an daskemmañ bloc'hoù. Ha mat eo evidoc'h ?",
+	"Games.blocks": "Bloc'hoù",
 	"Games.congratulations": "Gourc'hemennoù !",
 	"Games.helpAbort": "Diaes-kenañ eo al live-mañ. Ha c'hoant ho peus da lammat anezhañ ha da dremen d'ar c'hoari war-lerc'h ? Gallout a rit atav distreiñ dezhañ diwezhatoc'h.",
 	"Index.clear": "Lemel holl ho tiskoulmoù ?",
@@ -226,7 +229,5 @@
 	"Pond.rabbitName": "Lapin",
 	"Pond.counterName": "Konter",
 	"Pond.rookName": "Tour",
-	"Pond.sniperName": "Tenner",
-	"Pond.breakLink": "Ur wech m'ho po kroget da zazkemmañ ar JavaScript ne c'hallit ket mui distreiñ d'an daskemmañ bloc'hoù. Ha mat eo evidoc'h ?",
-	"Pond.blocks": "Bloc'hoù"
+	"Pond.sniperName": "Tenner"
 }

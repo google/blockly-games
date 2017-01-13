@@ -16,6 +16,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Leerprogramma Vijver",
 	"Games.pond": "Vijver",
+	"Games.genetics": "Genetica",
 	"Games.linesOfCode1": "Je hebt dit niveau opgelost met 1 regel JavaScript:",
 	"Games.linesOfCode2": "Je hebt dit niveau opgelost met %1 regels JavaScript:",
 	"Games.nextLevel": "Ben je klaar voor niveau %1?",
@@ -42,6 +43,8 @@
 	"Games.xmlError": "Uw opgeslagen bestand kan niet geladen worden. Is het misschien gemaakt met een andere versie van Blockly?",
 	"Games.listVariable": "lijst",
 	"Games.textVariable": "tekst",
+	"Games.breakLink": "Zodra u begint met het bewerken van JavaScript, kunt u niet terug gaan naar het bewerken van blokken. Akkoord?",
+	"Games.blocks": "Blokken",
 	"Games.congratulations": "Van harte gefeliciteerd!",
 	"Games.helpAbort": "Dit niveau is erg moeilijk. Wil je het overslaan en naar het volgende spel gaan? Je kunt altijd later terugkomen.",
 	"Index.clear": "Al je oplossingen wissen?",
@@ -227,7 +230,5 @@
 	"Pond.rabbitName": "Konijn",
 	"Pond.counterName": "Teller",
 	"Pond.rookName": "Toren",
-	"Pond.sniperName": "Sluipschutter",
-	"Pond.breakLink": "Zodra u begint met het bewerken van JavaScript, u kunt niet terug gaan naar het bewerken van blokken. Is dit oké?",
-	"Pond.blocks": "Blokken"
+	"Pond.sniperName": "Sluipschutter"
 }

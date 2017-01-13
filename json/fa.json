@@ -39,6 +39,7 @@
 	"Games.xmlError": "نتوانست پروندهٔ ذخیرهٔ شما بارگیری شود.  احتمالاً با نسخهٔ متفاوتی از بلوکی درست شده‌است؟",
 	"Games.listVariable": "فهرست",
 	"Games.textVariable": "متن",
+	"Games.blocks": "بلوک‌ها",
 	"Games.congratulations": "تبریک می‌گوییم!",
 	"Index.clear": "همه راه حل ها را از بین میبری؟",
 	"Index.moreInfo": "اطلاعات بیشتر...",
@@ -162,6 +163,5 @@
 	"Pond.rabbitName": "خرگوش",
 	"Pond.counterName": "شمارنده",
 	"Pond.rookName": "رخ",
-	"Pond.sniperName": "تک تیرانداز",
-	"Pond.blocks": "بلوک‌ها"
+	"Pond.sniperName": "تک تیرانداز"
 }

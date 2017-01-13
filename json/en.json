@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2016-02-23 19:20:06.314436",
+		"lastupdated": "2016-10-04 16:56:03.284568",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -13,6 +13,7 @@
 	"Games.movie": "Movie",
 	"Games.pondTutor": "Pond Tutor",
 	"Games.pond": "Pond",
+	"Games.genetics": "Genetics",
 	"Games.linesOfCode1": "You solved this level with 1 line of JavaScript:",
 	"Games.linesOfCode2": "You solved this level with %1 lines of JavaScript:",
 	"Games.nextLevel": "Are you ready for level %1?",
@@ -39,6 +40,8 @@
 	"Games.xmlError": "Could not load your saved file. Perhaps it was created with a different version of Blockly?",
 	"Games.listVariable": "list",
 	"Games.textVariable": "text",
+	"Games.breakLink": "Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?",
+	"Games.blocks": "Blocks",
 	"Games.congratulations": "Congratulations!",
 	"Games.helpAbort": "This level is extremely difficult. Would you like to skip it and go onto the next game? You can always come back later.",
 	"Index.clear": "Delete all your solutions?",
@@ -224,7 +227,5 @@
 	"Pond.rabbitName": "Rabbit",
 	"Pond.counterName": "Counter",
 	"Pond.rookName": "Rook",
-	"Pond.sniperName": "Sniper",
-	"Pond.breakLink": "Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?",
-	"Pond.blocks": "Blocks"
+	"Pond.sniperName": "Sniper"
 }

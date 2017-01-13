@@ -48,6 +48,8 @@
 	"Games.xmlError": "Nie można załadować zapisanego pliku. Być może został utworzony za pomocą innej wersji Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "tekst",
+	"Games.breakLink": "Jak zaczniesz edytować JavaScript, nie możesz powrócić do edycji bloków. Kontynuować?",
+	"Games.blocks": "Bloki",
 	"Games.congratulations": "Gratulacje!",
 	"Games.helpAbort": "Ten poziom jest bardzo trudny. Czy chciałbyś/chciałabyś pominąć go i iść do następnej gry? Możesz zawsze powrócić później.",
 	"Index.clear": "Usunąć wszystkie rozwiązania?",
@@ -220,7 +222,5 @@
 	"Pond.rabbitName": "Królik",
 	"Pond.counterName": "Licznik",
 	"Pond.rookName": "Wieża",
-	"Pond.sniperName": "Snajper",
-	"Pond.breakLink": "Jak zaczniesz edytować JavaScript, nie możesz powrócić do edycji bloków. Kontynuować?",
-	"Pond.blocks": "Bloki"
+	"Pond.sniperName": "Snajper"
 }

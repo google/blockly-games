@@ -1,0 +1,662 @@
+{namespace Genetics.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make genetics-lab-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    <span id="Genetics_tutorEnemy">{{msg meaning="Genetics.tutorEnemy" desc="Name for a player used in tutor levels.\n{lb}{lb}Identical|Enemy{rb}{rb}"}}Enemy{{/msg}}</span>
+    <span id="Genetics_simpleName">{{msg meaning="Genetics.simpleName" desc="Name for a player that makes simple decisions to randomly pick mates and opponents.\n{lb}{lb}Identical|Simple{rb}{rb}"}}Simple{{/msg}}</span>
+    <span id="Genetics_aggressiveName">{{msg meaning="Genetics.aggressiveName" desc="Name for a player that has an aggressive strategy to breed with the biggest mice and always fight against smaller mice.\n{lb}{lb}Identical|Aggressive {rb}{rb}"}}Aggressive{{/msg}}</span>
+    <span id="Genetics_highBreedingName">{{msg meaning="Genetics.highBreedingName" desc="Name for a player that has a strategy to never fight and breed with mice with high fertility.\n{lb}{lb}Identical|High Breeding{rb}{rb}"}}High Breeding{{/msg}}</span>
+    <span id="Genetics_variantName">{{msg meaning="Genetics.variantName" desc="Name for a player that has a complex strategy that is a variant of other mice AI.\n{lb}{lb}Identical|Variant{rb}{rb}"}}Variant{{/msg}}</span>
+    <span id="Genetics_myName">{{msg meaning="Genetics.playerName" desc="IBID"}}Player{{/msg}}</span>
+
+    // Tooltips
+    <span id="Genetics_getMiceTooltip">{msg meaning="Genetics.getMiceTooltip" desc="Tooltip for the block that returns all other alive mice in the game."}Returns all other alive mice in the game.{/msg}</span>
+    <span id="Genetics_getSelfTooltip">{msg meaning="Genetics.getSelfTooltip" desc="Tooltip for the block that returns the mouse making the decision."}Returns the mouse making the decision.{/msg}</span>
+    <span id="Genetics_pickFightTooltip">{msg meaning="Genetics.pickFightTooltip" desc="Tooltip for the block that defines the logic for picking a mouse to fight against."}Defines the function for picking a mouse to fight against.{/msg}</span>
+    <span id="Genetics_proposeMateTooltip">{msg meaning="Genetics.proposeMateTooltip" desc="Tooltip for the block that defines the logic for choosing a mouse to mate with."}Defines the function for choosing a mouse to mate with.{/msg}</span>
+    <span id="Genetics_acceptMateTooltip">{msg meaning="Genetics.acceptMateTooltip" desc="Tooltip for the block that defines the logic for answering a mate request."}Defines the function for the answer to a mate request.{/msg}</span>
+    <span id="Genetics_sizeTooltip">{msg meaning="Genetics.sizeTooltip" desc="Tooltip for the block that reports the size of the specified mouse."}Reports the size of the specified mouse.{/msg}</span>
+    <span id="Genetics_aggressivenessTooltip">{msg meaning="Genetics.aggressivenessTooltip" desc="Tooltip for the block that reports the aggressiveness of the specified mouse."}Reports the aggressiveness of the specified mouse.{/msg}</span>
+    <span id="Genetics_fertilityTooltip">{msg meaning="Genetics.fertilityTooltip" desc="Tooltip for the block that reports the fertility of the specified mouse."}Reports the fertility of the specified mouse.{/msg}</span>
+    <span id="Genetics_startFertilityTooltip">{msg meaning="Genetics.startFertilityTooltip" desc="Tooltip for the block that reports the starting fertility of the specified mouse."}Reports the starting fertility of the specified mouse.{/msg}</span>
+    <span id="Genetics_sexTooltip">{msg meaning="Genetics.sexTooltip" desc="Tooltip for the block that reports the sex of the specified mouse."}Reports the sex of the specified mouse.{/msg}</span>
+    <span id="Genetics_ageTooltip">{msg meaning="Genetics.ageTooltip" desc="Tooltip for the block that reports the age of the specified mouse."}Reports the age of the specified mouse.{/msg}</span>
+    <span id="Genetics_idTooltip">{msg meaning="Genetics.idTooltip" desc="Tooltip for the block that reports the id of the specified mouse."}Reports the id of the specified mouse.{/msg}</span>
+    <span id="Genetics_pickFightOwnerTooltip">{msg meaning="Genetics.pickFightOwnerTooltip" desc="Tooltip for the block that reports the owner of the pickFight function of the specified mouse."}Reports the owner of the pickFight function of the specified mouse.{/msg}</span>
+    <span id="Genetics_proposeMateOwnerTooltip">{msg meaning="Genetics.proposeMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the proposeMate function of the specified mouse."}Reports the owner of the proposeMate function of the specified mouse.{/msg}</span>
+    <span id="Genetics_acceptMateOwnerTooltip">{msg meaning="Genetics.acceptMateOwnerTooltip" desc="Tooltip for the block that reports the owner of the acceptMate function of the specified mouse."}Reports the owner of the acceptMate function of the specified mouse.{/msg}</span>
+  </div>
+{/template}
+
+/**
+ * Game elements used for visualization.
+ */
+{template .gameElementTemplates}
+</style>
+<div id="gameElements" style="display:none;">
+  <div id="dust" class="dust">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <p class="star1">&#9734;</p>
+    <p class="star2">&#9734;</p>
+    <p class="star3">&#9734;</p>
+    <p class="star4">&#9734;</p>
+  </div>
+</div>
+{/template}
+
+/**
+ * Canvas, statistic graphs, and buttons.
+ */
+{template .visualization}
+  <div id="visualization">
+  {if $ij.level >= 9}
+    <div id="vizTabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">Visualization</div>
+      <div class="goog-tab">Charts</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    {/if}
+    {call .gameElementTemplates /}
+    <div class="vizTabContent">
+      <div id="displayContent">
+        <div id="display"></div>
+      </div>
+      {if $ij.level >= 9}
+      <div id="charts">
+        <div id="populationChart"></div>
+        <div id="pickFightChart"></div>
+        <div id="proposeMateChart"></div>
+        <div id="acceptMateChart"></div>
+      </div>
+      {/if}
+    </div>
+  </div>
+
+  <table class="playerStatTable">
+   <tbody>
+      <tr id="playerNameRow">
+        {for $i in range(4)}
+          <td class="playerStatName">
+          </td>
+        {/for}
+      <tr id="playerStatRow">
+        {for $i in range(4)}
+          <td>
+            <div class="mouseFunctionIcons"></div>
+            <div class="pickFightStat" ></div>
+            {if $ij.level >= 5}
+              <div class="proposeMateStat"></div>
+              {if $ij.level >= 7}
+                <div class="acceptMateStat"></div>
+              {/if}
+            {/if}
+          </td>
+        {/for}
+      </tr>
+    </tbody>
+  </table>
+
+  <table width="400">
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <button id="docsButton" title="{msg meaning="Genetics.docsTooltip" desc="Tooltip for the button that opens the language reference documentation."}Display the language documentation.{/msg}">
+          {{msg meaning="Genetics.documentation" desc="Text on the button that opens the language reference documentation.\n{lb}{lb}Identical|Documentation{rb}{rb}"}}Documentation{{/msg}}
+        </button>
+      </td>
+      <td>
+        <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
+          <img src="common/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+        </button>
+        <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
+          <img src="common/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <div id="dialogDocs" style="display: none">
+    <img src="common/1x1.gif" class="close icon21" id="closeDocs">
+    <iframe id="frameDocs"></iframe>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+
+  <table width="100%">
+      <tr>
+        <td>
+          <h1>
+            {call BlocklyGames.soy.titleSpan}
+              {param appName}
+                {msg meaning="Games.genetics" desc="IBID"}Genetics{/msg}
+              {/param}
+            {/call}
+            {call BlocklyGames.soy.levelLinks}
+              {param level: $ij.level /}
+              {param maxLevel: $ij.maxLevel /}
+              {param lang: $ij.lang /}
+              {param suffix}{/param}
+            {/call}
+          </h1>
+        </td>
+        <td class="farSide">
+          <select id="languageMenu"></select>
+          &nbsp;
+          <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+            <img src="common/1x1.gif" class="link icon21">
+          </button>
+          &nbsp;
+          <button id="helpButton">
+            {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+          </button>
+        </td>
+      </tr>
+    </table>
+
+  {call .visualization /}
+
+ {if $ij.level > 8}
+  <div id="tabarea">
+    <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
+      <div class="goog-tab goog-tab-selected">{msg meaning="Games.blocks" desc="IBID"}Blocks{/msg}</div>
+      <div class="goog-tab">JavaScript</div>
+    </div>
+    <div class="goog-tab-bar-clear"></div>
+    {/if}
+     {if $ij.level > 8 or $ij.level % 2 == 1}
+    <div id="blockly"></div>
+    {/if}
+    {if $ij.level > 8 or $ij.level % 2 == 0}
+    <div id="editor"></div>
+    {/if}
+  {if $ij.level > 8}
+  </div>
+  {/if}
+
+  {call .toolbox /}
+  {call .playerTutor /}
+  {call .playerSimple /}
+  {call .playerAggressive /}
+  {call .playerHighBreeding /}
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+
+   <div id="help" class="dialogHiddenContent">
+      <div style="padding-bottom: 0.7ex">
+        {if $ij.level == 1}
+          {msg meaning="Genetics.helpText1"
+               desc="Instructions. Do not translate 'getMice()' and 'pickFight."}
+            Use getMice() to get the list of other mice in the game.<BR>
+            Use the []'s on the list of mice to get the FIRST element in the list and return it in pickFight.
+          {/msg}
+        {elseif $ij.level == 2}
+          {msg meaning="Genetics.helpText2"
+               desc="Instructions. Do not translate 'getMice()' and 'pickFight."}
+            Use getMice() to get the list of other mice in the game.<BR>
+            Use the []'s on the list of mice to get the LAST element in the list and return it in pickFight.<BR>
+            You can get the length of the list with .length.
+          {/msg}
+        {elseif $ij.level == 3 or $ij.level == 4}
+          {if $ij.level == 3}
+            {msg meaning="Genetics.helpText3a"
+                 desc="Instructions.  Do not translate '.size' and 'pickFight'."}
+              Bigger mice are more likely to win in a fight. Return a mouse that
+              is smaller than 2 in pickFight.<BR>
+            {/msg}
+          {elseif $ij.level == 4}
+            {msg meaning="Genetics.helpText3b"
+                 desc="Instructions.  Do not translate 'pickFight'."}
+              Bigger mice are more likely to win in a fight. Return a mouse that
+              is smaller than yourself in pickFight.<BR>
+            {/msg}
+          {/if}
+          {msg meaning="Genetics.helpText3c"
+               desc="Instructions.  Do not translate '.size'."}
+            Use .size to get the size of a mouse.
+          {/msg}
+          {if $ij.level == 3}
+            <br><br><img src="genetics/docs/sizeProperty.png" height=40 width=162>
+          {elseif $ij.level == 4}
+            <pre>mouse.size</pre>
+            <pre>getSelf()</pre>
+          {/if}
+        {elseif $ij.level == 5 or $ij.level == 6}
+          {msg meaning="Genetics.helpText4a"
+               desc="Instructions."}
+            Mice mate to pass on their functions to their children. If the
+            other mate accepts a mate request and the mate is valid, a child is
+            born.{\n}
+          {/msg}
+          {if $ij.level == 5}
+              {msg meaning="Genetics.helpText4b"
+                   desc="Instructions.."}
+                Return a mouse that is fertile (fertility greater than 0) and of the opposite sex.
+              {/msg}
+              <br><br><img src="genetics/docs/fertilityProperty.png" height=43 width=180>
+              <br><br><img src="genetics/docs/sexProperty.png" height=55 width=178><br><br>
+          {elseif $ij.level == 6}
+              {msg meaning="Genetics.helpText4c"
+                   desc="Instructions.."}
+                Return a mouse that is fertile (fertility greater than 0), of the opposite sex,
+                and is bigger than yourself.
+              {/msg}
+              <pre>mouse.fertility</pre>
+              <pre>mouse.sex</pre>
+          {/if}
+        {elseif $ij.level == 7 or $ij.level == 8}
+          {msg meaning="Genetics.helpText5a"
+               desc="Instructions."}
+            Mice answer mating requests with acceptMate. Accepting will use up some
+            fertility but will make a child.<BR>
+          {/msg}
+          {if $ij.level == 7}
+            {msg meaning="Genetics.helpText5b"
+                 desc="Instructions.  Do not translate the word 'acceptMate'."}
+              Return true in acceptMate if the suitor is of the opposite sex.
+            {/msg}
+          {elseif $ij.level == 8}
+            {msg meaning="Genetics.helpText5c"
+                 desc="Instructions.  Do not translate the word 'acceptMate'."}
+              Return true in acceptMate if the suitor is of the opposite sex and
+              bigger than yourself.
+            {/msg}
+          {/if}
+        {elseif $ij.level == 9}
+          {msg meaning="Genetics.helpText6"
+               desc="Instructions. ."}
+            Write your own implementations for the mouse functions and compete to try to get
+            majority of each function in the cage.<BR>
+            WARNING: This level does not save.
+          {/msg}
+        {elseif $ij.level == 10}
+          {msg meaning="Genetics.helpText7"
+               desc="Instructions."}
+            Write your own implementations for the mouse functions and compete to try to get
+            majority of each function in the cage. Watch out, these mice are much smarter than
+            before.<BR>
+            WARNING: This level does not save.
+          {/msg}
+        {/if}
+      </div>
+      {call BlocklyGames.soy.ok /}
+    </div>
+{/template}
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none;">
+  <category name="{msg meaning="Games.genetics" desc="IBID"}Genetics{/msg}">
+      <block type="genetics_getMice"></block>
+      {if $ij.level >= 4}
+      <block type="genetics_getSelf"></block>
+      {/if}
+      {if $ij.level >= 3}
+      <block type="genetics_getProperties"></block>
+      {/if}
+      {if $ij.level >= 9}
+      <block type="genetics_sex"></block>
+      {/if}
+    </category>
+    <category name="{msg meaning="Games.catLists" desc="Lists"}Lists{/msg}">
+      {if $ij.level >= 9}
+      <block type="lists_create_with">
+        <mutation items="0"></mutation>
+      </block>
+      {/if}
+      {if $ij.level >= 2}
+      <block type="lists_length"></block>
+      {/if}
+      <block type="lists_getIndex">
+        <value name="VALUE">
+          <shadow type="genetics_getMice"></shadow>
+        </value>
+        <value name="AT">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      {if $ij.level >= 9}
+      <block type="lists_setIndex">
+        <value name="AT">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      {/if}
+    </category>
+    {if $ij.level >= 3}
+    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      {if $ij.level >= 7}
+      <block type="logic_boolean"></block>
+      {/if}
+      {if $ij.level >= 9}
+      <block type="logic_negate"></block>
+      {/if}
+      <block type="logic_null"></block>
+    </category>
+    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+      <block type="controls_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="lists_length">
+            <value name="VALUE">
+              <shadow type="genetics_getMice"></shadow>
+            </value>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    {/if}
+    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+      <block type="math_number"></block>
+      {if $ij.level >= 2}
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      {/if}
+      {if $ij.level >= 9}
+      <block type="genetics_math_randomInt">
+        <value name="MIN_VALUE">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="MAX_VALUE">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+      {/if}
+    </category>
+    {if $ij.level >= 3}
+    <sep></sep>
+    <category name="{msg meaning="Games.catVariables" desc="Variables"}Variables{/msg}" custom="VARIABLE"></category>
+    {/if}
+    {if $ij.level >= 9}
+    <category name="{msg meaning="Games.catProcedures" desc="Functions"}Functions{/msg}" custom="PROCEDURE"></category>
+    {/if}
+  </xml>
+{/template}
+
+/**
+ * Tutor player code.
+ */
+{template .playerTutor}
+{literal}
+<div id="playerTutor" style="display: none">
+/* Tutor player */
+var suitor;
+function pickFight() {
+  return null;
+}
+function proposeMate() {
+  var mice = getMice();
+  for (var i = 0, mouse; mouse = mice[i]; i++) {
+    if (mouse.id == 0) {
+      return mouse;
+    }
+  }
+  // Should not get here.
+  return null;
+}
+function acceptMate(suitor) {
+  return true;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Simple player code.
+ */
+{template .playerSimple}
+{literal}
+<div id="playerSimple" style="display: none">
+/* Simple player */
+var suitor;
+function pickFight() {
+  var mice = getMice();
+  var opponent = mice[Math.randomInt(0,mice.length-1)];
+  return opponent;
+}
+function proposeMate() {
+  var mice = getMice();
+  var mate = mice[Math.randomInt(0,mice.length-1)];
+  return mate;
+}
+function acceptMate(suitor) {
+  return true;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Aggressive player code.
+ */
+{template .playerAggressive}
+{literal}
+<div id="playerAggressive" style="display: none">
+/* Aggressive player */
+var suitor;
+function pickFight() {
+  var targetOwner = getSelf().pickFightOwner;
+  var mice = getMice();
+  // Choose the biggest opponent, smaller than itself.
+  var opponent = null;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that mouse is smaller than self and doesn't share function owner.
+    if (mouse.size < getSelf().size && mouse.pickFightOwner != targetOwner &&
+        mouse.proposeMateOwner != targetOwner && mouse.acceptMateOwner != targetOwner) {
+      // Set opponent choice if opponent is biggest we have seen.
+      if (!opponent || mouse.size > opponent.size) {
+        opponent = mouse;
+      }
+    }
+  }
+  return opponent;
+}
+function proposeMate() {
+  var mice = getMice();
+  // Choose the biggest valid mate.
+  var mate = null;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that potential mate is valid.
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
+      // Set mate choice if new mate is biggest we have seen.
+      if (!mate || mouse.size > mate.size) {
+        mate = mouse;
+      }
+    }
+  }
+  return mate;
+}
+function acceptMate(suitor) {
+  return suitor.proposeMateOwner == getSelf().acceptMateOwner ||
+      suitor.sex != getSelf().sex && suitor.size > getSelf().size;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * High Breeding player code.
+ */
+{template .playerHighBreeding}
+{literal}
+<div id="playerHighBreeding" style="display: none">
+/* High Breeding player */
+var suitor;
+function pickFight() {
+  // Always choose not to fight.
+  return null;
+}
+function proposeMate() {
+  var mice = getMice();
+  // Choose the mate with the highest fertility gene.
+  var mate = null;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that potential mate is valid.
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
+      // Change mate choice if new mate would pass on higher fertility.
+      if (!mate || mouse.startingFertility > mate.startingFertility) {
+        mate = mouse;
+      }
+    }
+  }
+  return mate;
+}
+function acceptMate(suitor) {
+    return suitor.proposeMateOwner == getSelf().acceptMateOwner ||
+        suitor.sex != getSelf().sex && suitor.startingFertility > getSelf().startingFertility;
+}
+</div>
+{/literal}
+{/template}
+
+/**
+ * Variant player code.
+ */
+{template .playerVariant}
+{literal}
+<div id="playerVariant" style="display: none">
+/* Variant player */
+var suitor;
+function pickFight() {
+  // Always choose not to fight.
+  return null;
+}
+function proposeMate() {
+  var mice = getMice();
+  // Choose the mate with the highest fertility gene.
+  var mate;
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    // Check that potential mate is valid.
+    if (mouse != getSelf() && mouse.sex != getSelf().sex && mouse.fertility > 0) {
+      // Change mate choice if new mate would pass on higher fertility.
+      if (!mate || mouse.startingFertility > mate.startingFertility) {
+        mate = mouse;
+      }
+    }
+  }
+  return mate;
+}
+function acceptMate(suitor) {
+  // Survey for how many mice own target gene.
+  var bestGeneOwner = getSelf().acceptMateOwner;
+  // Check how many of suitor's genes are the same as the best gene.
+  var suitorGeneCount = 0;
+  if (suitor.pickFightOwner == bestGeneOwner) {
+    suitorGeneCount++;
+  }
+  if (suitor.mateQuestionOwner == bestGeneOwner) {
+    suitorGeneCount++;
+  }
+  if (suitor.acceptMateOwner == bestGeneOwner) {
+    suitorGeneCount++;
+  }
+  // If suitor owns all the right genes, they are perfect.
+  if (suitorGeneCount == 3) {
+    return true;
+  }
+  // Otherwise, survey the population to see what other potential mates have.
+  var okayMice = 0; // Count of how many mice own 1 if the 'best' gene.
+  var greatMice = 0; // Count of how many mice have 2 of the 'best' genes.
+  var bestMice = 0; // Count of how many mice have all the 'best' genes.
+  var totalValidMates = 0; // Count of total valid mates.
+  var mice = getMice();
+  for(var i = 0; i < mice.length; i++) {
+    var mouse = mice[i];
+    if (mouse == getSelf()) {
+      continue;
+    }
+    if (mouse.fertility && mouse.sex != getSelf().sex) {
+      totalValidMates++;
+      // Count how many of the 'right' genes the mouse has.
+      var rightGeneCount = 0;
+      if (mouse.mateQuestionOwner == bestGeneOwner) {
+        rightGeneCount++;
+      }
+      if (mouse.acceptMateOwner == bestGeneOwner) {
+        rightGeneCount++;
+       }
+      if (mouse.pickFightOwner == bestGeneOwner) {
+        rightGeneCount++;
+      }
+      if (rightGeneCount == 1) {
+        okayMice++;
+      } else if (rightGeneCount == 2) {
+        greatMice++;
+      } else if (rightGeneCount == 3) {
+        bestMice++;
+      }
+    }
+  }
+  // Be very selective if there are a lot of best choices.
+  if (totalValidMates > 4 && bestMice/totalValidMates > 0.5) {
+    return false;
+  }
+  // Otherwise be less selective if there are still a lot of great choices
+  if (totalValidMates > 4 && (greatMice + bestMice)/totalValidMates > 0.5) {
+    return suitorGeneCount > 1;
+  }
+  // Otherwise be somewhat selective if there are some okay choices
+  if (totalValidMates > 4 && (okayMice + greatMice + bestMice)/totalValidMates > 0.5) {
+    return suitorGeneCount > 2;
+  }
+  // Otherwise take what you can get
+  return true;
+}
+</div>
+{/literal}
+{/template}
+
+

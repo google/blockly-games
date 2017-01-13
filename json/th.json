@@ -39,6 +39,7 @@
 	"Games.xmlError": "ไม่สามารถโหลดไฟล์ที่บันทึกไว้ของคุณได้ บางทีมันอาจถูกสร้างขึ้นด้วยบล็อกลีรุ่นอื่นที่ต่างออกไป?",
 	"Games.listVariable": "รายการ",
 	"Games.textVariable": "ข้อความ",
+	"Games.blocks": "บล็อก",
 	"Games.congratulations": "ยินดีด้วย!",
 	"Puzzle.animal1": "เป็ด",
 	"Puzzle.animal1Trait1": "ขนนก",
@@ -123,6 +124,5 @@
 	"Movie.circleDraw": "วงกลม",
 	"Movie.rectDraw": "สี่เหลี่ยมมุมฉาก",
 	"Movie.lineDraw": "เส้นตรง",
-	"Pond.rabbitName": "กระต่าย",
-	"Pond.blocks": "บล็อก"
+	"Pond.rabbitName": "กระต่าย"
 }

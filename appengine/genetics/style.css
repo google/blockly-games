@@ -1,0 +1,391 @@
+#blockly {
+  position: fixed;
+  bottom: 10px;
+}
+
+#editor {
+  font-size: 16pt;
+  position: fixed !important;
+  height: auto !important;
+  bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+#visualization {
+  position: relative;
+}
+
+#displayContent {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+}
+
+#display {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background: #ccc;
+  z-index: -1;
+}
+
+.endGameDisplay {
+  position: absolute;
+  z-index: 1;
+  top: 25px;
+  left: 25px;
+  width: 350px;
+  height: 350px;
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, .8);
+}
+
+.playerStatTable {
+  table-layout: fixed;
+  width: 406px;
+  max-width: 406px;
+  margin-left: -2px;
+  height: 20px;
+}
+
+.playerStatTable>tbody>tr>td {
+  position: relative;
+  padding: 0;
+  border: 1px solid;
+  overflow: hidden;
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.pickFightStat, .proposeMateStat, .acceptMateStat {
+  height: 20px;
+}
+
+.playerStatName {
+  width: 97px;
+  height: 18px;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mouseFunctionIcons {
+  position: absolute;
+  width: 20px;
+  height: 60px;
+  background-image: url(mouseFunctionIcons.png);
+}
+
+.vizTabContent {
+  position: relative;
+  border: 1px solid #ddd;
+  width: 400px;
+  min-height: 400px;
+}
+
+#charts {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 400px;
+  max-height: 808px;
+  resize: vertical;
+}
+
+#tabarea {
+  position: fixed !important;
+}
+
+@keyframes bounceIn{
+  0%{
+    opacity: 0;
+    transform: scale(.3);
+  }
+  50%{
+    opacity: .9;
+    transform: scale(1.1);
+  }
+  80%{
+    opacity: 1;
+    transform: scale(.9);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.mouse {
+  position: absolute;
+}
+
+@keyframes antiClockwiseSpin {
+  0%  {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes clockwiseSpin {
+  0%  {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dust {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  opacity: 1;
+  animation: fadeIn 1500ms ease-out;
+  animation-iteration-count: 1;
+}
+
+.cloud1 {
+  animation: clockwiseSpin 4s infinite linear;
+}
+
+.cloud2 {
+  animation: antiClockwiseSpin 4s infinite linear;
+}
+
+.cloud {
+  position: absolute;
+  width: 50px;
+  height: 30px;
+  top: 10px;
+  background: #dde7ee;
+  border-radius: 50%;
+  opacity: .6;
+}
+
+.cloud:before, .cloud:after {
+  content: '';
+  position: absolute;
+  top: -10px; left: 13px;
+  width: 24px;
+  height: 50px;
+  border-radius: 50%;
+  background: #dde7ee;
+}
+
+.cloud:before {
+  transform: rotate(30deg);
+}
+
+.cloud:after {
+  transform: rotate(-30deg);
+}
+
+@keyframes flyRight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(180deg);
+    transform-origin: 15px 5px;
+    opacity: 0;
+  }
+}
+@keyframes flyLeft {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-180deg);
+    transform-origin: -15px 5px;
+    opacity: 0;
+  }
+}
+
+.star1, .star2, .star3, .star4 {
+  position: absolute;
+  font-size: 6px;
+  opacity: 0;
+}
+
+.star1 {
+  animation: flyRight 500ms ease-in-out;
+  top: 3px; left: 26px;
+}
+
+.star2 {
+  animation: flyLeft 500ms ease-in-out;
+  top: 11px; left: 18px;
+  animation-delay: 250ms;
+}
+
+.star3 {
+  animation: flyRight 500ms ease-in-out;
+  top: 11px; left: 26px;
+  animation-delay: 500ms;
+}
+
+.star4 {
+  animation: flyLeft 500ms ease-in-out;
+  top: 3px; left: 18px;
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  0% {opacity: .5;}
+  100% {opacity: 1;}
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.close {
+  background-position: -21px 0px;
+}
+.link {
+  background-position: 0px 0px;
+}
+.run {
+  background-position: 0px -21px;
+}
+.stop {
+  background-position: -21px -21px;
+}
+
+/*
+ * Copyright 2008 The Closure Library Authors. All Rights Reserved.
+ *
+ * Use of this source code is governed by the Apache License, Version 2.0.
+ * See the COPYING file for details.
+ */
+
+/* Author: attila@google.com (Attila Bodis) */
+/* Author: eae@google.com (Emil A. Eklund) */
+
+
+/*
+ * Styles used by goog.ui.TabRenderer.
+ */
+.goog-tab {
+  background: #fff;
+  border: 1px solid #ddd;        /* Colour modified for Blockly */
+  border-top-left-radius: 2px;   /* Added for Blockly */
+  border-top-right-radius: 2px;  /* Added for Blockly */
+  color: #333;
+  cursor: default;
+  padding: 4px 8px;
+  position: relative;
+}
+
+.goog-tab-bar-top .goog-tab {
+  border-bottom: 0;
+  float: left;
+  margin: 1px 4px 0 0;
+}
+
+.goog-tab-bar-bottom .goog-tab {
+  border-top: 0;
+  float: left;
+  margin: 0 4px 1px 0;
+}
+
+.goog-tab-bar-start .goog-tab {
+  border-right: 0;
+  margin: 0 0 4px 1px;
+}
+
+.goog-tab-bar-end .goog-tab {
+  border-left: 0;
+  margin: 0 1px 4px 0;
+}
+
+/* State: Hover */
+.goog-tab-hover {
+  background: #eee;
+}
+
+/* State: Disabled */
+.goog-tab-disabled {
+  background: #fff;
+  border-color: #ccc;
+  color: #ccc;
+}
+
+/* State: Selected */
+.goog-tab-selected {
+  background: #ddd !important; /* Selected trumps hover. */
+}
+
+
+/*
+ * Shift selected tabs 1px towards the contents (and compensate via margin and
+ * padding) to visually merge the borders of the tab with the borders of the
+ * content area.
+ */
+.goog-tab-bar-top .goog-tab-selected {
+  margin-top: 0;
+  padding-bottom: 5px;
+  top: 1px;
+}
+
+.goog-tab-bar-bottom .goog-tab-selected {
+  margin-bottom: 0;
+  padding-top: 5px;
+  top: -1px;
+}
+
+.goog-tab-bar-start .goog-tab-selected {
+  left: 1px;
+  margin-left: 0;
+  padding-right: 9px;
+}
+
+.goog-tab-bar-end .goog-tab-selected {
+  left: -1px;
+  margin-right: 0;
+  padding-left: 9px;
+}
+
+/*
+ * Copyright 2008 The Closure Library Authors. All Rights Reserved.
+ *
+ * Use of this source code is governed by the Apache License, Version 2.0.
+ * See the COPYING file for details.
+ */
+
+/* Author: attila@google.com (Attila Bodis) */
+/* Author: eae@google.com (Emil A. Eklund) */
+
+
+/*
+ * Styles used by goog.ui.TabBarRenderer.
+ */
+.goog-tab-bar {
+  border: 0;
+  cursor: default;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: relative;
+}
+
+.goog-tab-bar-clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+.goog-tab-bar-start {
+  float: left;
+}
+
+.goog-tab-bar-end {
+  float: right;
+}

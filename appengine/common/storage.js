@@ -138,12 +138,9 @@ BlocklyStorage.handleRequest_ = function() {
  * @private
  */
 BlocklyStorage.monitorChanges_ = function() {
-  var startXmlDom = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-  var startXmlText = Blockly.Xml.domToText(startXmlDom);
+  var startCode = BlocklyInterface.getCode();
   function change() {
-    var xmlDom = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-    var xmlText = Blockly.Xml.domToText(xmlDom);
-    if (startXmlText != xmlText) {
+    if (startCode != BlocklyInterface.getCode()) {
       window.location.hash = '';
       Blockly.removeChangeListener(bindData);
     }

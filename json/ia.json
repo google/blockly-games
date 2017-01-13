@@ -37,6 +37,7 @@
 	"Games.xmlError": "Impossibile cargar le file salveguardate. Pote esser que illo ha essite create con un altere version de Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
+	"Games.blocks": "Blocos",
 	"Games.congratulations": "Felicitationes!",
 	"Games.helpAbort": "Iste nivello es extrememente difficile. Vole tu saltar lo e passar al proxime joco? Tu pote sempre revenir plus tarde.",
 	"Index.clear": "Deler tote tu solutiones?",
@@ -128,6 +129,5 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "grasse",
 	"Turtle.fontItalic": "italic",
-	"Turtle.catTurtle": "Tortuca",
-	"Pond.blocks": "Blocos"
+	"Turtle.catTurtle": "Tortuca"
 }

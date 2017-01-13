@@ -15,7 +15,8 @@
 			"Antonio Rodrigues Neto",
 			"Praduca",
 			"Caçador de Palavras",
-			"Luk3"
+			"Luk3",
+			"!Silent"
 		]
 	},
 	"Games.name": "Jogos do Blockly",
@@ -26,6 +27,7 @@
 	"Games.movie": "Filme",
 	"Games.pondTutor": "Tutor de libras",
 	"Games.pond": "Lagoa",
+	"Games.genetics": "Genéticas",
 	"Games.linesOfCode1": "Você solucionou esse nível com uma linha de JavaScript:",
 	"Games.linesOfCode2": "Você solucionou esse nível com %1 linhas de JavaScript:",
 	"Games.nextLevel": "Você esta preparado para o nível %1?",
@@ -52,6 +54,8 @@
 	"Games.xmlError": "Não foi possível carregar seu arquivo salvo. Talvez ele tenha sido criado com uma versão diferente do Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
+	"Games.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
+	"Games.blocks": "Blocos",
 	"Games.congratulations": "Parabéns!",
 	"Games.helpAbort": "Este nível é extremamente difícil. Você deseja pulá-lo e ir ao próximo jogo? Você sempre pode voltar mais tarde.",
 	"Index.clear": "Apagar todas as suas soluções?",
@@ -237,7 +241,5 @@
 	"Pond.rabbitName": "Coelho",
 	"Pond.counterName": "Contador",
 	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Francoatirador",
-	"Pond.breakLink": "Quando você começar a editar o JavaScript, você não poderá mais voltar a editar os blocos. Você tem certeza?",
-	"Pond.blocks": "Blocos"
+	"Pond.sniperName": "Francoatirador"
 }

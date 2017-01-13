@@ -43,6 +43,8 @@
 	"Games.xmlError": "Nepodařilo se uložit vás soubor.  Pravděpodobně byl vytvořen jinou verzí Blockly?",
 	"Games.listVariable": "seznam",
 	"Games.textVariable": "text",
+	"Games.breakLink": "Jakmile začnete upravovat JavaScript, nemůžete se vrátit k editaci bloků. Je to v POŘÁDKU?",
+	"Games.blocks": "Bloky",
 	"Games.congratulations": "Gratulace!",
 	"Games.helpAbort": "Tato úroveň je velmi obtížná. Chceš ji přeskočit a pokračovat na další hru? Kdykoli se můžeš vrátit zpět.",
 	"Index.clear": "Smazat všechna řešení?",
@@ -228,7 +230,5 @@
 	"Pond.rabbitName": "Králík",
 	"Pond.counterName": "Počtář",
 	"Pond.rookName": "Věž",
-	"Pond.sniperName": "Odstřelovač",
-	"Pond.breakLink": "Jakmile začnete upravovat JavaScript, nemůžete se vrátit k editaci bloků. Je to v POŘÁDKU?",
-	"Pond.blocks": "Bloky"
+	"Pond.sniperName": "Odstřelovač"
 }

@@ -4,7 +4,8 @@
 			"Jopparn",
 			"WikiPhoenix",
 			"Abbedabb",
-			"Smuda"
+			"Smuda",
+			"Velg"
 		]
 	},
 	"Games.name": "Blocklyspel",
@@ -15,6 +16,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Dammhandledare",
 	"Games.pond": "Damm",
+	"Games.genetics": "Genetik",
 	"Games.linesOfCode1": "Du löste nivån med 1 rad JavaScript:",
 	"Games.linesOfCode2": "Du löste nivån med %1 rader JavaScript:",
 	"Games.nextLevel": "Är du redo för nivå %1?",
@@ -41,6 +43,8 @@
 	"Games.xmlError": "Kunde inte läsa din sparade fil. Den skapades kanske med en annan version av Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "text",
+	"Games.breakLink": "När du väl börjar redigera JavaScript kan du inte gå tillbaka och redigera block. Är det okej med dig?",
+	"Games.blocks": "Block",
 	"Games.congratulations": "Gratulerar!",
 	"Games.helpAbort": "Den här nivån är extremt svår. Vill du hoppa över den och gå till nästa spel? Du kan alltid komma tillbaka senare.",
 	"Index.clear": "Radera alla dina lösningar?",
@@ -226,7 +230,5 @@
 	"Pond.rabbitName": "Kanin",
 	"Pond.counterName": "Räknare",
 	"Pond.rookName": "Schacktorn",
-	"Pond.sniperName": "Krypskytt",
-	"Pond.breakLink": "När du väl börjar redigera JavaScript kan du inte gå tillbaka och redigera block. Är det okej med dig?",
-	"Pond.blocks": "Block"
+	"Pond.sniperName": "Krypskytt"
 }

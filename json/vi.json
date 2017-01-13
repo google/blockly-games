@@ -42,6 +42,7 @@
 	"Games.xmlError": "Không mở được chương trình của bạn.  Có thể nó nằm trong một phiên bản khác của Blockly?",
 	"Games.listVariable": "danh sách",
 	"Games.textVariable": "văn bản",
+	"Games.blocks": "Các mảnh",
 	"Games.congratulations": "Chúc mừng!",
 	"Games.helpAbort": "Level này rất khó. Bạn có muốn bỏ qua và chuyển sang trò chơi tiếp theo? Bạn có thể quay lại level này sau.",
 	"Index.clear": "Xóa cách giải quyết của bạn?",
@@ -215,6 +216,5 @@
 	"Pond.rabbitName": "Thỏ",
 	"Pond.counterName": "Người tính đếm",
 	"Pond.rookName": "Con xe",
-	"Pond.sniperName": "Người núp bắn",
-	"Pond.blocks": "Các mảnh"
+	"Pond.sniperName": "Người núp bắn"
 }

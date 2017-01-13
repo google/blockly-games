@@ -36,19 +36,6 @@ goog.require('Scrubber');
 
 BlocklyGames.NAME = 'movie';
 
-/**
- * Go to the next level.
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
-
 Movie.HEIGHT = 400;
 Movie.WIDTH = 400;
 

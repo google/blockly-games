@@ -129,14 +129,14 @@ Pond.Duck.init = function() {
       '<xml>' +
       '  <block type="pond_cannon" x="70" y="70">' +
       '    <value name="DEGREE">' +
-      '      <block type="pond_math_number">' +
+      '      <shadow type="pond_math_number">' +
       '        <field name="NUM">0</field>' +
-      '      </block>' +
+      '      </shadow>' +
       '    </value>' +
       '    <value name="RANGE">' +
-      '      <block type="pond_math_number">' +
+      '      <shadow type="pond_math_number">' +
       '        <field name="NUM">70</field>' +
-      '      </block>' +
+      '      </shadow>' +
       '    </value>' +
       '  </block>' +
       '</xml>';
@@ -144,6 +144,7 @@ Pond.Duck.init = function() {
   // Clear the workspace to avoid merge.
   BlocklyGames.workspace.clear();
   Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+  BlocklyGames.workspace.clearUndo();
 
   var players = [
     {
@@ -239,7 +240,7 @@ Pond.Duck.editorChanged = function() {
   }
   if (Pond.Duck.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Pond_breakLink'))) {
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link betweeen blocks and JS.
       Pond.Duck.tabbar.getChildAt(0).setEnabled(false);
       Pond.Duck.blocksEnabled_ = false;

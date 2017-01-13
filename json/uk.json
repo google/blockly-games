@@ -5,7 +5,8 @@
 			"Alex Khimich",
 			"Gromko",
 			"Igor Zavadsky",
-			"Lxlalexlxl"
+			"Lxlalexlxl",
+			"Piramidion"
 		]
 	},
 	"Games.name": "Ігри Blockly",
@@ -16,6 +17,7 @@
 	"Games.movie": "Фільм",
 	"Games.pondTutor": "Ставочок",
 	"Games.pond": "Став",
+	"Games.genetics": "Генетика",
 	"Games.linesOfCode1": "Рівень пройдено за допомогою 1 рядка JavaScript:",
 	"Games.linesOfCode2": "Рівень пройдено за допомогою %1 рядків JavaScript:",
 	"Games.nextLevel": "Ви готові до рівня %1?",
@@ -42,6 +44,8 @@
 	"Games.xmlError": "Не вдалося завантажити ваш збережений файл. Можливо, він був створений з іншої версії Blockly?",
 	"Games.listVariable": "список",
 	"Games.textVariable": "текст",
+	"Games.breakLink": "Розпочавши редагувати JavaScript, ви не зможете повернутися до редагування блоків. Добре?",
+	"Games.blocks": "Блоки",
 	"Games.congratulations": "Вітаємо!",
 	"Games.helpAbort": "Цей рівень дуже складний. Бажаєте пропустити його і перейти до наступної гри? Ви завжди можете повернутися пізніше.",
 	"Index.clear": "Видалити всі ваші розв'язки?",
@@ -227,7 +231,5 @@
 	"Pond.rabbitName": "Кролик",
 	"Pond.counterName": "Обліковець",
 	"Pond.rookName": "Башта",
-	"Pond.sniperName": "Снайпер",
-	"Pond.breakLink": "Розпочавши редагувати JavaScript, ви не зможете повернутися до редагування блоків. Добре?",
-	"Pond.blocks": "Блоки"
+	"Pond.sniperName": "Снайпер"
 }

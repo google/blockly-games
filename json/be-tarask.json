@@ -15,6 +15,7 @@
 	"Games.movie": "Фільм",
 	"Games.pondTutor": "Прудок",
 	"Games.pond": "Сажалка",
+	"Games.genetics": "Генэтыка",
 	"Games.linesOfCode1": "Узровень пройдзены з дапамогай аднаго радка JavaScript:",
 	"Games.linesOfCode2": "Узровень пройдзены з дапамогай %1 радкоў JavaScript:",
 	"Games.nextLevel": "Вы гатовыя да ўзроўню %1?",
@@ -41,6 +42,8 @@
 	"Games.xmlError": "Не атрымалася загрузіць захаваны файл. Магчыма, ён быў створаны з іншай вэрсіяй Блёклі?",
 	"Games.listVariable": "сьпіс",
 	"Games.textVariable": "тэкст",
+	"Games.breakLink": "Калі вы пачнеце рэдагаваць JavaScript, вы ня зможаце вярнуцца да рэдагаваньня блёкаў. Працягваем?",
+	"Games.blocks": "Блёкі",
 	"Games.congratulations": "Віншуем!",
 	"Games.helpAbort": "Гэты ўзровень вельмі складаны. Магчыма Вы жадаеце прапусьціць яго і перайсьці да наступнай гульні? Вы заўсёды можаце сюды вярнуцца.",
 	"Index.clear": "Выдаліць усе Вашыя рашэньні?",
@@ -226,7 +229,5 @@
 	"Pond.rabbitName": "Трус",
 	"Pond.counterName": "Лічыльнік",
 	"Pond.rookName": "Шулер",
-	"Pond.sniperName": "Снайпэр",
-	"Pond.breakLink": "Калі вы пачнеце рэдагаваць JavaScript, вы ня зможаце вярнуцца да рэдагаваньня блёкаў. Працягваем?",
-	"Pond.blocks": "Блёкі"
+	"Pond.sniperName": "Снайпэр"
 }

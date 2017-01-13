@@ -10,7 +10,7 @@
 			"Gchr"
 		]
 	},
-	"Games.name": "Παιχνίδια Blocky",
+	"Games.name": "Παιχνίδια Blockly",
 	"Games.puzzle": "Παζλ",
 	"Games.maze": "Λαβύρινθος",
 	"Games.bird": "Πουλί",
@@ -43,6 +43,7 @@
 	"Games.xmlError": "Δεν μπορώ να φορτώσω το αποθηκευμένο αρχείο σου.  Μήπως δημιουργήθηκε από μία παλιότερη έκδοση του Blockly;",
 	"Games.listVariable": "λίστα",
 	"Games.textVariable": "κείμενο",
+	"Games.blocks": "Μπλοκ",
 	"Games.congratulations": "Συγχαρητήρια!",
 	"Games.helpAbort": "Αυτό το επίπεδο είναι εξαιρετικά δύσκολο. Θα θέλατε να το παραλείψετε και να πάτε στο επόμενο παιχνίδι; Μπορείτε πάντα να επανέλθετε αργότερα.",
 	"Index.clear": "Θέλετε να διαγράψετε όλες τις λύσεις;",
@@ -206,6 +207,5 @@
 	"Pond.rabbitName": "Κουνέλι",
 	"Pond.counterName": "Μετρητής",
 	"Pond.rookName": "Πύργος",
-	"Pond.sniperName": "Σκοπευτής",
-	"Pond.blocks": "Μπλοκ"
+	"Pond.sniperName": "Σκοπευτής"
 }

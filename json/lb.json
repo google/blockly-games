@@ -5,20 +5,26 @@
 			"Les Meloures"
 		]
 	},
+	"Games.name": "Blockly-Spiller",
 	"Games.puzzle": "Puzzle",
 	"Games.maze": "Labyrinth",
 	"Games.bird": "Vull",
 	"Games.turtle": "Deckelsmouk",
 	"Games.movie": "Film",
+	"Games.genetics": "Genetik",
 	"Games.nextLevel": "Sidd Dir prett fir den Niveau %1?",
 	"Games.finalLevel": "Sidd Dir prett fir déi nächst Erausfuerderung?",
 	"Games.linkTooltip": "Späicheren a mat de Bléck verlinken",
+	"Games.runTooltip": "De Programm starten deen Dir geschriwwen hutt.",
 	"Games.runProgram": "Programm ausféieren",
+	"Games.resetTooltip": "De Programm stoppen an den Niveau zrécksetzen.",
 	"Games.resetProgram": "Zrécksetzen",
 	"Games.help": "Hëllef",
 	"Games.dialogOk": "OK",
 	"Games.dialogCancel": "Ofbriechen",
 	"Games.catLogic": "Logik",
+	"Games.catLoops": "Schleefen",
+	"Games.catMath": "Mathematik",
 	"Games.catText": "Text",
 	"Games.catLists": "Lëschten",
 	"Games.catColour": "Faarf",
@@ -29,6 +35,7 @@
 	"Games.xmlError": "Äre gespäicherte Fichier konnt net geluede ginn. Vläicht hutt Dir e mat enger anerer Versioun vu Blockly gemaach?",
 	"Games.listVariable": "Lëscht",
 	"Games.textVariable": "Text",
+	"Games.blocks": "Bléck",
 	"Games.congratulations": "Gratulatioun!",
 	"Index.clear": "All Är Léisunge läschen?",
 	"Index.moreInfo": "Méi Informatiounen ...",
@@ -88,6 +95,5 @@
 	"Pond.playerName": "Spiller",
 	"Pond.targetName": "Zil",
 	"Pond.rabbitName": "Kanéngchen",
-	"Pond.counterName": "Compteur",
-	"Pond.blocks": "Bléck"
+	"Pond.counterName": "Compteur"
 }

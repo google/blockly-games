@@ -7,10 +7,11 @@
 			"Macofe",
 			"NemesisIII",
 			"Od1n",
-			"Josee Desharnais"
+			"Josee Desharnais",
+			"Urhixidur"
 		]
 	},
-	"Games.name": "Jeux Blocky",
+	"Games.name": "Jeux Blockly",
 	"Games.puzzle": "Puzzle",
 	"Games.maze": "Labyrinthe",
 	"Games.bird": "Oiseau",
@@ -18,6 +19,7 @@
 	"Games.movie": "Movie",
 	"Games.pondTutor": "Tutoriel de Pond",
 	"Games.pond": "Pond",
+	"Games.genetics": "Génétique",
 	"Games.linesOfCode1": "Vous avez résolu ce niveau avec 1 ligne de JavaScript :",
 	"Games.linesOfCode2": "Vous avez résolu ce niveau avec %1 lignes de JavaScript :",
 	"Games.nextLevel": "Êtes-vous prêt pour le niveau %1 ?",
@@ -39,11 +41,13 @@
 	"Games.catVariables": "Variables",
 	"Games.catProcedures": "Fonctions",
 	"Games.httpRequestError": "Il y a eu un problème avec la demande.",
-	"Games.linkAlert": "Partagez vos blocs grâce à ce lien:\n\n%1",
+	"Games.linkAlert": "Partagez vos blocs grâce à ce lien :\n\n%1",
 	"Games.hashError": "Désolé, '%1' ne correspond à aucun programme sauvegardé.",
 	"Games.xmlError": "Impossible de charger le fichier de sauvegarde.  Peut être a t-il été créé avec une autre version de Blockly?",
 	"Games.listVariable": "liste",
 	"Games.textVariable": "texte",
+	"Games.breakLink": "Une fois que vous aurez commencé à modifier le JavaScript, vous ne pourrez pas revenir à la modification des blocs. Est-ce bon pour vous ?",
+	"Games.blocks": "Blocs",
 	"Games.congratulations": "Félicitations !",
 	"Games.helpAbort": "Ce niveau est très difficile. Voulez-vous le sauter et passer au jeu suivant ? Vous pourrez toujours y revenir plus tard.",
 	"Index.clear": "Supprimer toutes vos solutions ?",
@@ -229,7 +233,5 @@
 	"Pond.rabbitName": "Lapin",
 	"Pond.counterName": "Compteur",
 	"Pond.rookName": "Tour",
-	"Pond.sniperName": "Tireur",
-	"Pond.breakLink": "Une fois que vous aurez commencé à modifier le JavaScript, vous ne pourrez pas revenir à la modification des blocs. Est-ce bon pour vous ?",
-	"Pond.blocks": "Blocs"
+	"Pond.sniperName": "Tireur"
 }
