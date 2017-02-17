@@ -181,22 +181,24 @@ def trim_licence(code):
 
 def write_compressed(name, lang):
   print('\n%s - %s - compressed:' % (name.title(), lang))
-  cmd = ['third-party/build/closurebuilder.py',
-      '--root=appengine/third-party/',
-      '--root=appengine/generated/%s/' % lang,
-      '--root=appengine/js/',
-      '--namespace=%s' % name.replace('/', '.').title(),
-      '--compiler_jar=third-party/closure-compiler.jar',
-      '--compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS',
-      '--compiler_flags=--externs=externs/svg-externs.js',
-      '--compiler_flags=--externs=externs/interpreter-externs.js',
-      '--compiler_flags=--externs=externs/gviz-externs.js',
-      '--compiler_flags=--language_in=ECMASCRIPT5_STRICT',
-      '--output_mode=compiled']
+  cmd = ['java', '-jar', 'third-party/closure-compiler.jar',
+         '--js_output_file', 'compiled',
+         '--compilation_level=ADVANCED_OPTIMIZATIONS',
+         '--externs=externs/svg-externs.js',
+         '--externs=externs/interpreter-externs.js',
+         '--externs=externs/gviz-externs.js',
+         '--language_in=ECMASCRIPT5_STRICT',
+         '--dependency_mode=STRICT',
+         '--entry_point=%s' % name.replace('/', '.').title(),
+         '--js', 'appengine/third-party/**.js',
+                 'appengine/generated/%s/**.js' % lang,
+                 'appengine/js/**.js',
+                 '!appengine/**test.js']
+
   directory = name
   while(directory):
-    cmd.append('--root=appengine/%s/generated/%s/' % (directory, lang))
-    cmd.append('--root=appengine/%s/js/' % directory)
+    cmd.append('appengine/%s/generated/%s/**.js' % (directory, lang))
+    cmd.append('appengine/%s/js/**.js' % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
   proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
   script = proc.stdout.readlines()
