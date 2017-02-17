@@ -187,7 +187,7 @@ def write_compressed(name, lang):
          '--externs=externs/svg-externs.js',
          '--externs=externs/interpreter-externs.js',
          '--externs=externs/gviz-externs.js',
-         '--language_in=ECMASCRIPT5_STRICT',
+         '--language_in=ECMASCRIPT6_STRICT',
          '--dependency_mode=STRICT',
          '--entry_point=%s' % name.replace('/', '.').title(),
          '--js', 'appengine/third-party/**.js',
