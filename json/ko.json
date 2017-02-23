@@ -217,7 +217,7 @@
 	"Pond.speedTooltip": "플레이어의 현재 속도를 출력합니다 (0은 멈춤, 100은 최대 속도).",
 	"Pond.locXTooltip": "플레이어의 x 좌표를 출력합니다 (0은 왼쪽 끝, 100은 오른쪽 끝).",
 	"Pond.locYTooltip": "플레이어의 y 좌표를 출력합니다 (0은 아랫쪽 끝, 100은 윗쪽 끝).",
-	"Pond.docsTooltip": "언어에 대한 설명서를 엽니다.",
+	"Pond.docsTooltip": "언어에 대한 설명서를 표시합니다.",
 	"Pond.documentation": "증거 서류",
 	"Pond.playerName": "플레이어",
 	"Pond.targetName": "목표물",
