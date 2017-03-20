@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Aursani",
-			"Mehtab ahmed"
+			"Mehtab ahmed",
+			"Indus Asia"
 		]
 	},
 	"Games.maze": "ميز",
@@ -14,6 +15,7 @@
 	"Games.help": "مدد",
 	"Games.dialogOk": "ِٺيڪ",
 	"Games.dialogCancel": "رد",
+	"Games.catLogic": "منطق (دليل)",
 	"Games.catLoops": "چڪر",
 	"Games.catMath": "رياضي",
 	"Games.catText": "ٽيڪسٽ",
