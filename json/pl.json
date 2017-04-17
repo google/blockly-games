@@ -11,7 +11,8 @@
 			"Pbz",
 			"Mateon1",
 			"Pan Cube",
-			"Fringoo"
+			"Fringoo",
+			"Krottyianock"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -22,6 +23,7 @@
 	"Games.movie": "Animacja",
 	"Games.pondTutor": "Samouczek stawu",
 	"Games.pond": "Staw",
+	"Games.genetics": "Genetyka",
 	"Games.linesOfCode1": "Rozwiązałeś ten poziom za pomocą 1 linii JavaSkryptu",
 	"Games.linesOfCode2": "Rozwiązałeś ten poziom za pomocą %1 inii JavaSkryptu",
 	"Games.nextLevel": "Jesteś gotów na poziom %1?",
@@ -215,6 +217,7 @@
 	"Pond.playerName": "Gracz",
 	"Pond.targetName": "Cel",
 	"Pond.pendulumName": "Wahadło",
+	"Pond.scaredName": "Przestraszony",
 	"Pond.helpUseScan": "Twoje rozwiązanie działa, ale można to zrobić lepiej. Użyj 'scan', aby określić odległość strzału z działa.",
 	"Pond.helpText1": "Użyj polecenia 'cannon', aby trafić w cel. Pierwszy parametr to kąt, drugi to odległość. Znajdź odpowiednią kombinację.",
 	"Pond.helpText2": "Ten cel musi być trafiony wiele razy. Użyj pętli 'while (true)' aby robić coś w nieskończoność.",
