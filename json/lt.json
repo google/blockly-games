@@ -7,7 +7,8 @@
 			"Jurgis",
 			"Gediminas",
 			"Hugo.arg",
-			"Zygimantus"
+			"Zygimantus",
+			"Nuodas"
 		]
 	},
 	"Games.name": "„Blockly“ žaidimai",
@@ -17,6 +18,7 @@
 	"Games.turtle": "Vėžlys",
 	"Games.movie": "Filmas",
 	"Games.pond": "Tvenkinys",
+	"Games.genetics": "Genetika",
 	"Games.linesOfCode1": "Jūs įveikėte šį lygį su 1 JavaScript kodo eilute:",
 	"Games.linesOfCode2": "Jūs įveikėte šį lygį su %1 JavaScript kodo eilutėmis:",
 	"Games.nextLevel": "Ar jūs pasiruošę lygiui %1?",
