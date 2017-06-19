@@ -8,7 +8,8 @@
 			"Gediminas",
 			"Hugo.arg",
 			"Zygimantus",
-			"Nuodas"
+			"Nuodas",
+			"Fitoschido"
 		]
 	},
 	"Games.name": "„Blockly“ žaidimai",
@@ -99,8 +100,8 @@
 	"Maze.resetTooltip": "Perkelti veikėją į pradinį tašką.",
 	"Maze.helpStack": "Sujunkite kelis 'pirmyn' blokus kartu, kad pasiekčiau tikslą.",
 	"Maze.helpOneTopBlock": "Šiame lygyje visi naudojami blokai turi būti sujungti.",
-	"Maze.helpRun": "Paspauskite \"Vykdyti\", ir pamatysite, ką suprogramavote ː)",
-	"Maze.helpReset": "Deja, nepavyko ː(  Patobulinkite programą ir bandykite iš naujo ;)",
+	"Maze.helpRun": "Paspauskite „Vykdyti”, ir pamatysite, ką suprogramavote :)",
+	"Maze.helpReset": "Deja, nepavyko :( Patobulinkite programą ir bandykite iš naujo ;)",
 	"Maze.helpRepeat": "Įveikite atstumą naudodami tik 2 blokus. Panaudokite 'kartok' bloką ;)",
 	"Maze.helpCapacity": "Jūs išnaudojote leidžiamą blokų kiekį. Norėdami panaudoti dar vieną, turite pašalinti kažkurį esantį.",
 	"Maze.helpRepeatMany": "'kartok' bloko viduje galima įdėti daugiau negu vieną bloką.",

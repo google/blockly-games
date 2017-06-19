@@ -12,7 +12,8 @@
 			"Mateon1",
 			"Pan Cube",
 			"Fringoo",
-			"Krottyianock"
+			"Krottyianock",
+			"Woytecr"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -213,6 +214,7 @@
 	"Pond.speedTooltip": "Zwraca bieżącą prędkość gracza (0 - stoi, 100 - pełna prędkość).",
 	"Pond.locXTooltip": "Zwraca współrzędną X gracza (0 - lewa krawędź, 100 - prawa krawędź).",
 	"Pond.locYTooltip": "Zwraca współrzędną Y gracza (0 - dolna krawędź, 100 - górna krawędź).",
+	"Pond.docsTooltip": "Pokaż dokumentację języka.",
 	"Pond.documentation": "Dokumentacja",
 	"Pond.playerName": "Gracz",
 	"Pond.targetName": "Cel",
