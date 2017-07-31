@@ -717,7 +717,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
  * @private
  */
 Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
-  var pseudoMe = interpreter.UNDEFINED;
+  var pseudoMe = undefined;
   var pseudoSuitor = interpreter.ARRAY;
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);
   var aliveMiceIndex = 0;
@@ -763,7 +763,7 @@ Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
   };
   interpreter.setProperty(scope, 'getMice',
       interpreter.createNativeFunction(wrapper));
-  if (pseudoSuitor != interpreter.UNDEFINED) {
+  if (pseudoSuitor) {
     wrapper = function() {
       return pseudoSuitor;
     };
@@ -775,14 +775,11 @@ Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
   interpreter.setProperty(scope, 'Sex', sex);
 
   var myMath = interpreter.getProperty(scope, 'Math');
-  if (myMath != interpreter.UNDEFINED) {
+  if (myMath) {
     wrapper = function(minValue, maxValue) {
-      return interpreter.createPrimitive(
-          Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue);
+      return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
     };
     interpreter.setProperty(myMath, 'randomInt',
         interpreter.createNativeFunction(wrapper));
   }
 };
-
-

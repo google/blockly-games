@@ -158,8 +158,8 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'],
-      'win');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
@@ -380,7 +380,6 @@ Turtle.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   document.getElementById('spinner').style.visibility = 'visible';
-  BlocklyGames.workspace.traceOn(true);
   Turtle.execute();
 };
 
@@ -397,7 +396,6 @@ Turtle.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  BlocklyGames.workspace.traceOn(false);
   Turtle.reset();
 
   // Image cleared; prevent user from submitting to Reddit.
@@ -413,70 +411,69 @@ Turtle.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(distance, id) {
-    Turtle.move(distance.valueOf(), id.toString());
+    Turtle.move(distance, id);
   };
   interpreter.setProperty(scope, 'moveForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(distance, id) {
-    Turtle.move(-distance.valueOf(), id.toString());
+    Turtle.move(-distance, id);
   };
   interpreter.setProperty(scope, 'moveBackward',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(angle, id) {
-    Turtle.turn(angle.valueOf(), id.toString());
+    Turtle.turn(angle, id);
   };
   interpreter.setProperty(scope, 'turnRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(angle, id) {
-    Turtle.turn(-angle.valueOf(), id.toString());
+    Turtle.turn(-angle, id);
   };
   interpreter.setProperty(scope, 'turnLeft',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(id) {
-    Turtle.penDown(false, id.toString());
+    Turtle.penDown(false, id);
   };
   interpreter.setProperty(scope, 'penUp',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Turtle.penDown(true, id.toString());
+    Turtle.penDown(true, id);
   };
   interpreter.setProperty(scope, 'penDown',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(width, id) {
-    Turtle.penWidth(width.valueOf(), id.toString());
+    Turtle.penWidth(width, id);
   };
   interpreter.setProperty(scope, 'penWidth',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(colour, id) {
-    Turtle.penColour(colour.toString(), id.toString());
+    Turtle.penColour(colour, id);
   };
   interpreter.setProperty(scope, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(id) {
-    Turtle.isVisible(false, id.toString());
+    Turtle.isVisible(false, id);
   };
   interpreter.setProperty(scope, 'hideTurtle',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Turtle.isVisible(true, id.toString());
+    Turtle.isVisible(true, id);
   };
   interpreter.setProperty(scope, 'showTurtle',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(text, id) {
-    Turtle.drawPrint(text.toString(), id.toString());
+    Turtle.drawPrint(text, id);
   };
   interpreter.setProperty(scope, 'print',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(font, size, style, id) {
-    Turtle.drawFont(font.toString(), size.valueOf(), style.toString(),
-                  id.toString());
+    Turtle.drawFont(font, size, style, id);
   };
   interpreter.setProperty(scope, 'font',
       interpreter.createNativeFunction(wrapper));
@@ -676,7 +673,7 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      BlocklyGames.workspace.playAudio('win', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {

@@ -517,8 +517,8 @@ Maze.init = function() {
        'toolbox': toolbox,
        'trashcan': true,
        'zoom': {'startScale': scale}});
-  BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
-  BlocklyGames.workspace.loadAudio_(Maze.SKIN.crashSound, 'fail');
+  BlocklyGames.workspace.getAudioManager().load(Maze.SKIN.winSound, 'win');
+  BlocklyGames.workspace.getAudioManager().load(Maze.SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
@@ -603,7 +603,7 @@ Maze.levelHelp = function(opt_event) {
   if (opt_event && opt_event.type == Blockly.Events.UI) {
     // Just a change to highlighting or somesuch.
     return;
-  } else if (Blockly.dragMode_ != 0) {
+  } else if (BlocklyGames.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
   } else if (Maze.result == Maze.ResultType.SUCCESS ||
@@ -729,8 +729,8 @@ Maze.levelHelp = function(opt_event) {
           [BlocklyGames.getMsg('Maze_pathAhead'),
            BlocklyGames.getMsg('Maze_pathLeft'),
            BlocklyGames.getMsg('Maze_pathRight')];
-      var prefix = Blockly.commonWordPrefix(options);
-      var suffix = Blockly.commonWordSuffix(options);
+      var prefix = Blockly.utils.commonWordPrefix(options);
+      var suffix = Blockly.utils.commonWordSuffix(options);
       if (suffix) {
         var option = options[0].slice(prefix, -suffix);
       } else {
@@ -816,12 +816,12 @@ Maze.showPegmanMenu = function(e) {
     return;
   }
   var button = document.getElementById('pegmanButton');
-  Blockly.addClass_(button, 'buttonHover');
+  button.classList.add('buttonHover');
   menu.style.top = (button.offsetTop + button.offsetHeight) + 'px';
   menu.style.left = button.offsetLeft + 'px';
   menu.style.display = 'block';
-  Maze.pegmanMenuMouse_ = Blockly.bindEvent_(document.body, 'mousedown',
-                                             null, Maze.hidePegmanMenu);
+  Maze.pegmanMenuMouse_ =
+      Blockly.bindEvent_(document.body, 'mousedown', null, Maze.hidePegmanMenu);
   // Close the skin-changing hint if open.
   var hint = document.getElementById('dialogHelpSkins');
   if (hint && hint.className != 'dialogHiddenContent') {
@@ -840,7 +840,7 @@ Maze.hidePegmanMenu = function(e) {
     return;
   }
   document.getElementById('pegmanMenu').style.display = 'none';
-  Blockly.removeClass_(document.getElementById('pegmanButton'), 'buttonHover');
+  document.getElementById('pegmanButton').classList.remove('buttonHover');
   if (Maze.pegmanMenuMouse_) {
     Blockly.unbindEvent_(Maze.pegmanMenuMouse_);
     delete Maze.pegmanMenuMouse_;
@@ -920,7 +920,6 @@ Maze.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  BlocklyGames.workspace.traceOn(true);
   Maze.reset(false);
   Maze.execute();
 };
@@ -971,7 +970,6 @@ Maze.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
-  BlocklyGames.workspace.traceOn(false);
   Maze.reset(false);
   Maze.levelHelp();
 };
@@ -985,47 +983,47 @@ Maze.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(id) {
-    Maze.move(0, id.toString());
+    Maze.move(0, id);
   };
   interpreter.setProperty(scope, 'moveForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Maze.move(2, id.toString());
+    Maze.move(2, id);
   };
   interpreter.setProperty(scope, 'moveBackward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Maze.turn(0, id.toString());
+    Maze.turn(0, id);
   };
   interpreter.setProperty(scope, 'turnLeft',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Maze.turn(1, id.toString());
+    Maze.turn(1, id);
   };
   interpreter.setProperty(scope, 'turnRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(0, id.toString()));
+    return Maze.isPath(0, id);
   };
   interpreter.setProperty(scope, 'isPathForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(1, id.toString()));
+    return Maze.isPath(1, id);
   };
   interpreter.setProperty(scope, 'isPathRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(2, id.toString()));
+    return Maze.isPath(2, id);
   };
   interpreter.setProperty(scope, 'isPathBackward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(3, id.toString()));
+    return Maze.isPath(3, id);
   };
   interpreter.setProperty(scope, 'isPathLeft',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(Maze.notDone());
+    return Maze.notDone();
   };
   interpreter.setProperty(scope, 'notDone',
       interpreter.createNativeFunction(wrapper));
@@ -1255,7 +1253,7 @@ Maze.scheduleFail = function(forward) {
     Maze.displayPegman(Maze.pegmanX + deltaX,
                        Maze.pegmanY + deltaY,
                        direction16);
-    BlocklyGames.workspace.playAudio('fail', 0.5);
+    BlocklyGames.workspace.getAudioManager().play('fail', 0.5);
     Maze.pidList.push(setTimeout(function() {
       Maze.displayPegman(Maze.pegmanX,
                          Maze.pegmanY,
@@ -1265,7 +1263,7 @@ Maze.scheduleFail = function(forward) {
       Maze.displayPegman(Maze.pegmanX + deltaX,
                          Maze.pegmanY + deltaY,
                          direction16);
-      BlocklyGames.workspace.playAudio('fail', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('fail', 0.5);
     }, Maze.stepSpeed * 2));
     Maze.pidList.push(setTimeout(function() {
         Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
@@ -1283,7 +1281,7 @@ Maze.scheduleFail = function(forward) {
       acceleration = 0.01;
     }
     Maze.pidList.push(setTimeout(function() {
-      BlocklyGames.workspace.playAudio('fail', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('fail', 0.5);
     }, Maze.stepSpeed * 2));
     var setPosition = function(n) {
       return function() {
@@ -1312,7 +1310,7 @@ Maze.scheduleFinish = function(sound) {
   var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
   Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
   if (sound) {
-    BlocklyGames.workspace.playAudio('win', 0.5);
+    BlocklyGames.workspace.getAudioManager().play('win', 0.5);
   }
   Maze.stepSpeed = 150;  // Slow down victory animation a bit.
   Maze.pidList.push(setTimeout(function() {

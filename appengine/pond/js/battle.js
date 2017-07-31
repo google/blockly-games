@@ -355,24 +355,19 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(degree, resolution) {
-    return interpreter.createPrimitive(
-        Pond.Battle.currentAvatar.scan(degree && degree.valueOf(),
-            resolution && resolution.valueOf()));
+    return Pond.Battle.currentAvatar.scan(degree, resolution);
   };
   interpreter.setProperty(scope, 'scan',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(degree, range) {
-    return interpreter.createPrimitive(
-        Pond.Battle.currentAvatar.cannon(degree && degree.valueOf(),
-            range && range.valueOf()));
+    return Pond.Battle.currentAvatar.cannon(degree, range);
   };
   interpreter.setProperty(scope, 'cannon',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(degree, speed) {
-    Pond.Battle.currentAvatar.drive(degree && degree.valueOf(),
-        speed && speed.valueOf());
+    Pond.Battle.currentAvatar.drive(degree, speed);
   };
   interpreter.setProperty(scope, 'drive',
       interpreter.createNativeFunction(wrapper));
@@ -386,25 +381,25 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentAvatar.damage);
+    return Pond.Battle.currentAvatar.damage;
   };
   interpreter.setProperty(scope, 'damage',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(100 - Pond.Battle.currentAvatar.damage);
+    return 100 - Pond.Battle.currentAvatar.damage;
   };
   interpreter.setProperty(scope, 'health',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentAvatar.speed);
+    return Pond.Battle.currentAvatar.speed;
   };
   interpreter.setProperty(scope, 'speed',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentAvatar.loc.x);
+    return Pond.Battle.currentAvatar.loc.x;
   };
   interpreter.setProperty(scope, 'loc_x',
       interpreter.createNativeFunction(wrapper));
@@ -412,7 +407,7 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Pond.Battle.currentAvatar.loc.y);
+    return Pond.Battle.currentAvatar.loc.y;
   };
   interpreter.setProperty(scope, 'loc_y',
       interpreter.createNativeFunction(wrapper));
@@ -420,45 +415,39 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
       interpreter.createNativeFunction(wrapper));
 
   var myMath = interpreter.getProperty(scope, 'Math');
-  if (myMath != interpreter.UNDEFINED) {
+  if (myMath) {
     wrapper = function(number) {
-      return interpreter.createPrimitive(
-          Math.sin((number && number.valueOf()) / 180 * Math.PI));
+      return Math.sin((number) / 180 * Math.PI);
     };
     interpreter.setProperty(myMath, 'sin_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return interpreter.createPrimitive(
-          Math.cos((number && number.valueOf()) / 180 * Math.PI));
+      return Math.cos((number) / 180 * Math.PI);
     };
     interpreter.setProperty(myMath, 'cos_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return interpreter.createPrimitive(
-          Math.tan((number && number.valueOf()) / 180 * Math.PI));
+      return Math.tan((number) / 180 * Math.PI);
     };
     interpreter.setProperty(myMath, 'tan_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return interpreter.createPrimitive(
-          Math.asin(number && number.valueOf()) / Math.PI * 180);
+      return Math.asin(number) / Math.PI * 180;
     };
     interpreter.setProperty(myMath, 'asin_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return interpreter.createPrimitive(
-          Math.acos(number && number.valueOf()) / Math.PI * 180);
+      return Math.acos(number) / Math.PI * 180;
     };
     interpreter.setProperty(myMath, 'acos_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return interpreter.createPrimitive(
-          Math.atan(number && number.valueOf()) / Math.PI * 180);
+      return Math.atan(number) / Math.PI * 180;
     };
     interpreter.setProperty(myMath, 'atan_deg',
         interpreter.createNativeFunction(wrapper));

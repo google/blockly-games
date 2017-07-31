@@ -318,7 +318,7 @@ BlocklyDialogs.abortOffer = function() {
     return;
   }
   // Don't override an existing dialog, or interrupt a drag.
-  if (BlocklyDialogs.isDialogVisible_ || Blockly.dragMode_ != 0) {
+  if (BlocklyDialogs.isDialogVisible_ || BlocklyGames.workspace.isDragging()) {
     setTimeout(BlocklyDialogs.abortOffer, 15 * 1000);
     return;
   }

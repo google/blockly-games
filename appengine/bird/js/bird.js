@@ -332,11 +332,12 @@ Bird.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
-  BlocklyGames.workspace.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'],
-      'quack');
-  BlocklyGames.workspace.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'],
-      'whack');
-  BlocklyGames.workspace.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
   if (BlocklyGames.LEVEL > 1) {
     BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
   }
@@ -397,7 +398,7 @@ Bird.mutatorHelpPid_ = 0;
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
-  if (Blockly.dragMode_ != 0) {
+  if (BlocklyGames.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
   } else if (Bird.result == Bird.ResultType.SUCCESS ||
@@ -546,7 +547,6 @@ Bird.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  BlocklyGames.workspace.traceOn(true);
   Bird.reset(false);
   Bird.execute();
 };
@@ -563,7 +563,6 @@ Bird.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
-  BlocklyGames.workspace.traceOn(false);
   Bird.reset(false);
 };
 
@@ -587,22 +586,22 @@ Bird.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(angle, id) {
-    Bird.heading(angle.valueOf(), id.toString());
+    Bird.heading(angle, id);
   };
   interpreter.setProperty(scope, 'heading',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(!Bird.hasWorm);
+    return !Bird.hasWorm;
   };
   interpreter.setProperty(scope, 'noWorm',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(Bird.pos.x);
+    return Bird.pos.x;
   };
   interpreter.setProperty(scope, 'getX',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(Bird.pos.y);
+    return Bird.pos.y;
   };
   interpreter.setProperty(scope, 'getY',
       interpreter.createNativeFunction(wrapper));
@@ -701,7 +700,7 @@ Bird.animate = function() {
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] == 'play') {
-    BlocklyGames.workspace.playAudio(action[1], 0.5);
+    BlocklyGames.workspace.getAudioManager().play(action[1], 0.5);
   }
 
   Bird.pidList.push(setTimeout(Bird.animate, Bird.stepSpeed * 5));

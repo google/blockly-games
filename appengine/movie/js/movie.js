@@ -239,7 +239,8 @@ Movie.init = function() {
   }
 
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 
@@ -448,32 +449,31 @@ Movie.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(x, y, radius) {
-    Movie.circle(x.valueOf(), y.valueOf(), radius.valueOf());
+    Movie.circle(x, y, radius);
   };
   interpreter.setProperty(scope, 'circle',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(x, y, w, h) {
-    Movie.rect(x.valueOf(), y.valueOf(), w.valueOf(), h.valueOf());
+    Movie.rect(x, y, w, h);
   };
   interpreter.setProperty(scope, 'rect',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(x1, y1, x2, y2, w) {
-    Movie.line(x1.valueOf(), y1.valueOf(),
-               x2.valueOf(), y2.valueOf(), w.valueOf());
+    Movie.line(x1, y1, x2, y2, w);
   };
   interpreter.setProperty(scope, 'line',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(colour) {
-    Movie.penColour(colour.toString());
+    Movie.penColour(colour);
   };
   interpreter.setProperty(scope, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
-    return interpreter.createPrimitive(Movie.frameNumber);
+    return Movie.frameNumber;
   };
   interpreter.setProperty(scope, 'time',
       interpreter.createNativeFunction(wrapper));
@@ -589,7 +589,7 @@ Movie.checkAnswers = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      BlocklyGames.workspace.playAudio('win', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   }
