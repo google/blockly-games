@@ -52,7 +52,7 @@ goog.require('BlocklyGames.Msg');
  * @this Blockly.Block
  */
 Blockly.Blocks['controls_if'].init = function() {
-  this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
+  this.setHelpUrl(Blockly.Msg['CONTROLS_IF_HELPURL']);
   this.setColour(Blockly.Blocks.logic.HUE);
   this.appendValueInput('IF0')
       .setCheck('Boolean')
@@ -71,13 +71,13 @@ Blockly.Blocks['controls_if'].init = function() {
   var thisBlock = this;
   this.setTooltip(function() {
     if (!thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-      return Blockly.Msg.CONTROLS_IF_TOOLTIP_1;
+      return Blockly.Msg['CONTROLS_IF_TOOLTIP_1'];
     } else if (!thisBlock.elseifCount_ && thisBlock.elseCount_) {
-      return Blockly.Msg.CONTROLS_IF_TOOLTIP_2;
+      return Blockly.Msg['CONTROLS_IF_TOOLTIP_2'];
     } else if (thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-      return Blockly.Msg.CONTROLS_IF_TOOLTIP_3;
+      return Blockly.Msg['CONTROLS_IF_TOOLTIP_3'];
     } else if (thisBlock.elseifCount_ && thisBlock.elseCount_) {
-      return Blockly.Msg.CONTROLS_IF_TOOLTIP_4;
+      return Blockly.Msg['CONTROLS_IF_TOOLTIP_4'];
     }
     return '';
   });
@@ -134,7 +134,7 @@ Blockly.Blocks['logic_compare'].init = function() {
     ['>', 'GT'],
     ['>=', 'GTE']
   ];
-  this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
+  this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
   this.setColour(Blockly.Blocks.logic.HUE);
   this.setOutput(true, 'Boolean');
   this.appendValueInput('A');
@@ -146,25 +146,25 @@ Blockly.Blocks['logic_compare'].init = function() {
   this.setTooltip(function() {
     var op = thisBlock.getFieldValue('OP');
     var TOOLTIPS = {
-      EQ: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_EQ,
-      NEQ: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_NEQ,
-      LT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
-      LTE: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LTE,
-      GT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT,
-      GTE: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GTE
+      EQ: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_EQ'],
+      NEQ: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_NEQ'],
+      LT: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
+      LTE: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LTE'],
+      GT: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],
+      GTE: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GTE']
     };
     return TOOLTIPS[op];
   });
   this.prevBlocks_ = [null, null];
 };
 
-Blockly.Msg.LOGIC_OPERATION_AND = '&&';
-Blockly.Msg.LOGIC_OPERATION_OR = '||';
+Blockly.Msg['LOGIC_OPERATION_AND'] = '&&';
+Blockly.Msg['LOGIC_OPERATION_OR'] = '||';
 
-Blockly.Msg.LOGIC_NEGATE_TITLE = '! %1';
+Blockly.Msg['LOGIC_NEGATE_TITLE'] = '! %1';
 
-Blockly.Msg.LOGIC_BOOLEAN_TRUE = 'true';
-Blockly.Msg.LOGIC_BOOLEAN_FALSE = 'false';
+Blockly.Msg['LOGIC_BOOLEAN_TRUE'] = 'true';
+Blockly.Msg['LOGIC_BOOLEAN_FALSE'] = 'false';
 
 /**
  * Block for 'while' loop.
@@ -191,8 +191,8 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
     "previousStatement": null,
     "nextStatement": null,
     "colour": Blockly.Blocks.loops.HUE,
-    "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
-    "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
+    "tooltip": Blockly.Msg['CONTROLS_WHILEUNTIL_TOOLTIP_WHILE'],
+    "helpUrl": Blockly.Msg['CONTROLS_WHILEUNTIL_HELPURL']
   });
 };
 
@@ -244,13 +244,13 @@ Blockly.Blocks['controls_for'].init = function() {
     "previousStatement": null,
     "nextStatement": null,
     "colour": Blockly.Blocks.loops.HUE,
-    "helpUrl": Blockly.Msg.CONTROLS_FOR_HELPURL
+    "helpUrl": Blockly.Msg['CONTROLS_FOR_HELPURL']
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
   var thisBlock = this;
   // TODO(kozbial) Fix tooltip text.
   this.setTooltip(function() {
-    return Blockly.Msg.CONTROLS_FOR_TOOLTIP.replace('%1',
+    return Blockly.Msg['CONTROLS_FOR_TOOLTIP'].replace('%1',
         thisBlock.getFieldValue('VAR'));
   });
 };
@@ -283,8 +283,8 @@ Blockly.JavaScript['controls_for'] = function(block) {
   return code;
 };
 
-Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK = 'break ;';
-Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE = 'continue ;';
+Blockly.Msg['CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK'] = 'break ;';
+Blockly.Msg['CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE'] = 'continue ;';
 
 /**
  * Block for basic arithmetic operator.
@@ -318,17 +318,17 @@ Blockly.Blocks['math_arithmetic'].init = function() {
     "inputsInline": true,
     "output": "Number",
     "colour": Blockly.Blocks.math.HUE,
-    "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
+    "helpUrl": Blockly.Msg['MATH_ARITHMETIC_HELPURL']
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
   var thisBlock = this;
   this.setTooltip(function() {
     var mode = thisBlock.getFieldValue('OP');
     var TOOLTIPS = {
-      'ADD': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_ADD,
-      'MINUS': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
-      'MULTIPLY': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
-      'DIVIDE': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE
+      'ADD': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_ADD'],
+      'MINUS': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MINUS'],
+      'MULTIPLY': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MULTIPLY'],
+      'DIVIDE': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_DIVIDE']
     };
     return TOOLTIPS[mode];
   });
@@ -357,12 +357,12 @@ Blockly.Blocks['math_change'].init = function() {
     "previousStatement": null,
     "nextStatement": null,
     "colour": Blockly.Blocks.variables.HUE,
-    "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
+    "helpUrl": Blockly.Msg['MATH_CHANGE_HELPURL']
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
   var thisBlock = this;
   this.setTooltip(function() {
-    return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
+    return Blockly.Msg['MATH_CHANGE_TOOLTIP'].replace('%1',
         thisBlock.getFieldValue('VAR'));
   });
 };
@@ -406,15 +406,15 @@ Blockly.Blocks['math_random_int'].init = function() {
     "inputsInline": true,
     "output": "Number",
     "colour": Blockly.Blocks.math.HUE,
-    "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP,
-    "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL
+    "tooltip": Blockly.Msg['MATH_RANDOM_INT_TOOLTIP'],
+    "helpUrl": Blockly.Msg['MATH_RANDOM_INT_HELPURL']
   });
 };
 
-Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'Math.random  (  )';
+Blockly.Msg['MATH_RANDOM_FLOAT_TITLE_RANDOM'] = 'Math.random  (  )';
 
-Blockly.Msg.LISTS_CREATE_EMPTY_TITLE = '[ ]';
-Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH = '[';
+Blockly.Msg['LISTS_CREATE_EMPTY_TITLE'] = '[ ]';
+Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH'] = '[';
 
 /**
  * Modify create list with elements block to have the correct number of inputs.
@@ -429,14 +429,14 @@ Blockly.Blocks['lists_create_with'].updateShape_ = function() {
     this.removeInput('EMPTY');
   } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
     this.appendDummyInput('EMPTY')
-        .appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
+        .appendField(Blockly.Msg['LISTS_CREATE_EMPTY_TITLE']);
   }
   // Add new inputs.
   for (var i = 0; i < this.itemCount_; i++) {
     if (!this.getInput('ADD' + i)) {
       var input = this.appendValueInput('ADD' + i);
       if (i == 0) {
-        input.appendField(Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH);
+        input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
       } else {
         input.appendField(',');
       }
@@ -476,9 +476,9 @@ Blockly.Blocks['lists_getIndex'] = {
       "inputsInline": true,
       "output": null,
       "colour": Blockly.Blocks.lists.HUE,
-      "tooltip": Blockly.Msg.LISTS_GET_INDEX_TOOLTIP_GET_FROM +
-          Blockly.Msg.LISTS_INDEX_FROM_START_TOOLTIP.replace('%1', '#0'),
-      "helpUrl": Blockly.Msg.LISTS_GET_INDEX_HELPURL
+      "tooltip": Blockly.Msg['LISTS_GET_INDEX_TOOLTIP_GET_FROM'] +
+          Blockly.Msg['LISTS_INDEX_FROM_START_TOOLTIP'].replace('%1', '#0'),
+      "helpUrl": Blockly.Msg['LISTS_GET_INDEX_HELPURL']
     });
   }
 };
@@ -511,27 +511,27 @@ Blockly.Blocks['lists_setIndex'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.lists.HUE,
-      "tooltip": Blockly.Msg.LISTS_SET_INDEX_TOOLTIP_SET_FROM +
-          Blockly.Msg.LISTS_INDEX_FROM_START_TOOLTIP.replace('%1', '#0'),
-      "helpUrl": Blockly.Msg.LISTS_SET_INDEX_HELPURL
+      "tooltip": Blockly.Msg['LISTS_SET_INDEX_TOOLTIP_SET_FROM'] +
+          Blockly.Msg['LISTS_INDEX_FROM_START_TOOLTIP'].replace('%1', '#0'),
+      "helpUrl": Blockly.Msg['LISTS_SET_INDEX_HELPURL']
     });
   }
 };
 
-Blockly.Msg.LISTS_LENGTH_TITLE = '%1 . length';
+Blockly.Msg['LISTS_LENGTH_TITLE'] = '%1 . length';
 
 /**
  * Variable getter.
  * @this Blockly.Block
  */
 Blockly.Blocks['variables_get'].init = function() {
-  this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
+  this.setHelpUrl(Blockly.Msg['VARIABLES_GET_HELPURL']);
   this.setColour(Blockly.Blocks.variables.HUE);
   this.appendDummyInput()
       .appendField(new Blockly.FieldVariable('name'), 'VAR');
   this.setOutput(true);
-  this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
-  this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
+  this.setTooltip(Blockly.Msg['VARIABLES_GET_TOOLTIP']);
+  this.contextMenuMsg_ = Blockly.Msg['VARIABLES_GET_CREATE_SET'];
   this.contextMenuType_ = 'variables_set';
 };
 
@@ -540,7 +540,7 @@ Blockly.Blocks['variables_get'].init = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['variables_set'].init = function() {
-  this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
+  this.setHelpUrl(Blockly.Msg['VARIABLES_SET_HELPURL']);
   this.setColour(Blockly.Blocks.variables.HUE);
   this.appendValueInput('VALUE')
       .appendField('var')
@@ -551,8 +551,8 @@ Blockly.Blocks['variables_set'].init = function() {
   this.setInputsInline(true);
   this.setPreviousStatement(true);
   this.setNextStatement(true);
-  this.setTooltip(Blockly.Msg.VARIABLES_SET_TOOLTIP);
-  this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
+  this.setTooltip(Blockly.Msg['VARIABLES_SET_TOOLTIP']);
+  this.contextMenuMsg_ = Blockly.Msg['VARIABLES_SET_CREATE_GET'];
   this.contextMenuType_ = 'variables_get';
 };
 
@@ -562,7 +562,7 @@ Blockly.Blocks['variables_set'].init = function() {
  */
 Blockly.Blocks['procedures_defnoreturn'].init = function() {
   var nameField = new Blockly.FieldTextInput(
-      Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,
+      Blockly.Msg['PROCEDURES_DEFNORETURN_PROCEDURE'],
       Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
@@ -575,12 +575,12 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
   this.appendDummyInput()
       .appendField('}');
   this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
-  if (Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT) {
-    this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
+  if (Blockly.Msg['PROCEDURES_DEFNORETURN_COMMENT']) {
+    this.setCommentText(Blockly.Msg['PROCEDURES_DEFNORETURN_COMMENT']);
   }
   this.setColour(Blockly.Blocks.procedures.HUE);
-  this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
+  this.setTooltip(Blockly.Msg['PROCEDURES_DEFNORETURN_TOOLTIP']);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_DEFNORETURN_HELPURL']);
   this.arguments_ = [];
   this.statementConnection_ = null;
 };
@@ -591,7 +591,7 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
  */
 Blockly.Blocks['procedures_defreturn'].init = function() {
   var nameField = new Blockly.FieldTextInput(
-      Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE,
+      Blockly.Msg['PROCEDURES_DEFRETURN_PROCEDURE'],
       Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
@@ -605,25 +605,25 @@ Blockly.Blocks['procedures_defreturn'].init = function() {
   this.appendDummyInput()
       .appendField('}');
   this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
-  if (Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT) {
-    this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
+  if (Blockly.Msg['PROCEDURES_DEFRETURN_COMMENT']) {
+    this.setCommentText(Blockly.Msg['PROCEDURES_DEFRETURN_COMMENT']);
   }
   this.setColour(Blockly.Blocks.procedures.HUE);
-  this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
+  this.setTooltip(Blockly.Msg['PROCEDURES_DEFRETURN_TOOLTIP']);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_DEFRETURN_HELPURL']);
   this.arguments_ = [];
   this.setStatements_(true);
   this.statementConnection_ = null;
 };
 
-Blockly.Msg.PROCEDURES_BEFORE_PARAMS = '';
+Blockly.Msg['PROCEDURES_BEFORE_PARAMS'] = '';
 
 /**
  * Call a procedure with no return value.
  * @this Blockly.Block
  */
 Blockly.Blocks['procedures_callnoreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLNORETURN_HELPURL']);
   this.setColour(Blockly.Blocks.procedures.HUE);
   this.appendDummyInput()
       .appendField('', 'NAME')
@@ -633,7 +633,7 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.setInputsInline(true);
   this.setPreviousStatement(true);
   this.setNextStatement(true);
-  this.setTooltip(Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP);
+  this.setTooltip(Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP']);
   this.arguments_ = [];
   this.quarkConnections_ = {};
   this.quarkArguments_ = null;
@@ -669,7 +669,7 @@ Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['procedures_callreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLRETURN_HELPURL']);
   this.setColour(Blockly.Blocks.procedures.HUE);
   this.appendDummyInput()
       .appendField('', 'NAME')
@@ -678,7 +678,7 @@ Blockly.Blocks['procedures_callreturn'].init = function() {
       .appendField(')');
   this.setInputsInline(true);
   this.setOutput(true);
-  this.setTooltip(Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP);
+  this.setTooltip(Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP']);
   this.arguments_ = [];
   this.quarkConnections_ = {};
   this.quarkArguments_ = null;

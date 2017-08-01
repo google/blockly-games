@@ -163,7 +163,7 @@ Blockly.Blocks['genetics_acceptMate'] = {
     if (!this.isCollapsed()) {
       var option = {enabled: true};
       var name = 'suitor';
-      option.text = Blockly.Msg.VARIABLES_SET_CREATE_GET.replace('%1', name);
+      option.text = Blockly.Msg['VARIABLES_SET_CREATE_GET'].replace('%1', name);
       var xmlField = goog.dom.createDom('field', null, name);
       xmlField.setAttribute('name', 'VAR');
       var xmlBlock = goog.dom.createDom('block', null, xmlField);
@@ -439,8 +439,8 @@ Blockly.Blocks['genetics_math_randomInt'] = {
       "inputsInline": true,
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL,
-      "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP
+      "helpUrl": Blockly.Msg['MATH_RANDOM_INT_HELPURL'],
+      "tooltip": Blockly.Msg['MATH_RANDOM_INT_TOOLTIP']
     });
   }
 };

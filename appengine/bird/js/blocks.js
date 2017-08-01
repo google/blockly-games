@@ -121,7 +121,7 @@ Blockly.Blocks['bird_compare'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
+    this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
     if (BlocklyGames.isRtl()) {
       var OPERATORS = [['>', 'LT'], ['<', 'GT']];
     } else {
@@ -140,8 +140,8 @@ Blockly.Blocks['bird_compare'] = {
     this.setTooltip(function() {
       var op = thisBlock.getFieldValue('OP');
       var TOOLTIPS = {
-        LT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
-        GT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT
+        LT: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
+        GT: Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT']
       };
       return TOOLTIPS[op];
     });
@@ -164,16 +164,16 @@ Blockly.Blocks['bird_and'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.LOGIC_OPERATION_HELPURL);
+    this.setHelpUrl(Blockly.Msg['LOGIC_OPERATION_HELPURL']);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Boolean');
     this.appendValueInput('B')
         .setCheck('Boolean')
-        .appendField(Blockly.Msg.LOGIC_OPERATION_AND);
+        .appendField(Blockly.Msg['LOGIC_OPERATION_AND']);
     this.setInputsInline(true);
-    this.setTooltip(Blockly.Msg.LOGIC_OPERATION_TOOLTIP_AND);
+    this.setTooltip(Blockly.Msg['LOGIC_OPERATION_TOOLTIP_AND']);
   }
 };
 
@@ -205,17 +205,17 @@ Blockly.Blocks['bird_ifElse'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
+    this.setHelpUrl(Blockly.Msg['CONTROLS_IF_HELPURL']);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.appendValueInput('CONDITION')
-        .appendField(Blockly.Msg.CONTROLS_IF_MSG_IF)
+        .appendField(Blockly.Msg['CONTROLS_IF_MSG_IF'])
         .setCheck('Boolean');
     this.appendStatementInput('DO')
-        .appendField(Blockly.Msg.CONTROLS_IF_MSG_THEN);
+        .appendField(Blockly.Msg['CONTROLS_IF_MSG_THEN']);
     this.appendStatementInput('ELSE')
-        .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
+        .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSE']);
     this.setDeletable(false);
-    this.setTooltip(Blockly.Msg.CONTROLS_IF_TOOLTIP_2);
+    this.setTooltip(Blockly.Msg['CONTROLS_IF_TOOLTIP_2']);
   }
 };
 

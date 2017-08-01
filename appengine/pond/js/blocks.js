@@ -255,12 +255,12 @@ Blockly.Blocks['pond_math_number'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
+    this.setHelpUrl(Blockly.Msg['MATH_NUMBER_HELPURL']);
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput('DUMMY')
         .appendField(new Blockly.FieldNumber(0), 'NUM');
     this.setOutput(true, 'Number');
-    this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
+    this.setTooltip(Blockly.Msg['MATH_NUMBER_TOOLTIP']);
   },
   /**
    * Switch between number or angle fields, depending on what this block
@@ -335,21 +335,21 @@ Blockly.Blocks['pond_math_single'] = {
       "inputsInline": true,
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_SINGLE_HELPURL
+      "helpUrl": Blockly.Msg['MATH_SINGLE_HELPURL']
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {
       var mode = thisBlock.getFieldValue('OP');
       var TOOLTIPS = {
-        'ROOT': Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT,
-        'ABS': Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS,
-        'SIN': Blockly.Msg.MATH_TRIG_TOOLTIP_SIN,
-        'COS': Blockly.Msg.MATH_TRIG_TOOLTIP_COS,
-        'TAN': Blockly.Msg.MATH_TRIG_TOOLTIP_TAN,
-        'ASIN': Blockly.Msg.MATH_TRIG_TOOLTIP_ASIN,
-        'ACOS': Blockly.Msg.MATH_TRIG_TOOLTIP_ACOS,
-        'ATAN': Blockly.Msg.MATH_TRIG_TOOLTIP_ATAN
+        'ROOT': Blockly.Msg['MATH_SINGLE_TOOLTIP_ROOT'],
+        'ABS': Blockly.Msg['MATH_SINGLE_TOOLTIP_ABS'],
+        'SIN': Blockly.Msg['MATH_TRIG_TOOLTIP_SIN'],
+        'COS': Blockly.Msg['MATH_TRIG_TOOLTIP_COS'],
+        'TAN': Blockly.Msg['MATH_TRIG_TOOLTIP_TAN'],
+        'ASIN': Blockly.Msg['MATH_TRIG_TOOLTIP_ASIN'],
+        'ACOS': Blockly.Msg['MATH_TRIG_TOOLTIP_ACOS'],
+        'ATAN': Blockly.Msg['MATH_TRIG_TOOLTIP_ATAN']
       };
       return TOOLTIPS[mode];
     });
