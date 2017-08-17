@@ -3,7 +3,8 @@
 		"authors": [
 			"Bl707",
 			"Phoenix303",
-			"Sfic"
+			"Sfic",
+			"Sachinkatiyar"
 		]
 	},
 	"Games.name": "ब्लोक्ली गेम",
@@ -64,9 +65,9 @@
 	"Maze.moveForward": "आगे बढ़ें",
 	"Maze.turnLeft": "बाएँ मुड़ें",
 	"Maze.turnRight": "दाएँ मुड़ें",
-	"Maze.doCode": "डू",
-	"Maze.elseCode": "एल्स",
-	"Maze.helpIfElse": "इफ-एल्स ब्लाक एक काम या अन्य काम करेगा।",
+	"Maze.doCode": "करें",
+	"Maze.elseCode": "अन्य",
+	"Maze.helpIfElse": "यदि अन्य ब्लाक एक काम या अन्य काम करेंगे।",
 	"Maze.pathAhead": "यदि पथ आगे है तो",
 	"Maze.pathLeft": "यदि पथ बाएं है तो",
 	"Maze.pathRight": "यदि पथ दाएँ है तो",
