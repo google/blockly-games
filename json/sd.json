@@ -6,11 +6,14 @@
 			"Indus Asia"
 		]
 	},
+	"Games.name": "بلاڪي رانديون",
+	"Games.puzzle": "ڳجهارت (پَزل)",
 	"Games.maze": "ميز",
 	"Games.bird": "پکي",
 	"Games.turtle": "ڪمي",
 	"Games.movie": "مووي",
 	"Games.pond": "تلاءُ",
+	"Games.runProgram": "پروگرام (سٽاءُ) هلايو",
 	"Games.resetProgram": "ٻيهر ترتيب ڏيو",
 	"Games.help": "مدد",
 	"Games.dialogOk": "ِٺيڪ",
@@ -85,6 +88,7 @@
 	"Movie.submitMsg": "گيلري ۾ جمع ڪرايو",
 	"Movie.helpText1": "هيءُ فرد چِٽڻ لاءِ سادا ڊول استعمال ڪريو.",
 	"Pond.documentation": "دستاويزسازي",
+	"Pond.playerName": "رانديگر",
 	"Pond.targetName": "هدف",
 	"Pond.pendulumName": "لڏڪڻو",
 	"Pond.scaredName": "ڊنل",
