@@ -113,7 +113,7 @@
 	"Maze.helpMenu": "點擊「如果」積木中的 %1 以變更其狀態。",
 	"Maze.helpWallFollow": "你能解決這個複雜的迷宮嗎？請嘗試沿著左手邊的牆走。只有高級的程式設計師解得出來喔！",
 	"Bird.noWorm": "沒有蟲子",
-	"Bird.heading": "標題",
+	"Bird.heading": "方向",
 	"Bird.noWormTooltip": "鳥沒有捉到蟲子的條件。",
 	"Bird.headingTooltip": "轉到指定的方向：0 是向右，90 是向上…",
 	"Bird.positionTooltip": "x 和 y 座標紀錄鳥的位置。當 x = 0 時鳥靠近左邊，當 x = 100 時靠近右邊。當 y = 0 時鳥在底部，當 y = 100 時在頂部。",
