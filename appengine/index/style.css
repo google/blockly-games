@@ -60,15 +60,9 @@ a {
   stroke-dasharray: 180;
   stroke-dashoffset: 180;
   animation: dash .6s linear forwards;
-  -webkit-animation: dash .6s linear forwards;
 }
 
 @keyframes dash {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@-webkit-keyframes dash {
   to {
     stroke-dashoffset: 0;
   }
@@ -94,7 +88,6 @@ a:hover > text {
 
 .icon {
   animation: pop .5s cubic-bezier(.5,.5,.5,1.5) forwards;
-  -webkit-animation: pop .5s cubic-bezier(.5,.5,.5,1.5) forwards;
   visibility: hidden;
 }
 
@@ -105,85 +98,61 @@ a:hover > text {
 
 #icon-puzzle {
   animation-delay: 0.0s;
-  -webkit-animation-delay: 0.0s;
 }
 
 #icon-maze {
   animation-delay: 0.1s;
-  -webkit-animation-delay: 0.1s;
 }
 
 #icon-bird {
   animation-delay: 0.2s;
-  -webkit-animation-delay: 0.2s;
 }
 
 #icon-turtle {
   animation-delay: 0.3s;
-  -webkit-animation-delay: 0.3s;
 }
 
 #icon-movie {
   animation-delay: 0.4s;
-  -webkit-animation-delay: 0.4s;
 }
 
 #icon-pond-tutor {
   animation-delay: 0.5s;
-  -webkit-animation-delay: 0.5s;
 }
 
 #icon-pond-duck {
   animation-delay: 0.6s;
-  -webkit-animation-delay: 0.6s;
 }
 
 #back-puzzle {
   animation-delay: 0.3s;
-  -webkit-animation-delay: 0.3s;
 }
 
 #back-maze {
   animation-delay: 0.4s;
-  -webkit-animation-delay: 0.4s;
 }
 
 #back-bird {
   animation-delay: 0.5s;
-  -webkit-animation-delay: 0.5s;
 }
 
 #back-turtle {
   animation-delay: 0.6s;
-  -webkit-animation-delay: 0.6s;
 }
 
 #back-movie {
   animation-delay: 0.7s;
-  -webkit-animation-delay: 0.7s;
 }
 
 #back-pond-tutor {
   animation-delay: 0.8s;
-  -webkit-animation-delay: 0.8s;
 }
 
 #back-pond-duck {
   animation-delay: 0.9s;
-  -webkit-animation-delay: 0.9s;
 }
 
 @keyframes pop {
-  from {
-    transform: translate(80px, 50px) scale(0);
-    visibility: visible;
-  }
-  to {
-    transform: translate(0, 0) scale(1);
-    visibility: visible;
-  }
-}
-@-webkit-keyframes pop {
   from {
     transform: translate(80px, 50px) scale(0);
     visibility: visible;
@@ -199,7 +168,6 @@ a:hover > text {
   stroke-width: 6;
   fill: none;
   animation: pop 0.1s linear forwards;
-  -webkit-animation: pop 0.1s linear forwards;
   visibility: hidden;
 }
 
