@@ -8,7 +8,8 @@
 			"Kasimtan",
 			"Kly",
 			"Maskers",
-			"Dnow"
+			"Dnow",
+			"Jessica1213"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -112,13 +113,13 @@
 	"Maze.helpIf": "「如果」積木只有當條件成立時才會執行。試著向左轉，如果左方有路的話。",
 	"Maze.helpMenu": "點擊「如果」積木中的 %1 以變更其狀態。",
 	"Maze.helpWallFollow": "你能解決這個複雜的迷宮嗎？請嘗試沿著左手邊的牆走。只有高級的程式設計師解得出來喔！",
-	"Bird.noWorm": "沒有蟲子",
-	"Bird.heading": "標題",
+	"Bird.noWorm": "還沒吃到蟲",
+	"Bird.heading": "面向",
 	"Bird.noWormTooltip": "鳥沒有捉到蟲子的條件。",
 	"Bird.headingTooltip": "轉到指定的方向：0 是向右，90 是向上…",
 	"Bird.positionTooltip": "x 和 y 座標紀錄鳥的位置。當 x = 0 時鳥靠近左邊，當 x = 100 時靠近右邊。當 y = 0 時鳥在底部，當 y = 100 時在頂部。",
 	"Bird.helpHeading": "變更方向，讓鳥可以吃到蟲子，最後降落在牠的巢上。",
-	"Bird.helpHasWorm": "如果你有蟲子，可以用這個積木來往單一方向前進；如果你沒有蟲子，就往另一個方向。",
+	"Bird.helpHasWorm": "如果你還沒有吃到蟲子，可以用這個積木來往單一方向前進；如果你已經吃到蟲子，就往另一個方向。",
 	"Bird.helpX": "「x」是你現在的水平位置，用這個積木來往單一方向前進，當「x」小於某個數字的時候；否則，則往另一個方向前進。",
 	"Bird.helpElse": "點擊圖像以修改「如果」積木。",
 	"Bird.helpElseIf": "此關卡需要一個「否則如果」和一個「否則」積木。",
