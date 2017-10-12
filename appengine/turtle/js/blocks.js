@@ -389,7 +389,7 @@ Blockly.Blocks['turtle_repeat_internal'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg['CONTROLS_REPEAT_TITLE'],
+      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
       "args0": [
         {
           "type": "field_dropdown",
@@ -405,11 +405,11 @@ Blockly.Blocks['turtle_repeat_internal'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.loops.HUE,
-      "tooltip": Blockly.Msg['CONTROLS_REPEAT_TOOLTIP'],
-      "helpUrl": Blockly.Msg['CONTROLS_REPEAT_HELPURL']
+      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
+      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });
     this.appendStatementInput('DO')
-        .appendField(Blockly.Msg['CONTROLS_REPEAT_INPUT_DO']);
+        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
   }
 };
 

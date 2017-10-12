@@ -253,8 +253,8 @@ Blockly.Blocks['loops_repeat']= {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Blockly.Blocks.loops.HUE);
-    this.setTooltip(Blockly.Msg['CONTROLS_REPEAT_TOOLTIP']);
-    this.setHelpUrl(Blockly.Msg['CONTROLS_REPEAT_HELPURL']);
+    this.setTooltip(Blockly.Msg.CONTROLS_REPEAT_TOOLTIP);
+    this.setHelpUrl(Blockly.Msg.CONTROLS_REPEAT_HELPURL);
   }
 };
 
