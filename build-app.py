@@ -192,7 +192,7 @@ def write_compressed(name, lang):
       '--compiler_flags=--externs=externs/interpreter-externs.js',
       '--compiler_flags=--externs=externs/prettify-externs.js',
       '--compiler_flags=--externs=externs/storage-externs.js',
-      '--compiler_flags=--externs=externs/svg-externs.js',
+      '--compiler_flags=--externs=appengine/third-party/blockly/externs/svg-externs.js',
       '--compiler_flags=--language_in=ECMASCRIPT5_STRICT',
       '--output_mode=compiled']
   directory = name
