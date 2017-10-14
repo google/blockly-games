@@ -181,24 +181,30 @@ def trim_licence(code):
 
 def write_compressed(name, lang):
   print('\n%s - %s - compressed:' % (name.title(), lang))
-  cmd = ['third-party/build/closurebuilder.py',
-      '--root=appengine/third-party/',
-      '--root=appengine/generated/%s/' % lang,
-      '--root=appengine/js/',
-      '--namespace=%s' % name.replace('/', '.').title(),
-      '--compiler_jar=third-party/closure-compiler.jar',
-      '--compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS',
-      '--compiler_flags=--externs=externs/gviz-externs.js',
-      '--compiler_flags=--externs=externs/interpreter-externs.js',
-      '--compiler_flags=--externs=externs/prettify-externs.js',
-      '--compiler_flags=--externs=externs/storage-externs.js',
-      '--compiler_flags=--externs=appengine/third-party/blockly/externs/svg-externs.js',
-      '--compiler_flags=--language_in=ECMASCRIPT5_STRICT',
-      '--output_mode=compiled']
+
+  cmd = [
+    'java',
+    '-jar', 'third-party/closure-compiler.jar',
+    '--generate_exports',
+    '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
+    '--dependency_mode=STRICT',
+    '--externs', 'externs/gviz-externs.js',
+    '--externs', 'externs/interpreter-externs.js',
+    '--externs', 'externs/prettify-externs.js',
+    '--externs', 'externs/storage-externs.js',
+    '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
+    '--language_in', 'ECMASCRIPT5_STRICT',
+    '--entry_point=%s' % name.replace('/', '.').title(),
+    "--js='appengine/third-party/**.js'",
+    "--js='!appengine/third-party/blockly/externs/**.js'",
+    "--js='!appengine/third-party/blockly/demos/**.js'",
+    "--js='appengine/generated/%s/*.js'" % lang,
+    "--js='appengine/js/*.js'",
+  ]
   directory = name
   while(directory):
-    cmd.append('--root=appengine/%s/generated/%s/' % (directory, lang))
-    cmd.append('--root=appengine/%s/js/' % directory)
+    cmd.append("--js='appengine/%s/generated/%s/*.js'" % (directory, lang))
+    cmd.append("--js='appengine/%s/js/*.js'" % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
   proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
   script = proc.stdout.readlines()
