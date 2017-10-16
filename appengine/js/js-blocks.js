@@ -146,12 +146,12 @@ Blockly.Blocks['logic_compare'].init = function() {
   this.setTooltip(function() {
     var op = thisBlock.getFieldValue('OP');
     var TOOLTIPS = {
-      EQ: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_EQ,
-      NEQ: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_NEQ,
-      LT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
-      LTE: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LTE,
-      GT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT,
-      GTE: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GTE
+      'EQ': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_EQ,
+      'NEQ': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_NEQ,
+      'LT': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
+      'LTE': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LTE,
+      'GT': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT,
+      'GTE': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GTE
     };
     return TOOLTIPS[op];
   });
