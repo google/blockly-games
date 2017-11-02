@@ -135,11 +135,11 @@ Genetics.init = function() {
   }
 
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   if (editorDiv) {
     // Inject JS editor.

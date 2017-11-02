@@ -84,11 +84,11 @@ Movie.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     Blockly.FieldColour.COLUMNS = 3;
@@ -361,7 +361,7 @@ Movie.renderAxies_ = function() {
 
 /**
  * Draw one frame of the movie.
- * @param {!Object} interpreter A JS interpreter loaded with user code.
+ * @param {!Interpreter} interpreter A JS Interpreter loaded with user code.
  * @private
  */
 Movie.drawFrame_ = function(interpreter) {
@@ -442,8 +442,8 @@ Movie.display = function(opt_frameNumber) {
 
 /**
  * Inject the Movie API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Movie.initInterpreter = function(interpreter, scope) {
   // API
@@ -599,14 +599,13 @@ Movie.checkAnswers = function() {
  * Send an image of the canvas to Reddit.
  */
 Movie.submitToReddit = function() {
-  var blockCount = BlocklyGames.workspace.getAllBlocks(false).length;
+  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   if (blockCount < 5 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));
     return;
   }
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   var frameNumber = Movie.frameNumber;
   try {

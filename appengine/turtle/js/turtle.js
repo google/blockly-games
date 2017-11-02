@@ -92,11 +92,11 @@ Turtle.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     Blockly.FieldColour.COLUMNS = 3;
@@ -404,8 +404,8 @@ Turtle.resetButtonClick = function(e) {
 
 /**
  * Inject the Turtle API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Turtle.initInterpreter = function(interpreter, scope) {
   // API
@@ -531,7 +531,7 @@ Turtle.executeChunk_ = function() {
 
 /**
  * Highlight a block and pause.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.animate = function(id) {
   Turtle.display();
@@ -546,7 +546,7 @@ Turtle.animate = function(id) {
 /**
  * Move the turtle forward or backward.
  * @param {number} distance Pixels to move.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.move = function(distance, id) {
   if (Turtle.penDownValue) {
@@ -571,7 +571,7 @@ Turtle.move = function(distance, id) {
 /**
  * Turn the turtle left or right.
  * @param {number} angle Degrees to turn clockwise.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.turn = function(angle, id) {
   Turtle.heading += angle;
@@ -585,7 +585,7 @@ Turtle.turn = function(angle, id) {
 /**
  * Lift or lower the pen.
  * @param {boolean} down True if down, false if up.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.penDown = function(down, id) {
   Turtle.penDownValue = down;
@@ -595,7 +595,7 @@ Turtle.penDown = function(down, id) {
 /**
  * Change the thickness of lines.
  * @param {number} width New thickness in pixels.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.penWidth = function(width, id) {
   Turtle.ctxScratch.lineWidth = width;
@@ -605,7 +605,7 @@ Turtle.penWidth = function(width, id) {
 /**
  * Change the colour of the pen.
  * @param {string} colour Hexadecimal #rrggbb colour string.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.penColour = function(colour, id) {
   Turtle.ctxScratch.strokeStyle = colour;
@@ -616,7 +616,7 @@ Turtle.penColour = function(colour, id) {
 /**
  * Make the turtle visible or invisible.
  * @param {boolean} visible True if visible, false if invisible.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.isVisible = function(visible, id) {
   Turtle.visible = visible;
@@ -626,7 +626,7 @@ Turtle.isVisible = function(visible, id) {
 /**
  * Print some text.
  * @param {string} text Text to print.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.drawPrint = function(text, id) {
   Turtle.ctxScratch.save();
@@ -642,7 +642,7 @@ Turtle.drawPrint = function(text, id) {
  * @param {string} font Font name (e.g. 'Arial').
  * @param {number} size Font size (e.g. 18).
  * @param {string} style Font style (e.g. 'italic').
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.drawFont = function(font, size, style, id) {
   Turtle.ctxScratch.font = style + ' ' + size + 'pt ' + font;

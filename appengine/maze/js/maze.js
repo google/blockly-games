@@ -374,25 +374,25 @@ Maze.drawMap = function() {
   var tileId = 0;
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
-      // Compute the tile index.
-      var tile = normalize(x, y) +
+      // Compute the tile shape.
+      var tileShape = normalize(x, y) +
           normalize(x, y - 1) +  // North.
           normalize(x + 1, y) +  // West.
           normalize(x, y + 1) +  // South.
           normalize(x - 1, y);   // East.
 
       // Draw the tile.
-      if (!Maze.tile_SHAPES[tile]) {
+      if (!Maze.tile_SHAPES[tileShape]) {
         // Empty square.  Use null0 for large areas, with null1-4 for borders.
         // Add some randomness to avoid large empty spaces.
-        if (tile == '00000' && Math.random() > 0.3) {
-          tile = 'null0';
+        if (tileShape == '00000' && Math.random() > 0.3) {
+          tileShape = 'null0';
         } else {
-          tile = 'null' + Math.floor(1 + Math.random() * 4);
+          tileShape = 'null' + Math.floor(1 + Math.random() * 4);
         }
       }
-      var left = Maze.tile_SHAPES[tile][0];
-      var top = Maze.tile_SHAPES[tile][1];
+      var left = Maze.tile_SHAPES[tileShape][0];
+      var top = Maze.tile_SHAPES[tileShape][1];
       // Tile's clipPath element.
       var tileClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
       tileClip.setAttribute('id', 'tileClipPath' + tileId);
@@ -502,11 +502,11 @@ Maze.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   var toolbox = document.getElementById('toolbox');
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
@@ -597,7 +597,7 @@ Maze.init = function() {
 
 /**
  * When the workspace changes, update the help as needed.
- * @param {Blockly.Events.Abstract} opt_event Custom data for event.
+ * @param {Blockly.Events.Abstract=} opt_event Custom data for event.
  */
 Maze.levelHelp = function(opt_event) {
   if (opt_event && opt_event.type == Blockly.Events.UI) {
@@ -905,7 +905,7 @@ Maze.runButtonClick = function(e) {
   BlocklyDialogs.hideDialog(false);
   // Only allow a single top block on level 1.
   if (BlocklyGames.LEVEL == 1 &&
-      BlocklyGames.workspace.getTopBlocks().length > 1 &&
+      BlocklyGames.workspace.getTopBlocks(false).length > 1 &&
       Maze.result != Maze.ResultType.SUCCESS &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
@@ -976,8 +976,8 @@ Maze.resetButtonClick = function(e) {
 
 /**
  * Inject the Maze API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Maze.initInterpreter = function(interpreter, scope) {
   // API
@@ -1329,7 +1329,7 @@ Maze.scheduleFinish = function(sound) {
  * @param {number} x Horizontal grid (or fraction thereof).
  * @param {number} y Vertical grid (or fraction thereof).
  * @param {number} d Direction (0 - 15) or dance (16 - 17).
- * @param {number} opt_angle Optional angle (in degrees) to rotate Pegman.
+ * @param {number=} opt_angle Optional angle (in degrees) to rotate Pegman.
  */
 Maze.displayPegman = function(x, y, d, opt_angle) {
   var pegmanIcon = document.getElementById('pegman');
@@ -1376,16 +1376,16 @@ Maze.scheduleLook = function(d) {
   }
   x *= Maze.SQUARE_SIZE;
   y *= Maze.SQUARE_SIZE;
-  d = d * 90 - 45;
+  var deg = d * 90 - 45;
 
   var lookIcon = document.getElementById('look');
   lookIcon.setAttribute('transform',
       'translate(' + x + ', ' + y + ') ' +
-      'rotate(' + d + ' 0 0) scale(.4)');
+      'rotate(' + deg + ' 0 0) scale(.4)');
   var paths = lookIcon.getElementsByTagName('path');
   lookIcon.style.display = 'inline';
-  for (var x = 0, path; path = paths[x]; x++) {
-    Maze.scheduleLookStep(path, Maze.stepSpeed * x);
+  for (var i = 0, path; path = paths[i]; i++) {
+    Maze.scheduleLookStep(path, Maze.stepSpeed * i);
   }
 };
 

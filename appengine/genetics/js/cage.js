@@ -712,8 +712,8 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
  * @param {!Genetics.Mouse} mouse The mouse that is running the function.
  * @param {!Genetics.Mouse|undefined} suitor The mouse passed as a parameter to
  *     the function (for acceptMate function call).
- * @param {!Interpreter} interpreter The JS interpreter.
- * @param {!Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  * @private
  */
 Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {

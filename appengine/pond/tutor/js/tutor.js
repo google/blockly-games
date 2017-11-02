@@ -71,11 +71,11 @@ Pond.Tutor.init = function() {
       blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
     };
     window.addEventListener('scroll', function() {
-      onresize();
+      onresize(null);
       Blockly.svgResize(BlocklyGames.workspace);
     });
     window.addEventListener('resize', onresize);
-    onresize();
+    onresize(null);
 
     var toolbox = document.getElementById('toolbox');
     BlocklyGames.workspace = Blockly.inject('blockly',
@@ -145,13 +145,13 @@ Pond.Tutor.init = function() {
       editorDiv.style.width = (window.innerWidth - 440) + 'px';
     };
     window.addEventListener('scroll', function() {
-      onresize();
+      onresize(null);
       Blockly.svgResize(BlocklyGames.workspace);
     });
     window.addEventListener('resize', onresize);
   }
 
-  onresize();
+  onresize(null);
 
   for (var avatarData, i = 0; avatarData = Pond.Tutor.PLAYERS[i]; i++) {
     if (avatarData.code) {

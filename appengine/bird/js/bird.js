@@ -201,23 +201,23 @@ Bird.drawMap = function() {
   }
 
   // Add nest.
-  var image = document.createElementNS(Blockly.SVG_NS, 'image');
-  image.setAttribute('id', 'nest');
-  image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  var nestImage = document.createElementNS(Blockly.SVG_NS, 'image');
+  nestImage.setAttribute('id', 'nest');
+  nestImage.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'bird/nest.png');
-  image.setAttribute('height', Bird.NEST_ICON_SIZE);
-  image.setAttribute('width', Bird.NEST_ICON_SIZE);
-  svg.appendChild(image);
+  nestImage.setAttribute('height', Bird.NEST_ICON_SIZE);
+  nestImage.setAttribute('width', Bird.NEST_ICON_SIZE);
+  svg.appendChild(nestImage);
 
   // Add worm.
   if (Bird.MAP.worm) {
-    var image = document.createElementNS(Blockly.SVG_NS, 'image');
-    image.setAttribute('id', 'worm');
-    image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+    var birdImage = document.createElementNS(Blockly.SVG_NS, 'image');
+    birdImage.setAttribute('id', 'worm');
+    birdImage.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
         'bird/worm.png');
-    image.setAttribute('height', Bird.WORM_ICON_SIZE);
-    image.setAttribute('width', Bird.WORM_ICON_SIZE);
-    svg.appendChild(image);
+    birdImage.setAttribute('height', Bird.WORM_ICON_SIZE);
+    birdImage.setAttribute('width', Bird.WORM_ICON_SIZE);
+    svg.appendChild(birdImage);
   }
 
   // Bird's clipPath element, whose (x, y) is reset by Bird.displayBird
@@ -320,11 +320,11 @@ Bird.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
@@ -401,8 +401,7 @@ Bird.levelHelp = function() {
   if (BlocklyGames.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
-  } else if (Bird.result == Bird.ResultType.SUCCESS ||
-             BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+  } else if (BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                                BlocklyGames.LEVEL)) {
     // The user has already won.  They are just playing around.
     return;
@@ -579,8 +578,8 @@ Bird.ResultType = {
 
 /**
  * Inject the Bird API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS interpreter.
- * @param {!Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Bird.initInterpreter = function(interpreter, scope) {
   // API

@@ -348,8 +348,8 @@ Pond.Battle.updateInterpreters_ = function() {
 
 /**
  * Inject the Pond API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Pond.Battle.initInterpreter = function(interpreter, scope) {
   // API

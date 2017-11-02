@@ -80,17 +80,16 @@ Scrubber = function(svgParent, opt_changeFunc) {
       clip-path="url(#knobClipPath)" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var rect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
-  rect.setAttribute('style', 'opacity: 0');
-  rect.setAttribute('x', this.KNOB_MIN_X_ - this.TARGET_OVERHANG_);
-  rect.setAttribute('y', this.HEIGHT_ - this.TARGET_OVERHANG_);
-  rect.setAttribute('width', this.KNOB_MAX_X_ - this.KNOB_MIN_X_ +
+  var trackTarget = document.createElementNS(Scrubber.SVG_NS_, 'rect');
+  trackTarget.setAttribute('style', 'opacity: 0');
+  trackTarget.setAttribute('x', this.KNOB_MIN_X_ - this.TARGET_OVERHANG_);
+  trackTarget.setAttribute('y', this.HEIGHT_ - this.TARGET_OVERHANG_);
+  trackTarget.setAttribute('width', this.KNOB_MAX_X_ - this.KNOB_MIN_X_ +
                     2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('rx', this.TARGET_OVERHANG_);
-  rect.setAttribute('ry', this.TARGET_OVERHANG_);
-  svgParent.appendChild(rect);
-  var trackTarget = rect;
+  trackTarget.setAttribute('height', 2 * this.TARGET_OVERHANG_);
+  trackTarget.setAttribute('rx', this.TARGET_OVERHANG_);
+  trackTarget.setAttribute('ry', this.TARGET_OVERHANG_);
+  svgParent.appendChild(trackTarget);
   var knobClip = document.createElementNS(Scrubber.SVG_NS_, 'clipPath');
   knobClip.setAttribute('id', 'knobClipPath');
   svgParent.appendChild(knobClip);
@@ -149,7 +148,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
 
   // Find the root SVG object.
   while (svgParent && svgParent.nodeName.toLowerCase() != 'svg') {
-    svgParent = svgParent.parentNode;
+    svgParent = svgParent.parentElement;
   }
   this.SVG_ = svgParent;
 
@@ -274,12 +273,12 @@ Scrubber.prototype.playPid_ = 0;
 
 /**
  * Play/Pause button was clicked.
- * @param {=Event} e Mouse or touch event.
+ * @param {!Event=} opt_e Mouse or touch event.
  * @private
  */
-Scrubber.prototype.playPause_ = function(e) {
+Scrubber.prototype.playPause_ = function(opt_e) {
   // Prevent double-clicks or double-taps.
-  if (e && BlocklyInterface.eventSpam(e)) {
+  if (opt_e && BlocklyInterface.eventSpam(opt_e)) {
     return;
   }
   if (this.playPid_) {

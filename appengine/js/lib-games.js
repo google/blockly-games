@@ -304,7 +304,7 @@ BlocklyGames.getMsg = function(key) {
 /**
  * Gets the message with the given key from the document.
  * @param {string} key The key of the document element.
- * @return {string} The textContent of the specified element,
+ * @return {?string} The textContent of the specified element,
  *     or null if the element was not found.
  */
 BlocklyGames.getMsgOrNull = function(key) {
@@ -322,10 +322,13 @@ BlocklyGames.getMsgOrNull = function(key) {
 /**
  * Bind a function to a button's click event.
  * On touch-enabled browsers, ontouchend is treated as equivalent to onclick.
- * @param {!Element|string} el Button element or ID thereof.
+ * @param {Element|string} el Button element or ID thereof.
  * @param {!Function} func Event handler to bind.
  */
 BlocklyGames.bindClick = function(el, func) {
+  if (!el) {
+    throw TypeError('Element not found: ' + el);
+  }
   if (typeof el == 'string') {
     el = document.getElementById(el);
   }
@@ -343,7 +346,11 @@ BlocklyGames.importAnalytics = function() {
   }
   var gaName = 'GoogleAnalyticsFunction';
   window['GoogleAnalyticsObject'] = gaName;
-  var gaObject = function() {
+  /**
+   * Load command onto Google Analytics queue.
+   * @param {...string} var_args Commands.
+   */
+  var gaObject = function(var_args) {
     (gaObject['q'] = gaObject['q'] || []).push(arguments);
   };
   window[gaName] = gaObject;

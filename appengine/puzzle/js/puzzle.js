@@ -53,7 +53,7 @@ Puzzle.init = function() {
     blocklyDiv.style.height =
         (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
   };
-  onresize();
+  onresize(null);
   window.addEventListener('resize', onresize);
 
   BlocklyGames.workspace = Blockly.inject('blockly',

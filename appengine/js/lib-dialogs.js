@@ -53,7 +53,7 @@ BlocklyDialogs.dialogDispose_ = null;
 
 /**
  * Show the dialog pop-up.
- * @param {!Element} content DOM element to display in the dialog.
+ * @param {Element} content DOM element to display in the dialog.
  * @param {Element} origin Animate the dialog opening/closing from/to this
  *     DOM element.  If null, don't show any animations for opening or closing.
  * @param {boolean} animate Animate the dialog opening (if origin not null).
@@ -64,6 +64,9 @@ BlocklyDialogs.dialogDispose_ = null;
  */
 BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
                                   disposeFunc) {
+  if (!content) {
+    throw TypeError('Content not found: ' + content);
+  }
   if (BlocklyDialogs.isDialogVisible_) {
     BlocklyDialogs.hideDialog(false);
   }
@@ -129,7 +132,7 @@ BlocklyDialogs.dialogStartY_ = 0;
  */
 BlocklyDialogs.dialogMouseDown_ = function(e) {
   BlocklyDialogs.dialogUnbindDragEvents_();
-  if (Blockly.isRightButton(e)) {
+  if (Blockly.utils.isRightButton(e)) {
     // Right-click.
     return;
   }
@@ -209,7 +212,7 @@ BlocklyDialogs.hideDialog = function(opt_animate) {
     var border = document.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
-  if (origin) {
+  if (origin && dialog) {
     BlocklyDialogs.matchBorder_(dialog, false, 0.8);
     BlocklyDialogs.matchBorder_(origin, true, 0.2);
     // In 175ms hide both the shadow and the animated border.
@@ -268,7 +271,11 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
  * @private
  */
 BlocklyDialogs.getBBox_ = function(element) {
-  var box = goog.style.getPageOffset(element);
+  var xy = goog.style.getPageOffset(element);
+  var box = {
+    x: xy.x,
+    y: xy.y
+  };
   if (element.getBBox) {
     // SVG element.
     var bBox = element.getBBox();
@@ -361,6 +368,8 @@ BlocklyDialogs.congratulations = function() {
   if (BlocklyGames.workspace) {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
+    // Line produces warning when compiling Puzzle since there is no JavaScript
+    // generator.  But this function is never called in Puzzle, so no matter.
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     code = BlocklyInterface.stripCode(code);
     var noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
@@ -379,14 +388,15 @@ BlocklyDialogs.congratulations = function() {
     if (lineCount == 1) {
       var text = BlocklyGames.getMsg('Games_linesOfCode1');
     } else {
-      var text = BlocklyGames.getMsg('Games_linesOfCode2').replace('%1', lineCount);
+      var text = BlocklyGames.getMsg('Games_linesOfCode2')
+          .replace('%1', String(lineCount));
     }
     linesText.appendChild(document.createTextNode(text));
   }
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     var text = BlocklyGames.getMsg('Games_nextLevel')
-        .replace('%1', BlocklyGames.LEVEL + 1);
+        .replace('%1', String(BlocklyGames.LEVEL + 1));
   } else {
     var text = BlocklyGames.getMsg('Games_finalLevel');
   }
