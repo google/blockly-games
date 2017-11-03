@@ -1040,6 +1040,7 @@ Maze.execute = function() {
   }
 
   Maze.log = [];
+  Blockly.selected && Blockly.selected.unselect();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Maze.result = Maze.ResultType.UNSET;
   var interpreter = new Interpreter(code, Maze.initInterpreter);

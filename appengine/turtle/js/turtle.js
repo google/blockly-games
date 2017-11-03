@@ -490,6 +490,7 @@ Turtle.execute = function() {
   }
 
   Turtle.reset();
+  Blockly.selected && Blockly.selected.unselect();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
   Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
