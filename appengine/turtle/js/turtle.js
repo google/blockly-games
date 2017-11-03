@@ -230,9 +230,13 @@ Turtle.showCategoryHelp = function() {
   var help = document.getElementById('helpToolbox');
   var style = {
     width: '25%',
-    left: '525px',
     top: '3.3em'
   };
+  if (BlocklyGames.isRtl()) {
+    style.right = '525px';
+  } else {
+    style.left = '525px';
+  }
   var origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
 };
