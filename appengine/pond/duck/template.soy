@@ -63,7 +63,7 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <category name="Pond">
+    <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
       <block type="pond_cannon">
         <value name="DEGREE">
           <shadow type="pond_math_number">
@@ -96,16 +96,16 @@
       <block type="pond_speed"></block>
       <block type="pond_health"></block>
     </category>
-    <category name="Logic">
+    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_boolean"></block>
     </category>
-    <category name="Loops">
+    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
       <block type="controls_whileUntil"></block>
     </category>
-    <category name="Math">
+    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
       <block type="pond_math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -129,8 +129,8 @@
       <block type="math_random_float"></block>
     </category>
     <sep></sep>
-    <category name="Variables" custom="VARIABLE"></category>
-    <category name="Functions" custom="PROCEDURE"></category>
+    <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
+    <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
   </xml>
 {/template}
 
