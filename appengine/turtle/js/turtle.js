@@ -400,6 +400,7 @@ Turtle.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
+  BlocklyGames.workspace.highlightBlock(null);
   Turtle.reset();
 
   // Image cleared; prevent user from submitting to Reddit.

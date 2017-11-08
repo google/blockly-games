@@ -970,6 +970,7 @@ Maze.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
+  BlocklyGames.workspace.highlightBlock(null);
   Maze.reset(false);
   Maze.levelHelp();
 };
