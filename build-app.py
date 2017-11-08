@@ -191,6 +191,7 @@ def write_compressed(name, lang):
     '--externs', 'externs/gviz-externs.js',
     '--externs', 'externs/interpreter-externs.js',
     '--externs', 'externs/prettify-externs.js',
+    '--externs', 'externs/soundJS-externs.js',
     '--externs', 'externs/storage-externs.js',
     '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
     '--language_in', 'ECMASCRIPT5_STRICT',

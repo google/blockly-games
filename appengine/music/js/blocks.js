@@ -56,7 +56,7 @@ Blockly.Blocks['music_pitch'] = {
    */
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldPitch(60), 'PITCH');
+        .appendField(new Blockly.FieldPitch('60'), 'PITCH');
     this.setOutput(true, 'Number');
     this.setColour(Blockly.Blocks.math.HUE);
     this.setTooltip(BlocklyGames.getMsg('Music_pitchTooltip'));

@@ -88,11 +88,11 @@ Music.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-      onresize();
+      onresize(null);
       Blockly.svgResize(BlocklyGames.workspace);
     });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
@@ -121,9 +121,9 @@ Music.init = function() {
   // After level 6 the user can create new start blocks.
   // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
-    var blocks = BlocklyGames.workspace.getTopBlocks();
-    for(var i = 0; i < blocks.length; i++) {
-      blocks[i].setDeletable(true);
+    var blocks = BlocklyGames.workspace.getTopBlocks(false);
+    for(var i = 0, block; block = blocks[i]; i++) {
+      block.setDeletable(true);
     }
   }
 
@@ -160,16 +160,10 @@ Music.init = function() {
       sounds.push({'src': instruments[i] + '/' + notes[midi] + '.mp3', id: instruments[i] + midi});
     }
   }
-  createjs['Sound']['registerSounds'](sounds, assetsPath);
+  createjs.Sound.registerSounds(sounds, assetsPath);
 };
 
-if (window.location.pathname.match(/readonly.html$/)) {
-  window.addEventListener('load', function() {
-    BlocklyInterface.initReadonly(Music.soy.readonly());
-  });
-} else {
-  window.addEventListener('load', Music.init);
-}
+window.addEventListener('load', Music.init);
 
 /**
  * Draw and position the specified number of staff bars.
@@ -300,7 +294,7 @@ Music.runButtonClick = function(e) {
 
 /**
  * Click the reset button.  Reset the Music.
- * @param {!Event} opt_e Mouse or touch event.
+ * @param {!Event=} opt_e Mouse or touch event.
  */
 Music.resetButtonClick = function(opt_e) {
   // Prevent double-clicks or double-taps.
@@ -317,25 +311,25 @@ Music.resetButtonClick = function(opt_e) {
 
 /**
  * Inject the Music API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Music.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(duration, pitch, id) {
-    Music.play(duration.valueOf(), pitch.valueOf(), id.toString(), interpreter);
+    Music.play(duration, pitch, id, interpreter);
   };
   interpreter.setProperty(scope, 'play',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(duration, id) {
-    Music.rest(duration.valueOf(), id.toString(), interpreter);
+    Music.rest(duration, id, interpreter);
   };
   interpreter.setProperty(scope, 'rest',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(instrument, id) {
-    Music.setInstrument(instrument.toString(), id.toString(), interpreter);
+    Music.setInstrument(instrument, id, interpreter);
   };
   interpreter.setProperty(scope, 'setInstrument',
       interpreter.createNativeFunction(wrapper));
@@ -439,7 +433,7 @@ Music.animate = function(id, interpreter) {
  * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
 Music.play = function(duration, pitch, id, interpreter) {
-  var mySound = createjs['Sound']['play'](interpreter.instrument + pitch);
+  var mySound = createjs.Sound.play(interpreter.instrument + pitch);
   var scaleDuration = duration * 1000 *
       (2.5 - 2 * Music.speedSlider.getValue());
   interpreter.pauseMs = scaleDuration -
@@ -485,7 +479,7 @@ Music.setInstrument = function(instrument, id, interpreter) {
 
 /**
  * Array containing all notes expected to be played for this level.
- * @type Array.<Array.<number>>
+ * @type !Array.<!Array.<number>>|undefined
  */
 Music.expectedAnswer = undefined;
 
