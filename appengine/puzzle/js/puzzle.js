@@ -53,7 +53,7 @@ Puzzle.init = function() {
     blocklyDiv.style.height =
         (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
   };
-  onresize();
+  onresize(null);
   window.addEventListener('resize', onresize);
 
   BlocklyGames.workspace = Blockly.inject('blockly',
@@ -85,16 +85,17 @@ Puzzle.init = function() {
     var blocksPictures = [];
     var blocksTraits = [];
     var i = 1;
+    var block;
     while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
-      var block = BlocklyGames.workspace.newBlock('animal');
+      block = BlocklyGames.workspace.newBlock('animal');
       block.populate(i);
       blocksAnimals.push(block);
-      var block = BlocklyGames.workspace.newBlock('picture');
+      block = BlocklyGames.workspace.newBlock('picture');
       block.populate(i);
       blocksPictures.push(block);
       var j = 1;
       while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
-        var block = BlocklyGames.workspace.newBlock('trait');
+        block = BlocklyGames.workspace.newBlock('trait');
         block.populate(i, j);
         blocksTraits.push(block);
         j++;
@@ -174,7 +175,7 @@ Puzzle.init = function() {
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'],
+  BlocklyGames.workspace.getAudioManager().load(['puzzle/win.mp3', 'puzzle/win.ogg'],
       'win');
 };
 
@@ -292,7 +293,7 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  BlocklyGames.workspace.playAudio('win', 0.5);
+  BlocklyGames.workspace.getAudioManager().play('win', 0.5);
   var blocks = BlocklyGames.workspace.getTopBlocks(false);
   for (var i = 0, block; block = blocks[i]; i++) {
     var angle = 360 * (i / blocks.length);

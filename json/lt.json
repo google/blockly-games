@@ -7,7 +7,9 @@
 			"Jurgis",
 			"Gediminas",
 			"Hugo.arg",
-			"Zygimantus"
+			"Zygimantus",
+			"Nuodas",
+			"Fitoschido"
 		]
 	},
 	"Games.name": "„Blockly“ žaidimai",
@@ -17,6 +19,7 @@
 	"Games.turtle": "Vėžlys",
 	"Games.movie": "Filmas",
 	"Games.pond": "Tvenkinys",
+	"Games.genetics": "Genetika",
 	"Games.linesOfCode1": "Jūs įveikėte šį lygį su 1 JavaScript kodo eilute:",
 	"Games.linesOfCode2": "Jūs įveikėte šį lygį su %1 JavaScript kodo eilutėmis:",
 	"Games.nextLevel": "Ar jūs pasiruošę lygiui %1?",
@@ -97,8 +100,8 @@
 	"Maze.resetTooltip": "Perkelti veikėją į pradinį tašką.",
 	"Maze.helpStack": "Sujunkite kelis 'pirmyn' blokus kartu, kad pasiekčiau tikslą.",
 	"Maze.helpOneTopBlock": "Šiame lygyje visi naudojami blokai turi būti sujungti.",
-	"Maze.helpRun": "Paspauskite \"Vykdyti\", ir pamatysite, ką suprogramavote ː)",
-	"Maze.helpReset": "Deja, nepavyko ː(  Patobulinkite programą ir bandykite iš naujo ;)",
+	"Maze.helpRun": "Paspauskite „Vykdyti”, ir pamatysite, ką suprogramavote :)",
+	"Maze.helpReset": "Deja, nepavyko :( Patobulinkite programą ir bandykite iš naujo ;)",
 	"Maze.helpRepeat": "Įveikite atstumą naudodami tik 2 blokus. Panaudokite 'kartok' bloką ;)",
 	"Maze.helpCapacity": "Jūs išnaudojote leidžiamą blokų kiekį. Norėdami panaudoti dar vieną, turite pašalinti kažkurį esantį.",
 	"Maze.helpRepeatMany": "'kartok' bloko viduje galima įdėti daugiau negu vieną bloką.",

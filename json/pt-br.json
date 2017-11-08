@@ -15,7 +15,9 @@
 			"Antonio Rodrigues Neto",
 			"Praduca",
 			"Caçador de Palavras",
-			"Luk3"
+			"Luk3",
+			"!Silent",
+			"Mauricio"
 		]
 	},
 	"Games.name": "Jogos do Blockly",
@@ -26,6 +28,7 @@
 	"Games.movie": "Filme",
 	"Games.pondTutor": "Tutor de libras",
 	"Games.pond": "Lagoa",
+	"Games.genetics": "Genéticas",
 	"Games.linesOfCode1": "Você solucionou esse nível com uma linha de JavaScript:",
 	"Games.linesOfCode2": "Você solucionou esse nível com %1 linhas de JavaScript:",
 	"Games.nextLevel": "Você esta preparado para o nível %1?",
@@ -56,7 +59,7 @@
 	"Games.blocks": "Blocos",
 	"Games.congratulations": "Parabéns!",
 	"Games.helpAbort": "Este nível é extremamente difícil. Você deseja pulá-lo e ir ao próximo jogo? Você sempre pode voltar mais tarde.",
-	"Index.clear": "Apagar todas as suas soluções?",
+	"Index.clear": "Deletar todas as suas soluções?",
 	"Index.subTitle": "Jogos para os programadores de amanhã.",
 	"Index.moreInfo": "Mais informação...",
 	"Index.startOver": "Quer começar novamente?",
@@ -112,7 +115,7 @@
 	"Maze.helpRun": "Execute seu programa para ver o que acontece.",
 	"Maze.helpReset": "Seu programa não resolveu o labirinto. Aperte 'Reiniciar' e tente novamente.",
 	"Maze.helpRepeat": "Alcance o fim deste caminho usando apenas dois blocos. Use 'repetir' para executar um bloco mais de uma vez.",
-	"Maze.helpCapacity": "Você usou todos os blocos para este nível. Para criar um novo bloco, você primeiro deve remover um bloco existente.",
+	"Maze.helpCapacity": "Você usou todos os blocos para este nível. Para criar um novo bloco, você primeiro deve deletar um bloco existente.",
 	"Maze.helpRepeatMany": "Você pode encaixar mais de um bloco dentro de um bloco 'repetir'.",
 	"Maze.helpSkins": "Escolha o seu jogador favorito neste menu.",
 	"Maze.helpIf": "Um bloco 'se' fará alguma coisa apenas se a condição for verdadeira. Tente virar à esquerda se houver um caminho para a esquerda.",

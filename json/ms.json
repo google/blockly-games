@@ -4,7 +4,8 @@
 			"Anakmalaysia",
 			"Aurora",
 			"Kurniasan",
-			"Espertus"
+			"Espertus",
+			"Jeluang Terluang"
 		]
 	},
 	"Games.name": "Permainan Blockly",
@@ -112,7 +113,7 @@
 	"Bird.positionTooltip": "x dan y menandakan kedudukan si burung. Jika x = 0 maka si burung dekat hujung kiri, dan jika x = 100 maka ia dekat hujung kanan. Jika y = 0 maka si burung di bawah sekali, dan jika y = 100 maka ia di atas sekali.",
 	"Bird.helpHeading": "Ubah sudut haluan untuk membuat si burung tangkap cacing dan pulang ke sarangnya.",
 	"Bird.helpHasWorm": "Gunakan blok ini untuk menuju ke satu arah jika sudah dapat cacing, ataupun ke satu lagi arah jika belum.",
-	"Bird.helpX": "'x' adalah posisi melintang semasa anda. Gunakan blok ini untuk mengubah ke satu haluan jika 'x' kurang dari suatu nombor, ataupun ke satu lagi haluan jika sebaliknya.",
+	"Bird.helpX": "'x' ialah posisi melintang semasa anda. Gunakan blok ini untuk mengubah ke satu haluan jika 'x' kurang daripada suatu nombor, ataupun ke satu lagi haluan jika sebaliknya.",
 	"Bird.helpElse": "Klik ikon untuk mengubah suai blok 'if'.",
 	"Bird.helpElseIf": "Tahap ini memerlukan blok 'else if' dan juga 'else'.",
 	"Bird.helpAnd": "Blok 'and' benar hanya jika kedua-dua inputnya benar.",

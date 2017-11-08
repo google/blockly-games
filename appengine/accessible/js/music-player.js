@@ -107,12 +107,32 @@ MusicLine.prototype.setFromChordsAndDurations = function(chordsAndDurations) {
 // MUSIC PLAYER OBJECT (SINGLETON)
 
 var MusicPlayer = function() {
-  // Initialize the MIDI player.
-  MIDI.loadPlugin({
-    soundfontUrl: '../third-party/midi-js/trunk/examples/soundfont/',
-    instrument: 'acoustic_grand_piano',
-    callback: function() {}
-  });
+  var ASSETS_PATH = '../third-party/midi-js-soundfonts/piano/';
+  var notes = {
+    '48': 'C3',
+    '50': 'D3',
+    '52': 'E3',
+    '53': 'F3',
+    '55': 'G3',
+    '57': 'A3',
+    '59': 'B3',
+    '60': 'C4',
+    '62': 'D4',
+    '64': 'E4',
+    '65': 'F4',
+    '67': 'G4',
+    '69': 'A4',
+    '71': 'B4',
+    '72': 'C5'
+  };
+  var sounds = [];
+  for (var midiValue in notes) {
+    sounds.push({
+      src: notes[midiValue] + '.mp3',
+      id: midiValue
+    });
+  }
+  createjs['Sound']['registerSounds'](sounds, ASSETS_PATH);
 
   this.lines_ = {};
   this.activeTimeouts_ = [];
@@ -121,7 +141,7 @@ var MusicPlayer = function() {
 };
 
 MusicPlayer.prototype.reset = function() {
-  MIDI.Player.stop();
+  createjs['Sound'].stop();
   this.activeTimeouts_.forEach(function(timeout) {
     clearTimeout(timeout);
   });
@@ -148,10 +168,16 @@ MusicPlayer.prototype.playNote_ = function(
     return;
   }
 
-  var MIDI_CHANNEL = 0;
-  var MIDI_VELOCITY = 127;
-  MIDI.chordOn(MIDI_CHANNEL, midiPitches, MIDI_VELOCITY, 0);
-  MIDI.chordOff(MIDI_CHANNEL, midiPitches, durationInSecs);
+  var soundInstances = [];
+  midiPitches.forEach(function(midiPitch) {
+    soundInstances.push(createjs['Sound']['play'](String(midiPitch)));
+  });
+
+  setTimeout(function() {
+    soundInstances.forEach(function(soundInstance) {
+      soundInstance['stop']();
+    });
+  }, durationInSecs * 1000.0);
 };
 
 MusicPlayer.prototype.playLines_ = function(

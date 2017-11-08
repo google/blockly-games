@@ -5,10 +5,10 @@ This game illustrates how to use Accessible Blockly to create a programming
 game for blind users.
 
 Accessible Blockly renders a version of the Blockly toolbox and workspace that
-is easily keyboard-navigable and is compatible with JAWS/NVDA screen readers on
-Firefox for Windows. (We chose to start with these because they are the most
-robust screen readers, and are compatible with many more aria tags than other
-screen readers.)
+is easily keyboard-navigable. Please note that the game is optimized for the
+NVDA screen readers on Firefox for Windows. (We chose to start with this
+because it is one of the most robust screen readers, and is compatible with
+many more aria tags than other screen readers.)
 
 Please note that deaf users should continue using Blockly over Accessible
 Blockly.

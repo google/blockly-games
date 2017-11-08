@@ -3,7 +3,8 @@
 		"authors": [
 			"Anzeljg",
 			"Eleassar",
-			"Igor.pesek"
+			"Igor.pesek",
+			"Dbc334"
 		]
 	},
 	"Games.name": "Blockly igre",
@@ -14,6 +15,7 @@
 	"Games.movie": "Film",
 	"Games.pondTutor": "Ribnik Mentor",
 	"Games.pond": "Ribnik",
+	"Games.genetics": "Genetika",
 	"Games.linesOfCode1": "Stopnjo si rešil/-a z 1 vrstico JavaScript-a:",
 	"Games.linesOfCode2": "To stopnjo si rešil z %1 vrsticami Javascript-a.",
 	"Games.nextLevel": "Ali ste pripravljeni na stopnjo %1?",

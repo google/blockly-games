@@ -1,5 +1,5 @@
 application: blockly-games
-version: 1
+version: music
 runtime: python27
 api_version: 1
 threadsafe: no

@@ -92,11 +92,11 @@ Turtle.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     Blockly.FieldColour.COLUMNS = 3;
@@ -158,8 +158,8 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'],
-      'win');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
@@ -230,9 +230,13 @@ Turtle.showCategoryHelp = function() {
   var help = document.getElementById('helpToolbox');
   var style = {
     width: '25%',
-    left: '525px',
     top: '3.3em'
   };
+  if (BlocklyGames.isRtl()) {
+    style.right = '525px';
+  } else {
+    style.left = '525px';
+  }
   var origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
 };
@@ -405,77 +409,76 @@ Turtle.resetButtonClick = function(e) {
 
 /**
  * Inject the Turtle API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Turtle.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(distance, id) {
-    Turtle.move(distance.valueOf(), id.toString());
+    Turtle.move(distance, id);
   };
   interpreter.setProperty(scope, 'moveForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(distance, id) {
-    Turtle.move(-distance.valueOf(), id.toString());
+    Turtle.move(-distance, id);
   };
   interpreter.setProperty(scope, 'moveBackward',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(angle, id) {
-    Turtle.turn(angle.valueOf(), id.toString());
+    Turtle.turn(angle, id);
   };
   interpreter.setProperty(scope, 'turnRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(angle, id) {
-    Turtle.turn(-angle.valueOf(), id.toString());
+    Turtle.turn(-angle, id);
   };
   interpreter.setProperty(scope, 'turnLeft',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(id) {
-    Turtle.penDown(false, id.toString());
+    Turtle.penDown(false, id);
   };
   interpreter.setProperty(scope, 'penUp',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Turtle.penDown(true, id.toString());
+    Turtle.penDown(true, id);
   };
   interpreter.setProperty(scope, 'penDown',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(width, id) {
-    Turtle.penWidth(width.valueOf(), id.toString());
+    Turtle.penWidth(width, id);
   };
   interpreter.setProperty(scope, 'penWidth',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(colour, id) {
-    Turtle.penColour(colour.toString(), id.toString());
+    Turtle.penColour(colour, id);
   };
   interpreter.setProperty(scope, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(id) {
-    Turtle.isVisible(false, id.toString());
+    Turtle.isVisible(false, id);
   };
   interpreter.setProperty(scope, 'hideTurtle',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Turtle.isVisible(true, id.toString());
+    Turtle.isVisible(true, id);
   };
   interpreter.setProperty(scope, 'showTurtle',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(text, id) {
-    Turtle.drawPrint(text.toString(), id.toString());
+    Turtle.drawPrint(text, id);
   };
   interpreter.setProperty(scope, 'print',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(font, size, style, id) {
-    Turtle.drawFont(font.toString(), size.valueOf(), style.toString(),
-                  id.toString());
+    Turtle.drawFont(font, size, style, id);
   };
   interpreter.setProperty(scope, 'font',
       interpreter.createNativeFunction(wrapper));
@@ -492,6 +495,7 @@ Turtle.execute = function() {
   }
 
   Turtle.reset();
+  Blockly.selected && Blockly.selected.unselect();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
   Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
@@ -533,7 +537,7 @@ Turtle.executeChunk_ = function() {
 
 /**
  * Highlight a block and pause.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.animate = function(id) {
   Turtle.display();
@@ -548,7 +552,7 @@ Turtle.animate = function(id) {
 /**
  * Move the turtle forward or backward.
  * @param {number} distance Pixels to move.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.move = function(distance, id) {
   if (Turtle.penDownValue) {
@@ -573,7 +577,7 @@ Turtle.move = function(distance, id) {
 /**
  * Turn the turtle left or right.
  * @param {number} angle Degrees to turn clockwise.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.turn = function(angle, id) {
   Turtle.heading += angle;
@@ -587,7 +591,7 @@ Turtle.turn = function(angle, id) {
 /**
  * Lift or lower the pen.
  * @param {boolean} down True if down, false if up.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.penDown = function(down, id) {
   Turtle.penDownValue = down;
@@ -597,7 +601,7 @@ Turtle.penDown = function(down, id) {
 /**
  * Change the thickness of lines.
  * @param {number} width New thickness in pixels.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.penWidth = function(width, id) {
   Turtle.ctxScratch.lineWidth = width;
@@ -607,7 +611,7 @@ Turtle.penWidth = function(width, id) {
 /**
  * Change the colour of the pen.
  * @param {string} colour Hexadecimal #rrggbb colour string.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.penColour = function(colour, id) {
   Turtle.ctxScratch.strokeStyle = colour;
@@ -618,7 +622,7 @@ Turtle.penColour = function(colour, id) {
 /**
  * Make the turtle visible or invisible.
  * @param {boolean} visible True if visible, false if invisible.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.isVisible = function(visible, id) {
   Turtle.visible = visible;
@@ -628,7 +632,7 @@ Turtle.isVisible = function(visible, id) {
 /**
  * Print some text.
  * @param {string} text Text to print.
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.drawPrint = function(text, id) {
   Turtle.ctxScratch.save();
@@ -644,7 +648,7 @@ Turtle.drawPrint = function(text, id) {
  * @param {string} font Font name (e.g. 'Arial').
  * @param {number} size Font size (e.g. 18).
  * @param {string} style Font style (e.g. 'italic').
- * @param {?string} id ID of block.
+ * @param {string=} id ID of block.
  */
 Turtle.drawFont = function(font, size, style, id) {
   Turtle.ctxScratch.font = style + ' ' + size + 'pt ' + font;
@@ -675,7 +679,7 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      BlocklyGames.workspace.playAudio('win', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {

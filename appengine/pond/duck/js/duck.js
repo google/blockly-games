@@ -90,11 +90,11 @@ Pond.Duck.init = function() {
     }
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   // Handle SELECT events dispatched by tabs.
   goog.events.listen(Pond.Duck.tabbar, goog.ui.Component.EventType.SELECT,

@@ -45,37 +45,15 @@ Music.Blocks.NOTE_OPTIONS = [
   ["B4", "59"]
 ];
 
-var MUSIC_DUMMY_TOOLTIP = 'Dummy tooltip';
-var MUSIC_DUMMY_HELPURL = 'Dummy help URL';
+Music.Blocks.MESSAGES = {
+  Music_playNoteTooltip: 'Play a single music note.',
+  Music_playNoteBlankTooltip: 'Play a single music note.',
+  Music_playPhraseTooltip: 'Play a snippet of music.',
+  Music_playNoteWithDurationTooltip:
+      'Play a single music note for a certain number of beats.'
+};
 
 // Extensions to Blockly's language and JavaScript generator.
-
-Blockly.Blocks['music_play_random_note'] = {
-  /**
-   * Block for playing a random music note.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "play random note",
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Music.Blocks.HUE,
-      "tooltip": MUSIC_DUMMY_TOOLTIP,
-      "helpUrl": MUSIC_DUMMY_HELPURL
-    });
-  }
-};
-
-Blockly.JavaScript['music_play_random_note'] = function(block) {
-  var LOWEST_PITCH = 36;
-  var HIGHEST_PITCH = 60;
-
-  var randomPitch =
-      Math.floor(Math.random() * (HIGHEST_PITCH - LOWEST_PITCH) +
-      LOWEST_PITCH);
-  return 'addChord([' + randomPitch + '], 1);\n';
-};
 
 Blockly.Blocks['music_play_note'] = {
   /**
@@ -88,12 +66,11 @@ Blockly.Blocks['music_play_note'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
-    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
-    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+    this.setTooltip(Music.Blocks.MESSAGES.Music_playNoteTooltip);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH' &&
-        changeEvent.newValue) {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'PITCH' && changeEvent.newValue) {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }
@@ -120,11 +97,11 @@ Blockly.Blocks['music_play_note_blank'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
-    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
-    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+    this.setTooltip(Music.Blocks.MESSAGES.Music_playNoteBlankTooltip);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'PITCH') {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }
@@ -161,11 +138,11 @@ Blockly.Blocks['music_play_phrase'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
-    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
-    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+    this.setTooltip(Music.Blocks.MESSAGES.Music_playPhraseTooltip);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'MIDI_VALUES') {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'MIDI_VALUES') {
       var beatsPerMinute = 150;
       var secsPerBeat = 60.0 / beatsPerMinute;
       musicPlayer.reset();
@@ -241,11 +218,11 @@ Blockly.Blocks['music_play_note_with_duration'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Music.Blocks.HUE);
-    this.setTooltip(MUSIC_DUMMY_TOOLTIP);
-    this.setHelpUrl(MUSIC_DUMMY_HELPURL);
+    this.setTooltip(Music.Blocks.MESSAGES.Music_playNoteWithDurationTooltip);
   },
   onchange: function(changeEvent) {
-    if (changeEvent.element == 'field' && changeEvent.name == 'PITCH') {
+    if (changeEvent.blockId == this.id && changeEvent.element == 'field' &&
+        changeEvent.name == 'PITCH') {
       musicPlayer.playNote_(
           [Number(changeEvent.newValue)], 0.5, (new Date).getTime());
     }
@@ -270,8 +247,8 @@ Blockly.Blocks['loops_repeat']= {
     this.appendDummyInput().appendField(
         new Blockly.FieldNumber('10'), 'TIMES'
     ).appendField('times');
-    this.appendStatementInput('repeat')
-        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+    this.appendStatementInput('DO')
+        .appendField('repeat');
 
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

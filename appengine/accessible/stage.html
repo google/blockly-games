@@ -19,28 +19,27 @@
     <script src="../third-party/blockly/accessible/libs/angular2-all.umd.min.js"></script>
 
     <script src="../third-party/blockly/accessible/utils.service.js"></script>
-    <script src="../third-party/blockly/accessible/audio.service.js"></script>
-    <script src="../third-party/blockly/accessible/modal.service.js"></script>
-    <script src="../third-party/blockly/accessible/keyboard-input.service.js"></script>
     <script src="../third-party/blockly/accessible/notifications.service.js"></script>
-    <script src="../third-party/blockly/accessible/clipboard.service.js"></script>
+    <script src="../third-party/blockly/accessible/audio.service.js"></script>
+    <script src="../third-party/blockly/accessible/block-connection.service.js"></script>
+    <script src="../third-party/blockly/accessible/block-options-modal.service.js"></script>
+    <script src="../third-party/blockly/accessible/keyboard-input.service.js"></script>
     <script src="../third-party/blockly/accessible/tree.service.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox-modal.service.js"></script>
     <script src="../third-party/blockly/accessible/translate.pipe.js"></script>
 
     <script src="../third-party/blockly/accessible/field-segment.component.js"></script>
     <script src="../third-party/blockly/accessible/block-options-modal.component.js"></script>
-    <script src="../third-party/blockly/accessible/toolbox-tree.component.js"></script>
-    <script src="../third-party/blockly/accessible/toolbox.component.js"></script>
+    <script src="../third-party/blockly/accessible/toolbox-modal.component.js"></script>
     <script src="../third-party/blockly/accessible/sidebar.component.js"></script>
-    <script src="../third-party/blockly/accessible/workspace-tree.component.js"></script>
+    <script src="../third-party/blockly/accessible/workspace-block.component.js"></script>
     <script src="../third-party/blockly/accessible/workspace.component.js"></script>
     <script src="../third-party/blockly/accessible/app.component.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../third-party/blockly/accessible/media/accessible.css">
 
     <!-- Libraries for MIDI playback. -->
-    <script src="../third-party/midi-js/trunk/build/MIDI.js"></script>
-    <script src="../third-party/midi-js/trunk/inc/shim/Base64binary.js"></script>
+    <script src="../third-party/SoundJS/soundjs-0.6.2.min.js"></script>
 
     <script src="js/blocks.js"></script>
     <script src="js/music-player.js"></script>
@@ -80,39 +79,11 @@
         opacity: .65;
       }
 
-      .instructionsDiv {
-        float: left;
-        margin-right: 20px;
-        margin-top: 20px;
-        width: 300px;
-      }
       .mainBlocklyDiv {
-        border-left: 1px solid #888;
         display: inline-block;
         padding-left: 10px;
         margin-top: 20px;
         min-height: 1000px;
-        width: 865px;
-      }
-
-      #skipLink a {
-        background-color: #9e340b;
-        color: white;
-        height: 1px;
-        left: -10000px;
-        opacity: 0;
-        overflow: hidden;
-        padding: 15px 20px 10px;
-        position: absolute;
-        text-decoration: none;
-        width: 1px;
-      }
-      #skipLink a:focus {
-        height: auto;
-        margin-left: -10px;
-        opacity: 1;
-        position: static;
-        width: auto;
       }
 
       *:focus {
@@ -121,10 +92,6 @@
     </style>
   </head>
   <body>
-    <div id="skipLink">
-      <a href="#instructions">Skip to Instructions</a>
-    </div>
-
     <div style="float: right;">
       <a href="./help.html">Learn more...</a>
     </div>
@@ -136,8 +103,10 @@
     <music-game-stage></music-game-stage>
 
     <script src="js/utils.service.js"></script>
-    <script src="js/levels.js"></script>
+    <script src="js/generic-modal.service.js"></script>
     <script src="js/level-manager.service.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/generic-modal.component.js"></script>
     <script src="js/stage.component.js"></script>
     <script>
       var musicPlayer = new MusicPlayer();
@@ -166,27 +135,20 @@
         mediaPathPrefix: '../third-party/blockly/accessible/media/',
         // Additional custom buttons for the sidebar.
         customSidebarButtons: [{
-          text: 'Run your program',
-          ariaDescribedBy: null,
-          onClickNotification: 'Your tune.',
-          isHidden: function() {
-            return false;
-          },
-          // Gets set by musicGame.LevelManagerService.
-          action: null
+          text: 'Instructions',
+          // Gets set by musicGame.StageComponent.
+          action: null,
+          id: 'musicGameInstructionsBtn'
         }, {
-          text: 'Listen to example',
-          ariaDescribedBy: 'instructionsText',
-          onClickNotification: 'This is what the tune should sound like.',
-          // Gets set by musicGame.LevelManagerService.
-          isHidden: null,
-          // Gets set by musicGame.LevelManagerService.
-          action: null
+          text: 'Run your program',
+          // Gets set by musicGame.StageComponent.
+          action: null,
+          id: 'musicGameRunProgramBtn'
         }]
       };
 
       document.addEventListener('DOMContentLoaded', function() {
-        ng.platform.browser.bootstrap(musicGame.StageView);
+        ng.platform.browser.bootstrap(musicGame.StageComponent);
       });
     </script>
   </body>

@@ -4,7 +4,8 @@
 			"Osgraven",
 			"Cocu",
 			"SuperPotato",
-			"Jon Harald Søby"
+			"Jon Harald Søby",
+			"Kingu"
 		]
 	},
 	"Games.name": "Blockly-spill",
@@ -29,7 +30,7 @@
 	"Games.dialogOk": "OK",
 	"Games.dialogCancel": "Avbryt",
 	"Games.catLogic": "Logikk",
-	"Games.catLoops": "Looper",
+	"Games.catLoops": "Løkker",
 	"Games.catMath": "Matte",
 	"Games.catText": "Tekst",
 	"Games.catLists": "Lister",
@@ -48,7 +49,7 @@
 	"Games.helpAbort": "Dette nivået er veldig vanskelig. Ønsker du å hoppe over det og fortsette til neste spill? Du kan alltids komme tilbake senere.",
 	"Index.clear": "Slett alle løsningene dine?",
 	"Index.subTitle": "Spill for morgendagens programmerere.",
-	"Index.moreInfo": "Mer info...",
+	"Index.moreInfo": "Mer info…",
 	"Index.startOver": "Ønsker du å starte på nytt?",
 	"Index.clearData": "Fjern data",
 	"Puzzle.animal1": "And",
@@ -69,7 +70,7 @@
 	"Puzzle.animal4HelpUrl": "https://no.wikipedia.org/wiki/Snegler",
 	"Puzzle.picture": "bilde:",
 	"Puzzle.legs": "bein:",
-	"Puzzle.legsChoose": "velg...",
+	"Puzzle.legsChoose": "velg…",
 	"Puzzle.traits": "trekk:",
 	"Puzzle.error0": "Perfekt!\nAlle %1 blokker er riktig.",
 	"Puzzle.error1": "Nesten! En blokk er feil.",

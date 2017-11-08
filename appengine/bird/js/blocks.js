@@ -140,8 +140,8 @@ Blockly.Blocks['bird_compare'] = {
     this.setTooltip(function() {
       var op = thisBlock.getFieldValue('OP');
       var TOOLTIPS = {
-        LT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
-        GT: Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT
+        'LT': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_LT,
+        'GT': Blockly.Msg.LOGIC_COMPARE_TOOLTIP_GT
       };
       return TOOLTIPS[op];
     });

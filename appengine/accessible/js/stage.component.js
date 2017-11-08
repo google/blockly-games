@@ -22,7 +22,7 @@
  * @author sll@google.com (Sean Lip)
  */
 
-musicGame.StageView = ng.core
+musicGame.StageComponent = ng.core
   .Component({
     selector: 'music-game-stage',
     template: `
@@ -33,16 +33,6 @@ musicGame.StageView = ng.core
     <div style="clear: both;"></div>
 
     <div role="main">
-      <div class="instructionsDiv">
-        <h3 id="instructions" tabindex="-1">Instructions</h3>
-        <p id="instructionsText">{{levelData.instructions}}</p>
-        <p *ngIf="levelData.hint">Hint: {{levelData.hint}}</p>
-
-        <p *ngIf="levelData.expectedLine">
-          <button (click)="playTune()">Listen to example</button>
-        </p>
-      </div>
-
       <div class="mainBlocklyDiv">
         <blockly-app></blockly-app>
       </div>
@@ -55,9 +45,13 @@ musicGame.StageView = ng.core
         </mutation>
       </block>
     </xml>
+
+    <generic-modal></generic-modal>
     `,
-    directives: [blocklyApp.AppView],
-    providers: [musicGame.LevelManagerService, musicGame.UtilsService]
+    directives: [blocklyApp.AppComponent, musicGame.GenericModalComponent],
+    providers: [
+        musicGame.GenericModalService, musicGame.LevelManagerService,
+        musicGame.UtilsService, blocklyApp.KeyboardInputService]
   })
   .Class({
     constructor: [
@@ -79,25 +73,31 @@ musicGame.StageView = ng.core
 
       var that = this;
       ACCESSIBLE_GLOBALS.customSidebarButtons[0].action = function() {
-        that.runCode();
+        that.levelManagerService.showInstructions();
       };
       ACCESSIBLE_GLOBALS.customSidebarButtons[1].action = function() {
-        var expectedLine = new MusicLine();
-        expectedLine.setFromChordsAndDurations(that.levelData.expectedLine);
-
-        musicPlayer.reset();
-        musicPlayer.play(expectedLine, that.levelData.beatsPerMinute);
-      };
-      ACCESSIBLE_GLOBALS.customSidebarButtons[1].isHidden = function() {
-        return !that.levelData.expectedLine;
+        that.runCode();
       };
 
       this.levelManagerService.loadExistingCode();
-
-      if (this.levelData.introMessage) {
-        alert(this.levelData.introMessage);
-      }
     }],
+    ngAfterViewInit: function() {
+      var that = this;
+      setTimeout(function() {
+        if (that.levelData.introMessage) {
+          that.levelManagerService.showSimpleModalWithHeader(
+              'Introduction', [that.levelData.introMessage], function() {
+                // Give the existing modal time to close before showing the
+                // next one.
+                setTimeout(function() {
+                  that.levelManagerService.showInstructions();
+                }, 50);
+              });
+        } else {
+          that.levelManagerService.showInstructions();
+        }
+      }, 100);
+    },
     playTune: function() {
       var expectedLine = new MusicLine();
       expectedLine.setFromChordsAndDurations(this.levelData.expectedLine);
@@ -107,15 +107,20 @@ musicGame.StageView = ng.core
     },
     runCode: function() {
       if (blocklyApp.workspace.topBlocks_.length != 1) {
-        this.levelManagerService.playOops_();
+        this.levelManagerService.playOopsSound();
 
-        var alertMessage =
-            blocklyApp.workspace.topBlocks_.length == 0 ?
-            'There are no blocks in the workspace.' :
-            ('Looks like some of your blocks aren\'t linked together. ' +
-             'Try again!');
+        var messageParagraphs = [
+          blocklyApp.workspace.topBlocks_.length == 0 ?
+          'There are no blocks in the workspace.' :
+          'Looks like some of your blocks aren\'t linked together. Try again!'
+        ];
+
+        var that = this;
         setTimeout(function() {
-          alert(alertMessage);
+          that.levelManagerService.showSimpleModal(
+              messageParagraphs, function() {
+                document.getElementById('musicGameRunProgramBtn').focus();
+              });
         }, 500);
 
         return;

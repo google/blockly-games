@@ -30,7 +30,7 @@ musicGame.MenuView = ng.core
       <h3>House</h3>
       <ul role="navigation" class="musicGameNavigation">
         <li>
-          <a href="./house.html" [attr.aria-label]="'Level 1'" class="levelDot">
+          <a href="./house.html" [attr.aria-label]="'House Level 1'" class="levelDot">
             1
           </a>
         </li>
@@ -42,7 +42,7 @@ musicGame.MenuView = ng.core
       <ul role="navigation" class="musicGameNavigation">
         <li *ngFor="#level of levelSetData.levels">
           <a href="./stage.html?l={{level.number1Indexed}}&levelset={{levelSetData.id}}"
-             [attr.aria-label]="getLevelDotAriaLabel(level)"
+             [attr.aria-label]="getLevelDotAriaLabel(levelSetData.name, level)"
              class="levelDot"
              [ngClass]="{'levelDotCompleted': level.completed}">
             {{level.number1Indexed}}
@@ -56,7 +56,9 @@ musicGame.MenuView = ng.core
     </p>
     `,
     directives: [],
-    providers: [musicGame.LevelManagerService, musicGame.UtilsService]
+    providers: [
+        musicGame.GenericModalService, musicGame.LevelManagerService,
+        musicGame.UtilsService]
   })
   .Class({
     constructor: [
@@ -67,8 +69,8 @@ musicGame.MenuView = ng.core
     clearData: function() {
       this.levelManagerService.clearData();
     },
-    getLevelDotAriaLabel: function(level) {
-      var label = 'Level ' + level.number1Indexed;
+    getLevelDotAriaLabel: function(levelSetName, level) {
+      var label = levelSetName + ' Level ' + level.number1Indexed;
       if (level.isCompleted) {
         label += ' completed';
       }

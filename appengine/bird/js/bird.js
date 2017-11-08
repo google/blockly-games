@@ -201,23 +201,23 @@ Bird.drawMap = function() {
   }
 
   // Add nest.
-  var image = document.createElementNS(Blockly.SVG_NS, 'image');
-  image.setAttribute('id', 'nest');
-  image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  var nestImage = document.createElementNS(Blockly.SVG_NS, 'image');
+  nestImage.setAttribute('id', 'nest');
+  nestImage.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'bird/nest.png');
-  image.setAttribute('height', Bird.NEST_ICON_SIZE);
-  image.setAttribute('width', Bird.NEST_ICON_SIZE);
-  svg.appendChild(image);
+  nestImage.setAttribute('height', Bird.NEST_ICON_SIZE);
+  nestImage.setAttribute('width', Bird.NEST_ICON_SIZE);
+  svg.appendChild(nestImage);
 
   // Add worm.
   if (Bird.MAP.worm) {
-    var image = document.createElementNS(Blockly.SVG_NS, 'image');
-    image.setAttribute('id', 'worm');
-    image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+    var birdImage = document.createElementNS(Blockly.SVG_NS, 'image');
+    birdImage.setAttribute('id', 'worm');
+    birdImage.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
         'bird/worm.png');
-    image.setAttribute('height', Bird.WORM_ICON_SIZE);
-    image.setAttribute('width', Bird.WORM_ICON_SIZE);
-    svg.appendChild(image);
+    birdImage.setAttribute('height', Bird.WORM_ICON_SIZE);
+    birdImage.setAttribute('width', Bird.WORM_ICON_SIZE);
+    svg.appendChild(birdImage);
   }
 
   // Bird's clipPath element, whose (x, y) is reset by Bird.displayBird
@@ -320,11 +320,11 @@ Bird.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
@@ -332,11 +332,12 @@ Bird.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
-  BlocklyGames.workspace.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'],
-      'quack');
-  BlocklyGames.workspace.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'],
-      'whack');
-  BlocklyGames.workspace.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
   if (BlocklyGames.LEVEL > 1) {
     BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
   }
@@ -397,11 +398,10 @@ Bird.mutatorHelpPid_ = 0;
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
-  if (Blockly.dragMode_ != 0) {
+  if (BlocklyGames.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
-  } else if (Bird.result == Bird.ResultType.SUCCESS ||
-             BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+  } else if (BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                                BlocklyGames.LEVEL)) {
     // The user has already won.  They are just playing around.
     return;
@@ -457,7 +457,9 @@ Bird.levelHelp = function() {
         origin = block.getSvgRoot();
       } else {
         content = document.getElementById('dialogMutatorHelp');
-        origin = block.mutator.workspace_.flyout_.buttons_[1];
+        // Second help box should be below the 'else' block in the mutator.
+        // Really fragile code.  There is no public API for this.
+        origin = block.mutator.workspace_.flyout_.backgroundButtons_[1];
         var xy = goog.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
@@ -579,29 +581,29 @@ Bird.ResultType = {
 
 /**
  * Inject the Bird API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS interpreter.
- * @param {!Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Bird.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(angle, id) {
-    Bird.heading(angle.valueOf(), id.toString());
+    Bird.heading(angle, id);
   };
   interpreter.setProperty(scope, 'heading',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(!Bird.hasWorm);
+    return !Bird.hasWorm;
   };
   interpreter.setProperty(scope, 'noWorm',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(Bird.pos.x);
+    return Bird.pos.x;
   };
   interpreter.setProperty(scope, 'getX',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(Bird.pos.y);
+    return Bird.pos.y;
   };
   interpreter.setProperty(scope, 'getY',
       interpreter.createNativeFunction(wrapper));
@@ -618,6 +620,7 @@ Bird.execute = function() {
   }
 
   Bird.log = [];
+  Blockly.selected && Blockly.selected.unselect();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
@@ -700,7 +703,7 @@ Bird.animate = function() {
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] == 'play') {
-    BlocklyGames.workspace.playAudio(action[1], 0.5);
+    BlocklyGames.workspace.getAudioManager().play(action[1], 0.5);
   }
 
   Bird.pidList.push(setTimeout(Bird.animate, Bird.stepSpeed * 5));

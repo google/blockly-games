@@ -374,25 +374,25 @@ Maze.drawMap = function() {
   var tileId = 0;
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
-      // Compute the tile index.
-      var tile = normalize(x, y) +
+      // Compute the tile shape.
+      var tileShape = normalize(x, y) +
           normalize(x, y - 1) +  // North.
           normalize(x + 1, y) +  // West.
           normalize(x, y + 1) +  // South.
           normalize(x - 1, y);   // East.
 
       // Draw the tile.
-      if (!Maze.tile_SHAPES[tile]) {
+      if (!Maze.tile_SHAPES[tileShape]) {
         // Empty square.  Use null0 for large areas, with null1-4 for borders.
         // Add some randomness to avoid large empty spaces.
-        if (tile == '00000' && Math.random() > 0.3) {
-          tile = 'null0';
+        if (tileShape == '00000' && Math.random() > 0.3) {
+          tileShape = 'null0';
         } else {
-          tile = 'null' + Math.floor(1 + Math.random() * 4);
+          tileShape = 'null' + Math.floor(1 + Math.random() * 4);
         }
       }
-      var left = Maze.tile_SHAPES[tile][0];
-      var top = Maze.tile_SHAPES[tile][1];
+      var left = Maze.tile_SHAPES[tileShape][0];
+      var top = Maze.tile_SHAPES[tileShape][1];
       // Tile's clipPath element.
       var tileClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
       tileClip.setAttribute('id', 'tileClipPath' + tileId);
@@ -502,11 +502,11 @@ Maze.init = function() {
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize();
+    onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize();
+  onresize(null);
 
   var toolbox = document.getElementById('toolbox');
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
@@ -517,8 +517,8 @@ Maze.init = function() {
        'toolbox': toolbox,
        'trashcan': true,
        'zoom': {'startScale': scale}});
-  BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
-  BlocklyGames.workspace.loadAudio_(Maze.SKIN.crashSound, 'fail');
+  BlocklyGames.workspace.getAudioManager().load(Maze.SKIN.winSound, 'win');
+  BlocklyGames.workspace.getAudioManager().load(Maze.SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
@@ -597,13 +597,13 @@ Maze.init = function() {
 
 /**
  * When the workspace changes, update the help as needed.
- * @param {Blockly.Events.Abstract} opt_event Custom data for event.
+ * @param {Blockly.Events.Abstract=} opt_event Custom data for event.
  */
 Maze.levelHelp = function(opt_event) {
   if (opt_event && opt_event.type == Blockly.Events.UI) {
     // Just a change to highlighting or somesuch.
     return;
-  } else if (Blockly.dragMode_ != 0) {
+  } else if (BlocklyGames.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
   } else if (Maze.result == Maze.ResultType.SUCCESS ||
@@ -729,8 +729,8 @@ Maze.levelHelp = function(opt_event) {
           [BlocklyGames.getMsg('Maze_pathAhead'),
            BlocklyGames.getMsg('Maze_pathLeft'),
            BlocklyGames.getMsg('Maze_pathRight')];
-      var prefix = Blockly.commonWordPrefix(options);
-      var suffix = Blockly.commonWordSuffix(options);
+      var prefix = Blockly.utils.commonWordPrefix(options);
+      var suffix = Blockly.utils.commonWordSuffix(options);
       if (suffix) {
         var option = options[0].slice(prefix, -suffix);
       } else {
@@ -816,12 +816,12 @@ Maze.showPegmanMenu = function(e) {
     return;
   }
   var button = document.getElementById('pegmanButton');
-  Blockly.addClass_(button, 'buttonHover');
+  button.classList.add('buttonHover');
   menu.style.top = (button.offsetTop + button.offsetHeight) + 'px';
   menu.style.left = button.offsetLeft + 'px';
   menu.style.display = 'block';
-  Maze.pegmanMenuMouse_ = Blockly.bindEvent_(document.body, 'mousedown',
-                                             null, Maze.hidePegmanMenu);
+  Maze.pegmanMenuMouse_ =
+      Blockly.bindEvent_(document.body, 'mousedown', null, Maze.hidePegmanMenu);
   // Close the skin-changing hint if open.
   var hint = document.getElementById('dialogHelpSkins');
   if (hint && hint.className != 'dialogHiddenContent') {
@@ -840,7 +840,7 @@ Maze.hidePegmanMenu = function(e) {
     return;
   }
   document.getElementById('pegmanMenu').style.display = 'none';
-  Blockly.removeClass_(document.getElementById('pegmanButton'), 'buttonHover');
+  document.getElementById('pegmanButton').classList.remove('buttonHover');
   if (Maze.pegmanMenuMouse_) {
     Blockly.unbindEvent_(Maze.pegmanMenuMouse_);
     delete Maze.pegmanMenuMouse_;
@@ -905,7 +905,7 @@ Maze.runButtonClick = function(e) {
   BlocklyDialogs.hideDialog(false);
   // Only allow a single top block on level 1.
   if (BlocklyGames.LEVEL == 1 &&
-      BlocklyGames.workspace.getTopBlocks().length > 1 &&
+      BlocklyGames.workspace.getTopBlocks(false).length > 1 &&
       Maze.result != Maze.ResultType.SUCCESS &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
@@ -977,54 +977,54 @@ Maze.resetButtonClick = function(e) {
 
 /**
  * Inject the Maze API into a JavaScript interpreter.
- * @param {!Object} scope Global scope.
- * @param {!Interpreter} interpreter The JS interpreter.
+ * @param {!Interpreter} interpreter The JS Interpreter.
+ * @param {!Interpreter.Object} scope Global scope.
  */
 Maze.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(id) {
-    Maze.move(0, id.toString());
+    Maze.move(0, id);
   };
   interpreter.setProperty(scope, 'moveForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Maze.move(2, id.toString());
+    Maze.move(2, id);
   };
   interpreter.setProperty(scope, 'moveBackward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Maze.turn(0, id.toString());
+    Maze.turn(0, id);
   };
   interpreter.setProperty(scope, 'turnLeft',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    Maze.turn(1, id.toString());
+    Maze.turn(1, id);
   };
   interpreter.setProperty(scope, 'turnRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(0, id.toString()));
+    return Maze.isPath(0, id);
   };
   interpreter.setProperty(scope, 'isPathForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(1, id.toString()));
+    return Maze.isPath(1, id);
   };
   interpreter.setProperty(scope, 'isPathRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(2, id.toString()));
+    return Maze.isPath(2, id);
   };
   interpreter.setProperty(scope, 'isPathBackward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
-    return interpreter.createPrimitive(Maze.isPath(3, id.toString()));
+    return Maze.isPath(3, id);
   };
   interpreter.setProperty(scope, 'isPathLeft',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
-    return interpreter.createPrimitive(Maze.notDone());
+    return Maze.notDone();
   };
   interpreter.setProperty(scope, 'notDone',
       interpreter.createNativeFunction(wrapper));
@@ -1041,6 +1041,7 @@ Maze.execute = function() {
   }
 
   Maze.log = [];
+  Blockly.selected && Blockly.selected.unselect();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Maze.result = Maze.ResultType.UNSET;
   var interpreter = new Interpreter(code, Maze.initInterpreter);
@@ -1254,7 +1255,7 @@ Maze.scheduleFail = function(forward) {
     Maze.displayPegman(Maze.pegmanX + deltaX,
                        Maze.pegmanY + deltaY,
                        direction16);
-    BlocklyGames.workspace.playAudio('fail', 0.5);
+    BlocklyGames.workspace.getAudioManager().play('fail', 0.5);
     Maze.pidList.push(setTimeout(function() {
       Maze.displayPegman(Maze.pegmanX,
                          Maze.pegmanY,
@@ -1264,7 +1265,7 @@ Maze.scheduleFail = function(forward) {
       Maze.displayPegman(Maze.pegmanX + deltaX,
                          Maze.pegmanY + deltaY,
                          direction16);
-      BlocklyGames.workspace.playAudio('fail', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('fail', 0.5);
     }, Maze.stepSpeed * 2));
     Maze.pidList.push(setTimeout(function() {
         Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
@@ -1282,7 +1283,7 @@ Maze.scheduleFail = function(forward) {
       acceleration = 0.01;
     }
     Maze.pidList.push(setTimeout(function() {
-      BlocklyGames.workspace.playAudio('fail', 0.5);
+      BlocklyGames.workspace.getAudioManager().play('fail', 0.5);
     }, Maze.stepSpeed * 2));
     var setPosition = function(n) {
       return function() {
@@ -1311,7 +1312,7 @@ Maze.scheduleFinish = function(sound) {
   var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
   Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
   if (sound) {
-    BlocklyGames.workspace.playAudio('win', 0.5);
+    BlocklyGames.workspace.getAudioManager().play('win', 0.5);
   }
   Maze.stepSpeed = 150;  // Slow down victory animation a bit.
   Maze.pidList.push(setTimeout(function() {
@@ -1330,7 +1331,7 @@ Maze.scheduleFinish = function(sound) {
  * @param {number} x Horizontal grid (or fraction thereof).
  * @param {number} y Vertical grid (or fraction thereof).
  * @param {number} d Direction (0 - 15) or dance (16 - 17).
- * @param {number} opt_angle Optional angle (in degrees) to rotate Pegman.
+ * @param {number=} opt_angle Optional angle (in degrees) to rotate Pegman.
  */
 Maze.displayPegman = function(x, y, d, opt_angle) {
   var pegmanIcon = document.getElementById('pegman');
@@ -1377,12 +1378,12 @@ Maze.scheduleLook = function(d) {
   }
   x *= Maze.SQUARE_SIZE;
   y *= Maze.SQUARE_SIZE;
-  d = d * 90 - 45;
+  var deg = d * 90 - 45;
 
   var lookIcon = document.getElementById('look');
   lookIcon.setAttribute('transform',
       'translate(' + x + ', ' + y + ') ' +
-      'rotate(' + d + ' 0 0) scale(.4)');
+      'rotate(' + deg + ' 0 0) scale(.4)');
   var paths = lookIcon.getElementsByTagName('path');
   lookIcon.style.display = 'inline';
   for (var i = 0, path; path = paths[i]; i++) {

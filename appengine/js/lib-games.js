@@ -36,6 +36,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'af': 'Afrikaans',
   'ar': 'العربية',
   'az': 'Azərbaycanca',
+  'be': 'беларускі',
   'be-tarask': 'Taraškievica',
   'bg': 'български език',
   'br': 'Brezhoneg',
@@ -46,6 +47,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'de': 'Deutsch',
   'el': 'Ελληνικά',
   'en': 'English',
+  'eo': 'Esperanto',
   'es': 'Español',
   'eu': 'Euskara',
   'fa': 'فارسی',
@@ -65,6 +67,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'it': 'Italiano',
   'ja': '日本語',
   'ka': 'ქართული',
+  'kab': 'Taqbaylit',
   'km': 'ភាសាខ្មែរ',
   'ko': '한국어',
   'ksh': 'Ripoarėsch',
@@ -78,6 +81,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'mk': 'Македонски',
   'mr': 'मराठी',
   'ms': 'Bahasa Melayu',
+  'my': 'မြန်မာစာ',
   'mzn': 'مازِرونی',
   'nb': 'Norsk Bokmål',
   'nl': 'Nederlands, Vlaams',
@@ -94,6 +98,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'sco': 'Scots',
   'si': 'සිංහල',
   'sk': 'Slovenčina',
+  'sl': 'Slovenščina',
   'sr': 'Српски',
   'sv': 'Svenska',
   'sw': 'Kishwahili',
@@ -304,7 +309,7 @@ BlocklyGames.getMsg = function(key) {
 /**
  * Gets the message with the given key from the document.
  * @param {string} key The key of the document element.
- * @return {string} The textContent of the specified element,
+ * @return {?string} The textContent of the specified element,
  *     or null if the element was not found.
  */
 BlocklyGames.getMsgOrNull = function(key) {
@@ -322,10 +327,13 @@ BlocklyGames.getMsgOrNull = function(key) {
 /**
  * Bind a function to a button's click event.
  * On touch-enabled browsers, ontouchend is treated as equivalent to onclick.
- * @param {!Element|string} el Button element or ID thereof.
+ * @param {Element|string} el Button element or ID thereof.
  * @param {!Function} func Event handler to bind.
  */
 BlocklyGames.bindClick = function(el, func) {
+  if (!el) {
+    throw TypeError('Element not found: ' + el);
+  }
   if (typeof el == 'string') {
     el = document.getElementById(el);
   }
@@ -343,7 +351,11 @@ BlocklyGames.importAnalytics = function() {
   }
   var gaName = 'GoogleAnalyticsFunction';
   window['GoogleAnalyticsObject'] = gaName;
-  var gaObject = function() {
+  /**
+   * Load command onto Google Analytics queue.
+   * @param {...string} var_args Commands.
+   */
+  var gaObject = function(var_args) {
     (gaObject['q'] = gaObject['q'] || []).push(arguments);
   };
   window[gaName] = gaObject;

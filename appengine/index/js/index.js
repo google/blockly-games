@@ -64,8 +64,7 @@ Index.init = function() {
   if (storedData) {
     var clearButtonPara = document.getElementById('clearDataPara');
     clearButtonPara.style.visibility = 'visible';
-    var clearButton = document.getElementById('clearData');
-    BlocklyGames.bindClick(clearButton, Index.clearData_);
+    BlocklyGames.bindClick('clearData', Index.clearData_);
   }
 
   function animateFactory(app, angle) {

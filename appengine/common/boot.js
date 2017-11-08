@@ -30,12 +30,12 @@
 
   // Supported languages (consistent across all apps).
   window['BlocklyGamesLanguages'] = [
-      'ar', 'be-tarask', 'br', 'ca', 'cs', 'da', 'de', 'bg', 'el', 'en',
-      'es', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hrx', 'hu', 'ia', 'id',
-      'is', 'it', 'ja', 'ko', 'lt', 'lv', 'mk', 'ms', 'nb', 'nl', 'pl',
-      'pms', 'pt', 'pt-br', 'ro', 'ru', 'sc', 'sco', 'sk', 'sr', 'sv',
-      'ta', 'th', 'tr', 'uk', 'vi', 'zh-hans', 'zh-hant'
-      ];
+    'ar', 'be', 'be-tarask', 'br', 'ca', 'cs', 'da', 'de', 'bg', 'el', 'en',
+    'eo', 'es', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hi', 'hrx', 'hu', 'ia',
+    'id', 'is', 'it', 'ja', 'kab', 'ko', 'lt', 'lv', 'mk', 'ms', 'my', 'nb',
+    'nl', 'oc', 'pl', 'pms', 'pt', 'pt-br', 'ro', 'ru', 'sc', 'sk', 'sl',
+    'sr', 'sv', 'ta', 'th', 'tr', 'uk', 'vi', 'zh-hans', 'zh-hant'
+  ];
 
   // Use a series of heuristics that determine the likely language of this user.
   // First choice: The URL specified language.
