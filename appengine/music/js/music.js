@@ -52,6 +52,18 @@ Music.pidList = [];
 Music.startCount = 0;
 
 /**
+ * JavaScript interpreter for executing program.
+ * @type Interpreter
+ */
+Music.interpreter = null;
+
+/**
+ * Currently executing thread.
+ * @type Music.Thread
+ */
+Music.activeThread = null;
+
+/**
  * Array containing all notes played by user in current execution.
  * @type !Array.<Array.<number>>
  */
@@ -96,13 +108,17 @@ Music.init = function() {
 
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
+      {'disable': false,
+       'media': 'third-party/blockly/media/',
        'rtl': rtl,
        'toolbox': toolbox,
        'zoom': {'maxScale': 2, 'controls': true, 'wheel': true}});
   BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+  BlocklyGames.workspace.addChangeListener(Music.disableExtraStarts);
   // Prevent collisions with user-defined functions or variables.
-  Blockly.JavaScript.addReservedWords('play,rest,setInstrument');
+  Blockly.JavaScript.addReservedWords('play,rest,setInstrument,' +
+      'start0,start1,start2,start3,start4,start5,start6,start7,start8,start9');
+  // Only start1-4 are used, but no harm in being safe.
 
   if (document.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', Music.submitToReddit);
@@ -249,6 +265,64 @@ Music.drawAnswer = function() {
 };
 
 /**
+ * Ensure that there aren't more than the maximum allowed start blocks.
+ * @param {!Blockly.Events.Abstract} e Change event.
+ */
+Music.disableExtraStarts = function(e) {
+  var toolbox = document.getElementById('toolbox');
+  // Fragile: Assume start block is always in the first category ('Music')
+  // and is always the last block in that category.
+  var toolboxStart = toolbox.firstChild.lastChild;
+  var maxStarts = Music.expectedAnswer ? Music.expectedAnswer.length : 4;
+
+  if (e instanceof Blockly.Events.Create) {
+    var startBlocks = [];
+    var blocks = BlocklyGames.workspace.getTopBlocks(false);
+    for (var i = 0, block; block = blocks[i]; i++) {
+      if (block.type == 'music_start') {
+        startBlocks.push(block);
+      }
+    }
+    if (maxStarts < startBlocks.length) {
+      // Too many start blocks.  Disable any new ones.
+      for (var i = 0, id; id = e.ids[i]; i++) {
+        for (var j = 0, startBlock; startBlock = startBlocks[j]; j++) {
+          if (startBlock.id == id) {
+            startBlock.setDisabled(true);
+          }
+        }
+      }
+    }
+    if (maxStarts <= startBlocks.length) {
+      // Disable start block in toolbox.
+      toolboxStart.setAttribute('disabled', 'true');
+      BlocklyGames.workspace.updateToolbox(toolbox);
+    }
+  } else if (e instanceof Blockly.Events.Delete) {
+    var startBlocksEnabled = [];
+    var startBlocksDisabled = [];
+    var blocks = BlocklyGames.workspace.getTopBlocks(true);
+    for (var i = 0, block; block = blocks[i]; i++) {
+      if (block.type == 'music_start') {
+        (block.disabled ? startBlocksDisabled : startBlocksEnabled).push(block);
+      }
+    }
+    while (maxStarts > startBlocksEnabled.length &&
+           startBlocksDisabled.length) {
+      // Enable a disabled start block.
+      var block = startBlocksDisabled.shift();
+      block.setDisabled(false);
+      startBlocksEnabled.push(block);
+    }
+    if (maxStarts > startBlocksEnabled.length) {
+      // Enable start block in toolbox.
+      toolboxStart.setAttribute('disabled', 'false');
+      BlocklyGames.workspace.updateToolbox(toolbox);
+    }
+  }
+};
+
+/**
  * Reset the music to the start position, clear the display, and kill any
  * pending tasks.
  */
@@ -259,6 +333,8 @@ Music.reset = function() {
   for (var i = 0; i < Music.pidList.length; i++) {
     window.clearTimeout(Music.pidList[i]);
   }
+  Music.interpreter = null;
+  Music.activeThread = null;
   Music.pidList.length = 0;
   Music.startCount = 0;
   Music.userAnswer.length = 0;
@@ -318,18 +394,18 @@ Music.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(duration, pitch, id) {
-    Music.play(duration, pitch, id, interpreter);
+    Music.play(duration, pitch, id);
   };
   interpreter.setProperty(scope, 'play',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(duration, id) {
-    Music.rest(duration, id, interpreter);
+    Music.rest(duration, id);
   };
   interpreter.setProperty(scope, 'rest',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(instrument, id) {
-    Music.setInstrument(instrument, id, interpreter);
+    Music.setInstrument(instrument, id);
   };
   interpreter.setProperty(scope, 'setInstrument',
       interpreter.createNativeFunction(wrapper));
@@ -345,15 +421,19 @@ Music.execute = function() {
     return;
   }
   Music.reset();
+  Blockly.selected && Blockly.selected.unselect();
+  // Create an interpreter whose global scope will be the cross-thread global.
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  Music.interpreter = new Interpreter(code, Music.initInterpreter);
+
   for (var i = 1; i <= Music.startCount; i++) {
-    var interpreter = new Interpreter(code + 'start' + i + '();\n',
-                                      Music.initInterpreter);
-    interpreter.subStartBlock = [];
-    interpreter.instrument = 'piano';
-    interpreter.idealTime = Number(new Date());
+    var interpreter = new Interpreter('');
+    // Replace this thread's global scope with the cross-thread global.
+    interpreter.stateStack[0].scope = Music.interpreter.global;
+    interpreter.appendCode('start' + i + '();\n');
+    var thread = new Music.Thread(i, interpreter.stateStack);
     Music.pidList.push(setTimeout(
-        goog.partial(Music.executeChunk_, interpreter), 100));
+        goog.partial(Music.executeChunk_, thread), 100));
   }
   if (Music.startCount == 0) {
     Music.resetButtonClick();
@@ -362,35 +442,39 @@ Music.execute = function() {
 
 /**
  * Execute a bite-sized chunk of the user's code.
- * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
+ * @param {!Music.Thread} thread Thread to execute.
  * @private
  */
-Music.executeChunk_ = function(interpreter) {
-  interpreter.pauseMs = 0;
+Music.executeChunk_ = function(thread) {
+  Music.activeThread = thread;
+  Music.interpreter.stateStack = thread.stateStack;
+  thread.pauseMs = 0;
+  // Switch the interpreter to run the provided thread.
+  Music.interpreter.stateStack = thread.stateStack;
   var go;
   do {
     try {
-      go = interpreter.step();
+      go = Music.interpreter.step();
     } catch (e) {
       // User error, terminate in shame.
       alert(e);
       go = false;
     }
-    if (go && interpreter.pauseMs) {
+    if (go && thread.pauseMs) {
       // The last executed command requested a pause.
       go = false;
-      Music.pidList.push(setTimeout(goog.partial(Music.executeChunk_,
-          interpreter), interpreter.pauseMs));
+      Music.pidList.push(setTimeout(goog.partial(Music.executeChunk_, thread),
+                                    thread.pauseMs));
 
     }
   } while (go);
   // Wrap up if complete.
-  if (!interpreter.pauseMs) {
-    if (interpreter.highlighedBlock_) {
-      BlocklyInterface.highlight(interpreter.highlighedBlock_, false);
-      interpreter.highlighedBlock_ = null;
+  if (!thread.pauseMs) {
+    if (thread.highlighedBlock) {
+      BlocklyInterface.highlight(thread.highlighedBlock, false);
+      thread.highlighedBlock = null;
     }
-    Music.userAnswer.push(interpreter.subStartBlock);
+    Music.userAnswer.push(thread.subStartBlock);
 
     Music.startCount--;
     if (Music.startCount == 0) {
@@ -412,16 +496,15 @@ Music.executeChunk_ = function(interpreter) {
 /**
  * Highlight a block and pause.
  * @param {?string} id ID of block.
- * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
-Music.animate = function(id, interpreter) {
+Music.animate = function(id) {
   Music.display();
   if (id) {
-    if (interpreter.highlighedBlock_) {
-      BlocklyInterface.highlight(interpreter.highlighedBlock_, false);
+    if (Music.activeThread.highlighedBlock) {
+      BlocklyInterface.highlight(Music.activeThread.highlighedBlock, false);
     }
     BlocklyInterface.highlight(id, true);
-    interpreter.highlighedBlock_ = id;
+    Music.activeThread.highlighedBlock = id;
   }
 };
 
@@ -430,51 +513,50 @@ Music.animate = function(id, interpreter) {
  * @param {number} duration Fraction of a note length to play.
  * @param {number} pitch MIDI note number to play.
  * @param {?string} id ID of block.
- * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
-Music.play = function(duration, pitch, id, interpreter) {
-  var mySound = createjs.Sound.play(interpreter.instrument + pitch);
+Music.play = function(duration, pitch, id) {
+  var mySound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   var scaleDuration = duration * 1000 *
       (2.5 - 2 * Music.speedSlider.getValue());
-  interpreter.pauseMs = scaleDuration -
-      (Number(new Date()) - interpreter.idealTime);
-  interpreter.idealTime += scaleDuration;
-  setTimeout(function() {mySound['stop']();}, interpreter.pauseMs);
-  interpreter.subStartBlock.push(pitch);
-  interpreter.subStartBlock.push(duration);
-  Music.animate(id, interpreter);
+  Music.activeThread.pauseMs = scaleDuration -
+      (Number(new Date()) - Music.activeThread.idealTime);
+  Music.activeThread.idealTime += scaleDuration;
+  setTimeout(function() {mySound['stop']();}, Music.activeThread.pauseMs);
+  Music.activeThread.subStartBlock.push(pitch);
+  Music.activeThread.subStartBlock.push(duration);
+  Music.animate(id);
 };
 
 /**
  * Wait one rest.
  * @param {number} duration Fraction of a note length to rest.
  * @param {?string} id ID of block.
- * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
-Music.rest = function(duration, id, interpreter) {
+Music.rest = function(duration, id) {
   var scaleDuration = duration * 1000 *
       (2.5 - 2 * Music.speedSlider.getValue());
-  interpreter.pauseMs = scaleDuration -
-      (Number(new Date()) - interpreter.idealTime);
-  interpreter.idealTime += scaleDuration;
-  if (interpreter.subStartBlock.length > 1 &&
-      interpreter.subStartBlock[interpreter.subStartBlock.length - 2] == 0) {
-    interpreter.subStartBlock[interpreter.subStartBlock.length - 1] ++;
+  Music.activeThread.pauseMs = scaleDuration -
+      (Number(new Date()) - Music.activeThread.idealTime);
+  Music.activeThread.idealTime += scaleDuration;
+  if (Music.activeThread.subStartBlock.length > 1 &&
+      Music.activeThread.subStartBlock
+          [Music.activeThread.subStartBlock.length - 2] == 0) {
+    Music.activeThread.subStartBlock
+        [Music.activeThread.subStartBlock.length - 1]++;
   } else {
-    interpreter.subStartBlock.push(0);
-    interpreter.subStartBlock.push(duration);
+    Music.activeThread.subStartBlock.push(0);
+    Music.activeThread.subStartBlock.push(duration);
   }
-  Music.animate(id, interpreter);
+  Music.animate(id);
 }
 
 /**
  * Switch to a new instrument.
  * @param {string} instrument Name of new instrument.
  * @param {?string} id ID of block.
- * @param {!Interpreter} interpreter JavaScript interpreter for this thread.
  */
-Music.setInstrument = function(instrument, id, interpreter) {
-  interpreter.instrument = instrument;
+Music.setInstrument = function(instrument, id) {
+  Music.activeThread.instrument = instrument;
 };
 
 /**
@@ -588,4 +670,20 @@ Music.submitToReddit = function() {
 
   // Submit the form.
   document.getElementById('t2r_form').submit();
+};
+
+/**
+ * One execution thread.
+ * @param {number} i Number of this thread (1-4).
+ * @param {!Array} stateStack JS Interpreter state stack.
+ * @constructor
+ */
+Music.Thread = function(i, stateStack) {
+  this.i = i;
+  this.stateStack = stateStack;
+  this.subStartBlock = [];
+  this.instrument = 'piano';
+  this.idealTime = Number(new Date());
+  this.pauseMs = 0;
+  this.highlighedBlock = null;
 };
