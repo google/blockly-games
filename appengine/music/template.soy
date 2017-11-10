@@ -256,7 +256,7 @@
         </block>
         <block type="music_rest"></block>
         <block type="music_instrument"></block>
-        <block type="music_start"></block>
+        <block type="music_start" id="music_start"></block>
       </category>
       <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
         <block type="controls_if"></block>
@@ -444,7 +444,7 @@
           <block type="music_instrument"></block>
         {/if}
         {if $ij.level > 6}
-          <block type="music_start"></block>
+          <block type="music_start" id="music_start"></block>
         {/if}
       </category>
       {if $ij.level > 1}

@@ -270,9 +270,10 @@ Music.drawAnswer = function() {
  */
 Music.disableExtraStarts = function(e) {
   var toolbox = document.getElementById('toolbox');
-  // Fragile: Assume start block is always in the first category ('Music')
-  // and is always the last block in that category.
-  var toolboxStart = toolbox.firstChild.lastChild;
+  var toolboxStart = document.getElementById('music_start');
+  if (!toolboxStart) {
+    return;
+  }
   var maxStarts = Music.expectedAnswer ? Music.expectedAnswer.length : 4;
 
   if (e instanceof Blockly.Events.Create) {
