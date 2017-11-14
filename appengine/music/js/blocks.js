@@ -82,13 +82,13 @@ Blockly.Blocks['music_note'] = {
           "options": [
             [{"src": "music/note1.png",
               "width": 9, "height": 19, "alt": "whole"}, "1"],
-            [{"src": "music/note2.png",
+            [{"src": "music/note0.5.png",
               "width": 9, "height": 19, "alt": "half"}, "0.5"],
-            [{"src": "music/note4.png",
+            [{"src": "music/note0.25.png",
               "width": 9, "height": 19, "alt": "quarter"}, "0.25"],
-            [{"src": "music/note8.png",
+            [{"src": "music/note0.125.png",
               "width": 9, "height": 19, "alt": "eighth"}, "0.125"],
-            [{"src": "music/note16.png",
+            [{"src": "music/note0.0625.png",
               "width": 9, "height": 19, "alt": "sixteenth"}, "0.0625"]
           ]
         },
@@ -127,15 +127,15 @@ Blockly.Blocks['music_rest'] = {
           "type": "field_dropdown",
           "name": "DURATION",
           "options": [
-            [{"src": "music/wait1.png",
+            [{"src": "music/rest1.png",
               "width": 10, "height": 20, "alt": "whole"}, "1"],
-            [{"src": "music/wait2.png",
+            [{"src": "music/rest0.5.png",
               "width": 10, "height": 20, "alt": "half"}, "0.5"],
-            [{"src": "music/wait4.png",
+            [{"src": "music/rest0.25.png",
               "width": 10, "height": 20, "alt": "quarter"}, "0.25"],
-            [{"src": "music/wait8.png",
+            [{"src": "music/rest0.125.png",
               "width": 10, "height": 20, "alt": "eighth"}, "0.125"],
-            [{"src": "music/wait16.png",
+            [{"src": "music/rest0.0625.png",
               "width": 10, "height": 20, "alt": "sixteenth"}, "0.0625"]
           ]
         }

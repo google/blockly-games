@@ -595,18 +595,18 @@ Music.initExpectedAnswer = function() {
     // Level 6.
     [levelNotes],
     // Level 7.
-    [levelNotes, [0,2].concat(levelNotes)],
+    [levelNotes, [0,1,0,1].concat(levelNotes)],
     // Level 8.
     [
       singleReplica(levelNotes),
-      [0,2].concat(levelNotes)
+      [0,1,0,1].concat(levelNotes)
     ],
     // Level 9.
     [
       levelNotes,
-      [0,2].concat(levelNotes),
-      [0,4].concat(levelNotes),
-      [0,6].concat(levelNotes)
+      [0,1,0,1].concat(levelNotes),
+      [0,1,0,1,0,1,0,1].concat(levelNotes),
+      [0,1,0,1,0,1,0,1,0,1,0,1].concat(levelNotes)
     ],
     // Level 10.
     undefined,
@@ -640,7 +640,7 @@ Music.checkAnswer = function() {
   if (BlocklyGames.LEVEL == 6) {
     // Also check for the existence of a "set instrument" block.
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-    if (code.indexOf('setInstrument') == -1) {
+    if (code.indexOf('setInstrument') == -1 || code.indexOf('piano') != -1) {
       // Yes, you can cheat with a comment.  In this case I don't care.
       return false;
     }
