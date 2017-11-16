@@ -40,9 +40,19 @@ html[dir="RTL"] button.primary {
   position: absolute;
 }
 
+.goal {
+  opacity: .4;
+}
+
 .ledgerLine {
   height: 1px;
   width: 20px;
+  position: absolute;
+}
+
+.barLine {
+  height:36px;
+  width: 1px;
   position: absolute;
 }
 

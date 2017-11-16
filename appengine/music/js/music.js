@@ -243,10 +243,12 @@ Music.staveTop_ = function(i, n) {
  * @param {number} time Distance down the stave (on the scale of whole notes).
  * @param {string} pitch MIDI value of note (48 - 69) or rest (0).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
+ * @param {string} className Name of CSS class for image.
  */
-Music.drawNote = function(i, n, time, pitch, duration) {
+Music.drawNote = function(i, n, time, pitch, duration, className) {
+  var musicContainerWidth = document.getElementById('musicContainerWidth');
   while (duration > 1) {
-    Music.drawNote(i, n, time, pitch, 1);
+    Music.drawNote(i, n, time, pitch, 1, className);
     time += 1;
     duration -= 1;
   }
@@ -258,15 +260,17 @@ Music.drawNote = function(i, n, time, pitch, duration) {
     top = Math.round(top);
   } else {
     top += noteIndex * -4.5 + 32;
-    top = Math.floor(top);
+    top = Math.floor(top);  // I have no idea why floor is better than round.
   }
 
-  var left = Math.round(time * 256 + 10);
+  var LEFT_PADDING = 10;
+  var WHOLE_WIDTH = 256;
+  var left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
   var box = document.getElementById('musicContainer');
   var img = document.createElement('img');
-  var className = (noteIndex == -1 ? 'rest' : 'note');
-  img.src = 'music/' + className + duration + '.png';
-  img.className = className;
+  var name = (noteIndex == -1 ? 'rest' : 'note');
+  img.src = 'music/' + name + duration + '.png';
+  img.className = className + ' ' + name;
   img.style.top = top + 'px';
   img.style.left = left + 'px';
   if (noteIndex != -1) {
@@ -276,13 +280,34 @@ Music.drawNote = function(i, n, time, pitch, duration) {
   if (pitch == '48' || pitch == '69') {
     img = document.createElement('img');
     img.src = 'music/black1x1.gif';
-    img.className = 'ledgerLine';
+    img.className = className + ' ledgerLine';
     img.style.top = (top + 32) + 'px';
     img.style.left = (left - 5) + 'px';
     box.appendChild(img);
   }
   // Ensure a half-screenfull of blank music to the right of last note.
-  document.getElementById('musicContainerWidth').width = left + 200;
+  var newWidth = left + 200;
+  var oldWidth = musicContainerWidth.width;
+  if (oldWidth < newWidth) {
+    // Draw a bar at one whole note intervals on all staves.
+    for (var bar = Math.floor(oldWidth / WHOLE_WIDTH);
+         bar <= Math.floor(newWidth / WHOLE_WIDTH);
+         bar++) {
+      if (bar == 0) {
+        continue;  // Skip the first bar.
+      }
+      for (var j = 1; j <= n; j++) {
+        var top = Music.staveTop_(j, n);
+        img = document.createElement('img');
+        img.src = 'music/black1x1.gif';
+        img.className = 'barLine';
+        img.style.top = (top + 18) + 'px';
+        img.style.left = (bar * WHOLE_WIDTH + LEFT_PADDING - 5) + 'px';
+        box.appendChild(img);
+      }
+    }
+    musicContainerWidth.width = newWidth;
+  }
 };
 
 /**
@@ -298,8 +323,8 @@ Music.showHelp = function() {
   };
 
   if (BlocklyGames.LEVEL == 2) {
-    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">do something</field>'
-  +'</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="do something"></mutation></block></xml>';
+    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">do something</field>' +
+        '</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="do something"></mutation></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL == 6) {
     var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
@@ -363,8 +388,8 @@ Music.drawAnswer = function() {
       for (var j = 0; j < chanel.length; j += 2) {
         var pitch = String(chanel[j]);
         var duration = chanel[j + 1];
-        Music.drawNote(i + 1, Music.expectedAnswer.length, time, pitch,
-                       duration);
+        Music.drawNote(i + 1, Music.expectedAnswer.length, time,
+                       pitch, duration, 'goal');
         time += duration;
       }
     }
