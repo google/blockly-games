@@ -33,6 +33,7 @@ goog.require('Music.Blocks');
 goog.require('Music.soy');
 goog.require('Slider');
 goog.require('goog.array');
+goog.require('goog.dom');
 
 
 BlocklyGames.NAME = 'music';
@@ -75,6 +76,22 @@ Music.userAnswer = [];
  */
 Music.canSubmit = false;
 
+Music.NOTES = {
+  '48': 'C3',
+  '50': 'D3',
+  '52': 'E3',
+  '53': 'F3',
+  '55': 'G3',
+  '57': 'A3',
+  '59': 'B3',
+  '60': 'C4',
+  '62': 'D4',
+  '64': 'E4',
+  '65': 'F4',
+  '67': 'G4',
+  '69': 'A4'
+};
+
 /**
  * Initialize Blockly and the music.  Called on page load.
  */
@@ -90,11 +107,13 @@ Music.init = function() {
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
-  var staffBox = document.getElementById('staffBox');
+  var paddingBox = document.getElementById('paddingBox');
+  var staveBox = document.getElementById('staveBox');
   var musicBox = document.getElementById('musicBox');
   var onresize = function(e) {
-    var top = staffBox.offsetTop;
-    musicBox.style.top = (top + 1) + 'px';
+    var top = paddingBox.offsetTop;
+    staveBox.style.top = top + 'px';
+    musicBox.style.top = top + 'px';
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
@@ -105,14 +124,19 @@ Music.init = function() {
     });
   window.addEventListener('resize', onresize);
   onresize(null);
-
+  // Scale the workspace so level 1 = 1.0, and level 10 = 0.7.
+  var scale = 1.03333 - 0.0333333 * BlocklyGames.LEVEL;
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'disable': false,
        'media': 'third-party/blockly/media/',
        'rtl': rtl,
        'toolbox': toolbox,
-       'zoom': {'maxScale': 2, 'controls': true, 'wheel': true}});
+       'zoom': {
+          'maxScale': 2,
+          'controls': true,
+          'wheel': true,
+          'startScale': scale}});
   BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
   BlocklyGames.workspace.addChangeListener(Music.disableExtraStarts);
   // Prevent collisions with user-defined functions or variables.
@@ -144,7 +168,6 @@ Music.init = function() {
   }
 
   Music.initExpectedAnswer();
-  Music.drawAnswer();
   Music.reset();
 
   BlocklyGames.bindClick('runButton', Music.runButtonClick);
@@ -168,12 +191,11 @@ Music.init = function() {
   var assetsPath = 'third-party/midi-js-soundfonts/';
   var instruments = ['piano', 'trumpet', 'violin', 'drum',
                      'flute', 'banjo', 'guitar', 'choir'];
-  var notes = {'55': 'G3', '57': 'A3', '59': 'B3', '60': 'C4', '62': 'D4',
-               '64': 'E4', '65': 'F4', '67': 'G4', '69': 'A4'};
   var sounds = [];
   for (var i = 0; i < instruments.length; i++) {
-    for (var midi in notes) {
-      sounds.push({'src': instruments[i] + '/' + notes[midi] + '.mp3', id: instruments[i] + midi});
+    for (var midi in Music.NOTES) {
+      sounds.push({'src': instruments[i] + '/' + Music.NOTES[midi] + '.mp3',
+                   id: instruments[i] + midi});
     }
   }
   createjs.Sound.registerSounds(sounds, assetsPath);
@@ -182,26 +204,85 @@ Music.init = function() {
 window.addEventListener('load', Music.init);
 
 /**
- * Draw and position the specified number of staff bars.
+ * Draw and position the specified number of stave bars.
+ * @param {number} n Number of stave bars.
  */
-Music.drawStaff = function(n) {
-  var staffHeight = 69;
-  var boxHeight = 400;
-  // <img src="music/staff.png" class="staff" style="top: 100px">
-  var box = document.getElementById('staffBox');
+Music.drawStave = function(n) {
+  var box = document.getElementById('staveBox');
+  // <img src="music/stave.png" class="stave" style="top: 100px">
   for (var i = 1; i <= n; i++) {
-    // Compact formula (by Quynh).
-    var top = i * (boxHeight - staffHeight * n) / (n + 1) ;
-    // Verbose equivalent formula (by Neil).
-    // Keeping it in case we need parts for note display.
-    //var top = ((2 * i - 1) / (2 * n) * boxHeight) - (staffHeight * (i - 1));
-    //top -= staffHeight / 2;  // Center the staff on the desired spot.
+    var top = Music.staveTop_(i, n);
     var img = document.createElement('img');
-    img.src = 'music/staff.png';
-    img.className = 'staff';
+    img.src = 'music/stave.png';
+    img.className = 'stave';
     img.style.top = Math.round(top) + 'px';
     box.appendChild(img);
   }
+};
+
+/**
+ * Return the height of a stave bar.
+ * @param {number} i Which stave bar to compute (base 1).
+ * @param {number} n Number of stave bars.
+ * @return {number} Top edge of stave bar.
+ * @private
+ */
+Music.staveTop_ = function(i, n) {
+  var staveHeight = 69;
+  var boxHeight = 400 - 15;  // Subtract the scrollbar.
+  var top = (2 * i - 1) / (2 * n) * boxHeight;
+  top -= staveHeight / 2;  // Center the stave on the desired spot.
+  top += 5;  // Notes stick up a bit.
+  return top;
+};
+
+/**
+ * Draw and position the specified note or rest.
+ * @param {number} i Which stave bar to draw on (base 1).
+ * @param {number} n Number of stave bars.
+ * @param {number} time Distance down the stave (on the scale of whole notes).
+ * @param {string} pitch MIDI value of note (48 - 69) or rest (0).
+ * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
+ */
+Music.drawNote = function(i, n, time, pitch, duration) {
+  while (duration > 1) {
+    Music.drawNote(i, n, time, pitch, 1);
+    time += 1;
+    duration -= 1;
+  }
+  var noteIndex = ['48', '50', '52', '53', '55', '57', '59', '60', '62', '64',
+                   '65', '67', '69'].indexOf(pitch);
+  var top = Music.staveTop_(i, n);
+  if (noteIndex == -1) {
+    top += 30;
+    top = Math.round(top);
+  } else {
+    top += noteIndex * -4.5 + 32;
+    top = Math.floor(top);
+  }
+
+  var left = Math.round(time * 256 + 10);
+  var box = document.getElementById('musicContainer');
+  var img = document.createElement('img');
+  var className = (noteIndex == -1 ? 'rest' : 'note');
+  img.src = 'music/' + className + duration + '.png';
+  img.className = className;
+  img.style.top = top + 'px';
+  img.style.left = left + 'px';
+  if (noteIndex != -1) {
+    img.title = Music.NOTES[pitch];
+  }
+  box.appendChild(img);
+  if (pitch == '48' || pitch == '69') {
+    img = document.createElement('img');
+    img.src = 'music/black1x1.gif';
+    img.className = 'ledgerLine';
+    img.style.top = (top + 32) + 'px';
+    img.style.left = (left - 5) + 'px';
+    box.appendChild(img);
+  }
+  // Ensure a half-screenfull of blank music to the right of last note.
+  document.getElementById('musicContainerWidth').width = left + 200;
 };
 
 /**
@@ -260,8 +341,34 @@ Music.showCategoryHelp = function() {
  * On startup draw the expected answer and save it to the answer canvas.
  */
 Music.drawAnswer = function() {
-  Music.drawStaff(Music.expectedAnswer ? Music.expectedAnswer.length : 4);
-  Music.reset();
+  // Clear all content.
+  goog.dom.removeChildren(document.getElementById('staveBox'));
+  var musicContainer = document.getElementById('musicContainer');
+  goog.dom.removeChildren(musicContainer);
+  // Add spacer to allow scrollbar to scroll past last note/rest.
+  // <img src="third-party/blockly/media/1x1.gif">
+  var img = document.createElement('img');
+  img.id = 'musicContainerWidth';
+  img.src = 'third-party/blockly/media/1x1.gif';
+  musicContainer.appendChild(img);
+
+  if (!Music.expectedAnswer) {
+    // Level 10 has no expected answer.
+    Music.drawStave(4);
+  } else {
+    Music.drawStave(Music.expectedAnswer.length);
+    for (var i = 0; i < Music.expectedAnswer.length; i++) {
+      var chanel = Music.expectedAnswer[i];
+      var time = 0;
+      for (var j = 0; j < chanel.length; j += 2) {
+        var pitch = String(chanel[j]);
+        var duration = chanel[j + 1];
+        Music.drawNote(i + 1, Music.expectedAnswer.length, time, pitch,
+                       duration);
+        time += duration;
+      }
+    }
+  }
 };
 
 /**
@@ -328,7 +435,7 @@ Music.disableExtraStarts = function(e) {
  * pending tasks.
  */
 Music.reset = function() {
-  Music.display();
+  Music.drawAnswer();
 
   // Kill all tasks.
   for (var i = 0; i < Music.pidList.length; i++) {
@@ -339,13 +446,6 @@ Music.reset = function() {
   Music.pidList.length = 0;
   Music.startCount = 0;
   Music.userAnswer.length = 0;
-};
-
-/**
- * Copy the scratch canvas to the display canvas. Add a music marker.
- */
-Music.display = function() {
-  // TODO
 };
 
 /**
@@ -499,7 +599,6 @@ Music.executeChunk_ = function(thread) {
  * @param {?string} id ID of block.
  */
 Music.animate = function(id) {
-  Music.display();
   if (id) {
     if (Music.activeThread.highlighedBlock) {
       BlocklyInterface.highlight(Music.activeThread.highlighedBlock, false);
@@ -523,6 +622,7 @@ Music.play = function(duration, pitch, id) {
       (Number(new Date()) - Music.activeThread.idealTime);
   Music.activeThread.idealTime += scaleDuration;
   setTimeout(function() {mySound['stop']();}, Music.activeThread.pauseMs);
+  // Make a record of this note.
   Music.activeThread.subStartBlock.push(pitch);
   Music.activeThread.subStartBlock.push(duration);
   Music.animate(id);
@@ -539,11 +639,13 @@ Music.rest = function(duration, id) {
   Music.activeThread.pauseMs = scaleDuration -
       (Number(new Date()) - Music.activeThread.idealTime);
   Music.activeThread.idealTime += scaleDuration;
+  // Make a record of this rest.
   if (Music.activeThread.subStartBlock.length > 1 &&
       Music.activeThread.subStartBlock
           [Music.activeThread.subStartBlock.length - 2] == 0) {
+    // Concatenate this rest with previous one.
     Music.activeThread.subStartBlock
-        [Music.activeThread.subStartBlock.length - 1]++;
+        [Music.activeThread.subStartBlock.length - 1] += duration;
   } else {
     Music.activeThread.subStartBlock.push(0);
     Music.activeThread.subStartBlock.push(duration);
@@ -595,18 +697,18 @@ Music.initExpectedAnswer = function() {
     // Level 6.
     [levelNotes],
     // Level 7.
-    [levelNotes, [0,1,0,1].concat(levelNotes)],
+    [levelNotes, [0,2].concat(levelNotes)],
     // Level 8.
     [
       singleReplica(levelNotes),
-      [0,1,0,1].concat(levelNotes)
+      [0,2].concat(levelNotes)
     ],
     // Level 9.
     [
       levelNotes,
-      [0,1,0,1].concat(levelNotes),
-      [0,1,0,1,0,1,0,1].concat(levelNotes),
-      [0,1,0,1,0,1,0,1,0,1,0,1].concat(levelNotes)
+      [0,2].concat(levelNotes),
+      [0,4].concat(levelNotes),
+      [0,6].concat(levelNotes)
     ],
     // Level 10.
     undefined,
@@ -623,6 +725,8 @@ Music.checkAnswer = function() {
     return true;
   }
   if (Music.expectedAnswer.length != Music.userAnswer.length) {
+    console.log('Expected ' + Music.expectedAnswer.length + ' voices, found ' +
+                Music.userAnswer.length);
     return false;
   }
   for (var i = 0; i < Music.expectedAnswer.length; i++) {

@@ -12,17 +12,38 @@ html[dir="RTL"] button.primary {
   bottom: 10px;
 }
 
-#staffBox {
+#paddingBox {
+  height: 400px;
+  width: 400px;
+}
+
+#staveBox {
+  position: absolute;
   border: 1px solid #ccc;
   height: 400px;
   width: 400px;
-  line-height: 0;
 }
 
-.staff {
+.stave {
   height: 69px;
   width: 400px;
-  position: relative;
+  position: absolute;
+}
+
+.note {
+  height: 37px;
+  position: absolute;
+}
+
+.rest {
+  height: 31px;
+  position: absolute;
+}
+
+.ledgerLine {
+  height: 1px;
+  width: 20px;
+  position: absolute;
 }
 
 #musicBox {

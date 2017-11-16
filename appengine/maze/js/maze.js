@@ -509,6 +509,7 @@ Maze.init = function() {
   onresize(null);
 
   var toolbox = document.getElementById('toolbox');
+  // Scale the workspace so level 1 = 1.3, and level 10 = 1.0.
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
