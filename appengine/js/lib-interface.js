@@ -74,7 +74,8 @@ BlocklyInterface.init = function() {
 /**
  * Load blocks saved on App Engine Storage or in session/local storage.
  * @param {string} defaultXml Text representation of default blocks.
- * @param {boolean} inherit If true, load blocks from previous level.
+ * @param {boolean|!Function} inherit If true or a function, load blocks from
+ *     previous level.  If a function, call it to modify the inherited blocks.
  */
 BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
@@ -100,6 +101,9 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   var inherited = inherit &&
       BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                         BlocklyGames.LEVEL - 1);
+  if (typeof inherit == 'function') {
+    inherited = inherit(inherited);
+  }
 
   var restore = loadOnce || savedLevel || inherited || defaultXml;
   if (restore) {

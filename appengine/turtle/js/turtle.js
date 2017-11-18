@@ -146,7 +146,8 @@ Turtle.init = function() {
         '  </block>' +
         '</xml>';
   }
-  BlocklyInterface.loadBlocks(defaultXml, true);
+  BlocklyInterface.loadBlocks(defaultXml,
+      BlocklyGames.LEVEL != BlocklyGames.MAX_LEVEL || Turtle.transform10);
 
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
   Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
@@ -182,6 +183,168 @@ Turtle.init = function() {
 };
 
 window.addEventListener('load', Turtle.init);
+
+/**
+ * Transform a program written in level 9 blocks into one written in the more
+ * advanced level 10 blocks.
+ * @param {string} xml Level 9 blocks in XML as text.
+ * @return {string} Level 10 blocks in XML as text.
+ */
+Turtle.transform10 = function(xml) {
+  var tree = Blockly.Xml.textToDom(xml);
+  var node = tree;
+  while (node) {
+    if (node.nodeName.toLowerCase() == 'block') {
+      var type = node.getAttribute('type');
+      // Find the last child that's a 'field'.
+      var child = node.lastChild;
+      while (child && child.nodeName.toLowerCase() != 'field') {
+        child = child.previousSibling;
+      }
+      var childName = child && child.getAttribute('name');
+
+      if (type == 'turtle_colour_internal' && childName== 'COLOUR') {
+        /*
+        Old:
+          <block type="turtle_colour_internal">
+            <field name="COLOUR">#ffff00</field>
+            <next>...</next>
+          </block>
+        New:
+          <block type="turtle_colour">
+            <value name="COLOUR">
+              <shadow type="colour_picker">
+                <field name="COLOUR">#ffff00</field>
+              </shadow>
+            </value>
+            <next>...</next>
+          </block>
+        */
+        node.setAttribute('type', 'turtle_colour');
+        node.removeChild(child);
+        var value = document.createElement('value');
+        value.setAttribute('name', 'COLOUR');
+        node.appendChild(value);
+        var shadow = document.createElement('shadow');
+        shadow.setAttribute('type', 'colour_picker');
+        value.appendChild(shadow);
+        shadow.appendChild(child);
+      }
+
+      if (type == 'turtle_repeat_internal' && childName== 'TIMES') {
+        /*
+        Old:
+          <block type="turtle_repeat_internal">
+            <field name="TIMES">3</field>
+            <statement name="DO">...</statement>
+            <next>...</next>
+          </block>
+        New:
+          <block type="controls_repeat_ext">
+            <value name="TIMES">
+              <shadow type="math_number">
+                <field name="NUM">3</field>
+              </shadow>
+            </value>
+            <statement name="DO">...</statement>
+            <next>...</next>
+          </block>
+        */
+        node.setAttribute('type', 'controls_repeat_ext');
+        node.removeChild(child);
+        var value = document.createElement('value');
+        value.setAttribute('name', 'TIMES');
+        node.appendChild(value);
+        var shadow = document.createElement('shadow');
+        shadow.setAttribute('type', 'math_number');
+        value.appendChild(shadow);
+        child.setAttribute('name', 'NUM');
+        shadow.appendChild(child);
+      }
+
+      if (type == 'turtle_move_internal' && childName== 'VALUE') {
+        /*
+        Old:
+          <block type="turtle_move_internal">
+            <field name="DIR">moveForward</field>
+            <field name="VALUE">50</field>
+            <next>...</next>
+          </block>
+        New:
+          <block type="turtle_move">
+            <field name="DIR">moveForward</field>
+            <value name="VALUE">
+              <shadow type="math_number">
+                <field name="NUM">50</field>
+              </shadow>
+            </value>
+            <next>...</next>
+          </block>
+        */
+        node.setAttribute('type', 'turtle_move');
+        node.removeChild(child);
+        var value = document.createElement('value');
+        value.setAttribute('name', 'VALUE');
+        node.appendChild(value);
+        var shadow = document.createElement('shadow');
+        shadow.setAttribute('type', 'math_number');
+        value.appendChild(shadow);
+        child.setAttribute('name', 'NUM');
+        shadow.appendChild(child);
+      }
+
+      if (type == 'turtle_turn_internal' && childName== 'VALUE') {
+        /*
+        Old:
+          <block type="turtle_move_internal">
+            <field name="DIR">turnRight</field>
+            <field name="VALUE">90</field>
+            <next>...</next>
+          </block>
+        New:
+          <block type="turtle_move">
+            <field name="DIR">turnRight</field>
+            <value name="VALUE">
+              <shadow type="math_number">
+                <field name="NUM">90</field>
+              </shadow>
+            </value>
+            <next>...</next>
+          </block>
+        */
+        node.setAttribute('type', 'turtle_turn');
+        node.removeChild(child);
+        var value = document.createElement('value');
+        value.setAttribute('name', 'VALUE');
+        node.appendChild(value);
+        var shadow = document.createElement('shadow');
+        shadow.setAttribute('type', 'math_number');
+        value.appendChild(shadow);
+        child.setAttribute('name', 'NUM');
+        shadow.appendChild(child);
+      }
+    }
+    node = Turtle.nextNode(node);
+  }
+  return Blockly.Xml.domToText(tree);
+};
+
+/**
+ * Walk from one node to the next in a tree.
+ * @param {!Node} Current node.
+ * @return {Node} Next node, or null if ran off bottom of tree.
+ */
+Turtle.nextNode = function(node) {
+  if (node.firstChild) {
+    return node.firstChild;
+  }
+  do {
+    if (node.nextSibling) {
+      return node.nextSibling;
+    }
+  } while ((node = node.parentNode));
+  return node;
+};
 
 /**
  * Show the help pop-up.
