@@ -43,9 +43,9 @@ Music.WIDTH = 400;
 
 /**
  * PID of animation task currently executing.
- * @type !Array.<number>
+ * @type number
  */
-Music.pidList = [];
+Music.pid = 0;
 
 /**
  * Number of start blocks on the page (and thus the number of threads).
@@ -57,6 +57,24 @@ Music.startCount = 0;
  * @type Interpreter
  */
 Music.interpreter = null;
+
+/**
+ * All executing threads.
+ * @type !Array.<!Music.Thread>
+ */
+Music.threads = [];
+
+/**
+ * Time of start of execution.
+ * @type {number}
+ */
+Music.startTime = 0;
+
+/**
+ * Number of 1/64ths notes since the start.
+ * @type {number}
+ */
+Music.clock64ths = 0;
 
 /**
  * Currently executing thread.
@@ -150,7 +168,7 @@ Music.init = function() {
 
   // Initialize the slider.
   var sliderSvg = document.getElementById('slider');
-  Music.speedSlider = new Slider(10, 35, 130, sliderSvg);
+  Music.speedSlider = new Slider(10, 35, 130, sliderSvg, Music.sliderChange);
 
   var defaultXml =
       '<xml>' +
@@ -202,6 +220,13 @@ Music.init = function() {
 };
 
 window.addEventListener('load', Music.init);
+
+/**
+ * The speed slider has changed.  Erase the start time to force re-computation.
+ */
+Music.sliderChange = function() {
+  Music.startTime = 0;
+};
 
 /**
  * Draw and position the specified number of stave bars.
@@ -462,15 +487,15 @@ Music.disableExtraStarts = function(e) {
 Music.reset = function() {
   Music.drawAnswer();
 
-  // Kill all tasks.
-  for (var i = 0; i < Music.pidList.length; i++) {
-    window.clearTimeout(Music.pidList[i]);
-  }
+  // Kill any task.
+  clearTimeout(Music.pid);
   Music.interpreter = null;
   Music.activeThread = null;
-  Music.pidList.length = 0;
   Music.startCount = 0;
+  Music.threads.length = 0;
   Music.userAnswer.length = 0;
+  Music.clock64ths = 0;
+  Music.startTime = 0;
 };
 
 /**
@@ -557,13 +582,49 @@ Music.execute = function() {
     // Replace this thread's global scope with the cross-thread global.
     interpreter.stateStack[0].scope = Music.interpreter.global;
     interpreter.appendCode('start' + i + '();\n');
-    var thread = new Music.Thread(i, interpreter.stateStack);
-    Music.pidList.push(setTimeout(
-        goog.partial(Music.executeChunk_, thread), 100));
+    Music.threads.push(new Music.Thread(i, interpreter.stateStack));
   }
   if (Music.startCount == 0) {
     Music.resetButtonClick();
   }
+  setTimeout(Music.tick, 100);
+};
+
+/**
+ * Execute a 1/64th tick of the program.
+ */
+Music.tick = function() {
+  if (Music.startCount == 0) {
+    // Program complete.
+    if (Music.checkAnswer()) {
+      BlocklyInterface.saveToLocalStorage();
+      if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+        // No congrats for last level, it is open ended.
+        BlocklyDialogs.congratulations();
+      }
+    }
+    Music.resetButtonClick();
+    BlocklyGames.workspace.highlightBlock(null);
+    // Playback complete; allow the user to submit this music to Reddit.
+    Music.canSubmit = true;
+    return;
+  }
+
+  // Delay between start of each beat (164ths of a whole note).
+  var scaleDuration = 1000 * (2.5 - 2 * Music.speedSlider.getValue()) / 64;
+  if (!Music.startTime) {
+    // Either the first tick, or first tick after slider was adjusted.
+    Music.startTime = Date.now() - Music.clock64ths * scaleDuration;
+  }
+  for (var i = 0, thread; thread = Music.threads[i]; i++) {
+    if (thread.pauseUntil64ths <= Music.clock64ths) {
+      Music.executeChunk_(thread);
+    }
+  }
+  Music.autoScroll();
+  Music.clock64ths++;
+  var ms = (Music.startTime + Music.clock64ths * scaleDuration) - Date.now();
+  setTimeout(Music.tick, ms);
 };
 
 /**
@@ -574,7 +635,6 @@ Music.execute = function() {
 Music.executeChunk_ = function(thread) {
   Music.activeThread = thread;
   Music.interpreter.stateStack = thread.stateStack;
-  thread.pauseMs = 0;
   // Switch the interpreter to run the provided thread.
   Music.interpreter.stateStack = thread.stateStack;
   var go;
@@ -586,37 +646,32 @@ Music.executeChunk_ = function(thread) {
       alert(e);
       go = false;
     }
-    if (go && thread.pauseMs) {
+    if (thread.pauseUntil64ths > Music.clock64ths) {
       // The last executed command requested a pause.
-      go = false;
-      Music.pidList.push(setTimeout(goog.partial(Music.executeChunk_, thread),
-                                    thread.pauseMs));
-
+      return;
     }
   } while (go);
-  // Wrap up if complete.
-  if (!thread.pauseMs) {
-    if (thread.highlighedBlock) {
-      BlocklyInterface.highlight(thread.highlighedBlock, false);
-      thread.highlighedBlock = null;
-    }
-    Music.userAnswer.push(thread.subStartBlock);
-
-    Music.startCount--;
-    if (Music.startCount == 0) {
-      if (Music.checkAnswer()) {
-        BlocklyInterface.saveToLocalStorage();
-        if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-          // No congrats for last level, it is open ended.
-          BlocklyDialogs.congratulations();
-        }
-      }
-      Music.resetButtonClick();
-      BlocklyGames.workspace.highlightBlock(null);
-      // Playback complete; allow the user to submit this music to Reddit.
-      Music.canSubmit = true;
-    }
+  // Thread complete.  Wrap up.
+  if (thread.sound) {
+    thread.sound['stop']();
   }
+  if (thread.highlighedBlock) {
+    BlocklyInterface.highlight(thread.highlighedBlock, false);
+    thread.highlighedBlock = null;
+  }
+  Music.userAnswer.push(thread.subStartBlock);
+  thread.pauseUntil64ths = Infinity;
+  Music.startCount--;
+};
+
+/**
+ * Scroll the music display horizontally to the current time.
+ */
+Music.autoScroll = function() {
+  var WHOLE_WIDTH = 256;
+  var musicBox = document.getElementById('musicBox');
+  var musicBoxMid = (400 - 36) / 2;  // There's a 36px margin for the clef.
+  musicBox.scrollLeft = Music.clock64ths * (WHOLE_WIDTH / 64) - musicBoxMid;
 };
 
 /**
@@ -635,18 +690,16 @@ Music.animate = function(id) {
 
 /**
  * Play one note.
- * @param {number} duration Fraction of a note length to play.
+ * @param {number} duration Fraction of a whole note length to play.
  * @param {number} pitch MIDI note number to play.
  * @param {?string} id ID of block.
  */
 Music.play = function(duration, pitch, id) {
-  var mySound = createjs.Sound.play(Music.activeThread.instrument + pitch);
-  var scaleDuration = duration * 1000 *
-      (2.5 - 2 * Music.speedSlider.getValue());
-  Music.activeThread.pauseMs = scaleDuration -
-      (Number(new Date()) - Music.activeThread.idealTime);
-  Music.activeThread.idealTime += scaleDuration;
-  setTimeout(function() {mySound['stop']();}, Music.activeThread.pauseMs);
+  if (Music.activeThread.sound) {
+    Music.activeThread.sound['stop']();
+  }
+  Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
+  Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this note.
   Music.activeThread.subStartBlock.push(pitch);
   Music.activeThread.subStartBlock.push(duration);
@@ -655,15 +708,14 @@ Music.play = function(duration, pitch, id) {
 
 /**
  * Wait one rest.
- * @param {number} duration Fraction of a note length to rest.
+ * @param {number} duration Fraction of a whole note length to rest.
  * @param {?string} id ID of block.
  */
 Music.rest = function(duration, id) {
-  var scaleDuration = duration * 1000 *
-      (2.5 - 2 * Music.speedSlider.getValue());
-  Music.activeThread.pauseMs = scaleDuration -
-      (Number(new Date()) - Music.activeThread.idealTime);
-  Music.activeThread.idealTime += scaleDuration;
+  if (Music.activeThread.sound) {
+    Music.activeThread.sound['stop']();
+  }
+  Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this rest.
   if (Music.activeThread.subStartBlock.length > 1 &&
       Music.activeThread.subStartBlock
@@ -676,7 +728,7 @@ Music.rest = function(duration, id) {
     Music.activeThread.subStartBlock.push(duration);
   }
   Music.animate(id);
-}
+};
 
 /**
  * Switch to a new instrument.
@@ -813,7 +865,6 @@ Music.Thread = function(i, stateStack) {
   this.stateStack = stateStack;
   this.subStartBlock = [];
   this.instrument = 'piano';
-  this.idealTime = Number(new Date());
-  this.pauseMs = 0;
+  this.pauseUntil64ths = 0;
   this.highlighedBlock = null;
 };
