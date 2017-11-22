@@ -281,7 +281,7 @@ Music.drawNote = function(i, n, time, pitch, duration, className) {
                    '65', '67', '69'].indexOf(pitch);
   var top = Music.staveTop_(i, n);
   if (noteIndex == -1) {
-    top += 30;
+    top += 21;
     top = Math.round(top);
   } else {
     top += noteIndex * -4.5 + 32;
@@ -596,6 +596,9 @@ Music.execute = function() {
 Music.tick = function() {
   if (Music.startCount == 0) {
     // Program complete.
+    for (var i = 0, thread; thread = Music.threads[i]; i++) {
+      Music.stopSound(thread);
+    }
     if (Music.checkAnswer()) {
       BlocklyInterface.saveToLocalStorage();
       if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -624,7 +627,7 @@ Music.tick = function() {
   Music.autoScroll();
   Music.clock64ths++;
   var ms = (Music.startTime + Music.clock64ths * scaleDuration) - Date.now();
-  setTimeout(Music.tick, ms);
+  Music.pid = setTimeout(Music.tick, ms);
 };
 
 /**
@@ -652,9 +655,7 @@ Music.executeChunk_ = function(thread) {
     }
   } while (go);
   // Thread complete.  Wrap up.
-  if (thread.sound) {
-    thread.sound['stop']();
-  }
+  Music.stopSound(thread);
   if (thread.highlighedBlock) {
     BlocklyInterface.highlight(thread.highlighedBlock, false);
     thread.highlighedBlock = null;
@@ -662,6 +663,20 @@ Music.executeChunk_ = function(thread) {
   Music.userAnswer.push(thread.subStartBlock);
   thread.pauseUntil64ths = Infinity;
   Music.startCount--;
+};
+
+/**
+ * Stop the specified thread from playing the current sound.
+ * @param {!Music.Thread} thread Thread object.
+ */
+Music.stopSound = function(thread) {
+  var sound = thread.sound;
+  if (sound) {
+    // Firefox requires 100ms to start a note playing, so delaying the end
+    // eliminates the staccato.  Adds a nice smoothness to Chrome.
+    setTimeout(sound['stop'].bind(sound), 100);
+    thread.sound = null;
+  }
 };
 
 /**
@@ -695,15 +710,15 @@ Music.animate = function(id) {
  * @param {?string} id ID of block.
  */
 Music.play = function(duration, pitch, id) {
-  if (Music.activeThread.sound) {
-    Music.activeThread.sound['stop']();
-  }
+  Music.stopSound(Music.activeThread);
   Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this note.
   Music.activeThread.subStartBlock.push(pitch);
   Music.activeThread.subStartBlock.push(duration);
   Music.animate(id);
+  Music.drawNote(Music.activeThread.i, Music.threads.length,
+                 Music.clock64ths / 64, String(pitch), duration, '');
 };
 
 /**
@@ -712,9 +727,7 @@ Music.play = function(duration, pitch, id) {
  * @param {?string} id ID of block.
  */
 Music.rest = function(duration, id) {
-  if (Music.activeThread.sound) {
-    Music.activeThread.sound['stop']();
-  }
+  Music.stopSound(Music.activeThread);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this rest.
   if (Music.activeThread.subStartBlock.length > 1 &&
@@ -728,6 +741,8 @@ Music.rest = function(duration, id) {
     Music.activeThread.subStartBlock.push(duration);
   }
   Music.animate(id);
+  Music.drawNote(Music.activeThread.i, Music.threads.length,
+                 Music.clock64ths / 64, '0', duration, '');
 };
 
 /**
@@ -867,4 +882,5 @@ Music.Thread = function(i, stateStack) {
   this.instrument = 'piano';
   this.pauseUntil64ths = 0;
   this.highlighedBlock = null;
+  this.sound = null;
 };
