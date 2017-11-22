@@ -83,12 +83,6 @@ Music.clock64ths = 0;
 Music.activeThread = null;
 
 /**
- * Array containing all notes played by user in current execution.
- * @type !Array.<Array.<number>>
- */
-Music.userAnswer = [];
-
-/**
  * Is the composition ready to be submitted to Reddit?
  * @type boolean
  */
@@ -497,7 +491,6 @@ Music.reset = function() {
   Music.activeThread = null;
   Music.startCount = 0;
   Music.threads.length = 0;
-  Music.userAnswer.length = 0;
   Music.clock64ths = 0;
   Music.startTime = 0;
 };
@@ -661,7 +654,6 @@ Music.executeChunk_ = function(thread) {
     BlocklyInterface.highlight(thread.highlighedBlock, false);
     thread.highlighedBlock = null;
   }
-  Music.userAnswer.push(thread.subStartBlock);
   thread.pauseUntil64ths = Infinity;
   Music.startCount--;
 };
@@ -735,8 +727,8 @@ Music.play = function(duration, pitch, id) {
   Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this note.
-  Music.activeThread.subStartBlock.push(pitch);
-  Music.activeThread.subStartBlock.push(duration);
+  Music.activeThread.transcript.push(pitch);
+  Music.activeThread.transcript.push(duration);
   Music.animate(id);
   Music.drawNote(Music.activeThread.stave, Music.threads.length,
                  Music.clock64ths / 64, String(pitch), duration, '');
@@ -751,15 +743,15 @@ Music.rest = function(duration, id) {
   Music.stopSound(Music.activeThread);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this rest.
-  if (Music.activeThread.subStartBlock.length > 1 &&
-      Music.activeThread.subStartBlock
-          [Music.activeThread.subStartBlock.length - 2] == 0) {
+  if (Music.activeThread.transcript.length > 1 &&
+      Music.activeThread.transcript
+          [Music.activeThread.transcript.length - 2] == 0) {
     // Concatenate this rest with previous one.
-    Music.activeThread.subStartBlock
-        [Music.activeThread.subStartBlock.length - 1] += duration;
+    Music.activeThread.transcript
+        [Music.activeThread.transcript.length - 1] += duration;
   } else {
-    Music.activeThread.subStartBlock.push(0);
-    Music.activeThread.subStartBlock.push(duration);
+    Music.activeThread.transcript.push(0);
+    Music.activeThread.transcript.push(duration);
   }
   Music.animate(id);
   Music.drawNote(Music.activeThread.stave, Music.threads.length,
@@ -837,21 +829,18 @@ Music.checkAnswer = function() {
     // On level 10 everyone is a winner.
     return true;
   }
-  if (Music.expectedAnswer.length != Music.userAnswer.length) {
+  if (Music.expectedAnswer.length != Music.threads.length) {
     console.log('Expected ' + Music.expectedAnswer.length + ' voices, found ' +
                 Music.userAnswer.length);
     return false;
   }
   for (var i = 0; i < Music.expectedAnswer.length; i++) {
-    var isFound = false;
-    for (var j = 0; j < Music.userAnswer.length; j++) {
-      if (goog.array.equals(Music.expectedAnswer[i], Music.userAnswer[j])) {
-        isFound = true;
-        break;
+    if (Music.threads[i].stave == i + 1) {
+      if (!goog.array.equals(Music.expectedAnswer[i],
+                             Music.threads[i].transcript)) {
+        return false;
       }
-    }
-    if (!isFound) {
-      return false;
+      continue;
     }
   }
   if (BlocklyGames.LEVEL == 6) {
@@ -910,7 +899,7 @@ Music.submitToReddit = function() {
 Music.Thread = function(i, stateStack) {
   this.stave = i;  // 1-4
   this.stateStack = stateStack;
-  this.subStartBlock = [];
+  this.transcript = [];
   this.instrument = 'piano';
   this.pauseUntil64ths = 0;
   this.highlighedBlock = null;

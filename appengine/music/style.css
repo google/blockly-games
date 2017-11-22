@@ -44,6 +44,10 @@ html[dir="RTL"] button.primary {
   opacity: .4;
 }
 
+.wrong {
+  filter: invert(50%) sepia(100%) saturate(10000%)
+}
+
 .ledgerLine {
   height: 1px;
   width: 20px;
