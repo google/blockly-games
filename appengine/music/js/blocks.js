@@ -114,6 +114,36 @@ Blockly.JavaScript['music_note'] = function(block) {
           ', \'block_id_' + block.id + '\');\n';
 };
 
+Blockly.Blocks['music_rest_whole'] = {
+  /**
+   * Block for waiting a whole note.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('Music_rest'),
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "music/rest1.png",
+          "width": 10,
+          "height": 20,
+          "alt": "-"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Music.Blocks.HUE,
+      "tooltip": BlocklyGames.getMsg('Music_restWholeTooltip')
+   });
+  }
+};
+
+Blockly.JavaScript['music_rest_whole'] = function(block) {
+  return 'rest(1, \'block_id_' + block.id + '\');\n';
+};
+
 Blockly.Blocks['music_rest'] = {
   /**
    * Block for waiting.
@@ -147,7 +177,8 @@ Blockly.Blocks['music_rest'] = {
       "tooltip": BlocklyGames.getMsg('Music_restTooltip')
    });
   }
-}
+};
+
 Blockly.JavaScript['music_rest'] = function(block) {
   return 'rest(' + block.getFieldValue('DURATION') +
       ', \'block_id_' + block.id + '\');\n';

@@ -175,7 +175,8 @@ Music.init = function() {
       '  <block type="music_start" deletable="' +
           (BlocklyGames.LEVEL > 6) + '" x="10" y="10"></block>' +
       '</xml>';
-  BlocklyInterface.loadBlocks(defaultXml, true);
+  BlocklyInterface.loadBlocks(defaultXml,
+      BlocklyGames.LEVEL != BlocklyGames.MAX_LEVEL || Music.transform10);
   // After level 6 the user can create new start blocks.
   // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
@@ -355,7 +356,7 @@ Music.showHelp = function() {
     var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp6', xml);
   } else if (BlocklyGames.LEVEL == 7) {
-    var xml = '<xml><block type="music_rest" x="5" y="10"></block></xml>';
+    var xml = '<xml><block type="music_rest_whole" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp7', xml);
   }
 
@@ -489,6 +490,9 @@ Music.reset = function() {
 
   // Kill any task.
   clearTimeout(Music.pid);
+  for (var i = 0, thread; thread = Music.threads[i]; i++) {
+    Music.stopSound(thread);
+  }
   Music.interpreter = null;
   Music.activeThread = null;
   Music.startCount = 0;
@@ -596,9 +600,6 @@ Music.execute = function() {
 Music.tick = function() {
   if (Music.startCount == 0) {
     // Program complete.
-    for (var i = 0, thread; thread = Music.threads[i]; i++) {
-      Music.stopSound(thread);
-    }
     if (Music.checkAnswer()) {
       BlocklyInterface.saveToLocalStorage();
       if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -710,6 +711,26 @@ Music.animate = function(id) {
  * @param {?string} id ID of block.
  */
 Music.play = function(duration, pitch, id) {
+  if (Music.activeThread.resting) {
+    // Reorder this thread to the top of the resting threads.
+    // Find the min resting thread stave.
+    var minResting = Infinity;
+    for (var i = 0, thread; thread = Music.threads[i]; i++) {
+      if (thread.resting && thread.stave < minResting) {
+        minResting = thread.stave;
+      }
+    }
+    // Swap this thread and the min-thread's staves.
+    for (var i = 0, thread; thread = Music.threads[i]; i++) {
+      if (minResting == thread.stave) {
+        var swapStave = Music.activeThread.stave;
+        Music.activeThread.stave = minResting;
+        thread.stave = swapStave;
+        break;
+      }
+    }
+    Music.activeThread.resting = false;
+  }
   Music.stopSound(Music.activeThread);
   Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
@@ -717,7 +738,7 @@ Music.play = function(duration, pitch, id) {
   Music.activeThread.subStartBlock.push(pitch);
   Music.activeThread.subStartBlock.push(duration);
   Music.animate(id);
-  Music.drawNote(Music.activeThread.i, Music.threads.length,
+  Music.drawNote(Music.activeThread.stave, Music.threads.length,
                  Music.clock64ths / 64, String(pitch), duration, '');
 };
 
@@ -741,7 +762,7 @@ Music.rest = function(duration, id) {
     Music.activeThread.subStartBlock.push(duration);
   }
   Music.animate(id);
-  Music.drawNote(Music.activeThread.i, Music.threads.length,
+  Music.drawNote(Music.activeThread.stave, Music.threads.length,
                  Music.clock64ths / 64, '0', duration, '');
 };
 
@@ -845,6 +866,17 @@ Music.checkAnswer = function() {
 };
 
 /**
+ * Transform a program written in level 9 blocks into one written in the more
+ * advanced level 10 blocks.
+ * @param {string} xml Level 9 blocks in XML as text.
+ * @return {string} Level 10 blocks in XML as text.
+ */
+Music.transform10 = function(xml) {
+  // The level 7/8/9 rest block is non-configurable whole-note duration.
+  return xml.replace(/"music_rest_whole"/g, '"music_rest"');
+};
+
+/**
  * Send an image of the canvas to Reddit.
  */
 Music.submitToReddit = function() {
@@ -876,11 +908,15 @@ Music.submitToReddit = function() {
  * @constructor
  */
 Music.Thread = function(i, stateStack) {
-  this.i = i;
+  this.stave = i;  // 1-4
   this.stateStack = stateStack;
   this.subStartBlock = [];
   this.instrument = 'piano';
   this.pauseUntil64ths = 0;
   this.highlighedBlock = null;
+  // Currently playing sound object.
   this.sound = null;
+  // Has not played a note yet.  Level 1-9 the threads need to reorder
+  // as the first note is played.  Level 10 is by start block height.
+  this.resting = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL;
 };

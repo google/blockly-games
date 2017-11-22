@@ -21,6 +21,7 @@
     <span id="Music_playNoteTooltip">{msg meaning="Music.playNoteTooltip" desc="tooltip"}Plays one musical note of the specified duration and pitch.{/msg}</span>
     <span id="Music_playNote">{msg meaning="Music.playNote" desc="Plays one musical note.  %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...)."}play %1 note %2{/msg}</span>
     <span id="Music_restTooltip">{msg meaning="Music.restTooltip" desc="tooltip"}Waits for the specified duration.{/msg}</span>
+    <span id="Music_restWholeTooltip">{msg meaning="Music.restWholeTooltip" desc="tooltip"}Waits for one whole note.{/msg}</span>
     <span id="Music_rest">{msg meaning="Music.rest" desc="Plays no music for a duration specified.  %1 is the duration (whole, quarter, ...)."}rest %1{/msg}</span>
     <span id="Music_setInstrumentTooltip">{msg meaning="Music.setInstrumentTooltip" desc="tooltip"}Switches to the specified instrument when playing subsequent musical notes.{/msg}</span>
     <span id="Music_setInstrument">{msg meaning="Music.setInstrument" desc="Sets to an instrument to play music.  %1 is type of the instrument (guitar, piano, ...)."}set instrument to %1{/msg}</span>
@@ -438,7 +439,7 @@
           </value>
         </block>
         {if $ij.level > 6}
-          <block type="music_rest"></block>
+          <block type="music_rest_whole"></block>
         {/if}
         {if $ij.level > 5}
           <block type="music_instrument"></block>
