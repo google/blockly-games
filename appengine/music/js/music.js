@@ -58,6 +58,11 @@ Music.startCount = 0;
 Music.staveCount = 0;
 
 /**
+ * Number of bars in the visualization.
+ */
+Music.barCount = 0;
+
+/**
  * JavaScript interpreter for executing program.
  * @type Interpreter
  */
@@ -234,7 +239,7 @@ Music.sliderChange = function() {
  */
 Music.drawStave = function(n) {
   Music.staveCount = n;
-  var box = document.getElementById('staveBox');
+  var staveBox = document.getElementById('staveBox');
   // <img src="music/stave.png" class="stave" style="top: 100px">
   for (var i = 1; i <= n; i++) {
     var top = Music.staveTop_(i, n);
@@ -242,7 +247,7 @@ Music.drawStave = function(n) {
     img.src = 'music/stave.png';
     img.className = 'stave';
     img.style.top = Math.round(top) + 'px';
-    box.appendChild(img);
+    staveBox.appendChild(img);
   }
 };
 
@@ -266,12 +271,11 @@ Music.staveTop_ = function(i, n) {
  * Draw and position the specified note or rest.
  * @param {number} i Which stave bar to draw on (base 1).
  * @param {number} time Distance down the stave (on the scale of whole notes).
- * @param {string} pitch MIDI value of note (48 - 69) or rest (0).
+ * @param {string} pitch MIDI value of note (48 - 69), or rest (0).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
  * @param {string} className Name of CSS class for image.
  */
 Music.drawNote = function(i, time, pitch, duration, className) {
-  var musicContainerWidth = document.getElementById('musicContainerWidth');
   while (duration > 1) {
     Music.drawNote(i, time, pitch, 1, className);
     time += 1;
@@ -291,7 +295,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   var LEFT_PADDING = 10;
   var WHOLE_WIDTH = 256;
   var left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
-  var box = document.getElementById('musicContainer');
+  var musicContainer = document.getElementById('musicContainer');
   var img = document.createElement('img');
   var name = (noteIndex == -1 ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
@@ -301,37 +305,14 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   if (noteIndex != -1) {
     img.title = Music.NOTES[pitch];
   }
-  box.appendChild(img);
+  musicContainer.appendChild(img);
   if (pitch == '48' || pitch == '69') {
     img = document.createElement('img');
     img.src = 'music/black1x1.gif';
     img.className = className + ' ledgerLine';
     img.style.top = (top + 32) + 'px';
     img.style.left = (left - 5) + 'px';
-    box.appendChild(img);
-  }
-  // Ensure a half-screenfull of blank music to the right of last note.
-  var newWidth = left + 200;
-  var oldWidth = musicContainerWidth.width;
-  if (oldWidth < newWidth) {
-    // Draw a bar at one whole note intervals on all staves.
-    for (var bar = Math.floor(oldWidth / WHOLE_WIDTH);
-         bar <= Math.floor(newWidth / WHOLE_WIDTH);
-         bar++) {
-      if (bar == 0) {
-        continue;  // Skip the first bar.
-      }
-      for (var j = 1; j <= Music.staveCount; j++) {
-        var top = Music.staveTop_(j, Music.staveCount);
-        img = document.createElement('img');
-        img.src = 'music/black1x1.gif';
-        img.className = 'barLine';
-        img.style.top = (top + 18) + 'px';
-        img.style.left = (bar * WHOLE_WIDTH + LEFT_PADDING - 5) + 'px';
-        box.appendChild(img);
-      }
-    }
-    musicContainerWidth.width = newWidth;
+    musicContainer.appendChild(img);
   }
 };
 
@@ -395,6 +376,7 @@ Music.drawAnswer = function() {
   goog.dom.removeChildren(document.getElementById('staveBox'));
   var musicContainer = document.getElementById('musicContainer');
   goog.dom.removeChildren(musicContainer);
+  Music.barCount = 0;
   // Add spacer to allow scrollbar to scroll past last note/rest.
   // <img src="third-party/blockly/media/1x1.gif">
   var img = document.createElement('img');
@@ -417,6 +399,7 @@ Music.drawAnswer = function() {
         time += duration;
       }
     }
+    Music.autoScroll();
   }
 };
 
@@ -492,8 +475,6 @@ Music.disableExtraStarts = function(e) {
  * pending tasks.
  */
 Music.reset = function() {
-  Music.drawAnswer();
-
   // Kill any task.
   clearTimeout(Music.pid);
   for (var i = 0, thread; (thread = Music.threads[i]); i++) {
@@ -505,6 +486,8 @@ Music.reset = function() {
   Music.clock64ths = 0;
   Music.startTime = 0;
   Music.canSubmit = false;
+
+  Music.drawAnswer();
 };
 
 /**
@@ -693,8 +676,38 @@ Music.stopSound = function(thread) {
  * Scroll the music display horizontally to the current time.
  */
 Music.autoScroll = function() {
-  var WHOLE_WIDTH = 256;
+  console.log('clock:' + Music.clock64ths);
   var musicBox = document.getElementById('musicBox');
+  var musicContainer = document.getElementById('musicContainer');
+  var musicContainerWidth = document.getElementById('musicContainerWidth');
+
+  // Ensure a half-screenfull of blank music to the right of last note.
+  var LEFT_PADDING = 10;
+  var WHOLE_WIDTH = 256;
+  var RIGHT_PADDING = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL ? 200 : 100;
+  if (Music.clock64ths) {
+    var newWidth = Math.round(Music.clock64ths / 64 * WHOLE_WIDTH +
+                              LEFT_PADDING + RIGHT_PADDING);
+  } else {
+    var newWidth = musicBox.scrollWidth + RIGHT_PADDING;
+  }
+  musicContainerWidth.width = newWidth;
+  // Draw a bar at one whole note intervals on all staves.
+  console.log('bar: ' + newWidth);
+  while (Music.barCount < Math.floor(newWidth / WHOLE_WIDTH)) {
+    Music.barCount++;
+    console.log('new: ' + Music.barCount);
+    for (var j = 1; j <= Music.staveCount; j++) {
+      var top = Music.staveTop_(j, Music.staveCount);
+      var img = document.createElement('img');
+      img.src = 'music/black1x1.gif';
+      img.className = 'barLine';
+      img.style.top = (top + 18) + 'px';
+      img.style.left = (Music.barCount * WHOLE_WIDTH + LEFT_PADDING - 5) + 'px';
+      musicContainer.appendChild(img);
+    }
+  }
+
   var musicBoxMid = (400 - 36) / 2;  // There's a 36px margin for the clef.
   musicBox.scrollLeft = Music.clock64ths * (WHOLE_WIDTH / 64) - musicBoxMid;
 };
