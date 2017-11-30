@@ -53,6 +53,11 @@ Music.pid = 0;
 Music.startCount = 0;
 
 /**
+ * Number of staves in the visualization.
+ */
+Music.staveCount = 0;
+
+/**
  * JavaScript interpreter for executing program.
  * @type Interpreter
  */
@@ -175,7 +180,7 @@ Music.init = function() {
   // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
     var blocks = BlocklyGames.workspace.getTopBlocks(false);
-    for(var i = 0, block; block = blocks[i]; i++) {
+    for(var i = 0, block; (block = blocks[i]); i++) {
       block.setDeletable(true);
     }
   }
@@ -228,6 +233,7 @@ Music.sliderChange = function() {
  * @param {number} n Number of stave bars.
  */
 Music.drawStave = function(n) {
+  Music.staveCount = n;
   var box = document.getElementById('staveBox');
   // <img src="music/stave.png" class="stave" style="top: 100px">
   for (var i = 1; i <= n; i++) {
@@ -259,22 +265,21 @@ Music.staveTop_ = function(i, n) {
 /**
  * Draw and position the specified note or rest.
  * @param {number} i Which stave bar to draw on (base 1).
- * @param {number} n Number of stave bars.
  * @param {number} time Distance down the stave (on the scale of whole notes).
  * @param {string} pitch MIDI value of note (48 - 69) or rest (0).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
  * @param {string} className Name of CSS class for image.
  */
-Music.drawNote = function(i, n, time, pitch, duration, className) {
+Music.drawNote = function(i, time, pitch, duration, className) {
   var musicContainerWidth = document.getElementById('musicContainerWidth');
   while (duration > 1) {
-    Music.drawNote(i, n, time, pitch, 1, className);
+    Music.drawNote(i, time, pitch, 1, className);
     time += 1;
     duration -= 1;
   }
   var noteIndex = ['48', '50', '52', '53', '55', '57', '59', '60', '62', '64',
                    '65', '67', '69'].indexOf(pitch);
-  var top = Music.staveTop_(i, n);
+  var top = Music.staveTop_(i, Music.staveCount);
   if (noteIndex == -1) {
     top += 21;
     top = Math.round(top);
@@ -316,8 +321,8 @@ Music.drawNote = function(i, n, time, pitch, duration, className) {
       if (bar == 0) {
         continue;  // Skip the first bar.
       }
-      for (var j = 1; j <= n; j++) {
-        var top = Music.staveTop_(j, n);
+      for (var j = 1; j <= Music.staveCount; j++) {
+        var top = Music.staveTop_(j, Music.staveCount);
         img = document.createElement('img');
         img.src = 'music/black1x1.gif';
         img.className = 'barLine';
@@ -399,7 +404,7 @@ Music.drawAnswer = function() {
 
   if (!Music.expectedAnswer) {
     // Level 10 has no expected answer.
-    Music.drawStave(4);
+    Music.drawStave(Music.startCount || 1);
   } else {
     Music.drawStave(Music.expectedAnswer.length);
     for (var i = 0; i < Music.expectedAnswer.length; i++) {
@@ -408,8 +413,7 @@ Music.drawAnswer = function() {
       for (var j = 0; j < chanel.length; j += 2) {
         var pitch = String(chanel[j]);
         var duration = chanel[j + 1];
-        Music.drawNote(i + 1, Music.expectedAnswer.length, time,
-                       pitch, duration, 'goal');
+        Music.drawNote(i + 1, time, pitch, duration, 'goal');
         time += duration;
       }
     }
@@ -427,19 +431,20 @@ Music.disableExtraStarts = function(e) {
     return;
   }
   var maxStarts = Music.expectedAnswer ? Music.expectedAnswer.length : 4;
+  var oldStartCount = Music.startCount;
 
   if (e instanceof Blockly.Events.Create) {
     var startBlocks = [];
     var blocks = BlocklyGames.workspace.getTopBlocks(false);
-    for (var i = 0, block; block = blocks[i]; i++) {
+    for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'music_start') {
         startBlocks.push(block);
       }
     }
     if (maxStarts < startBlocks.length) {
       // Too many start blocks.  Disable any new ones.
-      for (var i = 0, id; id = e.ids[i]; i++) {
-        for (var j = 0, startBlock; startBlock = startBlocks[j]; j++) {
+      for (var i = 0, id; (id = e.ids[i]); i++) {
+        for (var j = 0, startBlock; (startBlock = startBlocks[j]); j++) {
           if (startBlock.id == id) {
             startBlock.setDisabled(true);
           }
@@ -450,12 +455,15 @@ Music.disableExtraStarts = function(e) {
       // Disable start block in toolbox.
       toolboxStart.setAttribute('disabled', 'true');
       BlocklyGames.workspace.updateToolbox(toolbox);
+      Music.startCount = maxStarts;
+    } else {
+      Music.startCount = startBlocks.length;
     }
   } else if (e instanceof Blockly.Events.Delete) {
     var startBlocksEnabled = [];
     var startBlocksDisabled = [];
     var blocks = BlocklyGames.workspace.getTopBlocks(true);
-    for (var i = 0, block; block = blocks[i]; i++) {
+    for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'music_start') {
         (block.disabled ? startBlocksDisabled : startBlocksEnabled).push(block);
       }
@@ -472,6 +480,10 @@ Music.disableExtraStarts = function(e) {
       toolboxStart.setAttribute('disabled', 'false');
       BlocklyGames.workspace.updateToolbox(toolbox);
     }
+    Music.startCount = startBlocksEnabled.length;
+  }
+  if (Music.startCount != oldStartCount) {
+    Music.resetButtonClick();
   }
 };
 
@@ -484,15 +496,15 @@ Music.reset = function() {
 
   // Kill any task.
   clearTimeout(Music.pid);
-  for (var i = 0, thread; thread = Music.threads[i]; i++) {
+  for (var i = 0, thread; (thread = Music.threads[i]); i++) {
     Music.stopSound(thread);
   }
   Music.interpreter = null;
   Music.activeThread = null;
-  Music.startCount = 0;
   Music.threads.length = 0;
   Music.clock64ths = 0;
   Music.startTime = 0;
+  Music.canSubmit = false;
 };
 
 /**
@@ -570,19 +582,21 @@ Music.execute = function() {
   }
   Music.reset();
   Blockly.selected && Blockly.selected.unselect();
+  // For safety, recompute startCount in the generator.
+  Music.startCount = 0;
   // Create an interpreter whose global scope will be the cross-thread global.
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-  Music.interpreter = new Interpreter(code, Music.initInterpreter);
+  if (Music.startCount == 0) {  // Blank workspace.
+    Music.resetButtonClick();
+  }
 
+  Music.interpreter = new Interpreter(code, Music.initInterpreter);
   for (var i = 1; i <= Music.startCount; i++) {
     var interpreter = new Interpreter('');
     // Replace this thread's global scope with the cross-thread global.
     interpreter.stateStack[0].scope = Music.interpreter.global;
     interpreter.appendCode('start' + i + '();\n');
     Music.threads.push(new Music.Thread(i, interpreter.stateStack));
-  }
-  if (Music.startCount == 0) {
-    Music.resetButtonClick();
   }
   setTimeout(Music.tick, 100);
 };
@@ -591,7 +605,23 @@ Music.execute = function() {
  * Execute a 1/64th tick of the program.
  */
 Music.tick = function() {
-  if (Music.startCount == 0) {
+  // Delay between start of each beat (1/64ths of a whole note).
+  var scaleDuration = 1000 * (2.5 - 2 * Music.speedSlider.getValue()) / 64;
+  if (!Music.startTime) {
+    // Either the first tick, or first tick after slider was adjusted.
+    Music.startTime = Date.now() - Music.clock64ths * scaleDuration;
+  }
+  var done = true;
+  for (var i = 0, thread; (thread = Music.threads[i]); i++) {
+    if (!thread.done) {
+      done = false;
+      if (thread.pauseUntil64ths <= Music.clock64ths) {
+        Music.executeChunk_(thread);
+      }
+    }
+  }
+
+  if (done) {
     // Program complete.
     if (Music.checkAnswer()) {
       BlocklyInterface.saveToLocalStorage();
@@ -600,28 +630,16 @@ Music.tick = function() {
         BlocklyDialogs.congratulations();
       }
     }
-    Music.resetButtonClick();
+    document.getElementById('spinner').style.visibility = 'hidden';
     BlocklyGames.workspace.highlightBlock(null);
     // Playback complete; allow the user to submit this music to Reddit.
     Music.canSubmit = true;
-    return;
+  } else {
+    Music.autoScroll();
+    Music.clock64ths++;
+    var ms = (Music.startTime + Music.clock64ths * scaleDuration) - Date.now();
+    Music.pid = setTimeout(Music.tick, ms);
   }
-
-  // Delay between start of each beat (164ths of a whole note).
-  var scaleDuration = 1000 * (2.5 - 2 * Music.speedSlider.getValue()) / 64;
-  if (!Music.startTime) {
-    // Either the first tick, or first tick after slider was adjusted.
-    Music.startTime = Date.now() - Music.clock64ths * scaleDuration;
-  }
-  for (var i = 0, thread; thread = Music.threads[i]; i++) {
-    if (thread.pauseUntil64ths <= Music.clock64ths) {
-      Music.executeChunk_(thread);
-    }
-  }
-  Music.autoScroll();
-  Music.clock64ths++;
-  var ms = (Music.startTime + Music.clock64ths * scaleDuration) - Date.now();
-  Music.pid = setTimeout(Music.tick, ms);
 };
 
 /**
@@ -654,8 +672,7 @@ Music.executeChunk_ = function(thread) {
     BlocklyInterface.highlight(thread.highlighedBlock, false);
     thread.highlighedBlock = null;
   }
-  thread.pauseUntil64ths = Infinity;
-  Music.startCount--;
+  thread.done = true;
 };
 
 /**
@@ -707,13 +724,13 @@ Music.play = function(duration, pitch, id) {
     // Reorder this thread to the top of the resting threads.
     // Find the min resting thread stave.
     var minResting = Infinity;
-    for (var i = 0, thread; thread = Music.threads[i]; i++) {
+    for (var i = 0, thread; (thread = Music.threads[i]); i++) {
       if (thread.resting && thread.stave < minResting) {
         minResting = thread.stave;
       }
     }
     // Swap this thread and the min-thread's staves.
-    for (var i = 0, thread; thread = Music.threads[i]; i++) {
+    for (var i = 0, thread; (thread = Music.threads[i]); i++) {
       if (minResting == thread.stave) {
         var swapStave = Music.activeThread.stave;
         Music.activeThread.stave = minResting;
@@ -730,8 +747,8 @@ Music.play = function(duration, pitch, id) {
   Music.activeThread.transcript.push(pitch);
   Music.activeThread.transcript.push(duration);
   Music.animate(id);
-  Music.drawNote(Music.activeThread.stave, Music.threads.length,
-                 Music.clock64ths / 64, String(pitch), duration, '');
+  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, String(pitch),
+                 duration, '');
 };
 
 /**
@@ -754,8 +771,8 @@ Music.rest = function(duration, id) {
     Music.activeThread.transcript.push(duration);
   }
   Music.animate(id);
-  Music.drawNote(Music.activeThread.stave, Music.threads.length,
-                 Music.clock64ths / 64, '0', duration, '');
+  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, '0',
+                 duration, '');
 };
 
 /**
@@ -831,7 +848,7 @@ Music.checkAnswer = function() {
   }
   if (Music.expectedAnswer.length != Music.threads.length) {
     console.log('Expected ' + Music.expectedAnswer.length + ' voices, found ' +
-                Music.userAnswer.length);
+                Music.threads.length);
     return false;
   }
   for (var i = 0; i < Music.expectedAnswer.length; i++) {
@@ -869,17 +886,18 @@ Music.transform10 = function(xml) {
  * Send an image of the canvas to Reddit.
  */
 Music.submitToReddit = function() {
-  if (!Music.canSubmit) {
+  if (!Music.canSubmit && Music.startCount) {
     alert(BlocklyGames.getMsg('Music_submitDisabled'));
     return;
   }
   // Encode the thumbnail.
-  var thumbnail = document.getElementById('thumbnail');
-  var ctxThumb = thumbnail.getContext('2d');
-  ctxThumb.globalCompositeOperation = 'copy';
-  ctxThumb.drawImage(Music.ctxDisplay.canvas, 0, 0, 100, 100);
-  var thumbData = thumbnail.toDataURL('image/png');
-  document.getElementById('t2r_thumb').value = thumbData;
+  var thumb = [
+    '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'
+  ][Music.startCount];
+  document.getElementById('t2r_thumb').value = 'data:image/png;base64,' + thumb;
 
   // Encode the XML.
   var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
@@ -893,7 +911,7 @@ Music.submitToReddit = function() {
 /**
  * One execution thread.
  * @param {number} i Number of this thread (1-4).
- * @param {!Array} stateStack JS Interpreter state stack.
+ * @param {!Array.<!Interpreter.State>} stateStack JS Interpreter state stack.
  * @constructor
  */
 Music.Thread = function(i, stateStack) {
@@ -908,4 +926,5 @@ Music.Thread = function(i, stateStack) {
   // Has not played a note yet.  Level 1-9 the threads need to reorder
   // as the first note is played.  Level 10 is by start block height.
   this.resting = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL;
+  this.done = false;
 };

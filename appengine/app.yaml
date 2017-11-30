@@ -75,6 +75,9 @@ handlers:
 - url: /music/
   static_dir: music
   secure: always
+- url: /music-reddit
+  script: reddit.py
+  secure: always
 
 # Puzzle app.
 - url: /puzzle

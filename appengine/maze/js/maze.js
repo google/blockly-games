@@ -889,7 +889,7 @@ Maze.reset = function(first) {
   lookIcon.style.display = 'none';
   lookIcon.parentNode.appendChild(lookIcon);
   var paths = lookIcon.getElementsByTagName('path');
-  for (var i = 0, path; path = paths[i]; i++) {
+  for (var i = 0, path; (path = paths[i]); i++) {
     path.setAttribute('stroke', Maze.SKIN.look);
   }
 };
@@ -1387,7 +1387,7 @@ Maze.scheduleLook = function(d) {
       'rotate(' + deg + ' 0 0) scale(.4)');
   var paths = lookIcon.getElementsByTagName('path');
   lookIcon.style.display = 'inline';
-  for (var i = 0, path; path = paths[i]; i++) {
+  for (var i = 0, path; (path = paths[i]); i++) {
     Maze.scheduleLookStep(path, Maze.stepSpeed * i);
   }
 };

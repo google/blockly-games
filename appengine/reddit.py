@@ -1,4 +1,4 @@
-"""Blockly Games: Turtle/Movie to Reddit Submission
+"""Blockly Games: Turtle/Movie/Music to Reddit Submission
 
 Copyright 2014 Google Inc.
 https://github.com/google/blockly-games
@@ -31,7 +31,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class Reddit(webapp.RequestHandler):
     def get(self):
-      url = re.sub(r"\w+-reddit\?", "thumb?", self.request.url)
+      thumb = re.sub(r"\w+-reddit\?", "thumb?", self.request.url)
       app = re.search(r"(\w+)-reddit\?", self.request.url).group(1)
       uuid = self.request.query_string
       self.response.out.write("""
@@ -44,7 +44,7 @@ class Reddit(webapp.RequestHandler):
         <p>Loading Blockly Games : %s : %s...</p>
         </body>
       </html>
-      """ % (url, app, uuid, app.title(), uuid))
+      """ % (thumb, app, uuid, app.title(), uuid))
 
     def post(self):
       xml = self.request.get("xml")

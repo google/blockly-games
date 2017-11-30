@@ -37,6 +37,8 @@
     <span id="Music_flute">{{msg meaning="Music.flute" desc="Name of musical instrument.\n{lb}{lb}Identical|flute{rb}{rb}"}}flute{{/msg}}</span>
     <span id="Music_drum">{{msg meaning="Music.drum" desc="Name of musical instrument.\n{lb}{lb}Identical|drum{rb}{rb}"}}drum{{/msg}}</span>
     <span id="Music_choir">{{msg meaning="Music.choir" desc="Name of musical instrument.\n{lb}{lb}Identical|choir{rb}{rb}"}}choir{{/msg}}</span>
+
+    <span id="Music_submitDisabled">{msg meaning="Music.submitDisabled" desc="Error message."}Run your program until it stops. Then you may submit your music to the gallery.{/msg}</span>
   </div>
 {/template}
 
@@ -118,18 +120,18 @@
       </td>
     </tr>
   </table>
-  {if $ij.level == 10 and not $ij.html}
+  {if $ij.level == 10 }
   <table style="padding-top: 1em; width: 400px;">
     <tr>
       <td style="text-align: center;">
         <form action="https://www.reddit.com/r/BlocklyGames/" target="gallery">
-          <button type="submit" title="{msg meaning="Music.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of drawings made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of drawings on Reddit.{/msg}">
-            <img src="common/1x1.gif" class="reddit icon21"> {msg meaning="Music.galleryMsg" desc="Label on a button that opens a gallery of drawings made by other users."}See Gallery{/msg}
+          <button type="submit" title="{msg meaning="Music.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of music made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of music on Reddit.{/msg}">
+            <img src="common/1x1.gif" class="reddit icon21"> {msg meaning="Music.galleryMsg" desc="Label on a button that opens a gallery of music made by other users."}See Gallery{/msg}
           </button>
         </form>
       </td>
       <td style="text-align: center;">
-        <button id="submitButton" title="{msg meaning="Music.submitTooltip" desc="tooltip - Pressing this button causes the drawing created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your drawing to Reddit.{/msg}">
+        <button id="submitButton" title="{msg meaning="Music.submitTooltip" desc="tooltip - Pressing this button causes the music created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your music to Reddit.{/msg}">
           <img src="common/1x1.gif" class="camera icon21"> {msg meaning="Music.submitMsg" desc="Label on a button that submits the user's art to a public gallery."}Submit to Gallery{/msg}
         </button>
         <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
@@ -149,26 +151,14 @@
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.abortDialog /}
   {call BlocklyGames.soy.storageDialog /}
-  {if $ij.level < 4}
-    <div id="helpUseLoop" class="dialogHiddenContent">
-      <div style="padding-bottom: 0.7ex">
-        {msg meaning="Music.helpUseLoop" desc="Dialog telling user to seek a better answer."}
-          Your solution works, but you can do better.
-        {/msg}
-        {sp}
-        {if $ij.level < 3}
-          {msg meaning="Music.helpUseLoop3" desc="Dialog telling user to seek a simpler answer."}
-            Draw the shape with just three blocks.
-          {/msg}
-        {else}
-          {msg meaning="Music.helpUseLoop4" desc="Dialog telling user to seek a simpler answer."}
-            Draw the star with just four blocks.
-          {/msg}
-        {/if}
-      </div>
-      {call BlocklyGames.soy.ok /}
+  <div id="helpUseFunctions" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex">
+      {msg meaning="Music.helpUseFunctions" desc="Dialog telling user to seek a better answer."}
+        Your solution works, but you can do better.  Use functions to reduce the amount of repeated code.
+      {/msg}
     </div>
-  {/if}
+    {call BlocklyGames.soy.ok /}
+  </div>
 
   <div id="help" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex">

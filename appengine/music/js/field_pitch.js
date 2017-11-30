@@ -214,7 +214,7 @@ Blockly.FieldPitch.prototype.classValidator = function(text) {
     return null;
   }
   text = text.trim().toUpperCase();
-  for (var i = 0, tuple; tuple = Blockly.FieldPitch.NOTES[i]; i++){
+  for (var i = 0, tuple; (tuple = Blockly.FieldPitch.NOTES[i]); i++){
     if (text == tuple[0]) {
       return text;
     }
