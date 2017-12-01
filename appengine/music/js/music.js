@@ -676,7 +676,6 @@ Music.stopSound = function(thread) {
  * Scroll the music display horizontally to the current time.
  */
 Music.autoScroll = function() {
-  console.log('clock:' + Music.clock64ths);
   var musicBox = document.getElementById('musicBox');
   var musicContainer = document.getElementById('musicContainer');
   var musicContainerWidth = document.getElementById('musicContainerWidth');
@@ -693,10 +692,8 @@ Music.autoScroll = function() {
   }
   musicContainerWidth.width = newWidth;
   // Draw a bar at one whole note intervals on all staves.
-  console.log('bar: ' + newWidth);
   while (Music.barCount < Math.floor(newWidth / WHOLE_WIDTH)) {
     Music.barCount++;
-    console.log('new: ' + Music.barCount);
     for (var j = 1; j <= Music.staveCount; j++) {
       var top = Music.staveTop_(j, Music.staveCount);
       var img = document.createElement('img');
@@ -880,6 +877,33 @@ Music.checkAnswer = function() {
       // Yes, you can cheat with a comment.  In this case I don't care.
       return false;
     }
+  }
+  var maxCount = [
+    undefined,  // Level 0.
+    undefined,  // Level 1.
+    16,  // Level 2.
+    23,  // Level 3.
+    38,  // Level 4.
+    47,  // Level 5.
+    48,  // Level 6.
+    55,  // Level 7.
+    57,  // Level 8.
+    75,  // Level 9.
+    undefined  // Level 10.
+  ][BlocklyGames.LEVEL];
+  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
+  if (maxCount && (blockCount > maxCount)) {
+    // Use a function, dummy.
+    var content = document.getElementById('helpUseFunctions');
+    var style = {
+      'width': '30%',
+      'left': '35%',
+      'top': '12em'
+    };
+    BlocklyDialogs.showDialog(content, null, false, true, style,
+        BlocklyDialogs.stopDialogKeyDown);
+    BlocklyDialogs.startDialogKeyDown();
+    return false;
   }
   return true;
 };

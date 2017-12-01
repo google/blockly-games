@@ -163,52 +163,59 @@
   <div id="help" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex">
       {if $ij.level == 1}
-        {msg meaning="Music.helpText1" desc="Instructions."}
-          Compose the first four notes of Frère Jacques.
+        {msg meaning="Music.helpText1" desc="Instructions.  If your country has a song to the tune of 'Frère Jacques' use its name.  E.g. Bruder Jakob (German) or Kìa con bướm (Vietnamese)."}
+          Compose the first four notes of 'Frère Jacques'.
         {/msg}
+        <p>C4 - D4 - E4 - C4</p>
       {elseif $ij.level == 2}
-        {msg meaning="Music.helpText2a" desc="Introducing a new block."}
-          There's a new block that allows you to repeat.
+        {msg meaning="Music.helpText2a" desc="Introducing a new block: function or subroutines"}
+          A 'function' allows you to group a bunch of blocks together,
+          then run them more than once.
         {/msg}
         <div id="sampleHelp2" class="readonly"></div>
         {msg meaning="Music.helpText2b" desc="Instructions."}
-           Repeat the first four notes of Frère Jacques.
+          Use a function to repeat the first four notes of 'Frère Jacques'.
+          Don't add any new note blocks.
         {/msg}
       {elseif $ij.level == 3}
         {msg meaning="Music.helpText3" desc="Instructions."}
-          Continue to compose the next three notes of Frère Jacques with the last note longer.
+          Create a second function for the next part of 'Frère Jacques'.
+          The last note is longer.
         {/msg}
       {elseif $ij.level == 4}
         {msg meaning="Music.helpText4" desc="Instructions."}
-          Continue to compose the next six shorter notes of Frère Jacques.
+          Create third function for the next part of 'Frère Jacques'.
+          The first four notes are shorter.
         {/msg}
       {elseif $ij.level == 5}
         {msg meaning="Music.helpText5" desc="Instructions."}
-          Complete the full tune of Frère Jacques.
+          Complete the full tune of 'Frère Jacques'.
         {/msg}
       {elseif $ij.level == 6}
-        {msg meaning="Music.helpText6a" desc="Introducing a new block."}
-          You can change your instrument.
+        {msg meaning="Music.helpText6a" desc="Introducing a new block that changes musical instruments."}
+          This new block lets you change to another instrument.
         {/msg}
         <div id="sampleHelp6" class="readonly"></div>
         {msg meaning="Music.helpText6b" desc="Instructions."}
-          Change it from piano to violin.
+          Play your tune with a violin.
         {/msg}
       {elseif $ij.level == 7}
-        {msg meaning="Music.helpText7a" desc="Introducing a new block."}
-          There's a new block that allows you to rest between playings.
+        {msg meaning="Music.helpText7a" desc="Introducing a new block: a musical rest."}
+          This new block adds a silent delay.
         {/msg}
         <div id="sampleHelp7" class="readonly"></div>
         {msg meaning="Music.helpText7b" desc="Instructions."}
-          One note after the first Frère Jacques, play the second one in parallel.
+          Create a second start block that has two delay blocks,
+          then also plays 'Frère Jacques'.
         {/msg}
       {elseif $ij.level == 8}
         {msg meaning="Music.helpText8" desc="Instructions."}
-          Repeat Frère Jacques once and play two of them in parallel.
+          Each start block should play 'Frère Jacques' twice.
         {/msg}
       {elseif $ij.level == 9}
         {msg meaning="Music.helpText9" desc="Instructions."}
-          Repeat Frère Jacques once and play four of them in parallel.
+          Create four start blocks that each play 'Frère Jacques' twice.
+          Add the correct number of delay blocks.
         {/msg}
       {elseif $ij.level == 10}
         {msg meaning="Music.helpText10" desc="Instructions."}
