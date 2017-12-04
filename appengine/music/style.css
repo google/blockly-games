@@ -40,22 +40,22 @@ html[dir="RTL"] button.primary {
   position: absolute;
 }
 
-.splash-note {
-  transition-property: height, opacity, width, margin-left, margin-top;
+.splash {
+  transition-property: height, opacity, width, margin;
   transition-duration: .3s;
-  margin-left: -10px;
-  margin-top: -30px;
-  height: 74px;
   opacity: 0;
 }
 
-.splash-rest {
-  transition-property: height, opacity, width, margin-left, margin-top;
-  transition-duration: .3s;
+.splash.note {
+  margin-left: -10px;
+  margin-top: -30px;
+  height: 74px;
+}
+
+.splash.rest {
   margin-left: -8px;
   margin-top: -6px;
   height: 62px;
-  opacity: 0;
 }
 
 .goal {

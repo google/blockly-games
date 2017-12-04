@@ -307,6 +307,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   }
   musicContainer.appendChild(img);
   if (!className) {
+    // Add a splash effect when playing a note.
     var splash = document.createElement('img');
     splash.src = 'music/' + name + duration + '.png';
     splash.className = name;
@@ -314,8 +315,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     splash.style.left = left + 'px';
     musicContainer.appendChild(splash);
     // Wait 0ms to trigger the CSS Transition.
-    setTimeout(function() {splash.className = 'splash-' + name + ' ' + name;},
-               0);
+    setTimeout(function() {splash.className = 'splash ' + name;}, 0);
     // Garbage collect the now-invisible note.
     setTimeout(function() {musicContainer.removeChild(splash);}, 1000);
   }
