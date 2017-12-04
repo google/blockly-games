@@ -306,13 +306,26 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     img.title = Music.NOTES[pitch];
   }
   musicContainer.appendChild(img);
+  if (!className) {
+    var splash = document.createElement('img');
+    splash.src = 'music/' + name + duration + '.png';
+    splash.className = name;
+    splash.style.top = top + 'px';
+    splash.style.left = left + 'px';
+    musicContainer.appendChild(splash);
+    // Wait 0ms to trigger the CSS Transition.
+    setTimeout(function() {splash.className = 'splash-' + name + ' ' + name;},
+               0);
+    // Garbage collect the now-invisible note.
+    setTimeout(function() {musicContainer.removeChild(splash);}, 1000);
+  }
   if (pitch == '48' || pitch == '69') {
-    img = document.createElement('img');
-    img.src = 'music/black1x1.gif';
-    img.className = className + ' ledgerLine';
-    img.style.top = (top + 32) + 'px';
-    img.style.left = (left - 5) + 'px';
-    musicContainer.appendChild(img);
+    var line = document.createElement('img');
+    line.src = 'music/black1x1.gif';
+    line.className = className + ' ledgerLine';
+    line.style.top = (top + 32) + 'px';
+    line.style.left = (left - 5) + 'px';
+    musicContainer.appendChild(line);
   }
 };
 
