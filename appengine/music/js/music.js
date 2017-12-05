@@ -314,7 +314,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     // Wait 0ms to trigger the CSS Transition.
     setTimeout(function() {splash.className = 'splash ' + name;}, 0);
     // Garbage collect the now-invisible note.
-    setTimeout(function() {musicContainer.removeChild(splash);}, 1000);
+    setTimeout(function() {goog.dom.removeNode(splash);}, 1000);
   }
   if (pitch == '48' || pitch == '69') {
     var line = document.createElement('img');
@@ -766,9 +766,18 @@ Music.play = function(duration, pitch, id) {
   // Make a record of this note.
   Music.activeThread.transcript.push(pitch);
   Music.activeThread.transcript.push(duration);
-  Music.animate(id);
+  var wrong = false;
+  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+    var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
+    var actual = Music.activeThread.transcript;
+    var i = actual.length - 2;
+    if (expected[i] != actual[i] || expected[i + 1] < actual[i + 1]) {
+      wrong = true;
+    }
+  }
   Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, String(pitch),
-                 duration, '');
+                 duration, wrong ? 'wrong' : '');
+  Music.animate(id);
 };
 
 /**
@@ -790,9 +799,18 @@ Music.rest = function(duration, id) {
     Music.activeThread.transcript.push(0);
     Music.activeThread.transcript.push(duration);
   }
-  Music.animate(id);
+  var wrong = false;
+  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+    var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
+    var actual = Music.activeThread.transcript;
+    var i = actual.length - 2;
+    if (expected[i] != actual[i] || expected[i + 1] < actual[i + 1]) {
+      wrong = true;
+    }
+  }
   Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, '0',
-                 duration, '');
+                 duration, wrong ? 'wrong' : '');
+  Music.animate(id);
 };
 
 /**
