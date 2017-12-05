@@ -31,7 +31,7 @@ from google.appengine.api import memcache
 def keyGen():
   # Generate a random string of length KEY_LEN.
   KEY_LEN = 6
-  CHARS = "abcdefghijkmnopqrstuvwxyz23456789" # Exclude l, 0, 1.
+  CHARS = "abcdefghijkmnopqrstuvwxyz23456789"  # Exclude l, 0, 1.
   max_index = len(CHARS) - 1
   return "".join([CHARS[randint(0, max_index)] for x in range(KEY_LEN)])
 
@@ -57,7 +57,7 @@ def xmlToKey(xml_content):
         raise Exception("Sorry, the generator failed to get a key for you.")
       xml_key = keyGen()
       result = db.get(db.Key.from_path("Xml", xml_key))
-    xml = db.Text(xml_content, encoding="utf_8")
+    xml = db.Text(xml_content)
     row = Xml(key_name = xml_key, xml_hash = xml_hash, xml_content = xml)
     row.put()
   return xml_key

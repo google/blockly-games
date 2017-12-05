@@ -101,7 +101,7 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   var inherited = inherit &&
       BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                         BlocklyGames.LEVEL - 1);
-  if (typeof inherit == 'function') {
+  if (inherited && typeof inherit == 'function') {
     inherited = inherit(inherited);
   }
 
@@ -143,6 +143,14 @@ BlocklyInterface.getCode = function() {
     var text = Blockly.Xml.domToText(xml);
   }
   return text;
+};
+
+/**
+ * Return the main workspace.
+ * @return {Blockly.WorkspaceSvg}
+ */
+BlocklyInterface.getWorkspace = function() {
+  return BlocklyGames.workspace;
 };
 
 /**
@@ -305,7 +313,8 @@ BlocklyInterface.importPrettify = function() {
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-// storage.js is not compiled and calls setCode and getCode.
+// storage.js is not compiled and calls setCode, getCode, and getWorkspace.
 window['BlocklyInterface'] = BlocklyInterface;
 BlocklyInterface['setCode'] = BlocklyInterface.setCode;
 BlocklyInterface['getCode'] = BlocklyInterface.getCode;
+BlocklyInterface['getWorkspace'] = BlocklyInterface.getWorkspace;

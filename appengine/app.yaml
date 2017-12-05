@@ -170,3 +170,4 @@ skip_files:
 - ^third-party/third_party_goog/.*$
 - ^third-party/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$
+- ^.+\.md$
