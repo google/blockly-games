@@ -44,22 +44,9 @@ goog.inherits(Blockly.FieldPitch, Blockly.FieldTextInput);
 
 /**
  * All notes available for the picker.
- * First element is human-readable scale, second element is MIDI number.
  */
 Blockly.FieldPitch.NOTES = [
-  ['C3', '48'],
-  ['D3', '50'],
-  ['E3', '52'],
-  ['F3', '53'],
-  ['G3', '55'],
-  ['A3', '57'],
-  ['B3', '59'],
-  ['C4', '60'],
-  ['D4', '62'],
-  ['E4', '64'],
-  ['F4', '65'],
-  ['G4', '67'],
-  ['A4', '69']
+  'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4'
 ];
 
 /**
@@ -129,8 +116,8 @@ Blockly.FieldPitch.prototype.onMouseMove = function(e) {
   var dy = e.clientY - bBox.top;
   var note = goog.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
   this.imageElement_.style.backgroundPosition = (-note * 37) + 'px 0';
-  Blockly.FieldTextInput.htmlInput_.value = Blockly.FieldPitch.NOTES[note][0];
-  this.setValue(Blockly.FieldPitch.NOTES[note][1]);
+  Blockly.FieldTextInput.htmlInput_.value = Blockly.FieldPitch.NOTES[note];
+  this.setValue(note);
   this.validate_();
   this.resizeEditor_();
 };
@@ -146,13 +133,9 @@ Blockly.FieldPitch.prototype.setText = function(newText) {
     // Not rendered yet.
     return;
   }
-  var options = Blockly.FieldPitch.NOTES;
-  for (var i = 0; i < options.length; i++) {
-    // Options are tuples of human-readable text and language-neutral values.
-    if (options[i][0] == newText) {
-      this.value_ = options[i][1];
-      break;
-    }
+  var i = Blockly.FieldPitch.NOTES.indexOf(newText);
+  if (i != -1) {
+    this.value_ = String(i);
   }
   this.updateGraph_();
 };
@@ -175,15 +158,11 @@ Blockly.FieldPitch.prototype.setValue = function(newValue) {
   }
   this.value_ = newValue;
   // Look up and display the human-readable text.
-  var options = Blockly.FieldPitch.NOTES;
-  for (var i = 0; i < options.length; i++) {
-    // Options are tuples of human-readable text and language-neutral values.
-    if (options[i][1] == newValue) {
-      this.setText(options[i][0]);
-      return;
-    }
+  var note = Blockly.FieldPitch.NOTES[Number(newValue)];
+  if (note === undefined) {
+    throw 'Invalid note value: ' + newValue;
   }
-  throw 'Invalid note value: ' + newValue;
+  this.setText(note);
 };
 
 /**
@@ -194,14 +173,8 @@ Blockly.FieldPitch.prototype.updateGraph_ = function() {
   if (!this.imageElement_) {
     return;
   }
-  var value = this.getValue();
-  var options = Blockly.FieldPitch.NOTES;
-  for (var i = 0; i < options.length; i++) {
-    if (options[i][1] == value) {
-      this.imageElement_.style.backgroundPosition = (-i * 37) + 'px 0';
-      return;
-    }
-  }
+  var i = this.getValue();
+  this.imageElement_.style.backgroundPosition = (-i * 37) + 'px 0';
 };
 
 /**
@@ -213,11 +186,9 @@ Blockly.FieldPitch.prototype.classValidator = function(text) {
   if (text === null) {
     return null;
   }
-  text = text.trim().toUpperCase();
-  for (var i = 0, tuple; (tuple = Blockly.FieldPitch.NOTES[i]); i++){
-    if (text == tuple[0]) {
-      return text;
-    }
+  text = text.replace(/\s/g, '').toUpperCase();
+  if (Blockly.FieldPitch.NOTES.indexOf(text) != -1) {
+    return text;
   }
   return null;
 };

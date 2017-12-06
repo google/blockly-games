@@ -56,7 +56,7 @@ Blockly.Blocks['music_pitch'] = {
    */
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldPitch('60'), 'PITCH');
+        .appendField(new Blockly.FieldPitch('7'), 'PITCH');
     this.setOutput(true, 'Number');
     this.setColour(Blockly.Blocks.math.HUE);
     this.setTooltip(BlocklyGames.getMsg('Music_pitchTooltip'));
@@ -73,24 +73,30 @@ Blockly.Blocks['music_note'] = {
    * @this Blockly.Block
    */
   init: function() {
+    var options = [
+      [{"src": "music/note1.png",
+        "width": 9, "height": 19, "alt": "whole"}, "1"],
+      [{"src": "music/note0.5.png",
+        "width": 9, "height": 19, "alt": "half"}, "0.5"],
+      [{"src": "music/note0.25.png",
+        "width": 9, "height": 19, "alt": "quarter"}, "0.25"],
+      [{"src": "music/note0.125.png",
+        "width": 9, "height": 19, "alt": "eighth"}, "0.125"],
+      [{"src": "music/note0.0625.png",
+        "width": 9, "height": 19, "alt": "sixteenth"}, "0.0625"]
+    ];
+    // Trim off whole and sixteenth notes for levels 1-9.
+    if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+      options.shift();
+      options.pop();
+    }
     this.jsonInit({
       "message0": BlocklyGames.getMsg('Music_playNote'),
       "args0": [
         {
           "type": "field_dropdown",
           "name": "DURATION",
-          "options": [
-            [{"src": "music/note1.png",
-              "width": 9, "height": 19, "alt": "whole"}, "1"],
-            [{"src": "music/note0.5.png",
-              "width": 9, "height": 19, "alt": "half"}, "0.5"],
-            [{"src": "music/note0.25.png",
-              "width": 9, "height": 19, "alt": "quarter"}, "0.25"],
-            [{"src": "music/note0.125.png",
-              "width": 9, "height": 19, "alt": "eighth"}, "0.125"],
-            [{"src": "music/note0.0625.png",
-              "width": 9, "height": 19, "alt": "sixteenth"}, "0.0625"]
-          ]
+          "options": options
         },
         {
           "type": "input_value",
@@ -109,7 +115,7 @@ Blockly.Blocks['music_note'] = {
 
 Blockly.JavaScript['music_note'] = function(block) {
   var pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
-      Blockly.JavaScript.ORDER_COMMA) || '60';
+      Blockly.JavaScript.ORDER_COMMA) || '7';
   return 'play(' + block.getFieldValue('DURATION') + ', ' + pitch +
           ', \'block_id_' + block.id + '\');\n';
 };

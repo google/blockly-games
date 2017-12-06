@@ -98,22 +98,6 @@ Music.activeThread = null;
  */
 Music.canSubmit = false;
 
-Music.NOTES = {
-  '48': 'C3',
-  '50': 'D3',
-  '52': 'E3',
-  '53': 'F3',
-  '55': 'G3',
-  '57': 'A3',
-  '59': 'B3',
-  '60': 'C4',
-  '62': 'D4',
-  '64': 'E4',
-  '65': 'F4',
-  '67': 'G4',
-  '69': 'A4'
-};
-
 /**
  * Initialize Blockly and the music.  Called on page load.
  */
@@ -213,9 +197,10 @@ Music.init = function() {
                      'flute', 'banjo', 'guitar', 'choir'];
   var sounds = [];
   for (var i = 0; i < instruments.length; i++) {
-    for (var midi in Music.NOTES) {
-      sounds.push({'src': instruments[i] + '/' + Music.NOTES[midi] + '.mp3',
-                   id: instruments[i] + midi});
+    for (var j = 0; j < Blockly.FieldPitch.NOTES.length; j++) {
+      sounds.push({'src': instruments[i] + '/' +
+                       Blockly.FieldPitch.NOTES[j] + '.mp3',
+                   id: instruments[i] + j});
     }
   }
   createjs.Sound.registerSounds(sounds, assetsPath);
@@ -268,7 +253,7 @@ Music.staveTop_ = function(i, n) {
  * Draw and position the specified note or rest.
  * @param {number} i Which stave bar to draw on (base 1).
  * @param {number} time Distance down the stave (on the scale of whole notes).
- * @param {string} pitch MIDI value of note (48 - 69), or rest (0).
+ * @param {string} pitch MIDI value of note (0 - 12), or rest (-1).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
  * @param {string} className Name of CSS class for image.
  */
@@ -278,14 +263,12 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     time += 1;
     duration -= 1;
   }
-  var noteIndex = ['48', '50', '52', '53', '55', '57', '59', '60', '62', '64',
-                   '65', '67', '69'].indexOf(pitch);
   var top = Music.staveTop_(i, Music.staveCount);
-  if (noteIndex == -1) {
+  if (pitch == -1) {
     top += 21;
     top = Math.round(top);
   } else {
-    top += noteIndex * -4.5 + 32;
+    top += pitch * -4.5 + 32;
     top = Math.floor(top);  // I have no idea why floor is better than round.
   }
 
@@ -294,13 +277,13 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   var left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
   var musicContainer = document.getElementById('musicContainer');
   var img = document.createElement('img');
-  var name = (noteIndex == -1 ? 'rest' : 'note');
+  var name = (pitch == -1 ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
   img.className = className + ' ' + name;
   img.style.top = top + 'px';
   img.style.left = left + 'px';
-  if (noteIndex != -1) {
-    img.title = Music.NOTES[pitch];
+  if (pitch != -1) {
+    img.title = Blockly.FieldPitch.NOTES[pitch];
   }
   musicContainer.appendChild(img);
   if (!className) {
@@ -311,12 +294,12 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     splash.style.top = top + 'px';
     splash.style.left = left + 'px';
     musicContainer.appendChild(splash);
-    // Wait 0ms to trigger the CSS Transition.
+    // Wait 0 ms to trigger the CSS Transition.
     setTimeout(function() {splash.className = 'splash ' + name;}, 0);
     // Garbage collect the now-invisible note.
     setTimeout(function() {goog.dom.removeNode(splash);}, 1000);
   }
-  if (pitch == '48' || pitch == '69') {
+  if (pitch == '0' || pitch == '12') {
     var line = document.createElement('img');
     line.src = 'music/black1x1.gif';
     line.className = className + ' ledgerLine';
@@ -771,7 +754,7 @@ Music.play = function(duration, pitch, id) {
     var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
     var actual = Music.activeThread.transcript;
     var i = actual.length - 2;
-    if (expected[i] != actual[i] || expected[i + 1] < actual[i + 1]) {
+    if (expected[i] != actual[i] || expected[i + 1] != actual[i + 1]) {
       wrong = true;
     }
   }
@@ -808,7 +791,7 @@ Music.rest = function(duration, id) {
       wrong = true;
     }
   }
-  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, '0',
+  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, '-1',
                  duration, wrong ? 'wrong' : '');
   Music.animate(id);
 };
@@ -845,30 +828,30 @@ Music.initExpectedAnswer = function() {
     // Level 0.
     undefined,
     // Level 1.
-    [[60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25]],
+    [[7, 0.25, 8, 0.25, 9, 0.25, 7, 0.25]],
     // Level 2.
-    [doubleReplica([60, 0.25, 62, 0.25, 64, 0.25, 60, 0.25])],
+    [doubleReplica([7, 0.25, 8, 0.25, 9, 0.25, 7, 0.25])],
     // Level 3.
-    [doubleReplica([64, 0.25, 65, 0.25, 67, 0.5])],
+    [doubleReplica([9, 0.25, 10, 0.25, 11, 0.5])],
     // Level 4.
-    [doubleReplica([67, 0.125, 69, 0.125, 67, 0.125, 65, 0.125, 64, 0.25, 60, 0.25])],
+    [doubleReplica([11, 0.125, 12, 0.125, 11, 0.125, 10, 0.125, 9, 0.25, 7, 0.25])],
     // Level 5.
-    [doubleReplica([60, 0.25, 55, 0.25, 60, 0.5])],
+    [doubleReplica([7, 0.25, 4, 0.25, 7, 0.5])],
     // Level 6.
     [levelNotes],
     // Level 7.
-    [levelNotes, [0,2].concat(levelNotes)],
+    [levelNotes, [-1, 2].concat(levelNotes)],
     // Level 8.
     [
       singleReplica(levelNotes),
-      [0,2].concat(levelNotes)
+      [-1, 2].concat(levelNotes)
     ],
     // Level 9.
     [
       levelNotes,
-      [0,2].concat(levelNotes),
-      [0,4].concat(levelNotes),
-      [0,6].concat(levelNotes)
+      [-1, 2].concat(levelNotes),
+      [-1, 4].concat(levelNotes),
+      [-1, 6].concat(levelNotes)
     ],
     // Level 10.
     undefined,
