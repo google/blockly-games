@@ -28,6 +28,7 @@
     <span id="Music_startTooltip">{msg meaning="Music.startTooltip" desc="tooltip"}Executes the blocks inside when the 'Run Program' button is clicked.{/msg}</span>
     <span id="Music_start">{msg meaning="Music.start" desc="The program associated with this label is executed when a button is clicked.  %1 is image of the play icon on the button."}when %1 clicked{/msg}</span>
     <span id="Music_pitchTooltip">{msg meaning="Music.pitchTooltip" desc="tooltip - Describes a musical note selector.  'C4' (also known as 'DO') is the note in the center of a piano keyboard and is represented as the number 7."}One note (C4 is 7).{/msg}</span>
+    <span id="Music_firstPart">{msg meaning="Music.firstPart" desc="Example name of a function that plays the first part of some music."}first part{/msg}</span>
 
     <span id="Music_piano">{{msg meaning="Music.piano" desc="Name of musical instrument.\n{lb}{lb}Identical|piano{rb}{rb}"}}piano{{/msg}}</span>
     <span id="Music_trumpet">{{msg meaning="Music.trumpet" desc="Name of musical instrument.\n{lb}{lb}Identical|trumpet{rb}{rb}"}}trumpet{{/msg}}</span>
@@ -182,12 +183,12 @@
           Create a second function for the next part of 'Frère Jacques'.
           The last note is longer.
         {/msg}
-        <br><img src="music/note0.5.png" height="37" style="float: left">
+        <br><img src="music/note0.5.png" class="sampleNote">
       {elseif $ij.level == 4}
         {msg meaning="Music.helpText4" desc="Instructions."}
           Create a third function for the next part of 'Frère Jacques'.
           The first four notes are shorter.
-        <br><img src="music/note0.125.png" height="37" style="float: left">
+        <br><img src="music/note0.125.png" class="sampleNote">
         {/msg}
       {elseif $ij.level == 5}
         {msg meaning="Music.helpText5" desc="Instructions."}

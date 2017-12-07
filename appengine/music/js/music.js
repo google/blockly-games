@@ -34,6 +34,7 @@ goog.require('Music.soy');
 goog.require('Slider');
 goog.require('goog.array');
 goog.require('goog.dom');
+goog.require('goog.string');
 
 
 BlocklyGames.NAME = 'music';
@@ -166,7 +167,7 @@ Music.init = function() {
   var defaultXml =
       '<xml>' +
       '  <block type="music_start" deletable="' +
-          (BlocklyGames.LEVEL > 6) + '" x="10" y="10"></block>' +
+          (BlocklyGames.LEVEL > 6) + '" x="180" y="50"></block>' +
       '</xml>';
   BlocklyInterface.loadBlocks(defaultXml,
       BlocklyGames.LEVEL != BlocklyGames.MAX_LEVEL || Music.transform10);
@@ -327,9 +328,11 @@ Music.showHelp = function() {
   };
 
   if (BlocklyGames.LEVEL == 2) {
-    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">first part</field>' +
-        '</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="first part"></mutation>' +
-        '<next><block type="procedures_callnoreturn"><mutation name="first part"></mutation></block></next></block></xml>';
+    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">%1</field>' +
+        '</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="%1"></mutation>' +
+        '<next><block type="procedures_callnoreturn"><mutation name="%1"></mutation></block></next></block></xml>';
+    var firstPart = BlocklyGames.getMsg('Music_firstPart');
+    xml = xml.replace(/%1/g, goog.string.htmlEscape(firstPart));
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL == 6) {
     var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';

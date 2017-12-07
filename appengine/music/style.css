@@ -94,6 +94,12 @@ html[dir="RTL"] button.primary {
   width: 46px;
 }
 
+.sampleNote {
+  float: left;
+  height: 37px;
+  margin: 10px;
+}
+
 #sampleHelp2 {
   height: 150px;
   width: 250px;
