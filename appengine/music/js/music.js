@@ -99,6 +99,11 @@ Music.activeThread = null;
 Music.canSubmit = false;
 
 /**
+ * Constant denoting a rest.
+ */
+Music.REST = -1;
+
+/**
  * Initialize Blockly and the music.  Called on page load.
  */
 Music.init = function() {
@@ -253,7 +258,7 @@ Music.staveTop_ = function(i, n) {
  * Draw and position the specified note or rest.
  * @param {number} i Which stave bar to draw on (base 1).
  * @param {number} time Distance down the stave (on the scale of whole notes).
- * @param {string} pitch MIDI value of note (0 - 12), or rest (-1).
+ * @param {string} pitch MIDI value of note (0 - 12), or rest (Music.REST).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
  * @param {string} className Name of CSS class for image.
  */
@@ -264,7 +269,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     duration -= 1;
   }
   var top = Music.staveTop_(i, Music.staveCount);
-  if (pitch == -1) {
+  if (pitch == Music.REST) {
     top += 21;
     top = Math.round(top);
   } else {
@@ -277,12 +282,12 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   var left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
   var musicContainer = document.getElementById('musicContainer');
   var img = document.createElement('img');
-  var name = (pitch == -1 ? 'rest' : 'note');
+  var name = (pitch == Music.REST ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
   img.className = className + ' ' + name;
   img.style.top = top + 'px';
   img.style.left = left + 'px';
-  if (pitch != -1) {
+  if (pitch != Music.REST) {
     img.title = Blockly.FieldPitch.NOTES[pitch];
   }
   musicContainer.appendChild(img);
@@ -322,8 +327,9 @@ Music.showHelp = function() {
   };
 
   if (BlocklyGames.LEVEL == 2) {
-    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">do something</field>' +
-        '</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="do something"></mutation></block></xml>';
+    var xml = '<xml><block type="procedures_defnoreturn" x="5" y="10"><field name="NAME">first part</field>' +
+        '</block><block type="procedures_callnoreturn" x="5" y="85"><mutation name="first part"></mutation>' +
+        '<next><block type="procedures_callnoreturn"><mutation name="first part"></mutation></block></next></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL == 6) {
     var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
@@ -758,8 +764,8 @@ Music.play = function(duration, pitch, id) {
       wrong = true;
     }
   }
-  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, String(pitch),
-                 duration, wrong ? 'wrong' : '');
+  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64,
+                 String(pitch), duration, wrong ? 'wrong' : '');
   Music.animate(id);
 };
 
@@ -774,12 +780,12 @@ Music.rest = function(duration, id) {
   // Make a record of this rest.
   if (Music.activeThread.transcript.length > 1 &&
       Music.activeThread.transcript
-          [Music.activeThread.transcript.length - 2] == 0) {
+          [Music.activeThread.transcript.length - 2] == Music.REST) {
     // Concatenate this rest with previous one.
     Music.activeThread.transcript
         [Music.activeThread.transcript.length - 1] += duration;
   } else {
-    Music.activeThread.transcript.push(0);
+    Music.activeThread.transcript.push(Music.REST);
     Music.activeThread.transcript.push(duration);
   }
   var wrong = false;
@@ -791,8 +797,8 @@ Music.rest = function(duration, id) {
       wrong = true;
     }
   }
-  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64, '-1',
-                 duration, wrong ? 'wrong' : '');
+  Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64,
+                 String(Music.REST), duration, wrong ? 'wrong' : '');
   Music.animate(id);
 };
 
@@ -840,18 +846,18 @@ Music.initExpectedAnswer = function() {
     // Level 6.
     [levelNotes],
     // Level 7.
-    [levelNotes, [-1, 2].concat(levelNotes)],
+    [levelNotes, [Music.REST, 2].concat(levelNotes)],
     // Level 8.
     [
       singleReplica(levelNotes),
-      [-1, 2].concat(levelNotes)
+      [Music.REST, 2].concat(levelNotes)
     ],
     // Level 9.
     [
       levelNotes,
-      [-1, 2].concat(levelNotes),
-      [-1, 4].concat(levelNotes),
-      [-1, 6].concat(levelNotes)
+      [Music.REST, 2].concat(levelNotes),
+      [Music.REST, 4].concat(levelNotes),
+      [Music.REST, 6].concat(levelNotes)
     ],
     // Level 10.
     undefined,
@@ -863,15 +869,19 @@ Music.initExpectedAnswer = function() {
  * If so, move on to next level.
  */
 Music.checkAnswer = function() {
+  // On level 10 everyone is a winner.
   if (!Music.expectedAnswer) {
-    // On level 10 everyone is a winner.
     return true;
   }
+
+  // Incorrect number of staves?
   if (Music.expectedAnswer.length != Music.threads.length) {
     console.log('Expected ' + Music.expectedAnswer.length + ' voices, found ' +
                 Music.threads.length);
     return false;
   }
+
+  // Notes match expected answer?
   for (var i = 0; i < Music.expectedAnswer.length; i++) {
     if (Music.threads[i].stave == i + 1) {
       if (!goog.array.equals(Music.expectedAnswer[i],
@@ -881,14 +891,17 @@ Music.checkAnswer = function() {
       continue;
     }
   }
+
+  // Level 6 requires a "set instrument" block.
   if (BlocklyGames.LEVEL == 6) {
-    // Also check for the existence of a "set instrument" block.
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     if (code.indexOf('setInstrument') == -1 || code.indexOf('piano') != -1) {
       // Yes, you can cheat with a comment.  In this case I don't care.
       return false;
     }
   }
+
+  // Functions should be used to reduce note count.
   var maxCount = [
     undefined,  // Level 0.
     undefined,  // Level 1.
@@ -896,14 +909,22 @@ Music.checkAnswer = function() {
     23,  // Level 3.
     38,  // Level 4.
     47,  // Level 5.
-    48,  // Level 6.
-    55,  // Level 7.
-    57,  // Level 8.
-    75,  // Level 9.
+    47,  // Level 6.
+    53,  // Level 7.
+    55,  // Level 8.
+    71,  // Level 9.
     undefined  // Level 10.
   ][BlocklyGames.LEVEL];
-  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
+  var blockCount = 0;
+  var blocks = BlocklyGames.workspace.getAllBlocks();
+  for (var i = 0, block; (block = blocks[i]); i++) {
+    if (block.type != 'music_instrument' &&
+        !(block.disabled || block.getInheritedDisabled())) {
+      blockCount++;
+    }
+  }
   if (maxCount && (blockCount > maxCount)) {
+    console.log('Too many blocks.  Found: ' + blockCount + ' Max: ' + maxCount);
     // Use a function, dummy.
     var content = document.getElementById('helpUseFunctions');
     var style = {
