@@ -406,7 +406,7 @@ Turtle.showCategoryHelp = function() {
 
 
 /**
- * Flag indicating if a toolbox categoriy has been clicked yet.
+ * Flag indicating if a toolbox category has been clicked yet.
  * Level one only.
  * @private
  */
@@ -414,11 +414,11 @@ Turtle.categoryClicked_ = false;
 
 /**
  * Monitor to see if the user finds the categories in level one.
- * @param {!Blockly.Events.Abstract} e Custom data for event.
+ * @param {!Blockly.Events.Abstract} event Custom data for event.
  * @private
  */
-Turtle.watchCategories_ = function(e) {
-  if (e.type == Blockly.Events.UI && e.element == 'category') {
+Turtle.watchCategories_ = function(event) {
+  if (event.type == Blockly.Events.UI && event.element == 'category') {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
     BlocklyGames.workspace.removeChangeListener(Turtle.watchCategories_);
@@ -458,8 +458,8 @@ Turtle.reset = function() {
   Turtle.display();
 
   // Kill all tasks.
-  for (var x = 0; x < Turtle.pidList.length; x++) {
-    window.clearTimeout(Turtle.pidList[x]);
+  for (var i = 0; i < Turtle.pidList.length; i++) {
+    window.clearTimeout(Turtle.pidList[i]);
   }
   Turtle.pidList.length = 0;
   Turtle.interpreter = null;

@@ -1,5 +1,5 @@
 application: blockly-games
-version: 1
+version: music
 runtime: python27
 api_version: 1
 threadsafe: no
@@ -66,6 +66,18 @@ handlers:
 - url: /movie-reddit
   script: reddit.py
   secure: always
+  
+# Music app.
+- url: /music
+  static_files: music.html
+  upload: music\.html
+  secure: always
+- url: /music/
+  static_dir: music
+  secure: always
+- url: /music-reddit
+  script: reddit.py
+  secure: always
 
 # Puzzle app.
 - url: /puzzle
@@ -99,15 +111,6 @@ handlers:
   secure: always
 - url: /pond/
   static_dir: pond
-  secure: always
-
-# Genetics app.
-- url: /genetics
-  static_files: genetics.html
-  upload: genetics\.html
-  secure: always
-- url: /genetics/
-  static_dir: genetics
   secure: always
 
 # Shared files.
@@ -151,6 +154,7 @@ skip_files:
 - ^(.*/)?\..*$
 # Custom skip patterns.
 - ^\w+/sources/.*$
+- ^third-party/ace/snippets/.*$
 - ^third-party/blockly/appengine/.*$
 - ^third-party/blockly/demos/.*$
 - ^third-party/blockly/generators/dart.*$
@@ -160,7 +164,10 @@ skip_files:
 - ^third-party/blockly/i18n/.*$
 - ^third-party/blockly/msg/json/.*$
 - ^third-party/blockly/tests/.*$
+- ^third-party/midi-js/.*$
+- ^third-party/midi-js-soundfonts/.+[012567]\.mp3*$
+- ^third-party/midi-js-soundfonts/.+b[34]\.mp3*$
 - ^third-party/third_party_goog/.*$
-- ^third-party/ace/snippets/.*$
 - ^third-party/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$
+- ^.+\.md$

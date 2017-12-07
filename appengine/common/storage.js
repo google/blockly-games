@@ -142,10 +142,10 @@ BlocklyStorage.monitorChanges_ = function() {
   function change() {
     if (startCode != BlocklyInterface.getCode()) {
       window.location.hash = '';
-      Blockly.removeChangeListener(bindData);
+      BlocklyInterface.getWorkspace().removeChangeListener(bindData);
     }
   }
-  var bindData = BlocklyGames.workspace.addChangeListener(change);
+  var bindData = BlocklyInterface.getWorkspace().addChangeListener(change);
 };
 
 /**

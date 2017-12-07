@@ -35,7 +35,7 @@ goog.require('Maze.soy');
 BlocklyGames.NAME = 'maze';
 
 /**
- * Go to the next level.
+ * Go to the next level.  Add skin parameter.
  * @suppress {duplicate}
  */
 BlocklyInterface.nextLevel = function() {
@@ -509,6 +509,7 @@ Maze.init = function() {
   onresize(null);
 
   var toolbox = document.getElementById('toolbox');
+  // Scale the workspace so level 1 = 1.3, and level 10 = 1.0.
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
@@ -853,8 +854,8 @@ Maze.hidePegmanMenu = function(e) {
  */
 Maze.reset = function(first) {
   // Kill all tasks.
-  for (var x = 0; x < Maze.pidList.length; x++) {
-    window.clearTimeout(Maze.pidList[x]);
+  for (var i = 0; i < Maze.pidList.length; i++) {
+    window.clearTimeout(Maze.pidList[i]);
   }
   Maze.pidList = [];
 
@@ -888,7 +889,7 @@ Maze.reset = function(first) {
   lookIcon.style.display = 'none';
   lookIcon.parentNode.appendChild(lookIcon);
   var paths = lookIcon.getElementsByTagName('path');
-  for (var i = 0, path; path = paths[i]; i++) {
+  for (var i = 0, path; (path = paths[i]); i++) {
     path.setAttribute('stroke', Maze.SKIN.look);
   }
 };
@@ -1386,7 +1387,7 @@ Maze.scheduleLook = function(d) {
       'rotate(' + deg + ' 0 0) scale(.4)');
   var paths = lookIcon.getElementsByTagName('path');
   lookIcon.style.display = 'inline';
-  for (var i = 0, path; path = paths[i]; i++) {
+  for (var i = 0, path; (path = paths[i]); i++) {
     Maze.scheduleLookStep(path, Maze.stepSpeed * i);
   }
 };

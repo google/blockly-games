@@ -41,7 +41,7 @@ Pond.Docs.init = function() {
 
   // Turn all h2 tags into zippies.
   var headers = document.getElementsByTagName('h2');
-  for (var i = 0, header; header = headers[i]; i++) {
+  for (var i = 0, header; (header = headers[i]); i++) {
     new goog.ui.AnimatedZippy(header, header.id + '-content', false);
   }
 };
