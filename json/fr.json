@@ -140,7 +140,7 @@
 	"Turtle.turtleVisibilityTooltip": "Rend la tortue (cercle et flèche) visible ou non.",
 	"Turtle.hideTurtle": "cacher la tortue",
 	"Turtle.showTurtle": "afficher la tortue",
-	"Turtle.printHelpUrl": "https://en.wikipedia.org/wiki/Printing",
+	"Turtle.printHelpUrl": "https://fr.wikipedia.org/wiki/Imprimerie",
 	"Turtle.printTooltip": "Dessine le texte dans la direction de la tortue à son emplacement.",
 	"Turtle.print": "écrire",
 	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",

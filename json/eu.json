@@ -4,9 +4,11 @@
 			"Xabier Armendaritz",
 			"Subi",
 			"Asieriko",
-			"An13sa"
+			"An13sa",
+			"Mikel Ibaiba"
 		]
 	},
+	"Games.name": "Blocky Jokoak",
 	"Games.puzzle": "Puzzle",
 	"Games.maze": "Labirintoa",
 	"Games.bird": "Txoria",
@@ -95,6 +97,11 @@
 	"Turtle.showTurtle": "erakutsi dortoka",
 	"Turtle.printHelpUrl": "https://eu.wikipedia.org/wiki/Inprimatze",
 	"Turtle.print": "inprimatu",
+	"Turtle.font": "letra mota",
+	"Turtle.fontSize": "letraren tamaina",
+	"Turtle.fontNormal": "normala",
+	"Turtle.fontBold": "Lodia",
+	"Turtle.fontItalic": "italikoa",
 	"Turtle.galleryMsg": "Ikusi galeria",
 	"Turtle.submitMsg": "Bidali galeriara",
 	"Turtle.catTurtle": "Dortoka",
@@ -114,7 +121,9 @@
 	"Pond.playerName": "Jokalaria",
 	"Pond.targetName": "Jomuga",
 	"Pond.pendulumName": "Pendulua",
+	"Pond.scaredName": "Beldurtuta",
 	"Pond.rabbitName": "Untxia",
 	"Pond.counterName": "Zenbatzailea",
+	"Pond.rookName": "Dorrea",
 	"Pond.sniperName": "Frankotiratzailea"
 }
