@@ -32,7 +32,7 @@ goog.require('Index.soy');
 /**
  * Array of application names.
  */
-Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie',
+Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
               'pond-tutor', 'pond-duck'];
 
 /**

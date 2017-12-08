@@ -110,14 +110,14 @@ Puzzle.init = function() {
       blocks.reverse();
     }
     // Initialize all the blocks.
-    for (var i = 0, block; block = blocks[i]; i++) {
+    for (var i = 0, block; (block = blocks[i]); i++) {
       block.setDeletable(false);
       block.initSvg();
       block.render();
     }
     var totalArea = 0;
     // Measure the surface area of each block.
-    for (var i = 0, block; block = blocks[i]; i++) {
+    for (var i = 0, block; (block = blocks[i]); i++) {
       var blockBox = block.getSvgRoot().getBBox();
       block.cached_width_ = blockBox.width;
       block.cached_height_ = blockBox.height;
@@ -131,7 +131,7 @@ Puzzle.init = function() {
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
-    for (var i = 0, block; block = blocks[i]; i++) {
+    for (var i = 0, block; (block = blocks[i]); i++) {
       var blockBox = block.getSvgRoot().getBBox();
       // Spread the blocks horizontally, grouped by type.
       // Spacing is proportional to block's area.
@@ -158,25 +158,11 @@ Puzzle.init = function() {
     Puzzle.showHelp(false);
   }
 
-  /**
-   * HACK:
-   * Chrome (v28) displays a broken image tag on any image that is also
-   * shown in the help dialog.  Selecting the block fixes the problem.
-   * If Chrome stops corrupting the Duck picture, delete this entire hack.
-   */
-  if (goog.userAgent.WEBKIT) {
-    var blocks = BlocklyGames.workspace.getAllBlocks();
-    for (var i = 0, block; block = blocks[i]; i++) {
-      block.select();
-    }
-    Blockly.selected.unselect();
-  }
-
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  BlocklyGames.workspace.getAudioManager().load(['puzzle/win.mp3', 'puzzle/win.ogg'],
-      'win');
+  BlocklyGames.workspace.getAudioManager().load(
+      ['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
 };
 
 /**
@@ -295,7 +281,7 @@ Puzzle.checkAnswers = function() {
 Puzzle.endDance = function() {
   BlocklyGames.workspace.getAudioManager().play('win', 0.5);
   var blocks = BlocklyGames.workspace.getTopBlocks(false);
-  for (var i = 0, block; block = blocks[i]; i++) {
+  for (var i = 0, block; (block = blocks[i]); i++) {
     var angle = 360 * (i / blocks.length);
     Puzzle.animate(block, angle);
   }

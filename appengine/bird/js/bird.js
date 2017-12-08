@@ -445,7 +445,7 @@ Bird.levelHelp = function() {
     }
     if (userBlocks.indexOf('mutation else') == -1) {
       var blocks = BlocklyGames.workspace.getTopBlocks(false);
-      for (var i = 0, block; block = blocks[i]; i++) {
+      for (var i = 0, block; (block = blocks[i]); i++) {
         if (block.type == 'controls_if') {
           break;
         }
@@ -468,7 +468,7 @@ Bird.levelHelp = function() {
   } else if (BlocklyGames.LEVEL == 6) {
     if (userBlocks.indexOf('mutation') == -1) {
       var blocks = BlocklyGames.workspace.getTopBlocks(false);
-      for (var i = 0, block; block = blocks[i]; i++) {
+      for (var i = 0, block; (block = blocks[i]); i++) {
         if (block.type == 'controls_if') {
           break;
         }
@@ -500,8 +500,8 @@ Bird.levelHelp = function() {
  */
 Bird.reset = function(first) {
   // Kill all tasks.
-  for (var x = 0; x < Bird.pidList.length; x++) {
-    window.clearTimeout(Bird.pidList[x]);
+  for (var i = 0; i < Bird.pidList.length; i++) {
+    window.clearTimeout(Bird.pidList[i]);
   }
   Bird.pidList = [];
 
@@ -782,7 +782,7 @@ Bird.intersectWorm = function() {
  */
 Bird.intersectWall = function() {
   var accuracy = 0.2 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
-  for (var i = 0, wall; wall = Bird.MAP.walls[i]; i++) {
+  for (var i = 0, wall; (wall = Bird.MAP.walls[i]); i++) {
     var wallPoint = wall.getClosestSegmentPoint(Bird.pos);
     if (goog.math.Coordinate.distance(wallPoint, Bird.pos) < accuracy) {
       return true;

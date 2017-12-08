@@ -1,0 +1,143 @@
+button.primary {
+  /* Can't use "text-align: start" due to IE. */
+  text-align: left;
+}
+
+html[dir="RTL"] button.primary {
+  text-align: right;
+}
+
+#blockly {
+  position: fixed;
+  bottom: 10px;
+}
+
+#paddingBox {
+  height: 400px;
+  width: 400px;
+}
+
+#staveBox {
+  position: absolute;
+  border: 1px solid #ccc;
+  height: 400px;
+  width: 400px;
+}
+
+.stave {
+  height: 69px;
+  width: 400px;
+  position: absolute;
+}
+
+.note {
+  height: 37px;
+  position: absolute;
+}
+
+.rest {
+  height: 31px;
+  position: absolute;
+}
+
+.splash {
+  transition-property: height, opacity, width, margin;
+  transition-duration: .3s;
+  opacity: 0;
+}
+
+.splash.note {
+  margin-left: -10px;
+  margin-top: -30px;
+  height: 74px;
+}
+
+.splash.rest {
+  margin-left: -8px;
+  margin-top: -6px;
+  height: 62px;
+}
+
+.goal {
+  opacity: .4;
+}
+
+.wrong {
+  filter: invert(50%) sepia(100%) saturate(10000%)
+}
+
+.ledgerLine {
+  height: 1px;
+  width: 20px;
+  position: absolute;
+}
+
+.barLine {
+  height:36px;
+  width: 1px;
+  position: absolute;
+}
+
+#musicBox {
+  position: absolute;
+  height: 400px;
+  width: 365px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin-left: 36px;
+}
+
+#notePicker {
+  background-image: url(notes.png);
+  border: 1px solid #ccc;
+  height: 109px;
+  width: 46px;
+}
+
+.sampleNote {
+  float: left;
+  height: 37px;
+  margin: 10px;
+}
+
+#sampleHelp2 {
+  height: 150px;
+  width: 250px;
+}
+
+#sampleHelp6, #sampleHelp7 {
+  height: 50px;
+  width: 250px;
+}
+
+/* Slider. */
+.sliderTrack {
+  stroke: #aaa;
+  stroke-width: 6px;
+  stroke-linecap: round;
+}
+.sliderKnob {
+  fill: #ddd;
+  stroke: #bbc;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+}
+.sliderKnob:hover {
+  fill: #eee;
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.stop {
+  background-position: -42px 0px;
+}
+.run {
+  background-position: -63px 0px;
+}
+.reddit {
+  background-position: -63px -21px;
+}

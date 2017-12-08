@@ -20,6 +20,14 @@ var Interpreter = function(code, opt_initFunc) {};
 Interpreter.Value;
 
 /**
+ * Class for a state.
+ * @param {!Object} node AST node for the state.
+ * @param {!Interpreter.Object} scope Scope object for the state.
+ * @constructor
+ */
+Interpreter.State = function(node, scope) {};
+
+/**
  * Class for an object.
  * @param {Interpreter.Object} proto Prototype object or null.
  * @constructor
@@ -55,6 +63,11 @@ Interpreter.prototype.BOOLEAN;
  * @type {!Object}
  */
 Interpreter.prototype.value;
+
+/**
+ * @type {!Array.<!Interpreter.State>}
+ */
+Interpreter.prototype.stateStack;
 
 /**
  * Add more code to the interpreter.
@@ -147,4 +160,3 @@ Interpreter.prototype.getProperty = function(obj, name) {};
  *     needs to be called, otherwise undefined.
  */
 Interpreter.prototype.setProperty = function(obj, name, value, opt_descriptor) {};
-

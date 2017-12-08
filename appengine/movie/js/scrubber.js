@@ -379,7 +379,7 @@ Scrubber.prototype.setValue = function(value) {
   this.knob_.setAttribute('x', x - 42 - 8);
   this.knobTarget_.setAttribute('x', x - this.TARGET_OVERHANG_);
 
-  for (var i = 0, rect; rect = this.progressRects_[i]; i++) {
+  for (var i = 0, rect; (rect = this.progressRects_[i]); i++) {
     rect.setAttribute('width', x - this.KNOB_MIN_X_);
   }
 
