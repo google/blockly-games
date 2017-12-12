@@ -401,7 +401,9 @@ Music.drawAnswer = function() {
         time += duration;
       }
     }
-    Music.autoScroll();
+    // Both Chrome and FF read musicBox.scrollWidth as too small on some levels
+    // without a setTimeout here.  Unknown why.
+    setTimeout(Music.autoScroll, 0);
   }
 };
 

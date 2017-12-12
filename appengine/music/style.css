@@ -79,6 +79,7 @@ html[dir="RTL"] button.primary {
 }
 
 #musicBox {
+  direction: ltr;
   position: absolute;
   height: 400px;
   width: 365px;
@@ -98,6 +99,10 @@ html[dir="RTL"] button.primary {
   float: left;
   height: 37px;
   margin: 10px;
+}
+
+html[dir="RTL"] .sampleNote {
+  float: right;
 }
 
 #sampleHelp2 {
