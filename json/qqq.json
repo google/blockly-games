@@ -245,7 +245,7 @@
 	"Music.helpText9": "Instructions.",
 	"Music.helpText10": "Instructions.",
 	"Music.helpText10Reddit": "Instructions on posting your music to Reddit (a social website).",
-	"Music.catMusic": "category - Blocks related to Music commands.",
+	"Music.catMusic": "category - Blocks related to Music commands.\n{{Identical|Music}}",
 	"Pond.scanTooltip": "Tooltip for the block that allows players to scan for enemies.",
 	"Pond.cannonTooltip": "Tooltip for the block that allows players to shoot at other players.",
 	"Pond.swimTooltip": "Tooltip for the block that allows players to move.",
