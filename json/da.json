@@ -236,6 +236,8 @@
 	"Music.helpUseFunctions": "Din løsning fungerer, men du kan gøre det bedre. Brug funktioner til at reducere mængden af gentaget kode.",
 	"Music.helpText1": "Komponer de første fire noder af »Frère Jacques«.",
 	"Music.helpText2a": "En »funktion« gør at du kan gruppere blokke sammen og så køre dem mere end en gang.",
+	"Music.helpText2b": "Opret en funktion at afspille de første fire noder af »Frère Jacques«. Kør den funktion to gange. Tilføj ikke nye nodeblokke.",
+	"Music.helpText3": "Opret en anden funktion for den næste del af »Frère Jacques«. Den sidste node er længere.",
 	"Music.catMusic": "Musik",
 	"Pond.scanTooltip": "Søg efter fjender. Angiv en retning (0-360). Returnerer afstanden til den nærmeste fjende i den retning. Returnerer 'Infinity' (uendeligt), hvis den ikke fandt nogen fjender.",
 	"Pond.cannonTooltip": "Affyrer kanonen. Angiv retning (0-360) og afstand (0-70).",
