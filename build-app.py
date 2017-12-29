@@ -107,7 +107,11 @@ def write_uncompressed(name, lang):
     cmd.append('--root=appengine/%s/generated/%s/' % (directory, lang))
     cmd.append('--root=appengine/%s/js/' % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
-  proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+  try:
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+  except:
+    print("Failed to Popen: %s" & cmd)
+    raise
   files = proc.stdout.readlines()
 
   if name == 'pond/docs':
@@ -207,7 +211,11 @@ def write_compressed(name, lang):
     cmd.append("--js='appengine/%s/generated/%s/*.js'" % (directory, lang))
     cmd.append("--js='appengine/%s/js/*.js'" % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
-  proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+  try:
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+  except:
+    print("Failed to Popen: %s" % cmd)
+    raise
   script = proc.stdout.readlines()
   script = ''.join(script)
   script = trim_licence(script)
