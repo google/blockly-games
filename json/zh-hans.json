@@ -240,6 +240,7 @@
 	"Music.helpText5": "完成“Frère Jacques”的整个曲子。",
 	"Music.helpText6a": "这个新块让您更改至另一乐器。",
 	"Music.helpText6b": "通过小提琴播放您的声音。",
+	"Music.helpText7a": "这个新块添加了无声延时。",
 	"Music.catMusic": "音乐",
 	"Pond.scanTooltip": "寻找敌人。指定一个方向（0-360度之间）。返回该方向上最近敌人的距离值。如果该方向上没有发现敌人的话，就返回无限大。",
 	"Pond.cannonTooltip": "试射大炮。指定一个方向（0~360）和一个范围（0~70）。",
