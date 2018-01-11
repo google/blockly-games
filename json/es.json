@@ -7,7 +7,8 @@
 			"VegaDark",
 			"WeSiToS",
 			"Ricky <ricardo.barberis@gmail.com>",
-			"Macofe"
+			"Macofe",
+			"Cethos"
 		]
 	},
 	"Games.name": "Juegos de Blockly",
@@ -209,8 +210,12 @@
 	"Movie.helpText10": "Haz una película sobre lo que quieras. Tienes muchos bloques nuevos para explorar ¡Diviértete!",
 	"Movie.helpText10Reddit": "Usa el botón &quot;Ver galería&quot; para ver películas de otras personas. Si has hecho una película interesante, usa el botón &quot;Enviar a la galería&quot; para publicarla.",
 	"Music.playNoteTooltip": "Reproduce una nota musical de la duración y el tono que se especifiquen.",
+	"Music.playNote": "reproducir nota %2 por %1",
 	"Music.restTooltip": "Espera la duración que se especifique.",
 	"Music.restWholeTooltip": "Espera una nota completa.",
+	"Music.rest": "descanso de %1",
+	"Music.setInstrumentTooltip": "Cambia al instrumento especificado cuando reproduce notas musicales posteriores.",
+	"Music.setInstrument": "definir el instrumento como %1",
 	"Music.firstPart": "primera parte",
 	"Music.piano": "piano",
 	"Music.trumpet": "trompeta",
