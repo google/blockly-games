@@ -561,8 +561,7 @@ Blockly.Blocks['variables_set'].init = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['procedures_defnoreturn'].init = function() {
-  var nameField = new Blockly.FieldTextInput(
-      Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,
+  var nameField = new Blockly.FieldTextInput('',
       Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
@@ -582,6 +581,8 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
   this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
   this.arguments_ = [];
+  this.argumentVarModels_ = [];
+  this.setStatements_(true);
   this.statementConnection_ = null;
 };
 
@@ -590,8 +591,7 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['procedures_defreturn'].init = function() {
-  var nameField = new Blockly.FieldTextInput(
-      Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE,
+  var nameField = new Blockly.FieldTextInput('',
       Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
@@ -612,6 +612,7 @@ Blockly.Blocks['procedures_defreturn'].init = function() {
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
   this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
   this.arguments_ = [];
+  this.argumentVarModels_ = [];
   this.setStatements_(true);
   this.statementConnection_ = null;
 };

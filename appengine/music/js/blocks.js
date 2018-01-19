@@ -275,8 +275,7 @@ if (BlocklyGames.LEVEL < 10) {
    * @this Blockly.Block
    */
   Blockly.Blocks['procedures_defnoreturn'].init = function() {
-    var nameField = new Blockly.FieldTextInput(
-        Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,
+    var nameField = new Blockly.FieldTextInput('',
         Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
@@ -287,7 +286,9 @@ if (BlocklyGames.LEVEL < 10) {
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
     this.arguments_ = [];
+    this.argumentVarModels_ = [];
     this.setStatements_(true);
+    this.statementConnection_ = null;
   };
 
   delete Blockly.Blocks['procedures_defreturn'];
