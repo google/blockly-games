@@ -47,7 +47,7 @@
 	"Games.httpRequestError": "Houve um problema com a solicitação.",
 	"Games.linkAlert": "Compartilhe os seus blocos com este link:\n\n%1",
 	"Games.hashError": "Desculpe, '%1' não corresponde a um blockly salvo.",
-	"Games.xmlError": "Não foi possível ler o seu arquivo salvo.  Talvez ele tenha sido gerado por uma versão antiga do Blockly?",
+	"Games.xmlError": "Não foi possível carregar o seu ficheiro gravado. Talvez ele tenha sido criado por uma versão diferente do Blockly?",
 	"Games.listVariable": "lista",
 	"Games.textVariable": "texto",
 	"Games.breakLink": "Assim que começar a editar JavaScript, não pode voltar a editar blocos. Clique em OK para continuar.",
