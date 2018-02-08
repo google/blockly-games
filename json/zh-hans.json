@@ -250,7 +250,7 @@
 	"Music.helpText7b": "创建一个二级开始块，它拥有两个延时块，然后同样播放“Frère Jacques”。",
 	"Music.helpText8": "每个开始块应播放“Frère Jacques”两次。",
 	"Music.helpText9": "创建四个开始块，每个都会播放“Frère Jacques”两次。添加正确的延时块数量。",
-	"Music.helpText10": "画出任何您想画的东西。您还有许多可以探索的新板块。玩的开心！",
+	"Music.helpText10": "组成任何您想要的东西。您会有大量您可以探索的新块。祝玩的开心！",
 	"Music.helpText10Reddit": "使用&quot;查看图册&quot;按钮来观看其他人的作品。如果您画了些有趣的东西，使用&quot;提交至图册&quot;按钮来发布。",
 	"Music.catMusic": "音乐",
 	"Pond.scanTooltip": "寻找敌人。指定一个方向（0-360度之间）。返回该方向上最近敌人的距离值。如果该方向上没有发现敌人的话，就返回无限大。",

@@ -4,7 +4,8 @@
 			"Anzeljg",
 			"Eleassar",
 			"Igor.pesek",
-			"Dbc334"
+			"Dbc334",
+			"HairyFotr"
 		]
 	},
 	"Games.name": "Blockly igre",
@@ -13,6 +14,7 @@
 	"Games.bird": "Ptič",
 	"Games.turtle": "Želva",
 	"Games.movie": "Film",
+	"Games.music": "Glasba",
 	"Games.pondTutor": "Ribnik Mentor",
 	"Games.pond": "Ribnik",
 	"Games.genetics": "Genetika",
@@ -204,6 +206,13 @@
 	"Movie.helpText9": "Znaš ustvariti žogo, ki sledi žici? Žica je že narisana. Enkrat, ko znaš to, lahko narediš karkoli.",
 	"Movie.helpText10": "Izdelaj film po tvojih željah. Na voljo imaš veliko število novih blokov, ki jih je še potrebno odkriti. Uživaj!",
 	"Movie.helpText10Reddit": "Uporabi gumb 'Poglej Galerijo', da vidiš, kakšne filme so so drugi ustvarili. Če si ustvaril zanimivega, uporabi gumb 'Oddaj v Galerijo', da film objaviš.",
+	"Music.piano": "klavir",
+	"Music.trumpet": "trobenta",
+	"Music.violin": "violina",
+	"Music.guitar": "kitara",
+	"Music.flute": "flavta",
+	"Music.drum": "boben",
+	"Music.catMusic": "Glasba",
 	"Pond.scanTooltip": "Skeniraj za nasprotniki. Določi smer (0-360). Vrne razdaljo do najbližjega nasprotnika v tej smeri. Vrne Neskončno, če ni nasprotnika.",
 	"Pond.cannonTooltip": "Streljaj s topom. Določi smer (0-360) in razdaljo (0-70).",
 	"Pond.swimTooltip": "Plavaj naprej. Določi smer (0-360).",
