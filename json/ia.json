@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"McDutchie"
+			"McDutchie",
+			"Fanjiayi"
 		]
 	},
 	"Games.name": "Jocos Blockly",
@@ -129,5 +130,7 @@
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "grasse",
 	"Turtle.fontItalic": "italic",
-	"Turtle.catTurtle": "Tortuca"
+	"Turtle.catTurtle": "Tortuca",
+	"Movie.x": "x",
+	"Movie.y": "y"
 }
