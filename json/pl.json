@@ -14,7 +14,8 @@
 			"Fringoo",
 			"Krottyianock",
 			"Woytecr",
-			"Wojtas"
+			"Wojtas",
+			"Anwar2"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -23,6 +24,7 @@
 	"Games.bird": "Ptak",
 	"Games.turtle": "Żółw",
 	"Games.movie": "Animacja",
+	"Games.music": "Muzyka",
 	"Games.pondTutor": "Staw: Jak grać",
 	"Games.pond": "Staw",
 	"Games.genetics": "Genetyka",
