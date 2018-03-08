@@ -212,6 +212,7 @@
 	"Movie.helpText10Reddit": "Käytä &quot;Katso Galleriaa&quot; - painiketta nähdäksesi muiden tekemiä elokuvia. Jos teet mielenkiintoisen elokuvan, käytä &quot;Lähetä Galleriaan&quot; - painiketta julkaistaksesi sen.",
 	"Music.restWholeTooltip": "Odottaa yhtä kokonaista nuottia.",
 	"Music.startTooltip": "Suorittaa lohkot sisällä, kun 'Aja ohjelma' painiketta napsautetaan.",
+	"Music.start": "kun %1 napsautetaan",
 	"Music.pitchTooltip": "Yksi sävel (C4 on 7).",
 	"Music.firstPart": "ensimmäinen osa",
 	"Music.piano": "piano",

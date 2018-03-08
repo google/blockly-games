@@ -3,7 +3,8 @@
 		"authors": [
 			"Azpirin",
 			"Taweetham",
-			"Octahedron80"
+			"Octahedron80",
+			"Nantapat"
 		]
 	},
 	"Games.name": "บล็อกลีเกมส์",
@@ -12,7 +13,10 @@
 	"Games.bird": "นก",
 	"Games.turtle": "เต่า",
 	"Games.movie": "ภาพยนตร์",
+	"Games.music": "เพลง",
+	"Games.pondTutor": "Pond Tutor",
 	"Games.pond": "สระน้ำ",
+	"Games.genetics": "พันธุศาสตร์",
 	"Games.linesOfCode1": "คุณแก้ปัญหาด่านนี้ได้ด้วยจาวาสคริปต์ 1 บรรทัด",
 	"Games.linesOfCode2": "คุณแก้ปัญหาด่านนี้ได้ด้วยจาวาสคริปต์ $1 บรรทัด",
 	"Games.nextLevel": "คุณพร้อมหรือยังกับด่าน %1?",
@@ -39,6 +43,7 @@
 	"Games.xmlError": "ไม่สามารถโหลดไฟล์ที่บันทึกไว้ของคุณได้ บางทีมันอาจถูกสร้างขึ้นด้วยบล็อกลีรุ่นอื่นที่ต่างออกไป?",
 	"Games.listVariable": "รายการ",
 	"Games.textVariable": "ข้อความ",
+	"Games.breakLink": "ทันทีที่คุณเริ่มการแก้ไข Javascipt คุณจะไม่สามารถกลับไปยังการแก้ไข block เหล่านั้นได้นะ คุณยังจะ OK อยู่ไหม?",
 	"Games.blocks": "บล็อก",
 	"Games.congratulations": "ยินดีด้วย!",
 	"Puzzle.animal1": "เป็ด",

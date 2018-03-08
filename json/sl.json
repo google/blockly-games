@@ -212,6 +212,7 @@
 	"Music.guitar": "kitara",
 	"Music.flute": "flavta",
 	"Music.drum": "boben",
+	"Music.choir": "zbor",
 	"Music.catMusic": "Glasba",
 	"Pond.scanTooltip": "Skeniraj za nasprotniki. Določi smer (0-360). Vrne razdaljo do najbližjega nasprotnika v tej smeri. Vrne Neskončno, če ni nasprotnika.",
 	"Pond.cannonTooltip": "Streljaj s topom. Določi smer (0-360) in razdaljo (0-70).",
