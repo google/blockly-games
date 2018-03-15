@@ -7,7 +7,8 @@
 			"Inkbug",
 			"Amire80",
 			"Noamrotem",
-			"Elyashiv"
+			"Elyashiv",
+			"Deborahjay"
 		]
 	},
 	"Games.name": "משחקי בלוקלי",
@@ -146,6 +147,15 @@
 	"Movie.colourTooltip": "משנה את צבע העט.",
 	"Movie.setColour": "קבע את הצבע ל",
 	"Movie.helpText1": "השתמש בצורות פשוטות בשביל לצייר איש.",
+	"Music.piano": "פסנתר",
+	"Music.trumpet": "חצוצרה",
+	"Music.banjo": "בנג'ו",
+	"Music.violin": "כינור",
+	"Music.guitar": "גיטרה",
+	"Music.flute": "חליל",
+	"Music.drum": "תוף",
+	"Music.choir": "מקחלה",
+	"Music.catMusic": "מוזיקה",
 	"Pond.documentation": "תיעוד",
 	"Pond.playerName": "שחקן",
 	"Pond.targetName": "מטרה",
