@@ -213,7 +213,7 @@
 	"Movie.helpText10Reddit": "&quot;갤러리 보기&quot; 버튼으로 다른 사람의 애니메이션을 보세요. 흥미있는 애니메이션을 만드시면 &quot;갤러리에 내기&quot; 버튼을 눌러서 저장하세요.",
 	"Music.playNoteTooltip": "특정한 음높이와 길이로 1개 음을 연주합니다.",
 	"Music.playNote": "%2 음을 %1 동안 연주하기",
-	"Music.restTooltip": "일정 시간 동안 기다리기",
+	"Music.restTooltip": "특정한 시간 동안 기다립니다.",
 	"Music.piano": "피아노",
 	"Music.trumpet": "트럼펫",
 	"Music.violin": "바이올린",
