@@ -90,8 +90,8 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     header.id = 'dialogHeader';
     dialog.appendChild(header);
     BlocklyDialogs.dialogMouseDownWrapper_ =
-        BlocklyDialogs.bindEvent_(header, 'mousedown', null,
-                                  BlocklyDialogs.dialogMouseDown_);
+        Blockly.bindEvent_(header, 'mousedown', null,
+                           BlocklyDialogs.dialogMouseDown_);
   }
   dialog.appendChild(content);
   content.className = content.className.replace('dialogHiddenContent', '');
@@ -142,9 +142,9 @@ BlocklyDialogs.dialogMouseDown_ = function(e) {
   BlocklyDialogs.dialogStartX_ = dialog.offsetLeft - e.clientX;
   BlocklyDialogs.dialogStartY_ = dialog.offsetTop - e.clientY;
 
-  BlocklyDialogs.dialogMouseUpWrapper_ = BlocklyDialogs.bindEvent_(document,
+  BlocklyDialogs.dialogMouseUpWrapper_ = Blockly.bindEvent_(document,
       'mouseup', null, BlocklyDialogs.dialogUnbindDragEvents_);
-  BlocklyDialogs.dialogMouseMoveWrapper_ = BlocklyDialogs.bindEvent_(document,
+  BlocklyDialogs.dialogMouseMoveWrapper_ = Blockly.bindEvent_(document,
       'mousemove', null, BlocklyDialogs.dialogMouseMove_);
   // This event has been handled.  No need to bubble up to the document.
   e.stopPropagation();
@@ -173,11 +173,11 @@ BlocklyDialogs.dialogMouseMove_ = function(e) {
  */
 BlocklyDialogs.dialogUnbindDragEvents_ = function() {
   if (BlocklyDialogs.dialogMouseUpWrapper_) {
-    BlocklyDialogs.unbindEvent_(BlocklyDialogs.dialogMouseUpWrapper_);
+    Blockly.unbindEvent_(BlocklyDialogs.dialogMouseUpWrapper_);
     BlocklyDialogs.dialogMouseUpWrapper_ = null;
   }
   if (BlocklyDialogs.dialogMouseMoveWrapper_) {
-    BlocklyDialogs.unbindEvent_(BlocklyDialogs.dialogMouseMoveWrapper_);
+    Blockly.unbindEvent_(BlocklyDialogs.dialogMouseMoveWrapper_);
     BlocklyDialogs.dialogMouseMoveWrapper_ = null;
   }
 };
@@ -193,7 +193,7 @@ BlocklyDialogs.hideDialog = function(opt_animate) {
   }
   BlocklyDialogs.dialogUnbindDragEvents_();
   if (BlocklyDialogs.dialogMouseDownWrapper_) {
-    BlocklyDialogs.unbindEvent_(BlocklyDialogs.dialogMouseDownWrapper_);
+    Blockly.unbindEvent_(BlocklyDialogs.dialogMouseDownWrapper_);
     BlocklyDialogs.dialogMouseDownWrapper_ = null;
   }
 
@@ -485,71 +485,6 @@ BlocklyDialogs.abortKeyDown = function(e) {
     if (e.keyCode != 27) {
       BlocklyInterface.indexPage();
     }
-  }
-};
-
-/**
- * Bind an event to a function call.  Handles multitouch events by using the
- * coordinates of the first changed touch, and doesn't do any safety checks for
- * simultaneous event processing.
- * @param {!EventTarget} node Node upon which to listen.
- * @param {string} name Event name to listen to (e.g. 'mousedown').
- * @param {Object} thisObject The value of 'this' in the function.
- * @param {!Function} func Function to call when event is triggered.
- * @return {!Array.<!Array>} Opaque data that can be passed to unbindEvent_.
- * @private
- */
-BlocklyDialogs.bindEvent_ = function(node, name, thisObject, func) {
-  var wrapFunc = function(e) {
-    if (thisObject) {
-      func.call(thisObject, e);
-    } else {
-      func(e);
-    }
-  };
-
-  var bindData = [];
-  // Don't register the mouse event if an equivalent pointer event is supported.
-  if ((window && !window.PointerEvent) || !(name in Blockly.Touch.TOUCH_MAP)) {
-    node.addEventListener(name, wrapFunc, false);
-    bindData.push([node, name, wrapFunc]);
-  }
-  // Add equivalent touch or pointer event.
-  if (name in Blockly.Touch.TOUCH_MAP) {
-    var touchWrapFunc = function(e) {
-      // Punt on multitouch events.
-      if (e.changedTouches && e.changedTouches.length == 1) {
-        // Map the touch event's properties to the event.
-        var touchPoint = e.changedTouches[0];
-        e.clientX = touchPoint.clientX;
-        e.clientY = touchPoint.clientY;
-      }
-      wrapFunc(e);
-
-      // Stop the browser from scrolling/zooming the page.
-      e.preventDefault();
-    };
-    for (var i = 0, type; type = Blockly.Touch.TOUCH_MAP[name][i]; i++) {
-      node.addEventListener(type, touchWrapFunc, false);
-      bindData.push([node, type, touchWrapFunc]);
-    }
-  }
-  return bindData;
-};
-
-/**
- * Unbind one or more events event from a function call.
- * @param {!Array.<!Array>} bindData Opaque data from bindEvent_.
- *     This list is emptied during the course of calling this function.
- * @private
- */
-BlocklyDialogs.unbindEvent_ = function(bindData) {
-  while (bindData.length) {
-    var bindDatum = bindData.pop();
-    var node = bindDatum[0];
-    var name = bindDatum[1];
-    var func = bindDatum[2];
-    node.removeEventListener(name, func, false);
   }
 };
 

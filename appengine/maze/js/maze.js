@@ -483,12 +483,11 @@ Maze.init = function() {
     img.style.backgroundImage = 'url(' + Maze.SKINS[i].sprite + ')';
     div.appendChild(img);
     pegmanMenu.appendChild(div);
-    BlocklyDialogs.bindEvent_(div, 'mousedown', null, handlerFactory(i));
+    Blockly.bindEvent_(div, 'mousedown', null, handlerFactory(i));
   }
-  BlocklyDialogs.bindEvent_(window, 'resize', null, Maze.hidePegmanMenu);
+  Blockly.bindEvent_(window, 'resize', null, Maze.hidePegmanMenu);
   var pegmanButton = document.getElementById('pegmanButton');
-  BlocklyDialogs.bindEvent_(pegmanButton, 'mousedown', null,
-                            Maze.showPegmanMenu);
+  Blockly.bindEvent_(pegmanButton, 'mousedown', null, Maze.showPegmanMenu);
   var pegmanButtonArrow = document.getElementById('pegmanButtonArrow');
   var arrow = document.createTextNode(Blockly.FieldDropdown.ARROW_CHAR);
   pegmanButtonArrow.appendChild(arrow);
@@ -822,8 +821,8 @@ Maze.showPegmanMenu = function(e) {
   menu.style.top = (button.offsetTop + button.offsetHeight) + 'px';
   menu.style.left = button.offsetLeft + 'px';
   menu.style.display = 'block';
-  Maze.pegmanMenuMouse_ = BlocklyDialogs.bindEvent_(document.body, 'mousedown',
-                                                    null, Maze.hidePegmanMenu);
+  Maze.pegmanMenuMouse_ =
+      Blockly.bindEvent_(document.body, 'mousedown', null, Maze.hidePegmanMenu);
   // Close the skin-changing hint if open.
   var hint = document.getElementById('dialogHelpSkins');
   if (hint && hint.className != 'dialogHiddenContent') {
@@ -844,7 +843,7 @@ Maze.hidePegmanMenu = function(e) {
   document.getElementById('pegmanMenu').style.display = 'none';
   document.getElementById('pegmanButton').classList.remove('buttonHover');
   if (Maze.pegmanMenuMouse_) {
-    BlocklyDialogs.unbindEvent_(Maze.pegmanMenuMouse_);
+    Blockly.unbindEvent_(Maze.pegmanMenuMouse_);
     delete Maze.pegmanMenuMouse_;
   }
 };
