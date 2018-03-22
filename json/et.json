@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Villuvilkur"
+			"Villuvilkur",
+			"Puik"
 		]
 	},
 	"Games.name": "Blockly mängud",
@@ -99,5 +100,9 @@
 	"Maze.helpSkins": "Vali menüüst oma lemmikmängija.",
 	"Maze.helpIf": "\"If\" plokk täidab käsu ainult siis, kui seatud tingimus on tõene. Proovi keerata vasemale, kui rada läheb vasemale.",
 	"Maze.helpMenu": "Klõpsa %1, et muuta ploki olekut.",
-	"Bird.heading": "Suund"
+	"Bird.heading": "Suund",
+	"Turtle.turnRight": "pööra paremale",
+	"Turtle.setColour": "sea värviks",
+	"Turtle.penUp": "pliiats üles",
+	"Turtle.penDown": "pliiats maha"
 }
