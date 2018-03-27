@@ -139,7 +139,7 @@ BlocklyInterface.getCode = function() {
     var text = BlocklyInterface.editor['getValue']();
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
+    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace, true);
     var text = Blockly.Xml.domToText(xml);
   }
   return text;
