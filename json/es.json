@@ -216,6 +216,7 @@
 	"Music.rest": "descanso de %1",
 	"Music.setInstrumentTooltip": "Cambia al instrumento especificado cuando reproduce notas musicales posteriores.",
 	"Music.setInstrument": "definir el instrumento como %1",
+	"Music.startTooltip": "Ejecuta los bloques interiores al pulsar el botón «Ejecutar programa».",
 	"Music.firstPart": "primera parte",
 	"Music.piano": "piano",
 	"Music.trumpet": "trompeta",
