@@ -225,6 +225,7 @@
 	"Music.galleryMsg": "갤러리 보기",
 	"Music.submitTooltip": "Reddit에 음악을 제출합니다.",
 	"Music.submitMsg": "갤러리에 제출하기",
+	"Music.catMusic": "음악",
 	"Pond.scanTooltip": "적을 찾습니다. 방향 (0-360)을 입력하세요. 그 방향에 있는 제일 가까운 적의 거리를 출력하고 적이 없으면 무한을 출력합니다.",
 	"Pond.cannonTooltip": "대포를 쏩니다. 방향 (0-360)과 거리 (0-70)을 입력하세요.",
 	"Pond.swimTooltip": "앞으로 수영합니다. 방향 (0-360)을 입력하세요.",
