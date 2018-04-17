@@ -41,74 +41,140 @@ Movie.answer = function(f) {
     case 1:
       // Static person.
       Movie.penColour('#ff0000');
-      Movie.circle(50, 80, 10);
+      Movie.circle(50, 70, 10);
       Movie.penColour('#3333ff');
-      Movie.rect(50, 40, 20, 60);
+      Movie.rect(50, 40, 20, 40);
       Movie.penColour('#000000');
-      Movie.line(20, 70, 50, 50, 5);
-      Movie.line(50, 50, 80, 70, 5);
+      Movie.line(40, 50, 20, 70, 5);
+      Movie.line(60, 50, 80, 70, 5);
       break;
     case 2:
-      // Circle moving.
+      // Right hand moving up.
       Movie.penColour('#ff0000');
-      Movie.circle(time(), 50, 10);
+      Movie.circle(50, 70, 10);
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 70, 5);
+      Movie.line(60, 50, 80, time(), 5);
       break;
     case 3:
-      // Circle moving backward.
+      // Left hand moving down.
       Movie.penColour('#ff0000');
-      Movie.circle(100 - time(), 50, 10);
+      Movie.circle(50, 70, 10);
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, time(), 5);
       break;
     case 4:
-      // Four circles.
-      Movie.penColour('#009900');  // Green.
-      Movie.circle(time(), 50, 20);
-      Movie.circle(100 - time(), 50, 20);
-      Movie.circle(50, 100 - time(), 20);
-      Movie.circle(50, time(), 20);
+      // Legs cross.
+      Movie.penColour('#ff0000');
+      Movie.circle(50, 70, 10);
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, time(), 5);
+      Movie.line(40, 20, time(), 0, 5);
+      Movie.line(60, 20, 100 - time(), 0, 5);
       break;
     case 5:
-      // Mouse.
-      Movie.circle(30, time() + 20, 10);
-      Movie.circle(50, time(), 20);
-      Movie.circle(70, time() + 20, 10);
+      // Right arm parabola.
+      Movie.penColour('#ff0000');
+      Movie.circle(50, 70, 10);
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      Movie.line(40, 20, time(), 0, 5);
+      Movie.line(60, 20, 100 - time(), 0, 5);
       break;
     case 6:
-      // Two lines.
-      Movie.line(100 - time(), 100, time(), time(), 1);
-      Movie.line(time(), time(), 100 - time(), 0, 1);
+      // Hands.
+      Movie.penColour('#ff0000');
+      Movie.circle(50, 70, 10);
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      Movie.line(40, 20, time(), 0, 5);
+      Movie.line(60, 20, 100 - time(), 0, 5);
+      Movie.penColour('#ff0000');
+      Movie.circle(20, 100 - time(), 5);
+      Movie.circle(80, Math.pow((time() - 50) / 5, 2), 5);
       break;
     case 7:
-      // Parabolic ball.
-      Movie.penColour('#009900');
-      Movie.circle(time(), 100 - Math.pow((time() - 50) / 5, 2), 10);
+      // Head.
+      Movie.penColour('#ff0000');
+      if (time() < 50) {
+        Movie.circle(50, 70, 10);
+      } else {
+        Movie.circle(50, 80, 20);
+      }
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      Movie.line(40, 20, time(), 0, 5);
+      Movie.line(60, 20, 100 - time(), 0, 5);
+      Movie.penColour('#ff0000');
+      Movie.circle(20, 100 - time(), 5);
+      Movie.circle(80, Math.pow((time() - 50) / 5, 2), 5);
       break;
     case 8:
-      // Colliding circles.
+      // Legs reverse.
+      Movie.penColour('#ff0000');
       if (time() < 50) {
-        Movie.penColour('#ff0000');
-        Movie.circle(time(), time(), 10);
-        Movie.penColour('#3333ff');
-        Movie.circle(100 - time(), 100 - time(), 10);
+        Movie.circle(50, 70, 10);
       } else {
-        Movie.penColour('#009900');
-        Movie.circle(50, 50, 10);
+        Movie.circle(50, 80, 20);
       }
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      if (time() < 50) {
+        Movie.line(40, 20, time(), 0, 5);
+        Movie.line(60, 20, 100 - time(), 0, 5);
+      } else {
+        Movie.line(40, 20, 100 - time(), 0, 5);
+        Movie.line(60, 20, time(), 0, 5);
+      }
+      Movie.penColour('#ff0000');
+      Movie.circle(20, 100 - time(), 5);
+      Movie.circle(80, Math.pow((time() - 50) / 5, 2), 5);
       break;
     case 9:
-      // Follow the wire.
-      Movie.penColour('#999999');
-      Movie.line(0, 40, 20, 40, 1);
-      Movie.line(20, 40, 20, 80, 1);
-      Movie.line(20, 80, 80, 20, 1);
-
-      Movie.penColour('#009900');
-      if (time() < 20) {
-        Movie.circle(time(), 40, 10);
-      } else if (time() < 40) {
-        Movie.circle(20, time() * 2, 10);
+      // Background.
+      Movie.penColour('#00ff00');
+      Movie.circle(50, time() / 2, time() / 2);
+      Movie.penColour('#ff0000');
+      if (time() < 50) {
+        Movie.circle(50, 70, 10);
       } else {
-        Movie.circle(time() - 20, 120 - time(), 10);
+        Movie.circle(50, 80, 20);
       }
+      Movie.penColour('#3333ff');
+      Movie.rect(50, 40, 20, 40);
+      Movie.penColour('#000000');
+      Movie.line(40, 50, 20, 100 - time(), 5);
+      Movie.line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      if (time() < 50) {
+        Movie.line(40, 20, time(), 0, 5);
+        Movie.line(60, 20, 100 - time(), 0, 5);
+      } else {
+        Movie.line(40, 20, 100 - time(), 0, 5);
+        Movie.line(60, 20, time(), 0, 5);
+      }
+      Movie.penColour('#ff0000');
+      Movie.circle(20, 100 - time(), 5);
+      Movie.circle(80, Math.pow((time() - 50) / 5, 2), 5);
       break;
   }
 };
@@ -124,13 +190,40 @@ Movie.isCorrect = function() {
   }
   // Check the already recorded pixel errors on every frame.
   for (var f = 0; f <= Movie.FRAMES; f++) {
-    if (Movie.pixelErrors[f] === undefined) {
+    if (f == 50) {
+      // Don't check the middle frame.  Makes pesky off-by-one errors go away.
+      // E.g. if (time < 50) vs if (time <= 50)
+      continue;
+    } else if (Movie.pixelErrors[f] === undefined) {
       // Not rendered yet.
       return false;
     } else if (Movie.pixelErrors[f] > 100) {
       // Too many errors.
       console.log('Pixel errors (frame ' + f + '): ' + Movie.pixelErrors[f]);
       return false;
+    }
+  }
+  if (BlocklyGames.LEVEL == 9) {
+    // Ensure that the background is behind the figure, not in front.
+    var blocks = BlocklyGames.workspace.getAllBlocks(true);
+    for (var i = 0, block; (block = blocks[i]); i++) {
+      if (block.type == 'movie_circle') {
+        // Check that the radius on the first circle block is connected to a
+        // division block.
+        if (block.getInputTargetBlock('RADIUS').type != 'math_arithmetic') {
+          var content = document.getElementById('helpLayer');
+          var style = {
+            'width': '30%',
+            'left': '35%',
+            'top': '12em'
+          };
+          BlocklyDialogs.showDialog(content, null, false, true, style,
+              BlocklyDialogs.stopDialogKeyDown);
+          BlocklyDialogs.startDialogKeyDown();
+          return false;
+        }
+        break;
+      }
     }
   }
   return true;

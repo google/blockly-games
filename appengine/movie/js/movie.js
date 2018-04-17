@@ -114,105 +114,7 @@ Movie.init = function() {
   }
 
   var defaultXml = '<xml></xml>';
-  if (BlocklyGames.LEVEL == 9) {
-    defaultXml = ['<xml xmlns="http://www.w3.org/1999/xhtml">',
-          '<block type="movie_colour" inline="false" x="51" y="28">',
-            '<value name="COLOUR">',
-              '<block type="colour_picker">',
-                '<field name="COLOUR">#999999</field>',
-              '</block>',
-            '</value>',
-            '<next>',
-              '<block type="movie_line" inline="false">',
-                '<value name="X1">',
-                  '<block type="math_number">',
-                    '<field name="NUM">0</field>',
-                  '</block>',
-                '</value>',
-                '<value name="Y1">',
-                  '<block type="math_number">',
-                    '<field name="NUM">40</field>',
-                  '</block>',
-                '</value>',
-                '<value name="X2">',
-                  '<block type="math_number">',
-                    '<field name="NUM">20</field>',
-                  '</block>',
-                '</value>',
-                '<value name="Y2">',
-                  '<block type="math_number">',
-                    '<field name="NUM">40</field>',
-                  '</block>',
-                '</value>',
-                '<value name="WIDTH">',
-                  '<block type="math_number">',
-                    '<field name="NUM">1</field>',
-                  '</block>',
-                '</value>',
-                '<next>',
-                  '<block type="movie_line" inline="false">',
-                    '<value name="X1">',
-                      '<block type="math_number">',
-                        '<field name="NUM">20</field>',
-                      '</block>',
-                    '</value>',
-                    '<value name="Y1">',
-                      '<block type="math_number">',
-                        '<field name="NUM">40</field>',
-                      '</block>',
-                    '</value>',
-                    '<value name="X2">',
-                      '<block type="math_number">',
-                        '<field name="NUM">20</field>',
-                      '</block>',
-                    '</value>',
-                    '<value name="Y2">',
-                      '<block type="math_number">',
-                        '<field name="NUM">80</field>',
-                      '</block>',
-                    '</value>',
-                    '<value name="WIDTH">',
-                      '<block type="math_number">',
-                        '<field name="NUM">1</field>',
-                      '</block>',
-                    '</value>',
-                    '<next>',
-                      '<block type="movie_line" inline="false">',
-                        '<value name="X1">',
-                          '<block type="math_number">',
-                            '<field name="NUM">20</field>',
-                          '</block>',
-                        '</value>',
-                        '<value name="Y1">',
-                          '<block type="math_number">',
-                            '<field name="NUM">80</field>',
-                          '</block>',
-                        '</value>',
-                        '<value name="X2">',
-                          '<block type="math_number">',
-                            '<field name="NUM">80</field>',
-                          '</block>',
-                        '</value>',
-                        '<value name="Y2">',
-                          '<block type="math_number">',
-                            '<field name="NUM">20</field>',
-                          '</block>',
-                        '</value>',
-                        '<value name="WIDTH">',
-                          '<block type="math_number">',
-                            '<field name="NUM">1</field>',
-                          '</block>',
-                        '</value>',
-                      '</block>',
-                    '</next>',
-                  '</block>',
-                '</next>',
-              '</block>',
-            '</next>',
-          '</block>',
-        '</xml>'].join('');
-  }
-  BlocklyInterface.loadBlocks(defaultXml, false);
+  BlocklyInterface.loadBlocks(defaultXml, true);
 
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
   Movie.ctxDisplay.globalCompositeOperation = 'source-over';
@@ -249,9 +151,6 @@ Movie.init = function() {
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
     setTimeout(Movie.showHelp, 1000);
-    if (BlocklyGames.LEVEL == 9) {
-      setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
-    }
   }
 };
 
@@ -556,23 +455,24 @@ Movie.penColour = function(colour) {
 Movie.checkFrameAnswer = function() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
+  var answer = document.getElementById('answer' + Movie.frameNumber);
+  if (!answer) {
+    return;
+  }
+  var ctxAnswer = answer.getContext('2d');
+  var answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
   var userImage =
       Movie.ctxScratch.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
-  var answer = document.getElementById('answer' + Movie.frameNumber);
-  if (answer) {
-    var ctxAnswer = answer.getContext('2d');
-    var answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
-    var len = Math.min(userImage.data.length, answerImage.data.length);
-    var delta = 0;
-    // Pixels are in RGBA format.  Only check the Alpha bytes.
-    for (var i = 3; i < len; i += 4) {
-      // Check the Alpha byte.
-      if (Math.abs(userImage.data[i] - answerImage.data[i]) > 64) {
-        delta++;
-      }
+  var len = Math.min(userImage.data.length, answerImage.data.length);
+  var delta = 0;
+  // Pixels are in RGBA format.  Only check the Alpha bytes.
+  for (var i = 3; i < len; i += 4) {
+    // Check the Alpha byte.
+    if (Math.abs(userImage.data[i] - answerImage.data[i]) > 96) {
+      delta++;
     }
-    Movie.pixelErrors[Movie.frameNumber] = delta;
   }
+  Movie.pixelErrors[Movie.frameNumber] = delta;
 };
 
 /**
