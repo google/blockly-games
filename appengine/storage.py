@@ -81,7 +81,7 @@ def keyToXml(key_provided):
   return xml.encode("utf-8")
 
 if __name__ == "__main__":
-  print "Content-Type: text/plain\n"
+  print("Content-Type: text/plain\n")
   forms = cgi.FieldStorage()
   if "xml" in forms:
     print(xmlToKey(forms["xml"].value))

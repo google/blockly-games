@@ -137,12 +137,15 @@ html[dir="RTL"] .sampleNote {
   width: 21px;
   background-image: url(icons.png);
 }
+.camera {
+  background-position: -21px 0px;
+}
 .stop {
   background-position: -42px 0px;
 }
 .run {
   background-position: -63px 0px;
 }
-.reddit {
+.gallery {
   background-position: -63px -21px;
 }

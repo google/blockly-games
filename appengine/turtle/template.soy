@@ -139,13 +139,13 @@
     <tr>
       <td style="text-align: center;">
         <form action="https://www.reddit.com/r/BlocklyGames/" target="gallery">
-          <button type="submit" title="{msg meaning="Turtle.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of drawings made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of drawings on Reddit.{/msg}">
-            <img src="common/1x1.gif" class="reddit icon21"> {msg meaning="Turtle.galleryMsg" desc="Label on a button that opens a gallery of drawings made by other users."}See Gallery{/msg}
+          <button type="submit" title="{msg meaning="Turtle.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of drawings made by other users."}Open the gallery of drawings.{/msg}">
+            <img src="common/1x1.gif" class="gallery icon21"> {msg meaning="Turtle.galleryMsg" desc="Label on a button that opens a gallery of drawings made by other users."}See Gallery{/msg}
           </button>
         </form>
       </td>
       <td style="text-align: center;">
-        <button id="submitButton" title="{msg meaning="Turtle.submitTooltip" desc="tooltip - Pressing this button causes the drawing created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your drawing to Reddit.{/msg}">
+        <button id="submitButton" title="{msg meaning="Turtle.submitTooltip" desc="tooltip - Pressing this button causes the drawing created by the user's program to be submitted to a gallery for other people to see."}Submit your drawing to the gallery.{/msg}">
           <img src="common/1x1.gif" class="camera icon21"> {msg meaning="Turtle.submitMsg" desc="Label on a button that submits the user's art to a public gallery."}Submit to Gallery{/msg}
         </button>
         <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
@@ -239,7 +239,7 @@
         {/msg}
         {if not $ij.html}
           <br><br>
-          {msg meaning="Turtle.helpText10Reddit" desc="Instructions on posting your drawing to Reddit (a social website)."}
+          {msg meaning="Turtle.helpText10Reddit" desc="Instructions on publishing your drawing."}
             Use the "See Gallery" button to see what other people have drawn. If you draw something interesting, use the "Submit to Gallery" button to publish it.
           {/msg}
         {/if}

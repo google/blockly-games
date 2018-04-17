@@ -98,13 +98,13 @@
     <tr>
       <td style="text-align: center;">
         <form action="https://www.reddit.com/r/BlocklyGames/" target="gallery">
-          <button type="submit" title="{msg meaning="Movie.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of movies made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of movies on Reddit.{/msg}">
-            <img src="common/1x1.gif" class="reddit icon21"> {msg meaning="Movie.galleryMsg" desc="Label on a button that opens a gallery of movies made by other users."}See Gallery{/msg}
+          <button type="submit" title="{msg meaning="Movie.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of movies made by other users."}Open the gallery of movies.{/msg}">
+            <img src="common/1x1.gif" class="gallery icon21"> {msg meaning="Movie.galleryMsg" desc="Label on a button that opens a gallery of movies made by other users."}See Gallery{/msg}
           </button>
         </form>
       </td>
       <td style="text-align: center;">
-        <button id="submitButton" title="{msg meaning="Movie.submitTooltip" desc="tooltip - Pressing this button causes the movie created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your movie to Reddit.{/msg}">
+        <button id="submitButton" title="{msg meaning="Movie.submitTooltip" desc="tooltip - Pressing this button causes the movie created by the user's program to be submitted to a gallery for other people to see."}Submit your movie to the gallery.{/msg}">
           <img src="common/1x1.gif" class="camera icon21"> {msg meaning="Movie.submitMsg" desc="Label on a button that submits the user's movie to a public gallery."}Submit to Gallery{/msg}
         </button>
         <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
@@ -175,7 +175,7 @@
         {/msg}
         {if not $ij.html}
           <br><br>
-          {msg meaning="Movie.helpText10Reddit" desc="Instructions on posting your movie to Reddit (a social website)."}
+          {msg meaning="Movie.helpText10Reddit" desc="Instructions on publishing your movie."}
             Use the "See Gallery" button to see movies that other people have made. If you make an interesting movie, use the "Submit to Gallery" button to publish it.
           {/msg}
         {/if}
