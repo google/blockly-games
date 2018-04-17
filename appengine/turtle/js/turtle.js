@@ -331,7 +331,7 @@ Turtle.transform10 = function(xml) {
 
 /**
  * Walk from one node to the next in a tree.
- * @param {!Node} Current node.
+ * @param {!Node} node Current node.
  * @return {Node} Next node, or null if ran off bottom of tree.
  */
 Turtle.nextNode = function(node) {

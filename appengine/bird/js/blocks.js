@@ -127,7 +127,7 @@ Blockly.Blocks['bird_compare'] = {
     } else {
       var OPERATORS = [['<', 'LT'], ['>', 'GT']];
     }
-    this.setColour(Blockly.Blocks.logic.HUE);
+    this.setColour(Blockly.Msg.LOGIC_HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Number');
@@ -165,7 +165,7 @@ Blockly.Blocks['bird_and'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.LOGIC_OPERATION_HELPURL);
-    this.setColour(Blockly.Blocks.logic.HUE);
+    this.setColour(Blockly.Msg.LOGIC_HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Boolean');
@@ -206,7 +206,7 @@ Blockly.Blocks['bird_ifElse'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-    this.setColour(Blockly.Blocks.logic.HUE);
+    this.setColour(Blockly.Msg.LOGIC_HUE);
     this.appendValueInput('CONDITION')
         .appendField(Blockly.Msg.CONTROLS_IF_MSG_IF)
         .setCheck('Boolean');

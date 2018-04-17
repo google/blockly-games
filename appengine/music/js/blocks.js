@@ -58,7 +58,7 @@ Blockly.Blocks['music_pitch'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldPitch('7'), 'PITCH');
     this.setOutput(true, 'Number');
-    this.setColour(Blockly.Blocks.math.HUE);
+    this.setColour(Blockly.Msg.MATH_HUE);
     this.setTooltip(BlocklyGames.getMsg('Music_pitchTooltip'));
   }
 };
@@ -282,7 +282,7 @@ if (BlocklyGames.LEVEL < 10) {
         .appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE)
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
-    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.setColour(Blockly.Msg.PROCEDURES_HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
     this.arguments_ = [];

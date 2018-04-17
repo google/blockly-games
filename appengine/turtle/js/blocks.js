@@ -246,7 +246,7 @@ Blockly.Blocks['turtle_colour'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(Blockly.Blocks.colour.HUE);
+    this.setColour(Blockly.Msg.COLOUR_HUE);
     this.appendValueInput('COLOUR')
         .setCheck('Colour')
         .appendField(BlocklyGames.getMsg('Turtle_setColour'));
@@ -270,7 +270,7 @@ Blockly.Blocks['turtle_colour_internal'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(Blockly.Blocks.colour.HUE);
+    this.setColour(Blockly.Msg.COLOUR_HUE);
     this.appendDummyInput()
         .appendField(BlocklyGames.getMsg('Turtle_setColour'))
         .appendField(new Blockly.FieldColour('#ff0000'), 'COLOUR');
@@ -404,7 +404,7 @@ Blockly.Blocks['turtle_repeat_internal'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Blocks.loops.HUE,
+      "colour": Blockly.Msg.LOOPS_HUE,
       "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
       "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });

@@ -256,7 +256,7 @@ Blockly.Blocks['pond_math_number'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(Blockly.Blocks.math.HUE);
+    this.setColour(Blockly.Msg.MATH_HUE);
     this.appendDummyInput('DUMMY')
         .appendField(new Blockly.FieldNumber(0), 'NUM');
     this.setOutput(true, 'Number');
@@ -334,7 +334,7 @@ Blockly.Blocks['pond_math_single'] = {
       ],
       "inputsInline": true,
       "output": "Number",
-      "colour": Blockly.Blocks.math.HUE,
+      "colour": Blockly.Msg.MATH_HUE,
       "helpUrl": Blockly.Msg.MATH_SINGLE_HELPURL
     });
     // Assign 'this' to a variable for use in the tooltip closure below.

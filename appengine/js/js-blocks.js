@@ -53,7 +53,7 @@ goog.require('BlocklyGames.Msg');
  */
 Blockly.Blocks['controls_if'].init = function() {
   this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-  this.setColour(Blockly.Blocks.logic.HUE);
+  this.setColour(Blockly.Msg.LOGIC_HUE);
   this.appendValueInput('IF0')
       .setCheck('Boolean')
       .appendField('if (');
@@ -135,7 +135,7 @@ Blockly.Blocks['logic_compare'].init = function() {
     ['>=', 'GTE']
   ];
   this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-  this.setColour(Blockly.Blocks.logic.HUE);
+  this.setColour(Blockly.Msg.LOGIC_HUE);
   this.setOutput(true, 'Boolean');
   this.appendValueInput('A');
   this.appendValueInput('B')
@@ -190,7 +190,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": Blockly.Blocks.loops.HUE,
+    "colour": Blockly.Msg.LOOPS_HUE,
     "tooltip": Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,
     "helpUrl": Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL
   });
@@ -243,7 +243,7 @@ Blockly.Blocks['controls_for'].init = function() {
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": Blockly.Blocks.loops.HUE,
+    "colour": Blockly.Msg.LOOPS_HUE,
     "helpUrl": Blockly.Msg.CONTROLS_FOR_HELPURL
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
@@ -317,7 +317,7 @@ Blockly.Blocks['math_arithmetic'].init = function() {
     ],
     "inputsInline": true,
     "output": "Number",
-    "colour": Blockly.Blocks.math.HUE,
+    "colour": Blockly.Msg.MATH_HUE,
     "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
@@ -356,7 +356,7 @@ Blockly.Blocks['math_change'].init = function() {
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": Blockly.Blocks.variables.HUE,
+    "colour": Blockly.Msg.VARIABLES_HUE,
     "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
@@ -405,7 +405,7 @@ Blockly.Blocks['math_random_int'].init = function() {
     ],
     "inputsInline": true,
     "output": "Number",
-    "colour": Blockly.Blocks.math.HUE,
+    "colour": Blockly.Msg.MATH_HUE,
     "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP,
     "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL
   });
@@ -475,7 +475,7 @@ Blockly.Blocks['lists_getIndex'] = {
       ],
       "inputsInline": true,
       "output": null,
-      "colour": Blockly.Blocks.lists.HUE,
+      "colour": Blockly.Msg.LISTS_HUE,
       "tooltip": Blockly.Msg.LISTS_GET_INDEX_TOOLTIP_GET_FROM +
           Blockly.Msg.LISTS_INDEX_FROM_START_TOOLTIP.replace('%1', '#0'),
       "helpUrl": Blockly.Msg.LISTS_GET_INDEX_HELPURL
@@ -510,7 +510,7 @@ Blockly.Blocks['lists_setIndex'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Blocks.lists.HUE,
+      "colour": Blockly.Msg.LISTS_HUE,
       "tooltip": Blockly.Msg.LISTS_SET_INDEX_TOOLTIP_SET_FROM +
           Blockly.Msg.LISTS_INDEX_FROM_START_TOOLTIP.replace('%1', '#0'),
       "helpUrl": Blockly.Msg.LISTS_SET_INDEX_HELPURL
@@ -526,7 +526,7 @@ Blockly.Msg.LISTS_LENGTH_TITLE = '%1 . length';
  */
 Blockly.Blocks['variables_get'].init = function() {
   this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
-  this.setColour(Blockly.Blocks.variables.HUE);
+  this.setColour(Blockly.Msg.VARIABLES_HUE);
   this.appendDummyInput()
       .appendField(new Blockly.FieldVariable('name'), 'VAR');
   this.setOutput(true);
@@ -541,7 +541,7 @@ Blockly.Blocks['variables_get'].init = function() {
  */
 Blockly.Blocks['variables_set'].init = function() {
   this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
-  this.setColour(Blockly.Blocks.variables.HUE);
+  this.setColour(Blockly.Msg.VARIABLES_HUE);
   this.appendValueInput('VALUE')
       .appendField('var')
       .appendField(new Blockly.FieldVariable('name'), 'VAR')
@@ -577,7 +577,7 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
   if (Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT) {
     this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
   }
-  this.setColour(Blockly.Blocks.procedures.HUE);
+  this.setColour(Blockly.Msg.PROCEDURES_HUE);
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
   this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
   this.arguments_ = [];
@@ -608,7 +608,7 @@ Blockly.Blocks['procedures_defreturn'].init = function() {
   if (Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT) {
     this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
   }
-  this.setColour(Blockly.Blocks.procedures.HUE);
+  this.setColour(Blockly.Msg.PROCEDURES_HUE);
   this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
   this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
   this.arguments_ = [];
@@ -625,7 +625,7 @@ Blockly.Msg.PROCEDURES_BEFORE_PARAMS = '';
  */
 Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
+  this.setColour(Blockly.Msg.PROCEDURES_HUE);
   this.appendDummyInput()
       .appendField('', 'NAME')
       .appendField('(');
@@ -671,7 +671,7 @@ Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
  */
 Blockly.Blocks['procedures_callreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
+  this.setColour(Blockly.Msg.PROCEDURES_HUE);
   this.appendDummyInput()
       .appendField('', 'NAME')
       .appendField('(');

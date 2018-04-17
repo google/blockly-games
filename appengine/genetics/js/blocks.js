@@ -438,7 +438,7 @@ Blockly.Blocks['genetics_math_randomInt'] = {
       ],
       "inputsInline": true,
       "output": "Number",
-      "colour": Blockly.Blocks.math.HUE,
+      "colour": Blockly.Msg.MATH_HUE,
       "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL,
       "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP
     });
