@@ -1,4 +1,4 @@
-"""Blockly Games: Turtle/Movie/Music to Reddit Submission
+"""Blockly Games: Legacy Reddit to Turtle/Movie router.
 
 Copyright 2014 Google Inc.
 https://github.com/google/blockly-games
@@ -16,65 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Store XML with App Engine.  Store thumbnail with Memcache.  Send to Reddit.
+"""Blockly Games used to use Reddit as a gallery.  These URLs still exist.
 """
 
 __author__ = "fraser@google.com (Neil Fraser)"
 
-import base64
+import os
 import re
-import storage
-from google.appengine.api import images
-from google.appengine.api import memcache
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
 
-class Reddit(webapp.RequestHandler):
-    def get(self):
-      thumb = re.sub(r"\w+-reddit\?", "thumb?", self.request.url)
-      app = re.search(r"(\w+)-reddit\?", self.request.url).group(1)
-      uuid = self.request.query_string
-      self.response.out.write("""
-      <html>
-        <head>
-          <meta property="og:image" content="%s" />
-          <meta http-equiv="refresh" content="0; url=/%s?level=10#%s">
-        </head>
-        <body>
-        <p>Loading Blockly Games : %s : %s...</p>
-        </body>
-      </html>
-      """ % (thumb, app, uuid, app.title(), uuid))
-
-    def post(self):
-      xml = self.request.get("xml")
-      thumb = self.request.get("thumb")
-      uuid = storage.xmlToKey(xml)
-      memcache.add("THUMB_" + uuid, thumb, 3600)
-      self.redirect("https://www.reddit.com/r/BlocklyGames/submit?url=%s?%s"
-                    % (self.request.url, uuid))
-
-class Thumb(webapp.RequestHandler):
-    def get(self):
-      uuid = self.request.query_string
-      thumbnail = memcache.get("THUMB_" + uuid)
-      if not thumbnail:
-        raise Exception("Thumbnail not found: %s" % uuid)
-      header = "data:image/png;base64,"
-      if not thumbnail.startswith(header):
-        raise Exception("Bad header: %s" % thumbnail[:len(header)])
-      thumbnail = base64.b64decode(thumbnail[len(header):])
-      # Resize image to prove that this is an image, not random content.
-      # Tested to verify that this throws BadImageError if not a valid PNG.
-      thumbnail = images.resize(thumbnail, 100, 100)
-
-      self.response.headers["Content-Type"] = "image/png"
-      self.response.out.write(thumbnail)
-
-
-application = webapp.WSGIApplication([(r"/\w+-reddit", Reddit),
-                                      ("/thumb", Thumb),
-                                     ],
-                                     debug=True)
-
-run_wsgi_app(application)
+app = re.search(r"(\w+)-reddit$", os.environ.get('PATH_INFO', '')).group(1)
+uuid = os.environ.get('QUERY_STRING', '')
+print("Status: 301 Moved Permanently")
+print("Location: /%s?level=10#%s\n" % (app, uuid))

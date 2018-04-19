@@ -154,3 +154,14 @@ button:hover:not(:disabled) {
 .readonly .blocklyMainBackground {
   stroke: none;
 }
+#galleryForm>header {
+  font-size: larger;
+}
+#galleryForm>footer {
+  font-size: smaller;
+}
+#galleryForm>* {
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+}

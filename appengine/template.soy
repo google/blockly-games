@@ -36,6 +36,7 @@
     <span id="Games_linesOfCode2">{msg meaning="Games.linesOfCode2" desc="alert - Displayed when a level is complete.  %1 is an integer greater than 1."}You solved this level with %1 lines of JavaScript:{/msg}</span>
     <span id="Games_nextLevel">{msg meaning="Games.nextLevel" desc="alert - This is displayed when the user solves the level, inviting them to procede to the next level of difficulty.  %1 is an integer greater than 1."}Are you ready for level %1?{/msg}</span>
     <span id="Games_finalLevel">{msg meaning="Games.finalLevel" desc="alert - This is displayed when the user solves the most difficult level and is going to go to the next game."}Are you ready for the next challenge?{/msg}</span>
+    <span id="Games_submitTitle">{msg meaning="Games.submitTitle" desc="Label in front of a field where the user is requested to type a title for their work."}Title:{/msg}</span>
 
     // Buttons and tooltips.
     <span id="Games_linkTooltip">{msg meaning="Games.linkTooltip" desc="tooltip - Pressing this button will cause the current program to be saved and for a URL to be shown to later retrieve it."}Save and link to blocks.{/msg}</span>
@@ -57,11 +58,12 @@
     <span id="Games_catVariables">{{msg meaning="Games.catVariables" desc="category - Blocks related to [https://github.com/google/blockly/wiki/Variables variables].\n{lb}{lb}Identical|Variables{rb}{rb}"}}Variables{{/msg}}</span>
     <span id="Games_catProcedures">{{msg meaning="Games.catProcedures" desc="category - Blocks related to [https://en.wikipedia.org/wiki/Subroutine defining or using procedures/functions].\n{lb}{lb}Identical|Functions{rb}{rb}"}}Functions{/msg}</span>
 
-    // Error messages related to loading/storing user programs.
+    // Messages related to loading/storing user programs.
     <span id="Games_httpRequestError">{msg meaning="Games.httpRequestError" desc="alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem."}There was a problem with the request.{/msg}</span>
     <span id="Games_linkAlert">{msg meaning="Games.linkAlert" desc="alert - After the user has pressed a button to save his/her program, this provides the URL (%1) to retrieve the program.  The characters '\n\n' indicate that a blank line will be displayed before the URL (in English).  Leave those in unless you move %1 to the beginning or middle of the text, in which case you should use your judgment about where blank lines would be most useful.\n\nParameters:\n* %1 - URL of saved program."}Share your blocks with this link:\n\n%1{/msg}</span>
     <span id="Games_hashError">{{msg meaning="Games.hashError" desc="alert - A request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL."}}Sorry, '%1' doesn't correspond with any saved program.{{/msg}}</span>
     <span id="Games_xmlError">{msg meaning="Games.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be followed by technical information useful to engineers trying to understand the problem."}Could not load your saved file. Perhaps it was created with a different version of Blockly?{/msg}</span>
+    <span id="Games_submitted">{msg meaning="Games.submitted" desc="alert - After the user has submitted his/her program to the gallery, it must wait for approval.  Please make this message funny!"}Thank you for your program!  If our staff of trained monkeys like it, they will publish it to the gallery within a couple of days.{/msg}</span>
 
     // Default variable names.
     <span id="Games_listVariable">{{msg meaning="Games.listVariable" desc="variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Lists list].  This should be a single word, preferably short.\n{lb}{lb}Identical|List{rb}{rb}"}}list{{/msg}}</span>
@@ -148,7 +150,7 @@
     {msg meaning="Games.helpAbort" desc="callout - This dialog gives the user the option to skip this level."}
       This level is extremely difficult. Would you like to skip it and go onto the next game? You can always come back later.
     {/msg}
-    <div id="dialogAbortButtons" class="farSide" style="padding: 1ex 3ex 0">
+    <div class="farSide" style="padding: 1ex 3ex 0">
       <button id="abortCancel">
         {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
       </button>

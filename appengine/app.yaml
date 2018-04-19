@@ -66,6 +66,9 @@ handlers:
 - url: /movie-reddit
   script: reddit.py
   secure: always
+- url: /movie-gallery
+  script: gallery.py
+  secure: always
   
 # Music app.
 - url: /music
@@ -77,6 +80,9 @@ handlers:
   secure: always
 - url: /music-reddit
   script: reddit.py
+  secure: always
+- url: /music-gallery
+  script: gallery.py
   secure: always
 
 # Puzzle app.
@@ -98,6 +104,9 @@ handlers:
   secure: always
 - url: /turtle-reddit
   script: reddit.py
+  secure: always
+- url: /turtle-gallery
+  script: gallery.py
   secure: always
 
 # Pond apps.
@@ -148,9 +157,6 @@ handlers:
 - url: /robots\.txt
   static_files: robots.txt
   upload: robots\.txt
-  secure: always
-- url: /thumb
-  script: reddit.py
   secure: always
 
 # Source files and uncompiled versions.

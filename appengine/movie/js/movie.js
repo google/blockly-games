@@ -110,7 +110,7 @@ Movie.init = function() {
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
 
   if (document.getElementById('submitButton')) {
-    BlocklyGames.bindClick('submitButton', Movie.submitToReddit);
+    BlocklyGames.bindClick('submitButton', Movie.submitToGallery);
   }
 
   var defaultXml = '<xml></xml>';
@@ -496,12 +496,12 @@ Movie.checkAnswers = function() {
 };
 
 /**
- * Send an image of the canvas to Reddit.
+ * Send an image of the canvas to gallery.
  */
-Movie.submitToReddit = function() {
+Movie.submitToGallery = function() {
   var blockCount = BlocklyGames.workspace.getAllBlocks().length;
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-  if (blockCount < 5 || code.indexOf('time()') == -1) {
+  if (blockCount < 4 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));
     return;
   }
@@ -518,17 +518,12 @@ Movie.submitToReddit = function() {
   var thumbnail = document.getElementById('thumbnail');
   var ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
-  ctxThumb.drawImage(Movie.ctxScratch.canvas, 0, 0, 100, 100);
+  ctxThumb.drawImage(Movie.ctxScratch.canvas, 0, 0, 200, 200);
   var thumbData = thumbnail.toDataURL('image/png');
-  document.getElementById('t2r_thumb').value = thumbData;
+  document.getElementById('galleryThumb').value = thumbData;
 
-  // Encode the XML.
-  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-  var xmlData = Blockly.Xml.domToText(xml);
-  document.getElementById('t2r_xml').value = xmlData;
-
-  // Submit the form.
-  document.getElementById('t2r_form').submit();
+  // Show the dialog.
+  BlocklyDialogs.showGalleryForm();
 };
 
 window.addEventListener('load', Movie.init);

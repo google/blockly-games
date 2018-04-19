@@ -64,7 +64,7 @@ Turtle.interpreter = null;
 Turtle.visible = true;
 
 /**
- * Is the drawing ready to be submitted to Reddit?
+ * Is the drawing ready to be submitted to gallery?
  * @type boolean
  */
 Turtle.canSubmit = false;
@@ -120,7 +120,7 @@ Turtle.init = function() {
       'hideTurtle,showTurtle,print,font');
 
   if (document.getElementById('submitButton')) {
-    BlocklyGames.bindClick('submitButton', Turtle.submitToReddit);
+    BlocklyGames.bindClick('submitButton', Turtle.submitToGallery);
   }
 
   // Initialize the slider.
@@ -566,7 +566,7 @@ Turtle.resetButtonClick = function(e) {
   BlocklyGames.workspace.highlightBlock(null);
   Turtle.reset();
 
-  // Image cleared; prevent user from submitting to Reddit.
+  // Image cleared; prevent user from submitting to gallery.
   Turtle.canSubmit = false;
 };
 
@@ -693,7 +693,7 @@ Turtle.executeChunk_ = function() {
     document.getElementById('spinner').style.visibility = 'hidden';
     BlocklyGames.workspace.highlightBlock(null);
     Turtle.checkAnswer();
-    // Image complete; allow the user to submit this image to Reddit.
+    // Image complete; allow the user to submit this image to gallery.
     Turtle.canSubmit = true;
   }
 };
@@ -851,9 +851,9 @@ Turtle.checkAnswer = function() {
 };
 
 /**
- * Send an image of the canvas to Reddit.
+ * Send an image of the canvas to gallery.
  */
-Turtle.submitToReddit = function() {
+Turtle.submitToGallery = function() {
   if (!Turtle.canSubmit) {
     alert(BlocklyGames.getMsg('Turtle_submitDisabled'));
     return;
@@ -862,15 +862,10 @@ Turtle.submitToReddit = function() {
   var thumbnail = document.getElementById('thumbnail');
   var ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
-  ctxThumb.drawImage(Turtle.ctxDisplay.canvas, 0, 0, 100, 100);
+  ctxThumb.drawImage(Turtle.ctxDisplay.canvas, 0, 0, 200, 200);
   var thumbData = thumbnail.toDataURL('image/png');
-  document.getElementById('t2r_thumb').value = thumbData;
+  document.getElementById('galleryThumb').value = thumbData;
 
-  // Encode the XML.
-  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-  var xmlData = Blockly.Xml.domToText(xml);
-  document.getElementById('t2r_xml').value = xmlData;
-
-  // Submit the form.
-  document.getElementById('t2r_form').submit();
+  // Show the dialog.
+  BlocklyDialogs.showGalleryForm();
 };

@@ -97,7 +97,7 @@
   <table style="padding-top: 1em; width: 400px;">
     <tr>
       <td style="text-align: center;">
-        <form action="https://www.reddit.com/r/BlocklyGames/" target="gallery">
+        <form action="/movie-gallery" target="movie-gallery">
           <button type="submit" title="{msg meaning="Movie.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of movies made by other users."}Open the gallery of movies.{/msg}">
             <img src="common/1x1.gif" class="gallery icon21"> {msg meaning="Movie.galleryMsg" desc="Label on a button that opens a gallery of movies made by other users."}See Gallery{/msg}
           </button>
@@ -107,14 +107,32 @@
         <button id="submitButton" title="{msg meaning="Movie.submitTooltip" desc="tooltip - Pressing this button causes the movie created by the user's program to be submitted to a gallery for other people to see."}Submit your movie to the gallery.{/msg}">
           <img src="common/1x1.gif" class="camera icon21"> {msg meaning="Movie.submitMsg" desc="Label on a button that submits the user's movie to a public gallery."}Submit to Gallery{/msg}
         </button>
-        <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
-        <form id="t2r_form" action="movie-reddit" method="POST" target="_blank"
-              style="display: none">
-          <input id="t2r_thumb" type="hidden" name="thumb">
-          <input id="t2r_xml" type="hidden" name="xml">
-        </form>
       </td>
     </tr>
+  </table>
+  <div id="galleryDialog" class="dialogHiddenContent">
+     <form id="galleryForm" action="/movie-gallery" method="post" onsubmit="return false">
+      <header>{msg meaning="Movie.submitTooltip" desc="IBID"}Submit your movie to the gallery.{/msg}</header>
+      <canvas id="thumbnail" width="200" height="200"></canvas>
+      <input id="galleryThumb" type="hidden" name="thumb">
+      <input id="galleryXml" type="hidden" name="xml">
+      <div>
+        {msg meaning="Games.submitTitle" desc="IBID"}Title:{/msg}
+        {sp}
+        <input id="galleryTitle" type="text" name="title" required>
+      </div>
+      <footer><!--Legal disclaimer goes here if needed.--></footer>
+
+      <div class="farSide">
+        <button id="galleryCancel" type="button">
+          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
+        </button>
+        <button id="galleryOk" class="secondary" type="submit">
+          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
+        </button>
+      </div>
+    </form>
+  </div>
   {/if}
 
   {call .toolbox /}
