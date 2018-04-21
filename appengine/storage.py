@@ -22,10 +22,10 @@ limitations under the License.
 __author__ = "q.neutron@gmail.com (Quynh Neutron)"
 
 import cgi
-import logging
+import hashlib
 from random import randint
-from google.appengine.ext import db
 from google.appengine.api import memcache
+from google.appengine.ext import ndb
 
 
 def keyGen():
@@ -35,19 +35,19 @@ def keyGen():
   max_index = len(CHARS) - 1
   return "".join([CHARS[randint(0, max_index)] for x in range(KEY_LEN)])
 
-class Xml(db.Model):
+class Xml(ndb.Model):
   # A row in the database.
-  xml_hash = db.IntegerProperty()
-  xml_content = db.TextProperty()
+  xml_hash = ndb.IntegerProperty()
+  xml_content = ndb.TextProperty()
 
 def xmlToKey(xml_content):
   # Store XML and return a generated key.
-  xml_hash = hash(xml_content)
-  lookup_query = db.Query(Xml)
-  lookup_query.filter("xml_hash =", xml_hash)
+  xml_hash = long(hashlib.sha1(xml_content).hexdigest(), 16)
+  xml_hash = int(xml_hash % (2 ** 64) - (2 ** 63))
+  lookup_query = Xml.query(Xml.xml_hash == xml_hash)
   lookup_result = lookup_query.get()
   if lookup_result:
-    xml_key = lookup_result.key().name()
+    xml_key = lookup_result.key.string_id()
   else:
     trials = 0
     result = True
@@ -56,9 +56,8 @@ def xmlToKey(xml_content):
       if trials == 100:
         raise Exception("Sorry, the generator failed to get a key for you.")
       xml_key = keyGen()
-      result = db.get(db.Key.from_path("Xml", xml_key))
-    xml = db.Text(xml_content)
-    row = Xml(key_name = xml_key, xml_hash = xml_hash, xml_content = xml)
+      result = Xml.get_by_id(xml_key)
+    row = Xml(id = xml_key, xml_hash = xml_hash, xml_content = xml_content)
     row.put()
   return xml_key
 
@@ -70,14 +69,13 @@ def keyToXml(key_provided):
   xml = memcache.get("XML_" + key_provided)
   if xml is None:
     # Check datastore for a definitive match.
-    result = db.get(db.Key.from_path("Xml", key_provided))
+    result = Xml.get_by_id(key_provided)
     if not result:
       xml = ""
     else:
       xml = result.xml_content
     # Save to memcache for next hit.
-    if not memcache.add("XML_" + key_provided, xml, 3600):
-      logging.error("Memcache set failed.")
+    memcache.add("XML_" + key_provided, xml, 3600)
   return xml.encode("utf-8")
 
 if __name__ == "__main__":
