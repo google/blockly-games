@@ -31,10 +31,11 @@ handlers:
   upload: about\.html
   secure: always
 
-# Debug page.
-- url: /debug
-  static_files: debug.html
-  upload: debug\.html
+# Admin page.
+- url: /admin
+  static_files: admin.html
+  upload: admin\.html
+  login: admin
   secure: always
 
 # Bird app.

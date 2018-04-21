@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blockly Games Admin</title>
+  <link rel="stylesheet" href="common/common.css">
+  <style>
+    body {
+      background-image: url("common/stripes.gif");
+      background-repeat: repeat-y;
+      padding: 1em 8em;
+    }
+    fieldset {
+      margin-top: 2em;
+      border-radius: 5px;
+    }
+    legend {
+      font-size: larger;
+    }
+    svg {
+      float: left;
+      margin-right: 1em;
+      opacity: 0.8;
+    }
+    #links>div {
+      padding-top: 1ex;
+      padding-bottom: 1ex;
+      clear: both;
+    }
+    #links>div>div {
+      padding-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1><a id="back" href="/">Blockly Games</a> : Admin</h1>
+
+  <fieldset>
+    <legend>Debug</legend>
+    <p>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000">
+        <path clip-rule="evenodd" fill="none" d="M0 0h24v24H0z"/>
+        <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+      </svg>
+      JavaScript code for Blockly Games is normally compressed so that it loads
+      faster.  But compressed code is hard to hack or debug.  This control allows
+      you to switch compression on or off for the duration of this session.
+    </p>
+
+    <p style="padding-left: 1em;">
+      <input type="radio" name="debug" id="debug0" onchange="setDebug(false);">
+      <label for="debug0">Use fast compressed code.  (Recommended.)</label>
+    </p>
+
+    <p style="padding-left: 1em;">
+      <input type="radio" name="debug" id="debug1" onchange="setDebug(true);">
+      <label for="debug1">Use slow uncompressed code.  (Hackers only.)</label>
+    </p>
+    <script src="common/debug.js"></script>
+  </fieldset>
+
+  <fieldset id="links">
+    <legend>External Links</legend>
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000">
+        <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.1h-15V5h15v14.1zm0-16.1h-15c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+        <path fill="none" d="M0 0h24v24H0z"/>
+      </svg>
+      <div>
+        <a href="https://www.google.com/analytics/">Google Analytics</a>
+      </div>
+    </div>
+
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 32 32" fill="none" fill-rule="evenodd">
+        <path d="M19.683 12.735L17.73 14.69a2.733 2.733 0 0 1 1.02 2.122 2.75 2.75 0 0 1-2.75 2.75c-.86 0-1.618-.404-2.123-1.022l-1.953 1.954A5.48 5.48 0 0 0 16 22.31a5.5 5.5 0 0 0 5.5-5.498 5.48 5.48 0 0 0-1.817-4.077z" fill="#000"/>
+        <path d="M16 6.81c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10m0 17.11A7.11 7.11 0 1 1 16 9.7a7.11 7.11 0 0 1 0 14.22" fill="#000"/>
+        <path d="M31.39 15.836L27.3 14.55a11.6 11.6 0 0 1 .132 4.175h3.958c.366-.107.61-.334.61-.67v-1.55c0-.336-.244-.57-.61-.67M15.95 5.625c.823 0 1.625.087 2.398.25L16.88 1.8c-.106-.367-.333-.61-.67-.61h-.613c-.337 0-.57.243-.67.61L13.65 5.853c.743-.15 1.512-.23 2.3-.23M4.44 16.998c0-.84.09-1.658.26-2.448L.61 15.836c-.366.1-.61.333-.61.67v1.548c0 .337.244.564.61.67h3.958c-.084-.562-.13-1.14-.13-1.726M16 12.812a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#000"/>
+      </svg>
+      <div>
+        <a href="https://appengine.google.com/">App Engine</a>
+      </div>
+    </div>
+
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 1024 1024">
+        <path d="M512 0C229.25 0 0 229.25 0 512c0 226.25 146.688 418.125 350.156 485.812 25.594 4.688 34.938-11.125 34.938-24.625 0-12.188-0.469-52.562-0.719-95.312C242 908.812 211.906 817.5 211.906 817.5c-23.312-59.125-56.844-74.875-56.844-74.875-46.531-31.75 3.53-31.125 3.53-31.125 51.406 3.562 78.47 52.75 78.47 52.75 45.688 78.25 119.875 55.625 149 42.5 4.654-33 17.904-55.625 32.5-68.375C304.906 725.438 185.344 681.5 185.344 485.312c0-55.938 19.969-101.562 52.656-137.406-5.219-13-22.844-65.094 5.062-135.562 0 0 42.938-13.75 140.812 52.5 40.812-11.406 84.594-17.031 128.125-17.219 43.5 0.188 87.312 5.875 128.188 17.281 97.688-66.312 140.688-52.5 140.688-52.5 28 70.531 10.375 122.562 5.125 135.5 32.812 35.844 52.625 81.469 52.625 137.406 0 196.688-119.75 240-233.812 252.688 18.438 15.875 34.75 47 34.75 94.75 0 68.438-0.688 123.625-0.688 140.5 0 13.625 9.312 29.562 35.25 24.562C877.438 930 1024 738.125 1024 512 1024 229.25 794.75 0 512 0z"/>
+      </svg>
+      <div>
+        <a href="https://github.com/google/blockly-games/">GitHub repo</a>
+      </div>
+    </div>
+
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"/>
+      </svg>
+      <div>
+        <a href="https://github.com/google/blockly-games/wikis">Wiki</a>
+      </div>
+    </div>
+
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000000">
+        <path d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+      </svg>
+      <div>
+        <a href="https://groups.google.com/forum/#!forum/blockly-games">Support group</a>
+      </div>
+    </div>
+  </fieldset>
+
+  <script src="common/back.js"></script>
+</body>
+</html>
