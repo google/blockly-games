@@ -1,0 +1,8 @@
+#loading {
+  text-align: center;
+}
+
+#gallery>div {
+  display: inline-block;
+  margin: 1em;
+}

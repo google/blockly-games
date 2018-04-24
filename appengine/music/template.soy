@@ -125,7 +125,9 @@
   <table style="padding-top: 1em; width: 400px;">
     <tr>
       <td style="text-align: center;">
-        <form action="/music-gallery" target="music-gallery">
+        <form action="/gallery" target="music-gallery">
+          <input type="hidden" name="app" value="music">
+          <input type="hidden" name="lang" value="{$ij.lang}">
           <button type="submit" title="{msg meaning="Music.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of music made by other users."}Open the gallery of music.{/msg}">
             <img src="common/1x1.gif" class="gallery icon21"> {msg meaning="Music.galleryMsg" desc="Label on a button that opens a gallery of music made by other users."}See Gallery{/msg}
           </button>
@@ -139,9 +141,10 @@
     </tr>
   </table>
   <div id="galleryDialog" class="dialogHiddenContent">
-     <form id="galleryForm" action="/music-gallery" method="post" onsubmit="return false">
+     <form id="galleryForm" action="/gallery-api/submit" method="post" onsubmit="return false">
       <header>{msg meaning="Music.submitTooltip" desc="IBID"}Submit your music to the gallery.{/msg}</header>
       <canvas id="thumbnail" width="200" height="200"></canvas>
+      <input type="hidden" name="app" value="music">
       <input id="galleryThumb" type="hidden" name="thumb">
       <input id="galleryXml" type="hidden" name="xml">
       <div>

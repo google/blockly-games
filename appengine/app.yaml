@@ -64,12 +64,6 @@ handlers:
 - url: /movie/
   static_dir: movie
   secure: always
-- url: /movie-reddit
-  script: reddit.py
-  secure: always
-- url: /movie-gallery
-  script: gallery.py
-  secure: always
   
 # Music app.
 - url: /music
@@ -78,12 +72,6 @@ handlers:
   secure: always
 - url: /music/
   static_dir: music
-  secure: always
-- url: /music-reddit
-  script: reddit.py
-  secure: always
-- url: /music-gallery
-  script: gallery.py
   secure: always
 
 # Puzzle app.
@@ -102,12 +90,6 @@ handlers:
   secure: always
 - url: /turtle/
   static_dir: turtle
-  secure: always
-- url: /turtle-reddit
-  script: reddit.py
-  secure: always
-- url: /turtle-gallery
-  script: gallery.py
   secure: always
 
 # Pond apps.
@@ -130,6 +112,24 @@ handlers:
   secure: always
 - url: /genetics/
   static_dir: genetics
+  secure: always
+
+# Gallery.
+- url: /gallery
+  static_files: gallery.html
+  upload: gallery\.html
+- url: /gallery/
+  static_dir: gallery
+  secure: always
+- url: /gallery-api/submit
+  script: gallery_api/submit.py
+  secure: always
+- url: /gallery-api/view
+  script: gallery_api/view.py
+  secure: always
+- url: /gallery-api/admin
+  script: gallery_api/admin.py
+  login: admin
   secure: always
 
 # Shared files.
@@ -158,6 +158,15 @@ handlers:
 - url: /robots\.txt
   static_files: robots.txt
   upload: robots\.txt
+  secure: always
+
+# Legacy Reddit redirects.
+# Obsolete as of May 2018.
+- url: /turtle-reddit
+  script: reddit.py
+  secure: always
+- url: /movie-reddit
+  script: reddit.py
   secure: always
 
 # Source files and uncompiled versions.

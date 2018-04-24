@@ -97,7 +97,9 @@
   <table style="padding-top: 1em; width: 400px;">
     <tr>
       <td style="text-align: center;">
-        <form action="/movie-gallery" target="movie-gallery">
+        <form action="/gallery" target="movie-gallery">
+          <input type="hidden" name="app" value="movie">
+          <input type="hidden" name="lang" value="{$ij.lang}">
           <button type="submit" title="{msg meaning="Movie.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of movies made by other users."}Open the gallery of movies.{/msg}">
             <img src="common/1x1.gif" class="gallery icon21"> {msg meaning="Movie.galleryMsg" desc="Label on a button that opens a gallery of movies made by other users."}See Gallery{/msg}
           </button>
@@ -111,9 +113,10 @@
     </tr>
   </table>
   <div id="galleryDialog" class="dialogHiddenContent">
-     <form id="galleryForm" action="/movie-gallery" method="post" onsubmit="return false">
+     <form id="galleryForm" action="/gallery-api/submit" method="post" onsubmit="return false">
       <header>{msg meaning="Movie.submitTooltip" desc="IBID"}Submit your movie to the gallery.{/msg}</header>
       <canvas id="thumbnail" width="200" height="200"></canvas>
+      <input type="hidden" name="app" value="movie">
       <input id="galleryThumb" type="hidden" name="thumb">
       <input id="galleryXml" type="hidden" name="xml">
       <div>

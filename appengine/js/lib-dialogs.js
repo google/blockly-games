@@ -357,9 +357,7 @@ BlocklyDialogs.abortOffer = function() {
  */
 BlocklyDialogs.showGalleryForm = function() {
   // Encode the XML.
-  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-  var xmlData = Blockly.Xml.domToText(xml);
-  document.getElementById('galleryXml').value = xmlData;
+  document.getElementById('galleryXml').value = BlocklyInterface.getCode();
 
   var content = document.getElementById('galleryDialog');
   var style = {

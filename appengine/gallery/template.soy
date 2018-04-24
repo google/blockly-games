@@ -1,0 +1,75 @@
+{namespace Gallery.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make gallery-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call BlocklyGames.soy.messages /}
+  <div style="display: none">
+    <span id="Movie_submitDisabled">{msg meaning="Movie.submitDisabled" desc="Error message."}Your movie doesn't move. Use blocks to make something interesting. Then you may submit your movie to the gallery.{/msg}</span>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {$ij.appName}
+              {{msg meaning="Gallery" desc="Display of art created by user's programs.\n{lb}{lb}Identical|Gallery{rb}{rb}"}}Gallery{{/msg}}
+            {/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+      </td>
+    </tr>
+  </table>
+  <div id="gallery">
+  </div>
+  <div id="loading">
+    <img src="common/loading.gif">
+  </div>
+{/template}
+
+/**
+ * One record.
+ * @param app Application this record belongs to (turtle/movie/music)
+ * @param uuid Unique datastore key for the code (stored separately).
+ * @param thumb Base 64-encoded thumbnail.
+ * @param title User-provided title.
+ * @param public Is the record published?
+ * @param key Unique datastore key for this record.
+ */
+{template .record}
+  <div>
+    <a href="/{$app}?level=10#{$uuid}"><img src="{$thumb}"></a>
+  </div>
+  <div>
+    <a href="/{$app}?level=10#{$uuid}">{$title}</a>
+  </div>
+  {if $key}
+    <div>
+      <input type="checkbox" id="publish-{$key}"
+        {if $public}{sp}checked{sp}{/if}
+        onchange="Gallery.publish(this)">
+      <label for="publish-{$key}">Public</label>
+    </div>
+  {/if}
+{/template}

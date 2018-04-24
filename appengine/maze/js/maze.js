@@ -545,7 +545,7 @@ Maze.init = function() {
   }
 
   Maze.reset(true);
-  BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity()});
+  BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity();});
 
   document.body.addEventListener('mousemove', Maze.updatePegSpin_, true);
 
