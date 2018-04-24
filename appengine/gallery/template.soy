@@ -58,18 +58,15 @@
  * @param key Unique datastore key for this record.
  */
 {template .record}
-  <div>
+  <div class="galleryThumb">
+   {if $key}
+     <input type="checkbox" id="publish-{$key}"
+       {if $public}{sp}checked{sp}{/if}
+       onchange="Gallery.publish(this)">
+   {/if}
     <a href="/{$app}?level=10#{$uuid}"><img src="{$thumb}"></a>
   </div>
-  <div>
+  <div class="galleryTitle">
     <a href="/{$app}?level=10#{$uuid}">{$title}</a>
   </div>
-  {if $key}
-    <div>
-      <input type="checkbox" id="publish-{$key}"
-        {if $public}{sp}checked{sp}{/if}
-        onchange="Gallery.publish(this)">
-      <label for="publish-{$key}">Public</label>
-    </div>
-  {/if}
 {/template}

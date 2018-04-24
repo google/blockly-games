@@ -1,3 +1,9 @@
+body.admin {
+  background-image: url("/common/stripes.gif");
+  background-repeat: repeat-y;
+  padding-left: 8em;
+}
+
 #loading {
   text-align: center;
 }
@@ -5,4 +11,34 @@
 #gallery>div {
   display: inline-block;
   margin: 1em;
+}
+
+#gallery>div {
+  display: inline-block;
+  margin: 1em;
+  width: 200px;
+  vertical-align: top;
+}
+
+.galleryThumb img {
+  margin: 10px;
+  height: 180px;
+  width: 180px;
+  transition-property: margin, height, width;
+  transition-duration: .1s;
+  transition-timing-function: ease-in-out;
+}
+
+.galleryThumb img:hover {
+  margin: 0;
+  height: 200px;
+  width: 200px;
+}
+
+.galleryThumb input {
+  position: absolute;
+}
+
+.galleryTitle {
+  margin: 0 10px;
 }

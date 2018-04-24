@@ -37,14 +37,18 @@ BlocklyGames.NAME = 'gallery';
  */
 Gallery.init = function() {
   Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
-  if (['turtle', 'movie', 'music', 'admin'].indexOf(Gallery.app) == -1) {
+  var isAdmin = (Gallery.app == 'admin');
+  if (!isAdmin && ['turtle', 'movie', 'music'].indexOf(Gallery.app) == -1) {
     throw 'Unknown app: ' + Gallery.app;
+  }
+  if (isAdmin) {
+    document.body.className = 'admin';
   }
   // Render the Soy template.
   // First, just render the messages.
   document.body.innerHTML = Gallery.soy.messages({}, null, {});
   // Second, look up the app name message.
-  var appName = (Gallery.app == 'admin') ?
+  var appName = isAdmin ?
       '' : (BlocklyGames.getMsg('Games_' + Gallery.app) + ' : ');
   // Third, render the rest of the page, using the app name.
   document.body.innerHTML += Gallery.soy.start({}, null,
@@ -102,16 +106,17 @@ Gallery.receiveMore = function() {
   Gallery.xhr_ = null;
   if (xhr.status !== 200) {
     console.warn('Load returned status ' + xhr.status);
+    Gallery.hasMore = false;
     return;
   }
   var meta = JSON.parse(xhr.responseText);
-  if (!meta.more) {
+  if (!meta['more']) {
     Gallery.hasMore = false;
   }
-  Gallery.cursor = meta.cursor;
+  Gallery.cursor = meta['cursor'];
 
-  for (var i = 0; i < meta.data.length; i++) {
-    Gallery.display(meta.data[i]);
+  for (var i = 0; i < meta['data'].length; i++) {
+    Gallery.display(meta['data'][i]);
   }
 };
 
@@ -120,8 +125,17 @@ Gallery.receiveMore = function() {
  * @param {!Object} record One art record.
  */
 Gallery.display = function(record) {
+  // Rebuild the record object since the Closure Compiler renames properties.
+  var safeRecord = {
+    app: record['app'],
+    uuid: record['uuid'],
+    thumb: record['thumb'],
+    title: record['title'],
+    public: record['public'],
+    key: record['key']
+  };
   var block = document.createElement('div');
-  block.innerHTML = Gallery.soy.record(record);
+  block.innerHTML = Gallery.soy.record(safeRecord);
   document.getElementById('gallery').appendChild(block);
 };
 
