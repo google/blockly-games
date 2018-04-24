@@ -39,11 +39,12 @@
 
   // Use a series of heuristics that determine the likely language of this user.
   // First choice: The URL specified language.
-  var param = window.location.search.match(/[?&]lang=([^&]+)/);
+  var param = location.search.match(/[?&]lang=([^&]+)/);
   var lang = param ? param[1].replace(/\+/g, '%20') : null;
   if (window['BlocklyGamesLanguages'].indexOf(lang) != -1) {
     // Save this explicit choice as cookie.
-    document.cookie = 'lang=' + escape(lang) + '; path=/';
+    var exp = (new Date(Date.now() + 2 * 31536000000)).toUTCString();
+    document.cookie = 'lang=' + escape(lang) + '; expires=' + exp + 'path=/';
   } else {
     // Second choice: Language cookie.
     var cookie = document.cookie.match(/(^|;)\s*lang=([\w\-]+)/);
