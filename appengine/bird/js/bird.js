@@ -459,7 +459,7 @@ Bird.levelHelp = function() {
         content = document.getElementById('dialogMutatorHelp');
         // Second help box should be below the 'else' block in the mutator.
         // Really fragile code.  There is no public API for this.
-        origin = block.mutator.workspace_.flyout_.backgroundButtons_[1];
+        origin = block.mutator.workspace_.flyout_.mats_[1];
         var xy = goog.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
