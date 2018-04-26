@@ -614,6 +614,7 @@ Music.tick = function() {
       BlocklyInterface.saveToLocalStorage();
       if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
         // No congrats for last level, it is open ended.
+        Music.startCount = 0;
         BlocklyDialogs.congratulations();
       }
     }

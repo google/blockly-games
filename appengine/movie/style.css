@@ -21,6 +21,23 @@ html[dir="RTL"] button.primary {
   width: 250px;
 }
 
+code {
+  font-size: 150%; margin: 0 1em;
+}
+
+html code.rtl {
+  display: none;
+}
+html code.ltr {
+  display: inline;
+}
+html[dir="RTL"] code.rtl {
+  display: inline;
+}
+html[dir="RTL"] code.ltr {
+  display: none;
+}
+
 /* Slider. */
 .sliderTrack {
   stroke: #aaa;
