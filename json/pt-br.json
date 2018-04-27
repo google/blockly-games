@@ -274,7 +274,7 @@
 	"Pond.pendulumName": "Pendulo",
 	"Pond.scaredName": "Assustado",
 	"Pond.helpUseScan": "Sua solução funciona, mas você pode fazer melhor. Use 'scan' para mostrar ao canhão o quão longe atirar.",
-	"Pond.helpText1": "Use o comando 'canhão' para atingir o alvo. O primeiro parâmetro é o ângulo, o segundo é o alcance. Ache a combinação correta.",
+	"Pond.helpText1": "Use o comando 'cannon' para atingir o alvo. O primeiro parâmetro é o ângulo, o segundo é o alcance. Ache a combinação correta.",
 	"Pond.helpText2": "Este alvo deve ser acertado várias vezes. Use o ciclo 'while (true)' para fazer algo indefinidamente.",
 	"Pond.helpText3a": "Esse oponente move-se para frente e para trás, fazendo ficar difícil acertá-lo. A Expressão 'scan' retorna o alcance exato do oponente naquela direção.",
 	"Pond.helpText3b": "Este alcance é exatamente o que o comando 'cannon' precisa para atirar precisamente.",
