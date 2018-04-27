@@ -188,7 +188,7 @@ Blockly.Blocks['movie_time'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(Blockly.Msg.VARIABLES_HUE);
+    this.setColour(Blockly.Msg['VARIABLES_HUE']);
     this.appendDummyInput()
         .appendField('time (0\u2192100)');
     this.setOutput(true, 'Number');
@@ -208,7 +208,7 @@ Blockly.Blocks['movie_colour'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(Blockly.Msg.COLOUR_HUE);
+    this.setColour(Blockly.Msg['COLOUR_HUE']);
     this.appendValueInput('COLOUR')
         .setCheck('Colour')
         .appendField(BlocklyGames.getMsg('Movie_setColour'));

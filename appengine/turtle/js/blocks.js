@@ -246,7 +246,7 @@ Blockly.Blocks['turtle_colour'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(Blockly.Msg.COLOUR_HUE);
+    this.setColour(Blockly.Msg['COLOUR_HUE']);
     this.appendValueInput('COLOUR')
         .setCheck('Colour')
         .appendField(BlocklyGames.getMsg('Turtle_setColour'));
@@ -270,7 +270,7 @@ Blockly.Blocks['turtle_colour_internal'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(Blockly.Msg.COLOUR_HUE);
+    this.setColour(Blockly.Msg['COLOUR_HUE']);
     this.appendDummyInput()
         .appendField(BlocklyGames.getMsg('Turtle_setColour'))
         .appendField(new Blockly.FieldColour('#ff0000'), 'COLOUR');
@@ -389,7 +389,7 @@ Blockly.Blocks['turtle_repeat_internal'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
+      "message0": Blockly.Msg['CONTROLS_REPEAT_TITLE'],
       "args0": [
         {
           "type": "field_dropdown",
@@ -404,12 +404,12 @@ Blockly.Blocks['turtle_repeat_internal'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Msg.LOOPS_HUE,
-      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
-      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
+      "colour": Blockly.Msg['LOOPS_HUE'],
+      "tooltip": Blockly.Msg['CONTROLS_REPEAT_TOOLTIP'],
+      "helpUrl": Blockly.Msg['CONTROLS_REPEAT_HELPURL']
     });
     this.appendStatementInput('DO')
-        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+        .appendField(Blockly.Msg['CONTROLS_REPEAT_INPUT_DO']);
   }
 };
 
