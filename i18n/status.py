@@ -60,8 +60,13 @@ def get_prefix_counts(filename):
   for key in keys:
     prefix = key.split('.')[0]
     if prefix != '@metadata':
-      prefixes[prefix] = prefixes.get(prefix, 0) + 1
-      total += 1
+      weight = 1
+      if key.endswith('Tooltip'):
+        weight = .2
+      elif key.endswith('HelpUrl'):
+        weight = .1
+      prefixes[prefix] = prefixes.get(prefix, 0) + weight
+      total += weight
   f.close()
   prefixes['ALL'] = total
   return prefixes
@@ -83,16 +88,15 @@ def output_as_html(prefix_counts):
   """
   def generateNumberAsPercent(num, total):
     percent = num * 100 / total
-    if percent == 100:
+    if percent >= 90:
       color = 'green'
-    elif percent >= 90:
+    elif percent >= 80:
       color = 'orange'
-    elif percent >= 60:
+    elif percent >= 70:
       color = 'black'
     else:
       color = 'gray'
-    return ('<font color=' + color + '>' + str(num) + ' (' + str(percent) +
-            '%)</font>')
+    return ('<font color="{!s}">{:.0f} ({:.0%})</font>'.format(color, num, num / total))
 
   apps = prefix_counts[TOTAL].keys()
   apps.remove('ALL')
@@ -130,7 +134,7 @@ def output_as_text(prefix_counts):
           values are their count for the given language.
   """
   def generate_number_as_percent(num, total):
-    return ('{0} ({1}%)'.format(num, num * 100 / total))
+    return ('{:.0f} ({:.0%})'.format(num, num / total))
   MAX_WIDTH = len('999 (100%)') + 1
   FIELD_STRING = '{0: <' + str(MAX_WIDTH) + '}'
   apps = prefix_counts[TOTAL].keys()
