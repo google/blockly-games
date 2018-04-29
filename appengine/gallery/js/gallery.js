@@ -107,6 +107,10 @@ Gallery.receiveMore = function() {
   if (xhr.status !== 200) {
     console.warn('Load returned status ' + xhr.status);
     Gallery.hasMore = false;
+    if (xhr.status === 401) {
+      // User isn't logged in.  Bounce to the admin page.
+      location = '/admin';
+    }
     return;
   }
   var meta = JSON.parse(xhr.responseText);
@@ -131,7 +135,7 @@ Gallery.display = function(record) {
     uuid: record['uuid'],
     thumb: record['thumb'],
     title: record['title'],
-    public: record['public'],
+    published: record['public'],
     key: record['key']
   };
   var block = document.createElement('div');

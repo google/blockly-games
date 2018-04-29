@@ -54,14 +54,14 @@
  * @param uuid Unique datastore key for the code (stored separately).
  * @param thumb Base 64-encoded thumbnail.
  * @param title User-provided title.
- * @param public Is the record published?
+ * @param published Is the record published?
  * @param key Unique datastore key for this record.
  */
 {template .record}
   <div class="galleryThumb">
    {if $key}
      <input type="checkbox" id="publish-{$key}"
-       {if $public}{sp}checked{sp}{/if}
+       {if $published}{sp}checked{sp}{/if}
        onchange="Gallery.publish(this)">
    {/if}
     <a href="/{$app}?level=10#{$uuid}"><img src="{$thumb}"></a>

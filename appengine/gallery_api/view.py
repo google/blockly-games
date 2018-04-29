@@ -40,35 +40,36 @@ forms = cgi.FieldStorage()
 app = forms["app"].value
 isAdmin = (app == "admin")
 
-print("Content-Type: text/plain\n")
-
-if isAdmin:
-  if not users.is_current_user_admin():
-    raise Exception("Not Authorized")
-  query = Art.query()
+if isAdmin and not users.is_current_user_admin():
+  print("Status: 401 Unauthorized")
 else:
-  query = Art.query(Art.public == True, Art.app == app)
-query = query.order(-Art.created)
+  print("Content-Type: text/plain\n")
 
-if "cursor" in forms:
-  # Fetch next page of results.
-  curs = Cursor(urlsafe=forms["cursor"].value)
-else:
-  # Fetch first page of results.
-  curs = None
-(results, next_curs, more) = query.fetch_page(ROWS_PAGE, start_cursor=curs)
-
-data = [];
-for rec in results:
-  datum = {"uuid": rec.uuid,
-           "app": rec.app,
-           "thumb": rec.thumb,
-           "title": rec.title}
   if isAdmin:
-    datum["public"] = rec.public
-    datum["key"] = rec.key.integer_id()
-  data.append(datum)
-meta = {"data": data,
-        "more": more,
-        "cursor": next_curs and next_curs.urlsafe()}
-print(json.dumps(meta))
+    query = Art.query()
+  else:
+    query = Art.query(Art.public == True, Art.app == app)
+  query = query.order(-Art.created)
+
+  if "cursor" in forms:
+    # Fetch next page of results.
+    curs = Cursor(urlsafe=forms["cursor"].value)
+  else:
+    # Fetch first page of results.
+    curs = None
+  (results, next_curs, more) = query.fetch_page(ROWS_PAGE, start_cursor=curs)
+
+  data = [];
+  for rec in results:
+    datum = {"uuid": rec.uuid,
+             "app": rec.app,
+             "thumb": rec.thumb,
+             "title": rec.title}
+    if isAdmin:
+      datum["public"] = rec.public
+      datum["key"] = rec.key.integer_id()
+    data.append(datum)
+  meta = {"data": data,
+          "more": more,
+          "cursor": next_curs and next_curs.urlsafe()}
+  print(json.dumps(meta))
