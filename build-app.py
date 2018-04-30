@@ -24,67 +24,45 @@
 # The uncompressed file is a script that loads in each JavaScript file
 # one by one.  This takes much longer for a browser to load, but is useful
 # when debugging code since line numbers are meaningful and variables haven't
-# been renamed.  The uncompressed file also allows for a faster developement
+# been renamed.  The uncompressed file also allows for a faster development
 # cycle since there is no need to rebuild or recompile, just reload.
 
-import os.path, re, subprocess, sys
-
-# Given a user's language, which of the available Blockly core languagues
-# should be used.
-CORE_LANGUAGE_MAP = {
-  'ar': 'Blockly.Msg.ar',
-  'az': 'Blockly.Msg.az',
-  'ca': 'Blockly.Msg.ca',
-  'cs': 'Blockly.Msg.cs',
-  'da': 'Blockly.Msg.da',
-  'de': 'Blockly.Msg.de',
-  'el': 'Blockly.Msg.el',
-  'en': 'Blockly.Msg.en',
-  'es': 'Blockly.Msg.es',
-  'fa': 'Blockly.Msg.fa',
-  'fi': 'Blockly.Msg.fi',
-  'fr': 'Blockly.Msg.fr',
-  'frr': 'Blockly.Msg.de',
-  'he': 'Blockly.Msg.he',
-  'hrx': 'Blockly.Msg.hrx',
-  'hu': 'Blockly.Msg.hu',
-  'id': 'Blockly.Msg.id',
-  'is': 'Blockly.Msg.is',
-  'it': 'Blockly.Msg.it',
-  'ja': 'Blockly.Msg.ja',
-  'ko': 'Blockly.Msg.ko',
-  'ksh': 'Blockly.Msg.de',
-  'ms': 'Blockly.Msg.ms',
-  'nb': 'Blockly.Msg.nb',
-  'nl': 'Blockly.Msg.nl',
-  'pl': 'Blockly.Msg.pl',
-  'pms': 'Blockly.Msg.pms',
-  'pt-br': 'Blockly.Msg.pt.br',
-  'pt': 'Blockly.Msg.pt',
-  'ro': 'Blockly.Msg.ro',
-  'ru': 'Blockly.Msg.ru',
-  'sq': 'Blockly.Msg.sq',
-  'sr': 'Blockly.Msg.sr',
-  'sv': 'Blockly.Msg.sv',
-  'th': 'Blockly.Msg.th',
-  'tl': 'Blockly.Msg.tl',
-  'tlh': 'Blockly.Msg.tlh',
-  'tr': 'Blockly.Msg.tr',
-  'uk': 'Blockly.Msg.uk',
-  'vi': 'Blockly.Msg.vi',
-  'zh-hans': 'Blockly.Msg.zh.hans',
-  'zh-hant': 'Blockly.Msg.zh.hant'
-}
+import json
+import os.path
+import re
+import subprocess
+import sys
 
 # Define a warning message for all the generated files.
 WARNING = '// Automatically generated file.  Do not edit!\n'
 
 
 def main(name, lang):
-  if CORE_LANGUAGE_MAP.has_key(lang):
-    core_language = CORE_LANGUAGE_MAP.get(lang)
+  if lang != None:
+    language(name, lang)
   else:
-    core_language = CORE_LANGUAGE_MAP.get('en')
+    # Extract the list of supported languages from boot.js.
+    # This is a bit fragile.
+    boot = open('appengine/common/boot.js', 'r')
+    js = ' '.join(boot.readlines())
+    boot.close()
+    m = re.search('\[\'BlocklyGamesLanguages\'\] = (\[[-,\'\\s\\w]+\])', js)
+    if not m:
+      print("Can't find BlocklyGamesLanguages in boot.js")
+      raise
+    langs = m.group(1)
+    langs = langs.replace("'", '"')
+    langs = json.loads(langs)
+    for lang in langs:
+      language(name, lang)
+
+
+def language(name, lang):
+  if os.path.exists('appengine/third-party/blockly/msg/js/%s.js' % lang):
+    # Convert 'pt-br' to 'pt.br'.
+    core_language = 'Blockly.Msg.' + lang.replace('-', '.')
+  else:
+    core_language = 'Blockly.Msg.en'
   f = open('appengine/%s/generated/%s/msg.js' % (name, lang), 'w')
   f.write(WARNING)
   f.write("goog.provide('BlocklyGames.Msg');\n")
@@ -103,7 +81,7 @@ def write_uncompressed(name, lang):
       '--namespace=%s' % name.replace('/', '.').title(),
       '--output_mode=list']
   directory = name
-  while(directory):
+  while directory:
     cmd.append('--root=appengine/%s/generated/%s/' % (directory, lang))
     cmd.append('--root=appengine/%s/js/' % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
@@ -205,9 +183,10 @@ def write_compressed(name, lang):
     "--js='!appengine/third-party/blockly/demos/**.js'",
     "--js='appengine/generated/%s/*.js'" % lang,
     "--js='appengine/js/*.js'",
+    '--warning_level', 'QUIET',
   ]
   directory = name
-  while(directory):
+  while directory:
     cmd.append("--js='appengine/%s/generated/%s/*.js'" % (directory, lang))
     cmd.append("--js='appengine/%s/js/*.js'" % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
@@ -227,7 +206,10 @@ def write_compressed(name, lang):
 
 
 if __name__ == '__main__':
-  if len(sys.argv) != 3:
-    print('Format: %s <appname> <language>' % sys.argv[0])
+  if len(sys.argv) == 2:
+    main(sys.argv[1], None)
+  elif len(sys.argv) == 3:
+    main(sys.argv[1], sys.argv[2])
+  else:
+    print('Format: %s <appname> [<language>]' % sys.argv[0])
     sys.exit(2)
-  main(sys.argv[1], sys.argv[2])

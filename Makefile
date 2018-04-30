@@ -82,11 +82,7 @@ languages:
 	  i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$$app/generated --template appengine/$$app/template.soy --key_file json/keys.json json/*.json; \
 	done
 	@for app in $(USER_APPS); do \
-	  echo; \
-	  echo --- $$app; \
-	  for lang in `ls appengine/$$app/generated`; do \
-	    python build-app.py $$app $$lang; \
-	  done \
+	  python build-app.py $$app; \
 	done
 
 deps:
