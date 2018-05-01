@@ -36,6 +36,7 @@ for filename in os.listdir(JSON_DIR):
     languages.append(filename[:-5])
 if len(languages) == 0:
   raise IndexError("No languages found.")
+languages.sort()
 print("%i languages found: %s" % (len(languages), ", ".join(languages)))
 
 # Empty the generated directory.
@@ -45,7 +46,7 @@ if os.path.exists(GENERATED_DIR):
 os.mkdir(GENERATED_DIR)
 
 ignore = shutil.ignore_patterns("*.yaml", ".[a-zA-Z]*", "sources", "js",
-    "*.soy", "msg.js", "soy.js", "uncompressed.js", "*.py")
+    "*.soy", "msg.js", "soy.js", "uncompressed.js", "*.py", "*.pyc")
 for language in languages:
   print("Processing %s..." % language)
   os.mkdir(GENERATED_DIR + "blockly-games/")
@@ -63,7 +64,23 @@ for language in languages:
   # Copy the file tree.
   directory = GENERATED_DIR + "blockly-games/" + language + "/"
   shutil.copytree(APPENGINE_DIR, directory, ignore=ignore)
+  shutil.rmtree(directory + "accessible")
+  shutil.rmtree(directory + "gallery")
+  shutil.rmtree(directory + "gallery_api")
+  shutil.rmtree(directory + "genetics")
+  shutil.rmtree(directory + "third-party/ace/snippets/")
+  for filename in os.listdir(directory + "third-party/ace/"):
+    if filename not in ("ace.js", "mode-javascript.js", "theme-chrome.js",
+                        "worker-javascript.js"):
+      os.remove(directory + "third-party/ace/" + filename)
+
+  # Delete Blockly, but leave the media directory.
+  shutil.move(directory + "third-party/blockly/media/",
+              GENERATED_DIR + "blockly-games/media")
   shutil.rmtree(directory + "third-party/blockly/")
+  shutil.move(GENERATED_DIR + "blockly-games/media",
+              directory + "third-party/blockly/media/")
+
   shutil.rmtree(directory + "third-party/goog/")
   shutil.rmtree(directory + "third-party/third_party_goog/")
   shutil.rmtree(directory + "third-party/midi-js/")
@@ -71,19 +88,25 @@ for language in languages:
   for filename in os.listdir(directory + "third-party/JS-Interpreter/"):
     if filename != "compiled.js":
       os.remove(directory + "third-party/JS-Interpreter/" + filename)
-  shutil.rmtree(directory + "third-party/ace/snippets/")
-  for filename in os.listdir(directory + "third-party/ace/"):
-    if filename not in ("ace.js", "mode-javascript.js", "theme-chrome.js",
-                        "worker-javascript.js"):
-      os.remove(directory + "third-party/ace/" + filename)
+  for dirname in os.listdir(directory + "third-party/midi-js-soundfonts/"):
+    for filename in os.listdir(directory + "third-party/midi-js-soundfonts/"
+                               + dirname + "/"):
+      if filename not in ("C3.mp3", "D3.mp3", "E3.mp3", "F3.mp3", "G3.mp3",
+                          "A3.mp3", "B3.mp3", "C4.mp3", "D4.mp3", "E4.mp3",
+                          "F4.mp3", "G4.mp3", "A4.mp3"):
+        os.remove(directory + "third-party/midi-js-soundfonts/"
+                  + dirname + "/" + filename)
+  for filename in os.listdir(directory + "third-party/SoundJS/"):
+    if filename != "soundjs.min.js":
+      os.remove(directory + "third-party/SoundJS/" + filename)
   # Delete all other generated language files.
   for subdirectory, subdirList, fileList in os.walk(directory):
     if subdirectory.endswith("/generated"):
       for langname in subdirList:
         if langname != language:
           shutil.rmtree(subdirectory + "/" + langname)
-  for filename in ('debug.html', 'robots.txt',
-                   'common/debug.js', 'common/storage.js'):
+  for filename in ('admin.html', 'gallery.html', 'robots.txt', 'genetics.html',
+                   'common/debug.js', 'common/stripes.gif', 'common/storage.js'):
     os.remove(directory + filename)
 
   # Create single-language bootloader.
