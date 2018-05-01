@@ -152,10 +152,10 @@ Gallery.publish = function(element) {
   var publish = Number(element.checked);
 
   var xhr = new XMLHttpRequest();
-  var url = '/gallery-api/admin?key=' +
-      encodeURIComponent(key) + '&public=' + publish;
-  xhr.open('GET', url, true);
-  xhr.send();
+  var url = '/gallery-api/admin';
+  xhr.open('POST', url, true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send('key=' + encodeURIComponent(key) + '&public=' + publish);
 };
 
 /**
