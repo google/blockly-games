@@ -127,6 +127,9 @@ handlers:
 - url: /gallery-api/view
   script: gallery_api/view.py
   secure: always
+- url: /gallery-api/expire
+  script: gallery_api/expire.py
+  secure: always
 - url: /gallery-api/admin
   script: gallery_api/admin.py
   login: admin

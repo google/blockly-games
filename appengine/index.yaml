@@ -16,3 +16,8 @@ indexes:
   - name: public
   - name: created
     direction: desc
+
+- kind: Art
+  properties:
+  - name: public
+  - name: created
