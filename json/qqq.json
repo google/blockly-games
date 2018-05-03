@@ -22,7 +22,7 @@
 	"Games.linesOfCode2": "alert - Displayed when a level is complete.  %1 is an integer greater than 1.",
 	"Games.nextLevel": "alert - This is displayed when the user solves the level, inviting them to procede to the next level of difficulty.  %1 is an integer greater than 1.",
 	"Games.finalLevel": "alert - This is displayed when the user solves the most difficult level and is going to go to the next game.",
-	"Games.submitTitle": "Label in front of a field where the user is requested to type a title for their work.",
+	"Games.submitTitle": "Label in front of a field where the user is requested to type a title for their work.\n{{Identical|Title}}",
 	"Games.linkTooltip": "tooltip - Pressing this button will cause the current program to be saved and for a URL to be shown to later retrieve it.",
 	"Games.runTooltip": "tooltip - Pressing this button runs the computer program the user has written.",
 	"Games.runProgram": "button label - Pressing this button runs the computer program the user has written.",
