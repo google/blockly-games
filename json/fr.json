@@ -202,7 +202,7 @@
 	"Movie.submitMsg": "Publier sur la galerie",
 	"Movie.helpLayer": "Déplacez le cercle de fond en haut de votre programme. Il apparaîtra alors derrière la personne.",
 	"Movie.helpText1": "Utiliser des formes simples pour dessiner cette personne.",
-	"Movie.helpText2a": "Ce niveau est une animation. Vous voulez déplacer le bras de la personne à travers l’écran. Appuyez sur le bouton de jeu pour voir un aperçu.",
+	"Movie.helpText2a": "Ce niveau est une animation. Vous voulez déplacer le bras de la personne à travers l’écran. Appuyez sur le bouton de lecture pour voir un aperçu.",
 	"Movie.helpText2b": "Pendant que l’animation se déroule, la valeur du bloc 'temps' avance de 0 à 100. Comme vous voulez que la position 'y' du bras commence à 0 et aille jusqu’à 100, cela devrait être facile.",
 	"Movie.helpText3": "Le bloc 'temps' va de 0 à 100. Mais maintenant vous voulez que la position 'y' de l'autre bras démarre à 100 et aille jusqu’à 0. Pouvez-vous trouver une formule mathématique qui inverse la direction ?",
 	"Movie.helpText4": "Utilisez ce que vous avez appris au niveau précédent pour faire se croiser les jambes.",
