@@ -102,9 +102,6 @@ deps:
 
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)
 	svn checkout https://github.com/google/closure-library/trunk/closure/goog/ $(APP_ENGINE_THIRD_PARTY)/goog
-	# There are bad dependencies in debug_loader_integration_tests.
-	# We don't use it anyway.  Kill it.  27 April 2018
-	rm -r $(APP_ENGINE_THIRD_PARTY)/goog/debug_loader_integration_tests/
 	svn checkout https://github.com/google/closure-library/trunk/third_party/closure/goog/ $(APP_ENGINE_THIRD_PARTY)/third_party_goog
 	svn checkout https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	svn checkout https://github.com/google/blockly/branches/develop/ $(APP_ENGINE_THIRD_PARTY)/blockly
