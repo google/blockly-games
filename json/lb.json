@@ -14,7 +14,6 @@
 	"Games.genetics": "Genetik",
 	"Games.nextLevel": "Sidd Dir prett fir den Niveau %1?",
 	"Games.finalLevel": "Sidd Dir prett fir déi nächst Erausfuerderung?",
-	"Games.submitTitle": "Titel:",
 	"Games.linkTooltip": "Späicheren a mat de Bléck verlinken",
 	"Games.runTooltip": "De Programm starten deen Dir geschriwwen hutt.",
 	"Games.runProgram": "Programm ausféieren",
@@ -96,6 +95,5 @@
 	"Pond.playerName": "Spiller",
 	"Pond.targetName": "Zil",
 	"Pond.rabbitName": "Kanéngchen",
-	"Pond.counterName": "Compteur",
-	"Gallery": "Galerie"
+	"Pond.counterName": "Compteur"
 }

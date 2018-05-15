@@ -9,7 +9,6 @@
 	"Games.puzzle": "Trencaclosques",
 	"Games.maze": "Laberint",
 	"Games.turtle": "Tortuga",
-	"Games.submitTitle": "Títol:",
 	"Games.linkTooltip": "Desa i enllaça als blocs.",
 	"Games.runProgram": "Executa el programa",
 	"Games.resetProgram": "Reinicialitza",
@@ -96,6 +95,5 @@
 	"Turtle.fontBold": "negreta",
 	"Turtle.fontItalic": "cursiva",
 	"Turtle.catTurtle": "Tortuga",
-	"Pond.documentation": "Documentació",
-	"Gallery": "Galeria"
+	"Pond.documentation": "Documentació"
 }
