@@ -15,7 +15,9 @@
 			"Krottyianock",
 			"Woytecr",
 			"Wojtas",
-			"Anwar2"
+			"Anwar2",
+			"DeRudySoulStorm",
+			"Stojex"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -32,6 +34,7 @@
 	"Games.linesOfCode2": "Rozwiązałeś ten poziom za pomocą %1 linii JavaSkryptu:",
 	"Games.nextLevel": "Jesteś gotów na %1 poziom?",
 	"Games.finalLevel": "Jesteś gotów na następne wyzwanie?",
+	"Games.submitTitle": "Tytuł:",
 	"Games.linkTooltip": "Zapisz i podlinkuj do klocków",
 	"Games.runTooltip": "Uruchom napisany przez Ciebie program.",
 	"Games.runProgram": "Uruchom Program",
@@ -159,9 +162,9 @@
 	"Turtle.fontBold": "pogrubienie",
 	"Turtle.fontItalic": "kursywa",
 	"Turtle.submitDisabled": "Uruchom program. Po jego zakończeniu będzie można umieścić rysunek w galerii.",
-	"Turtle.galleryTooltip": "Otwórz galerię rysunków na Reddit.",
+	"Turtle.galleryTooltip": "Otwórz galerię rysunków.",
 	"Turtle.galleryMsg": "Wyświetl galerię",
-	"Turtle.submitTooltip": "Udostępnij swój rysunek na Reddit.",
+	"Turtle.submitTooltip": "Udostępnij swój rysunek w galeri.",
 	"Turtle.submitMsg": "Udostępnij do galerii",
 	"Turtle.helpUseLoop": "Twoje rozwiązanie działa, ale możesz zrobić to lepiej.",
 	"Turtle.helpUseLoop3": "Narysuj kształt tylko trzema klockami.",
@@ -200,9 +203,9 @@
 	"Movie.colourTooltip": "Zmienia kolor pióra.",
 	"Movie.setColour": "ustaw kolor na",
 	"Movie.submitDisabled": "Twoja animacja się nie porusza. Użyj bloków aby zrobić coś interesującego. Potem możesz umieścić swoją animację w galerii.",
-	"Movie.galleryTooltip": "Otwórz galerię filmów na Reddit.",
+	"Movie.galleryTooltip": "Otwórz galerię filmów.",
 	"Movie.galleryMsg": "Wyświetl galerię",
-	"Movie.submitTooltip": "Udostępnij swój film na Reddit.",
+	"Movie.submitTooltip": "Udostępnij swój film w galeri.",
 	"Movie.submitMsg": "Udostępnij do galerii",
 	"Movie.helpText1": "Użyj prostych kształtów, aby narysować tę postać.",
 	"Movie.helpText2a": "Ten poziom jest filmem. Chcesz, aby czerwona kula przeturlała się po ekranie. Kliknij przycisk play, aby zobaczyć zapowiedź.",
@@ -216,6 +219,8 @@
 	"Movie.helpText9": "Potrafisz utworzyć piłkę podążającą za przewodem? Przewód został już narysowany. Jeśli Ci się uda, znaczy, potrafisz zrobić co zechcesz.",
 	"Movie.helpText10": "Utwórz dowolną anikację. Masz dostęp do wielu nowych bloków, którw możesz poznawać. Miłej zabawy!",
 	"Movie.helpText10Reddit": "Użyj przycisku &quot;See Gallery&quot;aby oglądnąć animacje utworzone przez innych. Jeśli udało Ci się utworzyć intetesującą animację, użyj przycisku &quot;Submit to Gallery&quot; aby ją opublikować.",
+	"Music.galleryTooltip": "Otwórz galerię muzyki.",
+	"Music.catMusic": "Muzyka",
 	"Pond.scanTooltip": "Szuka wrogów. Wybierz kierunek (0-360). Zwraca odległość do najbliższego wroga w tym kierunku. Zwraca nieskończoność jeśli nie znajdzie wroga.",
 	"Pond.cannonTooltip": "Wystrzel z działa. Wybierz kierunek (0-360) i odległość (0-70).",
 	"Pond.swimTooltip": "Płyń do przodu. Wybierz kierunek (0-360).",
@@ -241,5 +246,6 @@
 	"Pond.rabbitName": "Królik",
 	"Pond.counterName": "Licznik",
 	"Pond.rookName": "Wieża",
-	"Pond.sniperName": "Snajper"
+	"Pond.sniperName": "Snajper",
+	"Gallery": "Galeria"
 }

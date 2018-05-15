@@ -20,6 +20,7 @@
 	"Games.linesOfCode2": "Tu atrisināji šo līmeni izmantojot %1 JavaScript rindiņas:",
 	"Games.nextLevel": "Vai esi gatavs %1 līmenim?",
 	"Games.finalLevel": "Vai tu esi gatavs nākamajam izaicinājumam?",
+	"Games.submitTitle": "Nosaukums:",
 	"Games.linkTooltip": "Saglabāt un izveidot saiti uz blokiem.",
 	"Games.runTooltip": "Palaist izveidoto programmu.",
 	"Games.runProgram": "Izpildīt programmu",
@@ -206,5 +207,6 @@
 	"Pond.rabbitName": "Trusis",
 	"Pond.counterName": "Skaitītājs",
 	"Pond.rookName": "Tornis",
-	"Pond.sniperName": "Snaiperis"
+	"Pond.sniperName": "Snaiperis",
+	"Gallery": "Galerija"
 }

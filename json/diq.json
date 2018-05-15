@@ -18,6 +18,7 @@
 	"Games.pondTutor": "Doleka musayışi",
 	"Games.pond": "Golık",
 	"Games.genetics": "Genetiki",
+	"Games.submitTitle": "Sername:",
 	"Games.linkTooltip": "Qeyd ke û be blokan ra gıre de.",
 	"Games.runTooltip": "Proğramo ke to nusnayo bıxebetne",
 	"Games.runProgram": "Programi Akar fi",
@@ -114,6 +115,14 @@
 	"Movie.lineDraw": "xete",
 	"Movie.galleryMsg": "Galeriye bıvêne",
 	"Movie.submitMsg": "Bırışe galeriye",
+	"Music.piano": "piyano",
+	"Music.trumpet": "trompet",
+	"Music.banjo": "banco",
+	"Music.violin": "kemane",
+	"Music.guitar": "gitar",
+	"Music.flute": "flute",
+	"Music.drum": "dawul",
+	"Music.choir": "koro",
 	"Music.galleryMsg": "Galeriye bıvêne",
 	"Music.catMusic": "Muzik",
 	"Pond.documentation": "Dokumentasyon",
@@ -124,5 +133,6 @@
 	"Pond.rabbitName": "Arwêş",
 	"Pond.counterName": "Amardoğ",
 	"Pond.rookName": "Kela",
-	"Pond.sniperName": "Çekdar"
+	"Pond.sniperName": "Çekdar",
+	"Gallery": "Galeriye"
 }
