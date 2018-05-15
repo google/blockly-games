@@ -130,7 +130,7 @@ def write_uncompressed(name, lang):
 def trim_licence(code):
   """Trim down Google's Apache licences.
 
-  JS Compiler preseves dozens of Apache licences in the Blockly code.  Trim
+  JS Compiler preserves dozens of Apache licences in the Blockly code.  Trim
   these down to one-liners if they belong to Google.
 
   Args:
@@ -179,6 +179,8 @@ def write_compressed(name, lang):
     '--language_in', 'ECMASCRIPT5_STRICT',
     '--entry_point=%s' % name.replace('/', '.').title(),
     "--js='appengine/third-party/**.js'",
+    "--js='!appengine/third-party/blockly/*.js'",
+    "--js='!appengine/third-party/blockly/tests/**.js'",
     "--js='!appengine/third-party/blockly/externs/**.js'",
     "--js='!appengine/third-party/blockly/demos/**.js'",
     "--js='appengine/generated/%s/*.js'" % lang,
