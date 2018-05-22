@@ -38,6 +38,26 @@ html[dir="RTL"] code.ltr {
   display: none;
 }
 
+#coordinates {
+  display: none;
+  font-size: 10pt;
+  margin-top: 5px;
+  position: absolute;
+  width: 400px;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+#x {
+  position: absolute;
+  left: 300px;
+}
+#y {
+  position: absolute;
+  left: 350px;
+}
+
 /* Slider. */
 .sliderTrack {
   stroke: #aaa;

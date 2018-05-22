@@ -152,6 +152,60 @@ Movie.init = function() {
                                          BlocklyGames.LEVEL)) {
     setTimeout(Movie.showHelp, 1000);
   }
+
+  visualization.addEventListener('mouseover', Movie.showCoordinates);
+  visualization.addEventListener('mouseout', Movie.hideCoordinates);
+  visualization.addEventListener('mousemove', Movie.updateCoordinates);
+};
+
+/**
+ * Show the x/y coordinates.
+ * @param {!Event} e Mouse over event.
+ */
+Movie.showCoordinates = function(e) {
+  document.getElementById('coordinates').style.display = 'block';
+};
+
+/**
+ * Hide the x/y coordinates.
+ * @param {Event} e Mouse out event.
+ */
+Movie.hideCoordinates = function(e) {
+  document.getElementById('coordinates').style.display = 'none';
+};
+
+/**
+ * Update the x/y coordinates.
+ * @param {!Event} e Mouse move event.
+ */
+Movie.updateCoordinates = function(e) {
+  // Get the coordinates of the mouse.
+  var x = e.clientX;
+  var y = e.clientY;
+  // Compensate for the location of the visualization.
+  var offset = goog.style.getBounds(document.getElementById('visualization'));
+  x -= offset.left;
+  y -= offset.top;
+  // The visualization is 400x400, but the coordinates are 100x100.
+  x /= 4;
+  y /= 4;
+  // Flip the y axis so the origin is at the bottom.
+  y = 100 - y;
+  if (BlocklyGames.LEVEL == 10) {
+    // Round to the nearest integer.
+    x = Math.round(x);
+    y = Math.round(y);
+  } else {
+    // Round to the nearest 10.
+    x = Math.round(x / 10) * 10;
+    y = Math.round(y / 10) * 10;
+  }
+  if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
+    document.getElementById('x').innerHTML = 'x = ' + x;
+    document.getElementById('y').innerHTML = 'y = ' + y;
+  } else {
+    Movie.hideCoordinates();
+  }
 };
 
 /**
