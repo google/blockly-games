@@ -898,11 +898,36 @@ Music.checkAnswer = function() {
     }
   }
 
-  // Level 6 requires a "set instrument" block.
-  if (BlocklyGames.LEVEL == 6) {
+  if (BlocklyGames.LEVEL >= 6) {
+    // Count the number of distinct non-pianos.
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-    if (code.indexOf('setInstrument') == -1 || code.indexOf('piano') != -1) {
-      // Yes, you can cheat with a comment.  In this case I don't care.
+    var instruments = code.match(/setInstrument\('\w+'/g) || [];
+    // Yes, you can cheat with a comment.  In this case I don't care.
+    goog.array.removeDuplicates(instruments);
+    goog.array.remove(instruments, 'setInstrument(\'piano\'');
+    instruments = instruments.length;
+
+    // Level 6 requires a "set instrument" block.
+    // Fail silently since that's the entire point of the level.
+    if (BlocklyGames.LEVEL == 6 && instruments < 1) {
+      return false;
+    }
+
+    // Level 7+8 require at least one "set instrument" block.
+    // Level 9 requires at least three "set instrument" blocks.
+    // Fail with a warning.
+    if (((BlocklyGames.LEVEL == 7 || BlocklyGames.LEVEL == 8) &&
+         instruments < 1) || (BlocklyGames.LEVEL == 9 && instruments < 3)) {
+      console.log('Not enough instruments.  Found: ' + instruments);
+      var content = document.getElementById('helpUseInstruments');
+      var style = {
+        'width': '30%',
+        'left': '35%',
+        'top': '12em'
+      };
+      BlocklyDialogs.showDialog(content, null, false, true, style,
+          BlocklyDialogs.stopDialogKeyDown);
+      BlocklyDialogs.startDialogKeyDown();
       return false;
     }
   }

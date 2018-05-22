@@ -234,6 +234,7 @@
 	"Music.submitTooltip": "tooltip - Pressing this button causes the music created by the user's program to be submitted to a gallery for other people to see.",
 	"Music.submitMsg": "Label on a button that submits the user's art to a public gallery.",
 	"Music.helpUseFunctions": "Dialog telling user to seek a better answer.",
+	"Music.helpUseInstruments": "Dialog telling user not to use only one musical instrument (piano, flute, etc).",
 	"Music.helpText1": "Instructions.  If your country has a song to the tune of 'Frère Jacques' use its name.  E.g. Bruder Jakob (German) or Kìa con bướm (Vietnamese).",
 	"Music.helpText2a": "Introducing a new block: function or subroutines",
 	"Music.helpText2b": "Instructions.",
