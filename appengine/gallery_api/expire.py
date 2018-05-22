@@ -26,18 +26,18 @@ import json
 from gallery_api import *
 
 # Number of rows per page.
-ROWS = 256
-# Age in days to delete non-public submissions.
-AGE = 90
+ROWS = 1024
+# Age in hours to delete non-public submissions.
+AGE = 1
 
 print("Content-Type: text/plain\n")
 
-bestBefore = datetime.datetime.now() - datetime.timedelta(days=AGE)
+bestBefore = datetime.datetime.now() - datetime.timedelta(hours=AGE)
 query = Art.query(Art.public == False, Art.created < bestBefore)
 
 results = query.fetch(limit=ROWS)
 
-print("Deleting unpublished records before %s" % bestBefore)
+print("Deleting unpublished records submitted before %s" % bestBefore)
 for rec in results:
   print("* %s" % rec.title)
   rec.key.delete()

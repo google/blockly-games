@@ -1,4 +1,0 @@
-cron:
-- description: "Daily gallery expiry"
-  url: /gallery-api/expire
-  schedule: every 24 hours

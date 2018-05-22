@@ -1,5 +1,5 @@
 application: blockly-games
-version: beta
+version: 3
 runtime: python27
 api_version: 1
 threadsafe: no
@@ -129,6 +129,7 @@ handlers:
   secure: always
 - url: /gallery-api/expire
   script: gallery_api/expire.py
+  login: admin
   secure: always
 - url: /gallery-api/admin
   script: gallery_api/admin.py
