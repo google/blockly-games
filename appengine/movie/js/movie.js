@@ -180,17 +180,24 @@ Movie.hideCoordinates = function(e) {
  */
 Movie.updateCoordinates = function(e) {
   // Get the coordinates of the mouse.
+  var rtl = BlocklyGames.isRtl();
   var x = e.clientX;
   var y = e.clientY;
+  if (rtl) {
+    x -= window.innerWidth;
+  }
   // Compensate for the location of the visualization.
   var offset = goog.style.getBounds(document.getElementById('visualization'));
-  x -= offset.left;
+  x += rtl ? offset.left : -offset.left;
   y -= offset.top;
   // The visualization is 400x400, but the coordinates are 100x100.
   x /= 4;
   y /= 4;
   // Flip the y axis so the origin is at the bottom.
   y = 100 - y;
+  if (rtl) {
+    x += 100;
+  }
   if (BlocklyGames.LEVEL == 10) {
     // Round to the nearest integer.
     x = Math.round(x);
