@@ -39,6 +39,6 @@ results = query.fetch(limit=ROWS)
 
 print("Deleting unpublished records submitted before %s" % bestBefore)
 for rec in results:
-  print("* %s" % rec.title)
+  print("* %s" % rec.title).encode("utf-8")
   rec.key.delete()
 print("Done.")
