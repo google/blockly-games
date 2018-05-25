@@ -235,6 +235,7 @@
 	"Music.submitTooltip": "Skicka din musik till galleriet.",
 	"Music.submitMsg": "Skicka till galleriet",
 	"Music.helpUseFunctions": "Din lösning fungerar, men du kan förbättra den. Använd funktioner för att reducera mängden upprepad kod.",
+	"Music.helpUseInstruments": "Musiken låter bättre om du använder ett annorlunda instrument i varje startblock.",
 	"Music.helpText1": "Komponera de första fyra noterna ur \"Broder Jakob\".",
 	"Music.helpText2a": "En \"funktion\" låter dig gruppera block tillsammans och sedan köra dem mer än en gång.",
 	"Music.helpText2b": "Skapa en funktion för att spela de fyra första noterna ur \"Broder Jakob\". Kör funktionen två gånger. Lägg inte till några nya notblock.",

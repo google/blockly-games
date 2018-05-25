@@ -6,7 +6,8 @@
 			"Withoutaname",
 			"Dstream",
 			"Minh Nguyen",
-			"Macofe"
+			"Macofe",
+			"Leducthn"
 		]
 	},
 	"Games.name": "Blockly Trò Chơi",
@@ -15,11 +16,14 @@
 	"Games.bird": "Chim",
 	"Games.turtle": "Rùa",
 	"Games.movie": "Phim",
+	"Games.music": "Âm nhạc",
 	"Games.pond": "Ao hồ",
+	"Games.genetics": "Di truyền học",
 	"Games.linesOfCode1": "Bạn đã xử lý level này với 1 dòng của JavaScript:",
 	"Games.linesOfCode2": "Bạn đã xử lý level này với %1 dòng của JavaScript:",
 	"Games.nextLevel": "Bạn có sẵn sàng cho level %1 chưa?",
 	"Games.finalLevel": "Bạn có sẵn sàng cho level tiếp theo chưa?",
+	"Games.submitTitle": "Tên:",
 	"Games.linkTooltip": "Lưu và lấy địa chỉ liên kết.",
 	"Games.runTooltip": "Chạy chương trình bạn viết.",
 	"Games.runProgram": "Chạy chương trình",
@@ -203,6 +207,7 @@
 	"Movie.helpText9": "Bạn hãy làm cho quả bóng đi theo đường dây. Đường dây này đã được vẽ sẵn. Khi bạn hoàn thành cấp độ này, bạn có thể làm mọi thứ.",
 	"Movie.helpText10": "Tạo ra phim về mọi thứ bạn muốn. Bạn có thể khám phá cùng với một số lượng lớn mảnh mới. Chúc bạn vui vẻ.",
 	"Movie.helpText10Reddit": "Sử dụng &quot;Xem Phòng trưng bày&quot; nhấn để xem những người khác đã thiết kế. Nếu bạn vẽ nên đoạn phim đặc sắc, hãy dùng &quot;Gửi đến Phòng trưng bày&quot; nhấn để trưng bày nó.",
+	"Music.piano": "piano",
 	"Pond.scanTooltip": "Thăm dò địch thủ. Xác định hướng (0-360). Hoàn lại khoảng cách đến địch thủ gần nhất theo hướng đó. Hoàn lại vô tận nếu không có địch thủ nào bị ngắm.",
 	"Pond.cannonTooltip": "Bắn súng. Xác định hướng (0-360) và phạm vi (0-70).",
 	"Pond.swimTooltip": "Bơi về phía trước. Xác định hướng (0-360).",

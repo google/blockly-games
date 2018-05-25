@@ -241,6 +241,7 @@
 	"Music.submitTooltip": "提交您的音乐至图册。",
 	"Music.submitMsg": "提交至图库",
 	"Music.helpUseFunctions": "您的解决方案可以工作，但您可以做的更好。使用函数减少重复代码数量。",
+	"Music.helpUseInstruments": "如果您在每个起始块使用不同的乐器，音乐播放时效果将会更佳。",
 	"Music.helpText1": "构成前四个“雅克弟兄”的注释。",
 	"Music.helpText2a": "“函数”允许您将块分组在一起，然后运行它们多于一次。",
 	"Music.helpText2b": "创建一个函数以播放前四段“Frère Jacques”的注释。运行函数两次。不要添加任何新注释块。",

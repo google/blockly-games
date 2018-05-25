@@ -233,6 +233,7 @@
 	"Music.submitTooltip": "Speichert deine Musik in der Galerie.",
 	"Music.submitMsg": "In der Galerie speichern",
 	"Music.helpUseFunctions": "Deine Lösung funktioniert, aber du kannst es besser machen. Benutze Funktionen, um die Menge des wiederholten Codes zu reduzieren.",
+	"Music.helpUseInstruments": "Die Musik wird besser klingen, wenn du in jedem Startblock ein anderes Instrument verwendest.",
 	"Music.helpText1": "Komponiere die ersten vier Noten von „Frère Jacques“.",
 	"Music.helpText2a": "Eine „Funktion“ erlaubt dir die Gruppierung von Blöcken. Führe sie dann mehr als einmal aus.",
 	"Music.helpText2b": "Erstelle eine Funktion, um die ersten vier Noten von „Frère Jacques“ abzuspielen. Führe diese Funktion zweimal aus. Füge keine neuen Notenblöcke hinzu.",

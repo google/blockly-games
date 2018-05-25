@@ -240,6 +240,7 @@
 	"Music.submitTooltip": "Envie a sua música para a galeria.",
 	"Music.submitMsg": "Enviar para a galeria",
 	"Music.helpUseFunctions": "A sua solução funcionou, mas pode fazer melhor. Utilize as funções para reduzir a quantidade de código repetido.",
+	"Music.helpUseInstruments": "A música soará melhor se usar um instrumento diferente em cada bloco inicial.",
 	"Music.helpText1": "Componha as primeiras quatro notas de 'Frère Jacques'.",
 	"Music.helpText2a": "Uma 'função' permite agrupar os blocos, e depois executá-los mais de uma vez.",
 	"Music.helpText2b": "Crie uma função para tocar as quatro primeiras notas de 'Frère Jacques'. Execute essa função duas vezes. Não acrescente novos blocos de notas.",
