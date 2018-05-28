@@ -244,6 +244,7 @@
 	"Music.submitTooltip": "Müziğinizi galeriye gönderin.",
 	"Music.submitMsg": "Galeriye gönder",
 	"Music.helpUseFunctions": "Çözümünüz çalışmaktadır ancak daha iyi yapabilirsiniz. Tekrarlanan kod miktarını azaltmak için işlevleri kullanın.",
+	"Music.helpUseInstruments": "Her başlangıç bloğunda farklı bir cihaz kullanırsanız müzik daha iyi ses verir.",
 	"Music.helpText1": "'Brother John' şarkısının ilk dört notasını besteleyin.",
 	"Music.helpText2a": "'İşlev', blokları birlikte gruplandırmanıza, daha sonra bunları birden fazla çalıştırmanıza izin verir.",
 	"Music.helpText2b": "'Brother John' şarkısının ilk dört notasını çalacak bir işlev oluşturun. İşlevi iki defa çalıştırın. Yeni nota blokları eklemeyin.",
