@@ -6,7 +6,8 @@
 			"Gromko",
 			"Igor Zavadsky",
 			"Lxlalexlxl",
-			"Piramidion"
+			"Piramidion",
+			"Movses"
 		]
 	},
 	"Games.name": "Ігри Blockly",
@@ -149,9 +150,9 @@
 	"Turtle.fontBold": "жирний",
 	"Turtle.fontItalic": "курсив",
 	"Turtle.submitDisabled": "Запустіть програму і чекайте її зупинки. Потім ви зможете розмістити свій малюнок в галереї.",
-	"Turtle.galleryTooltip": "Відкрити галерею малюнків на Reddit.",
+	"Turtle.galleryTooltip": "Відкрити галерею малюнків.",
 	"Turtle.galleryMsg": "Переглянути Галерею",
-	"Turtle.submitTooltip": "Надіслати свій малюнок на Reddit.",
+	"Turtle.submitTooltip": "Надіслати свій малюнок до галереї.",
 	"Turtle.submitMsg": "Завантажити в Галерею",
 	"Turtle.helpUseLoop": "Ваш розв’язок працює, але можна зробити краще.",
 	"Turtle.helpUseLoop3": "Намалюйте фігуру, використавши всього три блоки.",
@@ -190,9 +191,9 @@
 	"Movie.colourTooltip": "Змінює колір пера.",
 	"Movie.setColour": "встановити колір",
 	"Movie.submitDisabled": "Ваш фільм нерухомий. Використовуйте блоки, щоб зробити щось цікаве. Потім ви зможете розмістити фільм в галереї.",
-	"Movie.galleryTooltip": "Відкрити галерею фільмів на Reddit.",
+	"Movie.galleryTooltip": "Відкрити галерею фільмів.",
 	"Movie.galleryMsg": "Переглянути Галерею",
-	"Movie.submitTooltip": "Надіслати свій фільм на Reddit.",
+	"Movie.submitTooltip": "Надіслати свій фільм до галереї.",
 	"Movie.submitMsg": "Завантажити в Галерею",
 	"Movie.helpText1": "Скористайтесь простими фігурами, щоб намалювати цього чоловічка.",
 	"Movie.helpText2a": "Цей рівень є фільмом. Вам потрібно, щоб червона куля котилась по екрану. Натисніть кнопку Старт, щоб переглянути.",
