@@ -150,7 +150,7 @@ Blockly.Blocks['pond_stop'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "%1(%2)",
+      "message0": "%1(%2);",
       "args0": ["stop", ""],
       "previousStatement": null,
       "nextStatement": null,
@@ -263,6 +263,27 @@ Blockly.Blocks['pond_math_number'] = {
     this.setTooltip(Blockly.Msg['MATH_NUMBER_TOOLTIP']);
   },
   /**
+   * Create XML to represent whether the 'NUM' field is an angle.
+   * @return {Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    var field = this.getField('NUM');
+    var isAngle = field.constructor == Blockly.FieldAngle;
+    container.setAttribute('angle_field', isAngle);
+    return container;
+  },
+  /**
+   * Parse XML to restore the 'NUM' field type.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    var isAngle = (xmlElement.getAttribute('angle_field') == 'true');
+    this.updateField_(isAngle);
+  },
+  /**
    * Switch between number or angle fields, depending on what this block
    * is plugged into.
    * @this Blockly.Block
@@ -275,31 +296,44 @@ Blockly.Blocks['pond_math_number'] = {
     if (this.outputConnection.targetConnection &&
         this.outputConnection.targetConnection.check_) {
       // Plugged in to parent.
-      var input = this.getInput('DUMMY');
       var field = this.getField('NUM');
-      var value = field.getValue();
       if (this.outputConnection.targetConnection.check_.indexOf('Angle') !=
           -1) {
         // Parent wants an angle.
         if (field.constructor != Blockly.FieldAngle) {
-          Blockly.Events.disable();
-          input.removeField('NUM');
-          field = new Blockly.FieldAngle('');
-          input.appendField(field, 'NUM');
-          field.setText(value);
-          this.render();
-          Blockly.Events.enable();
+          this.updateField_(true);
         }
       } else {
         // Parent wants a number.
         if (field.constructor != Blockly.FieldNumber) {
-          Blockly.Events.disable();
-          input.removeField('NUM');
-          input.appendField(new Blockly.FieldNumber(value), 'NUM');
-          Blockly.Events.enable();
+          this.updateField_(false);
         }
       }
     }
+  },
+  /**
+   * Convert the 'NUM' field into either an angle or number field.
+   * @param {boolean} isAngle True if angle, false if number.
+   * @private
+   */
+  updateField_: function(isAngle) {
+    Blockly.Events.disable();
+    var input = this.getInput('DUMMY');
+    var field = this.getField('NUM');
+    var value = field.getValue();
+    if (isAngle) {
+      input.removeField('NUM');
+      field = new Blockly.FieldAngle('');
+      input.appendField(field, 'NUM');
+      field.setText(value);
+    } else {
+      input.removeField('NUM');
+      input.appendField(new Blockly.FieldNumber(value), 'NUM');
+    }
+    if (this.rendered) {
+      this.render();
+    }
+    Blockly.Events.enable();
   }
 };
 

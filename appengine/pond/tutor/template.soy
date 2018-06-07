@@ -183,11 +183,13 @@
       <block type="pond_cannon">
         <value name="DEGREE">
           <shadow type="pond_math_number">
+            <mutation angle_field="true"></mutation>
             <field name="NUM">0</field>
           </shadow>
         </value>
         <value name="RANGE">
           <shadow type="pond_math_number">
+            <mutation angle_field="false"></mutation>
             <field name="NUM">70</field>
           </shadow>
         </value>
@@ -196,6 +198,7 @@
       <block type="pond_scan">
         <value name="DEGREE">
           <shadow type="pond_math_number">
+            <mutation angle_field="true"></mutation>
             <field name="NUM">0</field>
           </shadow>
         </value>
@@ -205,6 +208,7 @@
       <block type="pond_swim">
         <value name="DEGREE">
           <shadow type="pond_math_number">
+            <mutation angle_field="true"></mutation>
             <field name="NUM">0</field>
           </shadow>
         </value>
@@ -231,7 +235,9 @@
     </category>
 {/if}
     <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
-      <block type="pond_math_number"></block>
+      <block type="pond_math_number">
+        <mutation angle_field="false"></mutation>
+      </block>
     </category>
   </xml>
 {/template}
