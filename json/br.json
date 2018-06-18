@@ -5,7 +5,8 @@
 			"Fulup",
 			"Gwenn-Ael",
 			"Y-M D",
-			"Dishual"
+			"Dishual",
+			"Gwendal"
 		]
 	},
 	"Games.name": "C'hoarioù Blockly",
@@ -114,7 +115,7 @@
 	"Bird.heading": "Penn",
 	"Bird.noWormTooltip": "Ar stad m'emañ al labous pa n'eo ket deuet a-benn da gaout ar preñv.",
 	"Bird.headingTooltip": "Mont war-zu ur c'horn roet  : 0 zo war an tu-dehou, 90 zo war-eeun, ha kement zo",
-	"Bird.positionTooltip": "x hag y a verk pelec'h emañ al labous. Pa'z eo par x da 0 emañ al labous tost d'ar vord kleiz, pa'z eo par x da 100 emañ al labous tost d'ar vord dehoù. Pa'z eo par y da 0 emañ al labous en traoñ, pa'z eo par y da 100 emañ e krec'h.",
+	"Bird.positionTooltip": "x hag y a verk pelec'h emañ al labous. Pa'z eo par x da 0 emañ al labous tost d'ar vord kleiz, pa'z eo par x da 100 emañ al labous tost d'ar vord dehou. Pa'z eo par y da 0 emañ al labous en traoñ, pa'z eo par y da 100 emañ e krec'h.",
 	"Bird.helpHeading": "Kit d'un tu all evit ma c'hallo al labous tapout ar preñv ha mont d'e neizh.",
 	"Bird.helpHasWorm": "Implijit ar bloc'h-mañ evit mont war un tu m'emañ ar preñv ganeoc'h, ha d'un tu all ma n'emañ ket ganeoc'h.",
 	"Bird.helpX": "\"X\" zo ho lec'hiadur a-blaen. Implijit ar bloc'h-mañ evit mont d'un tu ma'z eo bihanoc'h \"X\" eget un niver, anez-se d'un tu all ?",
