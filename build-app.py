@@ -90,7 +90,7 @@ def write_uncompressed(name, lang):
   except:
     print("Failed to Popen: %s" & cmd)
     raise
-  files = proc.stdout.readlines()
+  files = readStdout(proc)
 
   if name == 'pond/docs':
     path = '../'
@@ -197,7 +197,7 @@ def write_compressed(name, lang):
   except:
     print("Failed to Popen: %s" % cmd)
     raise
-  script = proc.stdout.readlines()
+  script = readStdout(proc)
   script = ''.join(script)
   script = trim_licence(script)
 
@@ -205,6 +205,14 @@ def write_compressed(name, lang):
   f.write(WARNING)
   f.write(script)
   f.close()
+
+
+def readStdout(proc):
+  data = proc.stdout.readlines()
+  # Python 2 reads stdout as text.
+  # Python 3 reads stdout as bytes.
+  return list(map(lambda line:
+      type(line) == str and line or str(line, 'utf-8'), data))
 
 
 if __name__ == '__main__':
