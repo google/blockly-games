@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"عثمان خان شاہ"
+			"عثمان خان شاہ",
+			"BukhariSaeed"
 		]
 	},
 	"Games.bird": "پرندہ",
@@ -18,7 +19,7 @@
 	"Games.catLoops": "لوپیں",
 	"Games.catMath": "ریاضی",
 	"Games.catText": "ٹیکسٹ",
-	"Games.catLists": "فہارست",
+	"Games.catLists": "فہرستیں",
 	"Games.catColour": "رنگ",
 	"Games.catVariables": "متغیرات",
 	"Games.catProcedures": "افعال",
