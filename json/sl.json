@@ -5,7 +5,8 @@
 			"Eleassar",
 			"Igor.pesek",
 			"Dbc334",
-			"HairyFotr"
+			"HairyFotr",
+			"Stefanb"
 		]
 	},
 	"Games.name": "Blockly igre",
@@ -22,6 +23,7 @@
 	"Games.linesOfCode2": "To stopnjo si rešil z %1 vrsticami Javascript-a.",
 	"Games.nextLevel": "Ali ste pripravljeni na stopnjo %1?",
 	"Games.finalLevel": "Si pripravljen na naslednji izziv?",
+	"Games.submitTitle": "Naslov:",
 	"Games.linkTooltip": "Shrani in poveži do blokov.",
 	"Games.runTooltip": "Poženi program, ki si ga napisal/-a.",
 	"Games.runProgram": "Poženi program",
@@ -206,6 +208,7 @@
 	"Movie.helpText9": "Znaš ustvariti žogo, ki sledi žici? Žica je že narisana. Enkrat, ko znaš to, lahko narediš karkoli.",
 	"Movie.helpText10": "Izdelaj film po tvojih željah. Na voljo imaš veliko število novih blokov, ki jih je še potrebno odkriti. Uživaj!",
 	"Movie.helpText10Reddit": "Uporabi gumb 'Poglej Galerijo', da vidiš, kakšne filme so so drugi ustvarili. Če si ustvaril zanimivega, uporabi gumb 'Oddaj v Galerijo', da film objaviš.",
+	"Music.firstPart": "prvi del",
 	"Music.piano": "klavir",
 	"Music.trumpet": "trobenta",
 	"Music.violin": "violina",
@@ -213,6 +216,7 @@
 	"Music.flute": "flavta",
 	"Music.drum": "boben",
 	"Music.choir": "zbor",
+	"Music.galleryMsg": "Poglej galerijo",
 	"Music.catMusic": "Glasba",
 	"Pond.scanTooltip": "Skeniraj za nasprotniki. Določi smer (0-360). Vrne razdaljo do najbližjega nasprotnika v tej smeri. Vrne Neskončno, če ni nasprotnika.",
 	"Pond.cannonTooltip": "Streljaj s topom. Določi smer (0-360) in razdaljo (0-70).",
@@ -239,5 +243,6 @@
 	"Pond.rabbitName": "Zajec",
 	"Pond.counterName": "Števec",
 	"Pond.rookName": "Trdnjava",
-	"Pond.sniperName": "Ostrostrelec"
+	"Pond.sniperName": "Ostrostrelec",
+	"Gallery": "Galerija"
 }
