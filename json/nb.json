@@ -22,6 +22,7 @@
 	"Games.linesOfCode2": "Du løste dette nivået med %1 linjer JavaScript:",
 	"Games.nextLevel": "Er du klar for nivå %1?",
 	"Games.finalLevel": "Er du klar for neste utfordring?",
+	"Games.submitTitle": "Tittel:",
 	"Games.linkTooltip": "Lagre og lenke til blokker.",
 	"Games.runTooltip": "Kjør programmet du skrev.",
 	"Games.runProgram": "Kjør Programmet",
@@ -271,5 +272,6 @@
 	"Pond.rabbitName": "Kanin",
 	"Pond.counterName": "Teller",
 	"Pond.rookName": "Tårn",
-	"Pond.sniperName": "Skarpskytter"
+	"Pond.sniperName": "Skarpskytter",
+	"Gallery": "Galleri"
 }
