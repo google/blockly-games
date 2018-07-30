@@ -91,6 +91,5 @@
 	"Turtle.fontSize": "Schriftgröss",
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "fett",
-	"Turtle.fontItalic": "kursiv",
-	"Turtle.catTurtle": "Schildkrott"
+	"Turtle.fontItalic": "kursiv"
 }

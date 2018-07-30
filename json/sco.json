@@ -88,6 +88,5 @@
 	"Turtle.fontSize": "font size",
 	"Turtle.fontNormal": "normal",
 	"Turtle.fontBold": "baud",
-	"Turtle.fontItalic": "italeec",
-	"Turtle.catTurtle": "Turtle"
+	"Turtle.fontItalic": "italeec"
 }
