@@ -4,7 +4,8 @@
 			"Tn.yoon",
 			"Yoon",
 			"Ninjastrikers",
-			"NayiMuu"
+			"NayiMuu",
+			"Dr Lotus Black"
 		]
 	},
 	"Games.name": "Blockly Games",
@@ -148,7 +149,7 @@
 	"Turtle.fontBold": "အထူ",
 	"Turtle.fontItalic": "အစောင်း",
 	"Turtle.submitDisabled": "သင်၏ ပရိုဂမ် ရပ်သွားသည်အထိ လည်ပါတ်နေပါစေ။ ထို့နောက် သင်ဆွဲထားသောပုံကို ပြခန်းတင်နိုင်ပါပြီ။",
-	"Turtle.galleryTooltip": "Reddit ပေါ်တွင် ဆွဲထားသောပုံများကိုပြခန်းပေါ်တွင်ဖွင့်ပါ။",
+	"Turtle.galleryTooltip": "Reddit ပေါ်တွင် ဆွဲထားသောပုံများကို ပြခန်းပေါ်တွင်ဖွင့်ပါ။",
 	"Turtle.galleryMsg": "ပြခန်းကိုကြည့်မည်",
 	"Turtle.submitTooltip": "သင်ဆွဲထားသောပုံကို Reddit ပေါ်တင်ပါ။",
 	"Turtle.submitMsg": "ပြခန်းပေါ်တင်မည်။",
@@ -188,7 +189,7 @@
 	"Movie.colourTooltip": "Pen ၏ အရောင်ကို ပြောင်းလဲမှုများ",
 	"Movie.setColour": "အရောင်ကိုထားမည်။",
 	"Movie.submitDisabled": "သင်၏ရုပ်ရှင်လှုပ်ရှားမှုမရှိပါ၊ Block များကိုအသုံးပြုပြီး စိတ်ဝင်စားစရာတစ်ခုခုပြုလုပ်ပါ၊ ထို့နောက် သင်၏ ရုပ်ရှင်ကို ပြခန်းပေါ်တွင်တင်နိုင်ပါပြီ။",
-	"Movie.galleryTooltip": "Reddit ပေါ်တွင် ရုပ်ရှင်ပြခန်းကိုဖွင့်ပါ။",
+	"Movie.galleryTooltip": "ရုပ်ရှင်ပြခန်းကို ဖွင့်ပါ။",
 	"Movie.galleryMsg": "ပြခန်းတွင်ကြည့်ပါ။",
 	"Movie.submitTooltip": "Reddit ပေါ်တွင် သင်၏ရုပ်ရှင်များကိုတင်ပါ။",
 	"Movie.submitMsg": "ပြခန်းပေါ်တင်မည်။",
