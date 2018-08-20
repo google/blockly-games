@@ -75,3 +75,41 @@ pre, code {
   width: 28px;
   vertical-align: bottom;
 }
+
+.blocklyPathLight {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.blocklyText {
+  cursor: default;
+  fill: #fff;
+  font-family: sans-serif;
+  font-size: 11pt;
+}
+
+.blocklyNonEditableText>rect,
+.blocklyEditableText>rect {
+  fill: #fff;
+  fill-opacity: .6;
+}
+
+.blocklyNonEditableText>text,
+.blocklyEditableText>text {
+  fill: #000;
+}
+
+.blocklyIconGroup {
+  opacity: .6;
+}
+
+.blocklyIconShape {
+  fill: #00f;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.blocklyIconSymbol {
+  fill: #fff;
+}
