@@ -10,3 +10,7 @@
 #help .blocklyEditableText:hover>rect {
   stroke: none;
 }
+
+#help svg {
+  direction: ltr;
+}
