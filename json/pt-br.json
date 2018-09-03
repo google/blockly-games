@@ -19,7 +19,8 @@
 			"!Silent",
 			"Mauricio",
 			"Athena in Wonderland",
-			"Eduardo Addad de Oliveira"
+			"Eduardo Addad de Oliveira",
+			"Timarcosdias"
 		]
 	},
 	"Games.name": "Jogos do Blockly",
@@ -29,7 +30,7 @@
 	"Games.turtle": "Tartaruga",
 	"Games.movie": "Filme",
 	"Games.music": "Música",
-	"Games.pondTutor": "Tutor de libras",
+	"Games.pondTutor": "Tutor de Lagoa",
 	"Games.pond": "Lagoa",
 	"Games.genetics": "Genéticas",
 	"Games.linesOfCode1": "Você solucionou esse nível com uma linha de JavaScript:",
