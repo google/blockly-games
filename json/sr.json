@@ -25,6 +25,7 @@
 	"Games.linesOfCode2": "Можеш решити овај ниво са %1 линија јаваскрипт кода:",
 	"Games.nextLevel": "Да ли си спреман за ниво %1?",
 	"Games.finalLevel": "Да ли си спреман за следећи изазов?",
+	"Games.submitTitle": "Наслов:",
 	"Games.linkTooltip": "Снима и прави везу ка блоковима.",
 	"Games.runTooltip": "Покреће програм који си написао.",
 	"Games.runProgram": "Покрени програм",
@@ -241,5 +242,6 @@
 	"Pond.rabbitName": "Зец",
 	"Pond.counterName": "Бројач",
 	"Pond.rookName": "Топа",
-	"Pond.sniperName": "Снајпер"
+	"Pond.sniperName": "Снајпер",
+	"Gallery": "Галерија"
 }
