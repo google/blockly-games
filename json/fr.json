@@ -9,7 +9,8 @@
 			"Od1n",
 			"Josee Desharnais",
 			"Urhixidur",
-			"Wladek92"
+			"Wladek92",
+			"Zarisi"
 		]
 	},
 	"Games.name": "Jeux Blockly",
@@ -147,7 +148,7 @@
 	"Turtle.printHelpUrl": "https://fr.wikipedia.org/wiki/Imprimerie",
 	"Turtle.printTooltip": "Dessine le texte dans la direction de la tortue à son emplacement.",
 	"Turtle.print": "écrire",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
+	"Turtle.fontHelpUrl": "https://fr.wikipedia.org/wiki/Fonte_de_caract%C3%A8res",
 	"Turtle.fontTooltip": "Définit la police utilisée par le bloc d’écriture.",
 	"Turtle.font": "police",
 	"Turtle.fontSize": "taille de la police",
