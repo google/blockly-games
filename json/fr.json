@@ -126,7 +126,7 @@
 	"Bird.helpHasWorm": "Utiliser ce bloc pour aller dans une direction si vous avez le ver, et dans une autre si vous ne l’avez pas.",
 	"Bird.helpX": "'x' est votre position horizontale. Utiliser ce bloc pour aller dans une direction si 'x' est inférieur à un nombre, dans une autre direction sinon.",
 	"Bird.helpElse": "Cliquer sur l’icône pour modifier le bloc 'si'.",
-	"Bird.helpElseIf": "Ce niveau nécessite à la fois un bloc 'si' et un 'sinon'.",
+	"Bird.helpElseIf": "Ce niveau nécessite à la fois un bloc 'sinon si' et un bloc 'sinon'.",
 	"Bird.helpAnd": "Le bloc 'et' est vrai seulement si ses deux entrées sont vraies.",
 	"Bird.helpMutator": "Tirer un bloc 'sinon' dans le bloc 'si'.",
 	"Turtle.moveTooltip": "Déplace la tortue en avant ou en arrière de la quantité indiquée.",
