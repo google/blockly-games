@@ -176,7 +176,7 @@ def write_compressed(name, lang):
     '--externs', 'externs/soundJS-externs.js',
     '--externs', 'externs/storage-externs.js',
     '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
-    '--language_in', 'ECMASCRIPT5_STRICT',
+    '--language_out', 'ECMASCRIPT5_STRICT',
     '--entry_point=%s' % name.replace('/', '.').title(),
     "--js='appengine/third-party/**.js'",
     "--js='!appengine/third-party/blockly/*.js'",
