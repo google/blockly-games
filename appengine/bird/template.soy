@@ -91,13 +91,17 @@
       </td><td>
         <div class="farSide"><img src="bird/help_heading.png" class="mirrorImg" height=27 width=141></div>
       </td></tr><tr><td>
-        {msg meaning="Bird.helpHeading" desc="callout - This is shown as instruction for the first level."}Change the heading angle to make the bird get the worm and land in her nest.{/msg}
+        {msg meaning="Bird.helpHeading" desc="callout - This is shown as instruction for the first level."}
+          Change the heading angle to make the bird get the worm and land in her nest.
+        {/msg}
       </td></tr></table>
     {elseif $ij.level == 2}
       <table><tr><td>
         <img src="common/help.png">
       </td><td>
-        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have worm' block is introduced."}Use this block to go in one heading if you have the worm, or a different heading if you don't have the worm.{/msg}
+        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have worm' block is introduced."}
+          Use this block to go in one heading if you have the worm, or a different heading if you don't have the worm.
+        {/msg}
       </td><td>
         <img src="bird/help_up.png">
       </td></tr></table>
@@ -105,7 +109,9 @@
       <table><tr><td>
         <img src="common/help.png">
       </td><td>
-        {msg meaning="Bird.helpX" desc="callout - This is shown when the 'x smaller than 50' block is introduced."}'x' is your current horizontal position. Use this block to go in one heading if 'x' is less than a number, or a different heading otherwise.{/msg}
+        {msg meaning="Bird.helpX" desc="callout - This is shown when the 'x smaller than 50' block is introduced."}
+          'x' is your current horizontal position. Use this block to go in one heading if 'x' is less than a number, or a different heading otherwise.
+        {/msg}
       </td><td>
         <img src="bird/help_up.png">
       </td></tr></table>
@@ -113,7 +119,9 @@
       <table><tr><td>
         <img src="bird/help_up.png">
       </td><td>
-        {msg meaning="Bird.helpElse" desc="callout - This is shown when the user first needs to modify an 'if' block."}Click the icon to modify the 'if' block.{/msg}
+        {msg meaning="Bird.helpElse" desc="callout - This is shown when the user first needs to modify an 'if' block."}
+          Click the icon to modify the 'if' block.
+        {/msg}
       </td><td>
         <img src="common/help.png">
       </td></tr></table>
@@ -121,7 +129,9 @@
       <table><tr><td>
         <img src="bird/help_up.png">
       </td><td>
-        {msg meaning="Bird.helpElseIf" desc="callout - This is shown when the user first needs to modify an 'if' block to have an 'else if' and an 'else'."}This level needs both an 'else if' and an 'else' block.{/msg}
+        {{msg meaning="Bird.helpElseIf" desc="callout - This is shown when the user first needs to modify an 'if' block to have an 'else if' and an 'else'.\n\nMake sure to translate consistently with:\n* {lb}{lb}msg-blockly|CONTROLS IF MSG ELSEIF{rb}{rb}\n* {lb}{lb}msg-blockly|CONTROLS IF MSG ELSE{rb}{rb}"}}
+          This level needs both an 'else if' and an 'else' block.
+        {{/msg}}
       </td><td>
         <img src="common/help.png">
       </td></tr></table>
@@ -129,7 +139,9 @@
       <table><tr><td>
         <img src="bird/help_up.png">
       </td><td>
-        {msg meaning="Bird.helpAnd" desc="callout - This is shown to indroduce the user to the logical 'and' block."}The 'and' block is true only if both its inputs are true.{/msg}
+        {{msg meaning="Bird.helpAnd" desc="callout - This is shown to introduce the user to the logical 'and' block.\n\nMake sure to translate consistently with:\n* {lb}{lb}msg-blockly|LOGIC OPERATION AND{rb}{rb}"}}
+          The 'and' block is true only if both its inputs are true.
+        {{/msg}}
       </td><td>
         <img src="common/help.png">
       </td></tr></table>
@@ -140,7 +152,9 @@
       <table><tr><td>
         <img src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
       </td><td>
-        {msg meaning="Bird.helpMutator" desc="callout - This is shown to demonstrate how to drag a block."}Drag an 'else' block into the 'if' block.{/msg}
+        {{msg meaning="Bird.helpMutator" desc="callout - This is shown to demonstrate how to drag a block.\n\nTranslate consistently with:\n* {lb}{lb}msg-blockly|CONTROLS IF MSG ELSE{rb}{rb}\n* {lb}{lb}msg-blockly|CONTROLS IF MSG IF{rb}{rb}"}}
+          Drag an 'else' block into the 'if' block.
+        {{/msg}}
       </td></tr></table>
     </div>
   {/if}
