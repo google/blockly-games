@@ -8,7 +8,8 @@
 			"Lakzon",
 			"Hamisun",
 			"Nhzandi",
-			"Hossein.safavi"
+			"Hossein.safavi",
+			"Arash.pt"
 		]
 	},
 	"Games.name": "بازی‌های بستن",
@@ -25,6 +26,7 @@
 	"Games.linesOfCode2": "شما این مرحله را با %1 خط کد جاوااسکریپت حل کردید:",
 	"Games.nextLevel": "آیا برای مرحله %1 آماده اید؟",
 	"Games.finalLevel": "آیا تو آماده چالش بعدی هستی؟",
+	"Games.submitTitle": "عنوان:",
 	"Games.linkTooltip": "ذخیره و پیوند به بلوک‌ها.",
 	"Games.runTooltip": "اجرا کردن برنامه‌ی نوشته شده",
 	"Games.runProgram": "اجرای برنامه",
@@ -120,6 +122,7 @@
 	"Bird.positionTooltip": "x و y مکان پرنده را مشخص می‌کنند. هنگامی که x = 0 باشد، پرنده نزدیک لبه‌ی سمت چپ و هنگامی که x = 100 باشد، در نزدیکی لبه‌ی سمت راست می‌باشد. هنگامی که y = 0 پرنده در پایین و هنگامی که y = 100 در بالای صفحه می‌باشد.",
 	"Bird.helpHeading": "زاویه حرکت را تغییر دهید تا پرنده بتواند کرم را بگیرد و به آشیانه‌ی خود بازگردد.",
 	"Bird.helpElse": "'اگر' مسدود شده‌اید برای تغییر بر روی آیکون کلیک کنید.",
+	"Bird.helpMutator": "بلاک 'else' را به داخل بلاک 'if' بکشید.",
 	"Turtle.moveTooltip": "لاک پشت را به مقدار مشخص‌شده جلو یا عقب منتقل می‌کند.",
 	"Turtle.moveForward": "انتقال به جلو تا",
 	"Turtle.moveBackward": "انتقال به پشت تا",
@@ -172,11 +175,13 @@
 	"Movie.lineDraw": "خط",
 	"Movie.colourTooltip": "رنگ قلم را تغییر دهید.",
 	"Movie.setColour": "تنظیم رنگ به",
-	"Movie.galleryTooltip": "گالری فیلم در ردیت را باز کنید.",
+	"Movie.galleryTooltip": "گالری فیلم را باز کنید.",
 	"Movie.galleryMsg": "نمایش نگارخانه",
-	"Movie.submitTooltip": "فیلم خود را در ردیت ثبت کنید.",
+	"Movie.submitTooltip": "فیلم خود را در گالری ثبت کنید.",
 	"Movie.submitMsg": "افزودن به نگارخانه",
 	"Movie.helpText1": "از شکل های ساده برای کشیدن این شخص استفاده کنید.",
+	"Music.firstPart": "بخش اول",
+	"Music.galleryMsg": "نمایش گالری",
 	"Pond.locYTooltip": "مختصات Y بازیکن را برمی‌گرداند ( 0 لبه‌ی پایینی، و 100 لبه‌ی بالایی می‌باشد).",
 	"Pond.docsTooltip": "نمایش مستندات زبان مورد نظر",
 	"Pond.documentation": "مستندات",
@@ -190,5 +195,6 @@
 	"Pond.rabbitName": "خرگوش",
 	"Pond.counterName": "شمارنده",
 	"Pond.rookName": "رخ",
-	"Pond.sniperName": "تک تیرانداز"
+	"Pond.sniperName": "تک تیرانداز",
+	"Gallery": "گالری"
 }
