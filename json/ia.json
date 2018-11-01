@@ -233,5 +233,15 @@
 	"Music.helpUseInstruments": "Le musica sonara melio si tu usa un instrumento differente in cata bloco initial.",
 	"Music.helpText1": "Compone le prime quatro notas de 'Frère Jacques'.",
 	"Music.helpText2a": "Un 'function' permitte gruppar blocos insimul, postea executar los plure vices.",
-	"Music.helpText2b": "Crea un function pro reproducer le prime quatro notas de 'Frère Jacques'. Executa le function duo vices. Non adde nove blocos de nota."
+	"Music.helpText2b": "Crea un function pro reproducer le prime quatro notas de 'Frère Jacques'. Executa le function duo vices. Non adde nove blocos de nota.",
+	"Music.helpText3": "Crea un secunde function pro le proxime parte de 'Frère Jacques'. Le ultime nota es plus longe.",
+	"Music.helpText4": "Crea un tertie function pro le proxime parte de 'Frère Jacques'. Le quatro prime notas es plus curte.<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText5": "Completa tote le melodia de 'Frère Jacques'.",
+	"Music.helpText6a": "Iste nove bloco te permitte cambiar a un altere instrumento.",
+	"Music.helpText6b": "Jocar tu melodia con un violino.",
+	"Music.helpText7a": "Iste nove bloco adde un pausa silente.",
+	"Music.helpText7b": "Crear un secunde bloco de initio que ha duo blocos de pausa, postea etiam joca 'Frère Jacques'.",
+	"Music.helpText8": "Cata bloco de initio debe jocar 'Frère Jacques' duo vices.",
+	"Music.helpText9": "Crea quatro blocos de initio que joca cata uno 'Frère Jacques' duo vices. Adde le numero correcte de blocos de pausa.",
+	"Music.helpText10": "Compone lo que tu vole. Tu ha un massa de nove blocos a explorar. Diverte te!"
 }

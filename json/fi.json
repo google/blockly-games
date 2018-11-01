@@ -26,6 +26,7 @@
 	"Games.linesOfCode2": "Ratkaisit tämän tason %1 rivillä JavaScriptiä:",
 	"Games.nextLevel": "Oletko valmis tasoon %1?",
 	"Games.finalLevel": "Oletko valmis seuraavaan haasteeseen?",
+	"Games.submitTitle": "Otsikko:",
 	"Games.linkTooltip": "Tallenna ja linkitä lohkoihin.",
 	"Games.runTooltip": "Suorita kirjoittamasi ohjelma.",
 	"Games.runProgram": "Suorita ohjelma",
@@ -262,5 +263,6 @@
 	"Pond.rabbitName": "Jänis",
 	"Pond.counterName": "Laskuri",
 	"Pond.rookName": "Torni",
-	"Pond.sniperName": "Tarkka-ampuja"
+	"Pond.sniperName": "Tarkka-ampuja",
+	"Gallery": "Galleria"
 }
