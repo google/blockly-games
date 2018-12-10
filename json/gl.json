@@ -4,7 +4,8 @@
 			"Toliño",
 			"Macofe",
 			"Chairego apc",
-			"Navhy"
+			"Navhy",
+			"Elisardojm"
 		]
 	},
 	"Games.name": "Xogos do Blockly",
@@ -137,7 +138,7 @@
 	"Movie.lineDraw": "liña",
 	"Movie.setColour": "mudar a cor cara",
 	"Movie.galleryMsg": "Ollar a galería",
-	"Movie.submitTooltip": "Enviar o seu filme ó Reddit.",
+	"Movie.submitTooltip": "Enviar o seu filme á galería.",
 	"Movie.submitMsg": "Enviar á galería",
 	"Music.firstPart": "primeiro anaco",
 	"Music.piano": "piano",
@@ -149,7 +150,7 @@
 	"Music.drum": "tambor",
 	"Music.choir": "coro",
 	"Music.galleryMsg": "Ollar a galería",
-	"Music.submitTooltip": "Enviar a súa música ó Reddit.",
+	"Music.submitTooltip": "Enviar a súa música á galería.",
 	"Music.submitMsg": "Enviar á galería",
 	"Pond.documentation": "Documentación",
 	"Pond.playerName": "Xogador",
