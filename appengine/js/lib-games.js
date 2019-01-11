@@ -50,7 +50,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'en': 'English',
 //  'eo': 'Esperanto',
   'es': 'Español',
-//  'eu': 'Euskara',
+  'eu': 'Euskara',
   'fa': 'فارسی',
   'fi': 'Suomi',
 //  'fo': 'Føroyskt',
@@ -62,7 +62,8 @@ BlocklyGames.LANGUAGE_NAME = {
   'hi': 'हिन्दी',
 //  'hrx': 'Hunsrik',
   'hu': 'Magyar',
-//  'ia': 'Interlingua',
+  'hy': 'հայերէն',
+  'ia': 'Interlingua',
   'id': 'Bahasa Indonesia',
   'is': 'Íslenska',
   'it': 'Italiano',
@@ -109,6 +110,7 @@ BlocklyGames.LANGUAGE_NAME = {
 //  'tl': 'Tagalog',
   'tr': 'Türkçe',
   'uk': 'Українська',
+  'ur': 'اُردُو‬',
   'vi': 'Tiếng Việt',
   'zh-hans': '简体中文',
   'zh-hant': '正體中文'
@@ -117,7 +119,7 @@ BlocklyGames.LANGUAGE_NAME = {
 /**
  * List of RTL languages.
  */
-BlocklyGames.LANGUAGE_RTL = ['ace', 'ar', 'fa', 'he', 'mzn', 'ps'];
+BlocklyGames.LANGUAGE_RTL = ['ace', 'ar', 'fa', 'he', 'mzn', 'ps', 'ur'];
 
 /**
  * User's language (e.g. "en").
