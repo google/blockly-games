@@ -70,7 +70,10 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
   if (BlocklyDialogs.isDialogVisible_) {
     BlocklyDialogs.hideDialog(false);
   }
-  Blockly.hideChaff(true);
+  if (Blockly.getMainWorkspace()) {
+    // Some levels have an editor instead of Blockly.
+    Blockly.hideChaff(true);
+  }
   BlocklyDialogs.isDialogVisible_ = true;
   BlocklyDialogs.dialogOrigin_ = origin;
   BlocklyDialogs.dialogDispose_ = disposeFunc;
