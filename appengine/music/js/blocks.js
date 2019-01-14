@@ -275,8 +275,7 @@ if (BlocklyGames.LEVEL < 10) {
    * @this Blockly.Block
    */
   Blockly.Blocks['procedures_defnoreturn'].init = function() {
-    var nameField = new Blockly.FieldTextInput('',
-        Blockly.Procedures.rename);
+    var nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField(Blockly.Msg['PROCEDURES_DEFNORETURN_TITLE'])

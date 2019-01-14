@@ -141,7 +141,7 @@ def trim_licence(code):
   """
   apache2 = re.compile("""/\\*
 
- [\\w ]+
+ [\\w: ]+
 
  (Copyright \\d+ Google Inc.)
  https://developers.google.com/blockly/
