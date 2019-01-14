@@ -58,6 +58,7 @@
 	"Puzzle.animal1Trait2": "بیک",
 	"Puzzle.animal1HelpUrl": "https://en.wikipedia.org/wiki/Duck",
 	"Puzzle.animal2": "بلی",
+	"Puzzle.animal2Trait1": "Whiskers",
 	"Puzzle.animal2Trait2": "بال",
 	"Puzzle.animal2HelpUrl": "https://en.wikipedia.org/wiki/Cat",
 	"Puzzle.animal3": "مکھی",
@@ -167,6 +168,7 @@
 	"Turtle.helpText8": "360 سفید لائنوں کو مکمل چاند کی طرح نظر آئے گا.",
 	"Turtle.helpText9": "کیا آپ ایک سیاہ دائرے کو شامل کرسکتے ہیں تاکہ چاند ایک چراغ بن جائے؟",
 	"Turtle.helpText10": "جو کچھ آپ چاہتے ہو اسے بنائیں آپ کو نئی بلاکس کی بڑی تعداد ملی ہے جو آپ تلاش کر سکتے ہیں. مزے کرو!",
+	"Turtle.helpText10Reddit": "استعمال کریں & quot؛ گیلری، نگارخانہ & اقتباس ملاحظہ کریں؛ دوسرے لوگوں کو کیا کیا ہے دیکھنے کے لئے بٹن. اگر آپ کچھ دلچسپ ھیںچو تو، استعمال کریں & quot؛ گیلری، نگارخانہ اور اقتباس میں جمع؛ اسے شائع کرنے کیلئے بٹن.",
 	"Movie.x": "x",
 	"Movie.y": "y",
 	"Movie.x1": "x شروع کریں",
@@ -189,5 +191,6 @@
 	"Movie.galleryTooltip": "فلموں کی گیلری، نگارخانہ کھولیں.",
 	"Movie.galleryMsg": "گیلری دیکھیں",
 	"Movie.submitTooltip": "اپنی فلم گیلری، نگارخانہ میں جمع کرو.",
-	"Movie.submitMsg": "اپنی فلم گیلری، نگارخانہ میں جمع کرو."
+	"Movie.submitMsg": "اپنی فلم گیلری، نگارخانہ میں جمع کرو.",
+	"Movie.helpLayer": "پس منظر کے حلقے کو اپنے پروگرام کے اوپر منتقل کریں. اس کے بعد یہ شخص کے پیچھے آتا ہے."
 }
