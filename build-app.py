@@ -88,7 +88,7 @@ def write_uncompressed(name, lang):
   try:
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
   except:
-    print("Failed to Popen: %s" & cmd)
+    print("Failed to Popen: %s" % cmd)
     raise
   files = readStdout(proc)
 
