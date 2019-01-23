@@ -10,6 +10,8 @@ APP_ENGINE_THIRD_PARTY = appengine/third-party
 SOY_COMPILER = java -jar third-party/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
 SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
+REQUIRED_BINS = svn unzip wget java python
+
 ##############################
 # Rules
 ##############################
@@ -86,6 +88,8 @@ languages:
 	done
 
 deps:
+	$(foreach bin,$(REQUIRED_BINS),\
+	    $(if $(shell command -v $(bin) 2> /dev/null),$(info Found `$(bin)`),$(error Please install `$(bin)`)))
 	mkdir -p third-party
 	@# All following commands are in third-party, use backslashes to keep them on the same line as the cd command.
 	cd third-party; \
