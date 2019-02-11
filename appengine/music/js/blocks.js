@@ -292,4 +292,4 @@ if (BlocklyGames.LEVEL < 10) {
 
   delete Blockly.Blocks['procedures_defreturn'];
   delete Blockly.Blocks['procedures_ifreturn'];
-};
+}
