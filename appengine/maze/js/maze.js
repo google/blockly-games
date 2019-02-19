@@ -555,6 +555,7 @@ Maze.init = function() {
   if (BlocklyGames.LEVEL == 1) {
     // Make connecting blocks easier for beginners.
     Blockly.SNAP_RADIUS *= 2;
+    Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   }
   if (BlocklyGames.LEVEL == 10) {
     if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,

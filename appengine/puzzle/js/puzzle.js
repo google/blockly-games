@@ -160,6 +160,7 @@ Puzzle.init = function() {
 
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
+  Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   // Preload the win sound.
   BlocklyGames.workspace.getAudioManager().load(
       ['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
