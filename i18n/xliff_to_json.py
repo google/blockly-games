@@ -51,7 +51,9 @@ def _parse_trans_unit(trans_unit):
         if not elts:
             return None
         elif len(elts) == 1:
-            return ''.join([child.toxml() for child in elts[0].childNodes])
+            string = ''.join([child.toxml() for child in elts[0].childNodes])
+            string = string.replace('&quot;', '"')
+            return string
         else:
             raise InputError('', 'Unable to extract ' + tag_name)
 
@@ -147,7 +149,7 @@ def _process_file(filename):
 
         return results
     except IOError, e:
-        print 'Error with file {0}: {1}'.format(filename, e.strerror)
+        print('Error with file {0}: {1}'.format(filename, e.strerror))
         sys.exit(1)
 
 
@@ -214,7 +216,7 @@ def main():
     files = []
     for arg in args.templates:
       for filename in arg.split(','):
-        filename = filename.strip();
+        filename = filename.strip()
         if filename:
           with open(filename) as myfile:
             files.append(' '.join(line.strip() for line in myfile))

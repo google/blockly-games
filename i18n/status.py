@@ -112,10 +112,10 @@ def output_as_html(prefix_counts):
     if lang != TOTAL:
       print('<tr><td>' + lang + '</td>')
       for app in apps:
-        print '<td>'
-        print generateNumberAsPercent(prefix_counts[lang].get(app, 0),
-                                      prefix_counts[TOTAL][app])
-        print '</td>'
+        print('<td>')
+        print(generateNumberAsPercent(prefix_counts[lang].get(app, 0),
+                                      prefix_counts[TOTAL][app]))
+        print('</td>')
       print('</tr>')
   print('</tbody><tfoot><tr><td>ALL</td><td>')
   print('</td><td>'.join([str(prefix_counts[TOTAL][app]) for app in apps]))
