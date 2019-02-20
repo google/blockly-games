@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-12-08 17:42:08.106468",
+		"lastupdated": "2019-02-19 16:30:06.279742",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -167,7 +167,7 @@
 	"Turtle.helpText8": "Drawing 360 white lines will look like the full moon.",
 	"Turtle.helpText9": "Can you add a black circle so that the moon becomes a crescent?",
 	"Turtle.helpText10": "Draw anything you want. You've got a huge number of new blocks you can explore. Have fun!",
-	"Turtle.helpText10Reddit": "Use the &quot;See Gallery&quot; button to see what other people have drawn. If you draw something interesting, use the &quot;Submit to Gallery&quot; button to publish it.",
+	"Turtle.helpText10Reddit": "Use the 'See Gallery' button to see what other people have drawn. If you draw something interesting, use the 'Submit to Gallery' button to publish it.",
 	"Turtle.helpToolbox": "Choose a category to see the blocks.",
 	"Movie.x": "x",
 	"Movie.y": "y",
@@ -204,7 +204,7 @@
 	"Movie.helpText8": "Make the legs reverse direction half way through the movie.",
 	"Movie.helpText9": "Draw an expanding circle behind the person.",
 	"Movie.helpText10": "Make a movie of anything you want. You've got a huge number of new blocks you can explore. Have fun!",
-	"Movie.helpText10Reddit": "Use the &quot;See Gallery&quot; button to see movies that other people have made. If you make an interesting movie, use the &quot;Submit to Gallery&quot; button to publish it.",
+	"Movie.helpText10Reddit": "Use the 'See Gallery' button to see movies that other people have made. If you make an interesting movie, use the 'Submit to Gallery' button to publish it.",
 	"Music.playNoteTooltip": "Plays one musical note of the specified duration and pitch.",
 	"Music.playNote": "play %1 note %2",
 	"Music.restTooltip": "Waits for the specified duration.",
@@ -244,7 +244,7 @@
 	"Music.helpText8": "Each start block should play 'Frère Jacques' twice.",
 	"Music.helpText9": "Create four start blocks that each play 'Frère Jacques' twice. Add the correct number of delay blocks.",
 	"Music.helpText10": "Compose anything you want. You've got a huge number of new blocks you can explore. Have fun!",
-	"Music.helpText10Reddit": "Use the &quot;See Gallery&quot; button to see what other people have composed. If you compose something interesting, use the &quot;Submit to Gallery&quot; button to publish it.",
+	"Music.helpText10Reddit": "Use the 'See Gallery' button to see what other people have composed. If you compose something interesting, use the 'Submit to Gallery' button to publish it.",
 	"Pond.scanTooltip": "Scan for enemies. Specify a direction (0-360). Returns the distance to the closest enemy in that direction. Returns Infinity if no enemy found.",
 	"Pond.cannonTooltip": "Fire the cannon. Specify a direction (0-360) and a range (0-70).",
 	"Pond.swimTooltip": "Swim forward. Specify a direction (0-360).",
