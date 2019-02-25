@@ -11,7 +11,8 @@
 			"Diniscoelho",
 			"Mauricio",
 			"MokaAkashiyaPT",
-			"Athena in Wonderland"
+			"Athena in Wonderland",
+			"Hamilton Abreu"
 		]
 	},
 	"Games.name": "Jogos Blockly",
@@ -253,7 +254,7 @@
 	"Music.helpText8": "Cada bloco inicial deve tocar 'Frère Jacques' duas vezes.",
 	"Music.helpText9": "Crie quatro blocos iniciais que toquem 'Frère Jacques' duas vezes. Acrescente o número correto dos blocos silenciosos.",
 	"Music.helpText10": "Componha o que o que quiseres. Tens uma grande quantidade de blocos novos que podes explorar. Divirta-se!",
-	"Music.helpText10Reddit": "Utilize o botão \"Ver Galeria\" para ver o que as outras pessoas compuseram. Se compor algo interessante, use o botão \"Enviar para a Galeria\" para publicar.",
+	"Music.helpText10Reddit": "Utilize o botão \"Ver Galeria\" para ver o que as outras pessoas compuseram. Se compuser algo interessante, use o botão \"Enviar para a Galeria\" para publicar.",
 	"Pond.scanTooltip": "Buscar inimigos. Especifique uma direção(0-360). Retorna a distancia do inimigo mais próximo naquela direção. Retorna infinito se nenhum inimigo for encontrado.",
 	"Pond.cannonTooltip": "Disparar o canhão. Especificar uma direção (0-360) e um intervalo (0-70).",
 	"Pond.swimTooltip": "Nadar para a frente. Especificar uma direção (0-360).",
