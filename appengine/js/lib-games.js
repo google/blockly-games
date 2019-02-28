@@ -66,6 +66,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'hy': 'հայերէն',
   'ia': 'Interlingua',
   'id': 'Bahasa Indonesia',
+  'ig': 'Asụsụ Igbo',
   'is': 'Íslenska',
   'it': 'Italiano',
   'ja': '日本語',
@@ -95,7 +96,7 @@ BlocklyGames.LANGUAGE_NAME = {
 //  'ps': 'پښتو',
   'pt': 'Português',
   'pt-br': 'Português Brasileiro',
-//  'ro': 'Română',
+  'ro': 'Română',
   'ru': 'Русский',
   'sc': 'Sardu',
 //  'sco': 'Scots',
@@ -113,6 +114,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'uk': 'Українська',
   'ur': 'اُردُو‬',
   'vi': 'Tiếng Việt',
+  'yo': 'Èdè Yorùbá',
   'zh-hans': '简体中文',
   'zh-hant': '正體中文'
 };

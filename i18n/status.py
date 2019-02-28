@@ -18,6 +18,8 @@
 # limitations under the License.
 
 """Produce a table showing the translation status of each app by language.
+From the /json directory, run:
+python ../i18n/status.py --key_file keys.json --output html *.json > status.html
 
 @author Ellen Spertus (ellen.spertus@gmail.com)
 """
