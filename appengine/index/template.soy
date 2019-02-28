@@ -42,12 +42,12 @@
   <svg height="100%" width="100%" version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g transform="translate(-80,-60)">
+    <g transform="translate(-100,-60)">
       <svg height="100%" width="100%" version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 100 100" preserveAspectRatio="none"
-          x=80 y=60>
+          x=100 y=60>
         <path id="path" d="M 10,15 C 15,60 35,100 50,70 S 80,20 90,85"
           {if $ij.rtl}
             transform="translate(100) scale(-1, 1)"
@@ -118,7 +118,7 @@
           {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
         {/param}
       {/call}
-      
+
     </g>
   </svg>
   <select id="languageMenu"></select>
@@ -138,7 +138,7 @@
  * @param contentText Text content to place in link (safely escaped).
  */
 {template .appLink private="true"}
-  <svg height="150" width="160" version="1.1"
+  <svg height="150" width="200" version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       {if $ij.rtl}
@@ -147,18 +147,18 @@
         x="{$x}%"
       {/if}
       y="{$y}%">
-    <path d="M 41.11,98.89 A 55 55 0 1 1 118.89,98.89" class="gaugeBack" id="back-{$app}" />
+    <path d="M 61.11,98.89 A 55 55 0 1 1 138.89,98.89" class="gaugeBack" id="back-{$app}" />
     <g class="icon" id="icon-{$app}">
-      <circle cx=80 cy=60 r=50 class="iconBack" />
-      <image xlink:href="index/{$app}.png" height="100" width="100" x=30 y=10 />
+      <circle cx="100" cy="60" r="50" class="iconBack" />
+      <image xlink:href="index/{$app}.png" height="100" width="100" x="50" y="10" />
     {if $ij.html}
       <a id="link-{$app}" xlink:href="{$app}.html?lang={$ij.lang}">
     {else}
       <a xlink:href="{$app}?lang={$ij.lang}">
     {/if}
-        <circle cx=80 cy=60 r=50 class="iconBorder" />
-        <path d="M 21.11,98.89 A 55 55 0 1 1 21.11,98.89" class="gaugeFront" id="gauge-{$app}" />
-        <text x="80" y="135">{$contentText}</text>
+        <circle cx="100" cy="60" r="50" class="iconBorder" />
+        <path class="gaugeFront" id="gauge-{$app}" />
+        <text x="100" y="135">{$contentText}</text>
       </a>
     </g>
   </svg>
