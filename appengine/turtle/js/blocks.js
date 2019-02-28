@@ -27,6 +27,7 @@ goog.provide('Turtle.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.colour');
+goog.require('Blockly.Blocks.lists');
 goog.require('Blockly.Blocks.logic');
 goog.require('Blockly.Blocks.loops');
 goog.require('Blockly.Blocks.math');
@@ -35,6 +36,7 @@ goog.require('Blockly.Blocks.texts');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.colour');
+goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
@@ -380,6 +382,14 @@ Blockly.JavaScript['turtle_font'] = function(block) {
       Number(block.getFieldValue('FONTSIZE')) + ',\'' +
       block.getFieldValue('FONTSTYLE') + '\', \'block_id_' +
       block.id + '\');\n';
+};
+
+Blockly.Python['turtle_font'] = function(block) {
+  // Generate JavaScript for setting the font.
+  return 'font(\'' + block.getFieldValue('FONT') + '\',' +
+      Number(block.getFieldValue('FONTSIZE')) + ',\'' +
+      block.getFieldValue('FONTSTYLE') + '\', \'block_id_' +
+      block.id + '\')\n';
 };
 
 Blockly.Blocks['turtle_repeat_internal'] = {

@@ -27,6 +27,7 @@ goog.provide('Movie.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.colour');
+goog.require('Blockly.Blocks.lists');
 goog.require('Blockly.Blocks.logic');
 goog.require('Blockly.Blocks.loops');
 goog.require('Blockly.Blocks.math');
@@ -35,6 +36,7 @@ goog.require('Blockly.Blocks.texts');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.colour');
+goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
