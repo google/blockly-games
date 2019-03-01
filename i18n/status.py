@@ -79,11 +79,11 @@ def output_as_html(prefix_counts):
 
   Specifically, a sortable HTML table is produced, where the app names
   are column headers, and one language is output per row.  Entries
-  are color-coded based on the percent completeness.
+  are colour-coded based on the percent completeness.
 
   Args:
       prefix_counts: A dictionary of dictionaries, where keys to the outer
-          dictionary are ISO 639 language names (e.g., 'pt') or the special
+          dictionary are ISO 639 language names (e.g. 'pt') or the special
           string TOTAL, used to indicate the total number of messages.  Keys
           of the inner dictionaries are prefixes (app names or "apps"), and
           values are their count for the given language.

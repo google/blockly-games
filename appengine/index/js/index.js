@@ -111,17 +111,18 @@ Index.animateGauge = function(app, cur, max) {
  * @param {number} angle Angle of gauge in degrees.
  */
 Index.drawGauge = function(app, angle) {
-  var xOffset = 100;
+  var xOffset = 150;
   var yOffset = 60;
   var radius = 52.75;
   var theta = (angle - 45) / 180 * Math.PI;
   var x = xOffset - Math.cos(theta) * radius;
   var y = yOffset - Math.sin(theta) * radius;
   var flag = angle > 180 ? 1 : 0;
+  // The starting point is at angle zero.
+  theta = (0 - 45) / 180 * Math.PI;
+  var mx = xOffset - Math.cos(theta) * radius;
+  var my = yOffset - Math.sin(theta) * radius;
   var path = document.getElementById('gauge-' + app);
-  var mx = xOffset - 37.3;
-  var my = yOffset + 37.3;
-  // The 'M' constants are x and y at angle zero.
   path.setAttribute('d',
       ['M ' + mx + ',' + my + ' A', radius, radius, 0, flag, 1, x, y].join(' '));
 };
