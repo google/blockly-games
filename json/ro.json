@@ -247,7 +247,7 @@
 	"Music.helpText8": "Fiecare bloc de pornire trebuie să joace de două ori 'Frère Jacques'.",
 	"Music.helpText9": "Creați patru blocuri de start care fiecare joacă 'Frère Jacques' de două ori. Adăugați numărul corect de blocuri de întârziere.",
 	"Music.helpText10": "Compune orice vrei. Ai un număr mare de blocuri noi pe care le poți explora. Distrează-te!",
-	"Music.helpText10Reddit": "Utilizați opțiunea \"Vezi galerie\" pentru a vedea ce alte persoane au compus. Dacă compuneți ceva interesant, utilizați secțiunea \"Trimiteți la Galerie\" buton pentru a publica.",
+	"Music.helpText10Reddit": "Utilizați opțiunea \"Vezi galerie\" pentru a vedea ce alte persoane au compus. Dacă compuneți ceva interesant, utilizați butonul \"Trimiteți la Galerie\" pentru a publica.",
 	"Pond.scanTooltip": "Căutați inamici. Specificați o direcție (0-360). Returnează distanța până la cel mai apropiat dușman în acea direcție. Returnează Infinit dacă nu s-a găsit niciun inamic.",
 	"Pond.cannonTooltip": "Focul de tun. Specificați o direcție (0-360) și un interval (0-70).",
 	"Pond.swimTooltip": "Înoată înainte. Specificați o direcție (0-360).",
