@@ -10,7 +10,8 @@
 			"Grin",
 			"Tacsipacsi",
 			"Urbalazs",
-			"Dj"
+			"Dj",
+			"R-Joe"
 		]
 	},
 	"Games.name": "Blockly játékok",
@@ -154,9 +155,9 @@
 	"Turtle.fontBold": "félkövér",
 	"Turtle.fontItalic": "dőlt",
 	"Turtle.submitDisabled": "Futtasd a programot amíg le nem áll. Az eredményt megmutathatod mindenkinek a galériában!",
-	"Turtle.galleryTooltip": "Reddit galéria megnyitása.",
+	"Turtle.galleryTooltip": "Rajzok galéria megnyitása.",
 	"Turtle.galleryMsg": "Galéria",
-	"Turtle.submitTooltip": "Kép feltöltése a Reddit-re.",
+	"Turtle.submitTooltip": "Küldje el a rajzát a galériába.",
 	"Turtle.submitMsg": "Kép elküldése a Galériába",
 	"Turtle.helpUseLoop": "Megoldottad a feladatot, de tudsz ennél jobbat is!",
 	"Turtle.helpUseLoop3": "Rajzold meg a formát három blokkal!",
@@ -194,9 +195,9 @@
 	"Movie.colourTooltip": "Változtatja a rajzolás színét.",
 	"Movie.setColour": "szín",
 	"Movie.submitDisabled": "A filmed nem mozog. Használd a blokkokat, hogy valami érdekeset készíts, töltsd fel az eredményt a galériába!",
-	"Movie.galleryTooltip": "Reddit film-galéria megnyitása.",
+	"Movie.galleryTooltip": "Film-galéria megnyitása.",
 	"Movie.galleryMsg": "Galéria",
-	"Movie.submitTooltip": "Film feltöltése Reddit-re.",
+	"Movie.submitTooltip": "Filmjének feltöltése a galériába.",
 	"Movie.submitMsg": "Feltöltés a Galériába.",
 	"Movie.helpText1": "Rajzolj emberkét egyszerű formákból!",
 	"Movie.helpText2a": "Most egy filmet fogsz készíteni. Egy piros labdát guríts végig a képernyőn, nyomd meg a Lejátszás gombot, hogy megnézd, mit alkottál!",
