@@ -384,14 +384,6 @@ Blockly.JavaScript['turtle_font'] = function(block) {
       block.id + '\');\n';
 };
 
-Blockly.Python['turtle_font'] = function(block) {
-  // Generate JavaScript for setting the font.
-  return 'font(\'' + block.getFieldValue('FONT') + '\',' +
-      Number(block.getFieldValue('FONTSIZE')) + ',\'' +
-      block.getFieldValue('FONTSTYLE') + '\', \'block_id_' +
-      block.id + '\')\n';
-};
-
 Blockly.Blocks['turtle_repeat_internal'] = {
   /**
    * Block for repeat n times (internal number).
