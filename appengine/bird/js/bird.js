@@ -453,7 +453,7 @@ Bird.levelHelp = function() {
       if (!block.mutator.isVisible()) {
         var xy = goog.style.getPageOffset(block.getSvgRoot());
         style = {'width': '340px', 'top': (xy.y + 100) + 'px'};
-        style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
+        style.left = (xy.x - (rtl ? 280 : 0)) + 'px';
         origin = block.getSvgRoot();
       } else {
         content = document.getElementById('dialogMutatorHelp');
