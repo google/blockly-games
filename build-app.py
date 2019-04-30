@@ -125,6 +125,7 @@ def write_uncompressed(name, lang):
 })();
 """ % (WARNING, ',\n      '.join(srcs)))
   f.close()
+  print('Found %d dependencies.' % len(srcs))
 
 
 def trim_licence(code):
@@ -201,6 +202,7 @@ def write_compressed(name, lang):
   script = readStdout(proc)
   script = ''.join(script)
   script = trim_licence(script)
+  print('Compressed to %d KB.' % (len(script) / 1024))
 
   f = open('appengine/%s/generated/%s/compressed.js' % (name, lang), 'w')
   f.write(WARNING)

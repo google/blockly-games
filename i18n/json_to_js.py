@@ -186,14 +186,14 @@ def main():
                         help='ISO 639-1 source language code')
     parser.add_argument('--output_dir', default='generated/',
                         help='relative directory for output files')
-    parser.add_argument('--key_file', default='keys.json',
+    parser.add_argument('--key_file', default='json/keys.json',
                         help='relative path to input keys file')
     parser.add_argument('--template', default='template.soy')
     parser.add_argument('--min_length', default=30,
                         help='minimum line length (not counting last line)')
     parser.add_argument('--max_length', default=50,
                         help='maximum line length (not guaranteed)')
-    parser.add_argument('--path_to_jar', default='../apps/_soy',
+    parser.add_argument('--path_to_jar', default='third-party',
                         help='relative path from working directory to '
                         'SoyToJsSrcCompiler.jar')
     parser.add_argument('files', nargs='+', help='input files')
