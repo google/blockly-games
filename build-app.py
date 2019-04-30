@@ -128,23 +128,24 @@ def write_uncompressed(name, lang):
 
 
 def trim_licence(code):
-  """Trim down Google's Apache licences.
+  """Strip out Google's and MIT's Apache licences.
 
-  JS Compiler preserves dozens of Apache licences in the Blockly code.  Trim
-  these down to one-liners if they belong to Google.
+  JS Compiler preserves dozens of Apache licences in the Blockly code.
+  Remove these if they belong to Google or MIT.
+  MIT's permission to do this is logged in Blockly issue 2412.
 
   Args:
     code: Large blob of compiled source code.
 
   Returns:
-    Code with Google's Apache licences trimmed down.
+    Code with Google's and MIT's Apache licences trimmed.
   """
   apache2 = re.compile("""/\\*
 
  [\\w: ]+
 
- (Copyright \\d+ Google Inc.)
- https://developers.google.com/blockly/
+ (Copyright \\d+ (Google Inc.|Massachusetts Institute of Technology))
+ (https://developers.google.com/blockly/|All rights reserved.)
 
  Licensed under the Apache License, Version 2.0 \\(the "License"\\);
  you may not use this file except in compliance with the License.
@@ -158,7 +159,7 @@ def trim_licence(code):
  See the License for the specific language governing permissions and
  limitations under the License.
 \\*/""")
-  return re.sub(apache2, r"\n// \1  Apache License 2.0", code)
+  return re.sub(apache2, '', code)
 
 
 def write_compressed(name, lang):
