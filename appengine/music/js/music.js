@@ -424,7 +424,7 @@ Music.disableExtraStarts = function(e) {
     var startBlocks = [];
     var blocks = BlocklyGames.workspace.getTopBlocks(false);
     for (var i = 0, block; (block = blocks[i]); i++) {
-      if (block.type == 'music_start') {
+      if (block.type == 'music_start' && !block.isInsertionMarker()) {
         startBlocks.push(block);
       }
     }
