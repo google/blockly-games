@@ -192,7 +192,7 @@
 	"Movie.submitTooltip": "Azen amray-ik.",
 	"Movie.submitMsg": "Suffeɣ-d di tmidelt",
 	"Movie.helpText1": "Seqdec tilɣiwin tiḥerfiyin akken ad tseunɣeḍ amdan-agi.",
-	"Movie.helpText2a": "Aswir-agi d asaru. Tebɣiḍ ad tsegrurjeḍ ččir azeggaɣ deg ugdil. Senned ɣef tqeffalt n wurar akken ad twaliḍ taskant.",
+	"Movie.helpText2a": "Aswir-agi d asaru. Tebɣiḍ ad tawiḍ iɣil n umdan deg ugdil. Senned ɣef tqeffalt n tɣuri akken ad twaliḍ taskant.",
 	"Movie.helpText2b": "Ticki amray neɣ asaru iteddu, azal n yiḥder 'akud' ad yettaẓ si 0 ar 100. Imi tebɣiḍ d akken adig aglawan n ččir azeggaɣ ad yebdu si 0 sakin ad yeddu arama 100, ayagi d ayen fessusen.",
 	"Movie.helpText3": "Iḥder 'akud' ad yeddu seg 0 arama d 100. Maca tura tebɣiḍ d akken adig aglawan n ččir ad yebdu seg 100 aram d 0. Tzemreḍ ad tafeḍ tanfalit n tusnakt ara yettin tanila?",
 	"Movie.helpText4": "Seqdec ayen tlemdeḍ deg uswir yezrin akken ad tsedduḍ kuẓ n takurin tizegzawin di kuẓ n tiniliwin.",
@@ -223,9 +223,9 @@
 	"Music.drum": "abendayer",
 	"Music.choir": "chœur",
 	"Music.submitDisabled": "Ad iselkem ahil arama yeḥbes. Sakin ad tizmired ad tessuffɣeḍ azaɛan-ik di tmidelt.",
-	"Music.galleryTooltip": "Ldi timidelt n uẓawan n Reddit.",
+	"Music.galleryTooltip": "Ldi timidelt n uẓawan.",
 	"Music.galleryMsg": "Wali timidelt",
-	"Music.submitTooltip": "Azen aẓawan-ik ar Reddit.",
+	"Music.submitTooltip": "Azen aẓawan-ik ar tmidelt.",
 	"Music.submitMsg": "Suffeɣ-d di tmidelt",
 	"Music.helpUseFunctions": "Tifrat-ik tetteddu, maca tzemreḍ ad txedmeḍ ugar. Seqdec tiwuriwin akken ad tesneɣseḍ tasmekta n tengalt yettwalsen.",
 	"Music.helpText1": "Suddes kraḍ n tizmilin timezwura n 'Frère Jacques'.",
@@ -267,5 +267,6 @@
 	"Pond.rabbitName": "Awtul",
 	"Pond.counterName": "Amesmiḍan",
 	"Pond.rookName": "Taneḍḍaft",
-	"Pond.sniperName": "Aselfaɣ"
+	"Pond.sniperName": "Aselfaɣ",
+	"Gallery": "Timidelt"
 }
