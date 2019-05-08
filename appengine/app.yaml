@@ -205,6 +205,6 @@ skip_files:
 - ^third-party/midi-js-soundfonts/.+[012567]\.mp3*$
 - ^third-party/midi-js-soundfonts/.+b[34]\.mp3*$
 - ^third-party/third_party_goog/.*$
-- ^third-party/JS-Interpreter/[^c].*$  # Only serve compiled.js.
+- ^third-party/JS-Interpreter/[^c].*$  # Only serve compressed.js.
 - ^.+\.soy$
 - ^.+\.md$

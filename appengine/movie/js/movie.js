@@ -143,6 +143,8 @@ Movie.init = function() {
   // Preload the win sound.
   BlocklyGames.workspace.getAudioManager().load(
       ['movie/win.mp3', 'movie/win.ogg'], 'win');
+  // Lazy-load the JavaScript interpreter.
+  setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 

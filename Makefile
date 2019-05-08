@@ -10,7 +10,7 @@ APP_ENGINE_THIRD_PARTY = appengine/third-party
 SOY_COMPILER = java -jar third-party/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
 SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
-REQUIRED_BINS = svn unzip wget java python
+REQUIRED_BINS = svn unzip wget java python sed
 
 ##############################
 # Rules
@@ -171,11 +171,17 @@ deps:
 
 	@# messages.js confuses the compiler by also providing "Blockly.Msg.en".
 	rm $(APP_ENGINE_THIRD_PARTY)/blockly/msg/messages.js
+
 	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
+	@# Remove @license tag so compiler will strip Google's license.
+	sed 's/@license//' $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter.js > $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
+	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar third-party/closure-compiler.jar\
-	 --js appengine/third-party/JS-Interpreter/acorn.js\
-	 --js appengine/third-party/JS-Interpreter/interpreter.js\
-	 --js_output_file appengine/third-party/JS-Interpreter/compiled.js
+	 --language_out ECMASCRIPT5_STRICT\
+	 --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/acorn.js\
+	 --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js\
+	 --js_output_file $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/compressed.js
+	rm $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 
 clean: clean-languages clean-deps
 

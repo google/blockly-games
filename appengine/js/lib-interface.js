@@ -295,14 +295,14 @@ BlocklyInterface.eventSpam.previousType_ = null;
 BlocklyInterface.eventSpam.previousDate_ = 0;
 
 /**
- * Load the JavaScript interperter.
+ * Load the JavaScript interpreter.
  */
 BlocklyInterface.importInterpreter = function() {
   //<script type="text/javascript"
-  //  src="third-party/JS-Interpreter/compiled.js"></script>
+  //  src="third-party/JS-Interpreter/compressed.js"></script>
   var script = document.createElement('script');
   script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', 'third-party/JS-Interpreter/compiled.js');
+  script.setAttribute('src', 'third-party/JS-Interpreter/compressed.js');
   document.head.appendChild(script);
 };
 
