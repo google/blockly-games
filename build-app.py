@@ -32,6 +32,7 @@ import os.path
 import re
 import subprocess
 import sys
+import threading
 
 # Define a warning message for all the generated files.
 WARNING = '// Automatically generated file.  Do not edit!\n'
@@ -68,45 +69,56 @@ def language(name, lang):
   f.write("goog.provide('BlocklyGames.Msg');\n")
   f.write("goog.require('%s');\n" % core_language)
   f.close()
-  write_uncompressed(name, lang)
-  write_compressed(name, lang)
+  print('\n%s - %s' % (name.title(), lang))
+  thread1 = Gen_uncompressed(name, lang)
+  thread2 = Gen_compressed(name, lang)
+  thread1.start()
+  thread2.start()
+  thread1.join()
+  thread2.join()
 
 
-def write_uncompressed(name, lang):
-  print('\n%s - %s - uncompressed:' % (name.title(), lang))
-  cmd = ['third-party/build/closurebuilder.py',
-      '--root=appengine/third-party/',
-      '--root=appengine/generated/%s/' % lang,
-      '--root=appengine/js/',
-      '--namespace=%s' % name.replace('/', '.').title(),
-      '--output_mode=list']
-  directory = name
-  while directory:
-    cmd.append('--root=appengine/%s/generated/%s/' % (directory, lang))
-    cmd.append('--root=appengine/%s/js/' % directory)
-    (directory, sep, fragment) = directory.rpartition(os.path.sep)
-  try:
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-  except:
-    print("Failed to Popen: %s" % cmd)
-    raise
-  files = readStdout(proc)
+class Gen_uncompressed(threading.Thread):
+  def __init__(self, name, lang):
+    threading.Thread.__init__(self)
+    self.name = name
+    self.lang = lang
 
-  if name == 'pond/docs':
-    path = '../'
-  else:
-    path = ''
-  prefix = 'appengine/'
-  srcs = []
-  for file in files:
-    file = file.strip()
-    if file[:len(prefix)] == prefix:
-      file = file[len(prefix):]
+  def run(self):
+    cmd = ['third-party/build/closurebuilder.py',
+        '--root=appengine/third-party/',
+        '--root=appengine/generated/%s/' % self.lang,
+        '--root=appengine/js/',
+        '--namespace=%s' % self.name.replace('/', '.').title(),
+        '--output_mode=list']
+    directory = self.name
+    while directory:
+      cmd.append('--root=appengine/%s/generated/%s/' % (directory, self.lang))
+      cmd.append('--root=appengine/%s/js/' % directory)
+      (directory, sep, fragment) = directory.rpartition(os.path.sep)
+    try:
+      proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    except:
+      print("Failed to Popen: %s" % cmd)
+      raise
+    files = readStdout(proc)
+
+    if self.name == 'pond/docs':
+      path = '../'
     else:
-      raise(Exception('"%s" is not in "%s".' % (file, prefix)))
-    srcs.append('"%s%s"' % (path, file))
-  f = open('appengine/%s/generated/%s/uncompressed.js' % (name, lang), 'w')
-  f.write("""%s
+      path = ''
+    prefix = 'appengine/'
+    srcs = []
+    for file in files:
+      file = file.strip()
+      if file[:len(prefix)] == prefix:
+        file = file[len(prefix):]
+      else:
+        raise(Exception('"%s" is not in "%s".' % (file, prefix)))
+      srcs.append('"%s%s"' % (path, file))
+    f = open('appengine/%s/generated/%s/uncompressed.js' %
+        (self.name, self.lang), 'w')
+    f.write("""%s
 (function() {
   var srcs = [
       %s
@@ -124,24 +136,75 @@ def write_uncompressed(name, lang):
   loadScript();
 })();
 """ % (WARNING, ',\n      '.join(srcs)))
-  f.close()
-  print('Found %d dependencies.' % len(srcs))
+    f.close()
+    print('Found %d dependencies.' % len(srcs))
 
 
-def trim_licence(code):
-  """Strip out Google's and MIT's Apache licences.
+class Gen_compressed(threading.Thread):
+  def __init__(self, name, lang):
+    threading.Thread.__init__(self)
+    self.name = name
+    self.lang = lang
 
-  JS Compiler preserves dozens of Apache licences in the Blockly code.
-  Remove these if they belong to Google or MIT.
-  MIT's permission to do this is logged in Blockly issue 2412.
+  def run(self):
+    cmd = [
+      'java',
+      '-jar', 'third-party/closure-compiler.jar',
+      '--generate_exports',
+      '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
+      '--dependency_mode=STRICT',
+      '--externs', 'externs/gviz-externs.js',
+      '--externs', 'externs/interpreter-externs.js',
+      '--externs', 'externs/prettify-externs.js',
+      '--externs', 'externs/soundJS-externs.js',
+      '--externs', 'externs/storage-externs.js',
+      '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
+      '--language_out', 'ECMASCRIPT5_STRICT',
+      '--entry_point=%s' % self.name.replace('/', '.').title(),
+      "--js='appengine/third-party/**.js'",
+      "--js='!appengine/third-party/blockly/*.js'",
+      "--js='!appengine/third-party/blockly/tests/**.js'",
+      "--js='!appengine/third-party/blockly/externs/**.js'",
+      "--js='!appengine/third-party/blockly/demos/**.js'",
+      "--js='appengine/generated/%s/*.js'" % self.lang,
+      "--js='appengine/js/*.js'",
+      '--warning_level', 'QUIET',
+    ]
+    directory = self.name
+    while directory:
+      cmd.append("--js='appengine/%s/generated/%s/*.js'" % (directory, self.lang))
+      cmd.append("--js='appengine/%s/js/*.js'" % directory)
+      (directory, sep, fragment) = directory.rpartition(os.path.sep)
+    try:
+      proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    except:
+      print("Failed to Popen: %s" % cmd)
+      raise
+    script = readStdout(proc)
+    script = ''.join(script)
+    script = self.trim_licence(script)
+    print('Compressed to %d KB.' % (len(script) / 1024))
 
-  Args:
-    code: Large blob of compiled source code.
+    f = open('appengine/%s/generated/%s/compressed.js' %
+        (self.name, self.lang), 'w')
+    f.write(WARNING)
+    f.write(script)
+    f.close()
 
-  Returns:
-    Code with Google's and MIT's Apache licences trimmed.
-  """
-  apache2 = re.compile("""/\\*
+  def trim_licence(self, code):
+    """Strip out Google's and MIT's Apache licences.
+
+    JS Compiler preserves dozens of Apache licences in the Blockly code.
+    Remove these if they belong to Google or MIT.
+    MIT's permission to do this is logged in Blockly issue 2412.
+
+    Args:
+      code: Large blob of compiled source code.
+
+    Returns:
+      Code with Google's and MIT's Apache licences trimmed.
+    """
+    apache2 = re.compile("""/\\*
 
  [\\w: ]+
 
@@ -160,54 +223,7 @@ def trim_licence(code):
  See the License for the specific language governing permissions and
  limitations under the License.
 \\*/""")
-  return re.sub(apache2, '', code)
-
-
-def write_compressed(name, lang):
-  print('\n%s - %s - compressed:' % (name.title(), lang))
-
-  cmd = [
-    'java',
-    '-jar', 'third-party/closure-compiler.jar',
-    '--generate_exports',
-    '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
-    '--dependency_mode=STRICT',
-    '--externs', 'externs/gviz-externs.js',
-    '--externs', 'externs/interpreter-externs.js',
-    '--externs', 'externs/prettify-externs.js',
-    '--externs', 'externs/soundJS-externs.js',
-    '--externs', 'externs/storage-externs.js',
-    '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
-    '--language_out', 'ECMASCRIPT5_STRICT',
-    '--entry_point=%s' % name.replace('/', '.').title(),
-    "--js='appengine/third-party/**.js'",
-    "--js='!appengine/third-party/blockly/*.js'",
-    "--js='!appengine/third-party/blockly/tests/**.js'",
-    "--js='!appengine/third-party/blockly/externs/**.js'",
-    "--js='!appengine/third-party/blockly/demos/**.js'",
-    "--js='appengine/generated/%s/*.js'" % lang,
-    "--js='appengine/js/*.js'",
-    '--warning_level', 'QUIET',
-  ]
-  directory = name
-  while directory:
-    cmd.append("--js='appengine/%s/generated/%s/*.js'" % (directory, lang))
-    cmd.append("--js='appengine/%s/js/*.js'" % directory)
-    (directory, sep, fragment) = directory.rpartition(os.path.sep)
-  try:
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-  except:
-    print("Failed to Popen: %s" % cmd)
-    raise
-  script = readStdout(proc)
-  script = ''.join(script)
-  script = trim_licence(script)
-  print('Compressed to %d KB.' % (len(script) / 1024))
-
-  f = open('appengine/%s/generated/%s/compressed.js' % (name, lang), 'w')
-  f.write(WARNING)
-  f.write(script)
-  f.close()
+    return re.sub(apache2, '', code)
 
 
 def readStdout(proc):
