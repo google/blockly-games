@@ -452,7 +452,8 @@ Music.disableExtraStarts = function(e) {
     var blocks = BlocklyGames.workspace.getTopBlocks(true);
     for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'music_start') {
-        (block.disabled ? startBlocksDisabled : startBlocksEnabled).push(block);
+        (block.isEnabled() ? startBlocksEnabled : startBlocksDisabled)
+            .push(block);
       }
     }
     while (maxStarts > startBlocksEnabled.length &&
@@ -950,7 +951,7 @@ Music.checkAnswer = function() {
   var blocks = BlocklyGames.workspace.getAllBlocks();
   for (var i = 0, block; (block = blocks[i]); i++) {
     if (block.type != 'music_instrument' &&
-        !(block.disabled || block.getInheritedDisabled())) {
+        block.isEnabled() && !block.getInheritedDisabled()) {
       blockCount++;
     }
   }

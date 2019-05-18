@@ -20,7 +20,7 @@
 #   compressed.js
 #   uncompressed.js
 # The compressed file is a concatenation of all the relevant JavaScript which
-# has been run through Google's Closure Compiler.
+# has then been run through Google's Closure Compiler.
 # The uncompressed file is a script that loads in each JavaScript file
 # one by one.  This takes much longer for a browser to load, but is useful
 # when debugging code since line numbers are meaningful and variables haven't
@@ -70,6 +70,8 @@ def language(name, lang):
   f.write("goog.require('%s');\n" % core_language)
   f.close()
   print('\n%s - %s' % (name.title(), lang))
+  # Run uncompressed and compressed code generation in separate threads.
+  # For multi-core computers, this offers a significant speed boost.
   thread1 = Gen_uncompressed(name, lang)
   thread2 = Gen_compressed(name, lang)
   thread1.start()
@@ -172,7 +174,8 @@ class Gen_compressed(threading.Thread):
     ]
     directory = self.name
     while directory:
-      cmd.append("--js='appengine/%s/generated/%s/*.js'" % (directory, self.lang))
+      cmd.append("--js='appengine/%s/generated/%s/*.js'" %
+          (directory, self.lang))
       cmd.append("--js='appengine/%s/js/*.js'" % directory)
       (directory, sep, fragment) = directory.rpartition(os.path.sep)
     try:
