@@ -281,6 +281,11 @@ Puzzle.checkAnswers = function() {
  */
 Puzzle.endDance = function() {
   BlocklyGames.workspace.getAudioManager().play('win', 0.5);
+  // Enable dragging of workspace.  This sets Blockly to allow blocks to
+  // move off-screen, rather than auto-bump them back in bounds.
+  // This has no UI change, since the workspace is now permanently
+  // non-interactive due to the modal winning dialog.
+  BlocklyGames.workspace.options.moveOptions.drag = true;
   var blocks = BlocklyGames.workspace.getTopBlocks(false);
   for (var i = 0, block; (block = blocks[i]); i++) {
     var angle = 360 * (i / blocks.length);
