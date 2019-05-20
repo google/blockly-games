@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for Blockly's Pond application.
+ * @fileoverview Blocks for Pond game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -38,7 +38,7 @@ goog.require('BlocklyGames.JSBlocks');
  */
 Pond.Blocks.POND_HUE = 290;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['pond_scan'] = {
   /**

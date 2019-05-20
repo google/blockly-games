@@ -1,5 +1,4 @@
 /**
- * @license
  * Visual Blocks Editor
  *
  * Copyright 2016 Google Inc.
@@ -53,7 +52,7 @@ Music.Blocks.MESSAGES = {
       'Play a single music note for a certain number of beats.'
 };
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['music_play_note'] = {
   /**

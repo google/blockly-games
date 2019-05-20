@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Puzzle application.
+ * @fileoverview JavaScript for Puzzle game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for Blockly's Turtle application.
+ * @fileoverview Blocks for Turtle game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -61,7 +61,7 @@ Turtle.Blocks.LEFT_TURN = ' \u21BA';
  */
 Turtle.Blocks.RIGHT_TURN = ' \u21BB';
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['turtle_move'] = {
   /**

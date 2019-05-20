@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Maze application.
+ * @fileoverview JavaScript for Maze game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

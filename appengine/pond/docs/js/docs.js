@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Pond Documentation.
+ * @fileoverview JavaScript for Pond Documentation.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

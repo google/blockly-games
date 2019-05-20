@@ -1,5 +1,4 @@
 /**
- * @license
  * Blockly Games: Music
  *
  * Copyright 2016 Google Inc.

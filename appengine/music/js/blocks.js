@@ -1,6 +1,5 @@
 /**
- * @license
- * Blockly Games: Music Graphics Blocks
+ * Blockly Games: Music Blocks
  *
  * Copyright 2012 Google Inc.
  * https://github.com/google/blockly-games
@@ -19,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for Blockly's Music Graphics application.
+ * @fileoverview Blocks for Music game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for Blockly's Movie application.
+ * @fileoverview Blocks for Movie game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -51,7 +51,7 @@ goog.require('BlocklyGames');
  */
 Movie.Blocks.SHAPE_HUE = 160;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['movie_circle'] = {
   /**
@@ -182,7 +182,6 @@ Blockly.JavaScript['movie_line'] = function(block) {
   return 'line(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', ' +
       width + ');\n';
 };
-
 
 Blockly.Blocks['movie_time'] = {
   /**

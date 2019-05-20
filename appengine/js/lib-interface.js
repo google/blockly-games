@@ -253,7 +253,7 @@ BlocklyInterface.injectReadonly = function(id, xml) {
 /**
  * Convert the user's code to raw JavaScript.
  * @param {string} code Generated code.
- * @return {string} The code without serial numbers and timeout checks.
+ * @return {string} The code without serial numbers.
  */
 BlocklyInterface.stripCode = function(code) {
   // Strip out serial numbers.

@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Gallery application.
+ * @fileoverview JavaScript for Gallery.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

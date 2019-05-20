@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for Blockly's Bird application.
+ * @fileoverview Blocks for Bird game.
  * @author q.neutron@gmail.com (Quynh Neutron)
  */
 'use strict';
@@ -44,7 +44,7 @@ Bird.Blocks.VARIABLES_HUE = 330;
  */
 Bird.Blocks.MOVEMENT_HUE = 290;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['bird_noWorm'] = {
   /**

@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Bird application.
+ * @fileoverview JavaScript for Bird game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

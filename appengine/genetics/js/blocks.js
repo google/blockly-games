@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for Blockly's Genetics application.
+ * @fileoverview Blocks for Genetics game.
  * @author kozbial@google.com (Monica Kozbial)
  */
 'use strict';
@@ -40,7 +40,7 @@ Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE = 360;
  */
 Genetics.Blocks.GENETICS_HUE = 20;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 /**
  * Generates the JavaScript from a "mouse function" block (pickFight,

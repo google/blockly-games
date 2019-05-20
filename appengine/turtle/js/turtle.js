@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Turtle application.
+ * @fileoverview JavaScript for Turtle game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

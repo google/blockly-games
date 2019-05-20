@@ -18,8 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Genetics game application and level
- * specific logic.
+ * @fileoverview JavaScript for Genetics game and level specific logic.
  * @author kozbial@google.com (Monica Kozbial)
  */
 'use strict';

@@ -1,5 +1,4 @@
 /**
- * @license
  * Blockly Games: Music
  *
  * Copyright 2016 Google Inc.
@@ -19,7 +18,7 @@
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Music application.
+ * @fileoverview JavaScript for Music game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
