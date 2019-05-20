@@ -32,6 +32,7 @@ goog.require('BlocklyInterface');
 goog.require('Maze.Blocks');
 goog.require('Maze.soy');
 
+
 BlocklyGames.NAME = 'maze';
 
 /**

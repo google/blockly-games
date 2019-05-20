@@ -116,7 +116,7 @@ Blockly.JavaScript['music_note'] = function(block) {
   var pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
       Blockly.JavaScript.ORDER_COMMA) || '7';
   return 'play(' + block.getFieldValue('DURATION') + ', ' + pitch +
-          ', \'block_id_' + block.id + '\');\n';
+      ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_rest_whole'] = {
@@ -223,8 +223,8 @@ Blockly.Blocks['music_instrument'] = {
 };
 
 Blockly.JavaScript['music_instrument'] = function(block) {
-  return 'setInstrument(\'' + block.getFieldValue('INSTRUMENT')  +
-          '\', \'block_id_' + block.id + '\');\n';
+  return 'setInstrument(\'' + block.getFieldValue('INSTRUMENT') +
+      '\', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_start'] = {

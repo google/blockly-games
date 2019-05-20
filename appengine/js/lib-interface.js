@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Common support code for Blockly apps.
+ * @fileoverview Common support code for games that embed Blockly.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';

@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Common support code for all Blockly apps and the index.
+ * @fileoverview Common support code for all games and the index.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -27,6 +27,7 @@ goog.provide('BlocklyGames');
 
 goog.require('goog.dom.classes');
 goog.require('goog.math');
+
 
 /**
  * Lookup for names of languages.  Keys should be in ISO 639 format.

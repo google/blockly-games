@@ -31,6 +31,7 @@ goog.require('goog.dom');
 goog.require('goog.math');
 goog.require('goog.object');
 
+
 /**
  * Number of milliseconds between update calls.
  * @const {number}
@@ -1163,5 +1164,3 @@ Genetics.Visualization.removeMouseAvatar_ = function(mouseAvatar) {
   // Remove mapping to mouse avatar.
   delete Genetics.Visualization.mice_[mouseAvatar.id];
 };
-
-

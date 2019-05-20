@@ -147,11 +147,10 @@ Blockly.Blocks['bird_compare'] = {
 Blockly.JavaScript['bird_compare'] = function(block) {
   // Generate JavaScript for comparing bird's x or y position with a number.
   var operator = (block.getFieldValue('OP') == 'LT') ? '<' : '>';
-  var order = Blockly.JavaScript.ORDER_RELATIONAL;
   var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
   var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
   var code = argument0 + ' ' + operator + ' ' + argument1;
-  return [code, order];
+  return [code, Blockly.JavaScript.ORDER_RELATIONAL];
 };
 
 Blockly.Blocks['bird_and'] = {
@@ -175,7 +174,6 @@ Blockly.Blocks['bird_and'] = {
 
 Blockly.JavaScript['bird_and'] = function(block) {
   // Generate JavaScript for logical operator 'and'.
-  var order = Blockly.JavaScript.ORDER_LOGICAL_AND;
   var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order);
   var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order);
   if (!argument0 && !argument1) {
@@ -192,7 +190,7 @@ Blockly.JavaScript['bird_and'] = function(block) {
     }
   }
   var code = argument0 + ' && ' + argument1;
-  return [code, order];
+  return [code, Blockly.JavaScript.ORDER_LOGICAL_AND];
 };
 
 Blockly.Blocks['bird_ifElse'] = {
