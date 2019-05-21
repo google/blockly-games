@@ -354,6 +354,11 @@ Movie.drawFrame_ = function(interpreter) {
  *     If not defined, draws the current frame.
  */
 Movie.display = function(opt_frameNumber) {
+  if (!('Interpreter' in window)) {
+    // Interpreter lazy loads and hasn't arrived yet.  Try again later.
+    setTimeout(function() {Movie.display(opt_frameNumber);}, 250);
+    return;
+  }
   if (typeof opt_frameNumber == 'number') {
     Movie.frameNumber = opt_frameNumber;
   }
