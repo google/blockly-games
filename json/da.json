@@ -9,7 +9,8 @@
 			"Tjernobyl",
 			"SimmeD",
 			"Joedalton",
-			"Jon Harald Søby"
+			"Jon Harald Søby",
+			"Siegumfeldt"
 		]
 	},
 	"Games.name": "Blockly-spil",
@@ -117,7 +118,7 @@
 	"Maze.helpMenu": "Klik på %1 i 'hvis' blokken for at ændre dens tilstand.",
 	"Maze.helpWallFollow": "Kan du løse denne komplicerede labyrint? Prøv at følge væggen på venstre hånd. Kun for avancerede programmører!",
 	"Bird.noWorm": "har ikke ormen",
-	"Bird.heading": "overskrift",
+	"Bird.heading": "retning",
 	"Bird.noWormTooltip": "Den betingelse, når fuglen ikke har fået ormen.",
 	"Bird.headingTooltip": "Bevæg i retning af den givne vinkel: 0 er til højre, 90 er lige op, osv.",
 	"Bird.positionTooltip": "x og y markerer fuglens position. Når x = 0 er fuglen i nærheden af den venstre kant, når x = 100, er den tæt på den højre kant. Når y = 0 er fuglen på bunden, når y = 100, er den på toppen.",
