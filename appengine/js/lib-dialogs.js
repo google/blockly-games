@@ -28,6 +28,7 @@ goog.provide('BlocklyDialogs');
 goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+
 goog.require('goog.style');
 
 

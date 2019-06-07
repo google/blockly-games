@@ -28,6 +28,7 @@ goog.provide('BlocklyInterface');
 goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
+
 goog.require('goog.string');
 
 

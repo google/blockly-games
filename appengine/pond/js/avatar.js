@@ -27,7 +27,6 @@ goog.provide('Pond.Avatar');
 
 goog.require('goog.math');
 goog.require('goog.math.Coordinate');
-goog.require('goog.net.XhrIo');
 
 
 /**

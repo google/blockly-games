@@ -30,6 +30,8 @@ goog.require('Blockly.JavaScript');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
 
+goog.require('goog.dom');
+
 
 /**
  * HSV hue for all genetics mouse function blocks.

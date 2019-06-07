@@ -30,6 +30,7 @@ goog.require('Puzzle.Blocks');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+
 goog.require('goog.math');
 
 

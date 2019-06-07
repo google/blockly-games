@@ -315,7 +315,7 @@ Maze.drawMap = function() {
   svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
 
   // Draw the outer square.
-  var square = document.createElementNS(Blockly.SVG_NS, 'rect');
+  var square = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
   square.setAttribute('width', Maze.MAZE_WIDTH);
   square.setAttribute('height', Maze.MAZE_HEIGHT);
   square.setAttribute('fill', '#F1EEE7');
@@ -324,8 +324,8 @@ Maze.drawMap = function() {
   svg.appendChild(square);
 
   if (Maze.SKIN.background) {
-    var tile = document.createElementNS(Blockly.SVG_NS, 'image');
-    tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+    var tile = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
+    tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         Maze.SKIN.background);
     tile.setAttribute('height', Maze.MAZE_HEIGHT);
     tile.setAttribute('width', Maze.MAZE_WIDTH);
@@ -341,7 +341,7 @@ Maze.drawMap = function() {
     // practice to avoid blurriness.
     var offset = Maze.SQUARE_SIZE / 2 + 0.5;
     for (var k = 0; k < Maze.ROWS; k++) {
-      var h_line = document.createElementNS(Blockly.SVG_NS, 'line');
+      var h_line = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
       h_line.setAttribute('y1', k * Maze.SQUARE_SIZE + offset);
       h_line.setAttribute('x2', Maze.MAZE_WIDTH);
       h_line.setAttribute('y2', k * Maze.SQUARE_SIZE + offset);
@@ -350,7 +350,7 @@ Maze.drawMap = function() {
       svg.appendChild(h_line);
     }
     for (var k = 0; k < Maze.COLS; k++) {
-      var v_line = document.createElementNS(Blockly.SVG_NS, 'line');
+      var v_line = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
       v_line.setAttribute('x1', k * Maze.SQUARE_SIZE + offset);
       v_line.setAttribute('x2', k * Maze.SQUARE_SIZE + offset);
       v_line.setAttribute('y2', Maze.MAZE_HEIGHT);
@@ -395,9 +395,9 @@ Maze.drawMap = function() {
       var left = Maze.tile_SHAPES[tileShape][0];
       var top = Maze.tile_SHAPES[tileShape][1];
       // Tile's clipPath element.
-      var tileClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
+      var tileClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
       tileClip.setAttribute('id', 'tileClipPath' + tileId);
-      var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
+      var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
       clipRect.setAttribute('width', Maze.SQUARE_SIZE);
       clipRect.setAttribute('height', Maze.SQUARE_SIZE);
 
@@ -407,8 +407,8 @@ Maze.drawMap = function() {
       tileClip.appendChild(clipRect);
       svg.appendChild(tileClip);
       // Tile sprite.
-      var tile = document.createElementNS(Blockly.SVG_NS, 'image');
-      tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+      var tile = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
+      tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
           Maze.SKIN.tiles);
       // Position the tile sprite relative to the clipRect.
       tile.setAttribute('height', Maze.SQUARE_SIZE * 4);
@@ -422,18 +422,18 @@ Maze.drawMap = function() {
   }
 
   // Add finish marker.
-  var finishMarker = document.createElementNS(Blockly.SVG_NS, 'image');
+  var finishMarker = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
   finishMarker.setAttribute('id', 'finish');
-  finishMarker.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       Maze.SKIN.marker);
   finishMarker.setAttribute('height', 34);
   finishMarker.setAttribute('width', 20);
   svg.appendChild(finishMarker);
 
   // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
-  var pegmanClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
+  var pegmanClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
   pegmanClip.setAttribute('id', 'pegmanClipPath');
-  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
+  var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
   clipRect.setAttribute('id', 'clipRect');
   clipRect.setAttribute('width', Maze.PEGMAN_WIDTH);
   clipRect.setAttribute('height', Maze.PEGMAN_HEIGHT);
@@ -441,9 +441,9 @@ Maze.drawMap = function() {
   svg.appendChild(pegmanClip);
 
   // Add Pegman.
-  var pegmanIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+  var pegmanIcon = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
   pegmanIcon.setAttribute('id', 'pegman');
-  pegmanIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       Maze.SKIN.sprite);
   pegmanIcon.setAttribute('height', Maze.PEGMAN_HEIGHT);
   pegmanIcon.setAttribute('width', Maze.PEGMAN_WIDTH * 21); // 49 * 21 = 1029
@@ -732,8 +732,8 @@ Maze.levelHelp = function(opt_event) {
           [BlocklyGames.getMsg('Maze_pathAhead'),
            BlocklyGames.getMsg('Maze_pathLeft'),
            BlocklyGames.getMsg('Maze_pathRight')];
-      var prefix = Blockly.utils.commonWordPrefix(options);
-      var suffix = Blockly.utils.commonWordSuffix(options);
+      var prefix = Blockly.utils.string.commonWordPrefix(options);
+      var suffix = Blockly.utils.string.commonWordSuffix(options);
       if (suffix) {
         var option = options[0].slice(prefix, -suffix);
       } else {

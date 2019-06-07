@@ -31,6 +31,7 @@ goog.require('BlocklyInterface');
 goog.require('Music.Blocks');
 goog.require('Music.soy');
 goog.require('Slider');
+
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.string');

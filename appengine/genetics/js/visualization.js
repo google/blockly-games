@@ -27,10 +27,13 @@ goog.provide('Genetics.Visualization');
 
 goog.require('Genetics.Cage');
 goog.require('Genetics.MouseAvatar');
+
 goog.require('goog.dom');
+goog.require('goog.events');
 goog.require('goog.math');
 goog.require('goog.object');
-
+goog.require('goog.ui.Component.EventType');
+goog.require('goog.ui.TabBar');
 
 /**
  * Number of milliseconds between update calls.

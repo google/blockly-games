@@ -27,6 +27,8 @@ goog.provide('Pond.Visualization');
 
 goog.require('Blockly');
 goog.require('Pond.Battle');
+
+goog.require('goog.math');
 goog.require('goog.userAgent');
 
 
@@ -436,9 +438,7 @@ Pond.Visualization.preloadAudio_ = function() {
 Pond.Visualization.playAudio_ = function(name, opt_volume) {
   var sound = Pond.Visualization.SOUNDS_[name];
   var mySound;
-  var ie9 = goog.userAgent.DOCUMENT_MODE &&
-            goog.userAgent.DOCUMENT_MODE === 9;
-  if (ie9 || goog.userAgent.IPAD || goog.userAgent.ANDROID) {
+  if (goog.userAgent.IPAD || goog.userAgent.ANDROID) {
     // Creating a new audio node causes lag in IE9, Android and iPad. Android
     // and IE9 refetch the file from the server, iPad uses a singleton audio
     // node which must be deleted and recreated for each new audio tag.

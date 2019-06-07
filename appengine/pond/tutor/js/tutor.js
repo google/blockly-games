@@ -33,6 +33,7 @@ goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
 goog.require('Pond.Tutor.soy');
 goog.require('Pond.Visualization');
+
 goog.require('goog.math.Coordinate');
 
 

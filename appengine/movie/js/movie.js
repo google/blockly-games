@@ -33,6 +33,8 @@ goog.require('Movie.Blocks');
 goog.require('Movie.soy');
 goog.require('Scrubber');
 
+goog.require('goog.style');
+
 
 BlocklyGames.NAME = 'movie';
 

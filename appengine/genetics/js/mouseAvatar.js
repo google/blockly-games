@@ -26,9 +26,8 @@
 goog.provide('Genetics.MouseAvatar');
 
 goog.require('Genetics.Mouse');
-goog.require('goog.dom');
+
 goog.require('goog.math');
-goog.require('goog.object');
 
 
 /**
@@ -73,16 +72,16 @@ Genetics.MouseAvatar = function(mouse) {
    * The SVG element containing the mouse.
    * @const {SVGElement}
    */
-  this.element = document.createElementNS(Blockly.SVG_NS, 'svg');
+  this.element = document.createElementNS(Blockly.utils.dom.SVG_NS, 'svg');
   this.element.setAttribute('id', 'mouse' + mouse.id);
   this.element.setAttribute('class', 'mouse');
   this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' +
       Genetics.MouseAvatar.HALF_SIZE + 'px';
 
   // Create clip path for mouse image
-  var mouseClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
+  var mouseClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
   mouseClip.setAttribute('id', 'mouse' + mouse.id + 'ClipPath');
-  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
+  var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
   clipRect.setAttribute('width', Genetics.MouseAvatar.WIDTH + 'px');
   clipRect.setAttribute('height', Genetics.MouseAvatar.FULL_HEIGHT + 'px');
   mouseClip.appendChild(clipRect);
@@ -93,8 +92,8 @@ Genetics.MouseAvatar = function(mouse) {
    * @private {HTMLImageElement}
    * @const
    */
-  this.image_ = document.createElementNS(Blockly.SVG_NS, 'image');
-  this.image_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  this.image_ = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
+  this.image_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'genetics/mouse.png');
   this.image_.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
   this.image_.setAttribute('height',
@@ -121,7 +120,7 @@ Genetics.MouseAvatar = function(mouse) {
   var centerY = radius + yOffset;
 
   // Draw top right slice.
-  var proposeMateSlice = document.createElementNS(Blockly.SVG_NS, 'path');
+  var proposeMateSlice = document.createElementNS(Blockly.utils.dom.SVG_NS, 'path');
   proposeMateSlice.setAttribute('d', 'M ' + x1 + ' ' + y1 +
       ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
       x2 + ' ' + y2 + ' L ' + centerX + ' ' + centerY + ' Z');
@@ -130,7 +129,7 @@ Genetics.MouseAvatar = function(mouse) {
   this.element.appendChild(proposeMateSlice);
 
   // Draw bottom slice.
-  var pickFightSlice = document.createElementNS(Blockly.SVG_NS, 'path');
+  var pickFightSlice = document.createElementNS(Blockly.utils.dom.SVG_NS, 'path');
   pickFightSlice.setAttribute('d', 'M ' + x2 + ' ' + y2 +
       ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
       x3 + ' ' + y3 + ' L ' + centerX + ' ' + centerY + ' Z');
@@ -139,7 +138,7 @@ Genetics.MouseAvatar = function(mouse) {
   this.element.appendChild(pickFightSlice);
 
   // Draw top left slice.
-  var acceptMateSlice = document.createElementNS(Blockly.SVG_NS, 'path');
+  var acceptMateSlice = document.createElementNS(Blockly.utils.dom.SVG_NS, 'path');
   acceptMateSlice.setAttribute('d', 'M ' + x3 + ' ' + y3 +
       ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
       x1 + ' ' + y1 + ' L ' + centerX + ' ' + centerY + ' Z');

@@ -34,8 +34,11 @@ goog.require('Genetics.Mouse');
 goog.require('Genetics.MouseAvatar');
 goog.require('Genetics.Visualization');
 goog.require('Genetics.soy');
+
 goog.require('goog.array');
-goog.require('goog.ui.Tab');
+goog.require('goog.events');
+goog.require('goog.math');
+goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.TabBar');
 
 

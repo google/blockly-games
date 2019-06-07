@@ -30,6 +30,7 @@ goog.require('Bird.soy');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+
 goog.require('goog.math');
 goog.require('goog.math.Coordinate');
 goog.require('goog.math.Line');
@@ -189,7 +190,7 @@ Bird.drawMap = function() {
   // Draw the walls.
   for (var k = 0; k < Bird.MAP.walls.length; k++) {
     var wall = Bird.MAP.walls[k];
-    var line = document.createElementNS(Blockly.SVG_NS, 'line');
+    var line = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
     line.setAttribute('x1', wall.x0 / 100 * Bird.MAP_SIZE);
     line.setAttribute('y1', (1 - wall.y0 / 100) * Bird.MAP_SIZE);
     line.setAttribute('x2', wall.x1 / 100 * Bird.MAP_SIZE);
@@ -201,9 +202,9 @@ Bird.drawMap = function() {
   }
 
   // Add nest.
-  var nestImage = document.createElementNS(Blockly.SVG_NS, 'image');
+  var nestImage = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
   nestImage.setAttribute('id', 'nest');
-  nestImage.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  nestImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/nest.png');
   nestImage.setAttribute('height', Bird.NEST_ICON_SIZE);
   nestImage.setAttribute('width', Bird.NEST_ICON_SIZE);
@@ -211,9 +212,9 @@ Bird.drawMap = function() {
 
   // Add worm.
   if (Bird.MAP.worm) {
-    var birdImage = document.createElementNS(Blockly.SVG_NS, 'image');
+    var birdImage = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
     birdImage.setAttribute('id', 'worm');
-    birdImage.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+    birdImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         'bird/worm.png');
     birdImage.setAttribute('height', Bird.WORM_ICON_SIZE);
     birdImage.setAttribute('width', Bird.WORM_ICON_SIZE);
@@ -221,9 +222,9 @@ Bird.drawMap = function() {
   }
 
   // Bird's clipPath element, whose (x, y) is reset by Bird.displayBird
-  var birdClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
+  var birdClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
   birdClip.setAttribute('id', 'birdClipPath');
-  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
+  var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
   clipRect.setAttribute('id', 'clipRect');
   clipRect.setAttribute('width', Bird.BIRD_ICON_SIZE);
   clipRect.setAttribute('height', Bird.BIRD_ICON_SIZE);
@@ -231,9 +232,9 @@ Bird.drawMap = function() {
   svg.appendChild(birdClip);
 
   // Add bird.
-  var birdIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+  var birdIcon = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
   birdIcon.setAttribute('id', 'bird');
-  birdIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  birdIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/birds-120.png');
   birdIcon.setAttribute('height', Bird.BIRD_ICON_SIZE * 4); // 120 * 4 = 480
   birdIcon.setAttribute('width', Bird.BIRD_ICON_SIZE * 12); // 120 * 12 = 1440
@@ -241,7 +242,7 @@ Bird.drawMap = function() {
   svg.appendChild(birdIcon);
 
   // Draw the outer square.
-  var square = document.createElementNS(Blockly.SVG_NS, 'rect');
+  var square = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
   square.setAttribute('class', 'edges');
   square.setAttribute('width', Bird.MAP_SIZE);
   square.setAttribute('height', Bird.MAP_SIZE);
@@ -255,7 +256,7 @@ Bird.drawMap = function() {
   for (var i = 0.1; i < 0.9; i += 0.1) {
     if (xAxis) {
       // Bottom edge.
-      var tick = document.createElementNS(Blockly.SVG_NS, 'line');
+      var tick = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
       tick.setAttribute('class', 'edges');
       tick.setAttribute('x1', i * Bird.MAP_SIZE);
       tick.setAttribute('y1', Bird.MAP_SIZE);
@@ -265,7 +266,7 @@ Bird.drawMap = function() {
     }
     if (yAxis) {
       // Left edge.
-      var tick = document.createElementNS(Blockly.SVG_NS, 'line');
+      var tick = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
       tick.setAttribute('class', 'edges');
       tick.setAttribute('x1', 0);
       tick.setAttribute('y1', i * Bird.MAP_SIZE);
@@ -276,7 +277,7 @@ Bird.drawMap = function() {
     if (major == 2) {
       if (xAxis) {
         // X axis.
-        var number = document.createElementNS(Blockly.SVG_NS, 'text');
+        var number = document.createElementNS(Blockly.utils.dom.SVG_NS, 'text');
         number.setAttribute('class', 'edgeX');
         number.setAttribute('x', i * Bird.MAP_SIZE + 2);
         number.setAttribute('y', Bird.MAP_SIZE - 4);
@@ -285,7 +286,7 @@ Bird.drawMap = function() {
       }
       if (yAxis) {
         // Y axis.
-        var number = document.createElementNS(Blockly.SVG_NS, 'text');
+        var number = document.createElementNS(Blockly.utils.dom.SVG_NS, 'text');
         number.setAttribute('class', 'edgeY');
         number.setAttribute('x', 3);
         number.setAttribute('y', i * Bird.MAP_SIZE - 2);

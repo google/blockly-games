@@ -26,6 +26,7 @@
 goog.provide('Genetics.Cage');
 
 goog.require('Genetics.Mouse');
+
 goog.require('goog.array');
 
 

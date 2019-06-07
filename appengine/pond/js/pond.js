@@ -28,7 +28,6 @@ goog.provide('Pond');
 goog.require('BlocklyGames');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
-goog.require('goog.math.Coordinate');
 
 
 /**
