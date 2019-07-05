@@ -13,7 +13,8 @@
 			"Yanjun Wu",
 			"Tonylianlong",
 			"Assoc",
-			"Deathkon"
+			"Deathkon",
+			"神樂坂秀吉"
 		]
 	},
 	"Games.name": "Blockly 游戏",
@@ -60,7 +61,7 @@
 	"Games.helpAbort": "这一关非常困难。您也许希望跳过它并开始下一个游戏？您稍后可以再回到这关。",
 	"Index.clear": "确认要删除您所有的解决方案吗？",
 	"Index.subTitle": "为未来的程序员所设计的游戏。",
-	"Index.moreInfo": "更多详情……",
+	"Index.moreInfo": "更多信息……",
 	"Index.startOver": "想要重新开始吗？",
 	"Index.clearData": "清除数据",
 	"Puzzle.animal1": "鸭子",
