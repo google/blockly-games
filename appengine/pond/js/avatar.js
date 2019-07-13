@@ -25,15 +25,17 @@
 
 goog.provide('Pond.Avatar');
 
+goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.math');
+
 goog.require('goog.math');
-goog.require('goog.math.Coordinate');
 
 
 /**
  * Class for a avatar.
  * @param {string} name Avatar's name.
  * @param {string|!Function} code Avatar's code, or generator.
- * @param {!goog.math.Coordinate} startLoc Start location.
+ * @param {!Blockly.utils.Coordinate} startLoc Start location.
  * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
  * @param {!Pond.Battle} battle The battle featuring the avatar.
  * @constructor
@@ -44,7 +46,7 @@ Pond.Avatar = function(name, code, startLoc, startDamage, battle) {
   this.startLoc_ = startLoc;
   this.startDamage_ = startDamage || 0;
   this.battle_ = battle;
-  this.loc = new goog.math.Coordinate();
+  this.loc = new Blockly.utils.Coordinate();
   this.reset();
   console.log(this + ' loaded.');
 };
@@ -86,7 +88,7 @@ Pond.Avatar.prototype.desiredSpeed = 0;
 
 /**
  * X/Y location of the avatar (0 - 100).
- * @type goog.math.Coordinate
+ * @type Blockly.utils.Coordinate
  */
 Pond.Avatar.prototype.loc = null;
 
@@ -120,10 +122,10 @@ Pond.Avatar.prototype.reset = function() {
   this.degree = goog.math.angle(this.loc.x, this.loc.y, 50, 50);
   this.facing = this.degree;
   var code = this.code_;
-  if (goog.isFunction(code)) {
+  if (typeof code == 'function') {
     code = code();
-  } else if (!goog.isString(code)) {
-    throw 'Avatar ' + this.name + ' has invalid code: ' + code;
+  } else if (typeof code != 'string') {
+    throw Error('Avatar ' + this.name + ' has invalid code: ' + code);
   }
   if ('Interpreter' in window) {
     this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
@@ -171,12 +173,12 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   } else {
     resolution = opt_resolution;
   }
-  if (!goog.isNumber(degree) || isNaN(degree) ||
-      !goog.isNumber(resolution) || isNaN(resolution)) {
-    throw TypeError;
+  if ((typeof degree != 'number') || isNaN(degree) ||
+      (typeof resolution != 'number') || isNaN(resolution)) {
+    throw TypeError();
   }
   degree = goog.math.standardAngle(degree);
-  resolution = goog.math.clamp(resolution, 0, 20);
+  resolution = Blockly.utils.math.clamp(resolution, 0, 20);
 
   this.battle_.EVENTS.push({'type': 'SCAN', 'avatar': this,
                             'degree': degree, 'resolution': resolution});
@@ -205,7 +207,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
     }
     // Compute angle between avatar and enemy's centre.
     var angle = Math.atan2(ey - locY, ex - locX);
-    angle = goog.math.standardAngle(goog.math.toDegrees(angle));
+    angle = goog.math.standardAngle(Blockly.utils.math.toDegrees(angle));
     // Raise angle by 360 if needed (handles wrapping).
     if (angle < scan1) {
       angle += 360;
@@ -230,8 +232,8 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
   } else {
     speed = opt_speed;
   }
-  if (!goog.isNumber(degree) || isNaN(degree) ||
-      !goog.isNumber(speed) || isNaN(speed)) {
+  if ((typeof degree != 'number') || isNaN(degree) ||
+      (typeof speed != 'number') || isNaN(speed)) {
     throw TypeError;
   }
   var desiredDegree = goog.math.standardAngle(degree);
@@ -249,7 +251,7 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
     // If starting, bump the speed immediately so that avatars can see a change.
     this.speed = 0.1;
   }
-  this.desiredSpeed = goog.math.clamp(speed, 0, 100);
+  this.desiredSpeed = Blockly.utils.math.clamp(speed, 0, 100);
 };
 
 /**
@@ -267,8 +269,8 @@ Pond.Avatar.prototype.stop = function() {
  *     previous shot.
  */
 Pond.Avatar.prototype.cannon = function(degree, range) {
-  if (!goog.isNumber(degree) || isNaN(degree) ||
-      !goog.isNumber(range) || isNaN(range)) {
+  if ((typeof degree != 'number') || isNaN(degree) ||
+      (typeof range != 'number') || isNaN(range)) {
     throw TypeError;
   }
   var now = Date.now();
@@ -276,11 +278,11 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
     return false;
   }
   this.lastMissile = now;
-  var startLoc = this.loc.clone();
+  var startLoc = new Blockly.utils.Coordinate(this.loc.x, this.loc.y);
   degree = goog.math.standardAngle(degree);
   this.facing = degree;
-  range = goog.math.clamp(range, 0, 70);
-  var endLoc = new goog.math.Coordinate(
+  range = Blockly.utils.math.clamp(range, 0, 70);
+  var endLoc = new Blockly.utils.Coordinate(
       startLoc.x + goog.math.angleDx(degree, range),
       startLoc.y + goog.math.angleDy(degree, range));
   var missile = {

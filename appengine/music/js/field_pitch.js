@@ -26,9 +26,8 @@
 goog.provide('Blockly.FieldPitch');
 
 goog.require('Blockly.FieldTextInput');
-
-goog.require('goog.math');
-goog.require('goog.userAgent');
+goog.require('Blockly.utils.math');
+goog.require('Blockly.utils.userAgent');
 
 
 /**
@@ -81,7 +80,7 @@ Blockly.FieldPitch.prototype.dispose_ = function() {
  */
 Blockly.FieldPitch.prototype.showEditor_ = function() {
   var noFocus =
-      goog.userAgent.MOBILE || goog.userAgent.ANDROID || goog.userAgent.IPAD;
+      Blockly.utils.userAgent.MOBILE || Blockly.utils.userAgent.ANDROID || Blockly.utils.userAgent.IPAD;
   // Mobile browsers have issues with in-line textareas (focus & keyboards).
   Blockly.FieldPitch.superClass_.showEditor_.call(this, noFocus);
   var div = Blockly.WidgetDiv.DIV;
@@ -114,7 +113,7 @@ Blockly.FieldPitch.prototype.showEditor_ = function() {
 Blockly.FieldPitch.prototype.onMouseMove = function(e) {
   var bBox = this.imageElement_.getBoundingClientRect();
   var dy = e.clientY - bBox.top;
-  var note = goog.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
+  var note = Blockly.utils.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
   this.imageElement_.style.backgroundPosition = (-note * 37) + 'px 0';
   Blockly.FieldTextInput.htmlInput_.value = Blockly.FieldPitch.NOTES[note];
   this.setValue(note);

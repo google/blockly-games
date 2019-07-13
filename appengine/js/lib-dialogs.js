@@ -64,7 +64,7 @@ BlocklyDialogs.dialogDispose_ = null;
  *     closes.  Normally used for unhooking events.
  */
 BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
-                                  disposeFunc) {
+                                     disposeFunc) {
   if (!content) {
     throw TypeError('Content not found: ' + content);
   }

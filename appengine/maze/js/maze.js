@@ -396,7 +396,7 @@ Maze.drawMap = function() {
       var top = Maze.tile_SHAPES[tileShape][1];
       // Tile's clipPath element.
       var tileClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
-      tileClip.setAttribute('id', 'tileClipPath' + tileId);
+      tileClip.id = 'tileClipPath' + tileId;
       var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
       clipRect.setAttribute('width', Maze.SQUARE_SIZE);
       clipRect.setAttribute('height', Maze.SQUARE_SIZE);
@@ -423,7 +423,7 @@ Maze.drawMap = function() {
 
   // Add finish marker.
   var finishMarker = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
-  finishMarker.setAttribute('id', 'finish');
+  finishMarker.id = 'finish';
   finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       Maze.SKIN.marker);
   finishMarker.setAttribute('height', 34);
@@ -432,9 +432,9 @@ Maze.drawMap = function() {
 
   // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
   var pegmanClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
-  pegmanClip.setAttribute('id', 'pegmanClipPath');
+  pegmanClip.id = 'pegmanClipPath';
   var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
-  clipRect.setAttribute('id', 'clipRect');
+  clipRect.id = 'clipRect';
   clipRect.setAttribute('width', Maze.PEGMAN_WIDTH);
   clipRect.setAttribute('height', Maze.PEGMAN_HEIGHT);
   pegmanClip.appendChild(clipRect);
@@ -442,7 +442,7 @@ Maze.drawMap = function() {
 
   // Add Pegman.
   var pegmanIcon = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
-  pegmanIcon.setAttribute('id', 'pegman');
+  pegmanIcon.id = 'pegman';
   pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       Maze.SKIN.sprite);
   pegmanIcon.setAttribute('height', Maze.PEGMAN_HEIGHT);
@@ -529,8 +529,8 @@ Maze.init = function() {
 
   var defaultXml =
       '<xml>' +
-      '  <block movable="' + (BlocklyGames.LEVEL != 1) + '" ' +
-      'type="maze_moveForward" x="70" y="70"></block>' +
+        '<block movable="' + (BlocklyGames.LEVEL != 1) + '" ' +
+        'type="maze_moveForward" x="70" y="70"/>' +
       '</xml>';
   BlocklyInterface.loadBlocks(defaultXml, false);
 
@@ -635,7 +635,7 @@ Maze.levelHelp = function(opt_event) {
             '<xml>',
               '<block type="maze_moveForward" x="10" y="10">',
                 '<next>',
-                  '<block type="maze_moveForward"></block>',
+                  '<block type="maze_moveForward"/>',
                 '</next>',
               '</block>',
             '</xml>'];

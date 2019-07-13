@@ -25,7 +25,7 @@
 
 goog.provide('Slider');
 
-goog.require('goog.math');
+goog.require('Blockly.utils.math');
 
 
 /**
@@ -242,7 +242,7 @@ Slider.prototype.animateValue = function(value) {
  * @param {number} value New value.
  */
 Slider.prototype.setValue = function(value) {
-  this.value_ = goog.math.clamp(value, 0, 1);
+  this.value_ = Blockly.utils.math.clamp(value, 0, 1);
   var x = this.KNOB_MIN_X_ +
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_) * this.value_;
   this.knob_.setAttribute('transform',

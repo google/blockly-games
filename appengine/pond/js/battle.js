@@ -25,9 +25,9 @@
 
 goog.provide('Pond.Battle');
 
+goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.math');
 goog.require('Pond.Avatar');
-goog.require('goog.math');
-goog.require('goog.math.Coordinate');
 
 
 /**
@@ -131,16 +131,16 @@ Pond.Battle.doneCallback_ = null;
  * Starting positions for avatars.
  */
 Pond.Battle.START_XY = [
-  new goog.math.Coordinate(10, 90),
-  new goog.math.Coordinate(90, 10),
-  new goog.math.Coordinate(10, 10),
-  new goog.math.Coordinate(90, 90),
+  new Blockly.utils.Coordinate(10, 90),
+  new Blockly.utils.Coordinate(90, 10),
+  new Blockly.utils.Coordinate(10, 10),
+  new Blockly.utils.Coordinate(90, 90),
   // Only first four positions are currently used.
-  new goog.math.Coordinate(50, 99),
-  new goog.math.Coordinate(50, 1),
-  new goog.math.Coordinate(1, 50),
-  new goog.math.Coordinate(99, 50),
-  new goog.math.Coordinate(50, 49)
+  new Blockly.utils.Coordinate(50, 99),
+  new Blockly.utils.Coordinate(50, 1),
+  new Blockly.utils.Coordinate(1, 50),
+  new Blockly.utils.Coordinate(99, 50),
+  new Blockly.utils.Coordinate(50, 49)
 ];
 
 /**
@@ -161,7 +161,7 @@ Pond.Battle.reset = function() {
  * Create avatar and add it to the battle.
  * @param {string} name Name of avatar.
  * @param {string|!Function} code Avatar's code, or a code generator.
- * @param {goog.math.Coordinate} opt_startLoc Start location.
+ * @param {Blockly.utils.Coordinate} opt_startLoc Start location.
  * @param {?number} opt_startDamage Initial damage to avatar (0-100, default 0).
  */
 Pond.Battle.addAvatar = function(name, code, opt_startLoc, opt_startDamage) {
@@ -245,7 +245,7 @@ Pond.Battle.updateMissiles_ = function() {
         if (avatar.dead) {
           continue;
         }
-        var range = goog.math.Coordinate.distance(avatar.loc, missile.endLoc);
+        var range = Blockly.utils.Coordinate.distance(avatar.loc, missile.endLoc);
         var damage = (1 - range / 4) * 10;
         if (damage > 0) {
           avatar.addDamage(damage);
@@ -279,7 +279,7 @@ Pond.Battle.updateAvatars_ = function() {
     if (avatar.speed > 0) {
       var tuple = Pond.Battle.closestNeighbour(avatar);
       var closestBefore = tuple[1];
-      var angleRadians = goog.math.toRadians(avatar.degree);
+      var angleRadians = Blockly.utils.math.toRadians(avatar.degree);
       var speed = avatar.speed / 100 * Pond.Battle.AVATAR_SPEED;
       var dx = Math.cos(angleRadians) * speed;
       var dy = Math.sin(angleRadians) * speed;
@@ -288,8 +288,8 @@ Pond.Battle.updateAvatars_ = function() {
       if (avatar.loc.x < 0 || avatar.loc.x > 100 ||
           avatar.loc.y < 0 || avatar.loc.y > 100) {
         // Collision with wall.
-        avatar.loc.x = goog.math.clamp(avatar.loc.x, 0, 100);
-        avatar.loc.y = goog.math.clamp(avatar.loc.y, 0, 100);
+        avatar.loc.x = Blockly.utils.math.clamp(avatar.loc.x, 0, 100);
+        avatar.loc.y = Blockly.utils.math.clamp(avatar.loc.y, 0, 100);
         var damage = avatar.speed / 100 * Pond.Battle.COLLISION_DAMAGE;
         avatar.addDamage(damage);
         avatar.speed = 0;
@@ -465,7 +465,7 @@ Pond.Battle.closestNeighbour = function(avatar) {
   for (var i = 0, neighbour; neighbour = Pond.Battle.AVATARS[i]; i++) {
     if (!neighbour.dead && avatar != neighbour) {
       var thisDistance = Math.min(distance,
-          goog.math.Coordinate.distance(avatar.loc, neighbour.loc));
+          Blockly.utils.Coordinate.distance(avatar.loc, neighbour.loc));
       if (thisDistance < distance) {
         distance = thisDistance;
         closest = neighbour;

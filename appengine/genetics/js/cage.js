@@ -234,7 +234,7 @@ Genetics.Cage.start = function(opt_checkForEndOverride) {
   Genetics.Cage.nextAvailableMouseId_ = Genetics.Cage.nextRoundMice_.length;
   for (var playerId = 0, player; player = Genetics.Cage.players[playerId];
       playerId++) {
-    if (goog.isFunction(player.code)) {
+    if (typeof player.code == 'function') {
       // Cache code if player code is generator.
       player.cachedCode = Genetics.Cage.prependedCode + '\n' + player.code();
     }
@@ -670,9 +670,9 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
       break;
   }
   var code = Genetics.Cage.players[playerId].code;
-  if (goog.isFunction(code)) {
+  if (typeof code == 'function') {
     code = Genetics.Cage.players[playerId].cachedCode;
-  } else if (!goog.isString(code)) {
+  } else if (typeof code != 'string') {
     var player = Genetics.Cage.players[playerId].name;
     throw 'Player ' + player + ' has invalid code: ' + code;
   }

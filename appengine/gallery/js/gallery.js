@@ -172,7 +172,7 @@ Gallery.needMore = function() {
 window.addEventListener('load', Gallery.init);
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-if (!goog.global['Gallery']) {
-  goog.global['Gallery'] = {};
+if (!window['Gallery']) {
+  window['Gallery'] = {};
 }
-goog.global['Gallery']['publish'] = Gallery.publish;
+window['Gallery']['publish'] = Gallery.publish;

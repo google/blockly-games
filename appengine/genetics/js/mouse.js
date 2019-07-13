@@ -25,6 +25,8 @@
 
 goog.provide('Genetics.Mouse');
 
+goog.require('Blockly.utils.math');
+
 goog.require('goog.math');
 
 
@@ -59,7 +61,7 @@ Genetics.Mouse = function(id, sex, playerId, opt_parentOne, opt_parentTwo) {
     this.acceptMateOwner = acceptMateParent ? opt_parentOne.acceptMateOwner :
         opt_parentTwo.acceptMateOwner;
     // Assign stats based on parents with some mutations.
-    this.size = goog.math.clamp(
+    this.size = Blockly.utils.math.clamp(
         goog.math.average(opt_parentOne.size + opt_parentTwo.size) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
         Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);

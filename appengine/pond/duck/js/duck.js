@@ -28,6 +28,7 @@ goog.provide('Pond.Duck');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Blockly.utils.Coordinate');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
@@ -35,7 +36,6 @@ goog.require('Pond.Duck.soy');
 goog.require('Pond.Visualization');
 
 goog.require('goog.events');
-goog.require('goog.math.Coordinate');
 goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.TabBar');
 
@@ -129,20 +129,20 @@ Pond.Duck.init = function() {
       'damage,health,loc_x,getX,loc_y,getY,');
   var defaultXml =
       '<xml>' +
-      '  <block type="pond_cannon" x="70" y="70">' +
-      '    <value name="DEGREE">' +
-      '      <shadow type="pond_math_number">' +
-      '        <mutation angle_field="true"></mutation>' +
-      '        <field name="NUM">0</field>' +
-      '      </shadow>' +
-      '    </value>' +
-      '    <value name="RANGE">' +
-      '      <shadow type="pond_math_number">' +
-      '        <mutation angle_field="false"></mutation>' +
-      '        <field name="NUM">70</field>' +
-      '      </shadow>' +
-      '    </value>' +
-      '  </block>' +
+        '<block type="pond_cannon" x="70" y="70">' +
+          '<value name="DEGREE">' +
+            '<shadow type="pond_math_number">' +
+              '<mutation angle_field="true"/>' +
+              '<field name="NUM">0</field>' +
+            '</shadow>' +
+          '</value>' +
+          '<value name="RANGE">' +
+            '<shadow type="pond_math_number">' +
+              '<mutation angle_field="false"/>' +
+              '<field name="NUM">70</field>' +
+            '</shadow>' +
+          '</value>' +
+        '</block>' +
       '</xml>';
   var xml = Blockly.Xml.textToDom(defaultXml);
   // Clear the workspace to avoid merge.
@@ -152,25 +152,25 @@ Pond.Duck.init = function() {
 
   var players = [
     {
-      start: new goog.math.Coordinate(20, 80),
+      start: new Blockly.utils.Coordinate(20, 80),
       damage: 0,
       name: 'Pond_myName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(80, 20),
+      start: new Blockly.utils.Coordinate(80, 20),
       damage: 0,
       name: 'Pond_rookName',
       code: 'playerRook'
     },
     {
-      start: new goog.math.Coordinate(20, 20),
+      start: new Blockly.utils.Coordinate(20, 20),
       damage: 0,
       name: 'Pond_counterName',
       code: 'playerCounter'
     },
     {
-      start: new goog.math.Coordinate(80, 80),
+      start: new Blockly.utils.Coordinate(80, 80),
       damage: 0,
       name: 'Pond_sniperName',
       code: 'playerSniper'

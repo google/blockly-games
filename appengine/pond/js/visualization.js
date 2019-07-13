@@ -26,10 +26,8 @@
 goog.provide('Pond.Visualization');
 
 goog.require('Blockly');
+goog.require('Blockly.utils.userAgent');
 goog.require('Pond.Battle');
-
-goog.require('goog.math');
-goog.require('goog.userAgent');
 
 
 /**
@@ -75,7 +73,7 @@ Pond.Visualization.init = function() {
       'splash');
   // iOS can only process one sound at a time.  Trying to load more than one
   // corrupts the earlier ones.  Just load one and leave the others uncached.
-  if (!goog.userAgent.IPAD && !goog.userAgent.IPHONE) {
+  if (!Blockly.utils.userAgent.IPAD && !Blockly.utils.userAgent.IPHONE) {
     Pond.Visualization.preloadAudio_();
   }
 };
@@ -316,16 +314,16 @@ Pond.Visualization.display_ = function() {
       // Impact between two avatars, or a avatar and the wall.
       // Only play the crash sound if this avatar hasn't crashed recently.
       var lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
-      if (!lastCrash || lastCrash + 1000 < goog.now()) {
+      if (!lastCrash || lastCrash + 1000 < Date.now()) {
         Pond.Visualization.playAudio_('whack', event['damage'] /
                           Pond.Battle.COLLISION_DAMAGE);
-        Pond.Visualization.CRASH_LOG[avatar.id] = goog.now();
+        Pond.Visualization.CRASH_LOG[avatar.id] = Date.now();
       }
     } else if (event['type'] == 'SCAN') {
       // Show a sensor scan beam.
       var halfResolution = Math.max(event['resolution'] / 2, 0.5);
-      var angle1 = -goog.math.toRadians(event['degree'] + halfResolution);
-      var angle2 = -goog.math.toRadians(event['degree'] - halfResolution);
+      var angle1 = -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
+      var angle2 = -Blockly.utils.math.toRadians(event['degree'] - halfResolution);
       ctx.beginPath();
       var x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
       var y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
@@ -438,7 +436,7 @@ Pond.Visualization.preloadAudio_ = function() {
 Pond.Visualization.playAudio_ = function(name, opt_volume) {
   var sound = Pond.Visualization.SOUNDS_[name];
   var mySound;
-  if (goog.userAgent.IPAD || goog.userAgent.ANDROID) {
+  if (Blockly.utils.userAgent.IPAD || Blockly.utils.userAgent.ANDROID) {
     // Creating a new audio node causes lag in IE9, Android and iPad. Android
     // and IE9 refetch the file from the server, iPad uses a singleton audio
     // node which must be deleted and recreated for each new audio tag.

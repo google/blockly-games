@@ -25,6 +25,7 @@
 
 goog.provide('Genetics.Visualization');
 
+goog.require('Blockly.utils.math');
 goog.require('Genetics.Cage');
 goog.require('Genetics.MouseAvatar');
 
@@ -1013,9 +1014,9 @@ Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
   var mouseAvatar = Genetics.Visualization.createMouseAvatar_(mouse);
   mouseAvatar.direction = direction;
 
-  var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var xPos = Blockly.utils.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
-  var yPos = goog.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var yPos = Blockly.utils.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.HEIGHT);
   mouseAvatar.element.style.left = xPos + 'px';
   mouseAvatar.element.style.top = yPos + 'px';
@@ -1046,9 +1047,9 @@ Genetics.Visualization.animateAddMouse_ = function(
     mouseAvatar, x, y, isBirth, callback) {
   var getMouseName = Genetics.Visualization.getMouseName_;
 
-  var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var xPos = Blockly.utils.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
-  var yPos = goog.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var yPos = Blockly.utils.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.HEIGHT);
   mouseAvatar.element.style.left = xPos + 'px';
   mouseAvatar.element.style.top = yPos + 'px';

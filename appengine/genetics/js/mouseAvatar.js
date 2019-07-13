@@ -25,6 +25,7 @@
 
 goog.provide('Genetics.MouseAvatar');
 
+goog.require('Blockly.utils.math');
 goog.require('Genetics.Mouse');
 
 goog.require('goog.math');
@@ -73,14 +74,14 @@ Genetics.MouseAvatar = function(mouse) {
    * @const {SVGElement}
    */
   this.element = document.createElementNS(Blockly.utils.dom.SVG_NS, 'svg');
-  this.element.setAttribute('id', 'mouse' + mouse.id);
+  this.element.id = 'mouse' + mouse.id;
   this.element.setAttribute('class', 'mouse');
   this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' +
       Genetics.MouseAvatar.HALF_SIZE + 'px';
 
   // Create clip path for mouse image
   var mouseClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
-  mouseClip.setAttribute('id', 'mouse' + mouse.id + 'ClipPath');
+  mouseClip.id = 'mouse' + mouse.id + 'ClipPath';
   var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
   clipRect.setAttribute('width', Genetics.MouseAvatar.WIDTH + 'px');
   clipRect.setAttribute('height', Genetics.MouseAvatar.FULL_HEIGHT + 'px');
@@ -319,9 +320,9 @@ Genetics.MouseAvatar.prototype.stopMove = function() {
  * @param {number=} opt_time The duration of the move in milliseconds.
  */
 Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
-  var xClamped = goog.math.clamp(x, 0,
+  var xClamped = Blockly.utils.math.clamp(x, 0,
       Genetics.MouseAvatar.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
-  var yClamped = goog.math.clamp(y, 0,
+  var yClamped = Blockly.utils.math.clamp(y, 0,
       Genetics.MouseAvatar.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
 
   var mouseX = parseInt(this.element.style.left, 10);

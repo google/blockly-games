@@ -130,20 +130,20 @@ Turtle.init = function() {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     var defaultXml =
         '<xml>' +
-        '  <block type="turtle_move" x="70" y="70">' +
-        '    <value name="VALUE">' +
-        '      <shadow type="math_number">' +
-        '        <field name="NUM">10</field>' +
-        '      </shadow>' +
-        '    </value>' +
-        '  </block>' +
+          '<block type="turtle_move" x="70" y="70">' +
+            '<value name="VALUE">' +
+              '<shadow type="math_number">' +
+                '<field name="NUM">10</field>' +
+              '</shadow>' +
+            '</value>' +
+          '</block>' +
         '</xml>';
   } else {
     var defaultXml =
         '<xml>' +
-        '  <block type="turtle_move_internal" x="70" y="70">' +
-        '    <field name="VALUE">100</field>' +
-        '  </block>' +
+          '<block type="turtle_move_internal" x="70" y="70">' +
+            '<field name="VALUE">100</field>' +
+          '</block>' +
         '</xml>';
   }
   BlocklyInterface.loadBlocks(defaultXml,
@@ -363,7 +363,7 @@ Turtle.showHelp = function() {
         '<field name="COLOUR">#ffff00</field></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp3', xml);
   } else if (BlocklyGames.LEVEL == 4) {
-    var xml = '<xml><block type="turtle_pen" x="5" y="10"></block></xml>';
+    var xml = '<xml><block type="turtle_pen" x="5" y="10"/></xml>';
     BlocklyInterface.injectReadonly('sampleHelp4', xml);
   }
 

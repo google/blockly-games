@@ -29,8 +29,6 @@ goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 
-goog.require('goog.string');
-
 
 /**
  * Text editor (used as an alternative to Blockly in advanced apps).
@@ -258,7 +256,8 @@ BlocklyInterface.injectReadonly = function(id, xml) {
  */
 BlocklyInterface.stripCode = function(code) {
   // Strip out serial numbers.
-  return goog.string.trimRight(code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')'));
+  code = code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')');
+  return code.replace(/\s+$/, '');
 };
 
 /**

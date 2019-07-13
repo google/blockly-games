@@ -26,8 +26,7 @@
 goog.provide('Scrubber');
 
 goog.require('BlocklyGames');
-
-goog.require('goog.math');
+goog.require('Blockly.utils.math');
 
 
 /**
@@ -92,7 +91,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   trackTarget.setAttribute('ry', this.TARGET_OVERHANG_);
   svgParent.appendChild(trackTarget);
   var knobClip = document.createElementNS(Scrubber.SVG_NS_, 'clipPath');
-  knobClip.setAttribute('id', 'knobClipPath');
+  knobClip.id = 'knobClipPath';
   svgParent.appendChild(knobClip);
   var knobClipRect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
   knobClipRect.setAttribute('width', '16');
@@ -127,7 +126,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
       clip-path="url(#playClipPath)" />
   */
   var playClip = document.createElementNS(Scrubber.SVG_NS_, 'clipPath');
-  playClip.setAttribute('id', 'playClipPath');
+  playClip.id = 'playClipPath';
   svgParent.appendChild(playClip);
   var playClipRect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
   playClipRect.setAttribute('width', '21');
@@ -373,7 +372,7 @@ Scrubber.prototype.animateValue = function(value) {
  * @param {number} value New value.
  */
 Scrubber.prototype.setValue = function(value) {
-  this.value_ = goog.math.clamp(value, 0, 1);
+  this.value_ = Blockly.utils.math.clamp(value, 0, 1);
   var x = this.KNOB_MIN_X_ +
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_) * this.value_;
   this.knobClipRect_.setAttribute('x', x - 8);

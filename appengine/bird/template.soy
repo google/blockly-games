@@ -165,12 +165,12 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <block type="bird_heading"></block>
+    <block type="bird_heading"/>
     {if $ij.level >= 2}
       {if $ij.level == 4 or $ij.level == 5}
-        <block type="bird_noWorm" disabled="true"></block>
+        <block type="bird_noWorm" disabled="true"/>
       {else}
-        <block type="bird_noWorm"></block>
+        <block type="bird_noWorm"/>
       {/if}
       {if $ij.level >= 4}
         <block type="bird_compare">
@@ -201,7 +201,7 @@
             </value>
           </block>
           {if $ij.level >= 8}
-            <block type="bird_and"></block>
+            <block type="bird_and"/>
           {/if}
         {/if}
       {/if}

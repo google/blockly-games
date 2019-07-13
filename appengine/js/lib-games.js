@@ -25,8 +25,7 @@
 
 goog.provide('BlocklyGames');
 
-goog.require('goog.dom.classes');
-goog.require('goog.math');
+goog.require('Blockly.utils.math');
 
 
 /**
@@ -173,7 +172,8 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  */
 BlocklyGames.getNumberParamFromUrl = function(name, minValue, maxValue) {
   var val = Number(BlocklyGames.getStringParamFromUrl(name, 'NaN'));
-  return isNaN(val) ? minValue : goog.math.clamp(minValue, val, maxValue);
+  return isNaN(val) ? minValue :
+      Blockly.utils.math.clamp(minValue, val, maxValue);
 };
 
 /**
@@ -249,7 +249,7 @@ BlocklyGames.init = function() {
     var link = document.getElementById('level' + i);
     var done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, i);
     if (link && done) {
-      goog.dom.classes.add(link, 'level_done');
+      link.className += ' level_done';
     }
   }
 
