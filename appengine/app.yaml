@@ -182,13 +182,11 @@ skip_files:
 - ^(.*/)?.*/RCS/.*$
 - ^(.*/)?\..*$
 # Custom skip patterns.
-- ^accessible/.*$
 - ^genetics/.*$
 - ^\w+/sources/.*$
 - ^third-party/ace/snippets/.*$
 - ^third-party/blockly/\.github/.*$
 - ^third-party/blockly/appengine/.*$
-- ^third-party/blockly/accessible/.*$
 - ^third-party/blockly/demos/.*$
 - ^third-party/blockly/externs/.*$
 - ^third-party/blockly/generators/dart.*$
@@ -199,11 +197,9 @@ skip_files:
 - ^third-party/blockly/local_build/.*$
 - ^third-party/blockly/msg/json/.*$
 - ^third-party/blockly/tests/.*$
+- ^third-party/blockly/theme_scripts/.*$
 - ^third-party/blockly/\w*\.\w+$
 - ^third-party/JS-Interpreter/demos.*$
-- ^third-party/midi-js/.*$
-- ^third-party/midi-js-soundfonts/.+[012567]\.mp3*$
-- ^third-party/midi-js-soundfonts/.+b[34]\.mp3*$
 - ^third-party/third_party_goog/.*$
 - ^third-party/JS-Interpreter/[^c].*$  # Only serve compressed.js.
 - ^.+\.soy$

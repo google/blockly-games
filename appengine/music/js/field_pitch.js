@@ -115,7 +115,7 @@ Blockly.FieldPitch.prototype.onMouseMove = function(e) {
   var dy = e.clientY - bBox.top;
   var note = Blockly.utils.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
   this.imageElement_.style.backgroundPosition = (-note * 37) + 'px 0';
-  Blockly.FieldTextInput.htmlInput_.value = Blockly.FieldPitch.NOTES[note];
+  this.htmlInput_.value = Blockly.FieldPitch.NOTES[note];
   this.setValue(note);
   this.validate_();
   this.resizeEditor_();

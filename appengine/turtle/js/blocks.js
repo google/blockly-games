@@ -116,7 +116,7 @@ Blockly.Blocks['turtle_move_internal'] = {
 
 Blockly.JavaScript['turtle_move_internal'] = function(block) {
   // Generate JavaScript for moving forward or backwards.
-  var value = block.getFieldValue('VALUE');
+  var value = Number(block.getFieldValue('VALUE'));
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -182,7 +182,7 @@ Blockly.Blocks['turtle_turn_internal'] = {
 
 Blockly.JavaScript['turtle_turn_internal'] = function(block) {
   // Generate JavaScript for turning left or right.
-  var value = block.getFieldValue('VALUE');
+  var value = Number(block.getFieldValue('VALUE'));
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -282,7 +282,7 @@ Blockly.Blocks['turtle_colour_internal'] = {
 
 Blockly.JavaScript['turtle_colour_internal'] = function(block) {
   // Generate JavaScript for setting the colour.
-  var colour = '\'' + block.getFieldValue('COLOUR') + '\'';
+  var colour = Blockly.JavaScript.quote_(block.getFieldValue('COLOUR'));
   return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
 };
 
@@ -374,10 +374,11 @@ Blockly.Blocks['turtle_font'] = {
 
 Blockly.JavaScript['turtle_font'] = function(block) {
   // Generate JavaScript for setting the font.
-  return 'font(\'' + block.getFieldValue('FONT') + '\',' +
-      Number(block.getFieldValue('FONTSIZE')) + ',\'' +
-      block.getFieldValue('FONTSTYLE') + '\', \'block_id_' +
-      block.id + '\');\n';
+  var font = Blockly.JavaScript.quote_(block.getFieldValue('FONT'));
+  var fontSize = Number(block.getFieldValue('FONTSIZE'));
+  var fontStyle = Blockly.JavaScript.quote_(block.getFieldValue('FONTSTYLE'));
+  return 'font(' + font + ',' + fontSize + ',' + fontStyle +
+      ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_repeat_internal'] = {

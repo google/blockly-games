@@ -238,18 +238,18 @@
  * Toolboxes for each level.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none;">
-    <block type="maze_moveForward"/>
+  <xml id="toolbox" style="display: none;" xmlns="https://developers.google.com/blockly/xml">
+    <block type="maze_moveForward"></block>
     <block type="maze_turn"><field name="DIR">turnLeft</field></block>
     <block type="maze_turn"><field name="DIR">turnRight</field></block>
     {if $ij.level > 2}
-      <block type="maze_forever"/>
+      <block type="maze_forever"></block>
       {if $ij.level == 6}
         <block type="maze_if"><field name="DIR">isPathLeft</field></block>
       {elseif $ij.level > 6}
-        <block type="maze_if"/>
+        <block type="maze_if"></block>
         {if $ij.level > 8}
-          <block type="maze_ifElse"/>
+          <block type="maze_ifElse"></block>
         {/if}
       {/if}
     {/if}

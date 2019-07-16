@@ -115,7 +115,7 @@ Movie.init = function() {
     BlocklyGames.bindClick('submitButton', Movie.submitToGallery);
   }
 
-  var defaultXml = '<xml/>';
+  var defaultXml = '<xml></xml>';
   BlocklyInterface.loadBlocks(defaultXml, true);
 
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
@@ -232,7 +232,7 @@ Movie.showHelp = function() {
   };
 
   if (BlocklyGames.LEVEL == 2) {
-    var xml = '<xml><block type="movie_time" x="15" y="10"/></xml>';
+    var xml = '<xml><block type="movie_time" x="15" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   }
 

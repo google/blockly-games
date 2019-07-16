@@ -308,18 +308,18 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none;">
+  <xml id="toolbox" style="display: none;" xmlns="https://developers.google.com/blockly/xml">
     <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
       <block type="pond_cannon">
         <value name="DEGREE">
           <shadow type="pond_math_number">
-            <mutation angle_field="true"/>
+            <mutation angle_field="true"></mutation>
             <field name="NUM">0</field>
           </shadow>
         </value>
         <value name="RANGE">
           <shadow type="pond_math_number">
-            <mutation angle_field="false"/>
+            <mutation angle_field="false"></mutation>
             <field name="NUM">70</field>
           </shadow>
         </value>
@@ -328,7 +328,7 @@
       <block type="pond_scan">
         <value name="DEGREE">
           <shadow type="pond_math_number">
-            <mutation angle_field="true"/>
+            <mutation angle_field="true"></mutation>
             <field name="NUM">0</field>
           </shadow>
         </value>
@@ -338,35 +338,35 @@
       <block type="pond_swim">
         <value name="DEGREE">
           <shadow type="pond_math_number">
-            <mutation angle_field="true"/>
+            <mutation angle_field="true"></mutation>
             <field name="NUM">0</field>
           </shadow>
         </value>
       </block>
   {/if}
   {if $ij.level >= 9}
-      <block type="pond_stop"/>
+      <block type="pond_stop"></block>
   {/if}
   {if $ij.level >= 9}
-      <block type="pond_getX"/>
-      <block type="pond_getY"/>
+      <block type="pond_getX"></block>
+      <block type="pond_getY"></block>
   {/if}
     </category>
 {if $ij.level >= 3}
     <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
   {if $ij.level >= 9}
-      <block type="controls_if"/>
-      <block type="logic_compare"/>
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
   {/if}
-      <block type="logic_boolean"/>
+      <block type="logic_boolean"></block>
     </category>
     <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
-      <block type="controls_whileUntil"/>
+      <block type="controls_whileUntil"></block>
     </category>
 {/if}
     <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
       <block type="pond_math_number">
-        <mutation angle_field="false"/>
+        <mutation angle_field="false"></mutation>
       </block>
     </category>
   </xml>

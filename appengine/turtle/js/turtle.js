@@ -363,7 +363,7 @@ Turtle.showHelp = function() {
         '<field name="COLOUR">#ffff00</field></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp3', xml);
   } else if (BlocklyGames.LEVEL == 4) {
-    var xml = '<xml><block type="turtle_pen" x="5" y="10"/></xml>';
+    var xml = '<xml><block type="turtle_pen" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp4', xml);
   }
 

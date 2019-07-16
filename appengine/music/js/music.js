@@ -167,7 +167,7 @@ Music.init = function() {
   var defaultXml =
       '<xml>' +
         '<block type="music_start" deletable="' +
-          (BlocklyGames.LEVEL > 6) + '" x="180" y="50"/>' +
+          (BlocklyGames.LEVEL > 6) + '" x="180" y="50"></block>' +
       '</xml>';
   BlocklyInterface.loadBlocks(defaultXml,
       BlocklyGames.LEVEL != BlocklyGames.MAX_LEVEL || Music.transform10);
@@ -198,7 +198,7 @@ Music.init = function() {
     setTimeout(Music.showHelp, 1000);
   }
 
-  var assetsPath = 'third-party/midi-js-soundfonts/';
+  var assetsPath = 'third-party/soundfonts/';
   var instruments = ['piano', 'trumpet', 'violin', 'drum',
                      'flute', 'banjo', 'guitar', 'choir'];
   var sounds = [];
@@ -334,10 +334,10 @@ Music.showHelp = function() {
             '<field name="NAME">%1</field>' +
           '</block>' +
           '<block type="procedures_callnoreturn" x="5" y="85">' +
-            '<mutation name="%1"/>' +
+            '<mutation name="%1"></mutation>' +
             '<next>' +
               '<block type="procedures_callnoreturn">' +
-                '<mutation name="%1"/>' +
+                '<mutation name="%1"></mutation>' +
               '</block>' +
             '</next>' +
           '</block>' +
@@ -348,10 +348,10 @@ Music.showHelp = function() {
     xml = xml.replace(/%1/g, firstPart);
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL == 6) {
-    var xml = '<xml><block type="music_instrument" x="5" y="10"/></xml>';
+    var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp6', xml);
   } else if (BlocklyGames.LEVEL == 7) {
-    var xml = '<xml><block type="music_rest_whole" x="5" y="10"/></xml>';
+    var xml = '<xml><block type="music_rest_whole" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp7', xml);
   }
 

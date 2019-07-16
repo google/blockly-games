@@ -530,7 +530,7 @@ Maze.init = function() {
   var defaultXml =
       '<xml>' +
         '<block movable="' + (BlocklyGames.LEVEL != 1) + '" ' +
-        'type="maze_moveForward" x="70" y="70"/>' +
+        'type="maze_moveForward" x="70" y="70"></block>' +
       '</xml>';
   BlocklyInterface.loadBlocks(defaultXml, false);
 
@@ -635,7 +635,7 @@ Maze.levelHelp = function(opt_event) {
             '<xml>',
               '<block type="maze_moveForward" x="10" y="10">',
                 '<next>',
-                  '<block type="maze_moveForward"/>',
+                  '<block type="maze_moveForward"></block>',
                 '</next>',
               '</block>',
             '</xml>'];

@@ -6,6 +6,7 @@ appengine/*/generated/
 appengine/*/*/generated/
 appengine/third-party/
 json/keys.json
-third-party/
+third-party/*
+!third-party/soundfonts/
 
 *.komodoproject

@@ -283,7 +283,7 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none">
+  <xml id="toolbox" style="display: none" xmlns="https://developers.google.com/blockly/xml">
     {if $ij.level == 10}
       <category name="{msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}">
         <block type="turtle_move">
@@ -307,23 +307,23 @@
             </shadow>
           </value>
         </block>
-        <block type="turtle_pen"/>
-        <block type="turtle_visibility"/>
+        <block type="turtle_pen"></block>
+        <block type="turtle_visibility"></block>
         <block type="turtle_print">
           <value name="TEXT">
-            <shadow type="text"/>
+            <shadow type="text"></shadow>
           </value>
         </block>
-        <block type="turtle_font"/>
+        <block type="turtle_font"></block>
       </category>
       <category name="{msg meaning="Games.catColour" desc="IBID"}Colour{/msg}">
         <block type="turtle_colour">
           <value name="COLOUR">
-            <shadow type="colour_picker"/>
+            <shadow type="colour_picker"></shadow>
           </value>
         </block>
-        <block type="colour_picker"/>
-        <block type="colour_random"/>
+        <block type="colour_picker"></block>
+        <block type="colour_random"></block>
         <block type="colour_rgb">
           <value name="RED">
             <shadow type="math_number">
@@ -360,12 +360,12 @@
         </block>
       </category>
       <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
-        <block type="controls_if"/>
-        <block type="logic_compare"/>
-        <block type="logic_operation"/>
-        <block type="logic_negate"/>
-        <block type="logic_boolean"/>
-        <block type="logic_ternary"/>
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_ternary"></block>
       </category>
       <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
         <block type="controls_repeat_ext">
@@ -375,7 +375,7 @@
             </shadow>
           </value>
         </block>
-        <block type="controls_whileUntil"/>
+        <block type="controls_whileUntil"></block>
         <block type="controls_for">
           <value name="FROM">
             <shadow type="math_number">
@@ -393,10 +393,10 @@
             </shadow>
           </value>
         </block>
-        <block type="controls_flow_statements"/>
+        <block type="controls_flow_statements"></block>
       </category>
       <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
-        <block type="math_number"/>
+        <block type="math_number"></block>
         <block type="math_arithmetic">
           <value name="A">
             <shadow type="math_number">
@@ -423,7 +423,7 @@
             </shadow>
           </value>
         </block>
-        <block type="math_constant"/>
+        <block type="math_constant"></block>
         <block type="math_number_property">
           <value name="NUMBER_TO_CHECK">
             <shadow type="math_number">
@@ -479,13 +479,13 @@
             </shadow>
           </value>
         </block>
-        <block type="math_random_float"/>
+        <block type="math_random_float"></block>
       </category>
       <category name="{msg meaning="Games.catLists" desc="IBID"}Lists{/msg}">
         <block type="lists_create_with">
-          <mutation items="0"/>
+          <mutation items="0"></mutation>
         </block>
-        <block type="lists_create_with"/>
+        <block type="lists_create_with"></block>
         <block type="lists_repeat">
           <value name="NUM">
             <shadow type="math_number">
@@ -493,8 +493,8 @@
             </shadow>
           </value>
         </block>
-        <block type="lists_length"/>
-        <block type="lists_isEmpty"/>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
         <block type="lists_indexOf">
           <value name="VALUE">
             <block type="variables_get">
@@ -523,8 +523,8 @@
             </block>
           </value>
         </block>
-        <block type="lists_sort"/>
-        <block type="lists_reverse"/>
+        <block type="lists_sort"></block>
+        <block type="lists_reverse"></block>
       </category>
       <sep></sep>
       <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
@@ -538,12 +538,12 @@
           <field name="VALUE">90</field>
         </block>
         {if $ij.level > 3}
-          <block type="turtle_pen"/>
+          <block type="turtle_pen"></block>
         {/if}
       </category>
       {if $ij.level > 2}
         <category name="{msg meaning="Games.catColour" desc="IBID"}Colour{/msg}">
-          <block type="turtle_colour_internal"/>
+          <block type="turtle_colour_internal"></block>
         </category>
       {/if}
       <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">

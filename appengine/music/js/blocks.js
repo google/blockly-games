@@ -63,7 +63,8 @@ Blockly.Blocks['music_pitch'] = {
 };
 
 Blockly.JavaScript['music_pitch'] = function(block) {
-  return [block.getFieldValue('PITCH'), Blockly.JavaScript.ORDER_ATOMIC];
+  return [Number(block.getFieldValue('PITCH')),
+      Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.Blocks['music_note'] = {
@@ -115,7 +116,7 @@ Blockly.Blocks['music_note'] = {
 Blockly.JavaScript['music_note'] = function(block) {
   var pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
       Blockly.JavaScript.ORDER_COMMA) || '7';
-  return 'play(' + block.getFieldValue('DURATION') + ', ' + pitch +
+  return 'play(' + Number(block.getFieldValue('DURATION')) + ', ' + pitch +
       ', \'block_id_' + block.id + '\');\n';
 };
 
@@ -185,7 +186,7 @@ Blockly.Blocks['music_rest'] = {
 };
 
 Blockly.JavaScript['music_rest'] = function(block) {
-  return 'rest(' + block.getFieldValue('DURATION') +
+  return 'rest(' + Number(block.getFieldValue('DURATION')) +
       ', \'block_id_' + block.id + '\');\n';
 };
 
@@ -223,8 +224,8 @@ Blockly.Blocks['music_instrument'] = {
 };
 
 Blockly.JavaScript['music_instrument'] = function(block) {
-  return 'setInstrument(\'' + block.getFieldValue('INSTRUMENT') +
-      '\', \'block_id_' + block.id + '\');\n';
+  var instrument = Blockly.JavaScript.quote_(block.getFieldValue('INSTRUMENT'));
+  return 'setInstrument(' + instrument + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_start'] = {

@@ -83,7 +83,7 @@ Blockly.Blocks['bird_heading'] = {
 
 Blockly.JavaScript['bird_heading'] = function(block) {
   // Generate JavaScript for moving bird in a direction.
-  var dir = parseFloat(block.getFieldValue('ANGLE'));
+  var dir = Number(block.getFieldValue('ANGLE'));
   return 'heading(' + dir + ', \'block_id_' + block.id + '\');\n';
 };
 
