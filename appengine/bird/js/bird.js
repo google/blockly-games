@@ -33,7 +33,6 @@ goog.require('BlocklyInterface');
 goog.require('Blockly.utils.Coordinate');
 
 goog.require('goog.math');
-goog.require('goog.math.Line');
 goog.require('goog.style');
 
 
@@ -50,6 +49,70 @@ Bird.WORM_ICON_SIZE = 100;
 Bird.MAP_SIZE = 400;
 Bird.WALL_THICKNESS = 10;
 Bird.FLAP_SPEED = 100; // ms.
+
+/**
+ * Object representing a line.
+ * Copied from goog.math.Line
+ * @param {number} x0 X coordinate of the start point.
+ * @param {number} y0 Y coordinate of the start point.
+ * @param {number} x1 X coordinate of the end point.
+ * @param {number} y1 Y coordinate of the end point.
+ * @struct
+ * @final
+ * @constructor
+ */
+Bird.Line = function(x0, y0, x1, y1) {
+  /**
+   * X coordinate of the first point.
+   * @type {number}
+   */
+  this.x0 = x0;
+
+  /**
+   * Y coordinate of the first point.
+   * @type {number}
+   */
+  this.y0 = y0;
+
+  /**
+   * X coordinate of the first control point.
+   * @type {number}
+   */
+  this.x1 = x1;
+
+  /**
+   * Y coordinate of the first control point.
+   * @type {number}
+   */
+  this.y1 = y1;
+};
+
+/**
+ * Compute the distance between this line segment and the given coordinate.
+ * @param {!Blockly.utils.Coordinate} xy Point to measure from.
+ * @return {number} Distance from point to closest point on line segment.
+ */
+Bird.Line.prototype.distance = function(xy) {
+  var a = xy.x - this.x0;
+  var b = xy.y - this.y0;
+  var c = this.x1 - this.x0;
+  var d = this.y1 - this.y0;
+
+  var dot = a * c + b * d;
+  var lenSq = c * c + d * d;
+  var param = lenSq ? dot / lenSq : -1;
+
+  var closestPoint;
+  if (param < 0) {
+    closestPoint = new Blockly.utils.Coordinate(this.x0, this.y0);
+  } else if (param > 1) {
+    closestPoint = new Blockly.utils.Coordinate(this.x1, this.y1);
+  } else {
+    closestPoint =
+        new Blockly.utils.Coordinate(this.x0 + param * c, this.y0 + param * d);
+  }
+  return Blockly.utils.Coordinate.distance(xy, closestPoint);
+};
 
 Bird.MAP = [
   // Level 0.
@@ -68,7 +131,7 @@ Bird.MAP = [
     startAngle: 0,
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(80, 80),
-    walls: [new goog.math.Line(0, 50, 60, 50)]
+    walls: [new Bird.Line(0, 50, 60, 50)]
   },
   // Level 3.
   {
@@ -76,7 +139,7 @@ Bird.MAP = [
     startAngle: 270,
     worm: new Blockly.utils.Coordinate(50, 20),
     nest: new Blockly.utils.Coordinate(80, 70),
-    walls: [new goog.math.Line(50, 50, 50, 100)]
+    walls: [new Bird.Line(50, 50, 50, 100)]
   },
   // Level 4.
   {
@@ -84,7 +147,7 @@ Bird.MAP = [
     startAngle: 0,
     worm: null,
     nest: new Blockly.utils.Coordinate(80, 20),
-    walls: [new goog.math.Line(0, 0, 65, 65)]
+    walls: [new Bird.Line(0, 0, 65, 65)]
   },
   // Level 5.
   {
@@ -92,7 +155,7 @@ Bird.MAP = [
     startAngle: 270,
     worm: null,
     nest: new Blockly.utils.Coordinate(20, 20),
-    walls: [new goog.math.Line(0, 100, 65, 35)]
+    walls: [new Bird.Line(0, 100, 65, 35)]
   },
   // Level 6.
   {
@@ -100,7 +163,7 @@ Bird.MAP = [
     startAngle: 0,
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(20, 80),
-    walls: [new goog.math.Line(0, 59, 50, 59)]
+    walls: [new Bird.Line(0, 59, 50, 59)]
   },
   // Level 7.
   {
@@ -109,8 +172,8 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(20, 20),
     walls: [
-      new goog.math.Line(0, 70, 40, 70),
-      new goog.math.Line(70, 50, 100, 50)
+      new Bird.Line(0, 70, 40, 70),
+      new Bird.Line(70, 50, 100, 50)
     ]
   },
   // Level 8.
@@ -120,10 +183,10 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(80, 25),
     nest: new Blockly.utils.Coordinate(80, 75),
     walls: [
-      new goog.math.Line(50, 0, 50, 25),
-      new goog.math.Line(75, 50, 100, 50),
-      new goog.math.Line(50, 100, 50, 75),
-      new goog.math.Line(0, 50, 25, 50)
+      new Bird.Line(50, 0, 50, 25),
+      new Bird.Line(75, 50, 100, 50),
+      new Bird.Line(50, 100, 50, 75),
+      new Bird.Line(0, 50, 25, 50)
     ]
   },
   // Level 9.
@@ -133,9 +196,9 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(20, 20),
     nest: new Blockly.utils.Coordinate(80, 20),
     walls: [
-      new goog.math.Line(0, 69, 31, 100),
-      new goog.math.Line(40, 50, 71, 0),
-      new goog.math.Line(80, 50, 100, 50)
+      new Bird.Line(0, 69, 31, 100),
+      new Bird.Line(40, 50, 71, 0),
+      new Bird.Line(80, 50, 100, 50)
     ]
   },
   // Level 10.
@@ -145,9 +208,9 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(80, 50),
     nest: new Blockly.utils.Coordinate(20, 20),
     walls: [
-      new goog.math.Line(40, 60, 60, 60),
-      new goog.math.Line(40, 60, 60, 30),
-      new goog.math.Line(60, 30, 100, 30)
+      new Bird.Line(40, 60, 60, 60),
+      new Bird.Line(40, 60, 60, 30),
+      new Bird.Line(60, 30, 100, 30)
     ]
   }
 ][BlocklyGames.LEVEL];
@@ -182,10 +245,10 @@ Bird.drawMap = function() {
   // Add four surrounding walls.
   var edge0 = -Bird.WALL_THICKNESS / 2;
   var edge1 = 100 + Bird.WALL_THICKNESS / 2;
-  Bird.MAP.walls.push(new goog.math.Line(edge0, edge0, edge0, edge1));
-  Bird.MAP.walls.push(new goog.math.Line(edge0, edge1, edge1, edge1));
-  Bird.MAP.walls.push(new goog.math.Line(edge1, edge1, edge1, edge0));
-  Bird.MAP.walls.push(new goog.math.Line(edge1, edge0, edge0, edge0));
+  Bird.MAP.walls.push(new Bird.Line(edge0, edge0, edge0, edge1));
+  Bird.MAP.walls.push(new Bird.Line(edge0, edge1, edge1, edge1));
+  Bird.MAP.walls.push(new Bird.Line(edge1, edge1, edge1, edge0));
+  Bird.MAP.walls.push(new Bird.Line(edge1, edge0, edge0, edge0));
 
   // Draw the walls.
   for (var k = 0; k < Bird.MAP.walls.length; k++) {
@@ -784,8 +847,7 @@ Bird.intersectWorm = function() {
 Bird.intersectWall = function() {
   var accuracy = 0.2 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
   for (var i = 0, wall; (wall = Bird.MAP.walls[i]); i++) {
-    var wallPoint = wall.getClosestSegmentPoint(Bird.pos);
-    if (Blockly.utils.Coordinate.distance(wallPoint, Bird.pos) < accuracy) {
+    if (wall.distance(Bird.pos) < accuracy) {
       return true;
     }
   }
