@@ -34,7 +34,6 @@ goog.require('Music.soy');
 goog.require('Slider');
 
 goog.require('goog.array');
-goog.require('goog.dom');
 
 
 BlocklyGames.NAME = 'music';
@@ -388,9 +387,9 @@ Music.showCategoryHelp = function() {
  */
 Music.drawAnswer = function() {
   // Clear all content.
-  goog.dom.removeChildren(document.getElementById('staveBox'));
+  document.getElementById('staveBox').innerHTML = '';
   var musicContainer = document.getElementById('musicContainer');
-  goog.dom.removeChildren(musicContainer);
+  musicContainer.innerHTML = '';
   Music.barCount = 0;
   // Add spacer to allow scrollbar to scroll past last note/rest.
   // <img src="third-party/blockly/media/1x1.gif">

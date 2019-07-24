@@ -29,7 +29,6 @@ goog.require('Blockly.utils.math');
 goog.require('Genetics.Cage');
 goog.require('Genetics.MouseAvatar');
 
-goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.math');
 goog.require('goog.object');
@@ -344,7 +343,7 @@ Genetics.Visualization.reset = function() {
     nameDiv.title = playerName;
     nameDiv.style.background = hexColour;
     var text = document.createTextNode(playerName);
-    goog.dom.removeChildren(nameDiv);
+    nameDiv.innerHTML = '';
     nameDiv.appendChild(text);
     // Setup stats percentages for each function if there is a div for it.
     td = statsRow.cells[playerId];
@@ -376,7 +375,7 @@ Genetics.Visualization.reset = function() {
   }
 
   // Remove child DOM elements on display div.
-  goog.dom.removeChildren(Genetics.Visualization.display_);
+  Genetics.Visualization.display_.innerHTML = '';
 };
 
 /**

@@ -27,10 +27,9 @@ goog.provide('Genetics.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.utils.xml');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JSBlocks');
-
-goog.require('goog.dom');
 
 
 /**
@@ -166,10 +165,19 @@ Blockly.Blocks['genetics_acceptMate'] = {
       var option = {enabled: true};
       var name = 'suitor';
       option.text = Blockly.Msg['VARIABLES_SET_CREATE_GET'].replace('%1', name);
-      var xmlField = goog.dom.createDom('field', null, name);
-      xmlField.setAttribute('name', 'VAR');
-      var xmlBlock = goog.dom.createDom('block', null, xmlField);
+      /* Creates the following XML:
+       * <block type="variables_get">
+       *   <field name="VAR">suitor</field>
+       * </block>
+       */
+      var xmlBlock = Blockly.utils.xml.createElement('block');
       xmlBlock.setAttribute('type', 'variables_get');
+      var xmlField = Blockly.utils.xml.createElement('field');
+      xmlField.setAttribute('name', 'VAR');
+      var argumentName = Blockly.utils.xml.createTextNode(name);
+      xmlField.appendChild(argumentName);
+      xmlBlock.appendChild(xmlField);
+
       option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
       options.push(option);
     }

@@ -212,8 +212,8 @@ Movie.updateCoordinates = function(e) {
     y = Math.round(y / 10) * 10;
   }
   if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
-    document.getElementById('x').innerHTML = 'x = ' + x;
-    document.getElementById('y').innerHTML = 'y = ' + y;
+    document.getElementById('x').textContent = 'x = ' + x;
+    document.getElementById('y').textContent = 'y = ' + y;
   } else {
     Movie.hideCoordinates();
   }
