@@ -203,7 +203,7 @@
 	"Movie.helpLayer": "Siirrä taustalla oleva ympyrä ohjelman yläreunaan, niin se ilmestyy henkilön takana.",
 	"Movie.helpText1": "Käytä yksinkertaisia muotoja tämän henkilön piirtämiseen.",
 	"Movie.helpText2a": "Tämä tehtävä on elokuva. Siirrä henkilön käsi näytön poikki. Paina toista-painiketta esikatsellaksesi.",
-	"Movie.helpText2b": "Kun elokuva on käynnissä, aika etenee 'aika'-lohkossa nollasta sataan. Koska tarkoitus on saada käden 'y' sijanti alkamaan nollasta ja loppun sataan, pitäisi sen onnistua helposti.",
+	"Movie.helpText2b": "Kun elokuva on käynnissä, aika etenee 'aika'-lohkossa nollasta sataan. Koska tarkoitus on saada käden 'y'-sijainti alkamaan nollasta ja loppumaan sataan, pitäisi sen onnistua helposti.",
 	"Movie.helpText3": "Aika juoksee 'time' lohkossa nollasta sataan mutta tällä kertaa punaisen pallon vaakasuora sijainti alkaa sadasta ja siirtyy nollaan. Osaatko ratkaista tämän yksinkertaisen matemaattisen yhtälön jossa käytät hyväksesi ajan arvoa.",
 	"Movie.helpText4": "Käytä edellisessä tasossa oppimaasi neljän vihreän pallo luomiseen, jotka liikkuvat jokaiseen neljään suuntaan.",
 	"Movie.helpText5": "Käden matemaattinen laskentakaava on monimutkainen. Tässä vastaus:",
