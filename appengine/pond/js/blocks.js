@@ -30,7 +30,7 @@ goog.require('Blockly.Blocks.math');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.math');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.JSBlocks');
+goog.require('BlocklyGames.JsBlocks');
 
 
 /**
@@ -395,7 +395,7 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
   var operator = block.getFieldValue('OP');
   var code;
   var arg = Blockly.JavaScript.valueToCode(block, 'NUM',
-          Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_NONE) || '0';
   // First, handle cases which generate values that don't need parentheses
   // wrapping the code.
   switch (operator) {

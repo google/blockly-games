@@ -31,9 +31,9 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.style');
 
 goog.require('goog.math');
-goog.require('goog.style');
 
 
 BlocklyGames.NAME = 'bird';
@@ -515,7 +515,7 @@ Bird.levelHelp = function() {
         }
       }
       if (!block.mutator.isVisible()) {
-        var xy = goog.style.getPageOffset(block.getSvgRoot());
+        var xy = Blockly.utils.style.getPageOffset(block.getSvgRoot());
         style = {'width': '340px', 'top': (xy.y + 100) + 'px'};
         style.left = (xy.x - (rtl ? 280 : 0)) + 'px';
         origin = block.getSvgRoot();
@@ -524,7 +524,7 @@ Bird.levelHelp = function() {
         // Second help box should be below the 'else' block in the mutator.
         // Really fragile code.  There is no public API for this.
         origin = block.mutator.workspace_.flyout_.mats_[1];
-        var xy = goog.style.getPageOffset(origin);
+        var xy = Blockly.utils.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
       }
@@ -537,7 +537,7 @@ Bird.levelHelp = function() {
           break;
         }
       }
-      var xy = goog.style.getPageOffset(block.getSvgRoot());
+      var xy = Blockly.utils.style.getPageOffset(block.getSvgRoot());
       style = {'width': '350px', 'top': (xy.y + 220) + 'px'};
       style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
       origin = block.getSvgRoot();

@@ -25,7 +25,7 @@
  */
 'use strict';
 
-goog.provide('BlocklyGames.JSBlocks');
+goog.provide('BlocklyGames.JsBlocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks.lists');
@@ -357,7 +357,7 @@ Blockly.Blocks['math_change'].init = function() {
 
 /**
  * Defines the JavaScript generation for the change block, without checks as to
- * whether the variable is a number because users of games that use JSBlocks
+ * whether the variable is a number because users of games that use JsBlocks
  * are advanced and this reduces complexity in generated code.
  * @param {Blockly.Block} block
  * @return {string}

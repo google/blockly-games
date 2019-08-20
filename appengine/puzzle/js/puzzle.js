@@ -30,8 +30,7 @@ goog.require('Puzzle.Blocks');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-
-goog.require('goog.math');
+goog.require('Blockly.utils.math');
 
 
 BlocklyGames.NAME = 'puzzle';
@@ -322,9 +321,9 @@ Puzzle.animate = function(block, angleOffset) {
   var angle = angleOffset + (ms / 50 % 360);
   // Vary the radius sinusoidally.
   radius *= Math.sin(((ms % 5000) / 5000) * (Math.PI * 2)) / 8 + 7 / 8;
-  var targetX = goog.math.angleDx(angle, radius) + halfWidth -
+  var targetX = Puzzle.angleDx(angle, radius) + halfWidth -
       blockHW.width / 2;
-  var targetY = goog.math.angleDy(angle, radius) + halfHeight -
+  var targetY = Puzzle.angleDy(angle, radius) + halfHeight -
       blockHW.height / 2;
   var speed = 5;
 
@@ -334,12 +333,51 @@ Puzzle.animate = function(block, angleOffset) {
     var dx = targetX - blockXY.x;
     var dy = targetY - blockXY.y;
   } else {
-    var heading = goog.math.angle(blockXY.x, blockXY.y, targetX, targetY);
-    var dx = Math.round(goog.math.angleDx(heading, speed));
-    var dy = Math.round(goog.math.angleDy(heading, speed));
+    var heading = Puzzle.angle(blockXY.x, blockXY.y, targetX, targetY);
+    var dx = Math.round(Puzzle.angleDx(heading, speed));
+    var dy = Math.round(Puzzle.angleDy(heading, speed));
   }
   block.moveBy(dx, dy);
   setTimeout(Puzzle.animate.bind(null, block, angleOffset), 50);
+};
+
+/**
+ * For a given angle and radius, finds the X portion of the offset.
+ * Copied from Closure's goog.math.angleDx.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The x-distance for the angle and radius.
+ */
+Puzzle.angleDx = function(degrees, radius) {
+  return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * For a given angle and radius, finds the Y portion of the offset.
+ * Copied from Closure's goog.math.angleDy.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The y-distance for the angle and radius.
+ */
+Puzzle.angleDy = function(degrees, radius) {
+  return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * Computes the angle between two points (x1,y1) and (x2,y2).
+ * Angle zero points in the +X direction, 90 degrees points in the +Y
+ * direction (down) and from there we grow clockwise towards 360 degrees.
+ * Copied from Closure's goog.math.angle.
+ * @param {number} x1 x of first point.
+ * @param {number} y1 y of first point.
+ * @param {number} x2 x of second point.
+ * @param {number} y2 y of second point.
+ * @return {number} Standardized angle in degrees of the vector from
+ *     x1,y1 to x2,y2.
+ */
+Puzzle.angle = function(x1, y1, x2, y2) {
+  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  return angle % 360;
 };
 
 /**

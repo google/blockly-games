@@ -29,7 +29,7 @@ goog.require('Blockly');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.utils.xml');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.JSBlocks');
+goog.require('BlocklyGames.JsBlocks');
 
 
 /**

@@ -28,8 +28,7 @@ goog.provide('BlocklyDialogs');
 goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-
-goog.require('goog.style');
+goog.require('Blockly.utils.style');
 
 
 /**
@@ -275,7 +274,7 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
  * @private
  */
 BlocklyDialogs.getBBox_ = function(element) {
-  var xy = goog.style.getPageOffset(element);
+  var xy = Blockly.utils.style.getPageOffset(element);
   var box = {
     x: xy.x,
     y: xy.y

@@ -28,12 +28,12 @@ goog.provide('Movie');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.style');
 goog.require('Movie.Answers');
 goog.require('Movie.Blocks');
 goog.require('Movie.soy');
 goog.require('Scrubber');
-
-goog.require('goog.style');
 
 
 BlocklyGames.NAME = 'movie';
@@ -191,9 +191,12 @@ Movie.updateCoordinates = function(e) {
     x -= window.innerWidth;
   }
   // Compensate for the location of the visualization.
-  var offset = goog.style.getBounds(document.getElementById('visualization'));
-  x += rtl ? offset.left : -offset.left;
-  y -= offset.top;
+  var viz = document.getElementById('visualization');
+  var position = Blockly.utils.style.getPageOffset(viz);
+  var scroll = Blockly.utils.style.getViewportPageOffset();
+  var offset = Blockly.utils.Coordinate.difference(position, scroll);
+  x += rtl ? offset.x : -offset.x;
+  y -= offset.y;
   // The visualization is 400x400, but the coordinates are 100x100.
   x /= 4;
   y /= 4;

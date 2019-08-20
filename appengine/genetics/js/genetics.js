@@ -35,7 +35,6 @@ goog.require('Genetics.MouseAvatar');
 goog.require('Genetics.Visualization');
 goog.require('Genetics.soy');
 
-goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.math');
 goog.require('goog.ui.Component.EventType');
@@ -660,7 +659,7 @@ Genetics.addStartingMice = function() {
         size: 1
       }
     ];
-    goog.array.shuffle(startingMice);
+    Genetics.shuffle(startingMice);
   } else if (BlocklyGames.LEVEL <= 8) {
     startingMice = [
       {
@@ -734,7 +733,7 @@ Genetics.addStartingMice = function() {
         sex: Genetics.Mouse.Sex.MALE
       }
     ];
-    goog.array.shuffle(startingMice);
+    Genetics.shuffle(startingMice);
   } else {  // BlocklyGames.LEVEL >= 9
     startingMice = [];
     var mouseId = 0;
@@ -748,7 +747,7 @@ Genetics.addStartingMice = function() {
         });
       }
     }
-    goog.array.shuffle(startingMice);
+    Genetics.shuffle(startingMice);
   }
   for (var i = 0, mouseStats; mouseStats = startingMice[i]; i++) {
     var sex = mouseStats.sex ||
@@ -772,6 +771,23 @@ Genetics.addStartingMice = function() {
     } else {
       new Genetics.Cage.Event('ADD', mouse).addToQueue();
     }
+  }
+};
+
+/**
+ * Shuffles the values in the specified array using the Fisher-Yates in-place
+ * shuffle (also known as the Knuth Shuffle).
+ * Runtime: O(n)
+ * Based on Closure's goog.array.shuffle.
+ * @param {!Array} arr The array to be shuffled.
+ */
+Genetics.shuffle = function(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    // Choose a random array index in [0, i] (inclusive with i).
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
   }
 };
 

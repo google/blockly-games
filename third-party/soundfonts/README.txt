@@ -30,7 +30,7 @@ Salamander Grand Piano
 Version V3+2016-12-09
 Author: Alexander Holm, axeldenstore (at) gmail (dot) com.
 Creative Commons Attribution 3.0 license.
-http://freepats.zenvoid.org/Piano/acoustic-grand-piano.html
+https://freepats.zenvoid.org/Piano/acoustic-grand-piano.html
 
 trumpet:
 commit 44cf273 on Oct 2, 2013
