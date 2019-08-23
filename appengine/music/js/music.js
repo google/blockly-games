@@ -33,8 +33,6 @@ goog.require('Music.Blocks');
 goog.require('Music.soy');
 goog.require('Slider');
 
-goog.require('goog.array');
-
 
 BlocklyGames.NAME = 'music';
 
@@ -903,8 +901,8 @@ Music.checkAnswer = function() {
   // Notes match expected answer?
   for (var i = 0; i < Music.expectedAnswer.length; i++) {
     if (Music.threads[i].stave == i + 1) {
-      if (!goog.array.equals(Music.expectedAnswer[i],
-                             Music.threads[i].transcript)) {
+      if (String(Music.expectedAnswer[i]) !=
+          String(Music.threads[i].transcript)) {
         return false;
       }
       continue;
@@ -914,11 +912,16 @@ Music.checkAnswer = function() {
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-    var instruments = code.match(/setInstrument\('\w+'/g) || [];
+    var instrumentList = code.match(/setInstrument\('\w+'/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
-    goog.array.removeDuplicates(instruments);
-    goog.array.remove(instruments, 'setInstrument(\'piano\'');
-    instruments = instruments.length;
+    // Remove duplicates.
+    var instrumentHash = {};
+    for (var i = 0; i < instrumentList.length; i++) {
+      instrumentHash[instrumentList[i]] = true;
+    }
+    // But not the piano.
+    delete instrumentHash['setInstrument(\'piano\''];
+    var instruments = Object.keys(instrumentHash).length;
 
     // Level 6 requires a "set instrument" block.
     // Fail silently since that's the entire point of the level.
