@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 h2 {
@@ -54,26 +55,43 @@ pre, code {
   background: rgba(133, 65, 155, 0.2);
 }
 
-.goog-zippy-expanded>img {
-  background-image: url('zippy-minus.png');
-}
-
-.goog-zippy-collapsed>img {
+.zippy-header-collapsed>img {
   background-image: url('zippy-plus.png');
 }
 
-.goog-zippy-header {
+.zippy-header-expanded>img {
+  background-image: url('zippy-minus.png');
+}
+
+.zippy-header-collapsed,
+.zippy-header-expanded {
   outline: 0;
   background-color: #eee;
   padding: 10px;
   border-radius: 20px;
 }
 
-.goog-zippy-header>img {
+.zippy-header-collapsed>img,
+.zippy-header-expanded>img {
   height: 28px;
   margin-right: 1ex;
   width: 28px;
   vertical-align: bottom;
+}
+
+.zippy-content-collapsed,
+.zippy-content-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: all .5s ease;
+}
+
+.zippy-content-collapsed {
+  opacity: 0;
+}
+
+.zippy-content-expanded {
+  opacity: 1;
 }
 
 .blocklyPathLight {
