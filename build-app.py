@@ -101,7 +101,7 @@ class Gen_uncompressed(threading.Thread):
     try:
       proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     except:
-      print("Failed to Popen: %s" % cmd)
+      print("Failed to Popen: %s" % ' '.join(cmd))
       raise
     files = readStdout(proc)
 

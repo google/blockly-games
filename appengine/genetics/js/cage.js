@@ -27,8 +27,6 @@ goog.provide('Genetics.Cage');
 
 goog.require('Genetics.Mouse');
 
-goog.require('goog.array');
-
 
 /**
  * The maximum population in a cage.
@@ -605,8 +603,14 @@ Genetics.Cage.addMouse = function(mouse) {
  * @param {!Genetics.Mouse} mouse The mouse to kill.
  */
 Genetics.Cage.die = function(mouse) {
-  goog.array.remove(Genetics.Cage.nextRoundMice_, mouse);
-  goog.array.remove(Genetics.Cage.currentRoundMice_, mouse);
+  var i = Genetics.Cage.nextRoundMice_.indexOf(mouse);
+  if (i != -1) {
+    Genetics.Cage.nextRoundMice_.splice(i, 1);
+  }
+  i = Genetics.Cage.currentRoundMice_.indexOf(mouse);
+  if (i != -1) {
+    Genetics.Cage.nextRoundMice_.splice(i, 1);
+  }
   delete Genetics.Cage.miceMap_[mouse.id];
 };
 

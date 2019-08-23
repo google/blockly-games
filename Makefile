@@ -162,6 +162,8 @@ deps:
 
 	@# messages.js confuses the compiler by also providing "Blockly.Msg.en".
 	rm $(APP_ENGINE_THIRD_PARTY)/blockly/msg/messages.js
+	@# Blockly includes a Closure stub that confuses the compiler by also providing "goog".
+	rm -r $(APP_ENGINE_THIRD_PARTY)/blockly/closure
 
 	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
 	@# Remove @license tag so compiler will strip Google's license.
