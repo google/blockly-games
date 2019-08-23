@@ -31,9 +31,8 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.style');
-
-goog.require('goog.math');
 
 
 BlocklyGames.NAME = 'bird';
@@ -777,13 +776,19 @@ Bird.animate = function() {
  * Display bird at the current location, facing the current angle.
  */
 Bird.displayBird = function() {
-  var diff = goog.math.angleDifference(Bird.angle, Bird.currentAngle);
+  var diff = (Bird.currentAngle - Bird.angle) % 360;
+  if (diff < 0) {
+    diff += 360;
+  }
   var step = 10;
   if (Math.abs(diff) <= step) {
     Bird.currentAngle = Bird.angle;
   } else {
-    Bird.currentAngle -= goog.math.sign(diff) * step;
-    Bird.currentAngle = goog.math.standardAngle(Bird.currentAngle);
+    Bird.currentAngle += (diff < 0) ? step : -step;
+    Bird.currentAngle = Bird.currentAngle % 360;
+    if (Bird.currentAngle < 0) {
+      Bird.currentAngle += 360;
+    }
   }
   // Divide into 12 quads.
   var quad = (14 - Math.round(Bird.currentAngle / 360 * 12)) % 12;
@@ -860,13 +865,34 @@ Bird.intersectWall = function() {
  */
 Bird.gotoPoint = function(p) {
   var steps = Math.round(Blockly.utils.Coordinate.distance(Bird.pos, p));
-  var angleDegrees = goog.math.angle(Bird.pos.x, Bird.pos.y, p.x, p.y);
+  var angleDegrees = Bird.pointsToAngle(Bird.pos.x, Bird.pos.y, p.x, p.y);
   var angleRadians = Blockly.utils.math.toRadians(angleDegrees);
   for (var i = 0; i < steps; i++) {
     Bird.pos.x += Math.cos(angleRadians);
     Bird.pos.y += Math.sin(angleRadians);
     Bird.log.push(['goto', Bird.pos.x, Bird.pos.y, angleDegrees, null]);
   }
+};
+
+/**
+ * Computes the angle between two points (x1,y1) and (x2,y2).
+ * Angle zero points in the +X direction, 90 degrees points in the +Y
+ * direction (down) and from there we grow clockwise towards 360 degrees.
+ * Copied from Closure's goog.math.angle.
+ * @param {number} x1 x of first point.
+ * @param {number} y1 y of first point.
+ * @param {number} x2 x of second point.
+ * @param {number} y2 y of second point.
+ * @return {number} Standardized angle in degrees of the vector from
+ *     x1,y1 to x2,y2.
+ */
+Bird.pointsToAngle = function(x1, y1, x2, y2) {
+  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  angle %= 360;
+  if (angle < 0) {
+    angle += 360;
+  }
+  return angle;
 };
 
 /**
