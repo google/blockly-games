@@ -45,7 +45,7 @@ Pond.Visualization.EXPLOSIONS = [];
 Pond.Visualization.SPRITES = new Image();
 Pond.Visualization.SPRITES.src = 'pond/sprites.png';
 
-Pond.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
+Pond.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#223068'];
 
 Pond.Visualization.pid = 0;
 
@@ -92,11 +92,15 @@ Pond.Visualization.reset = function() {
   Pond.Visualization.stop();
   Pond.Visualization.EXPLOSIONS.length = 0;
   // Clear out the avatar status row.
-  var row = document.getElementById('avatarStatRow');
-  row.innerHTML = '';
+  var row1 = document.getElementById('avatarStatRow1');
+  row1.innerHTML = '';
+  var row2 = document.getElementById('avatarStatRow2');
+  row2.innerHTML = '';
   var nameDivs = [];
   var healthDivs = [];
   for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+    // Players 0+1 on first row, 2+3 or second, 4+5 on first, etc.
+    var row = (Math.floor(i / 2) % 2) ? row2 : row1;
     // Assign a colour to each avatar.
     var hexColour =
         Pond.Visualization.COLOURS[i % Pond.Visualization.COLOURS.length];

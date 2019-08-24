@@ -158,7 +158,7 @@ Pond.Duck.init = function() {
       code: null
     },
     {
-      start: new Blockly.utils.Coordinate(80, 20),
+      start: new Blockly.utils.Coordinate(80, 80),
       damage: 0,
       name: 'Pond_rookName',
       code: 'playerRook'
@@ -170,7 +170,7 @@ Pond.Duck.init = function() {
       code: 'playerCounter'
     },
     {
-      start: new Blockly.utils.Coordinate(80, 80),
+      start: new Blockly.utils.Coordinate(80, 20),
       damage: 0,
       name: 'Pond_sniperName',
       code: 'playerSniper'

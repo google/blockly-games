@@ -27,14 +27,14 @@
   height: 20px;
 }
 
-#avatarStatRow>td {
+#avatarStatTable td {
   padding: 0;
   border: 1px solid;
   background: #ccc;
   border-radius: 2px;
 }
 
-#avatarStatRow>td>div:not(.avatarStatHealth) {
+#avatarStatTable div:not(.avatarStatHealth) {
   padding: 1px;
 }
 
