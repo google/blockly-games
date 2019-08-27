@@ -508,6 +508,9 @@ Genetics.Visualization.processCageEvents_ = function() {
 
     var mouse = (event['ID'] !== undefined) ?
         Genetics.Visualization.mice_[event['ID']] : null;
+    if (mouse === undefined) {
+      throw Error('Event has no mouse.');
+    }
     var opponent = (event['OPT_OPPONENT'] !== undefined) ?
         Genetics.Visualization.mice_[event['OPT_OPPONENT']] : null;
     var askedMouse = (event['OPT_PARTNER'] !== undefined) ?
@@ -664,7 +667,7 @@ Genetics.Visualization.processMateEvent_ = function(
     // Show a broken heart.
     var afterBroken = function() {
       Genetics.log(getMouseName(proposingMouse) + ' asked ' +
-          getMouseName(askedMouse) + ' to mate, The answer is NO!');
+          getMouseName(askedMouse) + ' to mate, the answer is NO!');
 
       proposingMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
       askedMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
@@ -678,7 +681,7 @@ Genetics.Visualization.processMateEvent_ = function(
   } else {
     // result == 'SUCCESS' || result == 'INCOMPATIBLE' || result == 'INFERTILE'
     Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
-        getMouseName(askedMouse, true, true) + ' to mate, The answer is YES!');
+        getMouseName(askedMouse, true, true) + ' to mate, the answer is YES!');
 
     var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
             parseInt(askedMouse.element.style.left, 10)) +

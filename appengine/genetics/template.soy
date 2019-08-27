@@ -4,7 +4,7 @@
  * This is a Closure Template.
  *
  * To regenerate just English, run:
- *   make genetics-lab-en
+ *   make genetics-en
  *
  * To regenerate all languages, run:
  *   make languages
@@ -174,7 +174,7 @@
 
   {call .visualization /}
 
- {if $ij.level > 8}
+  {if $ij.level > 8}
   <div id="tabarea">
     <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
       <div class="goog-tab goog-tab-selected">{msg meaning="Games.blocks" desc="IBID"}Blocks{/msg}</div>
@@ -182,7 +182,7 @@
     </div>
     <div class="goog-tab-bar-clear"></div>
     {/if}
-     {if $ij.level > 8 or $ij.level % 2 == 1}
+    {if $ij.level > 8 or $ij.level % 2 == 1}
     <div id="blockly"></div>
     {/if}
     {if $ij.level > 8 or $ij.level % 2 == 0}
