@@ -25,9 +25,9 @@
 
 goog.provide('Pond.Avatar');
 
-goog.require('BlocklyGames');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
+goog.require('BlocklyGames');
 
 goog.require('goog.math');
 

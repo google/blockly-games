@@ -25,11 +25,11 @@
 
 goog.provide('Movie');
 
+goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.style');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('Blockly.utils.Coordinate');
-goog.require('Blockly.utils.style');
 goog.require('Movie.Answers');
 goog.require('Movie.Blocks');
 goog.require('Movie.soy');

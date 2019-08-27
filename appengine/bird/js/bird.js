@@ -27,12 +27,12 @@ goog.provide('Bird');
 
 goog.require('Bird.Blocks');
 goog.require('Bird.soy');
-goog.require('BlocklyDialogs');
-goog.require('BlocklyGames');
-goog.require('BlocklyInterface');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.style');
+goog.require('BlocklyDialogs');
+goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 
 
 BlocklyGames.NAME = 'bird';

@@ -25,10 +25,10 @@
 
 goog.provide('Pond.Tutor');
 
+goog.require('Blockly.utils.Coordinate');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('Blockly.utils.Coordinate');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');

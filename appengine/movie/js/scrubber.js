@@ -25,8 +25,8 @@
 
 goog.provide('Scrubber');
 
-goog.require('BlocklyGames');
 goog.require('Blockly.utils.math');
+goog.require('BlocklyGames');
 
 
 /**

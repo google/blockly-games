@@ -25,10 +25,10 @@
 
 goog.provide('Music');
 
+goog.require('Blockly.utils.dom');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('Blockly.utils.dom');
 goog.require('Music.Blocks');
 goog.require('Music.soy');
 goog.require('Slider');

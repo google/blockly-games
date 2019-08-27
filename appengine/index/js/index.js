@@ -25,8 +25,8 @@
 
 goog.provide('Index');
 
-goog.require('BlocklyGames');
 goog.require('Blockly.utils.math');
+goog.require('BlocklyGames');
 goog.require('Index.soy');
 
 
