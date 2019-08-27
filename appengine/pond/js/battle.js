@@ -417,37 +417,37 @@ Pond.Battle.initInterpreter = function(interpreter, scope) {
   var myMath = interpreter.getProperty(scope, 'Math');
   if (myMath) {
     wrapper = function(number) {
-      return Math.sin((number) / 180 * Math.PI);
+      return Math.sin(Blockly.utils.math.toRadians(number));
     };
     interpreter.setProperty(myMath, 'sin_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return Math.cos((number) / 180 * Math.PI);
+      return Math.cos(Blockly.utils.math.toRadians(number));
     };
     interpreter.setProperty(myMath, 'cos_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return Math.tan((number) / 180 * Math.PI);
+      return Math.tan(Blockly.utils.math.toRadians(number));
     };
     interpreter.setProperty(myMath, 'tan_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return Math.asin(number) / Math.PI * 180;
+      return Blockly.utils.math.toDegrees(Math.asin(number));
     };
     interpreter.setProperty(myMath, 'asin_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return Math.acos(number) / Math.PI * 180;
+      return Blockly.utils.math.toDegrees(Math.acos(number));
     };
     interpreter.setProperty(myMath, 'acos_deg',
         interpreter.createNativeFunction(wrapper));
 
     wrapper = function(number) {
-      return Math.atan(number) / Math.PI * 180;
+      return Blockly.utils.math.toDegrees(Math.atan(number));
     };
     interpreter.setProperty(myMath, 'atan_deg',
         interpreter.createNativeFunction(wrapper));

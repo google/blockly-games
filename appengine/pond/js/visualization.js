@@ -26,6 +26,7 @@
 goog.provide('Pond.Visualization');
 
 goog.require('Blockly');
+goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.userAgent');
 goog.require('Pond.Battle');
 
@@ -220,7 +221,7 @@ Pond.Visualization.display_ = function() {
       } else {
         var speed = Pond.Visualization.AVATAR_SIZE * 2;
       }
-      ctx.rotate(-avatar.degree / 180 * Math.PI);
+      ctx.rotate(Blockly.utils.math.toRadians(-avatar.degree));
       ctx.drawImage(Pond.Visualization.SPRITES,
           Pond.Visualization.AVATAR_SIZE * 13, speed,
           Pond.Visualization.AVATAR_SIZE,
@@ -246,7 +247,7 @@ Pond.Visualization.display_ = function() {
     // Offset the head from the middle.
     var headRadialOffset = 12;
     var headVerticalOffset = 2;
-    var radians = avatar.facing / 180 * Math.PI;
+    var radians = Blockly.utils.math.toRadians(avatar.facing);
     var hx = Math.cos(radians) * headRadialOffset;
     var hy = -Math.sin(radians) * headRadialOffset - headVerticalOffset;
     ctx.translate(hx, hy);
@@ -259,7 +260,7 @@ Pond.Visualization.display_ = function() {
     }
     // For unknown reasons remainder is too large.  Scale down the rotation.
     remainder /= 1.5;
-    ctx.rotate(-remainder / 180 * Math.PI);
+    ctx.rotate(Blockly.utils.math.toRadians(-remainder));
     ctx.drawImage(Pond.Visualization.SPRITES,
         quad * Pond.Visualization.AVATAR_SIZE, colour,
         Pond.Visualization.AVATAR_SIZE,

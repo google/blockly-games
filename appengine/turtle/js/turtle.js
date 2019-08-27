@@ -28,6 +28,7 @@ goog.provide('Turtle');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Blockly.utils.math');
 goog.require('Slider');
 goog.require('Turtle.Answers');
 goog.require('Turtle.Blocks');
@@ -504,7 +505,7 @@ Turtle.display = function() {
     var HEAD_TIP = 10;
     var ARROW_TIP = 4;
     var BEND = 6;
-    var radians = 2 * Math.PI * Turtle.heading / 360;
+    var radians = Blockly.utils.math.toRadians(Turtle.heading);
     var tipX = Turtle.x + (radius + HEAD_TIP) * Math.sin(radians);
     var tipY = Turtle.y - (radius + HEAD_TIP) * Math.cos(radians);
     radians -= WIDTH;
@@ -723,8 +724,9 @@ Turtle.move = function(distance, id) {
     Turtle.ctxScratch.moveTo(Turtle.x, Turtle.y);
   }
   if (distance) {
-    Turtle.x += distance * Math.sin(2 * Math.PI * Turtle.heading / 360);
-    Turtle.y -= distance * Math.cos(2 * Math.PI * Turtle.heading / 360);
+    var radians = Blockly.utils.math.toRadians(Turtle.heading);
+    Turtle.x += distance * Math.sin(radians);
+    Turtle.y -= distance * Math.cos(radians);
     var bump = 0;
   } else {
     // WebKit (unlike Gecko) draws nothing for a zero-length line.
@@ -796,7 +798,7 @@ Turtle.isVisible = function(visible, id) {
 Turtle.drawPrint = function(text, id) {
   Turtle.ctxScratch.save();
   Turtle.ctxScratch.translate(Turtle.x, Turtle.y);
-  Turtle.ctxScratch.rotate(2 * Math.PI * (Turtle.heading - 90) / 360);
+  Turtle.ctxScratch.rotate(Blockly.utils.math.toRadians(Turtle.heading - 90));
   Turtle.ctxScratch.fillText(text, 0, 0);
   Turtle.ctxScratch.restore();
   Turtle.animate(id);

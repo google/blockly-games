@@ -29,6 +29,7 @@ goog.require('Blockly.FieldDropdown');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Blockly.utils.math');
 goog.require('Maze.Blocks');
 goog.require('Maze.soy');
 
@@ -1179,9 +1180,7 @@ Maze.updatePegSpin_ = function(e) {
   var y = bBox.y + bBox.height / 2 - window.pageYOffset;
   var dx = e.clientX - x;
   var dy = e.clientY - y;
-  var angle = Math.atan(dy / dx);
-  // Convert from radians to degrees because I suck at math.
-  angle = angle / Math.PI * 180;
+  var angle = Blockly.utils.math.toDegrees(Math.atan(dy / dx));
   // 0: North, 90: East, 180: South, 270: West.
   if (dx > 0) {
     angle += 90;
