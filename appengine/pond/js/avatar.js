@@ -29,8 +29,6 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
 
-goog.require('goog.math');
-
 
 /**
  * Class for a avatar.
@@ -120,7 +118,7 @@ Pond.Avatar.prototype.reset = function() {
   this.loc.x = this.startLoc_.x;
   this.loc.y = this.startLoc_.y;
   // Face the centre.
-  this.degree = goog.math.angle(this.loc.x, this.loc.y, 50, 50);
+  this.degree = Pond.Avatar.pointsToAngle(this.loc.x, this.loc.y, 50, 50);
   this.facing = this.degree;
   var code = this.code_;
   if (typeof code == 'function') {
@@ -284,8 +282,8 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
   this.facing = degree;
   range = Blockly.utils.math.clamp(range, 0, 70);
   var endLoc = new Blockly.utils.Coordinate(
-      startLoc.x + goog.math.angleDx(degree, range),
-      startLoc.y + goog.math.angleDy(degree, range));
+      startLoc.x + Pond.Avatar.angleDx(degree, range),
+      startLoc.y + Pond.Avatar.angleDy(degree, range));
   var missile = {
     avatar: this,
     startLoc: startLoc,
@@ -298,4 +296,44 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
   this.battle_.EVENTS.push({'type': 'BANG', 'avatar': this,
       'degree': missile.degree});
   return true;
+};
+
+
+/**
+ * For a given angle and radius, finds the X portion of the offset.
+ * Copied from Closure's goog.math.angleDx.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The x-distance for the angle and radius.
+ */
+Pond.Avatar.angleDx = function(degrees, radius) {
+  return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * For a given angle and radius, finds the Y portion of the offset.
+ * Copied from Closure's goog.math.angleDy.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The y-distance for the angle and radius.
+ */
+Pond.Avatar.angleDy = function(degrees, radius) {
+  return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * Computes the angle between two points (x1,y1) and (x2,y2).
+ * Angle zero points in the +X direction, 90 degrees points in the +Y
+ * direction (down) and from there we grow clockwise towards 360 degrees.
+ * Copied from Closure's goog.math.angle.
+ * @param {number} x1 x of first point.
+ * @param {number} y1 y of first point.
+ * @param {number} x2 x of second point.
+ * @param {number} y2 y of second point.
+ * @return {number} Standardized angle in degrees of the vector from
+ *     x1,y1 to x2,y2.
+ */
+Pond.Avatar.pointsToAngle = function(x1, y1, x2, y2) {
+  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  return BlocklyGames.normalizeAngle(angle);
 };

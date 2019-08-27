@@ -25,10 +25,10 @@
 
 goog.provide('Turtle');
 
+goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('Blockly.utils.math');
 goog.require('Slider');
 goog.require('Turtle.Answers');
 goog.require('Turtle.Blocks');
