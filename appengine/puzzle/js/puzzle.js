@@ -196,7 +196,7 @@ Puzzle.legs = function() {
     list[i] = [legs, String(i)];
     i++;
   }
-  // Sort numericallly.
+  // Sort numerically.
   list.sort(function(a, b) {return a[0] - b[0];});
   return list;
 };
@@ -333,7 +333,7 @@ Puzzle.animate = function(block, angleOffset) {
     var dx = targetX - blockXY.x;
     var dy = targetY - blockXY.y;
   } else {
-    var heading = Puzzle.angle(blockXY.x, blockXY.y, targetX, targetY);
+    var heading = Puzzle.pointsToAngle(blockXY.x, blockXY.y, targetX, targetY);
     var dx = Math.round(Puzzle.angleDx(heading, speed));
     var dy = Math.round(Puzzle.angleDy(heading, speed));
   }
@@ -375,9 +375,9 @@ Puzzle.angleDy = function(degrees, radius) {
  * @return {number} Standardized angle in degrees of the vector from
  *     x1,y1 to x2,y2.
  */
-Puzzle.angle = function(x1, y1, x2, y2) {
+Puzzle.pointsToAngle = function(x1, y1, x2, y2) {
   var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
-  return angle % 360;
+  return BlocklyGames.normalizeAngle(angle);
 };
 
 /**

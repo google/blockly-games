@@ -25,6 +25,7 @@
 
 goog.provide('Pond.Avatar');
 
+goog.require('BlocklyGames');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 
@@ -177,21 +178,21 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
       (typeof resolution != 'number') || isNaN(resolution)) {
     throw TypeError();
   }
-  degree = goog.math.standardAngle(degree);
+  degree = BlocklyGames.normalizeAngle(degree);
   resolution = Blockly.utils.math.clamp(resolution, 0, 20);
 
   this.battle_.EVENTS.push({'type': 'SCAN', 'avatar': this,
                             'degree': degree, 'resolution': resolution});
 
   // Compute both edges of the scan.
-  var scan1 = goog.math.standardAngle(degree - resolution / 2);
-  var scan2 = goog.math.standardAngle(degree + resolution / 2);
+  var scan1 = BlocklyGames.normalizeAngle(degree - resolution / 2);
+  var scan2 = BlocklyGames.normalizeAngle(degree + resolution / 2);
   if (scan1 > scan2) {
     scan2 += 360;
   }
   var locX = this.loc.x;
   var locY = this.loc.y;
-  // Check every enemy for existance in the scan beam.
+  // Check every enemy for existence in the scan beam.
   var closest = Infinity;
   for (var i = 0, enemy; enemy = this.battle_.AVATARS[i]; i++) {
     if (enemy == this || enemy.dead) {
@@ -207,7 +208,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
     }
     // Compute angle between avatar and enemy's centre.
     var angle = Math.atan2(ey - locY, ex - locX);
-    angle = goog.math.standardAngle(Blockly.utils.math.toDegrees(angle));
+    angle = BlocklyGames.normalizeAngle(Blockly.utils.math.toDegrees(angle));
     // Raise angle by 360 if needed (handles wrapping).
     if (angle < scan1) {
       angle += 360;
@@ -236,11 +237,11 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
       (typeof speed != 'number') || isNaN(speed)) {
     throw TypeError;
   }
-  var desiredDegree = goog.math.standardAngle(degree);
+  var desiredDegree = BlocklyGames.normalizeAngle(degree);
   if (this.degree != desiredDegree) {
     if (this.speed <= 50) {
       // Changes in direction can be negotiated at speeds of less than 50%.
-      this.degree = goog.math.standardAngle(degree);
+      this.degree = BlocklyGames.normalizeAngle(degree);
       this.facing = this.degree;
     } else {
       // Stop the avatar if an over-speed turn was commanded.
@@ -279,7 +280,7 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
   }
   this.lastMissile = now;
   var startLoc = new Blockly.utils.Coordinate(this.loc.x, this.loc.y);
-  degree = goog.math.standardAngle(degree);
+  degree = BlocklyGames.normalizeAngle(degree);
   this.facing = degree;
   range = Blockly.utils.math.clamp(range, 0, 70);
   var endLoc = new Blockly.utils.Coordinate(

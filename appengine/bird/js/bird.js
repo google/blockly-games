@@ -776,19 +776,13 @@ Bird.animate = function() {
  * Display bird at the current location, facing the current angle.
  */
 Bird.displayBird = function() {
-  var diff = (Bird.currentAngle - Bird.angle) % 360;
-  if (diff < 0) {
-    diff += 360;
-  }
+  var diff = BlocklyGames.normalizeAngle(Bird.currentAngle - Bird.angle);
   var step = 10;
   if (Math.abs(diff) <= step) {
     Bird.currentAngle = Bird.angle;
   } else {
     Bird.currentAngle += (diff < 0) ? step : -step;
-    Bird.currentAngle = Bird.currentAngle % 360;
-    if (Bird.currentAngle < 0) {
-      Bird.currentAngle += 360;
-    }
+    Bird.currentAngle = BlocklyGames.normalizeAngle(Bird.currentAngle);
   }
   // Divide into 12 quads.
   var quad = (14 - Math.round(Bird.currentAngle / 360 * 12)) % 12;
@@ -888,11 +882,7 @@ Bird.gotoPoint = function(p) {
  */
 Bird.pointsToAngle = function(x1, y1, x2, y2) {
   var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
-  angle %= 360;
-  if (angle < 0) {
-    angle += 360;
-  }
-  return angle;
+  return BlocklyGames.normalizeAngle(angle);
 };
 
 /**

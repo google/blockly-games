@@ -743,11 +743,7 @@ Turtle.move = function(distance, id) {
  * @param {string=} id ID of block.
  */
 Turtle.turn = function(angle, id) {
-  Turtle.heading += angle;
-  Turtle.heading %= 360;
-  if (Turtle.heading < 0) {
-    Turtle.heading += 360;
-  }
+  Turtle.heading = BlocklyGames.normalizeAngle(Turtle.heading + angle);
   Turtle.animate(id);
 };
 

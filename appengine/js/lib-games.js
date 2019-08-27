@@ -302,7 +302,6 @@ BlocklyGames.loadFromLocalStorage = function(name, level) {
   return xml;
 };
 
-
 /**
  * Gets the message with the given key from the document.
  * @param {string} key The key of the document element.
@@ -349,6 +348,19 @@ BlocklyGames.bindClick = function(el, func) {
   el.addEventListener('touchend', func, true);
 };
 
+/**
+ * Normalizes an angle to be in range [0-360). Angles outside this range will
+ * be normalized to be the equivalent angle with that range.
+ * @param {number} angle Angle in degrees.
+ * @return {number} Standardized angle.
+ */
+BlocklyGames.normalizeAngle = function(angle) {
+  angle %= 360;
+  if (angle < 0) {
+    angle += 360;
+  }
+  return angle;
+};
 
 /**
  * Load the Google Analytics.
