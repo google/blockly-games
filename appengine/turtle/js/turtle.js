@@ -701,11 +701,13 @@ Turtle.executeChunk_ = function() {
 
 /**
  * Highlight a block and pause.
- * @param {string=} id ID of block.
+ * @param {string|undefined} id ID of block.
  */
 Turtle.animate = function(id) {
-  Turtle.display();
+  // No need for a full render if there's no block ID,
+  // since that's the signature of just pre-drawing the answer layer.
   if (id) {
+    Turtle.display();
     BlocklyInterface.highlight(id);
     // Scale the speed non-linearly, to give better precision at the fast end.
     var stepSpeed = 1000 * Math.pow(1 - Turtle.speedSlider.getValue(), 2);
@@ -716,9 +718,9 @@ Turtle.animate = function(id) {
 /**
  * Move the turtle forward or backward.
  * @param {number} distance Pixels to move.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.move = function(distance, id) {
+Turtle.move = function(distance, opt_id) {
   if (Turtle.penDownValue) {
     Turtle.ctxScratch.beginPath();
     Turtle.ctxScratch.moveTo(Turtle.x, Turtle.y);
@@ -736,72 +738,72 @@ Turtle.move = function(distance, id) {
     Turtle.ctxScratch.lineTo(Turtle.x, Turtle.y + bump);
     Turtle.ctxScratch.stroke();
   }
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
  * Turn the turtle left or right.
  * @param {number} angle Degrees to turn clockwise.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.turn = function(angle, id) {
+Turtle.turn = function(angle, opt_id) {
   Turtle.heading = BlocklyGames.normalizeAngle(Turtle.heading + angle);
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
  * Lift or lower the pen.
  * @param {boolean} down True if down, false if up.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.penDown = function(down, id) {
+Turtle.penDown = function(down, opt_id) {
   Turtle.penDownValue = down;
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
  * Change the thickness of lines.
  * @param {number} width New thickness in pixels.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.penWidth = function(width, id) {
+Turtle.penWidth = function(width, opt_id) {
   Turtle.ctxScratch.lineWidth = width;
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
  * Change the colour of the pen.
  * @param {string} colour Hexadecimal #rrggbb colour string.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.penColour = function(colour, id) {
+Turtle.penColour = function(colour, opt_id) {
   Turtle.ctxScratch.strokeStyle = colour;
   Turtle.ctxScratch.fillStyle = colour;
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
  * Make the turtle visible or invisible.
  * @param {boolean} visible True if visible, false if invisible.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.isVisible = function(visible, id) {
+Turtle.isVisible = function(visible, opt_id) {
   Turtle.visible = visible;
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
  * Print some text.
  * @param {string} text Text to print.
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.drawPrint = function(text, id) {
+Turtle.drawPrint = function(text, opt_id) {
   Turtle.ctxScratch.save();
   Turtle.ctxScratch.translate(Turtle.x, Turtle.y);
   Turtle.ctxScratch.rotate(Blockly.utils.math.toRadians(Turtle.heading - 90));
   Turtle.ctxScratch.fillText(text, 0, 0);
   Turtle.ctxScratch.restore();
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
@@ -809,11 +811,11 @@ Turtle.drawPrint = function(text, id) {
  * @param {string} font Font name (e.g. 'Arial').
  * @param {number} size Font size (e.g. 18).
  * @param {string} style Font style (e.g. 'italic').
- * @param {string=} id ID of block.
+ * @param {string=} opt_id ID of block.
  */
-Turtle.drawFont = function(font, size, style, id) {
+Turtle.drawFont = function(font, size, style, opt_id) {
   Turtle.ctxScratch.font = style + ' ' + size + 'pt ' + font;
-  Turtle.animate(id);
+  Turtle.animate(opt_id);
 };
 
 /**
