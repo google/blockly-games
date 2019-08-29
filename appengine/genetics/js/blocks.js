@@ -376,7 +376,7 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
       code += 'acceptMateOwner';
       break;
     default:
-      throw 'Unknown mouse property: ' + property;
+      throw Error('Unknown mouse property: ' + property);
   }
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };

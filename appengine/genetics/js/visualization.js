@@ -572,7 +572,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Visualization.gameRankings_ = event['OPT_RANKINGS'];
         break;
       default:
-        throw 'unhandled visualization event ' + JSON.stringify(event);
+        throw Error('unhandled visualization event ' + JSON.stringify(event));
     }
 
   }

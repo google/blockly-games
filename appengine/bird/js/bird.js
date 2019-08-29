@@ -801,7 +801,7 @@ Bird.displayBird = function() {
   } else if (Bird.currentPose == Bird.Pose.FLAP) {
     row = Math.round(Date.now() / Bird.FLAP_SPEED) % 3;
   } else {
-    throw 'Unknown pose.';
+    throw Error('Unknown pose.');
   }
 
   var x = Bird.pos.x / 100 * Bird.MAP_SIZE - Bird.BIRD_ICON_SIZE / 2;

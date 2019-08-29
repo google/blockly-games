@@ -678,7 +678,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
     code = Genetics.Cage.players[playerId].cachedCode;
   } else if (typeof code != 'string') {
     var player = Genetics.Cage.players[playerId].name;
-    throw 'Player ' + player + ' has invalid code: ' + code;
+    throw Error('Player ' + player + ' has invalid code: ' + code);
   }
 
   var interpreter;

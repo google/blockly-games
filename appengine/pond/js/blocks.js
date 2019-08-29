@@ -325,7 +325,7 @@ Blockly.Blocks['pond_math_number'] = {
       input.removeField('NUM');
       field = new Blockly.FieldAngle('');
       input.appendField(field, 'NUM');
-      field.setText(value);
+      field.setValue(value);
     } else {
       input.removeField('NUM');
       input.appendField(new Blockly.FieldNumber(value), 'NUM');
@@ -424,7 +424,7 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
       code = 'Math.atan_deg(' + arg + ')';
       break;
     default:
-      throw 'Unknown math operator: ' + operator;
+      throw Error('Unknown math operator: ' + operator);
   }
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };

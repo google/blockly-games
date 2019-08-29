@@ -941,7 +941,7 @@ Genetics.checkForLevelEnd = function() {
       }
       return false;
     default:
-      throw 'unhandled checkForLevelEnd for level ' + BlocklyGames.LEVEL;
+      throw Error('unhandled checkForLevelEnd for level ' + BlocklyGames.LEVEL);
   }
 };
 
