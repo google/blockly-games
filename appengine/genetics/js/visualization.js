@@ -540,7 +540,7 @@ Genetics.Visualization.processCageEvents_ = function() {
             Genetics.MouseAvatar.WIDTH;
 
         Genetics.Visualization.animateAddMouse_(addedMouse, x, y, false,
-            goog.bind(addedMouse.freeMouse, addedMouse));
+            addedMouse.freeMouse.bind(addedMouse));
         break;
       case 'START_GAME':
         Genetics.log('Starting game with ' + Genetics.Cage.players.length +
@@ -718,7 +718,7 @@ Genetics.Visualization.processMateEvent_ = function(
     var mateResult = function() {
       if (result == 'SUCCESS') {
         Genetics.Visualization.animateAddMouse_(offspring, x, y, true,
-            goog.bind(offspring.freeMouse, offspring));
+            offspring.freeMouse.bind(offspring));
       } else {
         Genetics.log(message);
       }

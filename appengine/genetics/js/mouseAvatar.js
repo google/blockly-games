@@ -164,14 +164,15 @@ Genetics.MouseAvatar = function(mouse) {
    * @const {Array.<number>}
    */
   this.actionPids = [0, 0];
-  var wanderAbout = goog.bind(function() {
+  var thisAvatar = this;  // Save 'this' for use in recursive closure.
+  var wanderAbout = function() {
     var wanderTime = 400 + 100 * Math.random();
-    if (!Genetics.MouseAvatar.wanderingDisabled && !this.busy) {
-      this.randomMove_(wanderTime);
+    if (!Genetics.MouseAvatar.wanderingDisabled && !thisAvatar.busy) {
+      thisAvatar.randomMove_(wanderTime);
     }
-    this.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
+    thisAvatar.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
         setTimeout(wanderAbout, wanderTime);
-  }, this);
+  };
   wanderAbout();
 };
 
@@ -386,7 +387,7 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
  */
 Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
   if (opt_wanderBeforeFree) {
-    this.moveAbout_(3, goog.bind(this.freeMouse, this));
+    this.moveAbout_(3, this.freeMouse.bind(this));
   } else {
     this.busy = false;
   }
@@ -403,15 +404,16 @@ Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
  */
 Genetics.MouseAvatar.prototype.moveAbout_ = function(steps, callback) {
   var count = 0;
-  var moveStep = goog.bind(function() {
+  var thisAvatar = this;  // Save 'this' for use in recursive closure.
+  var moveStep = function() {
     var moveTime = 400 + 100 * Math.random();
-    this.randomMove_(moveTime);
+    thisAvatar.randomMove_(moveTime);
     if (++count < steps) {
-      this.actionPids[Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX] =
+      thisAvatar.actionPids[Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX] =
           setTimeout(moveStep, moveTime);
     } else {
       callback();
     }
-  }, this);
+  };
   moveStep();
 };
