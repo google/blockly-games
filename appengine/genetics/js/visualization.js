@@ -30,8 +30,8 @@ goog.require('Blockly.utils.math');
 goog.require('Genetics.Cage');
 goog.require('Genetics.MouseAvatar');
 
-goog.require('goog.math');
 goog.require('goog.object');
+
 
 /**
  * Number of milliseconds between update calls.
@@ -662,11 +662,11 @@ Genetics.Visualization.processMateEvent_ = function(
     Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
         getMouseName(proposingMouse) + ' asked it out.');
   } else if (result == 'REJECTION') {
-    var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
-            parseInt(askedMouse.element.style.left, 10)) +
+    var x = (parseInt(proposingMouse.element.style.left, 10) +
+             parseInt(askedMouse.element.style.left, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
-    var y = goog.math.average(parseInt(proposingMouse.element.style.top, 10),
-            parseInt(askedMouse.element.style.top, 10)) +
+    var y = (parseInt(proposingMouse.element.style.top, 10) +
+             parseInt(askedMouse.element.style.top, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
 
     // Show a broken heart.
@@ -688,11 +688,11 @@ Genetics.Visualization.processMateEvent_ = function(
     Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
         getMouseName(askedMouse, true, true) + ' to mate, the answer is YES!');
 
-    var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
-            parseInt(askedMouse.element.style.left, 10)) +
+    var x = (parseInt(proposingMouse.element.style.left, 10) +
+             parseInt(askedMouse.element.style.left, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
-    var y = goog.math.average(parseInt(proposingMouse.element.style.top, 10),
-            parseInt(askedMouse.element.style.top, 10)) +
+    var y = (parseInt(proposingMouse.element.style.top, 10) +
+             parseInt(askedMouse.element.style.top, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
 
     var message;
@@ -915,8 +915,8 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
   var mouse1X = parseInt(mouse1.element.style.left, 10);
   var mouse0Y = parseInt(mouse0.element.style.top, 10);
   var mouse1Y = parseInt(mouse1.element.style.top, 10);
-  var x = goog.math.average(mouse0X, mouse1X);
-  var y = goog.math.average(mouse0Y, mouse1Y);
+  var x = (mouse0X + mouse1X) / 2;
+  var y = (mouse0Y + mouse1Y) / 2;
 
   var movementDir = Math.atan2(mouse0Y - y, mouse0X - x);
   // Calculate offset points so that mice don't overlap.
@@ -960,12 +960,12 @@ Genetics.Visualization.fight_ = function(
   var getMouseName = Genetics.Visualization.getMouseName_;
   var fightCloud = document.getElementById('dust').cloneNode(true);
   // Calculate the position of the cloud over the mice.
-  var cloudTop = goog.math.average(parseInt(instigator.element.style.top, 10),
-          parseInt(opponent.element.style.top, 10)) +
+  var cloudTop = (parseInt(instigator.element.style.top, 10) +
+                  parseInt(opponent.element.style.top, 10)) / 2 +
       Genetics.MouseAvatar.HALF_SIZE -
       Genetics.Visualization.DUST_SIZE / 2;
-  var cloudLeft = goog.math.average(parseInt(instigator.element.style.left, 10),
-          parseInt(opponent.element.style.left, 10)) +
+  var cloudLeft = (parseInt(instigator.element.style.left, 10) +
+                   parseInt(opponent.element.style.left, 10)) / 2 +
       Genetics.MouseAvatar.HALF_SIZE -
       Genetics.Visualization.DUST_SIZE / 2;
 
