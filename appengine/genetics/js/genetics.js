@@ -25,6 +25,7 @@
 
 goog.provide('Genetics');
 
+goog.require('Blockly.utils.dom');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -34,11 +35,6 @@ goog.require('Genetics.Mouse');
 goog.require('Genetics.MouseAvatar');
 goog.require('Genetics.Visualization');
 goog.require('Genetics.soy');
-
-goog.require('goog.events');
-goog.require('goog.math');
-goog.require('goog.ui.Component.EventType');
-goog.require('goog.ui.TabBar');
 
 
 /**
@@ -55,8 +51,8 @@ BlocklyGames.NAME = 'genetics';
 Genetics.blocksEnabled_ = true;
 
 /**
- * ACE editor fires change events even on programatically caused changes.
- * This property is used to signal times when a programatic change is made.
+ * ACE editor fires change events even on programmatically caused changes.
+ * This property is used to signal times when a programmatic change is made.
  * @private {boolean}
  */
 Genetics.ignoreEditorChanges_ = true;
@@ -85,15 +81,23 @@ Genetics.init = function() {
 
   if (BlocklyGames.LEVEL > 8) {
     // Setup the tabs.
-    Genetics.tabbar = new goog.ui.TabBar();
-    Genetics.tabbar.decorate(document.getElementById('tabbar'));
-
-    // Handle SELECT events dispatched by tabs.
-    goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
-        function(e) {
-          var index = e.target.getParent().getSelectedTabIndex();
-          Genetics.changeTab(index);
-        });
+    function tabHandler(selectedIndex) {
+      return function() {
+        for (var i = 0; i < tabs.length; i++) {
+          if (selectedIndex == i) {
+            Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+          } else {
+            Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+          }
+        }
+        Genetics.changeTab(selectedIndex);
+      };
+    }
+    var tabs = Array.prototype.slice.call(
+        document.querySelectorAll('#editorBar>.tab'));
+    for (var i = 0; i < tabs.length; i++) {
+      BlocklyGames.bindClick(tabs[i], tabHandler(i));
+    }
   }
 
   BlocklyGames.bindClick('helpButton', Genetics.showHelp);
@@ -750,9 +754,8 @@ Genetics.addStartingMice = function() {
     Genetics.shuffle(startingMice);
   }
   for (var i = 0, mouseStats; mouseStats = startingMice[i]; i++) {
-    var sex = mouseStats.sex ||
-        ((goog.math.randomInt(2) == 0) ? Genetics.Mouse.Sex.MALE :
-            Genetics.Mouse.Sex.FEMALE);
+    var sex = mouseStats.sex || ((Math.random() > 0.5) ?
+        Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE);
     var mouse = new Genetics.Mouse(mouseStats.id, sex, mouseStats.playerId);
     // Set other mouse attributes if a value was declared.
     if (mouseStats.size != null) {

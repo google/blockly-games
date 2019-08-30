@@ -258,47 +258,38 @@
   background-position: -21px -21px;
 }
 
-/*
- * Copyright 2008 The Closure Library Authors. All Rights Reserved.
- *
- * Use of this source code is governed by the Apache License, Version 2.0.
- * See the COPYING file for details.
- */
-
-/* Author: attila@google.com (Attila Bodis) */
-/* Author: eae@google.com (Emil A. Eklund) */
-
-.goog-tab {
+.tab {
   background: #fff;
-  border: 1px solid #ddd;        /* Colour modified for Blockly */
-  border-top-left-radius: 2px;   /* Added for Blockly */
-  border-top-right-radius: 2px;  /* Added for Blockly */
+  border: 1px solid #ddd;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
   color: #333;
   cursor: default;
   padding: 4px 8px;
   position: relative;
+  user-select: none;
 }
 
-.goog-tab-bar-top .goog-tab {
+.tab-bar>.tab {
   border-bottom: 0;
   float: left;
   margin: 1px 4px 0 0;
 }
 
 /* State: Hover */
-.goog-tab-hover {
+.tab:hover {
   background: #eee;
 }
 
 /* State: Disabled */
-.goog-tab-disabled {
+.tab-disabled {
   background: #fff;
   border-color: #ccc;
   color: #ccc;
 }
 
 /* State: Selected */
-.goog-tab-selected {
+.tab-selected {
   background: #ddd !important; /* Selected trumps hover. */
 }
 
@@ -307,13 +298,13 @@
  * padding) to visually merge the borders of the tab with the borders of the
  * content area.
  */
-.goog-tab-bar-top .goog-tab-selected {
+.tab-bar>.tab-selected {
   margin-top: 0;
   padding-bottom: 5px;
   top: 1px;
 }
 
-.goog-tab-bar {
+.tab-bar {
   border: 0;
   cursor: default;
   list-style: none;
@@ -323,7 +314,7 @@
   position: relative;
 }
 
-.goog-tab-bar-clear {
+.tab-bar-clear {
   clear: both;
   height: 0;
   overflow: hidden;

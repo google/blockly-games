@@ -26,6 +26,7 @@
 goog.provide('Pond.Duck');
 
 goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.dom');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -34,10 +35,6 @@ goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
 goog.require('Pond.Duck.soy');
 goog.require('Pond.Visualization');
-
-goog.require('goog.events');
-goog.require('goog.ui.Component.EventType');
-goog.require('goog.ui.TabBar');
 
 
 BlocklyGames.NAME = 'pond-duck';
@@ -67,8 +64,23 @@ Pond.Duck.init = function() {
   Pond.init();
 
   // Setup the tabs.
-  Pond.Duck.tabbar = new goog.ui.TabBar();
-  Pond.Duck.tabbar.decorate(document.getElementById('tabbar'));
+  function tabHandler(selectedIndex) {
+    return function() {
+      for (var i = 0; i < tabs.length; i++) {
+        if (selectedIndex == i) {
+          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+        } else {
+          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+        }
+      }
+      Pond.Duck.changeTab(selectedIndex);
+    };
+  }
+  var tabs = Array.prototype.slice.call(
+      document.querySelectorAll('#editorBar>.tab'));
+  for (var i = 0; i < tabs.length; i++) {
+    BlocklyGames.bindClick(tabs[i], tabHandler(i));
+  }
 
   var rtl = BlocklyGames.isRtl();
   var visualization = document.getElementById('visualization');
@@ -97,13 +109,6 @@ Pond.Duck.init = function() {
   });
   window.addEventListener('resize', onresize);
   onresize(null);
-
-  // Handle SELECT events dispatched by tabs.
-  goog.events.listen(Pond.Duck.tabbar, goog.ui.Component.EventType.SELECT,
-      function(e) {
-        var index = e.target.getParent().getSelectedTabIndex();
-        Pond.Duck.changeTab(index);
-      });
 
   // Inject JS editor.
   var defaultCode = 'cannon(0, 70);';
@@ -200,7 +205,7 @@ Pond.Duck.init = function() {
 
 /**
  * Called by the tab bar when a tab is selected.
- * @param {number} index Which tab is now active (0-2).
+ * @param {number} index Which tab is now active (0-1).
  */
 Pond.Duck.changeTab = function(index) {
   var BLOCKS = 0;
