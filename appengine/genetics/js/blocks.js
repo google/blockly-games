@@ -48,22 +48,22 @@ Genetics.Blocks.GENETICS_HUE = 20;
  * proposeMate, acceptMate) given the name and arguments of the function.
  * @param {string} name The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
- * @param {!Blockly.Block} block The block.
- * @return {null}
+ * @return {!Function} A generator function with arguments bound.
  * @private
  */
-Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(name,
-    args, block) {
-  // Define a procedure with a return value.
-  var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
-  var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
-      Blockly.JavaScript.ORDER_NONE) || '';
-  returnValue = '  return ' + returnValue + ';\n';
-  var code = 'function ' + name + '(' + args + ') {\n' +
-      branch + returnValue + '}';
-  code = Blockly.JavaScript.scrub_(block, code);
-  Blockly.JavaScript.definitions_[name] = code;
-  return null;
+Genetics.Blocks.functionJavaScriptFactory_ = function(name, args) {
+  return function(block) {
+    // Define a procedure with a return value.
+    var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
+    var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
+        Blockly.JavaScript.ORDER_NONE) || '';
+    returnValue = '  return ' + returnValue + ';\n';
+    var code = 'function ' + name + '(' + args + ') {\n' +
+        branch + returnValue + '}';
+    code = Blockly.JavaScript.scrub_(block, code);
+    Blockly.JavaScript.definitions_[name] = code;
+    return null;
+  };
 };
 
 /**
@@ -72,34 +72,36 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(name,
  * @param {string} name The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {string} returnType The return type of the mouse function.
+ * @return {!Function} An initialization function with arguments bound.
  * @this Blockly.Block
  * @private
  */
-Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
-    function(name, args, returnType) {
-  this.jsonInit({
-    "message0": "function %1(%2) { %3 %4 return %5 }",
-    "args0": [
-      name,
-      args,
-      {
-        "type": "input_dummy"
-      },
-      {
-        "type": "input_statement",
-        "name": "STACK"
-      },
-      {
-        "type": "input_value",
-        "check": returnType,
-        "align": "right",
-        "name": "RETURN"
-      }
-    ],
-    "inputsInline": true,
-    "colour": Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE,
-    "tooltip": BlocklyGames.getMsg('Genetics_' + name + 'Tooltip')
-  });
+Genetics.Blocks.functionInitFactory_ = function(name, args, returnType) {
+  return function() {
+    this.jsonInit({
+      "message0": "function %1(%2) { %3 %4 return %5 }",
+      "args0": [
+        name,
+        args,
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "STACK"
+        },
+        {
+          "type": "input_value",
+          "check": returnType,
+          "align": "right",
+          "name": "RETURN"
+        }
+      ],
+      "inputsInline": true,
+      "colour": Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE,
+      "tooltip": BlocklyGames.getMsg('Genetics_' + name + 'Tooltip')
+    });
+  };
 };
 
 // TODO Add function flag to mouseFunctions once it has been implemented in
@@ -110,8 +112,7 @@ Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_pickFight'] = {
-  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'pickFight', '', 'Mouse')
+  init: Genetics.Blocks.functionInitFactory_('pickFight', '', 'Mouse')
 };
 
 /**
@@ -119,16 +120,14 @@ Blockly.Blocks['genetics_pickFight'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_pickFight'] =
-    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'pickFight', '');
+    Genetics.Blocks.functionJavaScriptFactory_('pickFight', '');
 
 /**
  * Block for defining mouse decision on which other mouse to mate with.
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_proposeMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'proposeMate', '', 'Mouse')
+  init: Genetics.Blocks.functionInitFactory_('proposeMate', '', 'Mouse')
 };
 
 /**
@@ -136,16 +135,14 @@ Blockly.Blocks['genetics_proposeMate'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_proposeMate'] =
-    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'proposeMate', '');
+    Genetics.Blocks.functionJavaScriptFactory_('proposeMate', '');
 
 /**
  * Block for defining mouse decision on whether to mate with a specific mouse.
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_acceptMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'acceptMate', 'suitor', 'Boolean'),
+  init: Genetics.Blocks.functionInitFactory_('acceptMate', 'suitor', 'Boolean'),
   /**
    * Return all variables referenced by this block.
    * @return {!Array.<string>} List of variable names.
@@ -189,8 +186,7 @@ Blockly.Blocks['genetics_acceptMate'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_acceptMate'] =
-    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'acceptMate', 'suitor');
+    Genetics.Blocks.functionJavaScriptFactory_('acceptMate', 'suitor');
 
 Blockly.Blocks['genetics_getSelf'] = {
   /**
