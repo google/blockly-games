@@ -28,12 +28,12 @@
 goog.provide('BlocklyGames.JsBlocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Lists');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Loops');
+goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.variables');
+goog.require('Blockly.Constants.Variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');

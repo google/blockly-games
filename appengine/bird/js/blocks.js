@@ -26,8 +26,8 @@
 goog.provide('Bird.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Math');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.math');

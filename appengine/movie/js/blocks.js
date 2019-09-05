@@ -26,14 +26,14 @@
 goog.provide('Movie.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.colour');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Colour');
+goog.require('Blockly.Constants.Lists');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Loops');
+goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.texts');
-goog.require('Blockly.Blocks.variables');
+goog.require('Blockly.Constants.Text');
+goog.require('Blockly.Constants.Variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.colour');
 goog.require('Blockly.JavaScript.lists');
