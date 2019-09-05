@@ -28,8 +28,6 @@ goog.provide('Genetics.MouseAvatar');
 goog.require('Blockly.utils.math');
 goog.require('Genetics.Mouse');
 
-goog.require('goog.math');
-
 
 /**
  * Stores mouse attributes and visualization information for a mouse.
@@ -151,7 +149,7 @@ Genetics.MouseAvatar = function(mouse) {
    * The direction of the mouse, in radians, between 0 and 2PI.
    * @private {number}
    */
-  this.direction_ = Math.random() * 2 * Math.PI; // Choose a random direction.
+  this.direction_ = Math.random() * 2 * Math.PI;  // Choose a random direction.
 
   /**
    * Whether the mouse is performing a busy animation.
@@ -175,50 +173,6 @@ Genetics.MouseAvatar = function(mouse) {
   };
   wanderAbout();
 };
-
-Object.defineProperty(Genetics.MouseAvatar.prototype, 'direction', {
-  /**
-   * Sets the direction to a value between 0-2PI in radians and rotates the
-   * mouse to match the direction. Direction angle is clockwise, with 0
-   * indicating the mouse facing right.
-   * @param {number} direction The new value for direction.
-   * @this Genetics.MouseAvatar
-   */
-  set: function(direction) {
-    // Convert direction to a value between 0-2PI
-    direction = goog.math.standardAngleInRadians(direction);
-    // Determine what the change of direction is.
-    var delta = goog.math.angleDifference(direction, this.direction_);
-    if (Math.abs(delta) > Math.PI / 10) {
-      // If change is significant enough, show tail animation.
-      var image = this.image_;
-      var resetStraight = function() {
-        image.setAttribute('x', '0px');
-      };
-      if (delta > 0) {
-        // If the mouse turned right.
-        this.image_.setAttribute('x', -Genetics.MouseAvatar.WIDTH + 'px');
-        setTimeout(resetStraight, 150);
-      } else if (delta < 0) {
-        // If the mouse turned left.
-        this.image_.setAttribute('x', -2 * Genetics.MouseAvatar.WIDTH + 'px');
-        setTimeout(resetStraight, 150);
-      }
-    }
-    // Rotate mouse image to match direction facing.
-    this.element.style.transform =
-        'rotate(' + (direction + Math.PI / 2) + 'rad)';
-    this.direction_ = direction;
-  },
-  /**
-   * Returns the direction the mouse is facing as an angle in radians.
-   * @return {number}
-   * @this Genetics.MouseAvatar
-   */
-  get: function() {
-    return this.direction_;
-  }
-});
 
 /**
  * The width of a mouse.
@@ -289,6 +243,50 @@ Genetics.MouseAvatar.DISPLAY_SIZE = 0;
 Genetics.MouseAvatar.wanderingDisabled = false;
 
 /**
+ * Sets the direction to a value between 0-2PI in radians and rotates the
+ * mouse to match the direction. Direction angle is clockwise, with 0
+ * indicating the mouse facing right.
+ * @param {number} direction The new value for direction.
+ */
+Genetics.MouseAvatar.prototype.setDirection = function(direction) {
+  // Convert direction to a value between 0-2PI
+  direction %= 2 * Math.PI;
+  if (direction < 0) {
+    direction += 2 * Math.PI;
+  }
+  // Determine what the change of direction is.
+  var delta = this.direction_ - direction;
+  if (Math.abs(delta) > Math.PI / 10) {
+    // If change is significant enough, show tail animation.
+    var image = this.image_;
+    var resetStraight = function() {
+      image.setAttribute('x', '0px');
+    };
+    if (delta > 0) {
+      // If the mouse turned right.
+      this.image_.setAttribute('x', -Genetics.MouseAvatar.WIDTH + 'px');
+      setTimeout(resetStraight, 150);
+    } else if (delta < 0) {
+      // If the mouse turned left.
+      this.image_.setAttribute('x', -2 * Genetics.MouseAvatar.WIDTH + 'px');
+      setTimeout(resetStraight, 150);
+    }
+  }
+  // Rotate mouse image to match direction facing.
+  this.element.style.transform =
+      'rotate(' + (direction + Math.PI / 2) + 'rad)';
+  this.direction_ = direction;
+};
+
+/**
+ * Returns the direction the mouse is facing as an angle in radians.
+ * @return {number}
+ */
+Genetics.MouseAvatar.prototype.getDirection = function() {
+  return this.direction_;
+};
+
+/**
  * Stops the mouse animations and clears all queued actions.
  */
 Genetics.MouseAvatar.prototype.stop = function() {
@@ -342,14 +340,14 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
     this.element.style.left = xClamped + 'px';
     this.element.style.top = yClamped + 'px';
     // Turn mouse towards requested destination.
-    this.direction = Math.atan2(y - mouseY, x - mouseX);
+    this.setDirection(Math.atan2(y - mouseY, x - mouseX));
     this.actionPids[Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX] =
         setTimeout(callback, time);
     return;
   }
 
   // Turn mouse towards destination.
-  this.direction = Math.atan2(yDelta, xDelta);
+  this.setDirection(Math.atan2(yDelta, xDelta));
 
   this.element.style['transition'] = 'top ' + time + 'ms linear, left ' +
       time + 'ms linear';
@@ -369,7 +367,7 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
 Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
   // Choose a direction based off current direction.
   var range = Math.PI / 2;
-  var moveDirection = this.direction + Math.random() * range - range / 2;
+  var moveDirection = this.getDirection() + Math.random() * range - range / 2;
   // Calculate destination in direction chosen.
   var distance = Genetics.MouseAvatar.IDLE_SPEED * time;
   var mouseX = parseInt(this.element.style.left, 10);

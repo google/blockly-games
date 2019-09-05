@@ -933,8 +933,8 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
     if (hasOtherMouseArrived) {
       // Turn mice towards each other.
       var mouseXDir = Math.atan2(y - mouse0TargetY, x - mouse0TargetX);
-      mouse0.direction = mouseXDir;
-      mouse1.direction = mouseXDir + Math.PI;
+      mouse0.setDirection(mouseXDir);
+      mouse1.setDirection(mouseXDir + Math.PI);
 
       callback();
     }
@@ -1019,7 +1019,7 @@ Genetics.Visualization.fight_ = function(
 Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
   var getMouseName = Genetics.Visualization.getMouseName_;
   var mouseAvatar = Genetics.Visualization.createMouseAvatar_(mouse);
-  mouseAvatar.direction = direction;
+  mouseAvatar.setDirection(direction);
 
   var xPos = Blockly.utils.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
