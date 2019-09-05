@@ -770,7 +770,7 @@ Genetics.addStartingMice = function() {
     Genetics.Cage.addMouse(mouse);
     if (BlocklyGames.LEVEL <= 8) {
       Genetics.Visualization.addMouse(mouse, mouseStats.x, mouseStats.y,
-          mouseStats.getDirection());
+          mouseStats.direction);
     } else {
       new Genetics.Cage.Event('ADD', mouse).addToQueue();
     }

@@ -30,8 +30,6 @@ goog.require('Blockly.utils.math');
 goog.require('Genetics.Cage');
 goog.require('Genetics.MouseAvatar');
 
-goog.require('goog.object');
-
 
 /**
  * Number of milliseconds between update calls.
@@ -200,24 +198,34 @@ Genetics.Visualization.init = function() {
 
     var createCharts = function() {
       // Create the base options for chart style shared between charts.
-      var chartOpts = {
-        'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
-          'format': '0'},
-        'vAxis': {'minValue': 0},
-        'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
-          'height': '70%' },
-        'backgroundColor': 'white'
+      var ChartOpts = function() {
+        this['hAxis'] = {
+          'title': 'Time',
+          'titleTextStyle': {'color': '#333'},
+          'format': '0'
+        };
+        this['vAxis'] = {'minValue': 0};
+        this['chartArea'] = {
+          'left': '8%',
+          'top': '8%',
+          'width': '60%',
+          'height': '70%'
+        };
+        this['backgroundColor'] = 'white';
       };
-      var stackGraphOpts = goog.object.unsafeClone(chartOpts);
-      stackGraphOpts['colors'] = Genetics.Visualization.COLOURS;
-      stackGraphOpts['isStacked'] = 'relative';
-      stackGraphOpts['lineWidth'] = 0;
-      stackGraphOpts['areaOpacity'] = 0.8;
-      stackGraphOpts['vAxis']['maxValue'] = 1;
-      var populationChartOpts = chartOpts;
-      var pickFightOpts = stackGraphOpts;
-      var proposeMateOpts = goog.object.clone(stackGraphOpts);
-      var acceptMateOpts = goog.object.clone(stackGraphOpts);
+      var StackGraphOpts = function() {
+        this['colors'] = Genetics.Visualization.COLOURS;
+        this['isStacked'] = 'relative';
+        this['lineWidth'] = 0;
+        this['areaOpacity'] = 0.8;
+        this['vAxis']['maxValue'] = 1;
+      };
+      StackGraphOpts.prototype = new ChartOpts();
+
+      var populationChartOpts = new ChartOpts();
+      var pickFightOpts = new StackGraphOpts();
+      var proposeMateOpts = new StackGraphOpts();
+      var acceptMateOpts = new StackGraphOpts();
 
       populationChartOpts['title'] = 'Population';
       populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
