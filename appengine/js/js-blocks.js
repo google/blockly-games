@@ -47,6 +47,14 @@ goog.require('BlocklyGames.Msg');
 
 // Extensions to Blockly's existing blocks and JavaScript generator.
 
+(function () {
+  // Enclose mixin in an immediately executed function to hide the 'prop' var.
+  for (var prop in Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN) {
+    Blockly.Blocks['controls_if'][prop] =
+        Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN[prop];
+  }
+})();
+
 /**
  * If/elseif/else condition.
  * @this Blockly.Block
@@ -69,9 +77,6 @@ Blockly.Blocks['controls_if'].init = function() {
     'controls_if_else']));
   Blockly.Constants.Logic.CONTROLS_IF_TOOLTIP_EXTENSION.apply(this);
 };
-
-goog.mixin(Blockly.Blocks['controls_if'],
-           Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN);
 
 /**
  * Modify this block to have the correct number of inputs.
