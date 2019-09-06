@@ -685,7 +685,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
   try {
     // Catch any syntax errors in the given code.
     interpreter = new Interpreter(code,
-        goog.partial(Genetics.Cage.initInterpreter_, mouse, opt_suitor));
+        Genetics.Cage.initInterpreter_.bind(null, mouse, opt_suitor));
     // Overwrite other function calls and call function we need return value of.
     switch (mouseFunctionName) {
       case 'pickFight':
@@ -707,7 +707,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
   } catch (e) {
     code = 'throw SyntaxError(\'' + mouseFunctionName + '\')';
     interpreter = new Interpreter(code,
-        goog.partial(Genetics.Cage.initInterpreter_, mouse, opt_suitor));
+        Genetics.Cage.initInterpreter_.bind(null, mouse, opt_suitor));
   }
   return interpreter;
 };

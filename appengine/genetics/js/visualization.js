@@ -628,7 +628,7 @@ Genetics.Visualization.processFightEvent_ = function(
     } else {
       opponent.busy = true;
       Genetics.Visualization.moveMiceTogether_(instigator, opponent,
-          goog.partial(Genetics.Visualization.fight_, instigator, opponent,
+          Genetics.Visualization.fight_.bind(null, instigator, opponent,
               result, endFight));
     }
   }
@@ -688,7 +688,7 @@ Genetics.Visualization.processMateEvent_ = function(
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.partial(Genetics.Visualization.showImageOverMouse_, proposingMouse,
+        Genetics.Visualization.showImageOverMouse_.bind(null, proposingMouse,
             'genetics/broken-heart.png', Genetics.MouseAvatar.WIDTH, 1000,
             afterBroken));
   } else {
@@ -736,7 +736,7 @@ Genetics.Visualization.processMateEvent_ = function(
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.partial(Genetics.Visualization.showImage_, heartSrc, x, y, 50, 700,
+        Genetics.Visualization.showImage_.bind(null, heartSrc, x, y, 50, 700,
             mateResult));
   }
 };
