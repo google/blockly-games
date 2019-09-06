@@ -253,7 +253,7 @@ Blockly.Blocks['controls_for'].init = function() {
  * @this Blockly.Block
  */
 Blockly.Blocks['controls_for'].onchange = function(e) {
-  var varName = this.getFieldValue('VAR');
+  var varName = this.getField('VAR').getText();
   this.setFieldValue(varName, 'VAR1');
   this.setFieldValue(varName, 'VAR2');
 };
@@ -328,7 +328,7 @@ Blockly.Blocks['math_arithmetic'].init = function() {
 };
 
 /**
- *  Add to a variable in place.
+ * Add to a variable in place.
  * @this Blockly.Block
  */
 Blockly.Blocks['math_change'].init = function() {

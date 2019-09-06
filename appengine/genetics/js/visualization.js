@@ -53,7 +53,7 @@ Genetics.Visualization.DUST_SIZE = 50;
  * The hex values of the player colors.
  * @const {!Array.<string>}
  */
-Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
+Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#223068'];
 
 /**
  * Indicates whether the game has been stopped.
