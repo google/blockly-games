@@ -73,7 +73,7 @@ Genetics.Blocks.functionJavaScriptFactory_ = function(name, args) {
  * @param {string} args A comma separated string of the argument variable names.
  * @param {string} returnType The return type of the mouse function.
  * @return {!Function} An initialization function with arguments bound.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  * @private
  */
 Genetics.Blocks.functionInitFactory_ = function(name, args, returnType) {
@@ -146,7 +146,7 @@ Blockly.Blocks['genetics_acceptMate'] = {
   /**
    * Return all variables referenced by this block.
    * @return {!Array.<string>} List of variable names.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   getVars: function() {
     return ['suitor'];
@@ -154,7 +154,7 @@ Blockly.Blocks['genetics_acceptMate'] = {
   /**
    * Add custom menu options to this block's context menu.
    * @param {!Array} options List of menu options to add to.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   customContextMenu: function(options) {
     // Add options to create getters for suitor parameter.
@@ -191,7 +191,7 @@ Blockly.JavaScript['genetics_acceptMate'] =
 Blockly.Blocks['genetics_getSelf'] = {
   /**
    * Block for getting the mouse making the decision.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -218,7 +218,7 @@ Blockly.JavaScript['genetics_getSelf'] = function(block) {
 Blockly.Blocks['genetics_getMice'] = {
   /**
    * Block for getting all mice in the cage.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -247,7 +247,7 @@ Blockly.JavaScript['genetics_getMice'] = function(block) {
 Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Initialization of the getProperties block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var PROPERTIES =
@@ -297,7 +297,7 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @param {string} newProp Either a property requesting a function owner that
    * returns a string or a property that returns a number.
    * @private
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   updateType_: function(newProp) {
     if (newProp == 'SEX') {
@@ -309,7 +309,7 @@ Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Create XML to represent the output type.
    * @return {Element} XML storage element.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   mutationToDom: function() {
     var container = document.createElement('mutation');
@@ -319,7 +319,7 @@ Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Parse XML to restore the output type.
    * @param {!Element} xmlElement XML storage element.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
     this.updateType_(xmlElement.getAttribute('property'));
@@ -383,7 +383,7 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
 Blockly.Blocks['genetics_sex'] = {
   /**
    * Initializes the sex block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -424,7 +424,7 @@ Blockly.JavaScript['genetics_sex'] = function(block) {
 Blockly.Blocks['genetics_math_randomInt'] = {
   /**
    * Retrieves a random integer value between two numbers inclusive.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({

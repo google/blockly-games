@@ -47,7 +47,7 @@ Puzzle.Blocks.TRAIT_HUE = 290;
 Blockly.Blocks['animal'] = {
   /**
    * Block to represent an animal.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Puzzle.Blocks.ANIMAL_HUE);
@@ -66,7 +66,7 @@ Blockly.Blocks['animal'] = {
   },
   /**
    * Save the animal number.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   mutationToDom: function() {
     var container = document.createElement('mutation');
@@ -75,7 +75,7 @@ Blockly.Blocks['animal'] = {
   },
   /**
    * Restore the animal number.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
     this.populate(parseInt(xmlElement.getAttribute('animal'), 10));
@@ -83,7 +83,7 @@ Blockly.Blocks['animal'] = {
   animal: 0,
   /**
    * Set the animal.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   populate: function(n) {
     this.animal = n;
@@ -92,7 +92,7 @@ Blockly.Blocks['animal'] = {
   },
   /**
    * Evaluate the correctness of this block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   isCorrect: function() {
     return this.getFieldValue('LEGS') == this.animal;
@@ -102,7 +102,7 @@ Blockly.Blocks['animal'] = {
 Blockly.Blocks['picture'] = {
   /**
    * Block to represent a picture.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Puzzle.Blocks.PICTURE_HUE);
@@ -115,7 +115,7 @@ Blockly.Blocks['picture'] = {
   animal: 0,
   /**
    * Set the animal and picture.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   populate: function(n) {
     this.animal = n;
@@ -127,7 +127,7 @@ Blockly.Blocks['picture'] = {
   },
   /**
    * Evaluate the correctness of this block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   isCorrect: function() {
     var parent = this.getParent();
@@ -138,7 +138,7 @@ Blockly.Blocks['picture'] = {
 Blockly.Blocks['trait'] = {
   /**
    * Block to represent a trait.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Puzzle.Blocks.TRAIT_HUE);
@@ -148,7 +148,7 @@ Blockly.Blocks['trait'] = {
   },
   /**
    * Save the animal and trait numbers.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   mutationToDom: function() {
     var container = document.createElement('mutation');
@@ -158,7 +158,7 @@ Blockly.Blocks['trait'] = {
   },
   /**
    * Restore the animal and trait numbers.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
     this.populate(parseInt(xmlElement.getAttribute('animal'), 10),
@@ -168,7 +168,7 @@ Blockly.Blocks['trait'] = {
   trait: 0,
   /**
    * Set the animal and trait.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   populate: function(n, m) {
     this.animal = n;
@@ -179,7 +179,7 @@ Blockly.Blocks['trait'] = {
   },
   /**
    * Evaluate the correctness of this block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   isCorrect: function() {
     var parent = this.getSurroundParent();

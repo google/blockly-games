@@ -56,7 +56,7 @@ Movie.Blocks.SHAPE_HUE = 160;
 Blockly.Blocks['movie_circle'] = {
   /**
    * Block for drawing a circle.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Movie.Blocks.SHAPE_HUE);
@@ -93,7 +93,7 @@ Blockly.JavaScript['movie_circle'] = function(block) {
 Blockly.Blocks['movie_rect'] = {
   /**
    * Block for drawing a rectangle.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Movie.Blocks.SHAPE_HUE);
@@ -136,7 +136,7 @@ Blockly.JavaScript['movie_rect'] = function(block) {
 Blockly.Blocks['movie_line'] = {
   /**
    * Block for drawing a line.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Movie.Blocks.SHAPE_HUE);
@@ -186,7 +186,7 @@ Blockly.JavaScript['movie_line'] = function(block) {
 Blockly.Blocks['movie_time'] = {
   /**
    * Block for getting the current time value.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['VARIABLES_HUE']);
@@ -206,7 +206,7 @@ Blockly.JavaScript['movie_time'] = function(block) {
 Blockly.Blocks['movie_colour'] = {
   /**
    * Block for setting the colour.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['COLOUR_HUE']);

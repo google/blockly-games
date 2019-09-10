@@ -51,7 +51,7 @@ Music.Blocks.HUE = 160;
 Blockly.Blocks['music_pitch'] = {
   /**
    * Block for pitch.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.appendDummyInput()
@@ -70,7 +70,7 @@ Blockly.JavaScript['music_pitch'] = function(block) {
 Blockly.Blocks['music_note'] = {
   /**
    * Block for playing note.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var options = [
@@ -123,7 +123,7 @@ Blockly.JavaScript['music_note'] = function(block) {
 Blockly.Blocks['music_rest_whole'] = {
   /**
    * Block for waiting a whole note.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -153,7 +153,7 @@ Blockly.JavaScript['music_rest_whole'] = function(block) {
 Blockly.Blocks['music_rest'] = {
   /**
    * Block for waiting.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -193,7 +193,7 @@ Blockly.JavaScript['music_rest'] = function(block) {
 Blockly.Blocks['music_instrument'] = {
   /**
    * Block for changing instrument.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -231,7 +231,7 @@ Blockly.JavaScript['music_instrument'] = function(block) {
 Blockly.Blocks['music_start'] = {
   /**
    * Block for starting an execution thread.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -272,7 +272,7 @@ if (BlocklyGames.LEVEL < 10) {
   /**
    * Block for defining a procedure with no return value.
    * Remove comment and mutator.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   Blockly.Blocks['procedures_defnoreturn'].init = function() {
     var nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);

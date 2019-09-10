@@ -60,7 +60,7 @@ Maze.Blocks.RIGHT_TURN = ' \u21BB';
 Blockly.Blocks['maze_moveForward'] = {
   /**
    * Block for moving forward.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -81,7 +81,7 @@ Blockly.JavaScript['maze_moveForward'] = function(block) {
 Blockly.Blocks['maze_turn'] = {
   /**
    * Block for turning left or right.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -108,7 +108,7 @@ Blockly.JavaScript['maze_turn'] = function(block) {
 Blockly.Blocks['maze_if'] = {
   /**
    * Block for 'if' conditional if there is a path.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -141,7 +141,7 @@ Blockly.JavaScript['maze_if'] = function(block) {
 Blockly.Blocks['maze_ifElse'] = {
   /**
    * Block for 'if/else' conditional if there is a path.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -178,7 +178,7 @@ Blockly.JavaScript['maze_ifElse'] = function(block) {
 Blockly.Blocks['maze_forever'] = {
   /**
    * Block for repeat loop.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Maze.Blocks.LOOPS_HUE);

@@ -57,7 +57,7 @@ goog.require('BlocklyGames.Msg');
 
 /**
  * If/elseif/else condition.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['controls_if'].init = function() {
   this.setHelpUrl(Blockly.Msg['CONTROLS_IF_HELPURL']);
@@ -81,7 +81,7 @@ Blockly.Blocks['controls_if'].init = function() {
 /**
  * Modify this block to have the correct number of inputs.
  * @private
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['controls_if'].updateShape_ = function() {
   // Delete everything.
@@ -116,7 +116,7 @@ Blockly.Blocks['controls_if'].updateShape_ = function() {
 
 /**
  * Comparison operator.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['logic_compare'].init = function() {
   var OPERATORS = [
@@ -161,7 +161,7 @@ Blockly.Msg['LOGIC_BOOLEAN_FALSE'] = 'false';
 
 /**
  * Block for 'while' loop.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['controls_whileUntil'].init = function() {
   this.jsonInit({
@@ -191,7 +191,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
 
 /**
  * Initialization for 'for' loop Block.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
@@ -250,7 +250,7 @@ Blockly.Blocks['controls_for'].init = function() {
 
 /**
  * E for 'for' loop.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['controls_for'].onchange = function(e) {
   var varName = this.getField('VAR').getText();
@@ -281,7 +281,7 @@ Blockly.Msg['CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE'] = 'continue ;';
 
 /**
  * Block for basic arithmetic operator.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['math_arithmetic'].init = function() {
   this.jsonInit({
@@ -329,7 +329,7 @@ Blockly.Blocks['math_arithmetic'].init = function() {
 
 /**
  * Add to a variable in place.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['math_change'].init = function() {
   this.jsonInit({
@@ -378,7 +378,7 @@ Blockly.JavaScript['math_change'] = function(block) {
 
 /**
  * Block for random integer between [X] and [Y].
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['math_random_int'].init = function() {
   this.jsonInit({
@@ -412,7 +412,7 @@ Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH'] = '[';
 /**
  * Modify create list with elements block to have the correct number of inputs.
  * @private
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['lists_create_with'].updateShape_ = function() {
   if (this.getInput('TAIL')) {
@@ -449,7 +449,7 @@ Blockly.Blocks['lists_create_with'].updateShape_ = function() {
 Blockly.Blocks['lists_getIndex'] = {
   /**
    * Block for getting element at index.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -479,7 +479,7 @@ Blockly.Blocks['lists_getIndex'] = {
 Blockly.Blocks['lists_setIndex'] = {
   /**
    * Block for setting element at index.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -515,7 +515,7 @@ Blockly.Msg['LISTS_LENGTH_TITLE'] = '%1 . length';
 
 /**
  * Variable getter.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['variables_get'].init = function() {
   this.setHelpUrl(Blockly.Msg['VARIABLES_GET_HELPURL']);
@@ -530,7 +530,7 @@ Blockly.Blocks['variables_get'].init = function() {
 
 /**
  * Variable setter.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['variables_set'].init = function() {
   this.setHelpUrl(Blockly.Msg['VARIABLES_SET_HELPURL']);
@@ -551,7 +551,7 @@ Blockly.Blocks['variables_set'].init = function() {
 
 /**
  * Define a procedure with no return value.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_defnoreturn'].init = function() {
   var nameField = new Blockly.FieldTextInput('',
@@ -581,7 +581,7 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
 
 /**
  * Define a procedure with a return value.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_defreturn'].init = function() {
   var nameField = new Blockly.FieldTextInput('',
@@ -614,7 +614,7 @@ Blockly.Msg['PROCEDURES_BEFORE_PARAMS'] = '';
 
 /**
  * Call a procedure with no return value.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLNORETURN_HELPURL']);
@@ -636,7 +636,7 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
 /**
  * Modify this block to have the correct number of arguments.
  * @private
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
   for (var i = 0; i < this.arguments_.length; i++) {
@@ -660,7 +660,7 @@ Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
 
 /**
  * Call a procedure with a return value.
- * @this Blockly.Block
+ * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_callreturn'].init = function() {
   this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLRETURN_HELPURL']);

@@ -43,7 +43,7 @@ Pond.Blocks.POND_HUE = 290;
 Blockly.Blocks['pond_scan'] = {
   /**
    * Block for scanning the pond.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -75,7 +75,7 @@ Blockly.JavaScript['pond_scan'] = function(block) {
 Blockly.Blocks['pond_cannon'] = {
   /**
    * Block for shooting.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -114,7 +114,7 @@ Blockly.JavaScript['pond_cannon'] = function(block) {
 Blockly.Blocks['pond_swim'] = {
   /**
    * Block for swimming.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -146,7 +146,7 @@ Blockly.JavaScript['pond_swim'] = function(block) {
 Blockly.Blocks['pond_stop'] = {
   /**
    * Block for stopping.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -168,7 +168,7 @@ Blockly.JavaScript['pond_stop'] = function(block) {
 Blockly.Blocks['pond_health'] = {
   /**
    * Block for avatar health.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -189,7 +189,7 @@ Blockly.JavaScript['pond_health'] = function(block) {
 Blockly.Blocks['pond_speed'] = {
   /**
    * Block for avatar speed.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -210,7 +210,7 @@ Blockly.JavaScript['pond_speed'] = function(block) {
 Blockly.Blocks['pond_getX'] = {
   /**
    * Block for X coordinate.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -231,7 +231,7 @@ Blockly.JavaScript['pond_getX'] = function(block) {
 Blockly.Blocks['pond_getY'] = {
   /**
    * Block for Y coordinate.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -252,7 +252,7 @@ Blockly.JavaScript['pond_getY'] = function(block) {
 Blockly.Blocks['pond_math_number'] = {
   /**
    * Numeric or angle value.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['MATH_NUMBER_HELPURL']);
@@ -265,7 +265,7 @@ Blockly.Blocks['pond_math_number'] = {
   /**
    * Create XML to represent whether the 'NUM' field is an angle.
    * @return {Element} XML storage element.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   mutationToDom: function() {
     var container = document.createElement('mutation');
@@ -277,7 +277,7 @@ Blockly.Blocks['pond_math_number'] = {
   /**
    * Parse XML to restore the 'NUM' field type.
    * @param {!Element} xmlElement XML storage element.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
     var isAngle = (xmlElement.getAttribute('angle_field') == 'true');
@@ -286,7 +286,7 @@ Blockly.Blocks['pond_math_number'] = {
   /**
    * Switch between number or angle fields, depending on what this block
    * is plugged into.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   onchange: function() {
     if (!this.workspace) {
@@ -340,7 +340,7 @@ Blockly.Blocks['pond_math_number'] = {
 Blockly.Blocks['pond_math_single'] = {
   /**
    * Advanced math operators with single operand.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({

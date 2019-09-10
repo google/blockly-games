@@ -66,7 +66,7 @@ Turtle.Blocks.RIGHT_TURN = ' \u21BB';
 Blockly.Blocks['turtle_move'] = {
   /**
    * Block for moving forward or backwards.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -93,7 +93,7 @@ Blockly.JavaScript['turtle_move'] = function(block) {
 Blockly.Blocks['turtle_move_internal'] = {
   /**
    * Block for moving forward or backwards.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -124,7 +124,7 @@ Blockly.JavaScript['turtle_move_internal'] = function(block) {
 Blockly.Blocks['turtle_turn'] = {
   /**
    * Block for turning left or right.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -154,7 +154,7 @@ Blockly.JavaScript['turtle_turn'] = function(block) {
 Blockly.Blocks['turtle_turn_internal'] = {
   /**
    * Block for turning left or right.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -190,7 +190,7 @@ Blockly.JavaScript['turtle_turn_internal'] = function(block) {
 Blockly.Blocks['turtle_width'] = {
   /**
    * Block for setting the width.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Turtle.Blocks.HUE);
@@ -213,7 +213,7 @@ Blockly.JavaScript['turtle_width'] = function(block) {
 Blockly.Blocks['turtle_pen'] = {
   /**
    * Block for pen up/down.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -244,7 +244,7 @@ Blockly.JavaScript['turtle_pen'] = function(block) {
 Blockly.Blocks['turtle_colour'] = {
   /**
    * Block for setting the colour.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['COLOUR_HUE']);
@@ -267,7 +267,7 @@ Blockly.JavaScript['turtle_colour'] = function(block) {
 Blockly.Blocks['turtle_colour_internal'] = {
   /**
    * Block for setting the colour.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['COLOUR_HUE']);
@@ -289,7 +289,7 @@ Blockly.JavaScript['turtle_colour_internal'] = function(block) {
 Blockly.Blocks['turtle_visibility'] = {
   /**
    * Block for changing turtle visiblity.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -321,7 +321,7 @@ Blockly.JavaScript['turtle_visibility'] = function(block) {
 Blockly.Blocks['turtle_print'] = {
   /**
    * Block for printing text.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(BlocklyGames.getMsg('Turtle_printHelpUrl'));
@@ -344,7 +344,7 @@ Blockly.JavaScript['turtle_print'] = function(block) {
 Blockly.Blocks['turtle_font'] = {
   /**
    * Block for setting the font.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var FONTLIST =
@@ -384,7 +384,7 @@ Blockly.JavaScript['turtle_font'] = function(block) {
 Blockly.Blocks['turtle_repeat_internal'] = {
   /**
    * Block for repeat n times (internal number).
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({

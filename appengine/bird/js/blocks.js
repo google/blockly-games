@@ -49,7 +49,7 @@ Bird.Blocks.MOVEMENT_HUE = 290;
 Blockly.Blocks['bird_noWorm'] = {
   /**
    * Block for no worm condition.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -69,7 +69,7 @@ Blockly.JavaScript['bird_noWorm'] = function(block) {
 Blockly.Blocks['bird_heading'] = {
   /**
    * Block for moving bird in a direction.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Bird.Blocks.MOVEMENT_HUE);
@@ -90,7 +90,7 @@ Blockly.JavaScript['bird_heading'] = function(block) {
 Blockly.Blocks['bird_position'] = {
   /**
    * Block for getting bird's x or y position.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -118,7 +118,7 @@ Blockly.JavaScript['bird_position'] = function(block) {
 Blockly.Blocks['bird_compare'] = {
   /**
    * Block for comparing bird's x or y position with a number.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
@@ -157,7 +157,7 @@ Blockly.JavaScript['bird_compare'] = function(block) {
 Blockly.Blocks['bird_and'] = {
   /**
    * Block for logical operator 'and'.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['LOGIC_OPERATION_HELPURL']);
@@ -198,7 +198,7 @@ Blockly.JavaScript['bird_and'] = function(block) {
 Blockly.Blocks['bird_ifElse'] = {
   /**
    * Block for 'if/else'.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['CONTROLS_IF_HELPURL']);
@@ -231,7 +231,7 @@ Blockly.Blocks['controls_if'].oldInit = Blockly.Blocks['controls_if'].init;
 
   /**
    * Modify the stock 'if' block to be a singleton.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
 Blockly.Blocks['controls_if'].init = function() {
   this.oldInit();
