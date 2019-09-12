@@ -2,12 +2,14 @@
 	"@metadata": {
 		"authors": [
 			"Bjankuloski06",
-			"M4r51n"
+			"M4r51n",
+			"Vlad5250"
 		]
 	},
 	"Games.puzzle": "Сложувалка",
 	"Games.maze": "Лавиринт",
 	"Games.turtle": "Желка",
+	"Games.submitTitle": "Наслов:",
 	"Games.linkTooltip": "Зачувај и стави врска до блокчињата.",
 	"Games.runProgram": "Пушти го програмот",
 	"Games.resetProgram": "Одново",
@@ -29,6 +31,9 @@
 	"Games.listVariable": "список",
 	"Games.textVariable": "текст",
 	"Games.blocks": "Блокчиња",
+	"Index.moreInfo": "Повеќе информации...",
+	"Index.startOver": "Дали сакате да започнете одново?",
+	"Index.clearData": "Исчисти ги податоците",
 	"Puzzle.legsChoose": "одберете...",
 	"Puzzle.error0": "Совршено!\nСите %1 блокови се точни.",
 	"Puzzle.error1": "За малку! Само еден блок е грешен.",
@@ -67,6 +72,7 @@
 	"Maze.helpIf": "Блокчето „ако“ ќе изврши нешто само ако условот е точен. На пример, свртете лево ако има патека натаму.",
 	"Maze.helpMenu": "Стиснете на %1 во блокот „ако“ за да му го смените условот.",
 	"Maze.helpWallFollow": "Дали можете да го решите овој сложен лавиринт? Обидете се со следниов ѕид на лево. Само за напредни програмери!",
+	"Bird.heading": "заглавие",
 	"Turtle.moveTooltip": "Ја мрднува желката напред или назад за зададениот износ.",
 	"Turtle.moveForward": "мрдни напред за",
 	"Turtle.moveBackward": "мрдни назад за",
