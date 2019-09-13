@@ -59,15 +59,23 @@ def main(name, lang):
 
 
 def language(name, lang):
-  if os.path.exists('appengine/third-party/blockly/msg/js/%s.js' % lang):
-    # Convert 'pt-br' to 'pt.br'.
-    core_language = 'Blockly.Msg.' + lang.replace('-', '.')
-  else:
-    core_language = 'Blockly.Msg.en'
+  # Read Blockly's message file for this language (default to English).
+  blocklyMsgFileName = 'appengine/third-party/blockly/msg/js/%s.js' % lang;
+  if not os.path.exists(blocklyMsgFileName):
+    blocklyMsgFileName = 'appengine/third-party/blockly/msg/js/en.js';
+  f = open(blocklyMsgFileName, 'r')
+  msgs = f.read()
+  f.close()
+  # Add provides after 'use strict'.
+  msgs = msgs.replace("goog.", "//goog.")
+  msgs = msgs.replace("'use strict';\n", """'use strict';
+
+goog.provide('BlocklyGames.Msg');
+goog.require('Blockly.Msg');
+""")
+  # Write copy to Blockly Games.
   f = open('appengine/%s/generated/%s/msg.js' % (name, lang), 'w')
-  f.write(WARNING)
-  f.write("goog.provide('BlocklyGames.Msg');\n")
-  f.write("goog.require('%s');\n" % core_language)
+  f.write(msgs)
   f.close()
   print('\n%s - %s' % (name.title(), lang))
   # Run uncompressed and compressed code generation in separate threads.
@@ -87,7 +95,7 @@ class Gen_uncompressed(threading.Thread):
     self.lang = lang
 
   def run(self):
-    cmd = ['third-party/build/closurebuilder.py',
+    cmd = ['third-party-downloads/build/closurebuilder.py',
         '--root=appengine/third-party/',
         '--root=appengine/generated/%s/' % self.lang,
         '--root=appengine/js/',
@@ -151,7 +159,7 @@ class Gen_compressed(threading.Thread):
   def run(self):
     cmd = [
       'java',
-      '-jar', 'third-party/closure-compiler.jar',
+      '-jar', 'third-party-downloads/closure-compiler.jar',
       '--generate_exports',
       '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
       '--dependency_mode=STRICT',
@@ -164,10 +172,8 @@ class Gen_compressed(threading.Thread):
       '--language_out', 'ECMASCRIPT5_STRICT',
       '--entry_point=%s' % self.name.replace('/', '.').title(),
       "--js='appengine/third-party/**.js'",
-      "--js='!appengine/third-party/blockly/*.js'",
-      "--js='!appengine/third-party/blockly/tests/**.js'",
+      "--js='!appengine/third-party/base.js'",
       "--js='!appengine/third-party/blockly/externs/**.js'",
-      "--js='!appengine/third-party/blockly/demos/**.js'",
       "--js='appengine/generated/%s/*.js'" % self.lang,
       "--js='appengine/js/*.js'",
       '--warning_level', 'QUIET',

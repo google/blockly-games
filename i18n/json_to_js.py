@@ -193,7 +193,7 @@ def main():
                         help='minimum line length (not counting last line)')
     parser.add_argument('--max_length', default=50,
                         help='maximum line length (not guaranteed)')
-    parser.add_argument('--path_to_jar', default='third-party',
+    parser.add_argument('--path_to_jar', default='third-party-downloads',
                         help='relative path from working directory to '
                         'SoyToJsSrcCompiler.jar')
     parser.add_argument('files', nargs='+', help='input files')

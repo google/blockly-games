@@ -1,3 +1,7 @@
+These files are included in the Blockly Games repo rather than fetched since we
+only need two octaves from each set.  Also, the piano doesn't come pre-rendered
+with every note.
+
 Soundfont Sources
 
 banjo:

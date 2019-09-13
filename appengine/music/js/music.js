@@ -200,9 +200,9 @@ Music.init = function() {
                      'flute', 'banjo', 'guitar', 'choir'];
   var sounds = [];
   for (var i = 0; i < instruments.length; i++) {
-    for (var j = 0; j < Blockly.FieldPitch.NOTES.length; j++) {
+    for (var j = 0; j < CustomFields.FieldPitch.NOTES.length; j++) {
       sounds.push({'src': instruments[i] + '/' +
-                       Blockly.FieldPitch.NOTES[j] + '.mp3',
+                       CustomFields.FieldPitch.NOTES[j] + '.mp3',
                    id: instruments[i] + j});
     }
   }
@@ -286,7 +286,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   img.style.top = top + 'px';
   img.style.left = left + 'px';
   if (pitch != Music.REST) {
-    img.title = Blockly.FieldPitch.NOTES[pitch];
+    img.title = CustomFields.FieldPitch.NOTES[pitch];
   }
   musicContainer.appendChild(img);
   if (!className) {

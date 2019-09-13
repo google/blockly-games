@@ -32,7 +32,6 @@ goog.require('Blockly.Constants.Loops');
 goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Constants.Variables');
-goog.require('Blockly.FieldPitch');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');
@@ -41,6 +40,7 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
+goog.require('CustomFields.FieldPitch');
 
 
 /**
@@ -55,7 +55,7 @@ Blockly.Blocks['music_pitch'] = {
    */
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldPitch('7'), 'PITCH');
+        .appendField(new CustomFields.FieldPitch('7'), 'PITCH');
     this.setOutput(true, 'Number');
     this.setColour(Blockly.Msg['MATH_HUE']);
     this.setTooltip(BlocklyGames.getMsg('Music_pitchTooltip'));
