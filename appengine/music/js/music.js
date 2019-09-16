@@ -390,10 +390,10 @@ Music.drawAnswer = function() {
   musicContainer.innerHTML = '';
   Music.barCount = 0;
   // Add spacer to allow scrollbar to scroll past last note/rest.
-  // <img src="third-party/blockly/media/1x1.gif">
+  // <img id="musicContainerWidth" src="common/1x1.gif">
   var img = document.createElement('img');
   img.id = 'musicContainerWidth';
-  img.src = 'third-party/blockly/media/1x1.gif';
+  img.src = 'common/1x1.gif';
   musicContainer.appendChild(img);
 
   if (!Music.expectedAnswer) {

@@ -25,6 +25,7 @@
 
 goog.provide('Scrubber');
 
+goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
 
@@ -45,9 +46,10 @@ Scrubber = function(svgParent, opt_changeFunc) {
   this.changeFunc_ = opt_changeFunc;
   this.animationTasks_ = [];
   this.progressRects_ = [];
+  var SVG_NS = Blockly.utils.dom.SVG_NS;
 
   // Draw the frame text.
-  var text = document.createElementNS(Scrubber.SVG_NS_, 'text');
+  var text = document.createElementNS(SVG_NS, 'text');
   text.setAttribute('style', 'font-size: 10pt');
   text.setAttribute('x', this.KNOB_MAX_X_ + 9);
   text.setAttribute('y', 16);
@@ -61,7 +63,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   var colours = ['#ff3333', '#f72f2f', '#ef2a2a', '#e72727',
                  '#df2222', '#d71f1f', '#cf1a1a'];
   for (var i = 0; i < colours.length; i++) {
-    var rect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
+    var rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttribute('style', 'fill: ' + colours[i]);
     rect.setAttribute('x', this.KNOB_MIN_X_);
     rect.setAttribute('y', 8 + i);
@@ -80,7 +82,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
       clip-path="url(#knobClipPath)" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var trackTarget = document.createElementNS(Scrubber.SVG_NS_, 'rect');
+  var trackTarget = document.createElementNS(SVG_NS, 'rect');
   trackTarget.setAttribute('style', 'opacity: 0');
   trackTarget.setAttribute('x', this.KNOB_MIN_X_ - this.TARGET_OVERHANG_);
   trackTarget.setAttribute('y', this.HEIGHT_ - this.TARGET_OVERHANG_);
@@ -90,16 +92,16 @@ Scrubber = function(svgParent, opt_changeFunc) {
   trackTarget.setAttribute('rx', this.TARGET_OVERHANG_);
   trackTarget.setAttribute('ry', this.TARGET_OVERHANG_);
   svgParent.appendChild(trackTarget);
-  var knobClip = document.createElementNS(Scrubber.SVG_NS_, 'clipPath');
+  var knobClip = document.createElementNS(SVG_NS, 'clipPath');
   knobClip.id = 'knobClipPath';
   svgParent.appendChild(knobClip);
-  var knobClipRect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
+  var knobClipRect = document.createElementNS(SVG_NS, 'rect');
   knobClipRect.setAttribute('width', '16');
   knobClipRect.setAttribute('height', '16');
   knobClipRect.setAttribute('y', '3');
   knobClip.appendChild(knobClipRect);
   this.knobClipRect_ = knobClipRect;
-  var knob = document.createElementNS(Scrubber.SVG_NS_, 'image');
+  var knob = document.createElementNS(SVG_NS, 'image');
   knob.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'movie/icons.png');
   knob.setAttribute('clip-path', 'url(#knobClipPath)');
@@ -108,7 +110,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   knob.setAttribute('y', '3');
   svgParent.appendChild(knob);
   this.knob_ = knob;
-  var rect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
+  var rect = document.createElementNS(SVG_NS, 'rect');
   rect.setAttribute('style', 'opacity: 0');
   rect.setAttribute('width', 2 * this.TARGET_OVERHANG_);
   rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
@@ -125,16 +127,16 @@ Scrubber = function(svgParent, opt_changeFunc) {
   <image xlink:href="movie/icons.png" width="63" height="42" y="-20"
       clip-path="url(#playClipPath)" />
   */
-  var playClip = document.createElementNS(Scrubber.SVG_NS_, 'clipPath');
+  var playClip = document.createElementNS(SVG_NS, 'clipPath');
   playClip.id = 'playClipPath';
   svgParent.appendChild(playClip);
-  var playClipRect = document.createElementNS(Scrubber.SVG_NS_, 'rect');
+  var playClipRect = document.createElementNS(SVG_NS, 'rect');
   playClipRect.setAttribute('width', '21');
   playClipRect.setAttribute('height', '21');
   playClipRect.setAttribute('x', '4');
   playClipRect.setAttribute('y', '1');
   playClip.appendChild(playClipRect);
-  var play = document.createElementNS(Scrubber.SVG_NS_, 'image');
+  var play = document.createElementNS(SVG_NS, 'image');
   play.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'movie/icons.png');
   play.setAttribute('clip-path', 'url(#playClipPath)');
@@ -164,8 +166,6 @@ Scrubber = function(svgParent, opt_changeFunc) {
   Scrubber.bindEvent_(this.play_, 'touchend', this, this.playPause_);
 };
 
-
-Scrubber.SVG_NS_ = 'http://www.w3.org/2000/svg';
 
 Scrubber.activeScrubber_ = null;
 Scrubber.startMouseX_ = 0;

@@ -40,6 +40,12 @@ goog.require('Pond.Visualization');
 BlocklyGames.NAME = 'pond-duck';
 
 /**
+ * Array of editor tabs (Blockly and ACE).
+ * @type Array.<!Element>
+ */
+Pond.Duck.editorTabs = null;
+
+/**
  * Is the blocks editor the program source (true) or is the JS editor
  * the program source (false).
  * @private
@@ -66,6 +72,9 @@ Pond.Duck.init = function() {
   // Setup the tabs.
   function tabHandler(selectedIndex) {
     return function() {
+      if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+        return;
+      }
       for (var i = 0; i < tabs.length; i++) {
         if (selectedIndex == i) {
           Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
@@ -81,6 +90,7 @@ Pond.Duck.init = function() {
   for (var i = 0; i < tabs.length; i++) {
     BlocklyGames.bindClick(tabs[i], tabHandler(i));
   }
+  Pond.Duck.editorTabs = tabs;
 
   var rtl = BlocklyGames.isRtl();
   var visualization = document.getElementById('visualization');
@@ -250,8 +260,8 @@ Pond.Duck.editorChanged = function() {
   if (Pond.Duck.blocksEnabled_) {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
-      // Break link betweeen blocks and JS.
-      Pond.Duck.tabbar.getChildAt(0).setEnabled(false);
+      // Break link between blocks and JS.
+      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
       Pond.Duck.blocksEnabled_ = false;
     } else {
       // Abort change, preserve link.
@@ -265,7 +275,7 @@ Pond.Duck.editorChanged = function() {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
       BlocklyGames.workspace.clear();
-      Pond.Duck.tabbar.getChildAt(0).setEnabled(true);
+      Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[0], 'tab-disabled');
       Pond.Duck.blocksEnabled_ = true;
     }
   }

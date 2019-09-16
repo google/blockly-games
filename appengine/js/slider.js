@@ -25,6 +25,7 @@
 
 goog.provide('Slider');
 
+goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
 
 
@@ -46,6 +47,7 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   this.value_ = 0.5;
   this.changeFunc_ = opt_changeFunc;
   this.animationTasks_ = [];
+  var SVG_NS = Blockly.utils.dom.SVG_NS;
 
   // Draw the slider.
   /*
@@ -56,7 +58,7 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
       d="m 8,0 l -8,8 v 12 h 16 v -12 z" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var track = document.createElementNS(Slider.SVG_NS_, 'line');
+  var track = document.createElementNS(SVG_NS, 'line');
   track.setAttribute('class', 'sliderTrack');
   track.setAttribute('x1', x);
   track.setAttribute('y1', y);
@@ -64,7 +66,7 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   track.setAttribute('y2', y);
   svgParent.appendChild(track);
   this.track_ = track;
-  var rect = document.createElementNS(Slider.SVG_NS_, 'rect');
+  var rect = document.createElementNS(SVG_NS, 'rect');
   rect.setAttribute('style', 'opacity: 0');
   rect.setAttribute('x', x - this.TARGET_OVERHANG_);
   rect.setAttribute('y', y - this.TARGET_OVERHANG_);
@@ -74,12 +76,12 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   rect.setAttribute('ry', this.TARGET_OVERHANG_);
   svgParent.appendChild(rect);
   this.trackTarget_ = rect;
-  var knob = document.createElementNS(Slider.SVG_NS_, 'path');
+  var knob = document.createElementNS(SVG_NS, 'path');
   knob.setAttribute('class', 'sliderKnob');
   knob.setAttribute('d', 'm 0,0 l -8,8 v 12 h 16 v -12 z');
   svgParent.appendChild(knob);
   this.knob_ = knob;
-  var circle = document.createElementNS(Slider.SVG_NS_, 'circle');
+  var circle = document.createElementNS(SVG_NS, 'circle');
   circle.setAttribute('style', 'opacity: 0');
   circle.setAttribute('r', this.TARGET_OVERHANG_);
   circle.setAttribute('cy', y);
@@ -104,8 +106,6 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   Slider.bindEvent_(document, 'mouseover', null, Slider.mouseOver_);
 };
 
-
-Slider.SVG_NS_ = 'http://www.w3.org/2000/svg';
 
 Slider.activeSlider_ = null;
 Slider.startMouseX_ = 0;

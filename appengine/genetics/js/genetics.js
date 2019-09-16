@@ -44,6 +44,12 @@ goog.require('Genetics.soy');
 BlocklyGames.NAME = 'genetics';
 
 /**
+ * Array of editor tabs (Blockly and ACE).
+ * @type Array.<!Element>
+ */
+Genetics.editorTabs = null;
+
+/**
  * Is the blocks editor the program source (true) or is the JS editor
  * the program source (false).
  * @private {boolean}
@@ -83,6 +89,9 @@ Genetics.init = function() {
     // Setup the tabs.
     function tabHandler(selectedIndex) {
       return function() {
+        if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+          return;
+        }
         for (var i = 0; i < tabs.length; i++) {
           if (selectedIndex == i) {
             Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
@@ -98,6 +107,7 @@ Genetics.init = function() {
     for (var i = 0; i < tabs.length; i++) {
       BlocklyGames.bindClick(tabs[i], tabHandler(i));
     }
+    Genetics.editorTabs = tabs;
   }
 
   BlocklyGames.bindClick('helpButton', Genetics.showHelp);
@@ -1095,7 +1105,7 @@ Genetics.editorChanged = function() {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link between blocks and JS.
-      Genetics.tabbar.getChildAt(0).setEnabled(false);
+      Blockly.utils.dom.addClass(Genetics.editorTabs[0], 'tab-disabled');
       Genetics.blocksEnabled_ = false;
     } else {
       // Abort change, preserve link.
@@ -1109,7 +1119,7 @@ Genetics.editorChanged = function() {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
       BlocklyGames.workspace.clear();
-      Genetics.tabbar.getChildAt(0).setEnabled(true);
+      Blockly.utils.dom.removeClass(Genetics.editorTabs[0], 'tab-disabled');
       Genetics.blocksEnabled_ = true;
     }
   }
