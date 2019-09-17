@@ -25,6 +25,7 @@
 
 goog.provide('Turtle');
 
+goog.require('Blockly.FieldColour');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');

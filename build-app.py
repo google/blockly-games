@@ -129,6 +129,9 @@ class Gen_uncompressed(threading.Thread):
     f = open('appengine/%s/generated/%s/uncompressed.js' %
         (self.name, self.lang), 'w')
     f.write("""%s
+
+window.CLOSURE_NO_DEPS = true;
+
 (function() {
   var srcs = [
       %s

@@ -25,12 +25,12 @@
 
 goog.provide('Puzzle');
 
-goog.require('Puzzle.soy');
-goog.require('Puzzle.Blocks');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Puzzle.soy');
+goog.require('Puzzle.Blocks');
 
 
 BlocklyGames.NAME = 'puzzle';
