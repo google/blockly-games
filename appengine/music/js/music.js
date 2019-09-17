@@ -187,6 +187,8 @@ Music.init = function() {
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
+  // Lazy-load the sounds.
+  setTimeout(Music.importSounds, 1);
 
   BlocklyGames.bindClick('helpButton', Music.showHelp);
   if (location.hash.length < 2 &&
@@ -194,10 +196,31 @@ Music.init = function() {
                                          BlocklyGames.LEVEL)) {
     setTimeout(Music.showHelp, 1000);
   }
+};
 
+window.addEventListener('load', Music.init);
+
+/**
+ * Load the sounds.
+ */
+Music.importSounds = function() {
+  //<script type="text/javascript"
+  //  src="third-party/SoundJS/soundjs.min.js"></script>
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'third-party/SoundJS/soundjs.min.js';
+  script.onload = Music.registerSounds;
+  document.head.appendChild(script);
+};
+
+/**
+ * Register the sounds.
+ */
+Music.registerSounds = function() {
   var assetsPath = 'third-party/soundfonts/';
   var instruments = ['piano', 'trumpet', 'violin', 'drum',
                      'flute', 'banjo', 'guitar', 'choir'];
+
   var sounds = [];
   for (var i = 0; i < instruments.length; i++) {
     for (var j = 0; j < CustomFields.FieldPitch.NOTES.length; j++) {
@@ -208,8 +231,6 @@ Music.init = function() {
   }
   createjs.Sound.registerSounds(sounds, assetsPath);
 };
-
-window.addEventListener('load', Music.init);
 
 /**
  * The speed slider has changed.  Erase the start time to force re-computation.
@@ -256,7 +277,7 @@ Music.staveTop_ = function(i, n) {
  * Draw and position the specified note or rest.
  * @param {number} i Which stave bar to draw on (base 1).
  * @param {number} time Distance down the stave (on the scale of whole notes).
- * @param {string} pitch MIDI value of note (0 - 12), or rest (Music.REST).
+ * @param {string} pitch Value of note (0-12), or rest (Music.REST).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
  * @param {string} className Name of CSS class for image.
  */
@@ -578,6 +599,11 @@ Music.execute = function() {
     setTimeout(Music.execute, 250);
     return;
   }
+  if (!('createjs' in window) || !createjs.Sound.isReady()) {
+    // SoundJS lazy loads and hasn't arrived yet.  Try again later.
+    setTimeout(Music.execute, 250);
+    return;
+  }
   Music.reset();
   Blockly.selected && Blockly.selected.unselect();
   // For safety, recompute startCount in the generator.
@@ -742,7 +768,7 @@ Music.animate = function(id) {
 /**
  * Play one note.
  * @param {number} duration Fraction of a whole note length to play.
- * @param {number} pitch MIDI note number to play.
+ * @param {number} pitch Note number to play (0-12).
  * @param {?string} id ID of block.
  */
 Music.play = function(duration, pitch, id) {
