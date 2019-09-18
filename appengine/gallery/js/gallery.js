@@ -25,7 +25,6 @@
 
 goog.provide('Gallery');
 
-goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('Gallery.soy');
 
