@@ -140,7 +140,7 @@ BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
  * Is the site being served as raw HTML files, as opposed to on App Engine.
  * @type boolean
  */
-BlocklyGames.IS_HTML = !!window.location.pathname.match(/\.html$/);
+BlocklyGames.IS_HTML = window.location.pathname.substr(-5) == '.html';
 
 /**
  * Blockly's main workspace.
