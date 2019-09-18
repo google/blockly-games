@@ -27,6 +27,9 @@ goog.provide('Pond.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Constants.Math');
+goog.require('Blockly.FieldAngle');
+goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldNumber');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.math');
 goog.require('BlocklyGames');

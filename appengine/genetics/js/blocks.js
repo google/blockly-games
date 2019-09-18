@@ -28,6 +28,7 @@ goog.provide('Genetics.Blocks');
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.utils.xml');
+goog.require('Blockly.FieldDropdown');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JsBlocks');
 

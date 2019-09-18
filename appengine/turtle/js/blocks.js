@@ -34,6 +34,8 @@ goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Constants.Text');
 goog.require('Blockly.Constants.Variables');
+goog.require('Blockly.FieldColour');
+goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.colour');
 goog.require('Blockly.JavaScript.lists');

@@ -26,6 +26,8 @@
 goog.provide('Puzzle.Blocks');
 
 goog.require('Blockly');
+goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
 
 
