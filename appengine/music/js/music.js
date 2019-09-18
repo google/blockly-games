@@ -25,6 +25,7 @@
 
 goog.provide('Music');
 
+goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');

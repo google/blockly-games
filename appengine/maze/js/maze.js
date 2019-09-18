@@ -26,6 +26,7 @@
 goog.provide('Maze');
 
 goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');

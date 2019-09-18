@@ -27,6 +27,7 @@ goog.provide('Bird');
 
 goog.require('Bird.Blocks');
 goog.require('Bird.soy');
+goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.style');

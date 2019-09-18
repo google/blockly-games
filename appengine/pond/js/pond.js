@@ -25,6 +25,7 @@
 
 goog.provide('Pond');
 
+goog.require('Blockly.Trashcan');
 goog.require('BlocklyGames');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
