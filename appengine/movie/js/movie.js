@@ -27,6 +27,7 @@ goog.provide('Movie');
 
 goog.require('Blockly.Comment');
 goog.require('Blockly.FieldColour');
+goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.style');

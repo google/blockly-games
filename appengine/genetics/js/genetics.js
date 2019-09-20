@@ -26,6 +26,7 @@
 goog.provide('Genetics');
 
 goog.require('Blockly.Comment');
+goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.ZoomControls');

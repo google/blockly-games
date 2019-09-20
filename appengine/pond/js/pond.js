@@ -26,6 +26,7 @@
 goog.provide('Pond');
 
 goog.require('Blockly.Comment');
+goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyGames');
