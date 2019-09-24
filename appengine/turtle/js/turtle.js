@@ -27,6 +27,7 @@ goog.provide('Turtle');
 
 goog.require('Blockly.Comment');
 goog.require('Blockly.FieldColour');
+goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.math');

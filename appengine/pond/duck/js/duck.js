@@ -25,8 +25,10 @@
 
 goog.provide('Pond.Duck');
 
+goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
+goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');

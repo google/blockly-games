@@ -26,6 +26,7 @@
 goog.provide('Music');
 
 goog.require('Blockly.Comment');
+goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
