@@ -30,6 +30,8 @@ goog.require('Blockly.FieldColour');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.math');
+goog.require('Blockly.VerticalFlyout');
+goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
