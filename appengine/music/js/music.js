@@ -333,7 +333,8 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   if (pitch == '0' || pitch == '12') {
     var line = document.createElement('img');
     line.src = 'music/black1x1.gif';
-    line.className = className + ' ledgerLine';
+    line.className = className +
+        (duration == 1 ? ' ledgerLineWide' : ' ledgerLine');
     line.style.top = (top + 32) + 'px';
     line.style.left = (left - 5) + 'px';
     musicContainer.appendChild(line);

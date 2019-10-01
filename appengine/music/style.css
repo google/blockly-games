@@ -72,6 +72,12 @@ html[dir="RTL"] button.primary {
   position: absolute;
 }
 
+.ledgerLineWide {
+  height: 1px;
+  width: 27px;
+  position: absolute;
+}
+
 .barLine {
   height:36px;
   width: 1px;
