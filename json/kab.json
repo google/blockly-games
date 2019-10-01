@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Belkacem77"
+			"Belkacem77",
+			"YubaWissin"
 		]
 	},
 	"Games.name": "Uraren Blocky",
@@ -48,7 +49,7 @@
 	"Games.helpAbort": "Aswir-agi yewɛer aṭas. Tebɣiḍ ad tzegleḍ-t sakin ad tedduḍ ar uswir d -iteddun? Tzemrem yal tikelt ad d-uɣaleḍ ɣur-s.",
 	"Index.clear": "Kkes akk tifratin?",
 	"Index.subTitle": "Uraren i uzekka n umsihel.",
-	"Index.moreInfo": "Ugar n telɣut...",
+	"Index.moreInfo": "Ugar n telɣa...",
 	"Index.startOver": "Tebɣiḍ ad talseḍ tanekra?",
 	"Index.clearData": "Sfeḍ isefka",
 	"Puzzle.animal1": "Abṛak",
