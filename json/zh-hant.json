@@ -10,7 +10,8 @@
 			"Maskers",
 			"Dnow",
 			"Jessica1213",
-			"Wehwei"
+			"Wehwei",
+			"Xiplus"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -57,7 +58,7 @@
 	"Games.helpAbort": "此關卡非常困難。您是否要跳過並進入下一關？您隨時可以返回這關。",
 	"Index.clear": "刪除你所有的解法？",
 	"Index.subTitle": "為了明日的程式設計師所設計的遊戲。",
-	"Index.moreInfo": "更多資訊...",
+	"Index.moreInfo": "給教育者的資訊...",
 	"Index.startOver": "要重新開始嗎？",
 	"Index.clearData": "清空數據",
 	"Puzzle.animal1": "鴨子",
