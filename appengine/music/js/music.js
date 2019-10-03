@@ -679,6 +679,7 @@ Music.executeChunk_ = function(thread) {
   Music.interpreter.stateStack = thread.stateStack;
   // Switch the interpreter to run the provided thread.
   Music.interpreter.stateStack = thread.stateStack;
+  var ticks = 10000;
   var go;
   do {
     try {
@@ -688,8 +689,12 @@ Music.executeChunk_ = function(thread) {
       alert(e);
       go = false;
     }
+    if (ticks-- == 0) {
+      console.warn('Thread ' + thread.stave + ' is running slowly.');
+      return;
+    }
     if (thread.pauseUntil64ths > Music.clock64ths) {
-      // The last executed command requested a pause.
+      // Previously executed command (play or rest) requested a pause.
       return;
     }
   } while (go);
