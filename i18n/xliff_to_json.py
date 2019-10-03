@@ -3,8 +3,7 @@
 # Converts extracted_msgs.xlf file into en.json, qqq.json, and keys.json.json
 # for use by http://translatewiki.net.
 #
-# Copyright 2013 Google Inc.
-# https://github.com/google/blockly-games
+# Copyright 2013 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

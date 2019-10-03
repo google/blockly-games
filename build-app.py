@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # Compresses the files for one game into a single JavaScript file.
 #
-# Copyright 2013 Google Inc.
-# https://github.com/google/blockly-games
+# Copyright 2013 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -218,11 +217,9 @@ class Gen_compressed(threading.Thread):
     """
     apache2 = re.compile("""/\\*
 
- [\\w: ]+
-
- (Copyright \\d+ (Google Inc.|Massachusetts Institute of Technology))
- (https://developers.google.com/blockly/|All rights reserved.)
-
+ (Copyright \\d+ (Google LLC|Massachusetts Institute of Technology))
+( All rights reserved.
+)?
  Licensed under the Apache License, Version 2.0 \\(the "License"\\);
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
