@@ -156,22 +156,23 @@ Genetics.Visualization.init = function() {
   // Sync the display size constant on mouseAvatar.
   Genetics.MouseAvatar.DISPLAY_SIZE = Genetics.Visualization.DISPLAY_SIZE;
 
+  // Setup the tabs.
+  function tabHandler(selectedIndex) {
+    return function() {
+      for (var i = 0; i < tabs.length; i++) {
+        if (selectedIndex == i) {
+          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+        } else {
+          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+        }
+      }
+      changeTab(selectedIndex);
+    };
+  }
+
   var tabs = Array.prototype.slice.call(
       document.querySelectorAll('#vizTabbar>.tab'));
   if (tabs.length) {
-    // Setup the tabs.
-    function tabHandler(selectedIndex) {
-      return function() {
-        for (var i = 0; i < tabs.length; i++) {
-          if (selectedIndex == i) {
-            Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
-          } else {
-            Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
-          }
-        }
-        changeTab(selectedIndex);
-      };
-    }
     for (var i = 0; i < tabs.length; i++) {
       BlocklyGames.bindClick(tabs[i], tabHandler(i));
     }

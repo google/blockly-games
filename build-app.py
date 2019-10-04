@@ -171,6 +171,7 @@ class Gen_compressed(threading.Thread):
       '--externs', 'externs/soundJS-externs.js',
       '--externs', 'externs/storage-externs.js',
       '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
+      '--language_in', 'ECMASCRIPT5_STRICT',
       '--language_out', 'ECMASCRIPT5_STRICT',
       '--entry_point=%s' % self.name.replace('/', '.').title(),
       "--js='appengine/third-party/**.js'",

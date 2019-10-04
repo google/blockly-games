@@ -89,23 +89,24 @@ Genetics.init = function() {
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
 
+  // Setup the tabs.
+  function tabHandler(selectedIndex) {
+    return function() {
+      if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+        return;
+      }
+      for (var i = 0; i < tabs.length; i++) {
+        if (selectedIndex == i) {
+          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+        } else {
+          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+        }
+      }
+      Genetics.changeTab(selectedIndex);
+    };
+  }
+
   if (BlocklyGames.LEVEL > 8) {
-    // Setup the tabs.
-    function tabHandler(selectedIndex) {
-      return function() {
-        if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
-          return;
-        }
-        for (var i = 0; i < tabs.length; i++) {
-          if (selectedIndex == i) {
-            Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
-          } else {
-            Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
-          }
-        }
-        Genetics.changeTab(selectedIndex);
-      };
-    }
     var tabs = Array.prototype.slice.call(
         document.querySelectorAll('#editorBar>.tab'));
     for (var i = 0; i < tabs.length; i++) {
