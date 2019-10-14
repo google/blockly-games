@@ -10,7 +10,8 @@
 			"Josee Desharnais",
 			"Urhixidur",
 			"Wladek92",
-			"Zarisi"
+			"Zarisi",
+			"Verdy p"
 		]
 	},
 	"Games.name": "Jeux Blockly",
@@ -57,7 +58,7 @@
 	"Games.helpAbort": "Ce niveau est très difficile. Voulez-vous le sauter et passer au jeu suivant ? Vous pourrez toujours y revenir plus tard.",
 	"Index.clear": "Supprimer toutes vos solutions ?",
 	"Index.subTitle": "Jeux pour les programmeurs de demain.",
-	"Index.moreInfo": "Plus d’informations…",
+	"Index.moreInfo": "Informations pédagogiques...",
 	"Index.startOver": "Voulez-vous recommencer ?",
 	"Index.clearData": "Effacer les données",
 	"Puzzle.animal1": "Canard",

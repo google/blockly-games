@@ -7,7 +7,8 @@
 			"Macofe",
 			"Clon",
 			"DaBler",
-			"Ilimanaq29"
+			"Ilimanaq29",
+			"Dvorapa"
 		]
 	},
 	"Games.name": "Hry Blockly",
@@ -50,7 +51,7 @@
 	"Games.helpAbort": "Tato úroveň je velmi obtížná. Chceš ji přeskočit a pokračovat na další hru? Kdykoli se můžeš vrátit zpět.",
 	"Index.clear": "Smazat všechna řešení?",
 	"Index.subTitle": "Hry budoucích programátorů.",
-	"Index.moreInfo": "Více informací ...",
+	"Index.moreInfo": "Informace pro vyučující...",
 	"Index.startOver": "Chceš začít znovu?",
 	"Index.clearData": "Vymazat data",
 	"Puzzle.animal1": "Kachna",
