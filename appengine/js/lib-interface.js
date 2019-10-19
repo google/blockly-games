@@ -295,31 +295,39 @@ BlocklyInterface.eventSpam.previousDate_ = 0;
 
 /**
  * Load the JavaScript interpreter.
+ * Defer loading until page is loaded and responsive.
  */
 BlocklyInterface.importInterpreter = function() {
-  //<script type="text/javascript"
-  //  src="third-party/JS-Interpreter/compressed.js"></script>
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'third-party/JS-Interpreter/compressed.js';
-  document.head.appendChild(script);
+  function load() {
+    //<script type="text/javascript"
+    //  src="third-party/JS-Interpreter/compressed.js"></script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'third-party/JS-Interpreter/compressed.js';
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
 };
 
 /**
  * Load the Prettify CSS and JavaScript.
+ * Defer loading until page is loaded and responsive.
  */
 BlocklyInterface.importPrettify = function() {
-  //<link rel="stylesheet" type="text/css" href="common/prettify.css">
-  //<script type="text/javascript" src="common/prettify.js"></script>
-  var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = 'common/prettify.css';
-  document.head.appendChild(link);
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'common/prettify.js';
-  document.head.appendChild(script);
+  function load() {
+    //<link rel="stylesheet" type="text/css" href="common/prettify.css">
+    //<script type="text/javascript" src="common/prettify.js"></script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'common/prettify.css';
+    document.head.appendChild(link);
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'common/prettify.js';
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.

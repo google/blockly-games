@@ -151,9 +151,9 @@ Movie.init = function() {
   BlocklyGames.workspace.getAudioManager().load(
       ['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
-  setTimeout(BlocklyInterface.importInterpreter, 1);
+  BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  setTimeout(BlocklyInterface.importPrettify, 1);
+  BlocklyInterface.importPrettify();
 
   BlocklyGames.bindClick('helpButton', Movie.showHelp);
   if (location.hash.length < 2 &&

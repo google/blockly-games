@@ -51,9 +51,9 @@ Pond.init = function() {
   BlocklyGames.bindClick('closeDocs', Pond.docsCloseClick);
 
   // Lazy-load the JavaScript interpreter.
-  setTimeout(BlocklyInterface.importInterpreter, 1);
+  BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  setTimeout(BlocklyInterface.importPrettify, 1);
+  BlocklyInterface.importPrettify();
 };
 
 /**

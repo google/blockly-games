@@ -87,7 +87,7 @@ Genetics.init = function() {
   BlocklyGames.bindClick('closeDocs', Genetics.docsCloseClick);
 
   // Lazy-load the JavaScript interpreter.
-  setTimeout(BlocklyInterface.importInterpreter, 1);
+  BlocklyInterface.importInterpreter();
 
   // Setup the tabs.
   function tabHandler(selectedIndex) {

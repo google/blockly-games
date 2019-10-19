@@ -168,9 +168,9 @@ Turtle.init = function() {
   BlocklyGames.workspace.getAudioManager().load(
       ['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
-  setTimeout(BlocklyInterface.importInterpreter, 1);
+  BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  setTimeout(BlocklyInterface.importPrettify, 1);
+  BlocklyInterface.importPrettify();
 
   BlocklyGames.bindClick('helpButton', Turtle.showHelp);
   if (location.hash.length < 2 &&
