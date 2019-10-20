@@ -240,6 +240,7 @@ Genetics.init = function() {
     BlocklyGames.workspace = Blockly.inject('blockly',
         {
           'media': 'third-party/blockly/media/',
+          'oneBasedIndex': false,
           'rtl': false,
           'toolbox': toolbox,
           'trashcan': true,

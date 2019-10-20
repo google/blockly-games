@@ -144,6 +144,7 @@ Music.init = function() {
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'disable': false,
        'media': 'third-party/blockly/media/',
+       'oneBasedIndex': false,
        'rtl': rtl,
        'toolbox': toolbox,
        'zoom': {

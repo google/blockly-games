@@ -115,6 +115,7 @@ Turtle.init = function() {
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
+       'oneBasedIndex': false,
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true,

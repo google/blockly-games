@@ -64,10 +64,6 @@ BlocklyInterface.init = function() {
     languageMenu.addEventListener('change',
         BlocklyInterface.changeLanguage, true);
   }
-
-  // Switch to zero-based indexing so that later JS levels match the blocks.
-  Blockly.Blocks && (Blockly.Blocks.ONE_BASED_INDEXING = false);
-  Blockly.JavaScript && (Blockly.JavaScript.ONE_BASED_INDEXING = false);
 };
 
 /**

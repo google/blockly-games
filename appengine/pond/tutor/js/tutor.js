@@ -76,6 +76,7 @@ Pond.Tutor.init = function() {
     var toolbox = document.getElementById('toolbox');
     BlocklyGames.workspace = Blockly.inject('blockly',
         {'media': 'third-party/blockly/media/',
+         'oneBasedIndex': false,
          'rtl': false,
          'toolbox': toolbox,
          'trashcan': true});
