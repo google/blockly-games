@@ -43,7 +43,7 @@
 	"Games.catText": "文字",
 	"Games.catLists": "清單",
 	"Games.catColour": "顏色",
-	"Games.catVariables": "變量",
+	"Games.catVariables": "變數",
 	"Games.catProcedures": "函式",
 	"Games.httpRequestError": "這個請求有些問題。",
 	"Games.linkAlert": "透過此連結分享您的區塊：\n\n%1",
