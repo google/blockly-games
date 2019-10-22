@@ -181,6 +181,14 @@ Pond.Battle.start = function(doneCallback) {
   Pond.Battle.endTime_ = Date.now() + Pond.Battle.TIME_LIMIT;
   console.log('Starting battle with ' + Pond.Battle.AVATARS.length +
               ' avatars.');
+  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+    try {
+      avatar.initInterpreter();
+    } catch (e) {
+      console.log(avatar + ' fails to load: ' + e);
+      avatar.die();
+    }
+  }
   Pond.Battle.update();
 };
 

@@ -118,17 +118,20 @@ Pond.Avatar.prototype.reset = function() {
   // Face the centre.
   this.degree = Pond.Avatar.pointsToAngle(this.loc.x, this.loc.y, 50, 50);
   this.facing = this.degree;
+  this.interpreter = null;
+};
+
+/**
+ * Create an interpreter for this avatar.
+ */
+Pond.Avatar.prototype.initInterpreter = function() {
   var code = this.code_;
   if (typeof code == 'function') {
     code = code();
   } else if (typeof code != 'string') {
     throw Error('Avatar ' + this.name + ' has invalid code: ' + code);
   }
-  if ('Interpreter' in window) {
-    this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
-  } else {
-    this.interpreter = null;
-  }
+  this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
 };
 
 /**
