@@ -159,6 +159,9 @@ Genetics.Visualization.init = function() {
   // Setup the tabs.
   function tabHandler(selectedIndex) {
     return function() {
+      if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+        return;
+      }
       for (var i = 0; i < tabs.length; i++) {
         if (selectedIndex == i) {
           Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
@@ -194,83 +197,114 @@ Genetics.Visualization.init = function() {
       }
     };
     changeTab(0);
-
-    var createCharts = function() {
-      // Create the base options for chart style shared between charts.
-      var ChartOpts = function() {
-        this['hAxis'] = {
-          'title': 'Time',
-          'titleTextStyle': {'color': '#333'},
-          'format': '0'
-        };
-        this['vAxis'] = {'minValue': 0};
-        this['chartArea'] = {
-          'left': '8%',
-          'top': '8%',
-          'width': '60%',
-          'height': '70%'
-        };
-        this['backgroundColor'] = 'white';
-      };
-      var StackGraphOpts = function() {
-        this['colors'] = Genetics.Visualization.COLOURS;
-        this['isStacked'] = 'relative';
-        this['lineWidth'] = 0;
-        this['areaOpacity'] = 0.8;
-        this['vAxis']['maxValue'] = 1;
-      };
-      StackGraphOpts.prototype = new ChartOpts();
-
-      var populationChartOpts = new ChartOpts();
-      var pickFightOpts = new StackGraphOpts();
-      var proposeMateOpts = new StackGraphOpts();
-      var acceptMateOpts = new StackGraphOpts();
-
-      populationChartOpts['title'] = 'Population';
-      populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
-      populationChartOpts['isStacked'] = true;
-      populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
-      Genetics.Visualization.populationChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': populationChartOpts,
-            'containerId': 'populationChart'
-          });
-      pickFightOpts['title'] = 'Pick Fight';
-      Genetics.Visualization.pickFightChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': pickFightOpts,
-            'containerId': 'pickFightChart'
-          });
-      proposeMateOpts['title'] = 'Propose Mate';
-      Genetics.Visualization.proposeMateChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': proposeMateOpts,
-            'containerId': 'proposeMateChart'
-          });
-      acceptMateOpts['title'] = 'Accept Mate';
-      Genetics.Visualization.acceptMateChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': acceptMateOpts,
-            'containerId': 'acceptMateChart'
-          });
-
-      // Set chart Data for all charts.
-      Genetics.Visualization.resetChartData_();
-
-      Genetics.Visualization.populationChartWrapper_.draw();
-      Genetics.Visualization.pickFightChartWrapper_.draw();
-      Genetics.Visualization.proposeMateChartWrapper_.draw();
-      Genetics.Visualization.acceptMateChartWrapper_.draw();
-    };
-    google.charts.load('current', {'packages': ['corechart']});
-    google.charts.setOnLoadCallback(createCharts);
+    Genetics.Visualization.importCharts_();
   }
 
   Genetics.Visualization.display_ = document.getElementById('display');
+};
+
+/**
+ * Load the Google Chart API.
+ * Defer loading until page is loaded and responsive.
+ * @private
+ */
+Genetics.Visualization.importCharts_ = function() {
+  function load() {
+    //<script type="text/javascript"
+    //  src="https://www.gstatic.com/charts/loader.js"></script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://www.gstatic.com/charts/loader.js';
+    script.addEventListener('load', Genetics.Visualization.initCharts_);
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
+};
+
+/**
+ * Setup the charts (run once).
+ * @private
+ */
+Genetics.Visualization.initCharts_ = function() {
+  if (typeof google != 'object') {
+    throw Error('Loaded Google Charts API, but no "google" object.');
+  }
+  var createCharts = function() {
+    // Create the base options for chart style shared between charts.
+    var ChartOpts = function() {
+      this['hAxis'] = {
+        'title': 'Time',
+        'titleTextStyle': {'color': '#333'},
+        'format': '0'
+      };
+      this['vAxis'] = {'minValue': 0};
+      this['chartArea'] = {
+        'left': '8%',
+        'top': '8%',
+        'width': '60%',
+        'height': '70%'
+      };
+      this['backgroundColor'] = 'white';
+    };
+    var StackGraphOpts = function() {
+      this['colors'] = Genetics.Visualization.COLOURS;
+      this['isStacked'] = 'relative';
+      this['lineWidth'] = 0;
+      this['areaOpacity'] = 0.8;
+      this['vAxis']['maxValue'] = 1;
+    };
+    StackGraphOpts.prototype = new ChartOpts();
+
+    var populationChartOpts = new ChartOpts();
+    var pickFightOpts = new StackGraphOpts();
+    var proposeMateOpts = new StackGraphOpts();
+    var acceptMateOpts = new StackGraphOpts();
+
+    populationChartOpts['title'] = 'Population';
+    populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
+    populationChartOpts['isStacked'] = true;
+    populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
+    Genetics.Visualization.populationChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': populationChartOpts,
+          'containerId': 'populationChart'
+        });
+    pickFightOpts['title'] = 'Pick Fight';
+    Genetics.Visualization.pickFightChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': pickFightOpts,
+          'containerId': 'pickFightChart'
+        });
+    proposeMateOpts['title'] = 'Propose Mate';
+    Genetics.Visualization.proposeMateChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': proposeMateOpts,
+          'containerId': 'proposeMateChart'
+        });
+    acceptMateOpts['title'] = 'Accept Mate';
+    Genetics.Visualization.acceptMateChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': acceptMateOpts,
+          'containerId': 'acceptMateChart'
+        });
+
+    // Set chart Data for all charts.
+    Genetics.Visualization.resetChartData_();
+
+    Genetics.Visualization.populationChartWrapper_.draw();
+    Genetics.Visualization.pickFightChartWrapper_.draw();
+    Genetics.Visualization.proposeMateChartWrapper_.draw();
+    Genetics.Visualization.acceptMateChartWrapper_.draw();
+    // Enable the charts tab.
+    var tab = document.querySelectorAll('#vizTabbar>.tab')[1];
+    Blockly.utils.dom.removeClass(tab, 'tab-disabled');
+  };
+  google.charts.load('current', {'packages': ['corechart']});
+  google.charts.setOnLoadCallback(createCharts);
 };
 
 /**
@@ -278,27 +312,28 @@ Genetics.Visualization.init = function() {
  * @private
  */
 Genetics.Visualization.resetChartData_ = function() {
-  if (google.visualization) {
-    Genetics.Visualization.populationChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable(
-            [[{label: 'Time', type: 'number'},
-              {label: Genetics.Mouse.Sex.MALE, type: 'number'},
-              {label: Genetics.Mouse.Sex.FEMALE, type: 'number'}]],
-            false));
-
-    var playerLabels = [{label: 'Time', type: 'number'}];
-    for (var i = 0, player; player = Genetics.Cage.players[i]; i++) {
-      playerLabels.push({label: player.name, type: 'number'});
-    }
-    Genetics.Visualization.pickFightChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable([playerLabels], false));
-    Genetics.Visualization.proposeMateChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable([playerLabels], false));
-    Genetics.Visualization.acceptMateChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable([playerLabels], false));
-
-    Genetics.Visualization.chartsNeedUpdate_ = true;
+  if (!Genetics.Visualization.populationChartWrapper_) {
+    return;  // Offline or Chart API hasn't loaded yet.
   }
+  Genetics.Visualization.populationChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable(
+          [[{label: 'Time', type: 'number'},
+            {label: Genetics.Mouse.Sex.MALE, type: 'number'},
+            {label: Genetics.Mouse.Sex.FEMALE, type: 'number'}]],
+          false));
+
+  var playerLabels = [{label: 'Time', type: 'number'}];
+  for (var i = 0, player; player = Genetics.Cage.players[i]; i++) {
+    playerLabels.push({label: player.name, type: 'number'});
+  }
+  Genetics.Visualization.pickFightChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable([playerLabels], false));
+  Genetics.Visualization.proposeMateChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable([playerLabels], false));
+  Genetics.Visualization.acceptMateChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable([playerLabels], false));
+
+  Genetics.Visualization.chartsNeedUpdate_ = true;
 };
 
 /**
@@ -786,31 +821,32 @@ Genetics.Visualization.displayGameEnd_ = function() {
  * @private
  */
 Genetics.Visualization.updateChartData_ = function() {
-  if (google.visualization) {
-    Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
-        [Genetics.Visualization.roundNumber_,
-          Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
-          Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
-
-    var pickFightState = [Genetics.Visualization.roundNumber_];
-    var proposeMateState = [Genetics.Visualization.roundNumber_];
-    var acceptMateState = [Genetics.Visualization.roundNumber_];
-    for (var playerId = 0; playerId < Genetics.Cage.players.length;
-        playerId++) {
-      pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
-      proposeMateState.push(
-          Genetics.Visualization.proposeMateOwners_[playerId]);
-      acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
-    }
-    Genetics.Visualization.pickFightChartWrapper_.getDataTable()
-        .addRow(pickFightState);
-    Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
-        .addRow(proposeMateState);
-    Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
-        .addRow(acceptMateState);
-
-    Genetics.Visualization.chartsNeedUpdate_ = true;
+  if (!Genetics.Visualization.populationChartWrapper_) {
+    return;  // Offline or Chart API hasn't loaded yet.
   }
+  Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
+      [Genetics.Visualization.roundNumber_,
+        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
+        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
+
+  var pickFightState = [Genetics.Visualization.roundNumber_];
+  var proposeMateState = [Genetics.Visualization.roundNumber_];
+  var acceptMateState = [Genetics.Visualization.roundNumber_];
+  for (var playerId = 0; playerId < Genetics.Cage.players.length;
+      playerId++) {
+    pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
+    proposeMateState.push(
+        Genetics.Visualization.proposeMateOwners_[playerId]);
+    acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
+  }
+  Genetics.Visualization.pickFightChartWrapper_.getDataTable()
+      .addRow(pickFightState);
+  Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
+      .addRow(proposeMateState);
+  Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
+      .addRow(acceptMateState);
+
+  Genetics.Visualization.chartsNeedUpdate_ = true;
 };
 
 /**

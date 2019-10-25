@@ -156,7 +156,9 @@ Genetics.init = function() {
 
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    if (blocklyDiv) {
+      Blockly.svgResize(BlocklyGames.workspace);
+    }
   });
   window.addEventListener('resize', onresize);
   onresize(null);

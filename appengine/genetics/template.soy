@@ -67,7 +67,7 @@
   {if $ij.level >= 9}
     <div id="vizTabbar" class="tab-bar">
       <div class="tab tab-selected">Visualization</div>
-      <div class="tab">Charts</div>
+      <div class="tab tab-disabled">Charts</div>
     </div>
     <div class="tab-bar-clear"></div>
     {/if}
@@ -98,7 +98,7 @@
         {for $i in range(4)}
           <td>
             <div class="mouseFunctionIcons"></div>
-            <div class="pickFightStat" ></div>
+            <div class="pickFightStat"></div>
             {if $ij.level >= 5}
               <div class="proposeMateStat"></div>
               {if $ij.level >= 7}
