@@ -17,6 +17,7 @@
   color: #ccc;
 }
 
+/* Tabs */
 .tab {
   background: #fff;
   border: 1px solid #ddd;
@@ -35,19 +36,17 @@
   margin: 1px 4px 0 0;
 }
 
-/* State: Hover */
-.tab:hover {
+.tab:hover:not(.tab-disabled) {
   background: #eee;
 }
 
-/* State: Disabled */
 .tab-disabled {
   background: #fff;
   border-color: #ccc;
   color: #ccc;
+  cursor: not-allowed;
 }
 
-/* State: Selected */
 .tab-selected {
   background: #ddd !important; /* Selected trumps hover. */
 }
