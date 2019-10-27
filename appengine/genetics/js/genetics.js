@@ -234,6 +234,8 @@ Genetics.init = function() {
     if (defaultCode) {
       BlocklyInterface.loadBlocks(defaultCode + '\n', false);
     }
+    // Lazy-load the ESx-ES5 transpiler.
+    BlocklyInterface.importBabel();
   }
 
   if (blocklyDiv) {

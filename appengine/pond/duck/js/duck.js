@@ -132,6 +132,9 @@ Pond.Duck.init = function() {
   session['on']('change', Pond.Duck.editorChanged);
   BlocklyInterface.editor['setValue'](defaultCode, -1);
 
+  // Lazy-load the ESx-ES5 transpiler.
+  BlocklyInterface.importBabel();
+
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',

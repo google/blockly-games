@@ -26,6 +26,7 @@ goog.provide('Pond.Avatar');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 
 
 /**
@@ -129,7 +130,12 @@ Pond.Avatar.prototype.initInterpreter = function() {
   if (typeof code == 'function') {
     code = code();
   } else if (typeof code != 'string') {
-    throw Error('Avatar ' + this.name + ' has invalid code: ' + code);
+    throw Error('Duck "' + this.name + '" has invalid code: ' + code);
+  }
+  try {
+    code = BlocklyInterface.transpileToEs5(code) || code;
+  } catch (e) {
+    throw Error('Duck "' + this.name + '" has error in code:\n' + e);
   }
   this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
 };

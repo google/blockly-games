@@ -23,6 +23,7 @@
 
 goog.provide('Genetics.Cage');
 
+goog.require('BlocklyInterface');
 goog.require('Genetics.Mouse');
 
 
@@ -671,12 +672,17 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
       playerId = mouse.acceptMateOwner;
       break;
   }
+  var playerName = Genetics.Cage.players[playerId].name;
   var code = Genetics.Cage.players[playerId].code;
   if (typeof code == 'function') {
     code = Genetics.Cage.players[playerId].cachedCode;
   } else if (typeof code != 'string') {
-    var player = Genetics.Cage.players[playerId].name;
-    throw Error('Player ' + player + ' has invalid code: ' + code);
+    throw Error('Mouse "' + playerName + '" has invalid code: ' + code);
+  }
+  try {
+    code = BlocklyInterface.transpileToEs5(code) || code;
+  } catch (e) {
+    throw Error('Mouse "' + playerName + '" has error in code:\n' + e);
   }
 
   var interpreter;

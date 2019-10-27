@@ -145,6 +145,9 @@ Pond.Tutor.init = function() {
       editorDiv.style.width = (window.innerWidth - 440) + 'px';
     };
     window.addEventListener('scroll', onresize);
+
+    // Lazy-load the ESx-ES5 transpiler.
+    BlocklyInterface.importBabel();
   }
 
   window.addEventListener('resize', onresize);

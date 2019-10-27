@@ -326,6 +326,39 @@ BlocklyInterface.importPrettify = function() {
   setTimeout(load, 1);
 };
 
+/**
+ * Load the Babel transpiler.
+ * Defer loading until page is loaded and responsive.
+ */
+BlocklyInterface.importBabel = function() {
+  function load() {
+    //<script type="text/javascript"
+    //  src="third-party/babel.min.js"></script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'third-party/babel.min.js';
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
+};
+
+/**
+ * Attempt to transpile user code to ES5.
+ * @param {string} code User code that may contain ES6+ syntax.
+ * @return {string|undefined} ES5 code, or undefined if Babel not loaded.
+ * @throws SyntaxError if code is unparsable.
+ */
+BlocklyInterface.transpileToEs5 = function(code) {
+  if (typeof Babel != 'object') {
+    return undefined;
+  }
+  var options = {
+    'presets': ['es2015']
+  };
+  var fish = Babel.transform(code, options);
+  return fish.code;
+};
+
 // Export symbols that would otherwise be renamed by Closure compiler.
 // storage.js is not compiled and calls setCode, getCode, and getWorkspace.
 window['BlocklyInterface'] = BlocklyInterface;
