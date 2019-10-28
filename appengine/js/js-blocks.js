@@ -354,7 +354,7 @@ Blockly.Blocks['math_change'].init = function() {
   var thisBlock = this;
   this.setTooltip(function() {
     return Blockly.Msg['MATH_CHANGE_TOOLTIP'].replace('%1',
-        thisBlock.getFieldValue('VAR'));
+        thisBlock.getField('VAR').getVariable().name);
   });
 };
 
