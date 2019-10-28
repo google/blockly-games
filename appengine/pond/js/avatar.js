@@ -135,6 +135,7 @@ Pond.Avatar.prototype.initInterpreter = function() {
   try {
     code = BlocklyInterface.transpileToEs5(code) || code;
   } catch (e) {
+    alert(e);
     throw Error('Duck "' + this.name + '" has error in code:\n' + e);
   }
   this.interpreter = new Interpreter(code, this.battle_.initInterpreter);

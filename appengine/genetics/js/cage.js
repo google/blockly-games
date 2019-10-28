@@ -682,6 +682,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
   try {
     code = BlocklyInterface.transpileToEs5(code) || code;
   } catch (e) {
+    alert(e);
     throw Error('Mouse "' + playerName + '" has error in code:\n' + e);
   }
 
