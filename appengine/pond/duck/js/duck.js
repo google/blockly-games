@@ -121,15 +121,9 @@ Pond.Duck.init = function() {
   onresize(null);
 
   // Inject JS editor.
-  var defaultCode = 'cannon(0, 70);';
-  BlocklyInterface.editor = window['ace']['edit']('editor');
-  BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-  BlocklyInterface.editor['setShowPrintMargin'](false);
-  var session = BlocklyInterface.editor['getSession']();
-  session['setMode']('ace/mode/javascript');
-  session['setTabSize'](2);
-  session['setUseSoftTabs'](true);
+  var session = BlocklyInterface.makeAceSession();
   session['on']('change', Pond.Duck.editorChanged);
+  var defaultCode = 'cannon(0, 70);';
   BlocklyInterface.editor['setValue'](defaultCode, -1);
 
   // Lazy-load the ESx-ES5 transpiler.
