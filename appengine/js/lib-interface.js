@@ -169,8 +169,41 @@ BlocklyInterface.makeAceSession = function() {
   session['setMode']('ace/mode/javascript');
   session['setTabSize'](2);
   session['setUseSoftTabs'](true);
+  BlocklyInterface.removeUnsupportedKeywords();
   return session;
 };
+
+/**
+ * Remove keywords not supported by the JS Interpreter.
+ * This trims out bogus entries in the autocomplete.
+ */
+BlocklyInterface.removeUnsupportedKeywords = function() {
+  var keywords = BlocklyInterface.editor.getSession().getMode().$highlightRules.$keywordList;
+  if (keywords) {
+    var notSupported = ('Iterator,Proxy,Namespace,QName,XML,XMLList,' +
+        'ArrayBuffer,Float32Array,Float64Array,Int16Array,Int32Array,' +
+        'Int8Array,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,' +
+        'InternalError,StopIteration,prototype,document,' +
+        '__parent__,__count__,__proto__').split(',');
+    for (var i = 0; i < notSupported.length; i++) {
+      var n = keywords.indexOf(notSupported[i]);
+      if (n != -1) {
+        keywords.splice(n, 1);
+      }
+    }
+  } else {
+    // Keyword list doesn't appear until after the JS mode is loaded.
+    // Keep polling until it shows up.
+    setTimeout(BlocklyInterface.removeUnsupportedKeywords,
+        BlocklyInterface.removeUnsupportedKeywords.delay_ *= 2);
+  }
+};
+
+/**
+ * Exponential back-off for polling.  Start at 1ms.
+ * @private
+ */
+BlocklyInterface.removeUnsupportedKeywords.delay_ = 1;
 
 /**
  * Return the main workspace.
