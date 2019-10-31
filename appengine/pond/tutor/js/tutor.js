@@ -24,6 +24,7 @@
 goog.provide('Pond.Tutor');
 
 goog.require('Blockly.utils.Coordinate');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -129,7 +130,7 @@ Pond.Tutor.init = function() {
     } else {
       defaultCode = 'cannon(0, 70);';
     }
-    BlocklyInterface.makeAceSession();
+    BlocklyAce.makeAceSession();
     BlocklyInterface.loadBlocks(defaultCode + '\n');
 
     var onresize = function(e) {
@@ -141,7 +142,7 @@ Pond.Tutor.init = function() {
     window.addEventListener('scroll', onresize);
 
     // Lazy-load the ESx-ES5 transpiler.
-    BlocklyInterface.importBabel();
+    BlocklyAce.importBabel();
   }
 
   window.addEventListener('resize', onresize);

@@ -27,6 +27,7 @@ goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.ZoomControls');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -121,13 +122,13 @@ Pond.Duck.init = function() {
   onresize(null);
 
   // Inject JS editor.
-  var session = BlocklyInterface.makeAceSession();
+  var session = BlocklyAce.makeAceSession();
   session['on']('change', Pond.Duck.editorChanged);
   var defaultCode = 'cannon(0, 70);';
   BlocklyInterface.editor['setValue'](defaultCode, -1);
 
   // Lazy-load the ESx-ES5 transpiler.
-  BlocklyInterface.importBabel();
+  BlocklyAce.importBabel();
 
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');

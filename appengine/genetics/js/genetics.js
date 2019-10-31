@@ -30,6 +30,7 @@ goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -223,13 +224,13 @@ Genetics.init = function() {
             '}'].join('');
         break;
     }
-    var session = BlocklyInterface.makeAceSession();
+    var session = BlocklyAce.makeAceSession();
     session['on']('change', Genetics.editorChanged);
     if (defaultCode) {
       BlocklyInterface.loadBlocks(defaultCode + '\n', false);
     }
     // Lazy-load the ESx-ES5 transpiler.
-    BlocklyInterface.importBabel();
+    BlocklyAce.importBabel();
   }
 
   if (blocklyDiv) {
