@@ -33,6 +33,7 @@ goog.require('Blockly.utils.style');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
+goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Movie.Answers');
@@ -602,7 +603,7 @@ Movie.submitToGallery = function() {
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
-  BlocklyDialogs.showGalleryForm();
+  BlocklyGallery.showGalleryForm();
 };
 
 window.addEventListener('load', Movie.init);

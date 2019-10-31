@@ -354,43 +354,6 @@ BlocklyDialogs.abortOffer = function() {
 };
 
 /**
- * Display a dialog for submitting work to the gallery.
- */
-BlocklyDialogs.showGalleryForm = function() {
-  // Encode the XML.
-  document.getElementById('galleryXml').value = BlocklyInterface.getCode();
-
-  var content = document.getElementById('galleryDialog');
-  var style = {
-    width: '40%',
-    left: '30%',
-    top: '3em'
-  };
-
-  if (!BlocklyDialogs.showGalleryForm.runOnce_) {
-    var cancel = document.getElementById('galleryCancel');
-    cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
-    cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-    var ok = document.getElementById('galleryOk');
-    ok.addEventListener('click', BlocklyDialogs.gallerySubmit, true);
-    ok.addEventListener('touchend', BlocklyDialogs.gallerySubmit, true);
-    // Only bind the buttons once.
-    BlocklyDialogs.showGalleryForm.runOnce_ = true;
-  }
-  var origin = document.getElementById('submitButton');
-  BlocklyDialogs.showDialog(content, origin, true, true, style,
-      function() {
-        document.body.removeEventListener('keydown',
-            BlocklyDialogs.galleryKeyDown, true);
-        });
-  document.body.addEventListener('keydown', BlocklyDialogs.galleryKeyDown, true);
-  // Wait for the opening animation to complete, then focus the title field.
-  setTimeout(function() {
-    document.getElementById('galleryTitle').focus();
-  }, 250);
-};
-
-/**
  * Congratulates the user for completing the level and offers to
  * direct them to the next level, if available.
  */
@@ -524,53 +487,6 @@ BlocklyDialogs.abortKeyDown = function(e) {
       BlocklyInterface.indexPage();
     }
   }
-};
-
-/**
- * If the user presses enter, or escape, hide the dialog.
- * Enter submits the form, escape does not.
- * @param {!Event} e Keyboard event.
- */
-BlocklyDialogs.galleryKeyDown = function(e) {
-  if (e.keyCode == 27) {
-    BlocklyDialogs.hideDialog(true);
-  } else if (e.keyCode == 13) {
-    BlocklyDialogs.gallerySubmit();
-  }
-};
-
-/**
- * Submit the gallery submission form.
- */
-BlocklyDialogs.gallerySubmit = function() {
-  // Check that there is a title.
-  var title = document.getElementById('galleryTitle');
-  if (!title.value.trim()) {
-    title.value = '';
-    title.focus();
-    return;
-  }
-  var form = document.getElementById('galleryForm');
-  var data = [];
-  for (var i = 0, element; (element = form.elements[i]); i++) {
-    if (element.name) {
-      data[i] = encodeURIComponent(element.name) + '=' +
-          encodeURIComponent(element.value);
-    }
-  }
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', form.action);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-    if (xhr.readyState == 4) {
-      var text = (xhr.status == 200) ?
-          BlocklyGames.getMsg('Games_submitted') :
-          BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
-      BlocklyDialogs.storageAlert(null, text);
-    }
-  };
-  xhr.send(data.join('&'));
-  BlocklyDialogs.hideDialog(true);
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.

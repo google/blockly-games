@@ -31,6 +31,7 @@ goog.require('Blockly.utils.dom');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
+goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('CustomFields.FieldPitch');
@@ -1058,7 +1059,7 @@ Music.submitToGallery = function() {
   document.getElementById('galleryThumb').value = thumb;
 
   // Show the dialog.
-  BlocklyDialogs.showGalleryForm();
+  BlocklyGallery.showGalleryForm();
 };
 
 /**
