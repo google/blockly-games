@@ -200,7 +200,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   var locY = this.loc.y;
   // Check every enemy for existence in the scan beam.
   var closest = Infinity;
-  for (var i = 0, enemy; enemy = this.battle_.AVATARS[i]; i++) {
+  for (var i = 0, enemy; (enemy = this.battle_.AVATARS[i]); i++) {
     if (enemy == this || enemy.dead) {
       continue;
     }

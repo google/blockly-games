@@ -147,7 +147,7 @@ Pond.Tutor.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  for (var avatarData, i = 0; avatarData = Pond.Tutor.PLAYERS[i]; i++) {
+  for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
     if (avatarData.code) {
       var div = document.getElementById(avatarData.code);
       var code = div.textContent;

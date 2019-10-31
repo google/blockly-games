@@ -435,7 +435,7 @@ function pickFight() {
 }
 function proposeMate() {
   var mice = getMice();
-  for (var i = 0, mouse; mouse = mice[i]; i++) {
+  for (var i = 0, mouse; (mouse = mice[i]); i++) {
     if (mouse.id == 0) {
       return mouse;
     }

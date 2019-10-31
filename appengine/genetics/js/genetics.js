@@ -138,7 +138,7 @@ Genetics.init = function() {
           Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
       var divLeft = rtl ? '10px' : '420px';
       var divWidth = (window.innerWidth - 440) + 'px';
-      for (var i = 0, div; div = divs[i]; i++) {
+      for (var i = 0, div; (div = divs[i]); i++) {
         div.style.top = divTop;
         div.style.left = divLeft;
         div.style.width = divWidth;
@@ -500,7 +500,7 @@ Genetics.init = function() {
       }
     ];
   }
-  for (var playerData, i = 0; playerData = players[i]; i++) {
+  for (var playerData, i = 0; (playerData = players[i]); i++) {
     if (playerData.code) {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
@@ -767,7 +767,7 @@ Genetics.addStartingMice = function() {
     }
     Genetics.shuffle(startingMice);
   }
-  for (var i = 0, mouseStats; mouseStats = startingMice[i]; i++) {
+  for (var i = 0, mouseStats; (mouseStats = startingMice[i]); i++) {
     var sex = mouseStats.sex || ((Math.random() > 0.5) ?
         Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE);
     var mouse = new Genetics.Mouse(mouseStats.id, sex, mouseStats.playerId);
@@ -823,7 +823,7 @@ Genetics.checkForLevelEnd = function() {
       // Player was asked to return the last mouse from the list (which also
       // happens to be the only mouse smaller than the player mouse).
       // Case 1 and Case 2
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         // This level should have only one fight event.
         if (event['TYPE'] == 'FIGHT') {
           new Genetics.Cage.Event('END_GAME',
@@ -846,7 +846,7 @@ Genetics.checkForLevelEnd = function() {
       // succeed if they win 3 fights.
       // Case 3 and Case 4
       var successfulFights = 0;
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         if (event['TYPE'] == 'FIGHT') {
           if (event['RESULT'] == 'WIN') {
             successfulFights++;
@@ -877,7 +877,7 @@ Genetics.checkForLevelEnd = function() {
       // a mate that fits this criteria.
       // Case 5 and Case 6
       var successfulMates = 0;
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         if (event['TYPE'] == 'MATE') {
           if (event['RESULT'] == 'SUCCESS') {
             if (BlocklyGames.LEVEL == 6 &&
@@ -918,7 +918,7 @@ Genetics.checkForLevelEnd = function() {
       // succeeds if they correctly respond 5 times.
       // Case 7 and Case 8
       var successfulMates = 0;
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         if (event['TYPE'] == 'MATE') {
           if (event['RESULT'] == 'SUCCESS') {
             if (BlocklyGames.LEVEL == 8 &&
@@ -1045,7 +1045,6 @@ Genetics.reset = function() {
   // Disable wandering so that mice don't move until game plays.
   Genetics.MouseAvatar.wanderingDisabled = true;
   Genetics.addStartingMice();
-
 };
 
 /**
@@ -1073,13 +1072,13 @@ Genetics.changeTab = function(index) {
   var JAVASCRIPT = 1;
   // Show the correct tab contents.
   var names = ['blockly', 'editor'];
-  for (var i = 0, name; name = names[i]; i++) {
+  for (var i = 0, name; (name = names[i]); i++) {
     var div = document.getElementById(name);
     div.style.visibility = (i == index) ? 'visible' : 'hidden';
   }
   // Show/hide Blockly divs.
   var names = ['.blocklyTooltipDiv', '.blocklyToolboxDiv'];
-  for (var i = 0, name; name = names[i]; i++) {
+  for (var i = 0, name; (name = names[i]); i++) {
     var div = document.querySelector(name);
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
