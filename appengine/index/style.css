@@ -75,11 +75,11 @@ a {
 .iconBorder {
   stroke: #aaa;
   stroke-width: 5;
-  fill: rgba(0, 0, 0, 0.1);
+  fill: rgba(0, 0, 0, .1);
 }
 
 a:hover > .iconBorder {
-  fill: rgba(255, 255, 255, 0.1);
+  fill: rgba(255, 255, 255, .1);
 }
 
 a:hover > text {
@@ -97,63 +97,63 @@ a:hover > text {
 }
 
 #icon-puzzle {
-  animation-delay: 0.0s;
+  animation-delay: .0s;
 }
 
 #icon-maze {
-  animation-delay: 0.1s;
+  animation-delay: .1s;
 }
 
 #icon-bird {
-  animation-delay: 0.2s;
+  animation-delay: .2s;
 }
 
 #icon-turtle {
-  animation-delay: 0.3s;
+  animation-delay: .3s;
 }
 
 #icon-movie {
-  animation-delay: 0.4s;
+  animation-delay: .4s;
 }
 
 #icon-music {
-  animation-delay: 0.5s;
+  animation-delay: .5s;
 }
 
 #icon-pond-tutor {
-  animation-delay: 0.6s;
+  animation-delay: .6s;
 }
 
 #icon-pond-duck {
-  animation-delay: 0.7s;
+  animation-delay: .7s;
 }
 
 #back-puzzle {
-  animation-delay: 0.3s;
+  animation-delay: .3s;
 }
 
 #back-maze {
-  animation-delay: 0.4s;
+  animation-delay: .4s;
 }
 
 #back-bird {
-  animation-delay: 0.5s;
+  animation-delay: .5s;
 }
 
 #back-turtle {
-  animation-delay: 0.6s;
+  animation-delay: .6s;
 }
 
 #back-movie {
-  animation-delay: 0.7s;
+  animation-delay: .7s;
 }
 
 #back-music {
-  animation-delay: 0.8s;
+  animation-delay: .8s;
 }
 
 #back-pond-tutor {
-  animation-delay: 0.9s;
+  animation-delay: .9s;
 }
 
 #back-pond-duck {
@@ -175,7 +175,7 @@ a:hover > text {
   stroke: #aaa;
   stroke-width: 6;
   fill: none;
-  animation: pop 0.1s linear forwards;
+  animation: pop .1s linear forwards;
   visibility: hidden;
 }
 

@@ -21,7 +21,7 @@ html[dir="RTL"] #capacityBubble {
   color: #fff;
   padding: 5px 1em;
   border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
+  background-color: rgba(64,64,64,.7);
   font-size: large;
 }
 .capacityNumber {
@@ -34,12 +34,12 @@ html[dir="RTL"] #capacityBubble {
 #pegSpin {
   height: 50px;
   width: 49px;
-  background-position: -343px 0px;
+  background-position: -343px 0;
   margin-top: 10px;
   position: absolute;
 }
 html[dir="RTL"] #pegSpin {
-  background-position: -441px 0px;
+  background-position: -441px 0;
 }
 
 .helpMenuFake {
@@ -70,7 +70,7 @@ img[src$="help_down.png"] {
   fill: none;
   stroke-width: 10;
   stroke-linecap: round;
-  stroke-opacity: 0.7;
+  stroke-opacity: .7;
 }
 
 /* Buttons */
@@ -89,10 +89,10 @@ html[dir="RTL"] button.primary {
   background-image: url(icons.png);
 }
 .link {
-  background-position: 0px 0px;
+  background-position: 0 0;
 }
 .run {
-  background-position: 0px -21px;
+  background-position: 0 -21px;
 }
 .stop {
   background-position: -21px -21px;
@@ -107,19 +107,19 @@ html[dir="RTL"] button.primary {
 }
 #pegmanButton>img {
   margin-left: -0.5ex;
-  margin-right: 0.5ex;
+  margin-right: .5ex;
   height: 38px;
   width: 49px;
-  background-position: -980px 0px;
-  opacity: 0.8;
+  background-position: -980px 0;
+  opacity: .8;
 }
 html[dir="RTL"] #pegmanButton>img {
-  margin-left: 0.5ex;
+  margin-left: .5ex;
   margin-right: -0.5ex;
 }
 #pegmanButton>span {
   position: absolute;
-  top: 0.8ex;
+  top: .8ex;
   margin-left: -15px;
 }
 html[dir="RTL"] #pegmanButton>span {
@@ -141,5 +141,5 @@ html[dir="RTL"] #pegmanButton>span {
 #pegmanMenu>div>img {
   height: 38px;
   width: 49px;
-  background-position: -980px 0px;
+  background-position: -980px 0;
 }

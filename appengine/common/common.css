@@ -89,7 +89,7 @@ button.secondary>img {
   opacity: 1;
 }
 button>img {
-  opacity: 0.6;
+  opacity: .6;
   vertical-align: text-bottom;
 }
 button:hover:not(:disabled)>img {
@@ -130,11 +130,11 @@ button:hover:not(:disabled) {
   height: 100%;
   width: 100%;
   background-color: #000;
-  opacity: 0.3
+  opacity: .3
 }
 .dialogAnimate {
   transition-property: width height left top opacity;
-  transition-duration: 0.2s;
+  transition-duration: .2s;
   transition-timing-function: linear;
 }
 .dialogHiddenContent {
@@ -160,9 +160,6 @@ button:hover:not(:disabled) {
 }
 #galleryForm>header {
   font-size: larger;
-}
-#galleryForm>footer {
-  font-size: smaller;
 }
 #galleryForm>* {
   margin-top: 1em;

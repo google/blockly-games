@@ -44,10 +44,10 @@ html[dir="RTL"] button.primary {
   background-image: url(icons.png);
 }
 .link {
-  background-position: 0px 0px;
+  background-position: 0 0;
 }
 .run {
-  background-position: 0px -21px;
+  background-position: 0 -21px;
 }
 .stop {
   background-position: -21px -21px;
