@@ -60,6 +60,10 @@ html[dir="RTL"] .mirrorImg {
   margin-top: 16px;
 }
 
+xml {
+  display: none;
+}
+
 /* Buttons */
 button {
   margin: 5px;

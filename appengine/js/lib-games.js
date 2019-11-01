@@ -260,7 +260,7 @@ BlocklyGames.init = function() {
   }
 
   // Lazy-load Google analytics.
-  setTimeout(BlocklyGames.importAnalytics, 1);
+  setTimeout(BlocklyGames.importAnalytics_, 1);
 };
 
 /**
@@ -348,7 +348,7 @@ BlocklyGames.bindClick = function(el, func) {
 };
 
 /**
- * Normalizes an angle to be in range [0-360). Angles outside this range will
+ * Normalizes an angle to be in range [0-360]. Angles outside this range will
  * be normalized to be the equivalent angle with that range.
  * @param {number} angle Angle in degrees.
  * @return {number} Standardized angle.
@@ -363,8 +363,9 @@ BlocklyGames.normalizeAngle = function(angle) {
 
 /**
  * Load the Google Analytics.
+ * @private
  */
-BlocklyGames.importAnalytics = function() {
+BlocklyGames.importAnalytics_ = function() {
   if (BlocklyGames.IS_HTML) {
     return;
   }
