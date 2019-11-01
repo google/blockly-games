@@ -107,13 +107,11 @@ pre, code {
   font-size: 11pt;
 }
 
-.blocklyNonEditableText>rect,
 .blocklyEditableText>rect {
   fill: #fff;
   fill-opacity: .6;
 }
 
-.blocklyNonEditableText>text,
 .blocklyEditableText>text {
   fill: #000;
 }
