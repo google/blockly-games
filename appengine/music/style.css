@@ -136,22 +136,3 @@ html[dir="RTL"] .sampleNote {
 .sliderKnob:hover {
   fill: #eee;
 }
-
-/* Sprited icons. */
-.icon21 {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
-}
-.camera {
-  background-position: -21px 0;
-}
-.stop {
-  background-position: -42px 0;
-}
-.run {
-  background-position: -63px 0;
-}
-.gallery {
-  background-position: -63px -21px;
-}

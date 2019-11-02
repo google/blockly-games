@@ -76,7 +76,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   <clipPath id="knobClipPath">
     <rect width="16" height="16" y="3" />
   </clipPath>
-  <image xlink:href="movie/icons.png" width="63" height="42" y="3"
+  <image xlink:href="common/icons.png" width="84" height="63" y="3"
       clip-path="url(#knobClipPath)" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
@@ -94,18 +94,18 @@ Scrubber = function(svgParent, opt_changeFunc) {
   knobClip.id = 'knobClipPath';
   svgParent.appendChild(knobClip);
   var knobClipRect = document.createElementNS(SVG_NS, 'rect');
-  knobClipRect.setAttribute('width', '16');
-  knobClipRect.setAttribute('height', '16');
-  knobClipRect.setAttribute('y', '3');
+  knobClipRect.setAttribute('width', 16);
+  knobClipRect.setAttribute('height', 16);
+  knobClipRect.setAttribute('y', 3);
   knobClip.appendChild(knobClipRect);
   this.knobClipRect_ = knobClipRect;
   var knob = document.createElementNS(SVG_NS, 'image');
   knob.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'movie/icons.png');
+      'common/icons.png');
   knob.setAttribute('clip-path', 'url(#knobClipPath)');
-  knob.setAttribute('width', '63');
-  knob.setAttribute('height', '42');
-  knob.setAttribute('y', '3');
+  knob.setAttribute('width', 84);
+  knob.setAttribute('height', 63);
+  knob.setAttribute('y', -39);
   svgParent.appendChild(knob);
   this.knob_ = knob;
   var rect = document.createElementNS(SVG_NS, 'rect');
@@ -122,26 +122,26 @@ Scrubber = function(svgParent, opt_changeFunc) {
   <clipPath id="playClipPath">
     <rect width=21 height=21 x=5 y=14 />
   </clipPath>
-  <image xlink:href="movie/icons.png" width="63" height="42" y="-20"
+  <image xlink:href="common/icons.png" width="84" height="63" x="-16" y="-41"
       clip-path="url(#playClipPath)" />
   */
   var playClip = document.createElementNS(SVG_NS, 'clipPath');
   playClip.id = 'playClipPath';
   svgParent.appendChild(playClip);
   var playClipRect = document.createElementNS(SVG_NS, 'rect');
-  playClipRect.setAttribute('width', '21');
-  playClipRect.setAttribute('height', '21');
-  playClipRect.setAttribute('x', '4');
-  playClipRect.setAttribute('y', '1');
+  playClipRect.setAttribute('width', 21);
+  playClipRect.setAttribute('height', 21);
+  playClipRect.setAttribute('x', 4);
+  playClipRect.setAttribute('y', 1);
   playClip.appendChild(playClipRect);
   var play = document.createElementNS(SVG_NS, 'image');
   play.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'movie/icons.png');
+      'common/icons.png');
   play.setAttribute('clip-path', 'url(#playClipPath)');
-  play.setAttribute('width', '63');
-  play.setAttribute('height', '42');
-  play.setAttribute('x', 4 - 21);
-  play.setAttribute('y', '-20');
+  play.setAttribute('width', 84);
+  play.setAttribute('height', 63);
+  play.setAttribute('x', 5 - 21);
+  play.setAttribute('y', -41);
   svgParent.appendChild(play);
   this.play_ = play;
 
@@ -187,7 +187,7 @@ Scrubber.prototype.knobMouseDown_ = function(e) {
   Scrubber.activeScrubber_ = this;
   Scrubber.startMouseX_ = this.mouseToSvg_(e).x;
   Scrubber.startKnobX_ = Number(this.knob_.getAttribute('x')) +
-    this.KNOB_MIN_X_ + 8;
+    this.KNOB_MIN_X_ + 8 + 21;
   // Stop browser from attempting to drag the knob or
   // from scrolling/zooming the page.
   e.preventDefault();
@@ -281,13 +281,13 @@ Scrubber.prototype.playPause_ = function(opt_e) {
   }
   if (this.playPid_) {
     // Pause the playback.
-    this.play_.setAttribute('x', 4 - 21);
+    this.play_.setAttribute('x', 5 - 21);
     clearTimeout(this.playPid_);
     this.playPid_ = 0;
     Movie.checkAnswers();
   } else {
     // Start the playback.
-    this.play_.setAttribute('x', 4);
+    this.play_.setAttribute('x', 5);
     if (this.getValue() >= 1) {
       this.setValue(0);
     }
@@ -374,7 +374,7 @@ Scrubber.prototype.setValue = function(value) {
   var x = this.KNOB_MIN_X_ +
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_) * this.value_;
   this.knobClipRect_.setAttribute('x', x - 8);
-  this.knob_.setAttribute('x', x - 42 - 8);
+  this.knob_.setAttribute('x', x - 63 - 8);
   this.knobTarget_.setAttribute('x', x - this.TARGET_OVERHANG_);
 
   for (var i = 0, rect; (rect = this.progressRects_[i]); i++) {

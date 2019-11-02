@@ -166,3 +166,28 @@ button:hover:not(:disabled) {
   margin-left: 1em;
   margin-right: 1em;
 }
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.link {
+  background-position: 0 0;
+}
+.camera {
+  background-position: -21px 0;
+}
+.stop {
+  background-position: -42px 0;
+}
+.run {
+  background-position: -63px 0;
+}
+.gallery {
+  background-position: -63px -21px;
+}
+.close {
+  background-position: -42px -42px;
+}

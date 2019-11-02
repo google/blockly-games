@@ -125,22 +125,3 @@ html[dir="RTL"] #closeDocs {
 .quote1 {
   margin-bottom: -4px;
 }
-
-/* Sprited icons. */
-.icon21 {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
-}
-.close {
-  background-position: -21px 0;
-}
-.link {
-  background-position: 0 0;
-}
-.run {
-  background-position: 0 -21px;
-}
-.stop {
-  background-position: -21px -21px;
-}

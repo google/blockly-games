@@ -36,19 +36,3 @@ button.primary {
 html[dir="RTL"] button.primary {
   text-align: right;
 }
-
-/* Sprited icons. */
-.icon21 {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
-}
-.link {
-  background-position: 0 0;
-}
-.run {
-  background-position: 0 -21px;
-}
-.stop {
-  background-position: -21px -21px;
-}
