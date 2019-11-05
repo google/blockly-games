@@ -827,7 +827,7 @@ Maze.hidePegmanMenu = function(e) {
 Maze.reset = function(first) {
   // Kill all tasks.
   for (var i = 0; i < Maze.pidList.length; i++) {
-    window.clearTimeout(Maze.pidList[i]);
+    clearTimeout(Maze.pidList[i]);
   }
   Maze.pidList = [];
 

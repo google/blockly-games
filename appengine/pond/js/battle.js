@@ -320,8 +320,7 @@ Pond.Battle.updateAvatars_ = function() {
           neighbour.speed = 0;
           neighbour.desiredSpeed = 0;
           Pond.Battle.EVENTS.push(
-              {'type': 'CRASH', 'avatar': avatar, 'damage': damage});
-          Pond.Battle.EVENTS.push(
+              {'type': 'CRASH', 'avatar': avatar, 'damage': damage},
               {'type': 'CRASH', 'avatar': neighbour, 'damage': damage});
         }
       }

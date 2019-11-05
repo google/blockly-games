@@ -805,8 +805,7 @@ Music.play = function(duration, pitch, id) {
   Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this note.
-  Music.activeThread.transcript.push(pitch);
-  Music.activeThread.transcript.push(duration);
+  Music.activeThread.transcript.push(pitch, duration);
   var wrong = false;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
@@ -837,8 +836,7 @@ Music.rest = function(duration, id) {
     Music.activeThread.transcript
         [Music.activeThread.transcript.length - 1] += duration;
   } else {
-    Music.activeThread.transcript.push(Music.REST);
-    Music.activeThread.transcript.push(duration);
+    Music.activeThread.transcript.push(Music.REST, duration);
   }
   var wrong = false;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {

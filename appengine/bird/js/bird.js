@@ -404,22 +404,13 @@ Bird.init = function() {
 
   Bird.drawMap();
 
-  var defaultXml = '';
+  var defaultXml;
   if (BlocklyGames.LEVEL == 1) {
-    defaultXml =
-      '<xml>' +
-        '<block type="bird_heading" x="70" y="70"></block>' +
-      '</xml>';
+    defaultXml = '<xml><block type="bird_heading" x="70" y="70"></block></xml>';
   } else if (BlocklyGames.LEVEL < 5) {
-    defaultXml =
-      '<xml>' +
-        '<block type="bird_ifElse" x="70" y="70"></block>' +
-      '</xml>';
+    defaultXml = '<xml><block type="bird_ifElse" x="70" y="70"></block></xml>';
   } else {
-    defaultXml =
-      '<xml>' +
-        '<block type="controls_if" x="70" y="70"></block>' +
-      '</xml>';
+    defaultXml = '<xml><block type="controls_if" x="70" y="70"></block></xml>';
   }
   BlocklyInterface.loadBlocks(defaultXml, false);
 
@@ -559,7 +550,7 @@ Bird.levelHelp = function() {
 Bird.reset = function(first) {
   // Kill all tasks.
   for (var i = 0; i < Bird.pidList.length; i++) {
-    window.clearTimeout(Bird.pidList[i]);
+    clearTimeout(Bird.pidList[i]);
   }
   Bird.pidList = [];
 
