@@ -231,12 +231,6 @@ Bird.Pose = {
 };
 
 /**
- * Current behaviour.
- * @type Bird.Pose
- */
-Bird.currentPose;
-
-/**
  * Create and layout all the nodes for the walls, nest, worm, and bird.
  */
 Bird.drawMap = function() {
@@ -576,20 +570,17 @@ Bird.reset = function(first) {
   Bird.hasWorm = !Bird.MAP.worm;
   if (first) {
     // Opening animation.
-    Bird.currentPose = Bird.Pose.SIT;
+    Bird.displayBird(Bird.Pose.SIT);
     Bird.pidList.push(setTimeout(function() {
-      Bird.currentPose = Bird.Pose.FLAP;
-      Bird.displayBird();
+      Bird.displayBird(Bird.Pose.FLAP);
       Bird.pidList.push(setTimeout(function() {
-        Bird.currentPose = Bird.Pose.SOAR;
-        Bird.displayBird();
+        Bird.displayBird(Bird.Pose.SOAR);
       }, 400));
     }, 400));
   } else {
-    Bird.currentPose = Bird.Pose.SOAR;
+    Bird.displayBird(Bird.Pose.SOAR);
   }
 
-  Bird.displayBird();
 
   // Move the worm into position.
   var image = document.getElementById('worm');
@@ -769,14 +760,12 @@ Bird.animate = function() {
     Bird.pos.x = action[1];
     Bird.pos.y = action[2];
     Bird.angle = action[3];
-    Bird.currentPose = action[0] == 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR;
-    Bird.displayBird();
+    Bird.displayBird(action[0] == 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR);
   } else if (action[0] == 'worm') {
     var worm = document.getElementById('worm');
     worm.style.visibility = 'hidden';
   } else if (action[0] == 'finish') {
-    Bird.currentPose = Bird.Pose.SIT;
-    Bird.displayBird();
+    Bird.displayBird(Bird.Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] == 'play') {
@@ -788,8 +777,9 @@ Bird.animate = function() {
 
 /**
  * Display bird at the current location, facing the current angle.
+ * @param {!Bird.Pose} pose Set new pose.
  */
-Bird.displayBird = function() {
+Bird.displayBird = function(pose) {
   var diff = BlocklyGames.normalizeAngle(Bird.currentAngle - Bird.angle);
   var step = 10;
   if (Math.abs(diff) <= step) {
@@ -808,11 +798,11 @@ Bird.displayBird = function() {
   remainder *= -1;
 
   var row;
-  if (Bird.currentPose == Bird.Pose.SOAR) {
+  if (pose == Bird.Pose.SOAR) {
     row = 0;
-  } else if (Bird.currentPose == Bird.Pose.SIT) {
+  } else if (pose == Bird.Pose.SIT) {
     row = 3;
-  } else if (Bird.currentPose == Bird.Pose.FLAP) {
+  } else if (pose == Bird.Pose.FLAP) {
     row = Math.round(Date.now() / Bird.FLAP_SPEED) % 3;
   } else {
     throw Error('Unknown pose.');
