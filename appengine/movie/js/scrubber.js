@@ -47,27 +47,25 @@ Scrubber = function(svgParent, opt_changeFunc) {
   var SVG_NS = Blockly.utils.dom.SVG_NS;
 
   // Draw the frame text.
-  var text = document.createElementNS(SVG_NS, 'text');
-  text.setAttribute('style', 'font-size: 10pt');
-  text.setAttribute('x', this.KNOB_MAX_X_ + 9);
-  text.setAttribute('y', 16);
+  this.text_ = Blockly.utils.dom.createSvgElement('text', {
+      'style': 'font-size: 10pt',
+      'x': this.KNOB_MAX_X_ + 9,
+      'y': 16
+    }, svgParent);
   if (BlocklyGames.isRtl()) {
-    text.setAttribute('text-anchor', 'end');
+    this.text_.setAttribute('text-anchor', 'end');
   }
-  svgParent.appendChild(text);
-  this.text_ = text;
 
   // Draw the progress bar.
   var colours = ['#ff3333', '#f72f2f', '#ef2a2a', '#e72727',
                  '#df2222', '#d71f1f', '#cf1a1a'];
   for (var i = 0; i < colours.length; i++) {
-    var rect = document.createElementNS(SVG_NS, 'rect');
-    rect.setAttribute('style', 'fill: ' + colours[i]);
-    rect.setAttribute('x', this.KNOB_MIN_X_);
-    rect.setAttribute('y', 8 + i);
-    rect.setAttribute('height', 1);
-    svgParent.appendChild(rect);
-    this.progressRects_[i] = rect;
+    this.progressRects_[i] = Blockly.utils.dom.createSvgElement('rect', {
+        'style': 'fill: ' + colours[i],
+        'x': this.KNOB_MIN_X_,
+        'y': 8 + i,
+        'height': 1
+      }, svgParent);
   }
 
   // Draw the slider.
@@ -80,71 +78,65 @@ Scrubber = function(svgParent, opt_changeFunc) {
       clip-path="url(#knobClipPath)" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var trackTarget = document.createElementNS(SVG_NS, 'rect');
-  trackTarget.setAttribute('style', 'opacity: 0');
-  trackTarget.setAttribute('x', this.KNOB_MIN_X_ - this.TARGET_OVERHANG_);
-  trackTarget.setAttribute('y', this.HEIGHT_ - this.TARGET_OVERHANG_);
-  trackTarget.setAttribute('width', this.KNOB_MAX_X_ - this.KNOB_MIN_X_ +
-                    2 * this.TARGET_OVERHANG_);
-  trackTarget.setAttribute('height', 2 * this.TARGET_OVERHANG_);
-  trackTarget.setAttribute('rx', this.TARGET_OVERHANG_);
-  trackTarget.setAttribute('ry', this.TARGET_OVERHANG_);
-  svgParent.appendChild(trackTarget);
-  var knobClip = document.createElementNS(SVG_NS, 'clipPath');
-  knobClip.id = 'knobClipPath';
-  svgParent.appendChild(knobClip);
-  var knobClipRect = document.createElementNS(SVG_NS, 'rect');
-  knobClipRect.setAttribute('width', 16);
-  knobClipRect.setAttribute('height', 16);
-  knobClipRect.setAttribute('y', 3);
-  knobClip.appendChild(knobClipRect);
-  this.knobClipRect_ = knobClipRect;
-  var knob = document.createElementNS(SVG_NS, 'image');
-  knob.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  var trackTarget = Blockly.utils.dom.createSvgElement('rect', {
+      'style': 'opacity: 0',
+      'x': this.KNOB_MIN_X_ - this.TARGET_OVERHANG_,
+      'y': this.HEIGHT_ - this.TARGET_OVERHANG_,
+      'height': 2 * this.TARGET_OVERHANG_,
+      'width': this.KNOB_MAX_X_ - this.KNOB_MIN_X_ + 2 * this.TARGET_OVERHANG_,
+      'rx': this.TARGET_OVERHANG_,
+      'ry': this.TARGET_OVERHANG_
+    }, svgParent);
+  var knobClip = Blockly.utils.dom.createSvgElement('clipPath', {
+      'id': 'knobClipPath'
+    }, svgParent);
+  this.knobClipRect_ = Blockly.utils.dom.createSvgElement('rect', {
+      'height': 16,
+      'width': 16,
+      'y': 3
+    }, knobClip);
+  this.knob_ = Blockly.utils.dom.createSvgElement('image', {
+    'height': 63,
+    'width': 84,
+    'clip-path': 'url(#knobClipPath)',
+    'y': -39
+  }, svgParent);
+  this.knob_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'common/icons.png');
-  knob.setAttribute('clip-path', 'url(#knobClipPath)');
-  knob.setAttribute('width', 84);
-  knob.setAttribute('height', 63);
-  knob.setAttribute('y', -39);
-  svgParent.appendChild(knob);
-  this.knob_ = knob;
-  var rect = document.createElementNS(SVG_NS, 'rect');
-  rect.setAttribute('style', 'opacity: 0');
-  rect.setAttribute('width', 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('y', this.HEIGHT_ - this.TARGET_OVERHANG_);
-  svgParent.appendChild(rect);
-  this.knobTarget_ = rect;
+  this.knobTarget_ = Blockly.utils.dom.createSvgElement('rect', {
+      'style': 'opacity: 0',
+      'height': 2 * this.TARGET_OVERHANG_,
+      'width': 2 * this.TARGET_OVERHANG_,
+      'y': this.HEIGHT_ - this.TARGET_OVERHANG_
+    }, svgParent);
   this.setValue(0);
 
   // Draw the Play button.
   /*
   <clipPath id="playClipPath">
-    <rect width=21 height=21 x=5 y=14 />
+    <rect width=21 height=21 x=4 y=1 />
   </clipPath>
   <image xlink:href="common/icons.png" width="84" height="63" x="-16" y="-41"
       clip-path="url(#playClipPath)" />
   */
-  var playClip = document.createElementNS(SVG_NS, 'clipPath');
-  playClip.id = 'playClipPath';
-  svgParent.appendChild(playClip);
-  var playClipRect = document.createElementNS(SVG_NS, 'rect');
-  playClipRect.setAttribute('width', 21);
-  playClipRect.setAttribute('height', 21);
-  playClipRect.setAttribute('x', 4);
-  playClipRect.setAttribute('y', 1);
-  playClip.appendChild(playClipRect);
-  var play = document.createElementNS(SVG_NS, 'image');
-  play.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+  var playClip = Blockly.utils.dom.createSvgElement('clipPath', {
+      'id': 'playClipPath'
+    }, svgParent);
+  Blockly.utils.dom.createSvgElement('rect', {
+      'height': 21,
+      'width': 21,
+      'x': 4,
+      'y': 1
+    }, playClip);
+  this.play_ = Blockly.utils.dom.createSvgElement('image', {
+      'clip-path': 'url(#playClipPath)',
+      'height': 63,
+      'width': 84,
+      'x': 5 - 21,
+      'y': -41
+    }, svgParent);
+  this.play_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'common/icons.png');
-  play.setAttribute('clip-path', 'url(#playClipPath)');
-  play.setAttribute('width', 84);
-  play.setAttribute('height', 63);
-  play.setAttribute('x', 5 - 21);
-  play.setAttribute('y', -41);
-  svgParent.appendChild(play);
-  this.play_ = play;
-
 
   // Find the root SVG object.
   while (svgParent && svgParent.nodeName.toLowerCase() != 'svg') {

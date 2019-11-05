@@ -56,35 +56,31 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
       d="m 8,0 l -8,8 v 12 h 16 v -12 z" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var track = document.createElementNS(SVG_NS, 'line');
-  track.setAttribute('class', 'sliderTrack');
-  track.setAttribute('x1', x);
-  track.setAttribute('y1', y);
-  track.setAttribute('x2', x + width);
-  track.setAttribute('y2', y);
-  svgParent.appendChild(track);
-  this.track_ = track;
-  var rect = document.createElementNS(SVG_NS, 'rect');
-  rect.setAttribute('style', 'opacity: 0');
-  rect.setAttribute('x', x - this.TARGET_OVERHANG_);
-  rect.setAttribute('y', y - this.TARGET_OVERHANG_);
-  rect.setAttribute('width', width + 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('rx', this.TARGET_OVERHANG_);
-  rect.setAttribute('ry', this.TARGET_OVERHANG_);
-  svgParent.appendChild(rect);
-  this.trackTarget_ = rect;
-  var knob = document.createElementNS(SVG_NS, 'path');
-  knob.setAttribute('class', 'sliderKnob');
-  knob.setAttribute('d', 'm 0,0 l -8,8 v 12 h 16 v -12 z');
-  svgParent.appendChild(knob);
-  this.knob_ = knob;
-  var circle = document.createElementNS(SVG_NS, 'circle');
-  circle.setAttribute('style', 'opacity: 0');
-  circle.setAttribute('r', this.TARGET_OVERHANG_);
-  circle.setAttribute('cy', y);
-  svgParent.appendChild(circle);
-  this.knobTarget_ = circle;
+  this.track_ = Blockly.utils.dom.createSvgElement('line', {
+      'class': 'sliderTrack',
+      'x1': x,
+      'y1': y,
+      'x2': x + width,
+      'y2': y,
+    }, svgParent);
+  this.trackTarget_ = Blockly.utils.dom.createSvgElement('rect', {
+      'style': 'opacity: 0',
+      'x': x - this.TARGET_OVERHANG_,
+      'y': y - this.TARGET_OVERHANG_,
+      'width': width + 2 * this.TARGET_OVERHANG_,
+      'height': 2 * this.TARGET_OVERHANG_,
+      'rx': this.TARGET_OVERHANG_,
+      'ry': this.TARGET_OVERHANG_
+    }, svgParent);
+  this.knob_ = Blockly.utils.dom.createSvgElement('path', {
+      'class': 'sliderKnob',
+      'd': 'm 0,0 l -8,8 v 12 h 16 v -12 z'
+    }, svgParent);
+  this.knobTarget_ = Blockly.utils.dom.createSvgElement('circle', {
+      'style': 'opacity: 0',
+      'r': this.TARGET_OVERHANG_,
+      'cy': y
+    }, svgParent);
   this.setValue(0.5);
 
   // Find the root SVG object.
