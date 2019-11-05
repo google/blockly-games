@@ -234,7 +234,7 @@ Bird.Pose = {
  * Current behaviour.
  * @type Bird.Pose
  */
-Bird.currentPose = Bird.Pose.SOAR;
+Bird.currentPose;
 
 /**
  * Create and layout all the nodes for the walls, nest, worm, and bird.
@@ -574,7 +574,20 @@ Bird.reset = function(first) {
   Bird.angle = Bird.MAP.startAngle;
   Bird.currentAngle = Bird.angle;
   Bird.hasWorm = !Bird.MAP.worm;
-  Bird.currentPose = Bird.Pose.SOAR;
+  if (first) {
+    // Opening animation.
+    Bird.currentPose = Bird.Pose.SIT;
+    Bird.pidList.push(setTimeout(function() {
+      Bird.currentPose = Bird.Pose.FLAP;
+      Bird.displayBird();
+      Bird.pidList.push(setTimeout(function() {
+        Bird.currentPose = Bird.Pose.SOAR;
+        Bird.displayBird();
+      }, 400));
+    }, 400));
+  } else {
+    Bird.currentPose = Bird.Pose.SOAR;
+  }
 
   Bird.displayBird();
 

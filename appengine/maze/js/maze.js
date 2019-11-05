@@ -836,6 +836,7 @@ Maze.reset = function(first) {
   Maze.pegmanY = Maze.start_.y;
 
   if (first) {
+    // Opening animation.
     Maze.pegmanD = Maze.startDirection + 1;
     Maze.scheduleFinish(false);
     Maze.pidList.push(setTimeout(function() {

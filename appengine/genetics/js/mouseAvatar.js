@@ -116,29 +116,25 @@ Genetics.MouseAvatar = function(mouse) {
   var y3 = radius * 1.5 + yOffset;
   var centerX = radius + xOffset;
   var centerY = radius + yOffset;
+  var arc = ' A ' + radius + ' ' + radius + ', 0, 0, 1, '
+  var lz = ' L ' + centerX + ' ' + centerY + ' Z';
 
   // Draw top right slice.
   Blockly.utils.dom.createSvgElement('path', {
       'fill': Genetics.Visualization.COLOURS[this.proposeMateOwner],
-      'd': 'M ' + x1 + ' ' + y1 +
-        ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-        x2 + ' ' + y2 + ' L ' + centerX + ' ' + centerY + ' Z'
+      'd': 'M ' + x1 + ' ' + y1 + arc + x2 + ' ' + y2 + lz
     }, this.element);
 
   // Draw bottom slice.
   Blockly.utils.dom.createSvgElement('path', {
       'fill': Genetics.Visualization.COLOURS[this.pickFightOwner],
-      'd': 'M ' + x2 + ' ' + y2 +
-        ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-        x3 + ' ' + y3 + ' L ' + centerX + ' ' + centerY + ' Z'
+      'd': 'M ' + x2 + ' ' + y2 + arc + x3 + ' ' + y3 + lz
     }, this.element);
 
   // Draw top left slice.
   Blockly.utils.dom.createSvgElement('path', {
       'fill': Genetics.Visualization.COLOURS[this.acceptMateOwner],
-      'd': 'M ' + x3 + ' ' + y3 +
-        ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-        x1 + ' ' + y1 + ' L ' + centerX + ' ' + centerY + ' Z'
+      'd': 'M ' + x3 + ' ' + y3 + arc + x1 + ' ' + y1 + lz
     }, this.element);
 
   /**
