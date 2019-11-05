@@ -772,12 +772,15 @@ Bird.animate = function() {
  */
 Bird.displayBird = function(pose) {
   var diff = BlocklyGames.normalizeAngle(Bird.currentAngle - Bird.angle);
+  if (diff > 180) {
+    diff -= 360;
+  }
   var step = 10;
   if (Math.abs(diff) <= step) {
     Bird.currentAngle = Bird.angle;
   } else {
-    Bird.currentAngle += (diff < 0) ? step : -step;
-    Bird.currentAngle = BlocklyGames.normalizeAngle(Bird.currentAngle);
+    Bird.currentAngle = BlocklyGames.normalizeAngle(Bird.currentAngle +
+        (diff < 0 ? step : -step));
   }
   // Divide into 12 quads.
   var quad = (14 - Math.round(Bird.currentAngle / 360 * 12)) % 12;
