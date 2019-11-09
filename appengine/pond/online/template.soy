@@ -37,6 +37,18 @@
     {/call}
   </h1>
 
+  <button id="createButton">
+    Create your Duck
+  </button>
+
+  <button id="updateButton">
+    Update a Duck
+  </button>
+
+  <button id="deleteButton">
+    Delete a Duck
+  </button>
+
   {call Pond.soy.visualization /}
 
   <div id="tabarea">
@@ -49,6 +61,8 @@
     <div id="editor"></div>
   </div>
 
+  {call .databaseDialogs /}
+
   {call .toolbox /}
   {call .playerRabbit /}
   {call .playerCounter /}
@@ -56,7 +70,95 @@
   {call .playerSniper /}
 
   {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.abortDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+{/template}
 
+
+/**
+ * Toolbox.
+ */
+{template .databaseDialogs}
+  <div id="duckCreateDialog" class="dialogHiddenContent">
+    <form id="duckCreateForm" action="/pond-storage/create" method="post" onsubmit="return false">
+      <header>Create a duck</header>
+      <div>User id:
+        {sp}
+        <input id="createUserId" type="text" name="userid" required>
+      </div>
+      <div>Duck name:
+        {sp}
+        <input id="createName" type="text" name="name" required>
+      </div>
+      <input id="createJs" type="hidden" name="js">
+      <input id="createXml" type="hidden" name="xml">
+      <footer><!--Legal disclaimer goes here if needed.--></footer>
+
+      <div class="farSide">
+        <button id="duckCreateCancel" type="button">
+          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
+        </button>
+        <button id="duckCreateOk" class="secondary" type="submit">
+          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div id="duckUpdateDialog" class="dialogHiddenContent">
+    <form id="duckUpdateForm" action="/pond-storage/update" method="post" onsubmit="return false">
+      <header>Update a duck</header>
+      <div>URL-safe Duck key:
+        {sp}
+        <input id="updateDuckKey" type="text" name="key" required>
+      </div>
+      <div>User id:
+        {sp}
+        <input id="updateUserId" type="text" name="userid" required>
+      </div>
+      <div>New duck name:
+        {sp}
+        <input id="updateName" type="text" name="name">
+      </div>
+      <input id="updateJs" type="hidden" name="js">
+      <input id="updateXml" type="hidden" name="xml">
+      <footer><!--Legal disclaimer goes here if needed.--></footer>
+
+      <div class="farSide">
+        <button id="duckUpdateCancel" type="button">
+          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
+        </button>
+        <button id="duckUpdateOk" class="secondary" type="submit">
+          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div id="duckDeleteDialog" class="dialogHiddenContent">
+    <form id="duckDeleteForm" action="/pond-storage/delete" method="post" onsubmit="return false">
+      <header>Delete a duck</header>
+      <div>URL-safe Duck key:
+        {sp}
+        <input id="deleteDuckKey" type="text" name="key" required>
+      </div>
+      <div>User id:
+        {sp}
+        <input id="deleteUserId" type="text" name="userid" required>
+      </div>
+      <footer><!--Legal disclaimer goes here if needed.--></footer>
+
+      <div class="farSide">
+        <button id="duckDeleteCancel" type="button">
+          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
+        </button>
+        <button id="duckDeleteOk" class="secondary" type="submit">
+          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
+        </button>
+      </div>
+    </form>
+  </div>
 {/template}
 
 /**
