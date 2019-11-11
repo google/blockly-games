@@ -99,6 +99,10 @@ handlers:
   static_files: pond-duck.html
   upload: pond-duck\.html
   secure: always
+- url: /pond-online
+  static_files: pond-online.html
+  upload: pond-online\.html
+  secure: always
 - url: /pond/
   static_dir: pond
   secure: always
