@@ -60,6 +60,10 @@ pond-duck-en: pond-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy
 	python build-app.py pond/duck en
 
+pond-online-en: pond-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/online/generated/en/soy.js --srcs appengine/pond/online/template.soy
+	python build-app.py pond/online en
+
 genetics-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/genetics/generated/en/soy.js --srcs appengine/genetics/template.soy
 	python build-app.py genetics en
@@ -74,7 +78,7 @@ pond-common-en: common-en
 common-en:
 	$(SOY_COMPILER) --outputPathFormat appengine/generated/en/soy.js --srcs appengine/template.soy
 
-en: index-en puzzle-en maze-en bird-en turtle-en movie-en music-en pond-docs-en pond-tutor-en pond-duck-en genetics-en gallery-en
+en: index-en puzzle-en maze-en bird-en turtle-en movie-en music-en pond-docs-en pond-tutor-en pond-duck-en pond-online-en genetics-en gallery-en
 
 index puzzle maze bird turtle movie music gallery: common
 	@echo "Generating JS from appengine/$@/template.soy"
@@ -102,6 +106,13 @@ pond-duck: pond-common
 	mkdir -p appengine/pond/duck/generated;
 	i18n/json_to_js.py --output_dir appengine/pond/duck/generated --template appengine/pond/duck/template.soy json/*.json;
 	python build-app.py pond/duck
+	@echo
+
+pond-online: pond-common
+	@echo "Generating JS from appengine/pond/online/template.soy"
+	mkdir -p appengine/pond/online/generated;
+	i18n/json_to_js.py --output_dir appengine/pond/online/generated --template appengine/pond/online/template.soy json/*.json;
+	python build-app.py pond/online
 	@echo
 
 pond-common: common
