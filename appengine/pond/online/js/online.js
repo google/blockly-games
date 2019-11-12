@@ -147,6 +147,10 @@ Pond.Online.init = function() {
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,getX,loc_y,getY,');
 
+  BlocklyGames.bindClick('createButton', Pond.Online.showCreateDuckForm);
+  BlocklyGames.bindClick('updateButton', Pond.Online.showUpdateDuckForm);
+  BlocklyGames.bindClick('deleteButton', Pond.Online.showDeleteDuckForm);
+
   var defaultXml =
       '<xml>' +
       '<block type="pond_cannon" x="70" y="70">' +
@@ -284,6 +288,243 @@ Pond.Online.editorChanged = function() {
       Pond.Online.blocksEnabled_ = true;
     }
   }
+};
+
+/**
+ * Display a dialog for creating a duck.
+ */
+Pond.Online.showCreateDuckForm = function() {
+  // Encode the user code
+  document.getElementById('createJs').value =
+      BlocklyInterface.editor['getValue']();
+  document.getElementById('createXml').value =
+      Pond.Online.blocksEnabled_ ? BlocklyInterface.getXml() : '';
+
+  var content = document.getElementById('duckCreateDialog');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+
+  if (!Pond.Online.showCreateDuckForm.runOnce_) {
+    var cancel = document.getElementById('duckCreateCancel');
+    cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+    cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+    var ok = document.getElementById('duckCreateOk');
+    ok.addEventListener('click', Pond.Online.duckCreate, true);
+    ok.addEventListener('touchend', Pond.Online.duckCreate, true);
+    // Only bind the buttons once.
+    Pond.Online.showCreateDuckForm.runOnce_ = true;
+  }
+  var origin = document.getElementById('createButton');
+  BlocklyDialogs.showDialog(content, origin, true, true, style);
+  // Wait for the opening animation to complete, then focus the title field.
+  setTimeout(function() {
+    document.getElementById('createName').focus();
+  }, 250);
+};
+
+/**
+ * Display a dialog for updating a duck.
+ */
+Pond.Online.showUpdateDuckForm = function() {
+  // Encode the user code
+  document.getElementById('updateJs').value =
+      BlocklyInterface.editor['getValue']();
+  document.getElementById('updateXml').value =
+      Pond.Online.blocksEnabled_ ? BlocklyInterface.getXml() : '';
+
+  var content = document.getElementById('duckUpdateDialog');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+
+  if (!Pond.Online.showUpdateDuckForm.runOnce_) {
+    var cancel = document.getElementById('duckUpdateCancel');
+    cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+    cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+    var ok = document.getElementById('duckUpdateOk');
+    ok.addEventListener('click', Pond.Online.duckUpdate, true);
+    ok.addEventListener('touchend', Pond.Online.duckUpdate, true);
+    // Only bind the buttons once.
+    Pond.Online.showUpdateDuckForm.runOnce_ = true;
+  }
+  var origin = document.getElementById('updateButton');
+  BlocklyDialogs.showDialog(content, origin, true, true, style);
+  // Wait for the opening animation to complete, then focus the title field.
+  setTimeout(function() {
+    document.getElementById('updateDuckKey').focus();
+  }, 250);
+};
+
+/**
+ * Display a dialog for deleting a duck.
+ */
+Pond.Online.showDeleteDuckForm = function() {
+  var content = document.getElementById('duckDeleteDialog');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+
+  if (!Pond.Online.showDeleteDuckForm.runOnce_) {
+    var cancel = document.getElementById('duckDeleteCancel');
+    cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+    cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+    var ok = document.getElementById('duckDeleteOk');
+    ok.addEventListener('click', Pond.Online.duckDelete, true);
+    ok.addEventListener('touchend', Pond.Online.duckDelete, true);
+    // Only bind the buttons once.
+    Pond.Online.showDeleteDuckForm.runOnce_ = true;
+  }
+  var origin = document.getElementById('deleteButton');
+  BlocklyDialogs.showDialog(content, origin, true, true, style);
+  // Wait for the opening animation to complete, then focus the title field.
+  setTimeout(function() {
+    document.getElementById('deleteDuckKey').focus();
+  }, 250);
+};
+
+/**
+ * Create a duck form.
+ */
+Pond.Online.duckCreate = function() {
+  // Check that there is a user id.
+  var userid = document.getElementById('createUserId');
+  if (!userid.value.trim()) {
+    userid.value = '';
+    userid.focus();
+    return;
+  }
+  // Check that there is a duck name.
+  var name = document.getElementById('createName');
+  if (!name.value.trim()) {
+    name.value = '';
+    name.focus();
+    return;
+  }
+
+  var form = document.getElementById('duckCreateForm');
+  var data = [];
+  for (var i = 0, element; (element = form.elements[i]); i++) {
+    if (element.name) {
+      data[i] = encodeURIComponent(element.name) + '=' +
+          encodeURIComponent(element.value);
+    }
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', form.action);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.readyState == 4) {
+      var text;
+      if (xhr.status == 200) {
+        var meta = JSON.parse(xhr.responseText);
+        text = 'Duck created with key: ' + meta['duck_key'];
+      } else {
+        text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
+      }
+      BlocklyDialogs.storageAlert(null, text);
+    }
+  };
+  xhr.send(data.join('&'));
+  BlocklyDialogs.hideDialog(true);
+};
+
+/**
+ * Update a duck form.
+ */
+Pond.Online.duckUpdate = function() {
+  // Check that there is a duck key.
+  var duckKey = document.getElementById('updateDuckKey');
+  if (!duckKey.value.trim()) {
+    duckKey.value = '';
+    duckKey.focus();
+    return;
+  }
+  // Check that there is a user id.
+  var userid = document.getElementById('updateUserId');
+  if (!userid.value.trim()) {
+    userid.value = '';
+    userid.focus();
+    return;
+  }
+
+  var form = document.getElementById('duckUpdateForm');
+  var data = [];
+  for (var i = 0, element; (element = form.elements[i]); i++) {
+    if (element.name) {
+      data[i] = encodeURIComponent(element.name) + '=' +
+          encodeURIComponent(element.value);
+    }
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', form.action);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.readyState == 4) {
+      var text;
+      if (xhr.status == 200) {
+        var meta = JSON.parse(xhr.responseText);
+        text = 'Duck updated with key: ' + meta['duck_key'];
+      } else {
+        text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
+      }
+      BlocklyDialogs.storageAlert(null, text);
+    }
+  };
+  xhr.send(data.join('&'));
+  BlocklyDialogs.hideDialog(true);
+};
+
+/**
+ * Delete a duck form.
+ */
+Pond.Online.duckDelete = function() {
+  // Check that there is a duck key.
+  var duckKey = document.getElementById('deleteDuckKey');
+  if (!duckKey.value.trim()) {
+    duckKey.value = '';
+    duckKey.focus();
+    return;
+  }
+  // Check that there is a user id.
+  var userid = document.getElementById('deleteUserId');
+  if (!userid.value.trim()) {
+    userid.value = '';
+    userid.focus();
+    return;
+  }
+
+  var form = document.getElementById('duckDeleteForm');
+  var data = [];
+  for (var i = 0, element; (element = form.elements[i]); i++) {
+    if (element.name) {
+      data[i] = encodeURIComponent(element.name) + '=' +
+          encodeURIComponent(element.value);
+    }
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', form.action);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.readyState == 4) {
+      var text;
+      if (xhr.status == 200) {
+        var meta = JSON.parse(xhr.responseText);
+        text = 'Duck deleted with key: ' + meta['duck_key'];
+      } else {
+        text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
+      }
+      BlocklyDialogs.storageAlert(null, text);
+    }
+  };
+  xhr.send(data.join('&'));
+  BlocklyDialogs.hideDialog(true);
 };
 
 window.addEventListener('load', Pond.Online.init);

@@ -134,21 +134,30 @@ BlocklyInterface.getCode = function() {
     var text = BlocklyInterface.editor['getValue']();
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace, true);
-    // Remove x/y coordinates from XML if there's only one block stack.
-    // There's no reason to store this, removing it helps with anonymity.
-    if (BlocklyGames.workspace.getTopBlocks(false).length == 1 &&
-        xml.querySelector) {
-      var block = xml.querySelector('block');
-      if (block) {
-        block.removeAttribute('x');
-        block.removeAttribute('y');
-      }
-    }
-    var text = Blockly.Xml.domToText(xml);
+    var text = BlocklyInterface.getXml();
   }
   return text;
 };
+
+/**
+ * Get the user's XML code from the Blockly editor.
+ * @return {string} XML.
+ */
+BlocklyInterface.getXml = function() {
+  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace, true);
+  // Remove x/y coordinates from XML if there's only one block stack.
+  // There's no reason to store this, removing it helps with anonymity.
+  if (BlocklyGames.workspace.getTopBlocks(false).length == 1 &&
+      xml.querySelector) {
+    var block = xml.querySelector('block');
+    if (block) {
+      block.removeAttribute('x');
+      block.removeAttribute('y');
+    }
+  }
+  return Blockly.Xml.domToText(xml);
+};
+
 
 /**
  * Return the main workspace.

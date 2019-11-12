@@ -106,6 +106,15 @@ handlers:
 - url: /pond/
   static_dir: pond
   secure: always
+- url: /pond-storage/create
+  script: pond_storage/create.py
+  secure: always
+- url: /pond-storage/update
+  script: pond_storage/update.py
+  secure: always
+- url: /pond-storage/delete
+  script: pond_storage/delete.py
+  secure: always
 
 # Genetics app.
 - url: /genetics
