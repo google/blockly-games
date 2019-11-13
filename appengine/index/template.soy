@@ -111,11 +111,19 @@
         {/param}
       {/call}
       {call .appLink}
-        {param app: 'pond-duck' /}
+        {param app: 'pond-duck-basic' /}
+        {param x: 87 /}
+        {param y: 70 /}
+        {param contentText}
+          {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+        {/param}
+      {/call}
+      {call .appLink}
+        {param app: 'pond-duck-online' /}
         {param x: 90 /}
         {param y: 85 /}
         {param contentText}
-          {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+          Pond Online
         {/param}
       {/call}
 

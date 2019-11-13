@@ -33,11 +33,7 @@ goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
-goog.require('Pond.Duck.soy');
 goog.require('Pond.Visualization');
-
-
-BlocklyGames.NAME = 'pond-duck';
 
 /**
  * Array of editor tabs (Blockly and ACE).
@@ -61,17 +57,12 @@ Pond.Duck.ignoreEditorChanges_ = true;
 /**
  * Initialize Ace and the pond.  Called on page load.
  */
-Pond.Duck.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Pond.Duck.soy.start({}, null,
-      {lang: BlocklyGames.LANG,
-       html: BlocklyGames.IS_HTML});
-
+Pond.Duck.init = function () {
   Pond.init();
 
   // Setup the tabs.
   function tabHandler(selectedIndex) {
-    return function() {
+    return function () {
       if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
         return;
       }
@@ -85,6 +76,7 @@ Pond.Duck.init = function() {
       Pond.Duck.changeTab(selectedIndex);
     };
   }
+
   var tabs = Array.prototype.slice.call(
       document.querySelectorAll('#editorBar>.tab'));
   for (var i = 0; i < tabs.length; i++) {
@@ -98,7 +90,7 @@ Pond.Duck.init = function() {
   var blocklyDiv = document.getElementById('blockly');
   var editorDiv = document.getElementById('editor');
   var divs = [blocklyDiv, editorDiv];
-  var onresize = function(e) {
+  var onresize = function (e) {
     var top = visualization.offsetTop;
     tabDiv.style.top = (top - window.pageYOffset) + 'px';
     tabDiv.style.left = rtl ? '10px' : '420px';
@@ -113,7 +105,7 @@ Pond.Duck.init = function() {
       div.style.width = divWidth;
     }
   };
-  window.addEventListener('scroll', function() {
+  window.addEventListener('scroll', function () {
     onresize(null);
     Blockly.svgResize(BlocklyGames.workspace);
   });
@@ -138,30 +130,32 @@ Pond.Duck.init = function() {
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
   BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'oneBasedIndex': false,
-       'rtl': false,
-       'toolbox': toolbox,
-       'trashcan': true,
-       'zoom': {'controls': true, 'wheel': true}});
+      {
+        'media': 'third-party/blockly/media/',
+        'oneBasedIndex': false,
+        'rtl': false,
+        'toolbox': toolbox,
+        'trashcan': true,
+        'zoom': {'controls': true, 'wheel': true}
+      });
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,getX,loc_y,getY,');
   var defaultXml =
       '<xml>' +
-        '<block type="pond_cannon" x="70" y="70">' +
-          '<value name="DEGREE">' +
-            '<shadow type="pond_math_number">' +
-              '<mutation angle_field="true"></mutation>' +
-              '<field name="NUM">0</field>' +
-            '</shadow>' +
-          '</value>' +
-          '<value name="RANGE">' +
-            '<shadow type="pond_math_number">' +
-              '<mutation angle_field="false"></mutation>' +
-              '<field name="NUM">70</field>' +
-            '</shadow>' +
-          '</value>' +
-        '</block>' +
+      '<block type="pond_cannon" x="70" y="70">' +
+      '<value name="DEGREE">' +
+      '<shadow type="pond_math_number">' +
+      '<mutation angle_field="true"></mutation>' +
+      '<field name="NUM">0</field>' +
+      '</shadow>' +
+      '</value>' +
+      '<value name="RANGE">' +
+      '<shadow type="pond_math_number">' +
+      '<mutation angle_field="false"></mutation>' +
+      '<field name="NUM">70</field>' +
+      '</shadow>' +
+      '</value>' +
+      '</block>' +
       '</xml>';
   var xml = Blockly.Xml.textToDom(defaultXml);
   // Clear the workspace to avoid merge.
@@ -201,7 +195,7 @@ Pond.Duck.init = function() {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
     } else {
-      var code = function() {
+      var code = function () {
         if (Pond.Duck.blocksEnabled_) {
           return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
         } else {
@@ -221,7 +215,7 @@ Pond.Duck.init = function() {
  * Called by the tab bar when a tab is selected.
  * @param {number} index Which tab is now active (0-1).
  */
-Pond.Duck.changeTab = function(index) {
+Pond.Duck.changeTab = function (index) {
   var BLOCKS = 0;
   var JAVASCRIPT = 1;
   // Show the correct tab contents.
@@ -257,7 +251,7 @@ Pond.Duck.changeTab = function(index) {
  * Change event for JS editor.  Warn the user, then disconnect the link from
  * blocks to JavaScript.
  */
-Pond.Duck.editorChanged = function() {
+Pond.Duck.editorChanged = function () {
   if (Pond.Duck.ignoreEditorChanges_) {
     return;
   }

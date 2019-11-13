@@ -2,9 +2,9 @@
 # Definitions
 ##############################
 
-USER_APPS = {index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond/tutor,pond/duck,gallery}
-ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond,pond/tutor,pond/duck,gallery}
-ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/music/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy,appengine/gallery/template.soy
+USER_APPS = {index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond/tutor,pond/duck/basic,gallery}
+ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond,pond/tutor,pond/duck/basic,gallery}
+ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/music/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/basic/template.soy,appengine/gallery/template.soy
 
 APP_ENGINE_THIRD_PARTY = appengine/third-party
 SOY_COMPILER = java -jar third-party-downloads/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
@@ -56,13 +56,16 @@ pond-tutor-en: pond-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/tutor/generated/en/soy.js --srcs appengine/pond/tutor/template.soy
 	python build-app.py pond/tutor en
 
-pond-duck-en: pond-common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy
-	python build-app.py pond/duck en
+pond-duck-en: pond-multi-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/basic/generated/en/soy.js --srcs appengine/pond/duck/basic/template.soy
+	python build-app.py pond/duck/basic en
 
-pond-online-en: pond-common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/online/generated/en/soy.js --srcs appengine/pond/online/template.soy
-	python build-app.py pond/online en
+pond-online-en: pond-multi-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/online/generated/en/soy.js --srcs appengine/pond/duck/online/template.soy
+	python build-app.py pond/duck/online en
+
+pond-multi-common-en: pond-common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy
 
 genetics-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/genetics/generated/en/soy.js --srcs appengine/genetics/template.soy
@@ -101,18 +104,24 @@ pond-tutor: pond-common
 	python build-app.py pond/tutor
 	@echo
 
-pond-duck: pond-common
+pond-duck: pond-multi-common
+	@echo "Generating JS from appengine/pond/duck/basic/template.soy"
+	mkdir -p appengine/pond/duck/basic/generated;
+	i18n/json_to_js.py --output_dir appengine/pond/duck/basic/generated --template appengine/pond/duck/basic/template.soy json/*.json;
+	python build-app.py pond/duck/basic
+	@echo
+
+pond-online: pond-multi-common
+	@echo "Generating JS from appengine/pond/duck/online/template.soy"
+	mkdir -p appengine/pond/duck/online/generated;
+	i18n/json_to_js.py --output_dir appengine/pond/duck/online/generated --template appengine/pond/duck/online/template.soy json/*.json;
+	python build-app.py pond/duck/online
+	@echo
+
+pond-multi-common: pond-common
 	@echo "Generating JS from appengine/pond/duck/template.soy"
 	mkdir -p appengine/pond/duck/generated;
 	i18n/json_to_js.py --output_dir appengine/pond/duck/generated --template appengine/pond/duck/template.soy json/*.json;
-	python build-app.py pond/duck
-	@echo
-
-pond-online: pond-common
-	@echo "Generating JS from appengine/pond/online/template.soy"
-	mkdir -p appengine/pond/online/generated;
-	i18n/json_to_js.py --output_dir appengine/pond/online/generated --template appengine/pond/online/template.soy json/*.json;
-	python build-app.py pond/online
 	@echo
 
 pond-common: common
