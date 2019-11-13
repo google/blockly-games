@@ -30,9 +30,7 @@ if (location.host == 'blockly-games.appspot.com') {
 (function() {
   // Application path.
   var appName = location.pathname.match(/\/([-\w]+)(\.html)?$/);
-  console.log(appName);
   appName = appName ? appName[1].replace(/-/g, '/') : 'index';
-  console.log(appName);
 
 
   // Supported languages (consistent across all apps).
