@@ -124,39 +124,47 @@ a:hover > text {
   animation-delay: 0.6s;
 }
 
-#icon-pond-duck {
+#icon-pond-duck-basic {
   animation-delay: 0.7s;
 }
 
-#back-puzzle {
-  animation-delay: 0.3s;
-}
-
-#back-maze {
-  animation-delay: 0.4s;
-}
-
-#back-bird {
-  animation-delay: 0.5s;
-}
-
-#back-turtle {
-  animation-delay: 0.6s;
-}
-
-#back-movie {
-  animation-delay: 0.7s;
-}
-
-#back-music {
+#icon-pond-duck-online {
   animation-delay: 0.8s;
 }
 
+#back-puzzle {
+  animation-delay: 0.2s;
+}
+
+#back-maze {
+  animation-delay: 0.3s;
+}
+
+#back-bird {
+  animation-delay: 0.4s;
+}
+
+#back-turtle {
+  animation-delay: 0.5s;
+}
+
+#back-movie {
+  animation-delay: 0.6s;
+}
+
+#back-music {
+  animation-delay: 0.7s;
+}
+
 #back-pond-tutor {
+  animation-delay: 0.8s;
+}
+
+#back-pond-duck-basic {
   animation-delay: 0.9s;
 }
 
-#back-pond-duck {
+#back-pond-duck-online {
   animation-delay: 1.0s;
 }
 

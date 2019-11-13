@@ -95,13 +95,13 @@ handlers:
   static_files: pond-tutor.html
   upload: pond-tutor\.html
   secure: always
-- url: /pond-duck
-  static_files: pond-duck.html
-  upload: pond-duck\.html
+- url: /pond-duck-basic
+  static_files: pond-duck-basic.html
+  upload: pond-duck-basic\.html
   secure: always
-- url: /pond-online
-  static_files: pond-online.html
-  upload: pond-online\.html
+- url: /pond-duck-online
+  static_files: pond-duck-online.html
+  upload: pond-duck-online\.html
   secure: always
 - url: /pond/
   static_dir: pond
