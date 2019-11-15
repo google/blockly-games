@@ -259,5 +259,3 @@ Pond.Duck.editorChanged = function () {
     }
   }
 };
-
-window.addEventListener('load', Pond.Duck.init);
