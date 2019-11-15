@@ -45,26 +45,17 @@ Pond.Duck.Online.init = function() {
 
   Pond.Duck.init();
 
-  BlocklyGames.bindClick('createButton', Pond.Duck.Online.showCreateDuckForm);
-  BlocklyGames.bindClick('updateButton', Pond.Duck.Online.showUpdateDuckForm);
-  BlocklyGames.bindClick('deleteButton', Pond.Duck.Online.showDeleteDuckForm);
+  BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
+  BlocklyGames.bindClick('duckUpdateButton', Pond.Duck.Online.showUpdateDuckForm);
+  BlocklyGames.bindClick('duckDeleteButton', Pond.Duck.Online.showDeleteDuckForm);
 };
 
-Pond.Duck.Online.encodeUserCode_ = function(formPrefix) {
-  // Encode the user code
+Pond.Duck.Online.storeUserCode_ = function(formPrefix) {
+  // Store the user code in the form inputs
   document.getElementById(formPrefix +'Js').value =
       BlocklyInterface.getJsCode();
   document.getElementById(formPrefix + 'Xml').value =
-      BlocklyInterface.blocksDisabled ? BlocklyInterface.getXml() : '';
-};
-
-Pond.Duck.Online.bindFormButtonEvents_ = function(formPrefix) {
-  var cancel = document.getElementById(formPrefix + 'Cancel');
-  cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
-  cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-  var ok = document.getElementById(formPrefix + 'Ok');
-  ok.addEventListener('click', Pond.Duck.Online.duckCreate, true);
-  ok.addEventListener('touchend', Pond.Duck.Online.duckCreate, true);
+      BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml();
 };
 
 /**
@@ -81,9 +72,9 @@ Pond.Duck.Online.makeRequest = function(url, data, onLoadCallback) {
   xhr.send(data.join('&'));
 };
 
-Pond.Duck.Online.showDuckForm_ = function(formPrefix, defaultFocusElId, embedUserCode) {
-  if (embedUserCode) {
-    Pond.Duck.Online.encodeUserCode_(formPrefix);
+Pond.Duck.Online.showDuckForm_ = function(formPrefix, defaultFocusElId, storeUserCode) {
+  if (storeUserCode) {
+    Pond.Duck.Online.storeUserCode_(formPrefix);
   }
   var content = document.getElementById(formPrefix + 'Dialog');
   var style = {
@@ -99,12 +90,21 @@ Pond.Duck.Online.showDuckForm_ = function(formPrefix, defaultFocusElId, embedUse
   }, 250);
 };
 
+Pond.Duck.Online.bindFormButtonEvents_ = function(formPrefix, formSubmitCallback) {
+  var cancel = document.getElementById(formPrefix + 'Cancel');
+  cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+  cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+  var ok = document.getElementById(formPrefix + 'Ok');
+  ok.addEventListener('click',formSubmitCallback, true);
+  ok.addEventListener('touchend', formSubmitCallback, true);
+};
+
 /**
  * Display a dialog for creating a duck.
  */
 Pond.Duck.Online.showCreateDuckForm = function() {
   if (!Pond.Duck.Online.showCreateDuckForm.runOnce_) {
-    Pond.Duck.Online.bindFormButtonEvents_('duckCreate');
+    Pond.Duck.Online.bindFormButtonEvents_('duckCreate', Pond.Duck.Online.duckCreate);
     // Only bind the buttons once.
     Pond.Duck.Online.showCreateDuckForm.runOnce_ = true;
   }
@@ -116,7 +116,7 @@ Pond.Duck.Online.showCreateDuckForm = function() {
  */
 Pond.Duck.Online.showUpdateDuckForm = function() {
   if (!Pond.Duck.Online.showUpdateDuckForm.runOnce_) {
-    Pond.Duck.Online.bindFormButtonEvents_('duckUpdate');
+    Pond.Duck.Online.bindFormButtonEvents_('duckUpdate', Pond.Duck.Online.duckUpdate);
     // Only bind the buttons once.
     Pond.Duck.Online.showUpdateDuckForm.runOnce_ = true;
   }
@@ -128,14 +128,14 @@ Pond.Duck.Online.showUpdateDuckForm = function() {
  */
 Pond.Duck.Online.showDeleteDuckForm = function() {
   if (!Pond.Duck.Online.showDeleteDuckForm.runOnce_) {
-    Pond.Duck.Online.bindFormButtonEvents_('duckDelete');
+    Pond.Duck.Online.bindFormButtonEvents_('duckDelete', Pond.Duck.Online.duckDelete);
     // Only bind the buttons once.
     Pond.Duck.Online.showDeleteDuckForm.runOnce_ = true;
   }
   Pond.Duck.Online.showDuckForm_('duckDelete', 'duckDeleteDuckKey', false);
 };
 
-Pond.Duck.Online.duckFormOnLoadCallbackFunction = function(action) {
+Pond.Duck.Online.createDuckFormOnLoadCallback_ = function(action) {
   return function() {
     var text;
     if (this.status == 200) {
@@ -177,7 +177,7 @@ Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   }
   var form = document.getElementById(formId);
   var data = Pond.Duck.Online.encodeFormElements_(form);
-  var onLoadCallback = Pond.Duck.Online.duckFormOnLoadCallbackFunction(action);
+  var onLoadCallback = Pond.Duck.Online.createDuckFormOnLoadCallback_(action);
   Pond.Duck.Online.makeRequest(form.action, data, onLoadCallback);
   BlocklyDialogs.hideDialog(true);
 };
