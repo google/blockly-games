@@ -36,6 +36,12 @@ goog.require('BlocklyGames.Msg');
 BlocklyInterface.editor = null;
 
 /**
+ * Is the blocks editor disabled due to the JS editor having control?
+ * @type boolean
+ */
+BlocklyInterface.blocksDisabled = false;
+
+/**
  * Common startup tasks for all apps.
  */
 BlocklyInterface.init = function() {
@@ -151,6 +157,19 @@ BlocklyInterface.getCode = function() {
 };
 
 /**
+ * Get the user's executable code as JS from the editor (Blockly or ACE).
+ * @return {string} JS code.
+ */
+BlocklyInterface.getJsCode = function() {
+  if (BlocklyInterface.blocksDisabled) {
+    // Text editor.
+    return BlocklyInterface.editor['getValue']();
+  }
+  // Blockly editor.
+  return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+};
+
+/**
  * Return the main workspace.
  * @return {Blockly.WorkspaceSvg}
  */
@@ -179,21 +198,21 @@ BlocklyInterface.indexPage = function() {
 };
 
 /**
- * Save the blocks and reload with a different language.
+ * Save the blocks/code for a one-time reload.
  */
-BlocklyInterface.changeLanguage = function() {
+BlocklyInterface.saveToSessionStorage = function() {
   // Store the blocks for the duration of the reload.
   // MSIE 11 does not support sessionStorage on file:// URLs.
   if (window.sessionStorage) {
-    if (BlocklyInterface.editor) {
-      var text = BlocklyInterface.editor['getValue']();
-    } else {
-      var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-      var text = Blockly.Xml.domToText(xml);
-    }
-    window.sessionStorage.loadOnceBlocks = text;
+    window.sessionStorage.loadOnceBlocks = BlocklyInterface.getCode();
   }
+};
 
+/**
+ * Save the blocks and reload with a different language.
+ */
+BlocklyInterface.changeLanguage = function() {
+  BlocklyInterface.saveToSessionStorage();
   BlocklyGames.changeLanguage();
 };
 

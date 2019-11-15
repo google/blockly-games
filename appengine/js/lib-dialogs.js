@@ -369,9 +369,7 @@ BlocklyDialogs.congratulations = function() {
   if (BlocklyGames.workspace) {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
-    // Line produces warning when compiling Puzzle since there is no JavaScript
-    // generator.  But this function is never called in Puzzle, so no matter.
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+    var code = BlocklyInterface.getJsCode();
     code = BlocklyInterface.stripCode(code);
     var noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
     noComments = noComments.replace(/\/\*.*\*\//g, '');  /* Block comments. */

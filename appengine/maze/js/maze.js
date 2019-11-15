@@ -754,23 +754,10 @@ Maze.levelHelp = function(opt_event) {
  * @param {number} newSkin ID of new skin.
  */
 Maze.changePegman = function(newSkin) {
-  Maze.saveToStorage();
-  window.location = window.location.protocol + '//' +
-      window.location.host + window.location.pathname +
+  BlocklyInterface.saveToSessionStorage();
+  location = location.protocol + '//' + location.host + location.pathname +
       '?lang=' + BlocklyGames.LANG + '&level=' + BlocklyGames.LEVEL +
       '&skin=' + newSkin;
-};
-
-/**
- * Save the blocks for a one-time reload.
- */
-Maze.saveToStorage = function() {
-  // MSIE 11 does not support sessionStorage on file:// URLs.
-  if (typeof Blockly != undefined && window.sessionStorage) {
-    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-    var text = Blockly.Xml.domToText(xml);
-    window.sessionStorage.loadOnceBlocks = text;
-  }
 };
 
 /**
@@ -1016,7 +1003,7 @@ Maze.execute = function() {
 
   Maze.log = [];
   Blockly.selected && Blockly.selected.unselect();
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   Maze.result = Maze.ResultType.UNSET;
   var interpreter = new Interpreter(code, Maze.initInterpreter);
 

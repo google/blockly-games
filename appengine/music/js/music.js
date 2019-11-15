@@ -613,7 +613,7 @@ Music.execute = function() {
   // For safety, recompute startCount in the generator.
   Music.startCount = 0;
   // Create an interpreter whose global scope will be the cross-thread global.
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   if (Music.startCount == 0) {  // Blank workspace.
     Music.resetButtonClick();
   }
@@ -944,7 +944,7 @@ Music.checkAnswer = function() {
 
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+    var code = BlocklyInterface.getJsCode();
     var instrumentList = code.match(/setInstrument\('\w+'/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.

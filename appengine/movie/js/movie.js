@@ -396,7 +396,7 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   try {
     var interpreter = new Interpreter(code, Movie.initInterpreter);
   } catch (e) {
@@ -580,7 +580,7 @@ Movie.checkAnswers = function() {
  */
 Movie.submitToGallery = function() {
   var blockCount = BlocklyGames.workspace.getAllBlocks().length;
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));
     return;

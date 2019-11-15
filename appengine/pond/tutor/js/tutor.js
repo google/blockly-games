@@ -120,6 +120,7 @@ Pond.Tutor.init = function() {
   }
 
   if (editorDiv) {
+    BlocklyInterface.blocksDisabled = true;
     // Remove the container for source code in the 'done' dialog.
     var containerCode = document.getElementById('containerCode');
     containerCode.parentNode.removeChild(containerCode);
@@ -153,13 +154,7 @@ Pond.Tutor.init = function() {
       var div = document.getElementById(avatarData.code);
       var code = div.textContent;
     } else {
-      if (blocklyDiv) {
-        var code = function() {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-        };
-      } else {
-        var code = function() {return BlocklyInterface.editor['getValue']()};
-      }
+      var code = BlocklyInterface.getJsCode;
     }
     var name = BlocklyGames.getMsg(avatarData.name);
     Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);

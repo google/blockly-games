@@ -680,7 +680,7 @@ Bird.execute = function() {
 
   Bird.log = [];
   Blockly.selected && Blockly.selected.unselect();
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
   if (start != -1 && end != -1) {

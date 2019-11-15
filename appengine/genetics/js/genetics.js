@@ -55,13 +55,6 @@ BlocklyGames.NAME = 'genetics';
 Genetics.editorTabs = null;
 
 /**
- * Is the blocks editor the program source (true) or is the JS editor
- * the program source (false).
- * @private {boolean}
- */
-Genetics.blocksEnabled_ = true;
-
-/**
  * ACE editor fires change events even on programmatically caused changes.
  * This property is used to signal times when a programmatic change is made.
  * @private {boolean}
@@ -430,7 +423,7 @@ Genetics.init = function() {
     BlocklyGames.workspace.clearUndo();
   }
 
-  Genetics.blocksEnabled_ = blocklyDiv != null;
+  BlocklyInterface.blocksDisabled = blocklyDiv == null;
 
   // Set level specific settings in Cage.
   var players;
@@ -506,13 +499,7 @@ Genetics.init = function() {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
     } else {
-      var code = function() {
-        if (Genetics.blocksEnabled_) {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-        } else {
-          return BlocklyInterface.editor['getValue']();
-        }
-      };
+      var code = BlocklyInterface.getJsCode;
     }
     var name = BlocklyGames.getMsg(playerData.name);
     Genetics.Cage.addPlayer(name, code);
@@ -1089,7 +1076,7 @@ Genetics.changeTab = function(index) {
         '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
-  if (index == JAVASCRIPT && Genetics.blocksEnabled_) {
+  if (index == JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     Genetics.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
@@ -1105,26 +1092,25 @@ Genetics.editorChanged = function() {
   if (Genetics.ignoreEditorChanges_) {
     return;
   }
-  if (Genetics.blocksEnabled_) {
-    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
-      // Break link between blocks and JS.
-      Blockly.utils.dom.addClass(Genetics.editorTabs[0], 'tab-disabled');
-      Genetics.blocksEnabled_ = false;
-    } else {
-      // Abort change, preserve link.
-      var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-      Genetics.ignoreEditorChanges_ = true;
-      BlocklyInterface.editor['setValue'](code, -1);
-      Genetics.ignoreEditorChanges_ = false;
-    }
-  } else {
-    var code = BlocklyInterface.editor['getValue']();
+  var code = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
       BlocklyGames.workspace.clear();
       Blockly.utils.dom.removeClass(Genetics.editorTabs[0], 'tab-disabled');
-      Genetics.blocksEnabled_ = true;
+      BlocklyInterface.blocksDisabled = false;
+    }
+  } else {
+    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
+      // Break link between blocks and JS.
+      Blockly.utils.dom.addClass(Genetics.editorTabs[0], 'tab-disabled');
+      BlocklyInterface.blocksDisabled = true;
+    } else {
+      // Abort change, preserve link.
+      Genetics.ignoreEditorChanges_ = true;
+      BlocklyInterface.editor['setValue'](code, -1);
+      Genetics.ignoreEditorChanges_ = false;
     }
   }
 };
