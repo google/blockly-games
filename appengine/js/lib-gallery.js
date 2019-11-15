@@ -103,14 +103,11 @@ BlocklyGallery.gallerySubmit_ = function() {
   xhr.open('POST', form.action);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.onload = function() {
-    if (xhr.readyState == 4) {
-      var text = (xhr.status == 200) ?
-          BlocklyGames.getMsg('Games_submitted') :
-          BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
-      BlocklyDialogs.storageAlert(null, text);
-    }
+    var text = (xhr.status == 200) ?
+        BlocklyGames.getMsg('Games_submitted') :
+        BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
+    BlocklyDialogs.storageAlert(null, text);
   };
   xhr.send(data.join('&'));
   BlocklyDialogs.hideDialog(true);
 };
-
