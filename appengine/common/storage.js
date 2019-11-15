@@ -76,7 +76,7 @@ BlocklyStorage.retrieveXml = function(key) {
  * @type XMLHttpRequest
  * @private
  */
-BlocklyStorage.httpRequest_ = null;
+BlocklyStorage.xhr_ = null;
 
 /**
  * Fire a new AJAX request.
@@ -86,18 +86,17 @@ BlocklyStorage.httpRequest_ = null;
  * @private
  */
 BlocklyStorage.makeRequest_ = function(url, name, content) {
-  if (BlocklyStorage.httpRequest_) {
+  if (BlocklyStorage.xhr_) {
     // AJAX call is in-flight.
-    BlocklyStorage.httpRequest_.abort();
+    BlocklyStorage.xhr_.abort();
   }
-  BlocklyStorage.httpRequest_ = new XMLHttpRequest();
-  BlocklyStorage.httpRequest_.name = name;
-  BlocklyStorage.httpRequest_.onreadystatechange =
-      BlocklyStorage.handleRequest_;
-  BlocklyStorage.httpRequest_.open('POST', url);
-  BlocklyStorage.httpRequest_.setRequestHeader('Content-Type',
+  BlocklyStorage.xhr_ = new XMLHttpRequest();
+  BlocklyStorage.xhr_.name = name;
+  BlocklyStorage.xhr_.onload = BlocklyStorage.handleRequest_;
+  BlocklyStorage.xhr_.open('POST', url);
+  BlocklyStorage.xhr_.setRequestHeader('Content-Type',
       'application/x-www-form-urlencoded');
-  BlocklyStorage.httpRequest_.send(name + '=' + encodeURIComponent(content));
+  BlocklyStorage.xhr_.send(name + '=' + encodeURIComponent(content));
 };
 
 /**
@@ -105,28 +104,27 @@ BlocklyStorage.makeRequest_ = function(url, name, content) {
  * @private
  */
 BlocklyStorage.handleRequest_ = function() {
-  if (BlocklyStorage.httpRequest_.readyState == 4) {
-    if (BlocklyStorage.httpRequest_.status != 200) {
-      BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
-          'httpRequest_.status: ' + BlocklyStorage.httpRequest_.status);
-    } else {
-      var data = BlocklyStorage.httpRequest_.responseText.trim();
-      if (BlocklyStorage.httpRequest_.name == 'xml') {
-        window.location.hash = data;
-        BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
-            window.location.href));
-      } else if (BlocklyStorage.httpRequest_.name == 'key') {
-        if (!data.length) {
-          BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
-              window.location.hash));
-        } else {
-          BlocklyInterface.setCode(data);
-        }
+  var xhr = BlocklyStorage.xhr_;
+  if (xhr.status != 200) {
+    BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
+        'xhr_.status: ' + xhr.status);
+  } else {
+    var data = xhr.responseText.trim();
+    if (xhr.name == 'xml') {
+      window.location.hash = data;
+      BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
+          window.location.href));
+    } else if (xhr.name == 'key') {
+      if (!data.length) {
+        BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
+            window.location.hash));
+      } else {
+        BlocklyInterface.setCode(data);
       }
-      BlocklyStorage.monitorChanges_();
     }
-    BlocklyStorage.httpRequest_ = null;
+    BlocklyStorage.monitorChanges_();
   }
+  BlocklyStorage.xhr_ = null;
 };
 
 /**

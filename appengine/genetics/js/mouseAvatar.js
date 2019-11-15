@@ -23,6 +23,7 @@
 
 goog.provide('Genetics.MouseAvatar');
 
+goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
 goog.require('Genetics.Mouse');
 
@@ -69,37 +70,37 @@ Genetics.MouseAvatar = function(mouse) {
    * The SVG element containing the mouse.
    * @const {SVGElement}
    */
-  this.element = document.createElementNS(Blockly.utils.dom.SVG_NS, 'svg');
-  this.element.id = 'mouse' + mouse.id;
-  this.element.setAttribute('class', 'mouse');
+  this.element = Blockly.utils.dom.createSvgElement('svg', {
+      'id': 'mouse' + mouse.id,
+      'class': 'mouse',
+    }, null);
   this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' +
       Genetics.MouseAvatar.HALF_SIZE + 'px';
 
-  // Create clip path for mouse image
-  var mouseClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
-  mouseClip.id = 'mouse' + mouse.id + 'ClipPath';
-  var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
-  clipRect.setAttribute('width', Genetics.MouseAvatar.WIDTH + 'px');
-  clipRect.setAttribute('height', Genetics.MouseAvatar.FULL_HEIGHT + 'px');
-  mouseClip.appendChild(clipRect);
-  this.element.appendChild(mouseClip);
+  // Create clip path for mouse image.
+  var mouseClip = Blockly.utils.dom.createSvgElement('clipPath', {
+      'id': 'mouse' + mouse.id + 'ClipPath'
+    }, this.element);
+  Blockly.utils.dom.createSvgElement('rect', {
+      'width': Genetics.MouseAvatar.WIDTH + 'px',
+      'height': Genetics.MouseAvatar.FULL_HEIGHT + 'px'
+    }, mouseClip);
 
   /**
    * The image element containing the mouse sprite.
    * @private {HTMLImageElement}
    * @const
    */
-  this.image_ = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
+  this.image_ = Blockly.utils.dom.createSvgElement('image', {
+      'width': Genetics.MouseAvatar.WIDTH * 3 + 'px',
+      'height': Genetics.MouseAvatar.FULL_HEIGHT * 2 + 'px',
+      'clip-path': 'url(#mouse' + mouse.id + 'ClipPath)'
+    }, this.element);
+  if (this.sex == Genetics.Mouse.Sex.FEMALE) {
+    this.image_.setAttribute('y', -Genetics.MouseAvatar.FULL_HEIGHT + 'px');
+  }
   this.image_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'genetics/mouse.png');
-  this.image_.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
-  this.image_.setAttribute('height',
-      Genetics.MouseAvatar.FULL_HEIGHT * 2 + 'px');
-  if (this.sex == Genetics.Mouse.Sex.FEMALE) {
-    this.image_.setAttribute('y', - Genetics.MouseAvatar.FULL_HEIGHT + 'px');
-  }
-  this.image_.setAttribute('clip-path', 'url(#mouse' + mouse.id + 'ClipPath)');
-  this.element.appendChild(this.image_);
 
   // Calculate the pie chart arc start/end based on avatar size.
   var xOffset = Genetics.MouseAvatar.WIDTH / 2 -
@@ -115,33 +116,26 @@ Genetics.MouseAvatar = function(mouse) {
   var y3 = radius * 1.5 + yOffset;
   var centerX = radius + xOffset;
   var centerY = radius + yOffset;
+  var arc = ' A ' + radius + ' ' + radius + ', 0, 0, 1, '
+  var lz = ' L ' + centerX + ' ' + centerY + ' Z';
 
   // Draw top right slice.
-  var proposeMateSlice = document.createElementNS(Blockly.utils.dom.SVG_NS, 'path');
-  proposeMateSlice.setAttribute('d', 'M ' + x1 + ' ' + y1 +
-      ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-      x2 + ' ' + y2 + ' L ' + centerX + ' ' + centerY + ' Z');
-  proposeMateSlice.setAttribute('fill',
-      Genetics.Visualization.COLOURS[this.proposeMateOwner]);
-  this.element.appendChild(proposeMateSlice);
+  Blockly.utils.dom.createSvgElement('path', {
+      'fill': Genetics.Visualization.COLOURS[this.proposeMateOwner],
+      'd': 'M ' + x1 + ' ' + y1 + arc + x2 + ' ' + y2 + lz
+    }, this.element);
 
   // Draw bottom slice.
-  var pickFightSlice = document.createElementNS(Blockly.utils.dom.SVG_NS, 'path');
-  pickFightSlice.setAttribute('d', 'M ' + x2 + ' ' + y2 +
-      ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-      x3 + ' ' + y3 + ' L ' + centerX + ' ' + centerY + ' Z');
-  pickFightSlice.setAttribute('fill',
-      Genetics.Visualization.COLOURS[this.pickFightOwner]);
-  this.element.appendChild(pickFightSlice);
+  Blockly.utils.dom.createSvgElement('path', {
+      'fill': Genetics.Visualization.COLOURS[this.pickFightOwner],
+      'd': 'M ' + x2 + ' ' + y2 + arc + x3 + ' ' + y3 + lz
+    }, this.element);
 
   // Draw top left slice.
-  var acceptMateSlice = document.createElementNS(Blockly.utils.dom.SVG_NS, 'path');
-  acceptMateSlice.setAttribute('d', 'M ' + x3 + ' ' + y3 +
-      ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-      x1 + ' ' + y1 + ' L ' + centerX + ' ' + centerY + ' Z');
-  acceptMateSlice.setAttribute('fill',
-      Genetics.Visualization.COLOURS[this.acceptMateOwner]);
-  this.element.appendChild(acceptMateSlice);
+  Blockly.utils.dom.createSvgElement('path', {
+      'fill': Genetics.Visualization.COLOURS[this.acceptMateOwner],
+      'd': 'M ' + x3 + ' ' + y3 + arc + x1 + ' ' + y1 + lz
+    }, this.element);
 
   /**
    * The direction of the mouse, in radians, between 0 and 2PI.

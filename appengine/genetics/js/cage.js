@@ -23,6 +23,7 @@
 
 goog.provide('Genetics.Cage');
 
+goog.require('BlocklyAce');
 goog.require('BlocklyInterface');
 goog.require('Genetics.Mouse');
 
@@ -229,7 +230,7 @@ Genetics.Cage.start = function(opt_checkForEndOverride) {
   }
   Genetics.Cage.stopped_ = false;
   Genetics.Cage.nextAvailableMouseId_ = Genetics.Cage.nextRoundMice_.length;
-  for (var playerId = 0, player; player = Genetics.Cage.players[playerId];
+  for (var playerId = 0, player; (player = Genetics.Cage.players[playerId]);
       playerId++) {
     if (typeof player.code == 'function') {
       // Cache code if player code is generator.
@@ -310,13 +311,13 @@ Genetics.Cage.checkForEnd = function() {
   }
   // Find which players have majority for each function.
   var playerFunctionCounts = {
-    'pickFight' : [0, 0, 0, 0],
-    'proposeMate' : [0, 0, 0, 0],
-    'acceptMate' : [0, 0, 0, 0]
+    'pickFight': [0, 0, 0, 0],
+    'proposeMate': [0, 0, 0, 0],
+    'acceptMate': [0, 0, 0, 0]
   };
   var isTimeExpired = Genetics.Cage.roundNumber_ > Genetics.Cage.MAX_ROUNDS;
   var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
-  for (var i = 0, mouse; mouse = Genetics.Cage.nextRoundMice_[i]; i++) {
+  for (var i = 0, mouse; (mouse = Genetics.Cage.nextRoundMice_[i]); i++) {
     if (!isTimeExpired &&
         (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
         mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
@@ -346,7 +347,7 @@ Genetics.Cage.checkForEnd = function() {
   var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
   var mouseFunctions = ['pickFight', 'proposeMate', 'acceptMate'];
   for (var playerId = 0; playerId < Genetics.Cage.players.length; playerId++) {
-    for (var i = 0, mouseFunc; mouseFunc = mouseFunctions[i]; i++) {
+    for (var i = 0, mouseFunc; (mouseFunc = mouseFunctions[i]); i++) {
       var playerFunctionCount = playerFunctionCounts[mouseFunc];
       var playerFunctionRanking = playerRankings[mouseFunc];
       var isFunctionRanked = false;
@@ -520,7 +521,7 @@ Genetics.Cage.createOffspring_ = function(parent1, parent2) {
   // Determine sex of child based on the current population.
   var populationFertility = 0;
   var femaleFertility = 0;
-  for (var i = 0, aliveMouse; aliveMouse = Genetics.Cage.nextRoundMice_[i];
+  for (var i = 0, aliveMouse; (aliveMouse = Genetics.Cage.nextRoundMice_[i]);
       i++) {
     populationFertility += aliveMouse.fertility;
     if (aliveMouse.sex == Genetics.Mouse.Sex.FEMALE) {
@@ -680,7 +681,7 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
     throw Error('Mouse "' + playerName + '" has invalid code: ' + code);
   }
   try {
-    code = BlocklyInterface.transpileToEs5(code) || code;
+    code = BlocklyAce.transpileToEs5(code) || code;
   } catch (e) {
     alert(e);
     throw Error('Mouse "' + playerName + '" has error in code:\n' + e);
@@ -731,7 +732,7 @@ Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
   var pseudoSuitor = interpreter.ARRAY;
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);
   var aliveMiceIndex = 0;
-  for (var i = 0, aliveMouse; aliveMouse = Genetics.Cage.nextRoundMice_[i];
+  for (var i = 0, aliveMouse; (aliveMouse = Genetics.Cage.nextRoundMice_[i]);
       i++) {
     // Create a clone of alive mouse with string keys so that keys won't be
     // renamed when compressed.

@@ -27,6 +27,7 @@ goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.ZoomControls');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -40,13 +41,6 @@ goog.require('Pond.Visualization');
  * @type Array.<!Element>
  */
 Pond.Duck.editorTabs = null;
-
-/**
- * Is the blocks editor the program source (true) or is the JS editor
- * the program source (false).
- * @private
- */
-Pond.Duck.blocksEnabled_ = true;
 
 /**
  * ACE editor fires change events even on programmatically caused changes.
@@ -99,7 +93,7 @@ Pond.Duck.init = function () {
         Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
     var divLeft = rtl ? '10px' : '420px';
     var divWidth = (window.innerWidth - 440) + 'px';
-    for (var i = 0, div; div = divs[i]; i++) {
+    for (var i = 0, div; (div = divs[i]); i++) {
       div.style.top = divTop;
       div.style.left = divLeft;
       div.style.width = divWidth;
@@ -113,19 +107,13 @@ Pond.Duck.init = function () {
   onresize(null);
 
   // Inject JS editor.
-  var defaultCode = 'cannon(0, 70);';
-  BlocklyInterface.editor = window['ace']['edit']('editor');
-  BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-  BlocklyInterface.editor['setShowPrintMargin'](false);
-  var session = BlocklyInterface.editor['getSession']();
-  session['setMode']('ace/mode/javascript');
-  session['setTabSize'](2);
-  session['setUseSoftTabs'](true);
+  var session = BlocklyAce.makeAceSession();
   session['on']('change', Pond.Duck.editorChanged);
+  var defaultCode = 'cannon(0, 70);';
   BlocklyInterface.editor['setValue'](defaultCode, -1);
 
   // Lazy-load the ESx-ES5 transpiler.
-  BlocklyInterface.importBabel();
+  BlocklyAce.importBabel();
 
   // Inject Blockly.
   var toolbox = document.getElementById('toolbox');
@@ -190,18 +178,12 @@ Pond.Duck.init = function () {
     }
   ];
 
-  for (var playerData, i = 0; playerData = players[i]; i++) {
+  for (var playerData, i = 0; (playerData = players[i]); i++) {
     if (playerData.code) {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
     } else {
-      var code = function () {
-        if (Pond.Duck.blocksEnabled_) {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-        } else {
-          return BlocklyInterface.editor['getValue']();
-        }
-      };
+      var code = BlocklyInterface.getJsCode;
     }
     var name = BlocklyGames.getMsg(playerData.name);
     Pond.Battle.addAvatar(name, code, playerData.start, playerData.damage);
@@ -220,13 +202,13 @@ Pond.Duck.changeTab = function (index) {
   var JAVASCRIPT = 1;
   // Show the correct tab contents.
   var names = ['blockly', 'editor'];
-  for (var i = 0, name; name = names[i]; i++) {
+  for (var i = 0, name; (name = names[i]); i++) {
     var div = document.getElementById(name);
     div.style.visibility = (i == index) ? 'visible' : 'hidden';
   }
   // Show/hide Blockly divs.
   var names = ['.blocklyTooltipDiv', '.blocklyToolboxDiv'];
-  for (var i = 0, name; name = names[i]; i++) {
+  for (var i = 0, name; (name = names[i]); i++) {
     var div = document.querySelector(name);
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
@@ -239,7 +221,7 @@ Pond.Duck.changeTab = function (index) {
         '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
-  if (index == JAVASCRIPT && Pond.Duck.blocksEnabled_) {
+  if (index == JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     Pond.Duck.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
@@ -255,26 +237,25 @@ Pond.Duck.editorChanged = function () {
   if (Pond.Duck.ignoreEditorChanges_) {
     return;
   }
-  if (Pond.Duck.blocksEnabled_) {
-    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
-      // Break link between blocks and JS.
-      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
-      Pond.Duck.blocksEnabled_ = false;
-    } else {
-      // Abort change, preserve link.
-      var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-      Pond.Duck.ignoreEditorChanges_ = true;
-      BlocklyInterface.editor['setValue'](code, -1);
-      Pond.Duck.ignoreEditorChanges_ = false;
-    }
-  } else {
-    var code = BlocklyInterface.editor['getValue']();
+  var code = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
       BlocklyGames.workspace.clear();
       Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[0], 'tab-disabled');
-      Pond.Duck.blocksEnabled_ = true;
+      BlocklyInterface.blocksDisabled = false;
+    }
+  } else {
+    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+        confirm(BlocklyGames.getMsg('Games_breakLink'))) {
+      // Break link between blocks and JS.
+      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
+      BlocklyInterface.blocksDisabled = true;
+    } else {
+      // Abort change, preserve link.
+      Pond.Duck.ignoreEditorChanges_ = true;
+      BlocklyInterface.editor['setValue'](code, -1);
+      Pond.Duck.ignoreEditorChanges_ = false;
     }
   }
 };

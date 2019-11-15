@@ -25,6 +25,7 @@ goog.provide('Pond.Avatar');
 
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
+goog.require('BlocklyAce');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
@@ -133,7 +134,7 @@ Pond.Avatar.prototype.initInterpreter = function() {
     throw Error('Duck "' + this.name + '" has invalid code: ' + code);
   }
   try {
-    code = BlocklyInterface.transpileToEs5(code) || code;
+    code = BlocklyAce.transpileToEs5(code) || code;
   } catch (e) {
     alert(e);
     throw Error('Duck "' + this.name + '" has error in code:\n' + e);
@@ -200,7 +201,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   var locY = this.loc.y;
   // Check every enemy for existence in the scan beam.
   var closest = Infinity;
-  for (var i = 0, enemy; enemy = this.battle_.AVATARS[i]; i++) {
+  for (var i = 0, enemy; (enemy = this.battle_.AVATARS[i]); i++) {
     if (enemy == this || enemy.dead) {
       continue;
     }

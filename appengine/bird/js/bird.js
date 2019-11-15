@@ -26,6 +26,7 @@ goog.provide('Bird');
 goog.require('Bird.Blocks');
 goog.require('Bird.soy');
 goog.require('Blockly.Trashcan');
+goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.style');
@@ -230,12 +231,6 @@ Bird.Pose = {
 };
 
 /**
- * Current behaviour.
- * @type Bird.Pose
- */
-Bird.currentPose = Bird.Pose.SOAR;
-
-/**
  * Create and layout all the nodes for the walls, nest, worm, and bird.
  */
 Bird.drawMap = function() {
@@ -244,71 +239,71 @@ Bird.drawMap = function() {
   // Add four surrounding walls.
   var edge0 = -Bird.WALL_THICKNESS / 2;
   var edge1 = 100 + Bird.WALL_THICKNESS / 2;
-  Bird.MAP.walls.push(new Bird.Line(edge0, edge0, edge0, edge1));
-  Bird.MAP.walls.push(new Bird.Line(edge0, edge1, edge1, edge1));
-  Bird.MAP.walls.push(new Bird.Line(edge1, edge1, edge1, edge0));
-  Bird.MAP.walls.push(new Bird.Line(edge1, edge0, edge0, edge0));
+  Bird.MAP.walls.push(
+      new Bird.Line(edge0, edge0, edge0, edge1),
+      new Bird.Line(edge0, edge1, edge1, edge1),
+      new Bird.Line(edge1, edge1, edge1, edge0),
+      new Bird.Line(edge1, edge0, edge0, edge0));
 
   // Draw the walls.
-  for (var k = 0; k < Bird.MAP.walls.length; k++) {
-    var wall = Bird.MAP.walls[k];
-    var line = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
-    line.setAttribute('x1', wall.x0 / 100 * Bird.MAP_SIZE);
-    line.setAttribute('y1', (1 - wall.y0 / 100) * Bird.MAP_SIZE);
-    line.setAttribute('x2', wall.x1 / 100 * Bird.MAP_SIZE);
-    line.setAttribute('y2', (1 - wall.y1 / 100) * Bird.MAP_SIZE);
-    line.setAttribute('stroke', '#CCB');
-    line.setAttribute('stroke-width', Bird.WALL_THICKNESS);
-    line.setAttribute('stroke-linecap', 'round');
-    svg.appendChild(line);
+  for (var i = 0, wall; (wall = Bird.MAP.walls[i]); i++) {
+    Blockly.utils.dom.createSvgElement('line', {
+        'x1': wall.x0 / 100 * Bird.MAP_SIZE,
+        'y1': (1 - wall.y0 / 100) * Bird.MAP_SIZE,
+        'x2': wall.x1 / 100 * Bird.MAP_SIZE,
+        'y2': (1 - wall.y1 / 100) * Bird.MAP_SIZE,
+        'stroke': '#CCB',
+        'stroke-width': Bird.WALL_THICKNESS,
+        'stroke-linecap': 'round'
+      }, svg);
   }
 
   // Add nest.
-  var nestImage = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
-  nestImage.id = 'nest';
+  var nestImage = Blockly.utils.dom.createSvgElement('image', {
+      'id': 'nest',
+      'height': Bird.NEST_ICON_SIZE,
+      'width': Bird.NEST_ICON_SIZE
+    }, svg);
   nestImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/nest.png');
-  nestImage.setAttribute('height', Bird.NEST_ICON_SIZE);
-  nestImage.setAttribute('width', Bird.NEST_ICON_SIZE);
-  svg.appendChild(nestImage);
 
   // Add worm.
   if (Bird.MAP.worm) {
-    var birdImage = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
-    birdImage.id = 'worm';
-    birdImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
+    var wormImage = Blockly.utils.dom.createSvgElement('image', {
+        'id': 'worm',
+        'height': Bird.WORM_ICON_SIZE,
+        'width': Bird.WORM_ICON_SIZE
+      }, svg);
+    wormImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         'bird/worm.png');
-    birdImage.setAttribute('height', Bird.WORM_ICON_SIZE);
-    birdImage.setAttribute('width', Bird.WORM_ICON_SIZE);
-    svg.appendChild(birdImage);
   }
 
   // Bird's clipPath element, whose (x, y) is reset by Bird.displayBird
-  var birdClip = document.createElementNS(Blockly.utils.dom.SVG_NS, 'clipPath');
-  birdClip.id = 'birdClipPath';
-  var clipRect = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
-  clipRect.id = 'clipRect';
-  clipRect.setAttribute('width', Bird.BIRD_ICON_SIZE);
-  clipRect.setAttribute('height', Bird.BIRD_ICON_SIZE);
-  birdClip.appendChild(clipRect);
-  svg.appendChild(birdClip);
+  var birdClip = Blockly.utils.dom.createSvgElement('clipPath', {
+      'id': 'birdClipPath'
+    }, svg);
+  Blockly.utils.dom.createSvgElement('rect', {
+      'id': 'clipRect',
+      'height': Bird.BIRD_ICON_SIZE,
+      'width': Bird.BIRD_ICON_SIZE
+    }, birdClip);
 
   // Add bird.
-  var birdIcon = document.createElementNS(Blockly.utils.dom.SVG_NS, 'image');
-  birdIcon.id = 'bird';
+  var birdIcon = Blockly.utils.dom.createSvgElement('image', {
+      'id': 'bird',
+      'height': Bird.BIRD_ICON_SIZE * 4,  // 120 * 4 = 480
+      'width': Bird.BIRD_ICON_SIZE * 12,  // 120 * 12 = 1440
+      'clip-path': 'url(#birdClipPath)'
+    }, svg);
   birdIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/birds-120.png');
-  birdIcon.setAttribute('height', Bird.BIRD_ICON_SIZE * 4); // 120 * 4 = 480
-  birdIcon.setAttribute('width', Bird.BIRD_ICON_SIZE * 12); // 120 * 12 = 1440
-  birdIcon.setAttribute('clip-path', 'url(#birdClipPath)');
-  svg.appendChild(birdIcon);
 
   // Draw the outer square.
-  var square = document.createElementNS(Blockly.utils.dom.SVG_NS, 'rect');
-  square.setAttribute('class', 'edges');
-  square.setAttribute('width', Bird.MAP_SIZE);
-  square.setAttribute('height', Bird.MAP_SIZE);
-  svg.appendChild(square);
+  Blockly.utils.dom.createSvgElement('rect', {
+      'class': 'edges',
+      'height': Bird.MAP_SIZE,
+      'width': Bird.MAP_SIZE
+    }, svg);
 
   var xAxis = BlocklyGames.LEVEL > 3;
   var yAxis = BlocklyGames.LEVEL > 4;
@@ -318,42 +313,42 @@ Bird.drawMap = function() {
   for (var i = 0.1; i < 0.9; i += 0.1) {
     if (xAxis) {
       // Bottom edge.
-      var tick = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
-      tick.setAttribute('class', 'edges');
-      tick.setAttribute('x1', i * Bird.MAP_SIZE);
-      tick.setAttribute('y1', Bird.MAP_SIZE);
-      tick.setAttribute('x2', i * Bird.MAP_SIZE);
-      tick.setAttribute('y2', Bird.MAP_SIZE - TICK_LENGTH * major);
-      svg.appendChild(tick);
+      Blockly.utils.dom.createSvgElement('line', {
+          'class': 'edges',
+          'x1': i * Bird.MAP_SIZE,
+          'y1': Bird.MAP_SIZE,
+          'x2': i * Bird.MAP_SIZE,
+          'y2': Bird.MAP_SIZE - TICK_LENGTH * major
+        }, svg);
     }
     if (yAxis) {
       // Left edge.
-      var tick = document.createElementNS(Blockly.utils.dom.SVG_NS, 'line');
-      tick.setAttribute('class', 'edges');
-      tick.setAttribute('x1', 0);
-      tick.setAttribute('y1', i * Bird.MAP_SIZE);
-      tick.setAttribute('x2', TICK_LENGTH * major);
-      tick.setAttribute('y2', i * Bird.MAP_SIZE);
-      svg.appendChild(tick);
+      Blockly.utils.dom.createSvgElement('line', {
+          'class': 'edges',
+          'x1': 0,
+          'y1': i * Bird.MAP_SIZE,
+          'x2': i * TICK_LENGTH * major,
+          'y2': i * Bird.MAP_SIZE
+        }, svg);
     }
     if (major == 2) {
       if (xAxis) {
         // X axis.
-        var number = document.createElementNS(Blockly.utils.dom.SVG_NS, 'text');
-        number.setAttribute('class', 'edgeX');
-        number.setAttribute('x', i * Bird.MAP_SIZE + 2);
-        number.setAttribute('y', Bird.MAP_SIZE - 4);
+        var number = Blockly.utils.dom.createSvgElement('text', {
+            'class': 'edgeX',
+            'x': i * Bird.MAP_SIZE + 2,
+            'y': Bird.MAP_SIZE - 4
+          }, svg);
         number.appendChild(document.createTextNode(Math.round(i * 100)));
-        svg.appendChild(number);
       }
       if (yAxis) {
         // Y axis.
-        var number = document.createElementNS(Blockly.utils.dom.SVG_NS, 'text');
-        number.setAttribute('class', 'edgeY');
-        number.setAttribute('x', 3);
-        number.setAttribute('y', i * Bird.MAP_SIZE - 2);
+        var number = Blockly.utils.dom.createSvgElement('text', {
+            'class': 'edgeY',
+            'x': 3,
+            'y': i * Bird.MAP_SIZE - 2
+          }, svg);
         number.appendChild(document.createTextNode(Math.round(100 - i * 100)));
-        svg.appendChild(number);
       }
     }
     major = major == 1 ? 2 : 1;
@@ -376,7 +371,7 @@ Bird.init = function() {
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
-  var onresize = function(e) {
+  var onresize = function(_e) {
     var top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
@@ -409,22 +404,13 @@ Bird.init = function() {
 
   Bird.drawMap();
 
-  var defaultXml = '';
+  var defaultXml;
   if (BlocklyGames.LEVEL == 1) {
-    defaultXml =
-      '<xml>' +
-        '<block type="bird_heading" x="70" y="70"></block>' +
-      '</xml>';
+    defaultXml = '<xml><block type="bird_heading" x="70" y="70"></block></xml>';
   } else if (BlocklyGames.LEVEL < 5) {
-    defaultXml =
-      '<xml>' +
-        '<block type="bird_ifElse" x="70" y="70"></block>' +
-      '</xml>';
+    defaultXml = '<xml><block type="bird_ifElse" x="70" y="70"></block></xml>';
   } else {
-    defaultXml =
-      '<xml>' +
-        '<block type="controls_if" x="70" y="70"></block>' +
-      '</xml>';
+    defaultXml = '<xml><block type="controls_if" x="70" y="70"></block></xml>';
   }
   BlocklyInterface.loadBlocks(defaultXml, false);
 
@@ -436,7 +422,7 @@ Bird.init = function() {
   // Open interactive help.  But wait 5 seconds for the
   // user to think a bit before they are told what to do.
   setTimeout(function() {
-    BlocklyGames.workspace.addChangeListener(function() {Bird.levelHelp()});
+    BlocklyGames.workspace.addChangeListener(function() {Bird.levelHelp();});
     Bird.levelHelp();
   }, 5000);
   if (BlocklyGames.LEVEL > 8) {
@@ -564,7 +550,7 @@ Bird.levelHelp = function() {
 Bird.reset = function(first) {
   // Kill all tasks.
   for (var i = 0; i < Bird.pidList.length; i++) {
-    window.clearTimeout(Bird.pidList[i]);
+    clearTimeout(Bird.pidList[i]);
   }
   Bird.pidList = [];
 
@@ -573,9 +559,19 @@ Bird.reset = function(first) {
   Bird.angle = Bird.MAP.startAngle;
   Bird.currentAngle = Bird.angle;
   Bird.hasWorm = !Bird.MAP.worm;
-  Bird.currentPose = Bird.Pose.SOAR;
+  if (first) {
+    // Opening animation.
+    Bird.displayBird(Bird.Pose.SIT);
+    Bird.pidList.push(setTimeout(function() {
+      Bird.displayBird(Bird.Pose.FLAP);
+      Bird.pidList.push(setTimeout(function() {
+        Bird.displayBird(Bird.Pose.SOAR);
+      }, 400));
+    }, 400));
+  } else {
+    Bird.displayBird(Bird.Pose.SOAR);
+  }
 
-  Bird.displayBird();
 
   // Move the worm into position.
   var image = document.getElementById('worm');
@@ -684,7 +680,7 @@ Bird.execute = function() {
 
   Bird.log = [];
   Blockly.selected && Blockly.selected.unselect();
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
   if (start != -1 && end != -1) {
@@ -755,14 +751,12 @@ Bird.animate = function() {
     Bird.pos.x = action[1];
     Bird.pos.y = action[2];
     Bird.angle = action[3];
-    Bird.currentPose = action[0] == 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR;
-    Bird.displayBird();
+    Bird.displayBird(action[0] == 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR);
   } else if (action[0] == 'worm') {
     var worm = document.getElementById('worm');
     worm.style.visibility = 'hidden';
   } else if (action[0] == 'finish') {
-    Bird.currentPose = Bird.Pose.SIT;
-    Bird.displayBird();
+    Bird.displayBird(Bird.Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] == 'play') {
@@ -774,15 +768,19 @@ Bird.animate = function() {
 
 /**
  * Display bird at the current location, facing the current angle.
+ * @param {!Bird.Pose} pose Set new pose.
  */
-Bird.displayBird = function() {
+Bird.displayBird = function(pose) {
   var diff = BlocklyGames.normalizeAngle(Bird.currentAngle - Bird.angle);
+  if (diff > 180) {
+    diff -= 360;
+  }
   var step = 10;
   if (Math.abs(diff) <= step) {
     Bird.currentAngle = Bird.angle;
   } else {
-    Bird.currentAngle += (diff < 0) ? step : -step;
-    Bird.currentAngle = BlocklyGames.normalizeAngle(Bird.currentAngle);
+    Bird.currentAngle = BlocklyGames.normalizeAngle(Bird.currentAngle +
+        (diff < 0 ? step : -step));
   }
   // Divide into 12 quads.
   var quad = (14 - Math.round(Bird.currentAngle / 360 * 12)) % 12;
@@ -794,11 +792,11 @@ Bird.displayBird = function() {
   remainder *= -1;
 
   var row;
-  if (Bird.currentPose == Bird.Pose.SOAR) {
+  if (pose == Bird.Pose.SOAR) {
     row = 0;
-  } else if (Bird.currentPose == Bird.Pose.SIT) {
+  } else if (pose == Bird.Pose.SIT) {
     row = 3;
-  } else if (Bird.currentPose == Bird.Pose.FLAP) {
+  } else if (pose == Bird.Pose.FLAP) {
     row = Math.round(Date.now() / Bird.FLAP_SPEED) % 3;
   } else {
     throw Error('Unknown pose.');

@@ -9,6 +9,8 @@
 	"Games.puzzle": "Сложувалка",
 	"Games.maze": "Лавиринт",
 	"Games.turtle": "Желка",
+	"Games.music": "Музика",
+	"Games.genetics": "Генетика",
 	"Games.submitTitle": "Наслов:",
 	"Games.linkTooltip": "Зачувај и стави врска до блокчињата.",
 	"Games.runProgram": "Пушти го програмот",
@@ -98,5 +100,16 @@
 	"Turtle.fontSize": "Големина на фонтот",
 	"Turtle.fontNormal": "нормален",
 	"Turtle.fontBold": "задебелен",
-	"Turtle.fontItalic": "закосен"
+	"Turtle.fontItalic": "закосен",
+	"Movie.width": "ширина",
+	"Movie.height": "висина",
+	"Movie.circleDraw": "кружница",
+	"Movie.rectDraw": "правоаголник",
+	"Movie.lineDraw": "линија",
+	"Movie.setColour": "задај боја",
+	"Pond.documentation": "Документација",
+	"Pond.playerName": "Играч",
+	"Pond.targetName": "Цел",
+	"Pond.counterName": "Бројач",
+	"Gallery": "Галерија"
 }

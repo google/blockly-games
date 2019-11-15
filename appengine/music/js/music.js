@@ -31,6 +31,7 @@ goog.require('Blockly.utils.dom');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
+goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('CustomFields.FieldPitch');
@@ -612,7 +613,7 @@ Music.execute = function() {
   // For safety, recompute startCount in the generator.
   Music.startCount = 0;
   // Create an interpreter whose global scope will be the cross-thread global.
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   if (Music.startCount == 0) {  // Blank workspace.
     Music.resetButtonClick();
   }
@@ -804,8 +805,7 @@ Music.play = function(duration, pitch, id) {
   Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this note.
-  Music.activeThread.transcript.push(pitch);
-  Music.activeThread.transcript.push(duration);
+  Music.activeThread.transcript.push(pitch, duration);
   var wrong = false;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
@@ -836,8 +836,7 @@ Music.rest = function(duration, id) {
     Music.activeThread.transcript
         [Music.activeThread.transcript.length - 1] += duration;
   } else {
-    Music.activeThread.transcript.push(Music.REST);
-    Music.activeThread.transcript.push(duration);
+    Music.activeThread.transcript.push(Music.REST, duration);
   }
   var wrong = false;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -945,7 +944,7 @@ Music.checkAnswer = function() {
 
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+    var code = BlocklyInterface.getJsCode();
     var instrumentList = code.match(/setInstrument\('\w+'/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.
@@ -1058,7 +1057,7 @@ Music.submitToGallery = function() {
   document.getElementById('galleryThumb').value = thumb;
 
   // Show the dialog.
-  BlocklyDialogs.showGalleryForm();
+  BlocklyGallery.showGalleryForm();
 };
 
 /**
