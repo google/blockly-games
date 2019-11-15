@@ -22,10 +22,12 @@ __author__ = "kozbial@google.com (Monica Kozbial)"
 
 import cgi
 import json
+from google.appengine.api import users
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-userid = forms["userid"].value
+user = users.get_current_user()
+userid = user.user_id()
 # Verify user does not have too many Ducks
 max_ducks = 10
 owned_ducks_query = Duck.query(Duck.userid == userid)
@@ -34,7 +36,7 @@ if owned_ducks_count == 10:
   # There are too many ducks!!
   print("Status: 403 Owner has too many ducks")
 else:
-  print("Content-Type: text/plain\n")
+  print("Content-Type: application/json\n")
   # Create a new Duck entry
   js = forms["js"].value
   name = forms["name"].value

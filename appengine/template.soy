@@ -74,6 +74,29 @@
   </div>
 {/template}
 
+
+
+
+/**
+ * Login button div.
+ */
+{template .login private="true"}
+  <div id="login"></div>
+{/template}
+
+/**
+ * Login button content.
+ * @param loginUrl The login url.
+ * @param logoutUrl The logout url.
+ */
+{template .loginButton}
+  {if $loginUrl}
+    <a class="loginButton" href="{$loginUrl}">Login</a>
+  {elseif $logoutUrl}
+    <a class="logoutButton" href="{$logoutUrl}">Logout</a>
+  {/if}
+{/template}
+
 /**
  * Print the title span (Blockly Games : AppName).
  * @param appName Name of application.

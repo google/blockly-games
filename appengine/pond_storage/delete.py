@@ -22,6 +22,7 @@ __author__ = "kozbial@google.com (Monica Kozbial)"
 
 import cgi
 import json
+from google.appengine.api import users
 from google.appengine.ext import ndb
 from pond_storage import *
 
@@ -35,12 +36,13 @@ if not duck:
   print("Status: 400 Unknown Duck key")
 else:
   # Verify user is allowed to update this Duck, i.e. is owner
-  userid = forms["userid"].value
+  user = users.get_current_user()
+  userid = user.user_id()
   if userid != duck.userid:
     # User cannot delete this duck (user is not owner).
     print("Status: 401 Unauthorized")
   else:
-    print("Content-Type: text/plain\n")
+    print("Content-Type: application/json\n")
     duck.key.delete()
     meta = {"duck_key": duck_key.urlsafe()}
     print(json.dumps(meta))

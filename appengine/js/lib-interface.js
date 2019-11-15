@@ -26,6 +26,7 @@ goog.provide('BlocklyInterface');
 goog.require('Blockly');
 goog.require('Blockly.geras.Renderer');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.soy');
 goog.require('BlocklyGames.Msg');
 
 
@@ -65,11 +66,61 @@ BlocklyInterface.init = function() {
     linkButton.style.display = 'none';
   }
 
+  var loginDiv = document.getElementById('login');
+  if (loginDiv) {
+    BlocklyInterface.setupLogin();
+  }
+
   var languageMenu = document.getElementById('languageMenu');
   if (languageMenu) {
     languageMenu.addEventListener('change',
         BlocklyInterface.changeLanguage, true);
   }
+};
+
+/**
+ * Adds a login button to the page in the "farSide" section.
+ */
+BlocklyInterface.setupLogin = function() {
+  var farSide = document.getElementsByClassName('farSide')[0];
+  if (farSide) {
+    var onLoadCallback = function () {
+      if (this.status == 200) {
+        var responseData = JSON.parse(this.responseText);
+        var templateData = {};
+        if (responseData['login_url']) {
+          templateData.loginUrl = responseData['login_url'];
+        } else if (responseData['logout_url']) {
+          templateData.logoutUrl = responseData['logout_url'];
+        }
+        var loginButton =
+            soy.renderAsFragment(BlocklyGames.soy.loginButton, templateData,
+                null);
+        farSide.appendChild(loginButton);
+
+      }
+    };
+
+    BlocklyInterface.makeRequest('/login', [], onLoadCallback);
+  }
+};
+
+/**
+ * Fire a new AJAX request.
+ * @param {string} url URL to fetch.
+ * @param {Object.<string, string>} data Body of data to be sent in request.
+ * @param {string=} [method="POST"] The HTTP request method to use, such as
+ *    "GET", "POST", "PUT", "DELETE".
+ */
+BlocklyInterface.makeRequest = function(url, data, onLoadCallback, method) {
+  // TODO(kozbial) refactor duplicated ajax request code.
+  var xhr = new XMLHttpRequest();
+  var method = method || 'POST';
+  xhr.open(method, url);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onload = onLoadCallback;
+  var body = data.join('&');
+  xhr.send(body);
 };
 
 /**
