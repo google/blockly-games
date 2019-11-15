@@ -60,6 +60,10 @@ html[dir="RTL"] .mirrorImg {
   margin-top: 16px;
 }
 
+xml {
+  display: none;
+}
+
 /* Buttons */
 button {
   margin: 5px;
@@ -85,7 +89,7 @@ button.secondary>img {
   opacity: 1;
 }
 button>img {
-  opacity: 0.6;
+  opacity: .6;
   vertical-align: text-bottom;
 }
 button:hover:not(:disabled)>img {
@@ -126,11 +130,11 @@ button:hover:not(:disabled) {
   height: 100%;
   width: 100%;
   background-color: #000;
-  opacity: 0.3
+  opacity: .3
 }
 .dialogAnimate {
   transition-property: width height left top opacity;
-  transition-duration: 0.2s;
+  transition-duration: .2s;
   transition-timing-function: linear;
 }
 .dialogHiddenContent {
@@ -157,11 +161,33 @@ button:hover:not(:disabled) {
 #galleryForm>header {
   font-size: larger;
 }
-#galleryForm>footer {
-  font-size: smaller;
-}
 #galleryForm>* {
   margin-top: 1em;
   margin-left: 1em;
   margin-right: 1em;
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+.link {
+  background-position: 0 0;
+}
+.camera {
+  background-position: -21px 0;
+}
+.stop {
+  background-position: -42px 0;
+}
+.run {
+  background-position: -63px 0;
+}
+.gallery {
+  background-position: -63px -21px;
+}
+.close {
+  background-position: -42px -42px;
 }

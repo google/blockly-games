@@ -24,6 +24,7 @@
 goog.provide('Pond.Tutor');
 
 goog.require('Blockly.utils.Coordinate');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -119,6 +120,7 @@ Pond.Tutor.init = function() {
   }
 
   if (editorDiv) {
+    BlocklyInterface.blocksDisabled = true;
     // Remove the container for source code in the 'done' dialog.
     var containerCode = document.getElementById('containerCode');
     containerCode.parentNode.removeChild(containerCode);
@@ -129,13 +131,7 @@ Pond.Tutor.init = function() {
     } else {
       defaultCode = 'cannon(0, 70);';
     }
-    BlocklyInterface.editor = window['ace']['edit']('editor');
-    BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-    BlocklyInterface.editor['setShowPrintMargin'](false);
-    var session = BlocklyInterface.editor['getSession']();
-    session['setMode']('ace/mode/javascript');
-    session['setTabSize'](2);
-    session['setUseSoftTabs'](true);
+    BlocklyAce.makeAceSession();
     BlocklyInterface.loadBlocks(defaultCode + '\n');
 
     var onresize = function(e) {
@@ -147,24 +143,18 @@ Pond.Tutor.init = function() {
     window.addEventListener('scroll', onresize);
 
     // Lazy-load the ESx-ES5 transpiler.
-    BlocklyInterface.importBabel();
+    BlocklyAce.importBabel();
   }
 
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  for (var avatarData, i = 0; avatarData = Pond.Tutor.PLAYERS[i]; i++) {
+  for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
     if (avatarData.code) {
       var div = document.getElementById(avatarData.code);
       var code = div.textContent;
     } else {
-      if (blocklyDiv) {
-        var code = function() {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-        };
-      } else {
-        var code = function() {return BlocklyInterface.editor['getValue']()};
-      }
+      var code = BlocklyInterface.getJsCode;
     }
     var name = BlocklyGames.getMsg(avatarData.name);
     Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);

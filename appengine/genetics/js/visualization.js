@@ -183,7 +183,7 @@ Genetics.Visualization.init = function() {
     var changeTab = function(index) {
       // Show the correct tab contents.
       var names = ['displayContent', 'charts'];
-      for (var i = 0, name; name = names[i]; i++) {
+      for (var i = 0, name; (name = names[i]); i++) {
         var div = document.getElementById(name);
         if (name == 'displayContent') {
           div.style.visibility = (i == index) ? 'visible' : 'hidden';
@@ -323,7 +323,7 @@ Genetics.Visualization.resetChartData_ = function() {
           false));
 
   var playerLabels = [{label: 'Time', type: 'number'}];
-  for (var i = 0, player; player = Genetics.Cage.players[i]; i++) {
+  for (var i = 0, player; (player = Genetics.Cage.players[i]); i++) {
     playerLabels.push({label: player.name, type: 'number'});
   }
   Genetics.Visualization.pickFightChartWrapper_.setDataTable(
@@ -378,7 +378,7 @@ Genetics.Visualization.reset = function() {
   var nameRow = document.getElementById('playerNameRow');
   var statsRow = document.getElementById('playerStatRow');
 
-  for (var playerId = 0, player; player = Genetics.Cage.players[playerId];
+  for (var playerId = 0, player; (player = Genetics.Cage.players[playerId]);
       playerId++) {
     // Assign a colour to each avatar.
     var hexColour = Genetics.Visualization.COLOURS[playerId];

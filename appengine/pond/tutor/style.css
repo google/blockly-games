@@ -3,8 +3,8 @@
   font-size: large;
 }
 
-#help .blocklyDraggable {
-  cursor: default;
+#help .blocklyEditableText {
+  cursor: default !important;
 }
 
 #help .blocklyEditableText:hover>rect {

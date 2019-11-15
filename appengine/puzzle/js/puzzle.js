@@ -206,7 +206,7 @@ Puzzle.checkAnswers = function() {
   var blocks = BlocklyGames.workspace.getAllBlocks();
   var errors = 0;
   var badBlocks = [];
-  for (var b = 0, block; block = blocks[b]; b++) {
+  for (var b = 0, block; (block = blocks[b]); b++) {
     if (!block.isCorrect()) {
       errors++;
       // Bring the offending blocks to the front.

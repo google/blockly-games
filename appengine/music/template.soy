@@ -98,13 +98,13 @@
           <clipPath id="slowClipPath">
             <rect width=26 height=12 x=5 y=14 />
           </clipPath>
-          <image xlink:href="music/icons.png" height=42 width=84 x=-21 y=-10
+          <image xlink:href="common/icons.png" height=63 width=84 x=-21 y=-10
               clip-path="url(#slowClipPath)" />
           <!-- Fast icon. -->
           <clipPath id="fastClipPath">
             <rect width=26 height=16 x=120 y=10 />
           </clipPath>
-          <image xlink:href="music/icons.png" height=42 width=84 x=120 y=-11
+          <image xlink:href="common/icons.png" height=63 width=84 x=120 y=-11
               clip-path="url(#fastClipPath)" />
         </svg>
       </td>
@@ -152,7 +152,6 @@
         {sp}
         <input id="galleryTitle" type="text" name="title" required>
       </div>
-      <footer><!--Legal disclaimer goes here if needed.--></footer>
 
       <div class="farSide">
         <button id="galleryCancel" type="button">
@@ -269,7 +268,7 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none" xmlns="https://developers.google.com/blockly/xml">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     {if $ij.level == 10}
       <category name="{msg meaning="Games.music" desc="IBID"}Music{/msg}">
         <block type="music_pitch">

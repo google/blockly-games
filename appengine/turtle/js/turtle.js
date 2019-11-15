@@ -32,6 +32,7 @@ goog.require('Blockly.utils.math');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
+goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Slider');
@@ -466,7 +467,7 @@ Turtle.reset = function() {
 
   // Kill all tasks.
   for (var i = 0; i < Turtle.pidList.length; i++) {
-    window.clearTimeout(Turtle.pidList[i]);
+    clearTimeout(Turtle.pidList[i]);
   }
   Turtle.pidList.length = 0;
   Turtle.interpreter = null;
@@ -666,7 +667,7 @@ Turtle.execute = function() {
 
   Turtle.reset();
   Blockly.selected && Blockly.selected.unselect();
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
   Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
 };
@@ -873,5 +874,5 @@ Turtle.submitToGallery = function() {
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
-  BlocklyDialogs.showGalleryForm();
+  BlocklyGallery.showGalleryForm();
 };

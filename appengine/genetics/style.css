@@ -239,25 +239,6 @@
   100% {opacity: 1;}
 }
 
-/* Sprited icons. */
-.icon21 {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
-}
-.close {
-  background-position: -21px 0px;
-}
-.link {
-  background-position: 0px 0px;
-}
-.run {
-  background-position: 0px -21px;
-}
-.stop {
-  background-position: -21px -21px;
-}
-
 /* Tabs */
 .tab {
   background: #fff;
