@@ -21,37 +21,27 @@
  */
 'use strict';
 
-goog.provide('Pond.Duck.Board');
+goog.provide('Pond.Duck.Online.Board');
 
 goog.require('BlocklyGames');
 goog.require('Pond');
 goog.require('Pond.Duck');
-goog.require('Pond.Duck.Board.soy');
+goog.require('Pond.Duck.Online.Board.soy');
 
 /**
  * Initialize Ace and the pond.  Called on page load.
  */
-Pond.Duck.Board.init = function () {
+Pond.Duck.Online.Board.init = function () {
   //TODO: Have a loading screen before loading the ducks
-  var userid = Pond.Duck.Board.querystring('userid');
-  Pond.Duck.Board.getAllDucks(userid);
+  var userid = BlocklyGames.getStringParamFromUrl('userid', '');
+  Pond.Duck.Online.Board.getAllDucks(userid);
 };
-
-Pond.Duck.Board.querystring = function(obj) {  
-  var result = [];
-  var match;
-  var re = new RegExp('(?:\\?|&)' + obj + '=(.*?)(?=&|$)', 'gi');
-  while ((match = re.exec(document.location.search)) !== null) {
-      result.push(match[1]);
-  }
-  return result;
-}
 
 /**
  * 
  */
-Pond.Duck.Board.setTemplate = function(ducks) {
-  document.body.innerHTML = Pond.Duck.Board.soy.start({}, null,
+Pond.Duck.Online.Board.setTemplate = function(ducks) {
+  document.body.innerHTML = Pond.Duck.Online.Board.soy.start({}, null,
     {
       lang: BlocklyGames.LANG,
       html: BlocklyGames.IS_HTML,
@@ -62,19 +52,19 @@ Pond.Duck.Board.setTemplate = function(ducks) {
 /**
  * 
  */
-Pond.Duck.Board.getAllDucks = function(userid) {
+Pond.Duck.Online.Board.getAllDucks = function(userid) {
   var url = 'pond-storage/ducks?userid=' + userid;
   var onLoadCallback = function() {
     var text;
     if (this.status == 200) {
       var duckList = JSON.parse(this.responseText);
-      Pond.Duck.Board.setTemplate(duckList)
+      Pond.Duck.Online.Board.setTemplate(duckList)
     } else {
       text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
           + this.status;
     }
   };
-  Pond.Duck.Board.makeRequest(url, 'GET', {}, onLoadCallback);
+  Pond.Duck.Online.Board.makeRequest(url, 'GET', {}, onLoadCallback);
 };
 
 /**
@@ -83,7 +73,7 @@ Pond.Duck.Board.getAllDucks = function(userid) {
  * @param {Object.<string, string>} data Body of data to be sent in request.
  * @private
  */
-Pond.Duck.Board.makeRequest = function(url, type, data, onLoadCallback) {
+Pond.Duck.Online.Board.makeRequest = function(url, type, data, onLoadCallback) {
   var xhr = new XMLHttpRequest();
   xhr.open(type, url);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -91,4 +81,4 @@ Pond.Duck.Board.makeRequest = function(url, type, data, onLoadCallback) {
   xhr.send();
 };
 
-window.addEventListener('load', Pond.Duck.Board.init);
+window.addEventListener('load', Pond.Duck.Online.Board.init);

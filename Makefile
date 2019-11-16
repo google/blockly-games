@@ -63,10 +63,7 @@ pond-duck-en: pond-multi-common-en
 pond-online-en: pond-multi-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/online/generated/en/soy.js --srcs appengine/pond/duck/online/template.soy
 	python build-app.py pond/duck/online en
-
-pond-duck-board-en:
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/board/generated/en/soy.js --srcs appengine/pond/duck/board/template.soy
-	python build-app.py pond/duck/board en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/online/board/generated/en/soy.js --srcs appengine/pond/duck/online/board/template.soy
 
 pond-multi-common-en: pond-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy

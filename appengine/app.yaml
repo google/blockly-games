@@ -103,9 +103,9 @@ handlers:
   static_files: pond-duck-online.html
   upload: pond-duck-online\.html
   secure: always
-- url: /pond-duck-board
-  static_files: pond-duck-board.html
-  upload: pond-duck-board\.html
+- url: /pond-duck-online-board
+  static_files: pond-duck-online-board.html
+  upload: pond-duck-online-board\.html
   secure: always
 - url: /pond/
   static_dir: pond
