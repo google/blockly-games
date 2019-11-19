@@ -21,6 +21,7 @@ limitations under the License.
 __author__ = "aschmiedt@google.com (Abby Schmiedt)"
 
 import cgi
+import re
 import json
 from google.appengine.ext import ndb
 from pond_storage import *
@@ -30,7 +31,12 @@ urlsafe_key = forms["key"].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
 if verify_duck(duck):
-  duck_key = create_duck(duck.name, duck.code)
+  # Make a new name for the copy.
+  if duck.name[-1].isdigit():
+    new_duck_name = re.sub('\d+',lambda x: str(int(x.group()) + 1), duck.name)
+  else:
+    new_duck_name = duck.name + '2'
+  duck_key = create_duck(new_duck_name, duck.code)
   if duck_key:
     meta = {"duck_key": duck_key.urlsafe()}
     if forms.has_key("getUserDucks"):

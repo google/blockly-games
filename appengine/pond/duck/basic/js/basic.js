@@ -42,6 +42,11 @@ Pond.Duck.Basic.init = function () {
       });
 
   Pond.Duck.init();
+  Pond.Duck.loadDefaultPlayers();
+  Pond.Duck.loadDefaultCode();
+
+  // Show Blockly editor tab.
+  Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);
 };
 
 window.addEventListener('load', Pond.Duck.Basic.init);

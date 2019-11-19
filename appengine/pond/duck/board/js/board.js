@@ -73,7 +73,7 @@ Pond.Duck.Board.deleteDuck = function(e) {
 Pond.Duck.Board.editDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
   var duckId = e.target.getAttribute('data-duckurl');
-  var url = window.location.origin + '/pond-duck-online?duckId=' + duckId;
+  var url = window.location.origin + '/pond-duck-online?duck=' + duckId;
   window.location = url;
 };
 

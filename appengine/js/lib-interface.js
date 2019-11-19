@@ -115,9 +115,11 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
 /**
  * Set the given code (XML or JS) to the editor (Blockly or ACE).
  * @param {string} code XML or JS code.
+ * @param {boolean=} opt_setJSOverride Whether to set Js editor, even if blocks
+ *    are not currently disabled.
  */
-BlocklyInterface.setCode = function(code) {
-  if (BlocklyInterface.blocksDisabled) {
+BlocklyInterface.setCode = function(code, opt_setJSOverride) {
+  if (BlocklyInterface.blocksDisabled || opt_setJSOverride) {
     // Text editor.
     BlocklyInterface.editor['setValue'](code, -1);
   } else {

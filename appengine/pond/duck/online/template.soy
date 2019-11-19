@@ -28,7 +28,19 @@
 
   {call Pond.Duck.soy.start}
     {param appName}
-      Pond Online
+      Pond Online{sp}
+    {/param}
+    {param tabareaHtml}
+      <div id="editorBar" class="tab-bar">
+        <div class="editor tab tab-selected">{{msg meaning="Games.blocks" desc="IBID"}}Blocks{{/msg}}</div>
+        <div class="editor tab">JavaScript</div>
+        <div class="tab">Duck Info</div>
+      </div>
+      <div class="tab-bar-clear"></div>
+      <img id="spinner" style="display: none;" src="common/loading.gif" height=15 width=15>
+      <div id="blockly" class="tab-content"></div>
+      <div id="editor" class="tab-content"></div>
+      <div id="duck-info" class="tab-content"></div>
     {/param}
   {/call}
 
@@ -36,6 +48,47 @@
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.abortDialog /}
   {call BlocklyGames.soy.storageDialog /}
+{/template}
+
+/**
+ * Duck info tab content.
+ * @param duck Object storing duck information.
+ */
+{template .duckInfo}
+  <div class="playerDuckIcon">
+    <img src="common/1x1.gif" class="playerDuckBody">
+    <img src="common/1x1.gif" class="playerDuckHead">
+  </div>
+
+  <p>
+    Name: {$duck['name']}
+  </p>
+
+  <p>
+    Ranking: {if $duck['ranking']}{$duck['ranking']}{else}UNRANKED{/if}
+  </p>
+
+  {if $duck['published']}
+    <button id="unPublishButton">
+      Unpublish this Duck
+    </button>
+  {else}
+    <button id="publishButton">
+      Publish this Duck
+    </button>
+  {/if}
+  <br>
+  <button id="deleteButton">
+    Delete this Duck
+  </button>
+  <br>
+  <button id="copyButton">
+    Copy this Duck
+  </button>
+  <br>
+  <button id="saveButton">
+    Save this Duck
+  </button>
 {/template}
 
 /**

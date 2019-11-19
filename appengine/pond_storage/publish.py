@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Update the specified Duck 
+"""Publish the specified Duck 
 """
 
 __author__ = "kozbial@google.com (Monica Kozbial)"
@@ -30,18 +30,15 @@ urlsafe_key = forms["key"].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
 if verify_duck(duck):
-  # Update duck information
-  duck.code.js = forms["js"].value
-  if forms.has_key("xml"):
-    duck.code.opt_xml = forms["xml"].value
+  publish = forms["publish"].value
+  if publish == "true":
+    if not duck.publish():
+      print("Status: 401 Already published")
   else:
-    del duck.code.opt_xml
-  if forms.has_key("name"):
-    name = forms["name"].value
-    duck.name = name
-  duck.put()
-  duck_info = get_duck_info(duck)
-  if duck_info:
-    print("Content-Type: application/json\n")
-    print(json.dumps(duck_info))
+    if not duck.unpublish():
+      print("Status: 402 Not published")
+duck_info = get_duck_info(duck)
+if duck_info:
+  print("Content-Type: application/json\n")
+  print(json.dumps(duck_info))
 

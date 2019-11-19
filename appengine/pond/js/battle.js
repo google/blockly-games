@@ -156,6 +156,13 @@ Pond.Battle.reset = function() {
 };
 
 /**
+ * Clears the currently loaded avatars.
+ */
+Pond.Battle.clearAvatars = function() {
+  Pond.Battle.AVATARS = [];
+};
+
+/**
  * Create avatar and add it to the battle.
  * @param {string} name Name of avatar.
  * @param {string|!Function} code Avatar's code, or a code generator.
