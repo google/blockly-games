@@ -20,15 +20,17 @@ limitations under the License.
 
 __author__ = "kozbial@google.com (Monica Kozbial)"
 
+import cgi
 import json
 from google.appengine.api import users
 
-print("Content-Type: application/json\n")
+forms = cgi.FieldStorage()
+dest_url = forms["dest_url"].value
 user = users.get_current_user()
 meta = {}
 if user:
-  meta["logout_url"] = users.create_logout_url('/')
+  meta["logout_url"] = users.create_logout_url(dest_url)
 else:
-  meta["login_url"] = users.create_login_url('/')
-
+  meta["login_url"] = users.create_login_url(dest_url)
+print("Content-Type: application/json\n")
 print(json.dumps(meta))

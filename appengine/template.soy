@@ -45,6 +45,8 @@
     <span id="Games_resetTooltip">{msg meaning="Games.resetTooltip" desc="tooltip - Pressing this button restores the player to the start position and enables the user's program to be run again."}Stop the program and reset the level.{/msg}</span>
     <span id="Games_resetProgram">{{msg meaning="Games.resetProgram" desc="button label - Pressing this button causes the output of the program to be erased but does not delete the user's program).\n{lb}{lb}Identical|Reset{rb}{rb}"}}Reset{{/msg}}</span>
     <span id="Games_help">{{msg meaning="Games.help" desc="button label - Pressing this button shows help information.\n{lb}{lb}Identical|Help{rb}{rb}"}}Help{{/msg}}</span>
+    <span id="Games_login">{{msg meaning="Games.login" desc="button label - Pressing this button will redirect to login."}}Login{{/msg}}</span>
+    <span id="Games_logout">{{msg meaning="Games.logout" desc="button label - Pressing this button will redirect to logout."}}Logout{{/msg}}</span>
     <span id="Games_dialogOk">{{msg meaning="Games.dialogOk" desc="button label - Pressing this button closes help information.\n{lb}{lb}Identical|OK{rb}{rb}"}}OK{{/msg}}</span>
     <span id="Games_dialogCancel">{{msg meaning="Games.dialogCancel" desc="button label - Pressing this button cancels a proposed action.\n{lb}{lb}Identical|Cancel{rb}{rb}"}}Cancel{{/msg}}</span>
 
@@ -74,26 +76,17 @@
   </div>
 {/template}
 
-
-
-
 /**
- * Login button div.
- */
-{template .login private="true"}
-  <div id="login"></div>
-{/template}
-
-/**
- * Login button content.
+ * Login/logout button.
  * @param loginUrl The login url.
  * @param logoutUrl The logout url.
  */
 {template .loginButton}
+  &nbsp;
   {if $loginUrl}
-    <a class="loginButton" href="{$loginUrl}">Login</a>
+    <a class="loginButton" href="{$loginUrl}">{msg meaning="Games.login" desc="IBID"}Login{/msg}</a>
   {elseif $logoutUrl}
-    <a class="logoutButton" href="{$logoutUrl}">Logout</a>
+    <a class="logoutButton" href="{$logoutUrl}">{msg meaning="Games.logout" desc="IBID"}Logout{/msg}</a>
   {/if}
 {/template}
 

@@ -13,14 +13,13 @@ h1 a {
 a:hover {
   color: #f00;
 }
+
+#header_cta > * {
+  vertical-align: middle;
+}
 .farSide {
   text-align: right;
 }
-
-.farSide > * {
-  vertical-align: middle;
-}
-
 html[dir="RTL"] .farSide {
   text-align: left;
 }
@@ -58,6 +57,10 @@ img[src$="help.png"] {
 
 html[dir="RTL"] .mirrorImg {
   transform: scaleX(-1);
+}
+
+#languageMenu {
+  margin: 16px 0;
 }
 
 xml {
@@ -102,6 +105,7 @@ button:hover:not(:disabled) {
   box-shadow: 2px 2px 5px #888;
 }
 
+/* Login/Logout */
 .loginButton, .logoutButton {
   border-radius: 4px;
   font-size: large;
@@ -109,13 +113,11 @@ button:hover:not(:disabled) {
   padding: 10px;
   text-decoration: none;
 }
-
 .loginButton {
   border: 1px solid #4d90fe;
   background-color: #4d90fe;
   color: #fff;
 }
-
 .logoutButton {
   border: 1px solid #ddd;
   background-color: #eee;
@@ -133,8 +135,6 @@ button:hover:not(:disabled) {
   box-shadow: 2px 2px 5px #888;
   color: #000;
 }
-
-
 
 /* Dialogs */
 #dialog {
