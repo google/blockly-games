@@ -103,9 +103,9 @@ handlers:
   static_files: pond-duck-online.html
   upload: pond-duck-online\.html
   secure: always
-- url: /pond-duck-online-board
-  static_files: pond-duck-online-board.html
-  upload: pond-duck-online-board\.html
+- url: /pond-board
+  static_files: pond-board.html
+  upload: pond-board\.html
   secure: always
 - url: /pond/
   static_dir: pond
@@ -122,7 +122,6 @@ handlers:
 - url: /pond-storage/ducks
   script: pond_storage/get-ducks.py
   secure: always
-
 
 # Genetics app.
 - url: /genetics

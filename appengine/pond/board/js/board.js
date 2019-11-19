@@ -21,27 +21,25 @@
  */
 'use strict';
 
-goog.provide('Pond.Duck.Online.Board');
+goog.provide('Pond.Board');
 
 goog.require('BlocklyGames');
-goog.require('Pond');
-goog.require('Pond.Duck');
-goog.require('Pond.Duck.Online.Board.soy');
+goog.require('Pond.Board.soy');
 
 /**
  * Initialize Ace and the pond.  Called on page load.
  */
-Pond.Duck.Online.Board.init = function () {
+Pond.Board.init = function () {
   //TODO: Have a loading screen before loading the ducks
   var userid = BlocklyGames.getStringParamFromUrl('userid', '');
-  Pond.Duck.Online.Board.getAllDucks(userid);
+  Pond.Board.getAllDucks(userid);
 };
 
 /**
  * 
  */
-Pond.Duck.Online.Board.setTemplate = function(ducks) {
-  document.body.innerHTML = Pond.Duck.Online.Board.soy.start({}, null,
+Pond.Board.setTemplate = function(ducks) {
+  document.body.innerHTML = Pond.Board.soy.start({}, null,
     {
       lang: BlocklyGames.LANG,
       html: BlocklyGames.IS_HTML,
@@ -52,19 +50,19 @@ Pond.Duck.Online.Board.setTemplate = function(ducks) {
 /**
  * 
  */
-Pond.Duck.Online.Board.getAllDucks = function(userid) {
+Pond.Board.getAllDucks = function(userid) {
   var url = 'pond-storage/ducks?userid=' + userid;
   var onLoadCallback = function() {
     var text;
     if (this.status == 200) {
       var duckList = JSON.parse(this.responseText);
-      Pond.Duck.Online.Board.setTemplate(duckList)
+      Pond.Board.setTemplate(duckList)
     } else {
       text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
           + this.status;
     }
   };
-  Pond.Duck.Online.Board.makeRequest(url, 'GET', {}, onLoadCallback);
+  Pond.Board.makeRequest(url, 'GET', {}, onLoadCallback);
 };
 
 /**
@@ -73,7 +71,7 @@ Pond.Duck.Online.Board.getAllDucks = function(userid) {
  * @param {Object.<string, string>} data Body of data to be sent in request.
  * @private
  */
-Pond.Duck.Online.Board.makeRequest = function(url, type, data, onLoadCallback) {
+Pond.Board.makeRequest = function(url, type, data, onLoadCallback) {
   var xhr = new XMLHttpRequest();
   xhr.open(type, url);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -81,4 +79,4 @@ Pond.Duck.Online.Board.makeRequest = function(url, type, data, onLoadCallback) {
   xhr.send();
 };
 
-window.addEventListener('load', Pond.Duck.Online.Board.init);
+window.addEventListener('load', Pond.Board.init);
