@@ -30,21 +30,9 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName: $appName /}
-          {/call}
-        </h1>
-      </td>
-      <td id="header_cta" class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName: $appName /}
+  {/call}
 
   {call Pond.soy.visualization /}
 
