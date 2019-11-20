@@ -153,6 +153,20 @@ Pond.Duck.Online.encodeFormElements_ = function(form) {
   return data
 };
 
+/**
+ * Fire a new AJAX request.
+ * @param {string} url URL to fetch.
+ * @param {Object.<string, string>} data Body of data to be sent in request.
+ * @private
+ */
+Pond.Duck.Online.makeRequest = function(url, data, onLoadCallback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onload = onLoadCallback;
+  xhr.send(data.join('&'));
+};
+
 Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   for(var i = 0, fieldId; (fieldId = requiredFieldsIds[i]); i++) {
     var el = document.getElementById(fieldId);
@@ -165,7 +179,7 @@ Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   var form = document.getElementById(formId);
   var data = Pond.Duck.Online.encodeFormElements_(form);
   var onLoadCallback = Pond.Duck.Online.createDuckFormOnLoadCallback_(action);
-  BlocklyInterface.makeRequest(form.action, data, onLoadCallback);
+  Pond.Duck.Online.makeRequest(form.action, data, onLoadCallback);
   BlocklyDialogs.hideDialog(true);
 };
 
