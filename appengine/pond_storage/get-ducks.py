@@ -30,30 +30,9 @@ userId = forms["userid"].value
 duckQuery = Duck.query().filter(Duck.userid==userId)
 duckList = []
 for duck in duckQuery:
-  duckList.append(duck.name)
+  jsonDuck = {}
+  jsonDuck['name'] = duck.name
+  jsonDuck['duckId'] = duck.key.urlsafe()
+  duckList.append(jsonDuck)
+print("Content-Type: application/json\n")
 print(json.dumps(duckList))
-# duck = duck_key.get()
-# # Verify Duck exists in database
-# if not duck:
-#   # Duck with specified key does not exist.
-#   print("Status: 400 Unknown Duck key")
-# else:
-#   # Verify user is allowed to update this Duck, i.e. is owner
-#   userid = forms["userid"].value
-#   if userid != duck.userid:
-#     # User cannot delete this duck (user is not owner).
-#     print("Status: 401 Unauthorized")
-#   else:
-#     print("Content-Type: text/plain\n")
-#     # Update duck information
-#     duck.code.js = forms["js"].value
-#     if forms.has_key("xml"):
-#       duck.code.opt_xml = forms["xml"].value
-#     else:
-#       del duck.code.opt_xml     
-#     if forms.has_key("name"):
-#       name = forms["name"].value
-#       duck.name = name
-#     duck.put()
-#     meta = {"duck_key": duck_key.urlsafe()}
-#     print(json.dumps(meta))

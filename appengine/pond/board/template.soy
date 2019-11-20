@@ -25,13 +25,17 @@
     <th>Create a copy</th>
     <th>Delete</th>
   </tr>
-  {foreach $name in $ij.ducks}
+  {foreach $duck in $ij.ducks}
     <tr>
       <td>ranking</td>
-      <td>{$name}</td>
+      <td>{$duck.name}</td>
       <td>edit</td>
-      <td>create a copy</td>
-      <td>delete</td>
+      <td>
+        <button class="copyDuck" duckid={$duck.duckId}>Copy</button>
+      </td>
+      <td>
+        <button class="deleteDuck" duckid={$duck.duckId}>Delete</button>
+      </td>
     </tr>
   {/foreach}
 </table>

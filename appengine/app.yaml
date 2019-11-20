@@ -122,6 +122,9 @@ handlers:
 - url: /pond-storage/ducks
   script: pond_storage/get-ducks.py
   secure: always
+- url: /pond-storage/copy
+  script: pond_storage/copy.py
+  secure: always
 
 # Genetics app.
 - url: /genetics
