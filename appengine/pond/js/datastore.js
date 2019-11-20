@@ -1,7 +1,9 @@
 goog.provide('Pond.Datastore');
 
 /**
- * TODO: Get all ducks
+ * Copy the duck with the given duckId.
+ * @param {string} duckId The duckId of the duck to copy.
+ * @param {!Function} onLoadCallback The function to be called when response is received.
  */
 Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
     var data = [];
@@ -11,28 +13,32 @@ Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
 };
 
 /**
- * TODO: Create Duck 
+ * Create a duck with the given name.
+ * @param {string} name The name of the duck.
+ * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Datastore.createDuck = function(name, userid, onLoadCallback) {
+Pond.Datastore.createDuck = function(name, onLoadCallback) {
     var data = [];
     data.push(Pond.Datastore.encodeElements('name', name));
-    data.push(Pond.Datastore.encodeElements('userid', userid));
 
     Pond.Datastore.makeRequest_('pond-storage/create', 'POST', data, onLoadCallback);
 };
 
 /**
- * Delete duck
+ * Delete the duck with the given duckId.
+ * @param {string} duckId The duckId of the duck to copy.
+ * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Datastore.deleteDuck = function(duckId, callback) {
+Pond.Datastore.deleteDuck = function(duckId, onLoadCallback) {
     var data = [];
     data.push(Pond.Datastore.encodeElements('key', duckId));
     data.push(Pond.Datastore.encodeElements('userid', 'Abby'));
-    Pond.Datastore.makeRequest_('pond-storage/delete', 'POST', data, callback);
+    Pond.Datastore.makeRequest_('pond-storage/delete', 'POST', data, onLoadCallback);
 };
 
 /**
- * TODO: Get all ducks
+ * Get all the ducks for the current user.
+ * @param {!Function} onLoadCallback The function to be called when response is received.
  */
 Pond.Datastore.getAllDucks = function(onLoadCallback) {
     var url = 'pond-storage/ducks';
@@ -40,7 +46,7 @@ Pond.Datastore.getAllDucks = function(onLoadCallback) {
 };
 
 /**
- * 
+ * TODO: Remove. We should instead be using the commone make request.
  */
 Pond.Datastore.makeRequest_ = function(url, type, data, onLoadCallback) {
     var xhr = new XMLHttpRequest();
@@ -66,7 +72,7 @@ Pond.Datastore.encodeElements = function(name, value) {
     return encodeURIComponent(name) + '=' + encodeURIComponent(value);
 };
   
-// TODO: Get one duck
+// TODO: Get a single duck
 
 // TODO: Update a duck
 

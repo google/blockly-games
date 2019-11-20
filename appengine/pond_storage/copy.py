@@ -15,10 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Update the specified Duck 
+"""Make a copy of the specified Duck 
 """
 
-__author__ = "kozbial@google.com (Monica Kozbial)"
+__author__ = "aschmiedt@google.com (Abby Schmiedt)"
 
 import cgi
 import json
@@ -47,6 +47,7 @@ else:
     newDuck = Duck(userid=duck.userid, name=duck.name, code=duck.code)
     duck_key = newDuck.put()
     duckQuery = Duck.query().filter(Duck.userid==userid)
+    # TODO: This is going to change once we figure out our models.
     duckList = []
     for duck in duckQuery:
       jsonDuck = {}

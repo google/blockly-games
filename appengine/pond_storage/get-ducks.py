@@ -15,14 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Update the specified Duck 
+"""Get all ducks for the current user 
 """
 
-__author__ = "kozbial@google.com (Monica Kozbial)"
+__author__ = "aschmiedt@google.com (Abby Schmiedt)"
 
 import cgi
 import json
-from google.appengine.ext import ndb
 from google.appengine.api import users
 from pond_storage import *
 
