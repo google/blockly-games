@@ -76,7 +76,9 @@ Pond.Duck.Board.getDucksCallback = function() {
 };
 
 /**
- * Set the template and add bind all events.s
+ * Set the template and add bind all events.
+ * @param {Array<Object>} ducks A list holding all the ducks for
+ * the current user. A duck consists of a name and a duckId.
  */
 Pond.Duck.Board.setTemplate = function(ducks) {
   document.body.innerHTML = Pond.Duck.Board.soy.start({}, null,
