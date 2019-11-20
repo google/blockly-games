@@ -1,0 +1,11 @@
+td {
+    padding: 1em;
+    font-family: sans-serif;
+    font-weight: 300;
+}
+
+th {
+    padding: 1em;
+    font-family: sans-serif;
+    font-weight: bold;
+}
