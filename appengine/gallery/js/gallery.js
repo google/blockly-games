@@ -86,7 +86,7 @@ Gallery.loadMore = function() {
     url += '&cursor=' + encodeURIComponent(Gallery.cursor);
   }
   xhr.open('GET', url, true);
-  xhr.onreadystatechange = Gallery.receiveMore;
+  xhr.onload = Gallery.receiveMore;
   xhr.send();
   Gallery.xhr_ = xhr;
 };
@@ -96,9 +96,6 @@ Gallery.loadMore = function() {
  */
 Gallery.receiveMore = function() {
   var xhr = Gallery.xhr_;
-  if (xhr.readyState !== 4) {
-    return;  // Not ready yet.
-  }
   document.getElementById('loading').style.visibility = 'hidden';
   Gallery.xhr_ = null;
   if (xhr.status !== 200) {

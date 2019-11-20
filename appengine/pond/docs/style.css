@@ -27,32 +27,32 @@ pre, code {
 
 .pondSpec {
   border: 2px solid rgb(133, 65, 155);
-  background: rgba(133, 65, 155, 0.2);
+  background: rgba(133, 65, 155, .2);
 }
 
 .logicSpec {
   border: 2px solid rgb(74, 107, 153);
-  background: rgba(74, 107, 153, 0.2);
+  background: rgba(74, 107, 153, .2);
 }
 
 .loopsSpec {
   border: 2px solid rgb(77, 154, 61);
-  background: rgba(77, 154, 61, 0.2);
+  background: rgba(77, 154, 61, .2);
 }
 
 .mathSpec {
   border: 2px solid rgb(73, 80, 155);
-  background: rgba(73, 80, 155, 0.2);
+  background: rgba(73, 80, 155, .2);
 }
 
 .variablesSpec {
   border: 2px solid rgb(147, 68, 111);
-  background: rgba(147, 68, 111, 0.2);
+  background: rgba(147, 68, 111, .2);
 }
 
 .functionsSpec {
   border: 2px solid rgb(133, 65, 155);
-  background: rgba(133, 65, 155, 0.2);
+  background: rgba(133, 65, 155, .2);
 }
 
 .zippy-header-collapsed>img {
@@ -107,13 +107,11 @@ pre, code {
   font-size: 11pt;
 }
 
-.blocklyNonEditableText>rect,
 .blocklyEditableText>rect {
   fill: #fff;
   fill-opacity: .6;
 }
 
-.blocklyNonEditableText>text,
 .blocklyEditableText>text {
   fill: #000;
 }

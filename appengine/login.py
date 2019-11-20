@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Delete the specified Duck 
+"""Gets login or logout url. 
 """
 
 __author__ = "kozbial@google.com (Monica Kozbial)"
@@ -23,26 +23,14 @@ __author__ = "kozbial@google.com (Monica Kozbial)"
 import cgi
 import json
 from google.appengine.api import users
-from google.appengine.ext import ndb
-from pond_storage import *
 
 forms = cgi.FieldStorage()
-urlsafe_key = forms["key"].value
-duck_key = ndb.Key(urlsafe=urlsafe_key)
-duck = duck_key.get()
-# Verify Duck exists in database
-if not duck:
-  # Duck with specified key does not exist.
-  print("Status: 400 Unknown Duck key")
+dest_url = forms["dest_url"].value
+user = users.get_current_user()
+meta = {}
+if user:
+  meta["logout_url"] = users.create_logout_url(dest_url)
 else:
-  # Verify user is allowed to update this Duck, i.e. is owner
-  user = users.get_current_user()
-  userid = user.user_id()
-  if userid != duck.userid:
-    # User cannot delete this duck (user is not owner).
-    print("Status: 401 Unauthorized")
-  else:
-    print("Content-Type: application/json\n")
-    duck.key.delete()
-    meta = {"duck_key": duck_key.urlsafe()}
-    print(json.dumps(meta))
+  meta["login_url"] = users.create_login_url(dest_url)
+print("Content-Type: application/json\n")
+print(json.dumps(meta))

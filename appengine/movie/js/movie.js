@@ -33,6 +33,7 @@ goog.require('Blockly.utils.style');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
+goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Movie.Answers');
@@ -395,7 +396,7 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   try {
     var interpreter = new Interpreter(code, Movie.initInterpreter);
   } catch (e) {
@@ -579,7 +580,7 @@ Movie.checkAnswers = function() {
  */
 Movie.submitToGallery = function() {
   var blockCount = BlocklyGames.workspace.getAllBlocks().length;
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));
     return;
@@ -602,7 +603,7 @@ Movie.submitToGallery = function() {
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
-  BlocklyDialogs.showGalleryForm();
+  BlocklyGallery.showGalleryForm();
 };
 
 window.addEventListener('load', Movie.init);

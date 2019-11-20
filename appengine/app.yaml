@@ -102,6 +102,7 @@ handlers:
 - url: /pond-duck-online
   static_files: pond-duck-online.html
   upload: pond-duck-online\.html
+  login: required
   secure: always
 - url: /pond-board
   static_files: pond-board.html
@@ -112,12 +113,15 @@ handlers:
   secure: always
 - url: /pond-storage/create
   script: pond_storage/create.py
+  login: required
   secure: always
 - url: /pond-storage/update
   script: pond_storage/update.py
+  login: required
   secure: always
 - url: /pond-storage/delete
   script: pond_storage/delete.py
+  login: required
   secure: always
 - url: /pond-storage/ducks
   script: pond_storage/get-ducks.py
@@ -183,6 +187,11 @@ handlers:
 - url: /robots\.txt
   static_files: robots.txt
   upload: robots\.txt
+  secure: always
+
+# Login
+- url: /login
+  script: login.py
   secure: always
 
 # Legacy Reddit redirects.

@@ -36,6 +36,12 @@ goog.require('BlocklyGames.Msg');
 BlocklyInterface.editor = null;
 
 /**
+ * Is the blocks editor disabled due to the JS editor having control?
+ * @type boolean
+ */
+BlocklyInterface.blocksDisabled = false;
+
+/**
  * Common startup tasks for all apps.
  */
 BlocklyInterface.init = function() {
@@ -129,7 +135,7 @@ BlocklyInterface.setCode = function(code) {
  * @return {string} XML or JS code.
  */
 BlocklyInterface.getCode = function() {
-  if (BlocklyInterface.editor) {
+  if (BlocklyInterface.blocksDisabled) {
     // Text editor.
     var text = BlocklyInterface.editor['getValue']();
   } else {
@@ -137,6 +143,19 @@ BlocklyInterface.getCode = function() {
     var text = BlocklyInterface.getXml();
   }
   return text;
+};
+
+/**
+ * Get the user's executable code as JS from the editor (Blockly or ACE).
+ * @return {string} JS code.
+ */
+BlocklyInterface.getJsCode = function() {
+  if (BlocklyInterface.blocksDisabled) {
+    // Text editor.
+    return BlocklyInterface.editor['getValue']();
+  }
+  // Blockly editor.
+  return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
 };
 
 /**
@@ -157,7 +176,6 @@ BlocklyInterface.getXml = function() {
   }
   return Blockly.Xml.domToText(xml);
 };
-
 
 /**
  * Return the main workspace.
@@ -188,21 +206,21 @@ BlocklyInterface.indexPage = function() {
 };
 
 /**
- * Save the blocks and reload with a different language.
+ * Save the blocks/code for a one-time reload.
  */
-BlocklyInterface.changeLanguage = function() {
+BlocklyInterface.saveToSessionStorage = function() {
   // Store the blocks for the duration of the reload.
   // MSIE 11 does not support sessionStorage on file:// URLs.
   if (window.sessionStorage) {
-    if (BlocklyInterface.editor) {
-      var text = BlocklyInterface.editor['getValue']();
-    } else {
-      var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-      var text = Blockly.Xml.domToText(xml);
-    }
-    window.sessionStorage.loadOnceBlocks = text;
+    window.sessionStorage.loadOnceBlocks = BlocklyInterface.getCode();
   }
+};
 
+/**
+ * Save the blocks and reload with a different language.
+ */
+BlocklyInterface.changeLanguage = function() {
+  BlocklyInterface.saveToSessionStorage();
   BlocklyGames.changeLanguage();
 };
 
@@ -333,39 +351,6 @@ BlocklyInterface.importPrettify = function() {
     document.head.appendChild(script);
   }
   setTimeout(load, 1);
-};
-
-/**
- * Load the Babel transpiler.
- * Defer loading until page is loaded and responsive.
- */
-BlocklyInterface.importBabel = function() {
-  function load() {
-    //<script type="text/javascript"
-    //  src="third-party/babel.min.js"></script>
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'third-party/babel.min.js';
-    document.head.appendChild(script);
-  }
-  setTimeout(load, 1);
-};
-
-/**
- * Attempt to transpile user code to ES5.
- * @param {string} code User code that may contain ES6+ syntax.
- * @return {string|undefined} ES5 code, or undefined if Babel not loaded.
- * @throws SyntaxError if code is unparsable.
- */
-BlocklyInterface.transpileToEs5 = function(code) {
-  if (typeof Babel != 'object') {
-    return undefined;
-  }
-  var options = {
-    'presets': ['es2015']
-  };
-  var fish = Babel.transform(code, options);
-  return fish.code;
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.
