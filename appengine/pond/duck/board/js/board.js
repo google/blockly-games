@@ -42,7 +42,7 @@ Pond.Duck.Board.init = function () {
  */
 Pond.Duck.Board.copyDuck = function(e) {
   var duckId = e.srcElement.getAttribute('duckId');
-  Pond.Datastore.copyDuck(duckId, Pond.Duck.Board.copyCallback);
+  Pond.Datastore.copyDuck(duckId, Pond.Duck.Board.getDucksCallback);
 };
 
 /**
@@ -51,7 +51,7 @@ Pond.Duck.Board.copyDuck = function(e) {
  */
 Pond.Duck.Board.deleteDuck = function(e) {
   var duckId = e.srcElement.getAttribute('duckId');
-  Pond.Datastore.deleteDuck(duckId, Pond.Duck.Board.deleteCallback);
+  Pond.Datastore.deleteDuck(duckId, Pond.Duck.Board.getDucksCallback);
 };
 
 /**
@@ -71,30 +71,6 @@ Pond.Duck.Board.getDucksCallback = function() {
     Pond.Duck.Board.setTemplate(duckList)
   } else {
     text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
-        + this.status;
-  }
-};
-
-/**
- * Callback for when a duck is deleted.
- */
-Pond.Duck.Board.deleteCallback = function() {
-  if (this.status == 200) {
-    // TODO: Get all ducks and update the template
-  } else {
-    var text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
-        + this.status;
-  }
-};
-
-/**
- * Callback for when a duck is copied.
- */
-Pond.Duck.Board.copyCallback = function() {
-  if (this.status == 200) {
-    // TODO: Get all ducks and update the template
-  } else {
-    var text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
         + this.status;
   }
 };
