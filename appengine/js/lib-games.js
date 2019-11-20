@@ -185,8 +185,8 @@ BlocklyGames.isRtl = function() {
 };
 
 /**
- * Is the current language (BlocklyGames.LANG) an RTL language?
- * @return {boolean} True if RTL, false if LTR.
+ * Does the current game require login?
+ * @return {boolean} True if login required, false otherwise.
  */
 BlocklyGames.isLoginRequired = function() {
   return BlocklyGames.NAME.endsWith('-online');
