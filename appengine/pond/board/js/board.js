@@ -33,14 +33,13 @@ goog.require('Pond.Board.soy');
  */
 Pond.Board.init = function () {
   //TODO: Have a loading screen before loading the ducks
-  var userid = BlocklyGames.getStringParamFromUrl('userid', '');
-  Pond.Datastore.getAllDucks(userid, Pond.Board.getDucksCallback);
+  Pond.Datastore.getAllDucks(Pond.Board.getDucksCallback);
 };
 
 
 Pond.Board.copyDuck = function(e) {
   var duckId = e.srcElement.getAttribute('duckId');
-  Pond.Datastore.copyDuck(duckId, 'Abby', Pond.Board.copyCallback);
+  Pond.Datastore.copyDuck(duckId, Pond.Board.copyCallback);
 };
 
 Pond.Board.deleteDuck = function(e) {
@@ -77,7 +76,7 @@ Pond.Board.copyCallback = function() {
   var text;
   if (this.status == 200) {
     var duckList = JSON.parse(this.responseText);
-    Pond.Datastore.getAllDucks('Abby', Pond.Board.getDucksCallback);    
+    Pond.Datastore.getAllDucks(Pond.Board.getDucksCallback);
   } else {
     text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
         + this.status;

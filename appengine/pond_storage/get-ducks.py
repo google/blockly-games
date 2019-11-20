@@ -23,11 +23,13 @@ __author__ = "kozbial@google.com (Monica Kozbial)"
 import cgi
 import json
 from google.appengine.ext import ndb
+from google.appengine.api import users
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-userId = forms["userid"].value
-duckQuery = Duck.query().filter(Duck.userid==userId)
+user = users.get_current_user()
+userid = user.user_id()
+duckQuery = Duck.query().filter(Duck.userid==userid)
 duckList = []
 for duck in duckQuery:
   jsonDuck = {}

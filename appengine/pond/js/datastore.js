@@ -3,10 +3,9 @@ goog.provide('Pond.Datastore');
 /**
  * TODO: Get all ducks
  */
-Pond.Datastore.copyDuck = function(duckId, userid, onLoadCallback) {
+Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
     var data = [];
     data.push(Pond.Datastore.encodeElements('key', duckId));
-    data.push(Pond.Datastore.encodeElements('userid', userid));
 
     Pond.Datastore.makeRequest_('pond-storage/copy', 'POST', data, onLoadCallback);
 };
@@ -35,8 +34,8 @@ Pond.Datastore.deleteDuck = function(duckId, callback) {
 /**
  * TODO: Get all ducks
  */
-Pond.Datastore.getAllDucks = function(userid, onLoadCallback) {
-    var url = 'pond-storage/ducks?userid=' + userid;
+Pond.Datastore.getAllDucks = function(onLoadCallback) {
+    var url = 'pond-storage/ducks';
     Pond.Datastore.makeRequest_(url, 'GET', [], onLoadCallback);
 };
 
