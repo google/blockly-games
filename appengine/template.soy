@@ -77,17 +77,53 @@
 {/template}
 
 /**
- * Login/logout button.
- * @param loginUrl The login url.
- * @param logoutUrl The logout url.
+ * Top toolbar for page
+ * @param appName Name of application.
+ * @param levelLinkSuffix Any extra parameters for links.
+ * @param hasLinkButton Whether the page has a link button.
+ * @param hasHelpButton Whether the page has a help button.
+ * @param farLeftHtml Additional content to add to farLeft toolbar.
  */
-{template .loginButton}
-  &nbsp;
-  {if $loginUrl}
-    <a class="loginButton" href="{$loginUrl}">{msg meaning="Games.login" desc="IBID"}Login{/msg}</a>
-  {elseif $logoutUrl}
-    <a class="logoutButton" href="{$logoutUrl}">{msg meaning="Games.logout" desc="IBID"}Logout{/msg}</a>
-  {/if}
+{template .headerBar private="true"}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call .titleSpan}
+            {param appName: $appName /}
+          {/call}
+          {if $ij.level}
+            {call .levelLinks}
+              {param level: $ij.level /}
+              {param maxLevel: $ij.maxLevel /}
+              {param lang: $ij.lang /}
+              {param suffix}{if $levelLinkSuffix}{$levelLinkSuffix}{/if}{/param}
+            {/call}
+          {/if}
+        </h1>
+      </td>
+      <td id="header_cta" class="farSide">
+        <select id="languageMenu"></select>
+        {if $hasLinkButton}
+          &nbsp;
+          <button id="linkButton"
+                  title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+            <img src="common/1x1.gif" class="link icon21">
+          </button>
+        {/if}
+        {if $hasHelpButton}
+          &nbsp;
+          <button id="helpButton">
+            {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+          </button>
+        {/if}
+        {if $farLeftHtml}
+          &nbsp;
+          {$farLeftHtml |noAutoescape}
+        {/if}
+      </td>
+    </tr>
+  </table>
 {/template}
 
 /**
@@ -127,6 +163,20 @@
       <a class="level_dot" id="level{$i}" href="?lang={$lang}&level={$i}{$suffix}"></a>
     {/if}
   {/for}
+{/template}
+
+/**
+ * Login/logout button.
+ * @param loginUrl The login url.
+ * @param logoutUrl The logout url.
+ */
+{template .loginButton}
+  &nbsp;
+  {if $loginUrl}
+    <a class="loginButton" href="{$loginUrl}">{msg meaning="Games.login" desc="IBID"}Login{/msg}</a>
+  {elseif $logoutUrl}
+    <a class="logoutButton" href="{$logoutUrl}">{msg meaning="Games.logout" desc="IBID"}Logout{/msg}</a>
+  {/if}
 {/template}
 
 /**
