@@ -29,13 +29,11 @@
  */
 {template .start}
   {call .messages /}
-  <h1>
-    {call BlocklyGames.soy.titleSpan}
-      {param appName}
-        {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
-      {/param}
-    {/call}
-  </h1>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+    {/param}
+  {/call}
 
   {call Pond.soy.visualization /}
 

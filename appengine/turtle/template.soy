@@ -61,36 +61,14 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}
-            {/param}
-          {/call}
-          {call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="common/1x1.gif" class="link icon21">
-        </button>
-        &nbsp;
-        <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}
+    {/param}
+    {param hasLinkButton: true /}
+    {param hasHelpButton: true /}
+  {/call}
+
   <div id="visualization">
     <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
     <canvas id="answer" width="400" height="400" style="display: none"></canvas>

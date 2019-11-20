@@ -163,33 +163,20 @@
  */
 {template .start}
   {call .messages /}
-  <table id="header" width="100%">
-    <tr>
-      <td valign="bottom">
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.puzzle" desc="IBID"}Puzzle{/msg}
-            {/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="helpButton">
-          {msg meaning="Games.help" desc="IBID"}Help{/msg}
-        </button>
-        &nbsp;
-        <button id="checkButton" class="primary">
-          {msg meaning="Puzzle.checkAnswers"
-               desc="A label on a button the user can press to check his/her answers."}
-            Check Answers
-          {/msg}
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.puzzle" desc="IBID"}Puzzle{/msg}
+    {/param}
+    {param hasHelpButton: true /}
+    {param farLeftHtml}
+      <button id="checkButton" class="primary">
+        {msg meaning="Puzzle.checkAnswers"
+            desc="A label on a button the user can press to check his/her answers."}
+          Check Answers
+        {/msg}
+      </button>
+    {/param}
+  {/call}
 
   <div id="blockly"></div>
 
