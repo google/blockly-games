@@ -16,8 +16,8 @@
  */
 
 /**
- * @fileoverview Creates a multi-user pond (duck page).
- * @author fraser@google.com (Neil Fraser)
+ * @fileoverview Creates a view of all the ducks for a user.
+ * @author aschmiedt@google.com (Abby Schmiedt)
  */
 'use strict';
 
@@ -29,28 +29,41 @@ goog.require('Pond.Duck.Board.soy');
 
 
 /**
- * Initialize Ace and the pond.  Called on page load.
+ * Initialize the board holding all the ducks for the current user.
  */
 Pond.Duck.Board.init = function () {
   //TODO: Have a loading screen before loading the ducks
   Pond.Datastore.getAllDucks(Pond.Duck.Board.getDucksCallback);
 };
 
-
+/**
+ * Copy the duck with the given duckId.
+ * @param {Event} e The event that holds the duckId.
+ */
 Pond.Duck.Board.copyDuck = function(e) {
   var duckId = e.srcElement.getAttribute('duckId');
   Pond.Datastore.copyDuck(duckId, Pond.Duck.Board.copyCallback);
 };
 
+/**
+ * Delete the duck with the given duckId.
+ * @param {Event} e The event that holds the duckId.
+ */
 Pond.Duck.Board.deleteDuck = function(e) {
   var duckId = e.srcElement.getAttribute('duckId');
   Pond.Datastore.deleteDuck(duckId, Pond.Duck.Board.deleteCallback);
 };
 
+/**
+ * TODO: Show the dialog to create a duck.
+ */
 Pond.Duck.Board.createDuck = function() {
   console.log("Show dialog here");
 };
 
+/**
+ * Callback for when all the ducks for a user are fetched.s
+ */
 Pond.Duck.Board.getDucksCallback = function() {
   var text;
   if (this.status == 200) {
@@ -62,32 +75,34 @@ Pond.Duck.Board.getDucksCallback = function() {
   }
 };
 
+/**
+ * Callback for when a duck is deleted.
+ */
 Pond.Duck.Board.deleteCallback = function() {
-  var text;
   if (this.status == 200) {
-    console.log("In delete");
+    // TODO: Get all ducks and update the template
   } else {
-    text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
-        + this.status;
-  }
-};
-
-Pond.Duck.Board.copyCallback = function() {
-  var text;
-  if (this.status == 200) {
-    var duckList = JSON.parse(this.responseText);
-    Pond.Datastore.getAllDucks(Pond.Duck.Board.getDucksCallback);
-  } else {
-    text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
+    var text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
         + this.status;
   }
 };
 
 /**
- * 
+ * Callback for when a duck is copied.
+ */
+Pond.Duck.Board.copyCallback = function() {
+  if (this.status == 200) {
+    // TODO: Get all ducks and update the template
+  } else {
+    var text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
+        + this.status;
+  }
+};
+
+/**
+ * Set the template and add bind all events.s
  */
 Pond.Duck.Board.setTemplate = function(ducks) {
-  console.log("ducks length: " + ducks.length);
   document.body.innerHTML = Pond.Duck.Board.soy.start({}, null,
     {
       lang: BlocklyGames.LANG,

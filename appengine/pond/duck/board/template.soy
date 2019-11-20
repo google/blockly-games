@@ -11,6 +11,20 @@
  */
 
 /**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call Pond.soy.messages /}
+  <div style="display: none">
+    <span id="Pond_ranking">{{msg meaning="Pond.ranking" desc="Make a copy of the selected duck"}}Ranking{{/msg}}</span>
+    <span id="Pond_name">{{msg meaning="Pond.name" desc="Make a copy of the selected duck"}}Name{{/msg}}</span>
+    <span id="Pond_edit">{{msg meaning="Pond.edit" desc="Make a copy of the selected duck"}}Edit{{/msg}}</span>
+    <span id="Pond_copy">{{msg meaning="Pond.copy" desc="Make a copy of the selected duck"}}Copy{{/msg}}</span>
+    <span id="Pond_delete">{{msg meaning="Pond.delete" desc="Delete"}}Delete{{/msg}}</span>
+  </div>
+{/template}
+
+/**
  * Web page structure.
  */
 {template .start}
@@ -19,11 +33,11 @@
   </h1>
 <table>
   <tr>
-    <th>Ranking</th>
-    <th>Name</th>
-    <th>Edit</th>
-    <th>Create a copy</th>
-    <th>Delete</th>
+    <th>{{msg meaning="Pond.ranking" desc="IBID"}}Ranking{{/msg}}</th>
+    <th>{{msg meaning="Pond.name" desc="IBID"}}Name{{/msg}}</th>
+    <th>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</th>
+    <th>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</th>
+    <th>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</th>
   </tr>
   {foreach $duck in $ij.ducks}
     <tr>
@@ -31,10 +45,10 @@
       <td>{$duck.name}</td>
       <td>edit</td>
       <td>
-        <button class="copyDuck" duckid={$duck.duckId}>Copy</button>
+        <button class="copyDuck" duckid={$duck.duckId}>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</button>
       </td>
       <td>
-        <button class="deleteDuck" duckid={$duck.duckId}>Delete</button>
+        <button class="deleteDuck" duckid={$duck.duckId}>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</button>
       </td>
     </tr>
   {/foreach}
