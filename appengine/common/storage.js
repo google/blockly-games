@@ -60,7 +60,8 @@ BlocklyStorage.restoreBlocks = function() {
  */
 BlocklyStorage.link = function() {
   var code = BlocklyInterface.getCode();
-  BlocklyStorage.makeRequest_('/storage', 'xml', code);
+  BlocklyStorage.makeRequest('/storage', 'xml=' + encodeURIComponent(code),
+      BlocklyStorage.handleLinkResponse_);
 };
 
 /**
@@ -68,63 +69,103 @@ BlocklyStorage.link = function() {
  * @param {string} key Key to XML, obtained from href.
  */
 BlocklyStorage.retrieveXml = function(key) {
-  BlocklyStorage.makeRequest_('/storage', 'key', key);
+  BlocklyStorage.makeRequest('/storage', 'key=' + encodeURIComponent(key),
+      BlocklyStorage.handleRetrieveXmlResponse_);
 };
 
 /**
- * Global reference to current AJAX request.
- * @type XMLHttpRequest
- * @private
+ * Global reference to current AJAX requests.
+ * @type Object.<string, XMLHttpRequest>
  */
-BlocklyStorage.xhr_ = null;
+BlocklyStorage.xhr_ = {};
 
 /**
  * Fire a new AJAX request.
  * @param {string} url URL to fetch.
- * @param {string} name Name of parameter.
- * @param {string} content Content of parameter.
- * @private
+ * @param {Array.<string>} data Body of data to be sent in request.
+ * @param {?Function=} opt_onSuccess Function to call after request completes
+ *    successfully.
+ * @param {?Function=} opt_onFailure Function to call after request completes
+ *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
+ * @param {string=} [opt_method='POST'] The HTTP request method to use.
  */
-BlocklyStorage.makeRequest_ = function(url, name, content) {
-  if (BlocklyStorage.xhr_) {
-    // AJAX call is in-flight.
-    BlocklyStorage.xhr_.abort();
+BlocklyStorage.makeFormRequest =
+    function(form, opt_onSuccess, opt_onFailure, opt_method) {
+  var data = [];
+  for (var i = 0, element; (element = form.elements[i]); i++) {
+    if (element.name) {
+      data[i] = encodeURIComponent(element.name) + '=' +
+          encodeURIComponent(element.value);
+    }
   }
-  BlocklyStorage.xhr_ = new XMLHttpRequest();
-  BlocklyStorage.xhr_.name = name;
-  BlocklyStorage.xhr_.onload = BlocklyStorage.handleRequest_;
-  BlocklyStorage.xhr_.open('POST', url);
-  BlocklyStorage.xhr_.setRequestHeader('Content-Type',
-      'application/x-www-form-urlencoded');
-  BlocklyStorage.xhr_.send(name + '=' + encodeURIComponent(content));
+  BlocklyStorage.makeRequest(
+      form.action, data.join('&'), opt_onSuccess, opt_onFailure, opt_method);
 };
 
 /**
- * Callback function for AJAX call.
+ * Fire a new AJAX request.
+ * @param {string} url URL to fetch.
+ * @param {string} data Body of data to be sent in request.
+ * @param {?Function=} opt_onSuccess Function to call after request completes
+ *    successfully.
+ * @param {?Function=} opt_onFailure Function to call after request completes
+ *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
+ * @param {string=} [opt_method='POST'] The HTTP request method to use.
+ */
+BlocklyStorage.makeRequest =
+    function(url, data, opt_onSuccess, opt_onFailure, opt_method) {
+  if (BlocklyStorage.xhr_[url]) {
+    // AJAX call is in-flight.
+    BlocklyStorage.xhr_[url].abort();
+  }
+  BlocklyStorage.xhr_[url] = new XMLHttpRequest();
+  BlocklyStorage.xhr_[url].onload = function() {
+    if (this.status === 200) {
+      if (opt_onSuccess) {
+        opt_onSuccess.call(this);
+      }
+    } else if (opt_onFailure) {
+      opt_onFailure.call(this);
+    } else {
+      BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
+          'xhr_.status: ' + this.status);
+    }
+    BlocklyStorage.xhr_[url] = null;
+  };
+  var method = opt_method || 'POST';
+  BlocklyStorage.xhr_[url].open(method, url);
+  BlocklyStorage.xhr_[url].setRequestHeader('Content-Type',
+'application/x-www-form-urlencoded');
+  BlocklyStorage.xhr_[url].send(data);
+};
+
+/**
+ * Callback function for link AJAX call.
+ * @param {string} responseText Response to request.
  * @private
  */
-BlocklyStorage.handleRequest_ = function() {
-  var xhr = BlocklyStorage.xhr_;
-  if (xhr.status != 200) {
-    BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
-        'xhr_.status: ' + xhr.status);
+BlocklyStorage.handleLinkResponse_ = function() {
+  var data = this.responseText.trim();
+  window.location.hash = data;
+  BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
+      window.location.href));
+  BlocklyStorage.monitorChanges_();
+};
+
+/**
+ * Callback function for retrieve xml AJAX call.
+ * @param {string} responseText Response to request.
+ * @private
+ */
+BlocklyStorage.handleRetrieveXmlResponse_ = function() {
+  var data = this.responseText.trim();
+  if (!data.length) {
+    BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
+        window.location.hash));
   } else {
-    var data = xhr.responseText.trim();
-    if (xhr.name == 'xml') {
-      window.location.hash = data;
-      BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
-          window.location.href));
-    } else if (xhr.name == 'key') {
-      if (!data.length) {
-        BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
-            window.location.hash));
-      } else {
-        BlocklyInterface.setCode(data);
-      }
-    }
-    BlocklyStorage.monitorChanges_();
+    BlocklyInterface.setCode(data);
   }
-  BlocklyStorage.xhr_ = null;
+  BlocklyStorage.monitorChanges_();
 };
 
 /**

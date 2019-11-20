@@ -68,6 +68,11 @@ Gallery.init = function() {
 Gallery.hasMore = true;
 
 /**
+ * Flag for whether gallery is waiting on loading request.
+ */
+Gallery.loadRequested_ = false;
+
+/**
  * Opaque key to current data loading cursor.
  */
 Gallery.cursor = '';
@@ -76,38 +81,35 @@ Gallery.cursor = '';
  * Load more entries.
  */
 Gallery.loadMore = function() {
-  if (Gallery.xhr_ || !Gallery.hasMore) {
+  if (Gallery.loadRequested_ || !Gallery.hasMore) {
     return;
   }
+
   document.getElementById('loading').style.visibility = 'visible';
-  var xhr = new XMLHttpRequest();
   var url = '/gallery-api/view?app=' + encodeURIComponent(Gallery.app);
   if (Gallery.cursor) {
     url += '&cursor=' + encodeURIComponent(Gallery.cursor);
   }
-  xhr.open('GET', url, true);
-  xhr.onload = Gallery.receiveMore;
-  xhr.send();
-  Gallery.xhr_ = xhr;
+  var onFailure = function() {
+    console.warn('Load returned status ' + this.status);
+    Gallery.loadRequested_ = false;
+    Gallery.hasMore = false;
+    if (this.status === 401) {
+      // User isn't logged in.  Bounce to the admin page.
+      location = '/admin';
+    }
+  };
+  BlocklyStorage['makeRequest'](url, '', Gallery.receiveMore, onFailure, 'GET');
+  Gallery.loadRequested_ = true;
 };
 
 /**
  * Receive entries from the Gallery server.
  */
 Gallery.receiveMore = function() {
-  var xhr = Gallery.xhr_;
+  Gallery.loadRequested_ = false;
   document.getElementById('loading').style.visibility = 'hidden';
-  Gallery.xhr_ = null;
-  if (xhr.status !== 200) {
-    console.warn('Load returned status ' + xhr.status);
-    Gallery.hasMore = false;
-    if (xhr.status === 401) {
-      // User isn't logged in.  Bounce to the admin page.
-      location = '/admin';
-    }
-    return;
-  }
-  var meta = JSON.parse(xhr.responseText);
+  var meta = JSON.parse(this.responseText);
   if (!meta['more']) {
     Gallery.hasMore = false;
   }
@@ -144,12 +146,9 @@ Gallery.display = function(record) {
 Gallery.publish = function(element) {
   var key = element.id.substring(8);
   var publish = Number(element.checked);
-
-  var xhr = new XMLHttpRequest();
   var url = '/gallery-api/admin';
-  xhr.open('POST', url, true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.send('key=' + encodeURIComponent(key) + '&public=' + publish);
+  var data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
+  BlocklyStorage['makeRequest'](url, data);
 };
 
 /**

@@ -91,23 +91,11 @@ BlocklyGallery.gallerySubmit_ = function() {
     title.focus();
     return;
   }
+
   var form = document.getElementById('galleryForm');
-  var data = [];
-  for (var i = 0, element; (element = form.elements[i]); i++) {
-    if (element.name) {
-      data[i] = encodeURIComponent(element.name) + '=' +
-          encodeURIComponent(element.value);
-    }
-  }
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', form.action);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-    var text = (xhr.status == 200) ?
-        BlocklyGames.getMsg('Games_submitted') :
-        BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
-    BlocklyDialogs.storageAlert(null, text);
+  var onSuccess = function() {
+    BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games_submitted'));
   };
-  xhr.send(data.join('&'));
+  BlocklyStorage['makeFormRequest'](form, onSuccess);
   BlocklyDialogs.hideDialog(true);
 };
