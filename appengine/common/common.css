@@ -16,6 +16,9 @@ a:hover {
 .farSide {
   text-align: right;
 }
+#header_cta>* {
+  vertical-align: middle;
+}
 html[dir="RTL"] .farSide {
   text-align: left;
 }
@@ -56,8 +59,7 @@ html[dir="RTL"] .mirrorImg {
 }
 
 #languageMenu {
-  vertical-align: top;
-  margin-top: 16px;
+  margin: 16px 0;
 }
 
 xml {
