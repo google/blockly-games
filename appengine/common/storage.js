@@ -72,12 +72,19 @@ BlocklyStorage.retrieveXml = function(key) {
 };
 
 /**
+ * Sets up login button.
+ */
+BlocklyStorage.setupLogin = function() {
+  var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
+  BlocklyStorage.makeRequest_('/login', 'dest_url', destUrl);
+};
+
+/**
  * Global reference to current AJAX request.
  * @type XMLHttpRequest
  * @private
  */
 BlocklyStorage.xhr_ = null;
-
 /**
  * Fire a new AJAX request.
  * @param {string} url URL to fetch.
@@ -110,19 +117,22 @@ BlocklyStorage.handleRequest_ = function() {
         'xhr_.status: ' + xhr.status);
   } else {
     var data = xhr.responseText.trim();
-    if (xhr.name == 'xml') {
+    if (xhr.name === 'xml') {
       window.location.hash = data;
       BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
           window.location.href));
-    } else if (xhr.name == 'key') {
+      BlocklyStorage.monitorChanges_();
+    } else if (xhr.name === 'key') {
       if (!data.length) {
         BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
             window.location.hash));
       } else {
         BlocklyInterface.setCode(data);
       }
+      BlocklyStorage.monitorChanges_();
+    } else if (xhr.name === 'dest_url') {
+      BlocklyGames.addLoginButton(data);
     }
-    BlocklyStorage.monitorChanges_();
   }
   BlocklyStorage.xhr_ = null;
 };

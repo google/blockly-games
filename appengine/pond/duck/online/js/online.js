@@ -58,20 +58,6 @@ Pond.Duck.Online.storeUserCode_ = function(formPrefix) {
       BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml();
 };
 
-/**
- * Fire a new AJAX request.
- * @param {string} url URL to fetch.
- * @param {Object.<string, string>} data Body of data to be sent in request.
- * @private
- */
-Pond.Duck.Online.makeRequest = function(url, data, onLoadCallback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', url);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.onload = onLoadCallback;
-  xhr.send(data.join('&'));
-};
-
 Pond.Duck.Online.showDuckForm_ = function(formPrefix, defaultFocusElId, storeUserCode) {
   if (storeUserCode) {
     Pond.Duck.Online.storeUserCode_(formPrefix);
@@ -152,7 +138,8 @@ Pond.Duck.Online.createDuckFormOnLoadCallback_ = function(action) {
 /**
  * Encode form elements in map.
  * @param {HTMLFormElement} form Form to encode elements from.
- * @return {Object.<string, string>} Encoded elements.
+ * @return {Array<string>} Encoded elements in a list of strings in the form:
+ *    "<name>=<value>"
  * @private
  */
 Pond.Duck.Online.encodeFormElements_ = function(form) {
@@ -178,7 +165,7 @@ Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   var form = document.getElementById(formId);
   var data = Pond.Duck.Online.encodeFormElements_(form);
   var onLoadCallback = Pond.Duck.Online.createDuckFormOnLoadCallback_(action);
-  Pond.Duck.Online.makeRequest(form.action, data, onLoadCallback);
+  BlocklyInterface.makeRequest(form.action, data, onLoadCallback);
   BlocklyDialogs.hideDialog(true);
 };
 
@@ -186,21 +173,21 @@ Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
  * Create a duck form.
  */
 Pond.Duck.Online.duckCreate = function() {
-  Pond.Duck.Online.submitDuckForm_(['duckCreateUserId', 'duckCreateName'], 'duckCreateForm', 'created');
+  Pond.Duck.Online.submitDuckForm_(['duckCreateName'], 'duckCreateForm', 'created');
 };
 
 /**
  * Update a duck form.
  */
 Pond.Duck.Online.duckUpdate = function() {
-  Pond.Duck.Online.submitDuckForm_(['duckUpdateDuckKey', 'duckUpdateUserId'], 'duckUpdateForm', 'updated');
+  Pond.Duck.Online.submitDuckForm_(['duckUpdateDuckKey'], 'duckUpdateForm', 'updated');
 };
 
 /**
  * Delete a duck form.
  */
 Pond.Duck.Online.duckDelete = function() {
-  Pond.Duck.Online.submitDuckForm_(['duckDeleteDuckKey', 'duckDeleteUserId'], 'duckDeleteForm', 'deleted');
+  Pond.Duck.Online.submitDuckForm_(['duckDeleteDuckKey'], 'duckDeleteForm', 'deleted');
 };
 
 window.addEventListener('load', Pond.Duck.Online.init);

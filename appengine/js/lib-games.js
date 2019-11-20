@@ -24,6 +24,7 @@
 goog.provide('BlocklyGames');
 
 goog.require('Blockly.utils.math');
+goog.require('BlocklyGames.soy');
 
 
 /**
@@ -184,6 +185,14 @@ BlocklyGames.isRtl = function() {
 };
 
 /**
+ * Does the current game require login?
+ * @return {boolean} True if login required, false otherwise.
+ */
+BlocklyGames.isLoginRequired = function() {
+  return BlocklyGames.NAME.endsWith('-online');
+};
+
+/**
  * Name of app (maze, bird, ...).
  */
 BlocklyGames.NAME;
@@ -243,6 +252,11 @@ BlocklyGames.init = function() {
     }
   }
 
+  if ('BlocklyStorage' in window) {
+    // Setup login button.
+    BlocklyStorage['setupLogin']();
+  }
+
   // Highlight levels that have been completed.
   for (var i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
     var link = document.getElementById('level' + i);
@@ -261,6 +275,28 @@ BlocklyGames.init = function() {
 
   // Lazy-load Google analytics.
   setTimeout(BlocklyGames.importAnalytics_, 1);
+};
+
+/**
+ * Adds login button to page header.
+ * @param {string} data Response data from AJAX call.
+ * @private
+ */
+BlocklyGames.addLoginButton = function(data) {
+  var cta = document.getElementById('header_cta');
+  if (cta) {
+    var responseData = JSON.parse(data);
+    var templateData = {};
+    if (responseData['login_url']) {
+      templateData.loginUrl = responseData['login_url'];
+    } else if (responseData['logout_url']) {
+      templateData.logoutUrl = responseData['logout_url'];
+    }
+    var loginButton =
+        soy.renderAsFragment(BlocklyGames.soy.loginButton, templateData,
+            null);
+    cta.appendChild(loginButton);
+  }
 };
 
 /**
@@ -388,3 +424,9 @@ BlocklyGames.importAnalytics_ = function() {
   gaObject('create', 'UA-50448074-1', 'auto');
   gaObject('send', 'pageview');
 };
+
+// Export symbols that would otherwise be renamed by Closure compiler.
+// storage.js is not compiled and calls setCode, getCode, and getWorkspace.
+window['BlocklyGames'] = BlocklyGames;
+BlocklyGames['addLoginButton'] = BlocklyGames.addLoginButton;
+BlocklyGames['isLoginRequired'] = BlocklyGames.isLoginRequired;
