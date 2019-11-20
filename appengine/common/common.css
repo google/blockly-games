@@ -16,7 +16,7 @@ a:hover {
 .farSide {
   text-align: right;
 }
-#header_cta > * {
+#header_cta>* {
   vertical-align: middle;
 }
 html[dir="RTL"] .farSide {

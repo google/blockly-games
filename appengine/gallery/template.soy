@@ -11,20 +11,9 @@
  */
 
 /**
- * Translated messages for use in JavaScript.
- */
-{template .messages}
-  {call BlocklyGames.soy.messages /}
-  <div style="display: none">
-    <span id="Movie_submitDisabled">{msg meaning="Movie.submitDisabled" desc="Error message."}Your movie doesn't move. Use blocks to make something interesting. Then you may submit your movie to the gallery.{/msg}</span>
-  </div>
-{/template}
-
-/**
  * Web page structure.
  */
 {template .start}
-  {call .messages /}
   {call BlocklyGames.soy.headerBar}
     {param appName}
       {$ij.appName}
