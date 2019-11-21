@@ -132,12 +132,12 @@
 
 /**
  * Create a link to an app.
- * @param app Name of application.
- * @param x Horizontal position of link as percentage.
- * @param y Vertical position of link as percentage.
- * @param contentText Text content to place in link (safely escaped).
  */
 {template .appLink private="true"}
+  {@param app: string} /** Name of application. */
+  {@param x: number} /** Horizontal position of link as percentage. */
+  {@param y: number} /** Vertical position of link as percentage. */
+  {@param contentText: string} /** Text content to place in link (safely escaped). */
   <svg height="150" width="300" version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
