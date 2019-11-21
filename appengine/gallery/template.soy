@@ -30,15 +30,14 @@
 
 /**
  * One record.
+ * @param app Application this record belongs to (turtle/movie/music)
+ * @param uuid Unique datastore key for the code (stored separately).
+ * @param thumb Base 64-encoded thumbnail.
+ * @param title User-provided title.
+ * @param published Is the record published?
+ * @param key Unique datastore key for this record.
  */
 {template .record}
-  {@param app: string} /** Application this record belongs to (turtle/movie/music). */
-  {@param uuid: string} /** Unique datastore key for the code (stored separately). */
-  {@param thumb: string} /** Base 64-encoded thumbnail. */
-  {@param title: string} /** User-provided title. */
-  {@param published: bool} /** Whether this record is published. */
-  {@param key: string} /** Unique datastore key for this record. */
-
   <div class="galleryThumb">
    {if $key}
      <input type="checkbox" id="publish-{$key}"

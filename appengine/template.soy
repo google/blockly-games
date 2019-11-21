@@ -76,14 +76,13 @@
 
 /**
  * Top toolbar for page
+ * @param appName Name of application.
+ * @param levelLinkSuffix Any extra parameters for links.
+ * @param hasLinkButton Whether the page has a link button.
+ * @param hasHelpButton Whether the page has a help button.
+ * @param farLeftHtml Additional content to add to farLeft toolbar.
  */
 {template .headerBar private="true"}
-  {@param appName: string} /** Name of application. */
-  {@param? levelLinkSuffix: string} /** Any extra parameters for links. */
-  {@param? hasLinkButton: bool} /** Whether the page has a link button. */
-  {@param? hasHelpButton: bool} /** Whether the page has a help button. */
-  {@param? farLeftHtml: html} /** Additional content to add to farLeft toolbar. */
-
   <table width="100%">
     <tr>
       <td>
@@ -124,9 +123,9 @@
 
 /**
  * Print the title span (Blockly Games : AppName).
+ * @param appName Name of application.
  */
 {template .titleSpan private="true"}
-  {@param appName: string} /** Name of application. */
   <span id="title">
     {if $ij.html}
       <a href="index.html?lang={$ij.lang}">
@@ -142,10 +141,9 @@
 
 /**
  * List of links to other levels.
+ * @param suffix Any extra parameters for links.
  */
 {template .levelLinks private="true"}
-  {@param suffix: string} /** Any extra parameters for links. */
-
   {sp}&nbsp;{sp}
   {for $i in range(1, $ij.maxLevel + 1)}
     {sp}
