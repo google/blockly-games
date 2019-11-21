@@ -34,7 +34,12 @@ class Duck(ndb.Model):
 
   @classmethod
   def _pre_delete_hook(cls, key):
-    le = key.get().leaderboard_entry
+    duck = key.get()
+    user = ndb.Key('User', duck.userid).get()
+    if user:
+      user.duck_keys.remove(duck.key)
+      user.put()
+    le = duck.leaderboard_entry
     if le:
       le.delete()
 
@@ -47,15 +52,25 @@ class LeaderboardEntry(ndb.Model):
 Duck.leaderboard_entry = ndb.KeyProperty(indexed=False, kind=LeaderboardEntry)
 Duck._fix_up_properties()
 
+class User(ndb.Model):
+  duck_keys = ndb.KeyProperty(kind=Duck, indexed=False, repeated=True)
+
+  @classmethod
+  def _pre_delete_hook(cls, key):
+    user = key.get()
+    ndb.delete_multi(user.duck_keys)
+
+def get_user_key(user):
+  return ndb.Key('User', user.user_id())
+
 """Returns list of current user's Ducks (including name and urlsafe duck id."""
 def get_user_ducks():
-  user = users.get_current_user()
-  userid = user.user_id()
-  duckQuery = Duck.query(Duck.userid == userid)
-  duckList = []
-  for duck in duckQuery:
-    duckList.append({'name': duck.name, 'duckUrl': duck.key.urlsafe()})
-  return duckList
+  user_key = get_user_key(users.get_current_user())
+  datastore_user = user_key.get()
+  if datastore_user:
+   return [{'name': key.get().name, 'duckUrl': key.urlsafe()}
+           for key in datastore_user.duck_keys]
+  return []
 
 """Verifies whether duck exists and is owned by current user."""
 def verify_duck(duck):
@@ -84,15 +99,21 @@ def delete_duck(duck):
 def create_duck(name, code):
   user = users.get_current_user()
   userid = user.user_id()
+  user_key = get_user_key(user)
+  datastore_user = user_key.get()
   # Verify user does not have too many Ducks
-  max_ducks = 10
-  owned_ducks_query = Duck.query(Duck.userid == userid)
-  owned_ducks_count = owned_ducks_query.count(limit=max_ducks)
-  if owned_ducks_count >= max_ducks:
+  if datastore_user and len(datastore_user.duck_keys) >= 10:
     # There are too many ducks!!
     print("Status: 403 Owner has too many ducks")
+    return None
   else:
+    # Create a user entity if needed
+    if not datastore_user:
+      datastore_user = User(id=userid)
     # Create a new Duck entry
     duck = Duck(userid=userid, name=name, code=code)
     duck_key = duck.put()
+    datastore_user.duck_keys.append(duck_key)
+
+    datastore_user.put()
     return duck_key
