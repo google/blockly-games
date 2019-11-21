@@ -23,38 +23,14 @@ __author__ = "aschmiedt@google.com (Abby Schmiedt)"
 import cgi
 import json
 from google.appengine.ext import ndb
-from google.appengine.api import users
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-user = users.get_current_user()
-userid = user.user_id()
 urlsafe_key = forms["key"].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
-# Verify Duck exists in database
-if not duck:
-  # Duck with specified key does not exist.
-  print("Status: 400 Unknown Duck key")
-else:
-  # Verify user is allowed to update this Duck, i.e. is owner
-  if userid != duck.userid:
-    # User cannot delete this duck (user is not owner).
-    print("Status: 401 Unauthorized")
-  else:
-    print("Content-Type: text/plain\n")
-    # Copy duck information
-    newDuck = Duck(userid=duck.userid, name=duck.name, code=duck.code)
-    duck_key = newDuck.put()
-    duckQuery = Duck.query().filter(Duck.userid==userid)
-    # TODO: This is going to change once we figure out our models.
-    duckList = []
-    for duck in duckQuery:
-      jsonDuck = {}
-      jsonDuck['name'] = duck.name
-      jsonDuck['duckId'] = duck.key.urlsafe()
-      duckList.append(jsonDuck)
-
-    meta = {"duck_key": duck_key.urlsafe()}
-    print(json.dumps(duckList))
+if verify_duck(duck) and create_duck(duck.name, duck.code):
+  duckList = get_user_ducks()
+  print("Content-Type: application/json\n")
+  print(json.dumps(duckList))
 

@@ -20,20 +20,9 @@ limitations under the License.
 
 __author__ = "aschmiedt@google.com (Abby Schmiedt)"
 
-import cgi
 import json
-from google.appengine.api import users
 from pond_storage import *
 
-forms = cgi.FieldStorage()
-user = users.get_current_user()
-userid = user.user_id()
-duckQuery = Duck.query().filter(Duck.userid==userid)
-duckList = []
-for duck in duckQuery:
-  jsonDuck = {}
-  jsonDuck['name'] = duck.name
-  jsonDuck['duckId'] = duck.key.urlsafe()
-  duckList.append(jsonDuck)
+duckList = get_user_ducks()
 print("Content-Type: application/json\n")
 print(json.dumps(duckList))
