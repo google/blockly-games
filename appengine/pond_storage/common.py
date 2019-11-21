@@ -54,7 +54,7 @@ def get_user_ducks():
   duckQuery = Duck.query(Duck.userid == userid)
   duckList = []
   for duck in duckQuery:
-    duckList.append({'name': duck.name, 'duckId': duck.key.urlsafe()})
+    duckList.append({'name': duck.name, 'duckUrl': duck.key.urlsafe()})
   return duckList
 
 """Verifies whether duck exists and is owned by current user."""

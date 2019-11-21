@@ -1,15 +1,15 @@
-goog.provide('Pond.Datastore');
+goog.provide('Pond.Duck.Datastore');
 
 /**
  * Copy the duck with the given duckId.
  * @param {string} duckId The duckId of the duck to copy.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
+Pond.Duck.Datastore.copyDuck = function(duckId, onLoadCallback) {
     var data = [];
-    data.push(Pond.Datastore.encodeElements('key', duckId));
-    data.push(Pond.Datastore.encodeElements('getUserDucks', true));
-    Pond.Datastore.makeRequest_('pond-storage/copy', 'POST', data, onLoadCallback);
+    data.push(Pond.Duck.Datastore.encodeElements('key', duckId));
+    data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', true));
+    Pond.Duck.Datastore.makeRequest_('pond-storage/copy', 'POST', data, onLoadCallback);
 };
 
 /**
@@ -17,11 +17,11 @@ Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
  * @param {string} name The name of the duck.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Datastore.createDuck = function(name, onLoadCallback) {
+Pond.Duck.Datastore.createDuck = function(name, onLoadCallback) {
     var data = [];
-    data.push(Pond.Datastore.encodeElements('name', name));
-    data.push(Pond.Datastore.encodeElements('getUserDucks', true));
-    Pond.Datastore.makeRequest_('pond-storage/create', 'POST', data, onLoadCallback);
+    data.push(Pond.Duck.Datastore.encodeElements('name', name));
+    data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', true));
+    Pond.Duck.Datastore.makeRequest_('pond-storage/create', 'POST', data, onLoadCallback);
 };
 
 /**
@@ -29,26 +29,26 @@ Pond.Datastore.createDuck = function(name, onLoadCallback) {
  * @param {string} duckId The duckId of the duck to copy.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Datastore.deleteDuck = function(duckId, onLoadCallback) {
+Pond.Duck.Datastore.deleteDuck = function(duckId, onLoadCallback) {
     var data = [];
-    data.push(Pond.Datastore.encodeElements('key', duckId));
-    data.push(Pond.Datastore.encodeElements('getUserDucks', true));
-    Pond.Datastore.makeRequest_('pond-storage/delete', 'POST', data, onLoadCallback);
+    data.push(Pond.Duck.Datastore.encodeElements('key', duckId));
+    data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', true));
+    Pond.Duck.Datastore.makeRequest_('pond-storage/delete', 'POST', data, onLoadCallback);
 };
 
 /**
  * Get all the ducks for the current user.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Datastore.getAllDucks = function(onLoadCallback) {
+Pond.Duck.Datastore.getAllDucks = function(onLoadCallback) {
     var url = 'pond-storage/ducks';
-    Pond.Datastore.makeRequest_(url, 'GET', [], onLoadCallback);
+    Pond.Duck.Datastore.makeRequest_(url, 'GET', [], onLoadCallback);
 };
 
 /**
  * TODO: Remove. We should instead be using the commone make request.
  */
-Pond.Datastore.makeRequest_ = function(url, type, data, onLoadCallback) {
+Pond.Duck.Datastore.makeRequest_ = function(url, type, data, onLoadCallback) {
     var xhr = new XMLHttpRequest();
     xhr.open(type, url);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -68,7 +68,7 @@ Pond.Datastore.makeRequest_ = function(url, type, data, onLoadCallback) {
  * @return {Object.<string, string>} Encoded elements.
  * @private
  */
-Pond.Datastore.encodeElements = function(name, value) {
+Pond.Duck.Datastore.encodeElements = function(name, value) {
     return encodeURIComponent(name) + '=' + encodeURIComponent(value);
 };
   

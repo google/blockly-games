@@ -26,7 +26,7 @@ goog.provide('Pond.Duck.Board');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
-goog.require('Pond.Datastore');
+goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Board.soy');
 
 
@@ -41,7 +41,7 @@ Pond.Duck.Board.init = function () {
       });
   var createBtn = document.getElementById('createButton');
   BlocklyGames.bindClick(createBtn, Pond.Duck.Board.createDuck);
-  Pond.Datastore.getAllDucks(Pond.Duck.Board.refreshDuckList);
+  Pond.Duck.Datastore.getAllDucks(Pond.Duck.Board.refreshDuckList);
 };
 
 /**
@@ -50,8 +50,8 @@ Pond.Duck.Board.init = function () {
  */
 Pond.Duck.Board.copyDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckId = e.target.getAttribute('data-duckId');
-  Pond.Datastore.copyDuck(duckId,
+  var duckId = e.target.getAttribute('data-duckurl');
+  Pond.Duck.Datastore.copyDuck(duckId,
       Pond.Duck.Board.createGetDucksCallback('copied'));
 };
 
@@ -61,8 +61,8 @@ Pond.Duck.Board.copyDuck = function(e) {
  */
 Pond.Duck.Board.deleteDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckId = e.target.getAttribute('data-duckId');
-  Pond.Datastore.deleteDuck(duckId,
+  var duckId = e.target.getAttribute('data-duckurl');
+  Pond.Duck.Datastore.deleteDuck(duckId,
       Pond.Duck.Board.createGetDucksCallback('deleted'));
 };
 
@@ -87,8 +87,8 @@ Pond.Duck.Board.createGetDucksCallback = function(action) {
     } else {
       text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
           + this.status;
+      document.getElementById('loading').style.display = 'none';
     }
-    document.getElementById('loading').style.display = 'none';
     BlocklyDialogs.storageAlert(null, text);
   };
 };
@@ -96,25 +96,15 @@ Pond.Duck.Board.createGetDucksCallback = function(action) {
 /**
  * Callback function for AJAX call.
  * Response contains a list holding all the ducks for the current user
- * (name, duckId, and optionally ranking).
+ * (name, duckUrl, and optionally ranking).
  */
 Pond.Duck.Board.refreshDuckList = function() {
   // Convert the response data into something template will understand.
   var responseData = JSON.parse(this.responseText);
-  var templateDucks = [];
-  for(var i = 0, duckData; (duckData = responseData["duckList"][i]); i++) {
-    var templateDuck = {
-      name: duckData['name'],
-      duckId: duckData['duckId'],
-    };
-    if (duckData['ranking']) {
-      templateDuck.ranking = duckData['ranking'];
-    }
-    templateDucks.push(templateDuck);
-  }
   var duckListEl = document.getElementById('duckList');
   duckListEl.innerHTML =
-      Pond.Duck.Board.soy.duckList({ducks: templateDucks}, null);
+      Pond.Duck.Board.soy.duckList({ducks: responseData["duckList"]}, null);
+  document.getElementById('loading').style.display = 'none';
 
   var copyBtns = duckListEl.getElementsByClassName('copyDuck');
   var deleteBtns = duckListEl.getElementsByClassName('deleteDuck');
