@@ -195,6 +195,7 @@ BlocklyGames.MAX_LEVEL = 10;
 
 /**
  * User's level (e.g. 5).
+ * @type {number}
  */
 BlocklyGames.LEVEL =
     BlocklyGames.getNumberParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
