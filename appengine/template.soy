@@ -76,13 +76,14 @@
 
 /**
  * Top toolbar for page
- * @param appName Name of application.
- * @param levelLinkSuffix Any extra parameters for links.
- * @param hasLinkButton Whether the page has a link button.
- * @param hasHelpButton Whether the page has a help button.
- * @param farLeftHtml Additional content to add to farLeft toolbar.
  */
 {template .headerBar private="true"}
+  {@param appName: string} /** Name of application. */
+  {@param? levelLinkSuffix: string} /** Any extra parameters for links. */
+  {@param? hasLinkButton: bool} /** Whether the page has a link button. */
+  {@param? hasHelpButton: bool} /** Whether the page has a help button. */
+  {@param? farLeftHtml: html} /** Additional content to add to farLeft toolbar. */
+
   <table width="100%">
     <tr>
       <td>
