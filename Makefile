@@ -18,7 +18,7 @@ REQUIRED_BINS = svn unzip wget java python sed
 
 all: deps languages
 
-index-en:
+index-en: common-en
 	mkdir -p appengine/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/index/generated/en/soy.js --srcs appengine/index/template.soy
 	python build-app.py index en
