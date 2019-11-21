@@ -151,7 +151,7 @@ BlocklyGames.workspace = null;
  * Extracts a parameter from the URL.
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.
- * @param {string} defaultValue Value to return if paramater not found.
+ * @param {string} defaultValue Value to return if parameter not found.
  * @return {string} The parameter value or the default value if not found.
  */
 BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
@@ -274,7 +274,7 @@ BlocklyGames.changeLanguage = function() {
   var search = window.location.search;
   if (search.length <= 1) {
     search = '?lang=' + newLang;
-  } else if (search.match(/[?&]lang=[^&]*/)) {
+  } else if (/[?&]lang=[^&]*/.test(search)) {
     search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
   } else {
     search = search.replace(/\?/, '?lang=' + newLang + '&');
