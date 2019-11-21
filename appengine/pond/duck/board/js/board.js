@@ -23,8 +23,10 @@
 
 goog.provide('Pond.Duck.Board');
 
+goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('Pond.Datastore');
+goog.require('BlocklyGames.Msg');
+goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Board.soy');
 
 
@@ -32,8 +34,14 @@ goog.require('Pond.Duck.Board.soy');
  * Initialize the board holding all the ducks for the current user.
  */
 Pond.Duck.Board.init = function () {
-  //TODO: Have a loading screen before loading the ducks
-  Pond.Datastore.getAllDucks(Pond.Duck.Board.getDucksCallback);
+  document.body.innerHTML = Pond.Duck.Board.soy.start({}, null,
+      {
+        lang: BlocklyGames.LANG,
+        html: BlocklyGames.IS_HTML,
+      });
+  var createBtn = document.getElementById('createButton');
+  BlocklyGames.bindClick(createBtn, Pond.Duck.Board.createDuck);
+  Pond.Duck.Datastore.getAllDucks(Pond.Duck.Board.refreshDuckList);
 };
 
 /**
@@ -41,8 +49,10 @@ Pond.Duck.Board.init = function () {
  * @param {Event} e The event that holds the duckId.
  */
 Pond.Duck.Board.copyDuck = function(e) {
-  var duckId = e.srcElement.getAttribute('duckId');
-  Pond.Datastore.copyDuck(duckId, Pond.Duck.Board.getDucksCallback);
+  document.getElementById('loading').style.display = 'table-cell';
+  var duckId = e.target.getAttribute('data-duckurl');
+  Pond.Duck.Datastore.copyDuck(duckId,
+      Pond.Duck.Board.createGetDucksCallback('copied'));
 };
 
 /**
@@ -50,8 +60,10 @@ Pond.Duck.Board.copyDuck = function(e) {
  * @param {Event} e The event that holds the duckId.
  */
 Pond.Duck.Board.deleteDuck = function(e) {
-  var duckId = e.srcElement.getAttribute('duckId');
-  Pond.Datastore.deleteDuck(duckId, Pond.Duck.Board.getDucksCallback);
+  document.getElementById('loading').style.display = 'table-cell';
+  var duckId = e.target.getAttribute('data-duckurl');
+  Pond.Duck.Datastore.deleteDuck(duckId,
+      Pond.Duck.Board.createGetDucksCallback('deleted'));
 };
 
 /**
@@ -62,42 +74,46 @@ Pond.Duck.Board.createDuck = function() {
 };
 
 /**
- * Callback for when all the ducks for a user are fetched.s
+ * Callback for copy/delete action.
+ * @param {string} action Action attempted.
  */
-Pond.Duck.Board.getDucksCallback = function() {
-  var text;
-  if (this.status == 200) {
-    var duckList = JSON.parse(this.responseText);
-    Pond.Duck.Board.setTemplate(duckList)
-  } else {
-    text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
-        + this.status;
-  }
+Pond.Duck.Board.createGetDucksCallback = function(action) {
+  return function() {
+    var text;
+    if (this.status == 200) {
+      Pond.Duck.Board.refreshDuckList.call(this);
+      var meta = JSON.parse(this.responseText);
+      text = 'Duck ' + action + ' with key: ' + meta['duck_key'];
+    } else {
+      text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
+          + this.status;
+      document.getElementById('loading').style.display = 'none';
+    }
+    BlocklyDialogs.storageAlert(null, text);
+  };
 };
 
 /**
- * Set the template and add bind all events.
- * @param {Array<Object>} ducks A list holding all the ducks for
- * the current user. A duck consists of a name and a duckId.
+ * Callback function for AJAX call.
+ * Response contains a list holding all the ducks for the current user
+ * (name, duckUrl, and optionally ranking).
  */
-Pond.Duck.Board.setTemplate = function(ducks) {
-  document.body.innerHTML = Pond.Duck.Board.soy.start({}, null,
-    {
-      lang: BlocklyGames.LANG,
-      html: BlocklyGames.IS_HTML,
-      ducks: ducks
-    });
-  var copyBtns = document.getElementsByClassName('copyDuck');
-  var deleteBtns = document.getElementsByClassName('deleteDuck');
-  var createBtn = document.getElementById('createButton');
-  for (var i = 0; i < copyBtns.length; i++) {
-    BlocklyGames.bindClick(copyBtns[i], Pond.Duck.Board.copyDuck);
-  }
-  for (var i = 0; i < deleteBtns.length; i++) {
-    BlocklyGames.bindClick(deleteBtns[i], Pond.Duck.Board.deleteDuck);
-  }
-  BlocklyGames.bindClick(createBtn, Pond.Duck.Board.createDuck);
+Pond.Duck.Board.refreshDuckList = function() {
+  // Convert the response data into something template will understand.
+  var responseData = JSON.parse(this.responseText);
+  var duckListEl = document.getElementById('duckList');
+  duckListEl.innerHTML =
+      Pond.Duck.Board.soy.duckList({ducks: responseData["duckList"]}, null);
+  document.getElementById('loading').style.display = 'none';
 
+  var copyBtns = duckListEl.getElementsByClassName('copyDuck');
+  var deleteBtns = duckListEl.getElementsByClassName('deleteDuck');
+  for(var i = 0, cpyBtn; (cpyBtn = copyBtns[i]); i++) {
+    BlocklyGames.bindClick(cpyBtn, Pond.Duck.Board.copyDuck);
+  }
+  for(var i = 0, deleteBtn; (deleteBtn = deleteBtns[i]); i++) {
+    BlocklyGames.bindClick(deleteBtn, Pond.Duck.Board.deleteDuck);
+  }
 };
 
 window.addEventListener('load', Pond.Duck.Board.init);

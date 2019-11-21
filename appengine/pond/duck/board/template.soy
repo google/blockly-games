@@ -28,33 +28,49 @@
  * Web page structure.
  */
 {template .start}
+  {call .messages /}
   <h1>
     Duck List
   </h1>
-<table>
-  <tr>
-    <th>{{msg meaning="Pond.ranking" desc="IBID"}}Ranking{{/msg}}</th>
-    <th>{{msg meaning="Pond.name" desc="IBID"}}Name{{/msg}}</th>
-    <th>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</th>
-    <th>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</th>
-    <th>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</th>
-  </tr>
-  {foreach $duck in $ij.ducks}
-    <tr>
-      <td>ranking</td>
-      <td>{$duck.name}</td>
-      <td><button class="editDuck" duckid={$duck.duckId}>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</button></td>
-      <td>
-        <button class="copyDuck" duckid={$duck.duckId}>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</button>
-      </td>
-      <td>
-        <button class="deleteDuck" duckid={$duck.duckId}>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</button>
-      </td>
-    </tr>
-  {/foreach}
-</table>
-<button id="createButton">
-  Create a Duck
-</button>
+  <div id="loading" style="width: 15px;">
+    <img id="spinner" src="common/loading.gif" height=15 width=15>
+  </div>
+  <div id="duckList"></div>
+  <button id="createButton">
+    Create a Duck
+  </button>
 
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.storageDialog /}
+{/template}
+
+/**
+ * List of ducks.
+ * @param ducks
+ */
+{template .duckList}
+  <table>
+    <tr>
+      <th>{{msg meaning="Pond.ranking" desc="IBID"}}Ranking{{/msg}}</th>
+      <th>{{msg meaning="Pond.name" desc="IBID"}}Name{{/msg}}</th>
+      <th>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</th>
+      <th>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</th>
+      <th>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</th>
+    </tr>
+    {foreach $duck in $ducks}
+      <tr>
+        <td>{if $duck['ranking']}{$duck['ranking']}{else}UNRANKED{/if}</td>
+        <td>{$duck['name']}</td>
+        <td>
+          <button class="editDuck" data-duckurl={$duck['duckUrl']}>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</button>
+        </td>
+        <td>
+          <button class="copyDuck" data-duckurl={$duck['duckUrl']}>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</button>
+        </td>
+        <td>
+          <button class="deleteDuck" data-duckurl={$duck['duckUrl']}>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</button>
+        </td>
+      </tr>
+    {/foreach}
+  </table>
 {/template}
