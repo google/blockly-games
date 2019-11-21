@@ -29,8 +29,12 @@ forms = cgi.FieldStorage()
 urlsafe_key = forms["key"].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
-if verify_duck(duck) and create_duck(duck.name, duck.code):
-  duckList = get_user_ducks()
-  print("Content-Type: application/json\n")
-  print(json.dumps(duckList))
+if verify_duck(duck):
+  duck_key = create_duck(duck.name, duck.code)
+  if duck_key:
+    meta = {"duck_key": duck_key.urlsafe()}
+    if forms.has_key("getUserDucks"):
+      meta["duckList"] = get_user_ducks()
+    print("Content-Type: application/json\n")
+    print(json.dumps(meta))
 

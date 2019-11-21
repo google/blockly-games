@@ -26,6 +26,7 @@ goog.provide('Pond.Duck.Online');
 goog.require('BlocklyInterface');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('Pond');
 goog.require('Pond.Duck');
 goog.require('Pond.Duck.Online.soy');

@@ -31,5 +31,7 @@ duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
 if delete_duck(duck):
   meta = {"duck_key": duck_key.urlsafe()}
+  if forms.has_key("getUserDucks"):
+    meta["duckList"] = get_user_ducks()
   print("Content-Type: application/json\n")
   print(json.dumps(meta))

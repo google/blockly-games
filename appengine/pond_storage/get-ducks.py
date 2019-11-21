@@ -25,4 +25,4 @@ from pond_storage import *
 
 duckList = get_user_ducks()
 print("Content-Type: application/json\n")
-print(json.dumps(duckList))
+print(json.dumps({"duckList": duckList}))

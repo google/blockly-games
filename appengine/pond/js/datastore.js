@@ -8,7 +8,7 @@ goog.provide('Pond.Datastore');
 Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
     var data = [];
     data.push(Pond.Datastore.encodeElements('key', duckId));
-
+    data.push(Pond.Datastore.encodeElements('getUserDucks', true));
     Pond.Datastore.makeRequest_('pond-storage/copy', 'POST', data, onLoadCallback);
 };
 
@@ -20,7 +20,7 @@ Pond.Datastore.copyDuck = function(duckId, onLoadCallback) {
 Pond.Datastore.createDuck = function(name, onLoadCallback) {
     var data = [];
     data.push(Pond.Datastore.encodeElements('name', name));
-
+    data.push(Pond.Datastore.encodeElements('getUserDucks', true));
     Pond.Datastore.makeRequest_('pond-storage/create', 'POST', data, onLoadCallback);
 };
 
@@ -32,7 +32,7 @@ Pond.Datastore.createDuck = function(name, onLoadCallback) {
 Pond.Datastore.deleteDuck = function(duckId, onLoadCallback) {
     var data = [];
     data.push(Pond.Datastore.encodeElements('key', duckId));
-    data.push(Pond.Datastore.encodeElements('userid', 'Abby'));
+    data.push(Pond.Datastore.encodeElements('getUserDucks', true));
     Pond.Datastore.makeRequest_('pond-storage/delete', 'POST', data, onLoadCallback);
 };
 
