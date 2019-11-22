@@ -67,6 +67,17 @@ Pond.Duck.Board.deleteDuck = function(e) {
 };
 
 /**
+ * Redirect the user to a page to edit the duck.
+ * @param {Event} e The event that holds the duckId.
+ */
+Pond.Duck.Board.editDuck = function(e) {
+  document.getElementById('loading').style.display = 'table-cell';
+  var duckId = e.target.getAttribute('data-duckurl');
+  var url = window.location.origin + '/pond-duck-online?duckId=' + duckId;
+  window.location = url;
+};
+
+/**
  * TODO: Show the dialog to create a duck.
  */
 Pond.Duck.Board.createDuck = function() {
@@ -108,11 +119,15 @@ Pond.Duck.Board.refreshDuckList = function() {
 
   var copyBtns = duckListEl.getElementsByClassName('copyDuck');
   var deleteBtns = duckListEl.getElementsByClassName('deleteDuck');
+  var editBtns = duckListEl.getElementsByClassName('editDuck');
   for(var i = 0, cpyBtn; (cpyBtn = copyBtns[i]); i++) {
     BlocklyGames.bindClick(cpyBtn, Pond.Duck.Board.copyDuck);
   }
   for(var i = 0, deleteBtn; (deleteBtn = deleteBtns[i]); i++) {
     BlocklyGames.bindClick(deleteBtn, Pond.Duck.Board.deleteDuck);
+  }
+  for(var i = 0, editBtn; (editBtn = editBtns[i]); i++) {
+    BlocklyGames.bindClick(editBtn, Pond.Duck.Board.editDuck);
   }
 };
 

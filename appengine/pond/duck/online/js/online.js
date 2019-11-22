@@ -29,6 +29,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Pond');
 goog.require('Pond.Duck');
+goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Online.soy');
 
 BlocklyGames.NAME = 'pond-duck-online';
@@ -46,9 +47,40 @@ Pond.Duck.Online.init = function() {
 
   Pond.Duck.init();
 
+  var duckId = BlocklyGames.getStringParamFromUrl('duckId', null);
+  if (duckId) {
+    Pond.Duck.Datastore.getADuck(duckId, Pond.Duck.Online.updateEditor);
+  }
+
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
   BlocklyGames.bindClick('duckUpdateButton', Pond.Duck.Online.showUpdateDuckForm);
   BlocklyGames.bindClick('duckDeleteButton', Pond.Duck.Online.showDeleteDuckForm);
+};
+
+/**
+ * Callback for when a user loads the page with a duck id.
+ */
+Pond.Duck.Online.updateEditor= function() {
+  var text;
+  if (this.status == 200) {
+    var meta = JSON.parse(this.responseText);
+    var opt_xml = meta['code']['opt_xml'];
+    if (meta['code']['opt_xml']) {
+      Pond.Duck.changeTab(0);
+      Pond.Duck.updateWorkspace(opt_xml);
+    } else {
+      Pond.Duck.changeTab(1);
+      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
+      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[1], 'tab-selected');
+      Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[0], 'tab-selected');
+      Pond.Duck.updateJSCode(meta['code']['js']);
+    }
+    } else {
+    text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
+      + this.status;
+    document.getElementById('loading').style.display = 'none';
+    BlocklyDialogs.storageAlert(null, text);
+    }
 };
 
 Pond.Duck.Online.storeUserCode_ = function(formPrefix) {
@@ -122,6 +154,10 @@ Pond.Duck.Online.showDeleteDuckForm = function() {
   Pond.Duck.Online.showDuckForm_('duckDelete', 'duckDeleteDuckKey', false);
 };
 
+/**
+ * Creates a popup with information on what action was completed, or an error message.
+ * @param {string} action The action completed. (created, deleted, updated)
+ */
 Pond.Duck.Online.createDuckFormOnLoadCallback_ = function(action) {
   return function() {
     var text;
@@ -168,6 +204,14 @@ Pond.Duck.Online.makeRequest = function(url, data, onLoadCallback) {
   xhr.send(data.join('&'));
 };
 
+/**
+ * Submits the form information.
+ * @param {Array<string>} requiredFieldsIds The required ids for the fields we
+ *     want to send in the request.
+ * @param {string} formId The id of the form used to collect information on
+ *     what info to send in the request.
+ * @param {string} action The action completed. (created, deleted, updated)
+ */
 Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   for(var i = 0, fieldId; (fieldId = requiredFieldsIds[i]); i++) {
     var el = document.getElementById(fieldId);

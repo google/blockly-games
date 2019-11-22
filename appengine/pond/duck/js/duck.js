@@ -145,12 +145,7 @@ Pond.Duck.init = function () {
       '</value>' +
       '</block>' +
       '</xml>';
-  var xml = Blockly.Xml.textToDom(defaultXml);
-  // Clear the workspace to avoid merge.
-  BlocklyGames.workspace.clear();
-  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-  BlocklyGames.workspace.clearUndo();
-
+  Pond.Duck.updateWorkspace(defaultXml);
   var players = [
     {
       start: new Blockly.utils.Coordinate(20, 80),
@@ -190,6 +185,28 @@ Pond.Duck.init = function () {
   }
   Pond.reset();
   Pond.Duck.changeTab(0);
+  Pond.Duck.ignoreEditorChanges_ = false;
+};
+
+/**
+ * Update the workspace with the given xml.
+ * @param {string} xml The xml to load.
+ */
+Pond.Duck.updateWorkspace = function(xmlString) {
+  // Clear the workspace to avoid merge.
+  var xml = Blockly.Xml.textToDom(xmlString);
+  BlocklyGames.workspace.clear();
+  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+  BlocklyGames.workspace.clearUndo();
+};
+
+/**
+ * Update the code in the javascript editor.
+ * @param {string} newCode The code to add to javascript editor
+ */
+Pond.Duck.updateJSCode = function(newCode) {
+  Pond.Duck.ignoreEditorChanges_ = true;
+  BlocklyInterface.editor['setValue'](newCode, -1);
   Pond.Duck.ignoreEditorChanges_ = false;
 };
 
