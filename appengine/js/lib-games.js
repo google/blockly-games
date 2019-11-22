@@ -51,7 +51,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'eu': 'Euskara',
   'fa': 'فارسی',
   'fi': 'Suomi',
-//  'fo': 'Føroyskt',
+  'fo': 'Føroyskt',
   'fr': 'Français',
 //  'frr': 'Frasch',
   'gl': 'Galego',
