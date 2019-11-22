@@ -49,7 +49,7 @@ Pond.Duck.Online.init = function() {
 
   var duckId = BlocklyGames.getStringParamFromUrl('duckId', null);
   if (duckId) {
-    Pond.Duck.Datastore.getADuck(duckId, Pond.Duck.Online.updateEditor);
+    Pond.Duck.Datastore.getDuck(duckId, Pond.Duck.Online.updateEditor);
   }
 
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
@@ -65,22 +65,25 @@ Pond.Duck.Online.updateEditor= function() {
   if (this.status == 200) {
     var meta = JSON.parse(this.responseText);
     var opt_xml = meta['code']['opt_xml'];
-    if (meta['code']['opt_xml']) {
-      Pond.Duck.changeTab(0);
-      Pond.Duck.updateWorkspace(opt_xml);
-    } else {
-      Pond.Duck.changeTab(1);
-      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
-      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[1], 'tab-selected');
-      Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[0], 'tab-selected');
-      Pond.Duck.updateJSCode(meta['code']['js']);
+    var code = opt_xml || meta['code']['js'];
+    var tab_index = opt_xml ? Pond.Duck.tabs.BLOCKLY : Pond.Duck.tabs.EDITOR;
+
+    BlocklyInterface.blocksDisabled = !opt_xml;
+    Pond.Duck.selectTab(Pond.Duck.editorTabs, tab_index);
+    Pond.Duck.ignoreEditorChanges_ = false;
+    BlocklyInterface.setCode(code);
+    Pond.Duck.ignoreEditorChanges_ = true;
+    Pond.Duck.changeTab(tab_index);
+    // TODO: Not sure where this should live.
+    if (BlocklyInterface.blocksDisabled) {
+      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[Pond.Duck.tabs.BLOCKLY], 'tab-disabled');
     }
-    } else {
+  } else {
     text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
       + this.status;
     document.getElementById('loading').style.display = 'none';
     BlocklyDialogs.storageAlert(null, text);
-    }
+  }
 };
 
 Pond.Duck.Online.storeUserCode_ = function(formPrefix) {
@@ -206,7 +209,7 @@ Pond.Duck.Online.makeRequest = function(url, data, onLoadCallback) {
 
 /**
  * Submits the form information.
- * @param {Array<string>} requiredFieldsIds The required ids for the fields we
+ * @param {Array.<string>} requiredFieldsIds The required ids for the fields we
  *     want to send in the request.
  * @param {string} formId The id of the form used to collect information on
  *     what info to send in the request.

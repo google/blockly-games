@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Given a duck id get the duck. If no duck id exists get all ducks belonging to the user.
+"""Given a duck key get the duck, otherwise get all ducks belonging to the user.
 """
 
 __author__ = "aschmiedt@google.com (Abby Schmiedt)"
@@ -30,7 +30,7 @@ if forms.has_key("duckId"):
   urlsafe_key = forms["duckId"].value
   duck_key = ndb.Key(urlsafe=urlsafe_key)
   duck = duck_key.get()
-  if (verify_duck(duck)):
+  if verify_duck(duck):
     print("Content-Type: application/json\n")
     print(json.dumps({'name': duck.name, 'duckUrl': duck.key.urlsafe(), 'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml}}))
 else:

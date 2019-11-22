@@ -43,6 +43,15 @@ goog.require('Pond.Visualization');
 Pond.Duck.editorTabs = null;
 
 /**
+ * Object holding name of tabs.
+ * @enum {number}
+ */
+Pond.Duck.tabs = {
+  BLOCKLY: 0,
+  EDITOR: 1
+};
+
+/**
  * ACE editor fires change events even on programmatically caused changes.
  * This property is used to signal times when a programmatic change is made.
  */
@@ -60,13 +69,7 @@ Pond.Duck.init = function () {
       if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
         return;
       }
-      for (var i = 0; i < tabs.length; i++) {
-        if (selectedIndex == i) {
-          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
-        } else {
-          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
-        }
-      }
+      Pond.Duck.selectTab(tabs, selectedIndex);
       Pond.Duck.changeTab(selectedIndex);
     };
   }
@@ -74,7 +77,7 @@ Pond.Duck.init = function () {
   var tabs = Array.prototype.slice.call(
       document.querySelectorAll('#editorBar>.tab'));
   for (var i = 0; i < tabs.length; i++) {
-    BlocklyGames.bindClick(tabs[i], tabHandler(i));
+    BlocklyGames.bindClick(tabs[i], tabHandler(i, tabs));
   }
   Pond.Duck.editorTabs = tabs;
 
@@ -145,7 +148,7 @@ Pond.Duck.init = function () {
       '</value>' +
       '</block>' +
       '</xml>';
-  Pond.Duck.updateWorkspace(defaultXml);
+  BlocklyInterface.setCode(defaultXml);
   var players = [
     {
       start: new Blockly.utils.Coordinate(20, 80),
@@ -189,25 +192,18 @@ Pond.Duck.init = function () {
 };
 
 /**
- * Update the workspace with the given xml.
- * @param {string} xml The xml to load.
+ * Add the correct classes to make the tab at the sepcified index look selected.
+ * @param {Array.<!Element>} tabs The list of tabs.
+ * @param {number} selectedIndex The index of the tab to select.
  */
-Pond.Duck.updateWorkspace = function(xmlString) {
-  // Clear the workspace to avoid merge.
-  var xml = Blockly.Xml.textToDom(xmlString);
-  BlocklyGames.workspace.clear();
-  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-  BlocklyGames.workspace.clearUndo();
-};
-
-/**
- * Update the code in the javascript editor.
- * @param {string} newCode The code to add to javascript editor
- */
-Pond.Duck.updateJSCode = function(newCode) {
-  Pond.Duck.ignoreEditorChanges_ = true;
-  BlocklyInterface.editor['setValue'](newCode, -1);
-  Pond.Duck.ignoreEditorChanges_ = false;
+Pond.Duck.selectTab = function(tabs, selectedIndex) {
+  for (var i = 0; i < tabs.length; i++) {
+    if (selectedIndex == i) {
+      Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+    } else {
+      Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+    }
+  }
 };
 
 /**

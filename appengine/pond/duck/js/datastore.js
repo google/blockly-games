@@ -46,10 +46,10 @@ Pond.Duck.Datastore.getAllDucks = function(onLoadCallback) {
 };
 
 /**
- * Get all the ducks for the current user.
+ * Get the duck with the specified duck id.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Duck.Datastore.getADuck = function(duckId, onLoadCallback) {
+Pond.Duck.Datastore.getDuck = function(duckId, onLoadCallback) {
     var url = 'pond-storage/ducks?duckId='+ duckId;
     Pond.Duck.Datastore.makeRequest_(url, 'GET', [], onLoadCallback);
 };

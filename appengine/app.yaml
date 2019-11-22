@@ -124,7 +124,7 @@ handlers:
   login: required
   secure: always
 - url: /pond-storage/ducks
-  script: pond_storage/get-ducks.py
+  script: pond_storage/get.py
   secure: always
 - url: /pond-storage/copy
   script: pond_storage/copy.py
