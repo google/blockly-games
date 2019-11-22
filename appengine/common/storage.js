@@ -77,12 +77,11 @@ BlocklyStorage.retrieveXml = function(key) {
  * Global reference to current AJAX requests.
  * @type Object.<string, XMLHttpRequest>
  */
-BlocklyStorage.xhr_ = {};
+BlocklyStorage.xhrs_ = {};
 
 /**
  * Fire a new AJAX request.
- * @param {string} url URL to fetch.
- * @param {Array.<string>} data Body of data to be sent in request.
+ * @param {HTMLFormElement} form Form to retrieve request url and data from.
  * @param {?Function=} opt_onSuccess Function to call after request completes
  *    successfully.
  * @param {?Function=} opt_onFailure Function to call after request completes
@@ -94,8 +93,8 @@ BlocklyStorage.makeFormRequest =
   var data = [];
   for (var i = 0, element; (element = form.elements[i]); i++) {
     if (element.name) {
-      data[i] = encodeURIComponent(element.name) + '=' +
-          encodeURIComponent(element.value);
+      data.push(encodeURIComponent(element.name) + '=' +
+          encodeURIComponent(element.value));
     }
   }
   BlocklyStorage.makeRequest(
@@ -114,29 +113,29 @@ BlocklyStorage.makeFormRequest =
  */
 BlocklyStorage.makeRequest =
     function(url, data, opt_onSuccess, opt_onFailure, opt_method) {
-  if (BlocklyStorage.xhr_[url]) {
+  if (BlocklyStorage.xhrs_[url]) {
     // AJAX call is in-flight.
-    BlocklyStorage.xhr_[url].abort();
+    BlocklyStorage.xhrs_[url].abort();
   }
-  BlocklyStorage.xhr_[url] = new XMLHttpRequest();
-  BlocklyStorage.xhr_[url].onload = function() {
+  BlocklyStorage.xhrs_[url] = new XMLHttpRequest();
+  BlocklyStorage.xhrs_[url].onload = function() {
     if (this.status === 200) {
-      if (opt_onSuccess) {
-        opt_onSuccess.call(this);
-      }
+      opt_onSuccess && opt_onSuccess.call(this);
     } else if (opt_onFailure) {
       opt_onFailure.call(this);
     } else {
       BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
           'xhr_.status: ' + this.status);
     }
-    BlocklyStorage.xhr_[url] = null;
+    BlocklyStorage.xhrs_[url] = null;
   };
   var method = opt_method || 'POST';
-  BlocklyStorage.xhr_[url].open(method, url);
-  BlocklyStorage.xhr_[url].setRequestHeader('Content-Type',
-'application/x-www-form-urlencoded');
-  BlocklyStorage.xhr_[url].send(data);
+  BlocklyStorage.xhrs_[url].open(method, url);
+  if (method === 'POST') {
+    BlocklyStorage.xhrs_[url].setRequestHeader('Content-Type',
+        'application/x-www-form-urlencoded');
+  }
+  BlocklyStorage.xhrs_[url].send(data);
 };
 
 /**
