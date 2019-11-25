@@ -33,23 +33,26 @@ class Duck(ndb.Model):
   name = ndb.StringProperty(indexed=False, required=True)
   code = ndb.LocalStructuredProperty(Code, indexed=False, required=True)
   leaderboard_entry_key = ndb.KeyProperty(indexed=False, kind='LeaderboardEntry')
+  published = ndb.ComputedProperty(lambda self: self.leaderboard_entry_key is not None)
 
   @classmethod
   def _pre_delete_hook(cls, key):
-    entry_key = key.get().leaderboard_entry_key
-    if entry_key:
-      entry_key.get().clear_duck()
+    duck = key.get()
+    if duck.published:
+      entry = duck.leaderboard_entry_key.get()
+      entry.clear_duck()
 
   def publish(self, leaderboard=None):
-    if not self.leaderboard_entry_key:
+    if not self.published:
       leaderboard = leaderboard or get_main_leaderboard()
       leaderboard.create_entry(self)
       return True
     return False
 
   def unpublish(self):
-    if self.leaderboard_entry_key:
-      self.leaderboard_entry_key.get().clear_duck()
+    if self.published:
+      entry = self.leaderboard_entry_key.get()
+      entry.clear_duck()
       del self.leaderboard_entry_key
       self.put()
       return True
@@ -119,7 +122,7 @@ def get_user_ducks():
   duck_list = []
   for duck in duck_query:
     duck_info = {'name': duck.name, 'duckUrl': duck.key.urlsafe()}
-    if duck.leaderboard_entry_key:
+    if duck.published:
       duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
     duck_list.append(duck_info)
   return duck_list
@@ -132,9 +135,9 @@ def get_duck_info(duck):
       'name': duck.name,
       'duck_key': duck.key.urlsafe(),
       'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml},
-      'published': not (duck.leaderboard_entry_key is None),
+      'published': duck.published,
   }
-  if duck.leaderboard_entry_key:
+  if duck.published:
     duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
   return duck_info
 
