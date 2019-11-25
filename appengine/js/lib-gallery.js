@@ -79,6 +79,29 @@ BlocklyGallery.galleryKeyDown_ = function(e) {
   }
 };
 
+
+/**
+ * Fire a new AJAX request.
+ * @param {HTMLFormElement} form Form to retrieve request url and data from.
+ * @param {?Function=} opt_onSuccess Function to call after request completes
+ *    successfully.
+ * @param {?Function=} opt_onFailure Function to call after request completes
+ *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
+ * @param {string=} [opt_method='POST'] The HTTP request method to use.
+ */
+BlocklyGallery.makeFormRequest_ =
+    function(form, opt_onSuccess, opt_onFailure, opt_method) {
+  var data = [];
+  for (var i = 0, element; (element = form.elements[i]); i++) {
+    if (element.name) {
+      data.push(encodeURIComponent(element.name) + '=' +
+          encodeURIComponent(element.value));
+    }
+  }
+  BlocklyStorage['makeFormRequest'](
+      form.action, data.join('&'), opt_onSuccess, opt_onFailure, opt_method);
+};
+
 /**
  * Submit the gallery submission form.
  * @private
@@ -91,23 +114,11 @@ BlocklyGallery.gallerySubmit_ = function() {
     title.focus();
     return;
   }
+
   var form = document.getElementById('galleryForm');
-  var data = [];
-  for (var i = 0, element; (element = form.elements[i]); i++) {
-    if (element.name) {
-      data[i] = encodeURIComponent(element.name) + '=' +
-          encodeURIComponent(element.value);
-    }
-  }
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', form.action);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-    var text = (xhr.status == 200) ?
-        BlocklyGames.getMsg('Games_submitted') :
-        BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: ' + xhr.status;
-    BlocklyDialogs.storageAlert(null, text);
+  var onSuccess = function() {
+    BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games_submitted'));
   };
-  xhr.send(data.join('&'));
+  BlocklyGallery.makeFormRequest_(form, onSuccess);
   BlocklyDialogs.hideDialog(true);
 };
