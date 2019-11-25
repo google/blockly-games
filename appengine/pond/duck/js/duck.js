@@ -43,7 +43,7 @@ goog.require('Pond.Visualization');
 Pond.Duck.editorTabs = null;
 
 /**
- * Object holding name of tabs.
+ * Object holding name of tabs to tab index.
  * @enum {number}
  */
 Pond.Duck.tabs = {
@@ -69,7 +69,7 @@ Pond.Duck.init = function () {
       if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
         return;
       }
-      Pond.Duck.selectTab(tabs, selectedIndex);
+      Pond.Duck.selectTab(selectedIndex);
       Pond.Duck.changeTab(selectedIndex);
     };
   }
@@ -193,10 +193,10 @@ Pond.Duck.init = function () {
 
 /**
  * Add the correct classes to make the tab at the sepcified index look selected.
- * @param {Array.<!Element>} tabs The list of tabs.
  * @param {number} selectedIndex The index of the tab to select.
  */
-Pond.Duck.selectTab = function(tabs, selectedIndex) {
+Pond.Duck.selectTab = function(selectedIndex) {
+  var tabs = Pond.Duck.editorTabs;
   for (var i = 0; i < tabs.length; i++) {
     if (selectedIndex == i) {
       Blockly.utils.dom.addClass(tabs[i], 'tab-selected');

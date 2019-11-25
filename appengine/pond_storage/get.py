@@ -25,9 +25,8 @@ import json
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-
-if forms.has_key("duckId"):
-  urlsafe_key = forms["duckId"].value
+if forms.has_key("key"):
+  urlsafe_key = forms["key"].value
   duck_key = ndb.Key(urlsafe=urlsafe_key)
   duck = duck_key.get()
   if verify_duck(duck):

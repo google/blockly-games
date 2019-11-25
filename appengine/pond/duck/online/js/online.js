@@ -47,9 +47,9 @@ Pond.Duck.Online.init = function() {
 
   Pond.Duck.init();
 
-  var duckId = BlocklyGames.getStringParamFromUrl('duckId', null);
-  if (duckId) {
-    Pond.Duck.Datastore.getDuck(duckId, Pond.Duck.Online.updateEditor);
+  var duckKey = BlocklyGames.getStringParamFromUrl('key', null);
+  if (duckKey) {
+    Pond.Duck.Datastore.getDuck(duckKey, Pond.Duck.Online.updateEditor);
   }
 
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
@@ -60,7 +60,7 @@ Pond.Duck.Online.init = function() {
 /**
  * Callback for when a user loads the page with a duck id.
  */
-Pond.Duck.Online.updateEditor= function() {
+Pond.Duck.Online.updateEditor = function() {
   var text;
   if (this.status == 200) {
     var meta = JSON.parse(this.responseText);
@@ -69,7 +69,7 @@ Pond.Duck.Online.updateEditor= function() {
     var tab_index = opt_xml ? Pond.Duck.tabs.BLOCKLY : Pond.Duck.tabs.EDITOR;
 
     BlocklyInterface.blocksDisabled = !opt_xml;
-    Pond.Duck.selectTab(Pond.Duck.editorTabs, tab_index);
+    Pond.Duck.selectTab(tab_index);
     Pond.Duck.ignoreEditorChanges_ = false;
     BlocklyInterface.setCode(code);
     Pond.Duck.ignoreEditorChanges_ = true;
