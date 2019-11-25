@@ -46,6 +46,16 @@ Pond.Duck.Datastore.getAllDucks = function(onLoadCallback) {
 };
 
 /**
+ * Get the duck with the specified duck id.
+ * @param {string} duckKey The key for the duck.
+ * @param {!Function} onLoadCallback The function to be called when response is received.
+ */
+Pond.Duck.Datastore.getDuck = function(duckKey, onLoadCallback) {
+    var url = 'pond-storage/ducks?key='+ duckKey;
+    Pond.Duck.Datastore.makeRequest_(url, 'GET', [], onLoadCallback);
+};
+
+/**
  * TODO: Remove. We should instead be using the commone make request.
  */
 Pond.Duck.Datastore.makeRequest_ = function(url, type, data, onLoadCallback) {

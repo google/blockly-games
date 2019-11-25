@@ -15,14 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Get all ducks for the current user 
+"""Given a duck key get the duck, otherwise get all ducks belonging to the user.
 """
 
 __author__ = "aschmiedt@google.com (Abby Schmiedt)"
 
+import cgi
 import json
 from pond_storage import *
 
-duckList = get_user_ducks()
-print("Content-Type: application/json\n")
-print(json.dumps({"duckList": duckList}))
+forms = cgi.FieldStorage()
+if forms.has_key("key"):
+  urlsafe_key = forms["key"].value
+  duck_key = ndb.Key(urlsafe=urlsafe_key)
+  duck = duck_key.get()
+  if verify_duck(duck):
+    print("Content-Type: application/json\n")
+    print(json.dumps({'name': duck.name, 'duckUrl': duck.key.urlsafe(), 'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml}}))
+else:
+  duckList = get_user_ducks()
+  print("Content-Type: application/json\n")
+  print(json.dumps({"duckList": duckList}))

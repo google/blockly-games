@@ -43,6 +43,15 @@ goog.require('Pond.Visualization');
 Pond.Duck.editorTabs = null;
 
 /**
+ * Object holding name of tabs to tab index.
+ * @enum {number}
+ */
+Pond.Duck.tabs = {
+  BLOCKLY: 0,
+  EDITOR: 1
+};
+
+/**
  * ACE editor fires change events even on programmatically caused changes.
  * This property is used to signal times when a programmatic change is made.
  */
@@ -60,13 +69,7 @@ Pond.Duck.init = function () {
       if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
         return;
       }
-      for (var i = 0; i < tabs.length; i++) {
-        if (selectedIndex == i) {
-          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
-        } else {
-          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
-        }
-      }
+      Pond.Duck.selectTab(selectedIndex);
       Pond.Duck.changeTab(selectedIndex);
     };
   }
@@ -74,7 +77,7 @@ Pond.Duck.init = function () {
   var tabs = Array.prototype.slice.call(
       document.querySelectorAll('#editorBar>.tab'));
   for (var i = 0; i < tabs.length; i++) {
-    BlocklyGames.bindClick(tabs[i], tabHandler(i));
+    BlocklyGames.bindClick(tabs[i], tabHandler(i, tabs));
   }
   Pond.Duck.editorTabs = tabs;
 
@@ -145,12 +148,7 @@ Pond.Duck.init = function () {
       '</value>' +
       '</block>' +
       '</xml>';
-  var xml = Blockly.Xml.textToDom(defaultXml);
-  // Clear the workspace to avoid merge.
-  BlocklyGames.workspace.clear();
-  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-  BlocklyGames.workspace.clearUndo();
-
+  BlocklyInterface.setCode(defaultXml);
   var players = [
     {
       start: new Blockly.utils.Coordinate(20, 80),
@@ -191,6 +189,21 @@ Pond.Duck.init = function () {
   Pond.reset();
   Pond.Duck.changeTab(0);
   Pond.Duck.ignoreEditorChanges_ = false;
+};
+
+/**
+ * Add the correct classes to make the tab at the sepcified index look selected.
+ * @param {number} selectedIndex The index of the tab to select.
+ */
+Pond.Duck.selectTab = function(selectedIndex) {
+  var tabs = Pond.Duck.editorTabs;
+  for (var i = 0; i < tabs.length; i++) {
+    if (selectedIndex == i) {
+      Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+    } else {
+      Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+    }
+  }
 };
 
 /**

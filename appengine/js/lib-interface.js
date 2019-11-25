@@ -117,7 +117,7 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
  * @param {string} code XML or JS code.
  */
 BlocklyInterface.setCode = function(code) {
-  if (BlocklyInterface.editor) {
+  if (BlocklyInterface.blocksDisabled) {
     // Text editor.
     BlocklyInterface.editor['setValue'](code, -1);
   } else {
