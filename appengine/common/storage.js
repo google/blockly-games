@@ -81,28 +81,6 @@ BlocklyStorage.xhrs_ = {};
 
 /**
  * Fire a new AJAX request.
- * @param {HTMLFormElement} form Form to retrieve request url and data from.
- * @param {?Function=} opt_onSuccess Function to call after request completes
- *    successfully.
- * @param {?Function=} opt_onFailure Function to call after request completes
- *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
- * @param {string=} [opt_method='POST'] The HTTP request method to use.
- */
-BlocklyStorage.makeFormRequest =
-    function(form, opt_onSuccess, opt_onFailure, opt_method) {
-  var data = [];
-  for (var i = 0, element; (element = form.elements[i]); i++) {
-    if (element.name) {
-      data.push(encodeURIComponent(element.name) + '=' +
-          encodeURIComponent(element.value));
-    }
-  }
-  BlocklyStorage.makeRequest(
-      form.action, data.join('&'), opt_onSuccess, opt_onFailure, opt_method);
-};
-
-/**
- * Fire a new AJAX request.
  * @param {string} url URL to fetch.
  * @param {string} data Body of data to be sent in request.
  * @param {?Function=} opt_onSuccess Function to call after request completes
