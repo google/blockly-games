@@ -44,4 +44,3 @@ if verify_duck(duck):
   if duck_info:
     print("Content-Type: application/json\n")
     print(json.dumps(duck_info))
-

@@ -43,4 +43,3 @@ if verify_duck(duck):
       meta["duckList"] = get_user_ducks()
     print("Content-Type: application/json\n")
     print(json.dumps(meta))
-
