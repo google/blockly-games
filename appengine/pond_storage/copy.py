@@ -39,7 +39,7 @@ if verify_duck(duck):
   duck_key = create_duck(new_duck_name, duck.code)
   if duck_key:
     meta = {"duck_key": duck_key.urlsafe()}
-    if forms.has_key("getUserDucks"):
+    if forms.has_key("getUserDucks") and forms["getUserDucks"].value == "true":
       meta["duckList"] = get_user_ducks()
     print("Content-Type: application/json\n")
     print(json.dumps(meta))

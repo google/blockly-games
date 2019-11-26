@@ -28,7 +28,7 @@
  * <p>
  * The bottom portion of this file contains utilities that should only be called
  * by Soy-generated JS code. Please do not use these functions directly from
- * your hand-writen code. Their names all start with '$$'.
+ * your hand-written code. Their names all start with '$$'.
  *
  * @author Garrett Boyer
  * @author Mike Samuel

@@ -122,7 +122,7 @@ Genetics.Visualization.mouseSexes_ = {};
 /**
  * List indexed by player ID of number of mice with pickFight function of that
  * player.
- * @private {!Array<number, number>}
+ * @private {!Array.<number, number>}
  * @const
  */
 Genetics.Visualization.pickFightOwners_ = [];

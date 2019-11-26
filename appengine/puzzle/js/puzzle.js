@@ -183,7 +183,7 @@ Puzzle.shuffle = function(arr) {
 
 /**
  * Return a list of all legs.
- * @return {!Array<!Array<string>>} Array of human-readable and
+ * @return {!Array.<!Array.<string>>} Array of human-readable and
  *   language-neutral tuples.
  */
 Puzzle.legs = function() {
