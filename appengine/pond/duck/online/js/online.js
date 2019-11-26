@@ -101,82 +101,72 @@ Pond.Duck.Online.tempDisableEditors = function(disable) {
  */
 Pond.Duck.Online.loadDuck = function() {
   document.getElementById('spinner').style.display = 'none';
-  if (this.status === 200) {
-    // Load duck code.
-    var meta = JSON.parse(this.responseText);
-    var opt_xml = meta['code']['opt_xml'];
-    var code = opt_xml || meta['code']['js'];
+  // Load duck code.
+  var meta = JSON.parse(this.responseText);
+  var opt_xml = meta['code']['opt_xml'];
+  var code = opt_xml || meta['code']['js'];
 
-    Pond.Duck.Online.tempDisableEditors(false);
-    Pond.Duck.setBlocksEnabled(!!opt_xml);
-    Pond.Duck.setCode(code);
+  Pond.Duck.Online.tempDisableEditors(false);
+  Pond.Duck.setBlocksEnabled(!!opt_xml);
+  Pond.Duck.setCode(code);
 
-    // Update content of duck info tab.
-    Pond.Duck.Online.renderDuckInfo.call(this);
+  // Update content of duck info tab.
+  Pond.Duck.Online.renderDuckInfo.call(this);
 
-    // Show Duck Info tab.
-    Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
-  } else {
-    Pond.Duck.Datastore.messageOnError.call(this);
-  }
+  // Show Duck Info tab.
+  Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
 };
 
 Pond.Duck.Online.renderDuckInfo = function() {
-  if (this.status === 200) {
-    // Load duck info template.
-    var data = JSON.parse(this.responseText);
-    var duckInfoEl = document.getElementById('duck-info');
-    duckInfoEl.innerHTML =
-        Pond.Duck.Online.soy.duckInfo({duck: data}, null);
+  // Load duck info template.
+  var data = JSON.parse(this.responseText);
+  var duckInfoEl = document.getElementById('duck-info');
+  duckInfoEl.innerHTML =
+      Pond.Duck.Online.soy.duckInfo({duck: data}, null);
 
-    // Bind button clicks.
-    if (data["published"]) {
-      BlocklyGames.bindClick(
-          'unPublishButton',
-          function() {
-            Pond.Duck.Datastore.setPublished(
-                Pond.Duck.Online.duckKey, false, Pond.Duck.Online.renderDuckInfo);
-          });
-    } else {
-      BlocklyGames.bindClick(
-          'publishButton',
-          function() {
-            Pond.Duck.Datastore.setPublished(
-                Pond.Duck.Online.duckKey, true, Pond.Duck.Online.renderDuckInfo);
-          });
-    }
+  // Bind button clicks.
+  if (data["published"]) {
     BlocklyGames.bindClick(
-        'deleteButton',
+        'unPublishButton',
         function() {
-          Pond.Duck.Datastore.deleteDuck(
-              Pond.Duck.Online.duckKey, function() {
-                if (this.status === 200) {
-                  var url = window.location.origin + '/pond-duck-online';
-                  window.location = url;
-                } else {
-                  Pond.Duck.Datastore.messageOnError.call(this);
-                }
-              });
-        });
-
-    BlocklyGames.bindClick(
-        'copyButton',
-        function() {
-          Pond.Duck.Datastore.copyDuck(
-              Pond.Duck.Online.duckKey, Pond.Duck.Datastore.redirectToNewDuck);
-        });
-    BlocklyGames.bindClick(
-        'saveButton',
-        function() {
-          Pond.Duck.Datastore.updateDuckCode(
-              Pond.Duck.Online.duckKey,
-              BlocklyInterface.getJsCode(),
-              BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml(),
-              Pond.Duck.Online.renderDuckInfo);
+          Pond.Duck.Datastore.setPublished(
+              Pond.Duck.Online.duckKey, false, Pond.Duck.Online.renderDuckInfo);
         });
   } else {
-    Pond.Duck.Datastore.messageOnError.call(this);
+    BlocklyGames.bindClick(
+        'publishButton',
+        function() {
+          Pond.Duck.Datastore.setPublished(
+              Pond.Duck.Online.duckKey, true, Pond.Duck.Online.renderDuckInfo);
+        });
   }
+  BlocklyGames.bindClick(
+      'deleteButton',
+      function() {
+        Pond.Duck.Datastore.deleteDuck(
+            Pond.Duck.Online.duckKey, false,
+            function() {
+              var url = window.location.origin
+                  + '/pond-duck-online?lang='+ BlocklyGames.LANG;
+              window.location = url;
+            });
+      });
+
+  BlocklyGames.bindClick(
+      'copyButton',
+      function() {
+        Pond.Duck.Datastore.copyDuck(Pond.Duck.Online.duckKey,false,
+            Pond.Duck.Datastore.redirectToNewDuck);
+      });
+  BlocklyGames.bindClick(
+      'saveButton',
+      function() {
+        Pond.Duck.Datastore.updateDuckCode(
+            Pond.Duck.Online.duckKey,
+            BlocklyInterface.getJsCode(),
+            BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml(),
+            Pond.Duck.Online.renderDuckInfo);
+      });
 };
 
 /* Logic for Buttons and Forms for debugging purposes. */
@@ -267,14 +257,8 @@ Pond.Duck.Online.showDeleteDuckForm = function() {
  */
 Pond.Duck.Online.createDuckFormOnLoadCallback_ = function(action) {
   return function() {
-    var text;
-    if (this.status == 200) {
-      var meta = JSON.parse(this.responseText);
-      text = 'Duck ' + action + ' with key: ' + meta['duck_key'];
-    } else {
-      text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
-          + this.status;
-    }
+    var meta = JSON.parse(this.responseText);
+    var text = 'Duck ' + action + ' with key: ' + meta['duck_key'];
     BlocklyDialogs.storageAlert(null, text);
   };
 };
@@ -315,7 +299,7 @@ Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   var form = document.getElementById(formId);
   var data = Pond.Duck.Online.encodeFormElements_(form);
   var onLoadCallback = Pond.Duck.Online.createDuckFormOnLoadCallback_(action);
-  Pond.Duck.Datastore.makeRequest_(form.action, 'POST', data, onLoadCallback);
+  BlocklyStorage['makeRequest'](form.action, data.join('&'), onLoadCallback);
   BlocklyDialogs.hideDialog(true);
 };
 /**

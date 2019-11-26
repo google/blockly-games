@@ -35,11 +35,12 @@ if (location.host == 'blockly-games.appspot.com') {
 
   // Supported languages (consistent across all apps).
   window['BlocklyGamesLanguages'] = [
-    'ar', 'be', 'be-tarask', 'bg', 'bn', 'br', 'cs', 'da', 'de', 'el', 'en',
-    'eo', 'es', 'eu', 'fa', 'fi', 'fr', 'gl', 'ha', 'he', 'hi', 'hu', 'hy',
-    'ia', 'id', 'ig', 'is', 'it', 'ja', 'kab', 'ko', 'lt', 'lv', 'ms', 'my',
-    'nb', 'nl', 'pl', 'pms', 'pt', 'pt-br', 'ro', 'ru', 'sc', 'sk', 'sl', 'sq',
-    'sr', 'sv', 'th', 'ti', 'tr', 'uk', 'ur', 'vi', 'yo', 'zh-hans', 'zh-hant'
+    'ar', 'be', 'be-tarask', 'bg', 'bn', 'br', 'cs', 'da', 'de', 'el',
+    'en', 'eo', 'es', 'eu', 'fa', 'fi', 'fo', 'fr', 'gl', 'ha', 'he',
+    'hi', 'hu', 'hy', 'ia', 'id', 'ig', 'is', 'it', 'ja', 'kab', 'ko',
+    'lt', 'lv', 'ms', 'my', 'nb', 'nl', 'pl', 'pms', 'pt', 'pt-br',
+    'ro', 'ru', 'sc', 'sk', 'sl', 'sq', 'sr', 'sv', 'th', 'ti', 'tr',
+    'uk', 'ur', 'vi', 'yo', 'zh-hans', 'zh-hant'
   ];
 
   // Use a series of heuristics that determine the likely language of this user.

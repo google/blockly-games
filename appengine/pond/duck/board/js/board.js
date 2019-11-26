@@ -51,7 +51,7 @@ Pond.Duck.Board.init = function () {
 Pond.Duck.Board.copyDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
   var duckKey = e.target.getAttribute('data-duckurl');
-  Pond.Duck.Datastore.copyDuck(duckKey,
+  Pond.Duck.Datastore.copyDuck(duckKey, true,
       Pond.Duck.Board.createGetDucksCallback('copied'));
 };
 
@@ -62,7 +62,7 @@ Pond.Duck.Board.copyDuck = function(e) {
 Pond.Duck.Board.deleteDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
   var duckKey = e.target.getAttribute('data-duckurl');
-  Pond.Duck.Datastore.deleteDuck(duckKey,
+  Pond.Duck.Datastore.deleteDuck(duckKey, true,
       Pond.Duck.Board.createGetDucksCallback('deleted'));
 };
 
@@ -73,7 +73,9 @@ Pond.Duck.Board.deleteDuck = function(e) {
 Pond.Duck.Board.editDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
   var duckKey = e.target.getAttribute('data-duckurl');
-  var url = window.location.origin + '/pond-duck-online?duck=' + duckKey;
+  var url = window.location.origin
+      + '/pond-duck-online?lang='+ BlocklyGames.LANG
+      + '&duck=' + duckKey;
   window.location = url;
 };
 
@@ -90,16 +92,9 @@ Pond.Duck.Board.createDuck = function() {
  */
 Pond.Duck.Board.createGetDucksCallback = function(action) {
   return function() {
-    var text;
-    if (this.status == 200) {
-      Pond.Duck.Board.refreshDuckList.call(this);
-      var meta = JSON.parse(this.responseText);
-      text = 'Duck ' + action + ' with key: ' + meta['duck_key'];
-    } else {
-      text = BlocklyGames.getMsg('Games_httpRequestError') + '\nStatus: '
-          + this.status;
-      document.getElementById('loading').style.display = 'none';
-    }
+    Pond.Duck.Board.refreshDuckList.call(this);
+    var meta = JSON.parse(this.responseText);
+    var text = 'Duck ' + action + ' with key: ' + meta['duck_key'];
     BlocklyDialogs.storageAlert(null, text);
   };
 };
