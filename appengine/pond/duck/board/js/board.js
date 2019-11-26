@@ -45,35 +45,35 @@ Pond.Duck.Board.init = function () {
 };
 
 /**
- * Copy the duck with the given duckId.
- * @param {Event} e The event that holds the duckId.
+ * Copy the duck with the given duck key.
+ * @param {Event} e The event that holds the duck key.
  */
 Pond.Duck.Board.copyDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckId = e.target.getAttribute('data-duckurl');
-  Pond.Duck.Datastore.copyDuck(duckId,
+  var duckKey = e.target.getAttribute('data-duckurl');
+  Pond.Duck.Datastore.copyDuck(duckKey,
       Pond.Duck.Board.createGetDucksCallback('copied'));
 };
 
 /**
- * Delete the duck with the given duckId.
- * @param {Event} e The event that holds the duckId.
+ * Delete the duck with the given duck key.
+ * @param {Event} e The event that holds the duck key.
  */
 Pond.Duck.Board.deleteDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckId = e.target.getAttribute('data-duckurl');
-  Pond.Duck.Datastore.deleteDuck(duckId,
+  var duckKey = e.target.getAttribute('data-duckurl');
+  Pond.Duck.Datastore.deleteDuck(duckKey,
       Pond.Duck.Board.createGetDucksCallback('deleted'));
 };
 
 /**
  * Redirect the user to a page to edit the duck.
- * @param {Event} e The event that holds the duckId.
+ * @param {Event} e The event that holds the duck key.
  */
 Pond.Duck.Board.editDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckId = e.target.getAttribute('data-duckurl');
-  var url = window.location.origin + '/pond-duck-online?duck=' + duckId;
+  var duckKey = e.target.getAttribute('data-duckurl');
+  var url = window.location.origin + '/pond-duck-online?duck=' + duckKey;
   window.location = url;
 };
 

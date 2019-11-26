@@ -1,13 +1,13 @@
 goog.provide('Pond.Duck.Datastore');
 
 /**
- * Copy the duck with the given duckId.
- * @param {string} duckId The duckId of the duck to copy.
+ * Copy the duck with the given key.
+ * @param {string} duckKey The duckKey of the duck to copy.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Duck.Datastore.copyDuck = function(duckId, onLoadCallback) {
+Pond.Duck.Datastore.copyDuck = function(duckKey, onLoadCallback) {
     var data = [];
-    data.push(Pond.Duck.Datastore.encodeElements('key', duckId));
+    data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', true));
     Pond.Duck.Datastore.makeRequest_('pond-storage/copy', 'POST', data, onLoadCallback);
 };
@@ -25,42 +25,42 @@ Pond.Duck.Datastore.createDuck = function(name, onLoadCallback) {
 };
 
 /**
- * Delete the duck with the given duckId.
- * @param {string} duckId The duckId of the duck to copy.
+ * Delete the duck with the given key.
+ * @param {string} duckKey The duckKey of the duck to copy.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Duck.Datastore.deleteDuck = function(duckId, onLoadCallback) {
+Pond.Duck.Datastore.deleteDuck = function(duckKey, onLoadCallback) {
     var data = [];
-    data.push(Pond.Duck.Datastore.encodeElements('key', duckId));
+    data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', true));
     Pond.Duck.Datastore.makeRequest_('pond-storage/delete', 'POST', data, onLoadCallback);
 };
 
 /**
  * Save updated duck code.
- * @param {string} duckId The duckId of the duck to copy.
- * @param {string} js The javscript code to save.
+ * @param {string} duckKey The key of the duck to copy.
+ * @param {string} js The Javascript code to save.
  * @param {string} xml The xml code to save, empty if user is in javascript
  *      mode.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Duck.Datastore.updateDuckCode = function(duckId, js, xml, onLoadCallback) {
+Pond.Duck.Datastore.updateDuckCode = function(duckKey, js, xml, onLoadCallback) {
     var data = [];
-    data.push(Pond.Duck.Datastore.encodeElements('key', duckId));
+    data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('js', js));
     data.push(Pond.Duck.Datastore.encodeElements('xml', xml));
     Pond.Duck.Datastore.makeRequest_('pond-storage/update', 'POST', data, onLoadCallback);
 };
 
 /**
- * Get all the ducks for the current user.
+ * Get the specified ducks.
  * @param {string} duckKey The key for the duck.
  * @param {string} doPublish Whether to publish.
  * @param {!Function} onLoadCallback The function to be called when response is received.
  */
-Pond.Duck.Datastore.setPublished = function(duckId, doPublish, onLoadCallback) {
+Pond.Duck.Datastore.setPublished = function(duckKey, doPublish, onLoadCallback) {
     var data = [];
-    data.push(Pond.Duck.Datastore.encodeElements('key', duckId));
+    data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('publish', doPublish));
     Pond.Duck.Datastore.makeRequest_('pond-storage/publish', 'POST', data, onLoadCallback);
 };
@@ -93,9 +93,7 @@ Pond.Duck.Datastore.makeRequest_ = function(url, type, data, onLoadCallback) {
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     }
     xhr.onload = onLoadCallback;
-    console.log(url);
     if (data) {
-        console.log(data.join('&'));
         xhr.send(data.join('&'));
     } else {
         xhr.send();

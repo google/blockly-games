@@ -242,7 +242,7 @@ Pond.Duck.changeTab = function (index) {
   }
   if (index === BLOCKS || index === JAVASCRIPT) {
     // Synchronize the documentation popup.
-    Pond.Duck.updateLanguage(index === BLOCKS);
+    Pond.Duck.updateDocLanguage(index === BLOCKS);
     // Synchronize the JS editor.
     if (index === JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
       Pond.Duck.setCode(BlocklyInterface.getJsCode(), true);
@@ -250,7 +250,11 @@ Pond.Duck.changeTab = function (index) {
   }
 };
 
-Pond.Duck.updateLanguage = function (isBlocks) {
+/**
+ * Update programming language displayed in doc.
+ * @param {boolean} isBlocks Whether to update the docs to Block language.
+ */
+Pond.Duck.updateDocLanguage = function (isBlocks) {
   document.getElementById('docsButton').disabled = false;
   BlocklyGames.LEVEL = isBlocks ? 11 : 12;
   if (Pond.isDocsVisible_) {
@@ -290,7 +294,7 @@ Pond.Duck.editorChanged = function () {
 /**
  * Set the given code (XML or JS) to the editor (Blockly or ACE).
  * @param {string} code XML or JS code.
- * @param {boolean=} opt_setJSOverride Whether to set Js editor, even if blocks
+ * @param {boolean=} opt_setJSOverride Whether to set Js editor, even if Blocks
  *    are not currently disabled.
  */
 Pond.Duck.setCode = function(code, opt_setJSOverride) {
