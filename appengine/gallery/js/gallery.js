@@ -42,7 +42,7 @@ Gallery.init = function() {
     document.body.className = 'admin';
   }
   // Render the Soy template.
-  // First, just render the messages.
+  // First, render the messages so we can access the app name.
   document.body.innerHTML = Gallery.soy.messages({}, null, {});
   // Second, look up the app name message.
   var appName = isAdmin ?
