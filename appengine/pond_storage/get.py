@@ -22,6 +22,7 @@ __author__ = "aschmiedt@google.com (Abby Schmiedt)"
 
 import cgi
 import json
+from google.appengine.ext import ndb
 from pond_storage import *
 
 forms = cgi.FieldStorage()
@@ -29,9 +30,10 @@ if forms.has_key("key"):
   urlsafe_key = forms["key"].value
   duck_key = ndb.Key(urlsafe=urlsafe_key)
   duck = duck_key.get()
-  if verify_duck(duck):
+  duck_info = get_duck_info(duck)
+  if duck_info:
     print("Content-Type: application/json\n")
-    print(json.dumps({'name': duck.name, 'duckUrl': duck.key.urlsafe(), 'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml}}))
+    print(json.dumps(duck_info))
 else:
   duckList = get_user_ducks()
   print("Content-Type: application/json\n")

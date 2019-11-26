@@ -27,8 +27,10 @@
 /**
  * Web page structure.
  * @param appName Name of application.
+ * @param tabareaHtml Html content of tabarea
  */
 {template .start}
+
   {call .messages /}
   {call BlocklyGames.soy.headerBar}
     {param appName: $appName /}
@@ -37,13 +39,7 @@
   {call Pond.soy.visualization /}
 
   <div id="tabarea">
-    <div id="editorBar" class="tab-bar">
-      <div class="tab tab-selected">{{msg meaning="Games.blocks" desc="IBID"}}Blocks{{/msg}}</div>
-      <div class="tab">JavaScript</div>
-    </div>
-    <div class="tab-bar-clear"></div>
-    <div id="blockly"></div>
-    <div id="editor"></div>
+    {$tabareaHtml |noAutoescape}
   </div>
 
   {call .toolbox /}

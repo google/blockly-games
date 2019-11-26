@@ -17,6 +17,36 @@
   color: #ccc;
 }
 
+#duck-info {
+  position: fixed !important;
+  height: auto !important;
+  bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+.playerDuckBody {
+  background-image: url(../sprites.png);
+  background-position: 0 0;
+  height: 35px;
+  position:absolute;
+  width: 35px;
+}
+
+.playerDuckHead {
+  background-image: url(../sprites.png);
+  background-position: -140px 0;
+  height: 35px;
+  left: 12px;
+  position:absolute;
+  width: 35px;
+}
+
+.playerDuckIcon {
+  position:relative;
+  height: 35px;
+  width: 35px;
+}
+
 /* Tabs */
 .tab {
   background: #fff;

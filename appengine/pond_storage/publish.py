@@ -15,13 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Make a copy of the specified Duck 
+"""Publish the specified Duck 
 """
 
-__author__ = "aschmiedt@google.com (Abby Schmiedt)"
+__author__ = "kozbial@google.com (Monica Kozbial)"
 
 import cgi
-import re
 import json
 from google.appengine.ext import ndb
 from pond_storage import *
@@ -31,15 +30,14 @@ urlsafe_key = forms["key"].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
 if verify_duck(duck):
-  # Make a new name for the copy.
-  if duck.name[-1].isdigit():
-    new_duck_name = re.sub('\d+',lambda x: str(int(x.group()) + 1), duck.name)
+  publish = forms["publish"].value
+  if publish == "true":
+    if not duck.publish():
+      print("Status: 401 Already published")
   else:
-    new_duck_name = duck.name + '2'
-  duck_key = create_duck(new_duck_name, duck.code)
-  if duck_key:
-    meta = {"duck_key": duck_key.urlsafe()}
-    if forms.has_key("getUserDucks"):
-      meta["duckList"] = get_user_ducks()
-    print("Content-Type: application/json\n")
-    print(json.dumps(meta))
+    if not duck.unpublish():
+      print("Status: 402 Not published")
+duck_info = get_duck_info(duck)
+if duck_info:
+  print("Content-Type: application/json\n")
+  print(json.dumps(duck_info))

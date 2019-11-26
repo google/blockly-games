@@ -18,5 +18,14 @@
     {param appName}
       {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
     {/param}
+    {param tabareaHtml}
+      <div id="editorBar" class="tab-bar">
+        <div class="tab tab-selected">{{msg meaning="Games.blocks" desc="IBID"}}Blocks{{/msg}}</div>
+        <div class="tab">JavaScript</div>
+      </div>
+      <div class="tab-bar-clear"></div>
+      <div id="blockly" class="tab-content"></div>
+      <div id="editor" class="tab-content"></div>
+    {/param}
   {/call}
 {/template}

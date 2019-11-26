@@ -40,6 +40,7 @@ if verify_duck(duck):
     name = forms["name"].value
     duck.name = name
   duck.put()
-  meta = {"duck_key": duck_key.urlsafe()}
-  print("Content-Type: application/json\n")
-  print(json.dumps(meta))
+  duck_info = get_duck_info(duck)
+  if duck_info:
+    print("Content-Type: application/json\n")
+    print(json.dumps(duck_info))

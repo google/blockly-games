@@ -107,6 +107,7 @@ handlers:
 - url: /pond-duck-board
   static_files: pond-duck-board.html
   upload: pond-duck-board\.html
+  login: required
   secure: always
 - url: /pond/
   static_dir: pond
@@ -123,11 +124,17 @@ handlers:
   script: pond_storage/delete.py
   login: required
   secure: always
-- url: /pond-storage/ducks
+- url: /pond-storage/get
   script: pond_storage/get.py
+  login: required
   secure: always
 - url: /pond-storage/copy
   script: pond_storage/copy.py
+  login: required
+  secure: always
+- url: /pond-storage/publish
+  script: pond_storage/publish.py
+  login: required
   secure: always
 
 # Genetics app.
