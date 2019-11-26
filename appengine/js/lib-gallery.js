@@ -113,6 +113,7 @@ BlocklyGallery.gallerySubmit_ = function() {
     title.focus();
     return;
   }
+
   var form = document.getElementById('galleryForm');
   var onSuccess = function() {
     BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games_submitted'));
