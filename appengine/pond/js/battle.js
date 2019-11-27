@@ -142,6 +142,12 @@ Pond.Battle.START_XY = [
 ];
 
 /**
+ * The index for the start location of the avatars.
+ * @type {number}
+ */
+Pond.Battle.LOC_IDX = 0;
+
+/**
  * Stop and reset the battle.
  */
 Pond.Battle.reset = function() {
@@ -153,6 +159,7 @@ Pond.Battle.reset = function() {
   for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
     avatar.reset();
   }
+  Pond.Battle.LOC_IDX = 0;
 };
 
 /**
@@ -164,18 +171,11 @@ Pond.Battle.clearAvatars = function() {
 
 /**
  * Create avatar and add it to the battle.
- * @param {string} name Name of avatar.
- * @param {string|!Function} code Avatar's code, or a code generator.
- * @param {Blockly.utils.Coordinate} opt_startLoc Start location.
- * @param {?number} opt_startDamage Initial damage to avatar (0-100, default 0).
+ * @param {!Pond.Avatar} avatar The avatar to add to the battle.
  */
 Pond.Battle.addAvatar = function(avatar) {
-  // TODO: Add a setter method for the battle.
-  avatar.battle_ = Pond.Battle;
-  if (!avatar.startLoc_) {
-    var i = Pond.Battle.AVATARS.length;
-    avatar.startLoc_ = Pond.Battle.START_XY[i];
-  }
+  var startLoc = Pond.Battle.START_XY[Pond.Battle.LOC_IDX++];
+  avatar.battleSetup(Pond.Battle, startLoc);
   Pond.Battle.AVATARS.push(avatar);
 };
 

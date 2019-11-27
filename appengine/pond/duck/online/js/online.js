@@ -43,6 +43,12 @@ BlocklyGames.NAME = 'pond-duck-online';
 Pond.Duck.Online.duckKey = undefined;
 
 /**
+ * Name of the currently loaded duck or null if no duck is loaded.
+ * @type {?string}
+ */
+Pond.Duck.Online.NAME = null;
+
+/**
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Duck.Online.init = function() {
@@ -63,8 +69,11 @@ Pond.Duck.Online.init = function() {
         Pond.Duck.Online.duckKey,
         Pond.Duck.Online.addNewOpponents);
   });
+  BlocklyGames.bindClick('defaultOpponents', function() {
+    Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
+  });
 
-  Pond.Duck.loadDefaultPlayers();
+  Pond.Duck.loadDefaultAvatars();
 
   Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
   if (Pond.Duck.Online.duckKey) {
@@ -115,12 +124,13 @@ Pond.Duck.Online.loadDuck = function() {
   Pond.Duck.Online.tempDisableEditors(false);
   Pond.Duck.setBlocksEnabled(!!opt_xml);
   Pond.Duck.setCode(code);
-
+  Pond.Duck.Online.NAME = meta.name;
   // Update content of duck info tab.
   Pond.Duck.Online.renderDuckInfo.call(this);
 
   // Show Duck Info tab.
   Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
+  Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
 };
 
 Pond.Duck.Online.renderDuckInfo = function() {
@@ -181,16 +191,13 @@ Pond.Duck.Online.renderDuckInfo = function() {
  */
 Pond.Duck.Online.addNewOpponents = function() {
   var opponentList = JSON.parse(this.responseText);
-  var playerList = [];
+  var avatarList = [Pond.Avatar.createCurrentAvatar(Pond.Duck.Online.NAME)];
   if (opponentList) {
     for (var i = 0, duck; (duck = opponentList[i]); i++) {
-      // TODO: Figure out a better way to do the start location.
-      var startLoc = Pond.Battle.START_XY[i];
-      var newAvatar = new Pond.Avatar(duck.name, duck.code.js, startLoc);
-      playerList.push(newAvatar);
+      var newAvatar = new Pond.Avatar(duck.name, duck.code.js);
+      avatarList.push(newAvatar);
     }
-    playerList.push(Pond.Avatar.createCurrentAvatar('name'));
-    Pond.Duck.loadPlayers(playerList);
+    Pond.Duck.loadAvatars(avatarList);
   }
 };
 
