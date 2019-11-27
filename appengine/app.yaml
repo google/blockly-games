@@ -128,6 +128,10 @@ handlers:
   script: pond_storage/get.py
   login: required
   secure: always
+- url: /pond-storage/opponents
+  script: pond_storage/opponents.py
+  login: required
+  secure: always
 - url: /pond-storage/copy
   script: pond_storage/copy.py
   login: required

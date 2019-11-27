@@ -30,6 +30,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Pond');
 goog.require('Pond.Duck');
+goog.require('Pond.Player');
 goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Online.soy');
 
@@ -57,6 +58,11 @@ Pond.Duck.Online.init = function() {
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
   BlocklyGames.bindClick('duckUpdateButton', Pond.Duck.Online.showUpdateDuckForm);
   BlocklyGames.bindClick('duckDeleteButton', Pond.Duck.Online.showDeleteDuckForm);
+  BlocklyGames.bindClick('getOpponents', function() {
+    Pond.Duck.Datastore.getOpponents(
+        Pond.Duck.Online.duckKey,
+        Pond.Duck.Online.addNewOpponents);
+  });
 
   Pond.Duck.loadDefaultPlayers();
 
@@ -158,6 +164,7 @@ Pond.Duck.Online.renderDuckInfo = function() {
         Pond.Duck.Datastore.copyDuck(Pond.Duck.Online.duckKey,false,
             Pond.Duck.Datastore.redirectToNewDuck);
       });
+
   BlocklyGames.bindClick(
       'saveButton',
       function() {
@@ -167,6 +174,21 @@ Pond.Duck.Online.renderDuckInfo = function() {
             BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml(),
             Pond.Duck.Online.renderDuckInfo);
       });
+};
+
+/**
+ * Load a new set of opponents.
+ */
+Pond.Duck.Online.addNewOpponents = function() {
+  var opponentList = JSON.parse(this.responseText);
+  var playerList = [];
+  if (opponentList) {
+    for (var i = 0, duck; (duck = opponentList[i]); i++) {
+      var newPlayer = Pond.Player.createPlayerFromDuck(duck, i);
+      playerList.push(newPlayer);
+    }
+    Pond.Duck.loadPlayers(playerList);
+  }
 };
 
 /* Logic for Buttons and Forms for debugging purposes. */

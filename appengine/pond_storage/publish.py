@@ -37,6 +37,7 @@ if verify_duck(duck):
   else:
     if not duck.unpublish():
       print("Status: 402 Not published")
+# TODO: Check the logic here. I took out verify from get_duck_info so might need to add here.
 duck_info = get_duck_info(duck)
 if duck_info:
   print("Content-Type: application/json\n")
