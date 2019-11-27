@@ -30,7 +30,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Pond');
 goog.require('Pond.Duck');
-goog.require('Pond.Player');
+goog.require('Pond.Battle');
 goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Online.soy');
 
@@ -184,9 +184,12 @@ Pond.Duck.Online.addNewOpponents = function() {
   var playerList = [];
   if (opponentList) {
     for (var i = 0, duck; (duck = opponentList[i]); i++) {
-      var newPlayer = Pond.Player.createPlayerFromDuck(duck, i);
-      playerList.push(newPlayer);
+      // TODO: Figure out a better way to do the start location.
+      var startLoc = Pond.Battle.START_XY[i];
+      var newAvatar = new Pond.Avatar(duck.name, duck.code.js, startLoc);
+      playerList.push(newAvatar);
     }
+    playerList.push(Pond.Avatar.createCurrentAvatar('name'));
     Pond.Duck.loadPlayers(playerList);
   }
 };
