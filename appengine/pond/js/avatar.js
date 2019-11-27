@@ -39,15 +39,63 @@ goog.require('BlocklyInterface');
  * @param {!Pond.Battle} battle The battle featuring the avatar.
  * @constructor
  */
-Pond.Avatar = function(name, code, startLoc, startDamage, battle) {
+Pond.Avatar = function(name, code, opt_startLoc, startDamage, battle) {
   this.name = name;
   this.code_ = code;
-  this.startLoc_ = startLoc;
+  this.startLoc_ = opt_startLoc;
   this.startDamage_ = startDamage || 0;
   this.battle_ = battle;
   this.loc = new Blockly.utils.Coordinate();
   this.reset();
   console.log(this + ' loaded.');
+};
+
+
+/**
+ * Starting positions for avatars.
+ */
+Pond.Avatar.START_XY = [
+  new Blockly.utils.Coordinate(10, 90),
+  new Blockly.utils.Coordinate(90, 10),
+  new Blockly.utils.Coordinate(10, 10),
+  new Blockly.utils.Coordinate(90, 90),
+  // Only first four positions are currently used.
+  new Blockly.utils.Coordinate(50, 99),
+  new Blockly.utils.Coordinate(50, 1),
+  new Blockly.utils.Coordinate(1, 50),
+  new Blockly.utils.Coordinate(99, 50),
+  new Blockly.utils.Coordinate(50, 49)
+];
+
+
+/**
+ * Given a name create the default player.
+ * @param {string} name The name of the default player.
+ */
+Pond.Avatar.createDefaultAvatar = function(name) {
+  if (name == 'Pond_rookName') {
+    var div = document.getElementById('playerRook');
+    var code = div.textContent;
+    var startCoord = new Blockly.utils.Coordinate(80, 80);
+  } else if (name == 'Pond_counterName') {
+    var div = document.getElementById('playerCounter');
+    var code = div.textContent;
+    var startCoord = new Blockly.utils.Coordinate(20, 20);
+  } else if (name == 'Pond_sniperName') {
+    var div = document.getElementById('playerSniper');
+    var code = div.textContent;
+    var startCoord = new Blockly.utils.Coordinate(80, 20);
+  }
+  return new Pond.Avatar(name, code, startCoord, 0);
+};
+
+/**
+ * Create an avatar based on the current user's duck.
+ * @param {string} name The name of the avatar.
+ */
+Pond.Avatar.createCurrentAvatar = function(name) {
+  var startCoord = new Blockly.utils.Coordinate(20, 80);
+  return new Pond.Avatar(name, BlocklyInterface.getJsCode, startCoord, 0);
 };
 
 /**

@@ -36,6 +36,5 @@ if forms.has_key("key"):
     print("Status: 403 Not enough ducks for a match")
   else:
     opponents = opponents[0:3]
-    opponents.append(get_duck_info(duck))
     print("Content-Type: application/json\n")
     print(json.dumps(opponents))

@@ -34,7 +34,6 @@ goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
-goog.require('Pond.Player');
 goog.require('Pond.Visualization');
 
 /**
@@ -131,22 +130,23 @@ Pond.Duck.init = function () {
  * Load default players to pond game.
  */
 Pond.Duck.loadDefaultPlayers = function () {
-  var currentPlayer = Pond.Player.createCurrentPlayer('Pond_myName');
-  var rookPlayer = Pond.Player.createDefaultPlayer('Pond_rookName');
-  var counterPlayer = Pond.Player.createDefaultPlayer('Pond_counterName');
-  var sniperPlayer = Pond.Player.createDefaultPlayer('Pond_sniperName');
-  var players = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
+  // Create avatars here.
+  var currentPlayer = Pond.Avatar.createCurrentAvatar('Pond_myName');
+  var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName');
+  var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName');
+  var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName');
+  var avatars = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
 
-  Pond.Duck.loadPlayers(players);
+  Pond.Duck.loadPlayers(avatars);
 };
 
 /**
  * Load specified players to pond game.
  */
-Pond.Duck.loadPlayers = function (players) {
+Pond.Duck.loadPlayers = function (avatars) {
   Pond.Battle.clearAvatars();
-  for (var playerData, i = 0; (playerData = players[i]); i++) {
-    Pond.Battle.addAvatar(playerData.name, playerData.code, playerData.start, playerData.damage);
+  for (var avatar, i = 0; (avatar = avatars[i]); i++) {
+    Pond.Battle.addAvatar(avatar);
   }
   Pond.reset();
 };

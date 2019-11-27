@@ -169,13 +169,13 @@ Pond.Battle.clearAvatars = function() {
  * @param {Blockly.utils.Coordinate} opt_startLoc Start location.
  * @param {?number} opt_startDamage Initial damage to avatar (0-100, default 0).
  */
-Pond.Battle.addAvatar = function(name, code, opt_startLoc, opt_startDamage) {
-  if (!opt_startLoc) {
+Pond.Battle.addAvatar = function(avatar) {
+  // TODO: Add a setter method for the battle.
+  avatar.battle_ = Pond.Battle;
+  if (!avatar.startLoc_) {
     var i = Pond.Battle.AVATARS.length;
-    opt_startLoc = Pond.Battle.START_XY[i];
+    avatar.startLoc_ = Pond.Battle.START_XY[i];
   }
-  var avatar = new Pond.Avatar(name, code, opt_startLoc, opt_startDamage,
-                               Pond.Battle);
   Pond.Battle.AVATARS.push(avatar);
 };
 
