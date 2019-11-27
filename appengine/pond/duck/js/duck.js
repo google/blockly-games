@@ -34,6 +34,7 @@ goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
+goog.require('Pond.Player');
 goog.require('Pond.Visualization');
 
 /**
@@ -125,36 +126,17 @@ Pond.Duck.init = function () {
       'damage,health,loc_x,getX,loc_y,getY,');
 };
 
+
 /**
  * Load default players to pond game.
  */
 Pond.Duck.loadDefaultPlayers = function () {
-  var players = [
-    {
-      start: new Blockly.utils.Coordinate(20, 80),
-      damage: 0,
-      name: 'Pond_myName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 80),
-      damage: 0,
-      name: 'Pond_rookName',
-      code: 'playerRook'
-    },
-    {
-      start: new Blockly.utils.Coordinate(20, 20),
-      damage: 0,
-      name: 'Pond_counterName',
-      code: 'playerCounter'
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 20),
-      damage: 0,
-      name: 'Pond_sniperName',
-      code: 'playerSniper'
-    }
-  ];
+  var currentPlayer = Pond.Player.createCurrentPlayer('Pond_myName');
+  var rookPlayer = Pond.Player.createDefaultPlayer('Pond_rookName');
+  var counterPlayer = Pond.Player.createDefaultPlayer('Pond_counterName');
+  var sniperPlayer = Pond.Player.createDefaultPlayer('Pond_sniperName');
+  var players = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
+
   Pond.Duck.loadPlayers(players);
 };
 
@@ -164,14 +146,7 @@ Pond.Duck.loadDefaultPlayers = function () {
 Pond.Duck.loadPlayers = function (players) {
   Pond.Battle.clearAvatars();
   for (var playerData, i = 0; (playerData = players[i]); i++) {
-    if (playerData.code) {
-      var div = document.getElementById(playerData.code);
-      var code = div.textContent;
-    } else {
-      var code = BlocklyInterface.getJsCode;
-    }
-    var name = BlocklyGames.getMsg(playerData.name);
-    Pond.Battle.addAvatar(name, code, playerData.start, playerData.damage);
+    Pond.Battle.addAvatar(playerData.name, playerData.code, playerData.start, playerData.damage);
   }
   Pond.reset();
 };

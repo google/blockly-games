@@ -129,8 +129,6 @@ def get_user_ducks():
 
 """Returns object containing specified duck's information or None."""
 def get_duck_info(duck):
-  if not verify_duck(duck):
-    return None
   duck_info = {
       'name': duck.name,
       'duck_key': duck.key.urlsafe(),
@@ -177,3 +175,16 @@ def create_duck(name, code):
     duck = Duck(name=name, code=code, parent=user_key)
     duck_key = duck.put()
     return duck_key
+
+def get_opponent_ducks(duck):
+  # TODO: Add filter for published ducks
+  user_key = get_user_key(users.get_current_user())
+  duck_query = Duck.query()
+  duck_list = []
+  for duck in duck_query:
+    if duck.key.parent() != user_key:
+      duck_info = get_duck_info(duck)
+      if duck.published:
+        duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
+      duck_list.append(duck_info)
+  return duck_list

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Given a duck key get the duck, otherwise get all ducks belonging to the user.
+"""Given a duck key find three opponents based on the ducks ranking.
 """
 
 __author__ = "aschmiedt@google.com (Abby Schmiedt)"
@@ -30,11 +30,12 @@ if forms.has_key("key"):
   urlsafe_key = forms["key"].value
   duck_key = ndb.Key(urlsafe=urlsafe_key)
   duck = duck_key.get()
-  if verify_duck(duck):
-    duck_info = get_duck_info(duck)
+  # Add logic here to pick the duck based on the ranking
+  opponents = get_opponent_ducks(duck)
+  if len(opponents) < 3:
+    print("Status: 403 Not enough ducks for a match")
+  else:
+    opponents = opponents[0:3]
+    opponents.append(get_duck_info(duck))
     print("Content-Type: application/json\n")
-    print(json.dumps(duck_info))
-else:
-  duckList = get_user_ducks()
-  print("Content-Type: application/json\n")
-  print(json.dumps({"duckList": duckList}))
+    print(json.dumps(opponents))
