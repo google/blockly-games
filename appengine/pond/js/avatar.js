@@ -34,39 +34,19 @@ goog.require('BlocklyInterface');
  * Class for a avatar.
  * @param {string} name Avatar's name.
  * @param {string|!Function} code Avatar's code, or generator.
- * @param {!Blockly.utils.Coordinate} startLoc Start location.
  * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
- * @param {!Pond.Battle} battle The battle featuring the avatar.
+ * @param {?Blockly.utils.Coordinate} opt_startLoc Start location.
  * @constructor
  */
-Pond.Avatar = function(name, code, opt_startLoc, startDamage, battle) {
+Pond.Avatar = function(name, code, startDamage, opt_startLoc) {
   this.name = name;
   this.code_ = code;
   this.startLoc_ = opt_startLoc;
   this.startDamage_ = startDamage || 0;
-  this.battle_ = battle;
+  this.battle_ = null;
   this.loc = new Blockly.utils.Coordinate();
-  this.reset();
   console.log(this + ' loaded.');
 };
-
-
-/**
- * Starting positions for avatars.
- */
-Pond.Avatar.START_XY = [
-  new Blockly.utils.Coordinate(10, 90),
-  new Blockly.utils.Coordinate(90, 10),
-  new Blockly.utils.Coordinate(10, 10),
-  new Blockly.utils.Coordinate(90, 90),
-  // Only first four positions are currently used.
-  new Blockly.utils.Coordinate(50, 99),
-  new Blockly.utils.Coordinate(50, 1),
-  new Blockly.utils.Coordinate(1, 50),
-  new Blockly.utils.Coordinate(99, 50),
-  new Blockly.utils.Coordinate(50, 49)
-];
-
 
 /**
  * Given a name create the default player.
@@ -76,17 +56,14 @@ Pond.Avatar.createDefaultAvatar = function(name) {
   if (name == 'Pond_rookName') {
     var div = document.getElementById('playerRook');
     var code = div.textContent;
-    var startCoord = new Blockly.utils.Coordinate(80, 80);
   } else if (name == 'Pond_counterName') {
     var div = document.getElementById('playerCounter');
     var code = div.textContent;
-    var startCoord = new Blockly.utils.Coordinate(20, 20);
   } else if (name == 'Pond_sniperName') {
     var div = document.getElementById('playerSniper');
     var code = div.textContent;
-    var startCoord = new Blockly.utils.Coordinate(80, 20);
   }
-  return new Pond.Avatar(name, code, startCoord, 0);
+  return new Pond.Avatar(name, code, 0);
 };
 
 /**
@@ -94,8 +71,7 @@ Pond.Avatar.createDefaultAvatar = function(name) {
  * @param {string} name The name of the avatar.
  */
 Pond.Avatar.createCurrentAvatar = function(name) {
-  var startCoord = new Blockly.utils.Coordinate(20, 80);
-  return new Pond.Avatar(name, BlocklyInterface.getJsCode, startCoord, 0);
+  return new Pond.Avatar(name, BlocklyInterface.getJsCode, 0);
 };
 
 /**
@@ -152,6 +128,17 @@ Pond.Avatar.prototype.toString = function() {
   return '[' + this.name + ']';
 };
 
+/**
+ * Prepares the avatar to be in a battle.
+ * @param {!Pond.Battle} battle The battle the avatar is a part of.
+ * @param {Blockly.utils.Coordinate} startLoc The starting location of the avatar.
+ */
+Pond.Avatar.prototype.battleSetup = function(battle, startLoc) {
+  this.battle_ = battle;
+  // Only set the start location if it wasn't set previously.
+  this.startLoc_ = this.startLoc_ || startLoc;
+  this.reset();
+};
 /**
  * Reset this avatar to a starting state.
  */
