@@ -191,13 +191,13 @@ Pond.Duck.Online.renderDuckInfo = function() {
  */
 Pond.Duck.Online.addNewOpponents = function() {
   var opponentList = JSON.parse(this.responseText);
-  var playerList = [Pond.Avatar.createCurrentAvatar(Pond.Duck.Online.NAME)];
+  var avatarList = [Pond.Avatar.createCurrentAvatar(Pond.Duck.Online.NAME)];
   if (opponentList) {
     for (var i = 0, duck; (duck = opponentList[i]); i++) {
       var newAvatar = new Pond.Avatar(duck.name, duck.code.js);
-      playerList.push(newAvatar);
+      avatarList.push(newAvatar);
     }
-    Pond.Duck.loadAvatars(playerList);
+    Pond.Duck.loadAvatars(avatarList);
   }
 };
 
