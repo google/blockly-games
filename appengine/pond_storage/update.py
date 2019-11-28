@@ -41,7 +41,5 @@ if verify_duck(duck):
     duck.name = name
   duck.put()
   duck_info = get_duck_info(duck)
-  # TODO: I think we should be able to take this out since get_duck_info no longer returns None
-  if duck_info:
-    print("Content-Type: application/json\n")
-    print(json.dumps(duck_info))
+  print("Content-Type: application/json\n")
+  print(json.dumps(duck_info))

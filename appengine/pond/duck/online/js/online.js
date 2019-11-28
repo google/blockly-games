@@ -70,10 +70,10 @@ Pond.Duck.Online.init = function() {
         Pond.Duck.Online.addNewOpponents);
   });
   BlocklyGames.bindClick('defaultOpponents', function() {
-    Pond.Duck.loadDefaultPlayers(Pond.Duck.Online.NAME);
+    Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   });
 
-  Pond.Duck.loadDefaultPlayers();
+  Pond.Duck.loadDefaultAvatars();
 
   Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
   if (Pond.Duck.Online.duckKey) {
@@ -130,7 +130,7 @@ Pond.Duck.Online.loadDuck = function() {
 
   // Show Duck Info tab.
   Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
-  Pond.Duck.loadDefaultPlayers(Pond.Duck.Online.NAME);
+  Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
 };
 
 Pond.Duck.Online.renderDuckInfo = function() {
@@ -197,7 +197,7 @@ Pond.Duck.Online.addNewOpponents = function() {
       var newAvatar = new Pond.Avatar(duck.name, duck.code.js);
       playerList.push(newAvatar);
     }
-    Pond.Duck.loadPlayers(playerList);
+    Pond.Duck.loadAvatars(playerList);
   }
 };
 

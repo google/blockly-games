@@ -130,20 +130,20 @@ Pond.Duck.init = function () {
  * Load default players for the the pond game.
  * @param {?string} currentPlayerName The name of the currently loaded duck or null.
  */
-Pond.Duck.loadDefaultPlayers = function (currentPlayerName) {
+Pond.Duck.loadDefaultAvatars = function (currentPlayerName) {
   var currentPlayer = Pond.Avatar.createCurrentAvatar(currentPlayerName || 'Pond_myName');
   var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName');
   var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName');
   var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName');
   var avatars = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
 
-  Pond.Duck.loadPlayers(avatars);
+  Pond.Duck.loadAvatars(avatars);
 };
 
 /**
  * Load specified players to pond game.
  */
-Pond.Duck.loadPlayers = function (avatars) {
+Pond.Duck.loadAvatars = function (avatars) {
   Pond.Battle.clearAvatars();
   for (var avatar, i = 0; (avatar = avatars[i]); i++) {
     Pond.Battle.addAvatar(avatar);
