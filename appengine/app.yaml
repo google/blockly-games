@@ -136,6 +136,10 @@ handlers:
   script: pond_storage/publish.py
   login: required
   secure: always
+- url: /pond-storage/rank
+  script: pond_storage/rank.py
+  login: required
+  secure: always
 
 # Genetics app.
 - url: /genetics

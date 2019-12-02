@@ -102,7 +102,16 @@ Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess) {
 };
 
 /**
- * Callback function for request that redirects to new duck
+ * Get a background match request for computing ranking.
+ * @param {!Function} onSuccess Function to call after request completes
+ *    successfully.
+ */
+Pond.Duck.Datastore.getMatchRequest = function(onSuccess) {
+    BlocklyStorage['makeRequest']('pond-storage/rank', '', onSuccess, null, 'GET');
+};
+
+/**
+ * Callback function for request that redirects to new duck.
  */
 Pond.Duck.Datastore.redirectToNewDuck = function() {
     var meta = JSON.parse(this.responseText);

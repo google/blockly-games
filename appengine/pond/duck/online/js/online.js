@@ -115,8 +115,14 @@ Pond.Duck.Online.loadDuck = function() {
 
   // Show Duck Info tab.
   Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
+
+  // Start background match request computation.
+  Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
 };
 
+/**
+ * Callback for updating rendering duck info tab.
+ */
 Pond.Duck.Online.renderDuckInfo = function() {
   // Load duck info template.
   var data = JSON.parse(this.responseText);
@@ -167,6 +173,19 @@ Pond.Duck.Online.renderDuckInfo = function() {
             BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml(),
             Pond.Duck.Online.renderDuckInfo);
       });
+};
+
+Pond.Duck.Online.computeRankRequest = function() {
+  if (this.status === 200) {
+    // TODO: Compute relative ranking based on match request and send back.
+    var data = JSON.parse(this.responseText);
+    console.log(JSON.stringify(data));
+    // Get a new match request to compute.
+    Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
+  } else {
+    // TODO: remove log
+    console.log('End rank request, status: ' + this.status);
+  }
 };
 
 /* Logic for Buttons and Forms for debugging purposes. */
