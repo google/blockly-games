@@ -157,7 +157,8 @@ Pond.Tutor.init = function() {
       var code = BlocklyInterface.getJsCode;
     }
     var name = BlocklyGames.getMsg(avatarData.name);
-    Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);
+    var newAvatar = new Pond.Avatar(name, code, avatarData.damage, avatarData.start);
+    Pond.Battle.addAvatar(newAvatar);
   }
   Pond.reset();
 };

@@ -192,6 +192,7 @@ Pond.Duck.Online.renderDuckInfo = function() {
 Pond.Duck.Online.addNewOpponents = function() {
   var opponentList = JSON.parse(this.responseText);
   var avatarList = [Pond.Avatar.createCurrentAvatar(Pond.Duck.Online.NAME)];
+  // TODO: If we don't have three opponents then fill in with default
   if (opponentList) {
     for (var i = 0, duck; (duck = opponentList[i]); i++) {
       var newAvatar = new Pond.Avatar(duck.name, duck.code.js);
