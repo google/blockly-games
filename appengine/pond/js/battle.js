@@ -174,7 +174,11 @@ Pond.Battle.clearAvatars = function() {
  * @param {!Pond.Avatar} avatar The avatar to add to the battle.
  */
 Pond.Battle.addAvatar = function(avatar) {
+<<<<<<< HEAD
   var startLoc = avatar.startLoc_ || Pond.Battle.START_XY[Pond.Battle.LOC_IDX++];
+=======
+  var startLoc = Pond.Battle.START_XY[Pond.Battle.LOC_IDX++];
+>>>>>>> 4c08d3798f9333937b9fc11b717f3491eeae965f
   avatar.battleSetup(Pond.Battle, startLoc);
   Pond.Battle.AVATARS.push(avatar);
 };
