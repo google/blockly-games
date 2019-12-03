@@ -68,7 +68,8 @@ Pond.Avatar.createDefaultAvatar = function(name, divId, opt_startDamage, opt_sta
  * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
  */
 Pond.Avatar.createPlayerAvatar = function(name, opt_startDamage, opt_startLoc) {
-  return new Pond.Avatar(name, BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
+  // TODO: Look into taking out getMsgWithFallback and replace with getMsg
+  return new Pond.Avatar(BlocklyGames.getMsgWithFallback(name, name), BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
 };
 
 /**
