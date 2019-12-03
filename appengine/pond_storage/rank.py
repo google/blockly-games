@@ -42,7 +42,7 @@ class MatchRequest(ndb.Model):
 now = datetime.datetime.now()
 expired_requests = MatchRequest.query(MatchRequest.expiry_time < now)
 for request in expired_requests:
-  request.delete()
+  request.key.delete()
 
 # Create a new match request.
 # 1. Choose duck with highest instability not already in a match request.
@@ -59,26 +59,28 @@ if not target_duck:
 else:
   # 2. Choose up to 3 opponents based on chosen duck.
   # TODO choose opponents based on chosen duck's instability.
-  opponent_list = []
-  opponent_keys = []
+  duck_keys = [target_duck.key]
+  duck_list = [{
+      'duck_key': target_duck.key.urlsafe(),
+      'js': target_duck.code.js
+  }]
   opponents_query = Duck.query(Duck.published == True)
   for opponent in opponents_query:
     if not MatchRequest.contains_duck(opponent.key):
-      opponent_keys.append(opponent.key)
-      opponent_list.append({
-          'name': opponent.name,
+      duck_keys.append(opponent.key)
+      duck_list.append({
           'duck_key': opponent.key.urlsafe(),
           'js': opponent.code.js
       })
-      if len(opponent_list) == 3:
+      if len(duck_list) == 4:
         break
   # 3. Verify that at least one valid opponent was found.
-  if not opponent_list:
+  if len(duck_list) >= 2:
     print("Status: 204 No match requests available")
   else:
     # 4. Store match request in datastore.
-    request = MatchRequest(ducks=opponent_keys)
+    request = MatchRequest(ducks=duck_keys)
     request.put()
-    # 4. Send match request to client.
+    # 5. Send match request to client.
     print("Content-Type: application/json\n")
-    print(json.dumps(opponent_list))
+    print(json.dumps(duck_list))
