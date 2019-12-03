@@ -124,7 +124,7 @@ Pond.Duck.Online.loadDuck = function() {
   Pond.Duck.Online.tempDisableEditors(false);
   Pond.Duck.setBlocksEnabled(!!opt_xml);
   Pond.Duck.setCode(code);
-  Pond.Duck.Online.NAME = meta.name;
+  Pond.Duck.Online.NAME = meta['name'];
   // Update content of duck info tab.
   Pond.Duck.Online.renderDuckInfo.call(this);
 
