@@ -102,6 +102,17 @@ Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess) {
 };
 
 /**
+ * Get three opponents for the duck with the given duckKey.
+ * @param {string} duckKey The key for the duck.
+ * @param {!Function} onSuccess Function to call after request completes
+ *    successfully.
+ */
+Pond.Duck.Datastore.getOpponents = function(duckKey, onSuccess) {
+    var url = 'pond-storage/opponents?key='+ duckKey;
+    BlocklyStorage['makeRequest'](url, '', onSuccess, null, 'GET');
+};
+
+/**
  * Callback function for request that redirects to new duck
  */
 Pond.Duck.Datastore.redirectToNewDuck = function() {

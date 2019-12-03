@@ -64,6 +64,22 @@ Pond.Duck.TAB_INDEX = {
 Pond.Duck.ignoreEditorChanges_ = true;
 
 /**
+ * Starting positions for avatars.
+ */
+Pond.Duck.START_XY = [
+  new Blockly.utils.Coordinate(10, 90),
+  new Blockly.utils.Coordinate(90, 10),
+  new Blockly.utils.Coordinate(10, 10),
+  new Blockly.utils.Coordinate(90, 90),
+  // Only first four positions are currently used.
+  new Blockly.utils.Coordinate(50, 99),
+  new Blockly.utils.Coordinate(50, 1),
+  new Blockly.utils.Coordinate(1, 50),
+  new Blockly.utils.Coordinate(99, 50),
+  new Blockly.utils.Coordinate(50, 49)
+];
+
+/**
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Duck.init = function () {
@@ -125,53 +141,29 @@ Pond.Duck.init = function () {
       'damage,health,loc_x,getX,loc_y,getY,');
 };
 
+
 /**
- * Load default players to pond game.
+ * Load default players for the the pond game.
+ * @param {string=} [opt_currentPlayerName='Pond_myName'] The name of the currently loaded duck
+ *     or the default name.
  */
-Pond.Duck.loadDefaultPlayers = function () {
-  var players = [
-    {
-      start: new Blockly.utils.Coordinate(20, 80),
-      damage: 0,
-      name: 'Pond_myName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 80),
-      damage: 0,
-      name: 'Pond_rookName',
-      code: 'playerRook'
-    },
-    {
-      start: new Blockly.utils.Coordinate(20, 20),
-      damage: 0,
-      name: 'Pond_counterName',
-      code: 'playerCounter'
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 20),
-      damage: 0,
-      name: 'Pond_sniperName',
-      code: 'playerSniper'
-    }
-  ];
-  Pond.Duck.loadPlayers(players);
+Pond.Duck.loadDefaultAvatars = function (opt_currentPlayerName) {
+  var currentPlayer = Pond.Avatar.createPlayerAvatar(opt_currentPlayerName || 'Pond_myName');
+  var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName', 'playerRook');
+  var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName', 'playerCounter');
+  var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName', 'playerSniper');
+  var avatars = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
+
+  Pond.Duck.loadAvatars(avatars);
 };
 
 /**
  * Load specified players to pond game.
  */
-Pond.Duck.loadPlayers = function (players) {
+Pond.Duck.loadAvatars = function (avatars) {
   Pond.Battle.clearAvatars();
-  for (var playerData, i = 0; (playerData = players[i]); i++) {
-    if (playerData.code) {
-      var div = document.getElementById(playerData.code);
-      var code = div.textContent;
-    } else {
-      var code = BlocklyInterface.getJsCode;
-    }
-    var name = BlocklyGames.getMsg(playerData.name);
-    Pond.Battle.addAvatar(name, code, playerData.start, playerData.damage);
+  for (var avatar, i = 0; (avatar = avatars[i]); i++) {
+    Pond.Battle.addAvatar(avatar, Pond.Duck.START_XY[i]);
   }
   Pond.reset();
 };

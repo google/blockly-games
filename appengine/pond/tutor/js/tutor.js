@@ -149,175 +149,75 @@ Pond.Tutor.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
-    if (avatarData.code) {
-      var div = document.getElementById(avatarData.code);
-      var code = div.textContent;
-    } else {
-      var code = BlocklyInterface.getJsCode;
-    }
-    var name = BlocklyGames.getMsg(avatarData.name);
-    Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);
+  var avatars = Pond.getAvatars();
+
+  for (var avatarData, i = 0; (avatarData = avatars[i]); i++) {
+    Pond.Battle.addAvatar(avatarData);
   }
   Pond.reset();
 };
 
 window.addEventListener('load', Pond.Tutor.init);
 
-Pond.Tutor.PLAYERS = [
-  // Level 0.
-  undefined,
-  // Level 1.
-  [
-    {
-      start: new Blockly.utils.Coordinate(50, 30),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 70),
-      damage: 99,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 2.
-  [
-    {
-      start: new Blockly.utils.Coordinate(70, 50),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(20, 50),
-      damage: 99,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 3.
-  [
-    {
-      start: new Blockly.utils.Coordinate(20, 20),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(20 + 42.4264, 20 + 42.4264),
-      damage: 0,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 4.
-  [
-    {
-      start: new Blockly.utils.Coordinate(50, 80),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 20),
-      damage: 0,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 5.
-  [
-    {
-      start: new Blockly.utils.Coordinate(90, 50),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 50),
-      damage: 0,
-      name: 'Pond_pendulumName',
-      code: 'playerPendulum'
-    }
-  ],
-  // Level 6.
-  [
-    {
-      start: new Blockly.utils.Coordinate(10, 50),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 50),
-      damage: 0,
-      name: 'Pond_pendulumName',
-      code: 'playerPendulum'
-    }
-  ],
-  // Level 7.
-  [
-    {
-      start: new Blockly.utils.Coordinate(20, 80),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 20),
-      damage: 99,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 8.
-  [
-    {
-      start: new Blockly.utils.Coordinate(50, 90),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 10),
-      damage: 99,
-      name: 'Pond_pendulumName',
-      code: 'playerPendulum'
-    }
-  ],
-  // Level 9.
-  [
-    {
-      start: new Blockly.utils.Coordinate(5, 50),
-      damage: 99,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(95, 50),
-      damage: 0,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 10.
-  [
-    {
-      start: new Blockly.utils.Coordinate(10, 10),
-      damage: 50,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(40, 40),
-      damage: 0,
-      name: 'Pond_scaredName',
-      code: 'playerScared'
-    }
-  ]
-][BlocklyGames.LEVEL];
+/**
+ * Get the players for the current level.
+ */
+Pond.getAvatars = function() {
+  return [
+    // Level 0.
+    undefined,
+    // Level 1.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(50, 30)),
+      Pond.Avatar.createDefaultAvatar('Pond_targetName', 'playerTarget', 99, new Blockly.utils.Coordinate(50, 70))
+    ],
+    // Level 2.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(70, 50)),
+      Pond.Avatar.createDefaultAvatar('Pond_targetName', 'playerTarget', 99, new Blockly.utils.Coordinate(20, 50))
+    ],
+    // Level 3.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(20, 20)),
+      Pond.Avatar.createDefaultAvatar('Pond_targetName', 'playerTarget', 0, new Blockly.utils.Coordinate(20 + 42.4264, 20 + 42.4264))
+    ],
+    // Level 4.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(50, 80)),
+      Pond.Avatar.createDefaultAvatar('Pond_targetName', 'playerTarget', 0, new Blockly.utils.Coordinate(50, 20))
+    ],
+    // Level 5.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(90, 50)),
+      Pond.Avatar.createDefaultAvatar('Pond_pendulumName', 'playerPendulum', 0, new Blockly.utils.Coordinate(50, 50))
+    ],
+    // Level 6.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(10, 50)),
+      Pond.Avatar.createDefaultAvatar('Pond_pendulumName', 'playerPendulum', 0, new Blockly.utils.Coordinate(50, 50))
+    ],
+    // Level 7.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(20, 80)),
+      Pond.Avatar.createDefaultAvatar('Pond_targetName', 'playerTarget', 99, new Blockly.utils.Coordinate(80, 20))
+    ],
+    // Level 8.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 0, new Blockly.utils.Coordinate(50, 90)),
+      Pond.Avatar.createDefaultAvatar('Pond_pendulumName', 'playerPendulum', 99, new Blockly.utils.Coordinate(50, 10))
+    ],
+    // Level 9.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 99, new Blockly.utils.Coordinate(5, 50)),
+      Pond.Avatar.createDefaultAvatar('Pond_targetName', 'playerTarget', 0, new Blockly.utils.Coordinate(95, 50))
+    ],
+    // Level 10.
+    [
+      Pond.Avatar.createPlayerAvatar('Pond_playerName', 50, new Blockly.utils.Coordinate(10, 10)),
+      Pond.Avatar.createDefaultAvatar('Pond_scaredName', 'playerScared', 0, new Blockly.utils.Coordinate(40, 40))
+    ]
+  ][BlocklyGames.LEVEL];
+};
 
 /**
  * Callback function for when a game ends.

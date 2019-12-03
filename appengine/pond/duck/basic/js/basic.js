@@ -42,7 +42,7 @@ Pond.Duck.Basic.init = function () {
       });
 
   Pond.Duck.init();
-  Pond.Duck.loadDefaultPlayers();
+  Pond.Duck.loadDefaultAvatars();
   Pond.Duck.loadDefaultCode();
 
   // Show Blockly editor tab.
