@@ -106,7 +106,7 @@ BlocklyStorage.makeRequest =
   }
   BlocklyStorage.xhrs_[url] = new XMLHttpRequest();
   BlocklyStorage.xhrs_[url].onload = function() {
-    if (this.status === 200) {
+    if (this.status >= 200 && this.status < 300) {
       opt_onSuccess && opt_onSuccess.call(this);
     } else if (opt_onFailure) {
       opt_onFailure.call(this);

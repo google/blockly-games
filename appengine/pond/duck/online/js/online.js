@@ -73,8 +73,6 @@ Pond.Duck.Online.init = function() {
     Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   });
 
-  Pond.Duck.loadDefaultAvatars();
-
   Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
   if (Pond.Duck.Online.duckKey) {
     Pond.Duck.Online.tempDisableEditors(true);
@@ -86,6 +84,8 @@ Pond.Duck.Online.init = function() {
     document.getElementById('spinner').style.display = 'none';
     // Load default code.
     Pond.Duck.loadDefaultCode();
+    // Load opponents.
+    Pond.Duck.loadDefaultAvatars();
     // Show Blockly editor tab.
     Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);
   }
@@ -125,14 +125,20 @@ Pond.Duck.Online.loadDuck = function() {
   Pond.Duck.setBlocksEnabled(!!opt_xml);
   Pond.Duck.setCode(code);
   Pond.Duck.Online.NAME = meta['name'];
+  // Load opponents.
+  Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   // Update content of duck info tab.
   Pond.Duck.Online.renderDuckInfo.call(this);
-
   // Show Duck Info tab.
   Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
-  Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
+
+  // Start background match request computation.
+  Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
 };
 
+/**
+ * Callback for rendering updated duck info tab.
+ */
 Pond.Duck.Online.renderDuckInfo = function() {
   // Load duck info template.
   var data = JSON.parse(this.responseText);
@@ -185,6 +191,23 @@ Pond.Duck.Online.renderDuckInfo = function() {
             Pond.Duck.Online.renderDuckInfo);
       });
 };
+
+/**
+ * Handle rank request response.
+ */
+Pond.Duck.Online.computeRankRequest = function() {
+  if (this.status === 200) {
+    // TODO: Compute relative ranking based on match request and send back.
+    var data = JSON.parse(this.responseText);
+    console.log(JSON.stringify(data));
+    // Get a new match request to compute.
+    Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
+  } else {
+    // TODO: remove log
+    console.log('End rank request, status: ' + this.status);
+  }
+};
+
 
 /**
  * Load a new set of opponents.
