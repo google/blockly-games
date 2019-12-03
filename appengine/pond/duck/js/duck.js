@@ -64,6 +64,22 @@ Pond.Duck.TAB_INDEX = {
 Pond.Duck.ignoreEditorChanges_ = true;
 
 /**
+ * Starting positions for avatars.
+ */
+Pond.Duck.START_XY = [
+  new Blockly.utils.Coordinate(10, 90),
+  new Blockly.utils.Coordinate(90, 10),
+  new Blockly.utils.Coordinate(10, 10),
+  new Blockly.utils.Coordinate(90, 90),
+  // Only first four positions are currently used.
+  new Blockly.utils.Coordinate(50, 99),
+  new Blockly.utils.Coordinate(50, 1),
+  new Blockly.utils.Coordinate(1, 50),
+  new Blockly.utils.Coordinate(99, 50),
+  new Blockly.utils.Coordinate(50, 49)
+];
+
+/**
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Duck.init = function () {
@@ -132,10 +148,10 @@ Pond.Duck.init = function () {
  *     or the default name.
  */
 Pond.Duck.loadDefaultAvatars = function (opt_currentPlayerName) {
-  var currentPlayer = Pond.Avatar.createCurrentAvatar(opt_currentPlayerName || 'Pond_myName');
-  var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName');
-  var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName');
-  var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName');
+  var currentPlayer = Pond.Avatar.createPlayerAvatar(opt_currentPlayerName || 'Pond_myName');
+  var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName', 'playerRook');
+  var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName', 'playerCounter');
+  var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName', 'playerSniper');
   var avatars = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
 
   Pond.Duck.loadAvatars(avatars);
@@ -147,7 +163,7 @@ Pond.Duck.loadDefaultAvatars = function (opt_currentPlayerName) {
 Pond.Duck.loadAvatars = function (avatars) {
   Pond.Battle.clearAvatars();
   for (var avatar, i = 0; (avatar = avatars[i]); i++) {
-    Pond.Battle.addAvatar(avatar);
+    Pond.Battle.addAvatar(avatar, Pond.Duck.START_XY[i]);
   }
   Pond.reset();
 };

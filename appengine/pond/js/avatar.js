@@ -34,15 +34,15 @@ goog.require('BlocklyInterface');
  * Class for a avatar.
  * @param {string} name Avatar's name.
  * @param {string|!Function} code Avatar's code, or generator.
- * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
- * @param {?Blockly.utils.Coordinate} opt_startLoc Start location.
+ * @param {number=} [opt_startDamage=0] Initial damage to avatar (0-100, default 0).
+ * @param {Blockly.utils.Coordinate=} opt_startLoc Start location.
  * @constructor
  */
-Pond.Avatar = function(name, code, startDamage, opt_startLoc) {
+Pond.Avatar = function(name, code, opt_startDamage, opt_startLoc) {
   this.name = name;
   this.code_ = code;
   this.startLoc_ = opt_startLoc;
-  this.startDamage_ = startDamage || 0;
+  this.startDamage_ = opt_startDamage || 0;
   this.battle_ = null;
   this.loc = new Blockly.utils.Coordinate();
   console.log(this + ' loaded.');
@@ -51,27 +51,24 @@ Pond.Avatar = function(name, code, startDamage, opt_startLoc) {
 /**
  * Given a name create the default player.
  * @param {string} name The name of the default player.
+ * @param {string} divId The id of the div that holds this avatars code.
+ * @param {number=} opt_startDamage The optional start damage.
+ * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
  */
-Pond.Avatar.createDefaultAvatar = function(name) {
-  if (name == 'Pond_rookName') {
-    var div = document.getElementById('playerRook');
-    var code = div.textContent;
-  } else if (name == 'Pond_counterName') {
-    var div = document.getElementById('playerCounter');
-    var code = div.textContent;
-  } else if (name == 'Pond_sniperName') {
-    var div = document.getElementById('playerSniper');
-    var code = div.textContent;
-  }
-  return new Pond.Avatar(name, code, 0);
+Pond.Avatar.createDefaultAvatar = function(name, divId, opt_startDamage, opt_startLoc) {
+  var name = BlocklyGames.getMsg(name);
+  var div = document.getElementById(divId);
+  var code = div.textContent;
+  return new Pond.Avatar(name, code, opt_startDamage, opt_startLoc);
 };
 
 /**
  * Create an avatar based on the current user's duck.
  * @param {string} name The name of the avatar.
+ * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
  */
-Pond.Avatar.createCurrentAvatar = function(name) {
-  return new Pond.Avatar(name, BlocklyInterface.getJsCode, 0);
+Pond.Avatar.createPlayerAvatar = function(name, opt_startDamage, opt_startLoc) {
+  return new Pond.Avatar(name, BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
 };
 
 /**
