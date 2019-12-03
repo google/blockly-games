@@ -41,6 +41,5 @@ if verify_duck(duck):
     duck.name = name
   duck.put()
   duck_info = get_duck_info(duck)
-  if duck_info:
-    print("Content-Type: application/json\n")
-    print(json.dumps(duck_info))
+  print("Content-Type: application/json\n")
+  print(json.dumps(duck_info))

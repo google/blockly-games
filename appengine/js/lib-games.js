@@ -349,6 +349,19 @@ BlocklyGames.getMsg = function(key) {
 };
 
 /**
+ * Gets the message with the given key from the document. If no
+ * message exists then return the fallback value.
+ * @param {string} key The key of the document element.
+ * @param {string} fallback The fallback value to return if no message exists.
+ * @return {string} The textContent of the specified element,
+ *     or the fallback value.
+ */
+BlocklyGames.getMsgWithFallback = function(key, fallback) {
+  var msg = BlocklyGames.getMsgOrNull(key);
+  return msg === null ? fallback : msg;
+};
+
+/**
  * Gets the message with the given key from the document.
  * @param {string} key The key of the document element.
  * @return {?string} The textContent of the specified element,

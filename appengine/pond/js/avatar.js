@@ -34,20 +34,42 @@ goog.require('BlocklyInterface');
  * Class for a avatar.
  * @param {string} name Avatar's name.
  * @param {string|!Function} code Avatar's code, or generator.
- * @param {!Blockly.utils.Coordinate} startLoc Start location.
- * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
- * @param {!Pond.Battle} battle The battle featuring the avatar.
+ * @param {number=} [opt_startDamage=0] Initial damage to avatar (0-100, default 0).
+ * @param {Blockly.utils.Coordinate=} opt_startLoc Start location.
  * @constructor
  */
-Pond.Avatar = function(name, code, startLoc, startDamage, battle) {
+Pond.Avatar = function(name, code, opt_startDamage, opt_startLoc) {
   this.name = name;
   this.code_ = code;
-  this.startLoc_ = startLoc;
-  this.startDamage_ = startDamage || 0;
-  this.battle_ = battle;
+  this.startLoc_ = opt_startLoc;
+  this.startDamage_ = opt_startDamage || 0;
+  this.battle_ = null;
   this.loc = new Blockly.utils.Coordinate();
-  this.reset();
   console.log(this + ' loaded.');
+};
+
+/**
+ * Given a name create the default player.
+ * @param {string} name The name of the default player.
+ * @param {string} divId The id of the div that holds this avatars code.
+ * @param {number=} opt_startDamage The optional start damage.
+ * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
+ */
+Pond.Avatar.createDefaultAvatar = function(name, divId, opt_startDamage, opt_startLoc) {
+  var name = BlocklyGames.getMsg(name);
+  var div = document.getElementById(divId);
+  var code = div.textContent;
+  return new Pond.Avatar(name, code, opt_startDamage, opt_startLoc);
+};
+
+/**
+ * Create an avatar based on the current user's duck.
+ * @param {string} name The name of the avatar.
+ * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
+ */
+Pond.Avatar.createPlayerAvatar = function(name, opt_startDamage, opt_startLoc) {
+  // TODO: Look into taking out getMsgWithFallback and replace with getMsg
+  return new Pond.Avatar(BlocklyGames.getMsgWithFallback(name, name), BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
 };
 
 /**
@@ -104,6 +126,17 @@ Pond.Avatar.prototype.toString = function() {
   return '[' + this.name + ']';
 };
 
+/**
+ * Prepares the avatar to be in a battle.
+ * @param {!Pond.Battle} battle The battle the avatar is a part of.
+ * @param {Blockly.utils.Coordinate} startLoc The starting location of the avatar.
+ */
+Pond.Avatar.prototype.battleSetup = function(battle, startLoc) {
+  this.battle_ = battle;
+  // Only set the start location if it wasn't set previously.
+  this.startLoc_ = this.startLoc_ || startLoc;
+  this.reset();
+};
 /**
  * Reset this avatar to a starting state.
  */

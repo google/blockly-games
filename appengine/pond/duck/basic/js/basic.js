@@ -42,8 +42,8 @@ Pond.Duck.Basic.init = function () {
       });
 
   Pond.Duck.init();
-  Pond.Duck.loadDefaultPlayers();
   Pond.Duck.loadDefaultCode();
+  Pond.Duck.loadDefaultAvatars();
 
   // Show Blockly editor tab.
   Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);

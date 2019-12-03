@@ -30,6 +30,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Pond');
 goog.require('Pond.Duck');
+goog.require('Pond.Battle');
 goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Online.soy');
 
@@ -40,6 +41,12 @@ BlocklyGames.NAME = 'pond-duck-online';
  * @type {string}
  */
 Pond.Duck.Online.duckKey = undefined;
+
+/**
+ * Name of the currently loaded duck or null if no duck is loaded.
+ * @type {?string}
+ */
+Pond.Duck.Online.NAME = null;
 
 /**
  * Initialize Ace and the pond.  Called on page load.
@@ -57,8 +64,14 @@ Pond.Duck.Online.init = function() {
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
   BlocklyGames.bindClick('duckUpdateButton', Pond.Duck.Online.showUpdateDuckForm);
   BlocklyGames.bindClick('duckDeleteButton', Pond.Duck.Online.showDeleteDuckForm);
-
-  Pond.Duck.loadDefaultPlayers();
+  BlocklyGames.bindClick('getOpponents', function() {
+    Pond.Duck.Datastore.getOpponents(
+        Pond.Duck.Online.duckKey,
+        Pond.Duck.Online.addNewOpponents);
+  });
+  BlocklyGames.bindClick('defaultOpponents', function() {
+    Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
+  });
 
   Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
   if (Pond.Duck.Online.duckKey) {
@@ -71,6 +84,8 @@ Pond.Duck.Online.init = function() {
     document.getElementById('spinner').style.display = 'none';
     // Load default code.
     Pond.Duck.loadDefaultCode();
+    // Load opponents.
+    Pond.Duck.loadDefaultAvatars();
     // Show Blockly editor tab.
     Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);
   }
@@ -109,10 +124,11 @@ Pond.Duck.Online.loadDuck = function() {
   Pond.Duck.Online.tempDisableEditors(false);
   Pond.Duck.setBlocksEnabled(!!opt_xml);
   Pond.Duck.setCode(code);
-
+  Pond.Duck.Online.NAME = meta['name'];
+  // Load opponents.
+  Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   // Update content of duck info tab.
   Pond.Duck.Online.renderDuckInfo.call(this);
-
   // Show Duck Info tab.
   Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
 
@@ -121,7 +137,7 @@ Pond.Duck.Online.loadDuck = function() {
 };
 
 /**
- * Callback for updating rendering duck info tab.
+ * Callback for rendering updated duck info tab.
  */
 Pond.Duck.Online.renderDuckInfo = function() {
   // Load duck info template.
@@ -164,6 +180,7 @@ Pond.Duck.Online.renderDuckInfo = function() {
         Pond.Duck.Datastore.copyDuck(Pond.Duck.Online.duckKey,false,
             Pond.Duck.Datastore.redirectToNewDuck);
       });
+
   BlocklyGames.bindClick(
       'saveButton',
       function() {
@@ -175,6 +192,9 @@ Pond.Duck.Online.renderDuckInfo = function() {
       });
 };
 
+/**
+ * Handle rank request response.
+ */
 Pond.Duck.Online.computeRankRequest = function() {
   if (this.status === 200) {
     // TODO: Compute relative ranking based on match request and send back.
@@ -185,6 +205,23 @@ Pond.Duck.Online.computeRankRequest = function() {
   } else {
     // TODO: remove log
     console.log('End rank request, status: ' + this.status);
+  }
+};
+
+
+/**
+ * Load a new set of opponents.
+ */
+Pond.Duck.Online.addNewOpponents = function() {
+  var opponentList = JSON.parse(this.responseText);
+  var avatarList = [Pond.Avatar.createPlayerAvatar(Pond.Duck.Online.NAME)];
+  // TODO: If we don't have three opponents then fill in with default
+  if (opponentList) {
+    for (var i = 0, duck; (duck = opponentList[i]); i++) {
+      var newAvatar = new Pond.Avatar(duck.name, duck['code']['js']);
+      avatarList.push(newAvatar);
+    }
+    Pond.Duck.loadAvatars(avatarList);
   }
 };
 
