@@ -15,10 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Return a ranking match request or process a ranking match result.
-"""
-
-__author__ = "kozbial@google.com (Monica Kozbial)"
+"""Returns a ranking match request or processes the given match results."""
 
 import cgi
 import datetime
@@ -27,8 +24,8 @@ import logging
 from google.appengine.ext import ndb
 from pond_storage import *
 
-"""Stores match request information."""
 class MatchRequest(ndb.Model):
+  """Stores match request information."""
   entry_keys = ndb.KeyProperty(repeated=True, kind=LeaderboardEntry)
   creation_time = ndb.DateTimeProperty(auto_now_add=True)
   expiry_time = ndb.ComputedProperty(
@@ -38,23 +35,24 @@ class MatchRequest(ndb.Model):
   def contains_entry(cls, entry_key):
     return cls.query(cls.entry_keys == entry_key).count(limit=1)
 
-"""Creates a new ranking match if a valid match can be created.
-
-Chooses the leaderboard position with the highest instability no already being
-re-evaluated in a ranking match and finds three more positions relative to that
-also not involved in a pending match. If four valid positions can be found, the
-information is stored in a MatchRequest and the information needed to evaluate
-the matches is returned, otherwise returns None.
-
-Returns:
-  A dictionary containing the keys:
-      match_key: The urlsafe key for the ranking match created
-      duck_list: A list of dictionaries for each duck chosen containing:
-          entry_key: The urlsafe key of the chosen LeaderboardEntry
-          js: The javascript code for the duck associated with that entry
-  Or None if no valid match can be created.
-"""
 def create_ranking_match():
+  """Creates a new ranking match if a valid match can be created.
+
+  Chooses the leaderboard entry with the highest instability no already being
+  re-evaluated in a ranking match and finds three more entries relative to it
+  are also not involved in a pending match. If four valid entries can be found,
+  the entry keys are stored in a MatchRequest (for verification of result) and
+  the information needed to evaluate the matches is returned, otherwise returns
+  None.
+
+  Returns:
+    A dictionary containing the keys:
+        match_key: The urlsafe key for the ranking match created
+        duck_list: A list of dictionaries for each entry chosen containing:
+            entry_key: The urlsafe key of the chosen LeaderboardEntry
+            js: The javascript code for the duck associated with that entry
+    Or None if no valid match can be created.
+  """
   # TODO handle dummy ducks.
   # 1. Find the entry with the highest instability not in a match request.
   unstable_leaderboard_entry = None
@@ -103,8 +101,8 @@ def create_ranking_match():
   # 5. Return match request information.
   return {'duck_list': duck_list, 'match_key': match_key_urlsafe}
 
-"""Deletes expired pending match requests in datastore."""
 def cleanup_expired_matches():
+  """Deletes expired pending match requests in datastore."""
   now = datetime.datetime.now()
   expired_requests_keys = MatchRequest.query(
       MatchRequest.expiry_time < now).fetch(keys_only=True)
@@ -112,17 +110,17 @@ def cleanup_expired_matches():
     request_key.delete()
     logging.info('Cleaned up expired match with key:%s', request_key.urlsafe())
 
-"""Returns whether the given match result combination is valid."""
 def validate_match_result(match_key, entry_keys_urlsafe):
+  """Returns whether the given match result combination is valid."""
   match_request = match_key.get()
   if match_key.kind() != 'MatchRequest' and match_request:
     return False
   request_keys_urlsafe = {key.urlsafe() for key in match_request.entry_keys}
   return request_keys_urlsafe == set(entry_keys_urlsafe)
 
-"""Applies match result if possible and returns True on success."""
 @ndb.transactional(xg=True)
 def apply_match_result(entry_keys_urlsafe):
+  """Applies match result if possible and returns True on success."""
   leaderboard_entries = []
   rankings = []
   # Extract the ranking information.
@@ -141,8 +139,8 @@ def apply_match_result(entry_keys_urlsafe):
     entry.update_ranking(rankings[i])
   return True
 
-"""Validate and apply given match results, returns True on success."""
 def process_match_result(match_key, entry_keys_urlsafe):
+  """Validates and applies the given match results, returns True on success."""
   if validate_match_result(match_key, entry_keys_urlsafe):
     match_key.delete()
     logging.info('Deleted match request. matchKey:%s', match_key_urlsafe)
@@ -160,22 +158,22 @@ def process_match_result(match_key, entry_keys_urlsafe):
   return False
 
 forms = cgi.FieldStorage()
-if forms.has_key("matchKey") and forms.has_key("entryKeys"):
-  match_key_urlsafe = forms["matchKey"].value
+if forms.has_key('matchKey') and forms.has_key('entryKeys'):
+  match_key_urlsafe = forms['matchKey'].value
   match_key = ndb.Key(urlsafe=match_key_urlsafe)
-  entry_keys_urlsafe = forms["entryKeys"].value.split(',')
+  entry_keys_urlsafe = forms['entryKeys'].value.split(',')
   if process_match_result(match_key, entry_keys_urlsafe):
-    print("Status: 204")
+    print('Status: 204')
   else:
-    print("Status: 400")
+    print('Status: 400')
 else:
   # Cleanup expired match requests.
   cleanup_expired_matches()
   # Create a new match request.
   match_request_info = create_ranking_match()
   if match_request_info:
-    print("Content-Type: application/json\n")
+    print('Content-Type: application/json\n')
     print(json.dumps(match_request_info))
   else:
-    print("Status: 204")
+    print('Status: 204')
 
