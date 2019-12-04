@@ -197,17 +197,25 @@ Pond.Duck.Online.renderDuckInfo = function() {
  */
 Pond.Duck.Online.computeRankRequest = function() {
   if (this.status === 200) {
-    // TODO: Compute relative ranking based on match request and send back.
     var data = JSON.parse(this.responseText);
-    console.log(JSON.stringify(data));
-    // Get a new match request to compute.
-    Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
+    var duckList = data['duck_list'];
+    // TODO: Compute relative ranking based on match request and send back.
+    var rankedEntryKeys = [
+        duckList[0]['entry_key'], duckList[3]['entry_key'],
+      duckList[2]['entry_key'], duckList[1]['entry_key']];
+    Pond.Duck.Datastore.sendMatchResult(
+        data['match_key'], rankedEntryKeys,
+        function(){
+          Pond.Duck.Datastore.getMatchRequest(
+              Pond.Duck.Online.computeRankRequest);
+    });
   } else {
-    // TODO: remove log
-    console.log('End rank request, status: ' + this.status);
+    // No matches currently available, wait before asking again.
+    setTimeout(function(){
+      Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
+    }, 60000);
   }
 };
-
 
 /**
  * Load a new set of opponents.

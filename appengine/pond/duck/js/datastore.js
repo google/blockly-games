@@ -107,7 +107,23 @@ Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess) {
  *    successfully.
  */
 Pond.Duck.Datastore.getMatchRequest = function(onSuccess) {
-    BlocklyStorage['makeRequest']('pond-storage/rank', '', onSuccess, null, 'GET');
+    BlocklyStorage['makeRequest']('pond-storage/rank', '', onSuccess);
+};
+
+/**
+ * Get a background match request for computing ranking.
+ * @param {Array.<string>} matchKey The key for the match request corresponding to
+ *      this result.
+ * @param {Array.<string>} entryKeys An ordered list of leaderboard entry keys
+ *      representing a ranking match result.
+ * @param {Function=} opt_onSuccess Function to call after request completes
+ *    successfully.
+ */
+Pond.Duck.Datastore.sendMatchResult = function(matchKey, entryKeys, opt_onSuccess) {
+    var data = [];
+    data.push(Pond.Duck.Datastore.encodeElements('matchKey', matchKey));
+    data.push(Pond.Duck.Datastore.encodeElements('entryKeys', entryKeys));
+    BlocklyStorage['makeRequest']('pond-storage/rank', data.join('&'), opt_onSuccess);
 };
 
 /**
