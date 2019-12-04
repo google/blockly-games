@@ -15,24 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Return a ranking match request.
-"""
-
-__author__ = "kozbial@google.com (Monica Kozbial)"
+"""Returns a ranking match request."""
 
 import datetime
 import json
 from google.appengine.ext import ndb
 from pond_storage import *
 
-"""Store match request information."""
 class MatchRequest(ndb.Model):
+  """Stores match request information."""
   # Ducks.
   ducks = ndb.KeyProperty(repeated=True)
   # Creation time.
   creation_time = ndb.DateTimeProperty(auto_now_add=True)
   # Expiry time.
-  expiry_time = ndb.ComputedProperty(lambda self: self.creation_time + datetime.timedelta(hours=1))
+  expiry_time = ndb.ComputedProperty(
+      lambda self: self.creation_time + datetime.timedelta(hours=1))
 
   @classmethod
   def contains_duck(cls, duck_key):
@@ -55,7 +53,7 @@ for entry in entries_query:
     if target_duck:
       break
 if not target_duck:
-  print("Status: 204 No match requests available")
+  print('Status: 204 No match requests available')
 else:
   # 2. Choose up to 3 opponents based on chosen duck.
   # TODO choose opponents based on chosen duck's instability.
@@ -76,11 +74,11 @@ else:
         break
   # 3. Verify that at least one valid opponent was found.
   if len(duck_list) >= 2:
-    print("Status: 204 No match requests available")
+    print('Status: 204 No match requests available')
   else:
     # 4. Store match request in datastore.
     request = MatchRequest(ducks=duck_keys)
     request.put()
     # 5. Send match request to client.
-    print("Content-Type: application/json\n")
+    print('Content-Type: application/json\n')
     print(json.dumps(duck_list))

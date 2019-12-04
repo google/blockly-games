@@ -15,10 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Given a duck key find three opponents based on the ducks ranking.
-"""
-
-__author__ = "aschmiedt@google.com (Abby Schmiedt)"
+"""Returns three Duck "opponents" for the specified Duck."""
 
 import cgi
 import json
@@ -26,6 +23,7 @@ from google.appengine.ext import ndb
 from pond_storage import *
 
 def get_opponent_ducks(duck):
+  """Returns list of opponent ducks."""
   # TODO: Add filter for published ducks
   # TODO: Add logic here to pick the duck based on the ranking
   user_key = get_user_key(users.get_current_user())
@@ -37,14 +35,14 @@ def get_opponent_ducks(duck):
   return duck_list[0:3]
 
 forms = cgi.FieldStorage()
-if forms.has_key("key"):
-  urlsafe_key = forms["key"].value
+if forms.has_key('key'):
+  urlsafe_key = forms['key'].value
   duck_key = ndb.Key(urlsafe=urlsafe_key)
   duck = duck_key.get()
   opponents = get_opponent_ducks(duck)
   # TODO: Should send back as many ducks as we have
   if len(opponents) < 3:
-    print("Status: 403 Not enough ducks for a match")
+    print('Status: 403 Not enough ducks for a match')
   else:
-    print("Content-Type: application/json\n")
+    print('Content-Type: application/json\n')
     print(json.dumps(opponents))

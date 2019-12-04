@@ -15,25 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Pond online's datastore models.
-"""
-
-__author__ = "kozbial@google.com (Monica Kozbial)"
+"""Defines Pond online's datastore models and common functions."""
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
-"""Struct for user code."""
 class Code(ndb.Model):
+  """Struct for user code."""
   js = ndb.TextProperty(required=True)
   opt_xml = ndb.TextProperty()
 
-"""Stores user duck code."""
 class Duck(ndb.Model):
+  """Stores user duck code and reference to leaderboard entry if published."""
   name = ndb.StringProperty(indexed=False, required=True)
   code = ndb.LocalStructuredProperty(Code, indexed=False, required=True)
-  leaderboard_entry_key = ndb.KeyProperty(indexed=False, kind='LeaderboardEntry')
-  published = ndb.ComputedProperty(lambda self: self.leaderboard_entry_key is not None)
+  leaderboard_entry_key = ndb.KeyProperty(indexed=False,
+                                          kind='LeaderboardEntry')
+  published = ndb.ComputedProperty(
+      lambda self: self.leaderboard_entry_key is not None)
 
   @classmethod
   def _pre_delete_hook(cls, key):
@@ -58,23 +57,24 @@ class Duck(ndb.Model):
       return True
     return False
 
-"""Creates a dummy duck (always throws)."""
 def get_dummy_duck_key():
+  """Creates a dummy duck (always throws)."""
   dummy_duck_id = 'dummy'
   dummy_duck_key = ndb.Key(Duck, dummy_duck_id)
   # Create entity if it does not exist.
   if not dummy_duck_key.get():
-    dummy_code = Code(js="throw 'dummy duck';")
-    dummy_duck = Duck(id=dummy_duck_id, name="", code=dummy_code)
+    dummy_code = Code(js='throw "dummy duck";')
+    dummy_duck = Duck(id=dummy_duck_id, name='', code=dummy_code)
     dummy_duck.put()
   return  dummy_duck_key
 
-"""Entry in leaderboard, storing ranking information.
-
-Should be created only by calling Leaderboard.create_entry().
-"""
 class LeaderboardEntry(ndb.Model):
-  leaderboard_key = ndb.KeyProperty(kind='Leaderboard', indexed=False, required=True)
+  """Entry in leaderboard, storing ranking information.
+
+  Should be created only by calling Leaderboard.create_entry().
+  """
+  leaderboard_key = ndb.KeyProperty(kind='Leaderboard', indexed=False,
+                                    required=True)
   ranking = ndb.IntegerProperty(required=True)
   instability = ndb.FloatProperty(required=True)
   duck_key = ndb.KeyProperty(kind=Duck, indexed=False, required=True)
@@ -83,8 +83,8 @@ class LeaderboardEntry(ndb.Model):
     self.duck_key = get_dummy_duck_key()
     self.put()
 
-"""Leaderboard information (source of truth for size of leaderboard)."""
 class Leaderboard(ndb.Model):
+  """Leaderboard information (source of truth for size of leaderboard)."""
   size = ndb.IntegerProperty(required=True, default=0)
 
   def create_entry(self, duck):
@@ -101,8 +101,8 @@ class Leaderboard(ndb.Model):
   def query_entries(self):
     return LeaderboardEntry.query(leaderboard_key = self.key)
 
-"""Returns main leaderboard."""
 def get_main_leaderboard():
+  """Returns main leaderboard."""
   leaderboard_key = ndb.Key(Leaderboard, 'main')
   leaderboard = leaderboard_key.get()
   # Create entity if it does not exist.
@@ -111,12 +111,12 @@ def get_main_leaderboard():
     leaderboard.put()
   return leaderboard
 
-"""Returns key for provided user."""
 def get_user_key(user):
+  """Returns key for provided user."""
   return ndb.Key('User', user.user_id())
 
-"""Returns list of current user's Ducks (including name and urlsafe duck key."""
 def get_user_ducks():
+  """Returns list of current user's Ducks (with name and urlsafe duck key)."""
   user_key = get_user_key(users.get_current_user())
   duck_query = Duck.query(ancestor=user_key)
   duck_list = []
@@ -127,8 +127,8 @@ def get_user_ducks():
     duck_list.append(duck_info)
   return duck_list
 
-"""Returns object containing specified duck's information or None."""
 def get_duck_info(duck):
+  """Returns object containing specified duck's information."""
   duck_info = {
       'name': duck.name,
       'duck_key': duck.key.urlsafe(),
@@ -139,52 +139,33 @@ def get_duck_info(duck):
     duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
   return duck_info
 
-"""Verifies whether duck exists and is owned by current user."""
 def verify_duck(duck):
-  # Verify Duck exists in database
+  """Verifies whether duck exists and is owned by current user."""
   if not duck:
-    # Duck with specified key does not exist.
-    print("Status: 400 Unknown Duck key")
+    print('Status: 400 Unknown Duck key')
     return False
   else:
-    # Verify user is owner of duck
     if duck.key.parent() != get_user_key(users.get_current_user()):
-      # User cannot delete this duck (user is not owner).
-      print("Status: 401 Unauthorized")
+      print('Status: 401 Unauthorized')
       return False
   return True
 
-"""Deletes given duck and returns whether it was successful."""
 def delete_duck(duck):
+  """Deletes given duck and returns whether it was successful."""
   if not verify_duck(duck):
     return False
   duck.key.delete()
   return True
 
-"""Creates duck with the given attributes and returns key."""
 def create_duck(name, code):
+  """Creates duck with the given attributes and returns key."""
   user_key = get_user_key(users.get_current_user())
   duck_query = Duck.query(ancestor=user_key)
   duck_count = duck_query.count(limit=10)
   if duck_count == 10:
-    # There are too many ducks!!
-    print("Status: 403 Owner has too many ducks")
+    print('Status: 403 Owner has too many ducks')
     return None
   else:
-    # Create a new Duck entry
     duck = Duck(name=name, code=code, parent=user_key)
     duck_key = duck.put()
     return duck_key
-
-def get_opponent_ducks(duck):
-  # TODO: Add filter for published ducks
-  user_key = get_user_key(users.get_current_user())
-  duck_query = Duck.query()
-  duck_list = []
-  for duck in duck_query:
-    if duck.key.parent() != user_key:
-      duck_info = get_duck_info(duck)
-      if duck.published:
-        duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
-      duck_list.append(duck_info)
-  return duck_list
