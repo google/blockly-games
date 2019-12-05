@@ -10,7 +10,8 @@
 			"SeoJeongHo",
 			"Ykhwong",
 			"Jerrykim306",
-			"JeonHK"
+			"JeonHK",
+			"렌즈"
 		]
 	},
 	"Games.name": "블록리 게임",
@@ -91,9 +92,9 @@
 	"Maze.doCode": "하기",
 	"Maze.elseCode": "그렇지 않으면",
 	"Maze.helpIfElse": "만약-그렇지 않으면 블록은 한 가지 또는 다른 행동을 합니다.",
-	"Maze.pathAhead": "만약 앞으로 가면",
-	"Maze.pathLeft": "만약 왼쪽으로 가면",
-	"Maze.pathRight": "만약 오른쪽으로 가면",
+	"Maze.pathAhead": "만약 길이 앞으로 갈 수 있다면",
+	"Maze.pathLeft": "만약 길이 왼쪽으로 갈 수 있다면",
+	"Maze.pathRight": "만약 길이 오른쪽으로 갈 수 있다면",
 	"Maze.repeatUntil": "다음까지 반복",
 	"Maze.moveForwardTooltip": "플레이어가 한 칸 앞으로 이동합니다.",
 	"Maze.turnTooltip": "플레이어가 90도로 왼쪽이나 오른쪽으로 돕니다.",

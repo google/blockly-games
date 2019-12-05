@@ -75,5 +75,7 @@
 	"Puzzle.helpText": "ለእያንዳንዱ እንስሳ (አረንጓዴ) ስዕሉን ያያይዙ ፣ የእግሮቹን ብዛት ይምረጡ እና የባህሪያቱን አይነት መርጠው በመደርደር ያብጁት",
 	"Maze.moveForward": "ወደፊት ቀጥል",
 	"Maze.turnLeft": "ወደ ግራ ታጠፍ",
-	"Maze.turnRight": "ወደ ቀኝ ታጠፍ"
+	"Maze.turnRight": "ወደ ቀኝ ታጠፍ",
+	"Maze.moveForwardTooltip": "ይሄ ተጫዋቹን አንድ ርምጃ ወደ ፊት ይወስደዋል",
+	"Maze.turnTooltip": "ይሄ ተጫዋቹን ወደ ግራ ወይንም ወደቀኝ በ 90 ዲግሪዋች ያሳጥፈዋል"
 }
