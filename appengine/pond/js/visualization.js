@@ -424,7 +424,7 @@ Pond.Visualization.preloadAudio_ = function() {
   for (var name in Pond.Visualization.SOUNDS_) {
     var sound = Pond.Visualization.SOUNDS_[name];
     sound.volume = .01;
-    sound.play();
+    sound.play().catch(function() {});
     sound.pause();
   }
 };
