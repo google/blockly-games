@@ -111,8 +111,13 @@ def cleanup_expired_matches():
 
 def validate_match_result(match_key, entry_keys_urlsafe):
   """Returns whether the given match result combination is valid."""
+  if match_key.kind() != 'MatchRequest':
+    logging.error('Provided matchKey:%s of unexpected kind: %s',
+                  match_key, match_key.kind())
+    return False
   match_request = match_key.get()
-  if match_key.kind() != 'MatchRequest' and match_request:
+  if match_request:
+    logging.error('Provided matchKey:%s not found', match_key)
     return False
   request_keys_urlsafe = {key.urlsafe() for key in match_request.entry_keys}
   return request_keys_urlsafe == set(entry_keys_urlsafe)
