@@ -116,7 +116,7 @@ def validate_match_result(match_key, entry_keys_urlsafe):
                   match_key, match_key.kind())
     return False
   match_request = match_key.get()
-  if match_request:
+  if not match_request:
     logging.error('Provided matchKey:%s not found', match_key)
     return False
   request_keys_urlsafe = {key.urlsafe() for key in match_request.entry_keys}

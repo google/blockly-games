@@ -60,13 +60,13 @@ pond-duck-en: pond-multi-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/basic/generated/en/soy.js --srcs appengine/pond/duck/basic/template.soy
 	python build-app.py pond/duck/basic en
 
-pond-online-en: pond-duck-board-en
+pond-online-en: pond-multi-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/online/generated/en/soy.js --srcs appengine/pond/duck/online/template.soy
 	python build-app.py pond/duck/online en
-
-pond-duck-board-en: pond-multi-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/board/generated/en/soy.js --srcs appengine/pond/duck/board/template.soy
 	python build-app.py pond/duck/board en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/rank/generated/en/soy.js --srcs appengine/pond/duck/rank/template.soy
+	python build-app.py pond/duck/rank en
 
 pond-multi-common-en: pond-common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy
@@ -115,18 +115,21 @@ pond-duck: pond-multi-common
 	python build-app.py pond/duck/basic
 	@echo
 
-pond-online: pond-duck-board
+pond-online: pond-multi-common
 	@echo "Generating JS from appengine/pond/duck/online/template.soy"
 	mkdir -p appengine/pond/duck/online/generated;
 	i18n/json_to_js.py --output_dir appengine/pond/duck/online/generated --template appengine/pond/duck/online/template.soy json/*.json;
 	python build-app.py pond/duck/online
 	@echo
-
-pond-duck-board: pond-multi-common
 	@echo "Generating JS from appengine/pond/duck/board/template.soy"
 	mkdir -p appengine/pond/duck/board/generated;
 	i18n/json_to_js.py --output_dir appengine/pond/duck/board/generated --template appengine/pond/duck/board/template.soy json/*.json;
 	python build-app.py pond/duck/board
+	@echo
+	@echo "Generating JS from appengine/pond/duck/rank/template.soy"
+	mkdir -p appengine/pond/duck/rank/generated;
+	i18n/json_to_js.py --output_dir appengine/pond/duck/rank/generated --template appengine/pond/duck/rank/template.soy json/*.json;
+	python build-app.py pond/duck/rankd
 	@echo
 
 pond-multi-common: pond-common
