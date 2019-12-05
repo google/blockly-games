@@ -15,10 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Publish the specified Duck 
-"""
-
-__author__ = "kozbial@google.com (Monica Kozbial)"
+"""Publishes the specified Duck."""
 
 import cgi
 import json
@@ -26,17 +23,17 @@ from google.appengine.ext import ndb
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-urlsafe_key = forms["key"].value
+urlsafe_key = forms['key'].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
 if verify_duck(duck):
-  publish = forms["publish"].value
-  if publish == "true":
+  publish = forms['publish'].value
+  if publish == 'true':
     if not duck.publish():
-      print("Status: 401 Already published")
+      print('Status: 401 Already published')
   else:
     if not duck.unpublish():
-      print("Status: 402 Not published")
+      print('Status: 402 Not published')
   duck_info = get_duck_info(duck)
-  print("Content-Type: application/json\n")
+  print('Content-Type: application/json\n')
   print(json.dumps(duck_info))
