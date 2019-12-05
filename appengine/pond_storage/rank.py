@@ -29,7 +29,7 @@ class MatchRequest(ndb.Model):
   entry_keys = ndb.KeyProperty(repeated=True, kind=LeaderboardEntry)
   creation_time = ndb.DateTimeProperty(auto_now_add=True)
   expiry_time = ndb.ComputedProperty(
-      lambda self: self.creation_time + datetime.timedelta(minutes=1))
+      lambda self: self.creation_time + datetime.timedelta(minutes=10))
 
   @classmethod
   def contains_entry(cls, entry_key):
@@ -175,4 +175,3 @@ else:
     print(json.dumps(match_request_info))
   else:
     print('Status: 204')
-

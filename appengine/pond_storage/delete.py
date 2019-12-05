@@ -15,10 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Delete the specified Duck 
-"""
-
-__author__ = "kozbial@google.com (Monica Kozbial)"
+"""Deletes the specified Duck."""
 
 import cgi
 import json
@@ -26,12 +23,12 @@ from google.appengine.ext import ndb
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-urlsafe_key = forms["key"].value
+urlsafe_key = forms['key'].value
 duck_key = ndb.Key(urlsafe=urlsafe_key)
 duck = duck_key.get()
 if delete_duck(duck):
-  meta = {"duck_key": duck_key.urlsafe()}
-  if forms.has_key("getUserDucks") and forms["getUserDucks"].value == "true":
-    meta["duckList"] = get_user_ducks()
-  print("Content-Type: application/json\n")
+  meta = {'duck_key': duck_key.urlsafe()}
+  if forms.has_key('getUserDucks') and forms['getUserDucks'].value == 'true':
+    meta['duckList'] = get_user_ducks()
+  print('Content-Type: application/json\n')
   print(json.dumps(meta))

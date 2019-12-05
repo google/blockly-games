@@ -15,24 +15,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Create and upload a new duck 
-"""
-
-__author__ = "kozbial@google.com (Monica Kozbial)"
+"""Creates and stores a new Duck."""
 
 import cgi
 import json
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-js = forms["js"].value
-name = forms["name"].value
+js = forms['js'].value
+name = forms['name'].value
 code = Code(js=js)
-if forms.has_key("xml"):
-  code.opt_xml = forms["xml"].value
+if forms.has_key('xml'):
+  code.opt_xml = forms['xml'].value
 duck_key = create_duck(name, code)
-meta = {"duck_key": duck_key.urlsafe()}
-if forms.has_key("getUserDucks") and forms["getUserDucks"].value == "true":
-  meta["duckList"] = get_user_ducks()
-print("Content-Type: application/json\n")
+meta = {'duck_key': duck_key.urlsafe()}
+if forms.has_key('getUserDucks') and forms['getUserDucks'].value == 'true':
+  meta['duckList'] = get_user_ducks()
+print('Content-Type: application/json\n')
 print(json.dumps(meta))
