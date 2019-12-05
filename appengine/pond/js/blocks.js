@@ -31,6 +31,7 @@ goog.require('Blockly.FieldNumber');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.math');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyGames.JsBlocks');
 
 

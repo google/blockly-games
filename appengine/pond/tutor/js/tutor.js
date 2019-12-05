@@ -24,6 +24,7 @@
 goog.provide('Pond.Tutor');
 
 goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.JavaScript');
 goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');

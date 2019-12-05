@@ -25,7 +25,6 @@ goog.provide('Pond.Duck.Board');
 
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Board.soy');
 

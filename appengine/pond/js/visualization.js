@@ -23,7 +23,6 @@
 
 goog.provide('Pond.Visualization');
 
-goog.require('Blockly');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.userAgent');
 goog.require('Pond.Battle');

@@ -24,17 +24,17 @@
 goog.provide('Pond.Duck');
 
 goog.require('Blockly.FlyoutButton');
+goog.require('Blockly.JavaScript');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyAce');
-goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Pond');
+goog.require('Pond.Avatar');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
-goog.require('Pond.Visualization');
 
 /**
  * Array of tabs.
@@ -148,7 +148,7 @@ Pond.Duck.init = function () {
  *     or the default name.
  */
 Pond.Duck.loadDefaultAvatars = function (opt_currentPlayerName) {
-  var currentPlayer = Pond.Avatar.createPlayerAvatar(opt_currentPlayerName || 'Pond_myName');
+  var currentPlayer = Pond.Avatar.createPlayerAvatar('Pond_' + opt_currentPlayerName || 'Pond_myName');
   var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName', 'playerRook');
   var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName', 'playerCounter');
   var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName', 'playerSniper');

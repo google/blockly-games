@@ -61,7 +61,7 @@ def create_ranking_match():
   for entry in unstable_entries_query:
     # Check if it exists in a current match request (ignoring dummy ducks)
     if (not MatchRequest.contains_entry(entry.key) and
-        entry.duck_key == get_dummy_duck_key()):
+        entry.duck_key != get_dummy_duck_key()):
       unstable_leaderboard_entry = entry
       break
   if not unstable_leaderboard_entry:
