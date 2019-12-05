@@ -105,7 +105,7 @@ class Leaderboard(ndb.Model):
     self.put()
     return le_key
 
-  def create_query(self):
+  def get_entries_query(self):
     return LeaderboardEntry.query(LeaderboardEntry.leaderboard_key == self.key)
 
 """Returns main leaderboard."""

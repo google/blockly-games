@@ -38,11 +38,11 @@ class MatchRequest(ndb.Model):
 def create_ranking_match():
   """Creates a new ranking match if a valid match can be created.
 
-  Chooses the leaderboard entry with the highest instability no already being
-  re-evaluated in a ranking match and finds three more entries relative to it
-  are also not involved in a pending match. If four valid entries can be found,
-  the entry keys are stored in a MatchRequest (for verification of result) and
-  the information needed to evaluate the matches is returned, otherwise returns
+  Chooses the leaderboard entry with the highest instability not involved in a
+  pending match and finds three more entries relative to it that are also not
+  involved in a pending match. If four valid entries can be found, the entry
+  keys are stored in a MatchRequest (for verification of result) and the
+  information needed to evaluate the matches is returned, otherwise returns
   None.
 
   Returns:
@@ -76,19 +76,18 @@ def create_ranking_match():
   # 2. Choose up to 3 opponents based on chosen entry.
   # TODO choose opponents based on chosen entry's instability.
   leaderboard = unstable_leaderboard_entry.leaderboard_key.get()
-  leaderboard_query = leaderboard.create_query()
+  leaderboard_query = leaderboard.get_entries_query()
   for entry in leaderboard_query:
-    if (entry == unstable_leaderboard_entry or
-        entry.duck_key == get_dummy_duck_key() or
-        MatchRequest.contains_entry(entry.key)):
-      continue
-    entry_keys.append(entry.key)
-    duck_list.append({
-        'entry_key': entry.key.urlsafe(),
-        'js': entry.duck_key.get().code.js
-    })
-    if len(duck_list) == 4:
-      break
+    if (entry != unstable_leaderboard_entry and
+        entry.duck_key != get_dummy_duck_key() and
+        not MatchRequest.contains_entry(entry.key)):
+      entry_keys.append(entry.key)
+      duck_list.append({
+          'entry_key': entry.key.urlsafe(),
+          'js': entry.duck_key.get().code.js
+      })
+      if len(duck_list) == 4:
+        break
   # 3. Verify whether enough entries could be found for a match
   if len(duck_list) != 4:
     logging.info('Not enough opponents available for match.')

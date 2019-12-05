@@ -213,7 +213,7 @@ Pond.Duck.Online.computeRankRequest = function() {
     // No matches currently available, wait before asking again.
     setTimeout(function(){
       Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
-    }, 60000);
+    }, 10000);
   }
 };
 
