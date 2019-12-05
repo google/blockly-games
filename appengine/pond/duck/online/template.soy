@@ -52,6 +52,7 @@
     {/param}
   {/call}
 
+  {call .rankComputeIframe /}
   {call .databaseDialogs /}
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.abortDialog /}
@@ -97,6 +98,13 @@
   <button id="saveButton">
     Save this Duck
   </button>
+{/template}
+
+/**
+ * Iframe computing ranking position
+ */
+{template .rankComputeIframe}
+  <iframe src="pond-duck-rank" style="display:none;"></iframe>
 {/template}
 
 /**

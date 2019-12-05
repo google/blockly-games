@@ -109,6 +109,11 @@ handlers:
   upload: pond-duck-board\.html
   login: required
   secure: always
+- url: /pond-duck-rank
+  static_files: pond-duck-rank.html
+  upload: pond-duck-rank\.html
+  login: required
+  secure: always
 - url: /pond/
   static_dir: pond
   secure: always

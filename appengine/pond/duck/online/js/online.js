@@ -131,9 +131,6 @@ Pond.Duck.Online.loadDuck = function() {
   Pond.Duck.Online.renderDuckInfo.call(this);
   // Show Duck Info tab.
   Pond.Duck.selectTab(Pond.Duck.TAB_INDEX.DUCK_INFO);
-
-  // Start background match request computation.
-  Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
 };
 
 /**
@@ -190,31 +187,6 @@ Pond.Duck.Online.renderDuckInfo = function() {
             BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml(),
             Pond.Duck.Online.renderDuckInfo);
       });
-};
-
-/**
- * Handle rank request response.
- */
-Pond.Duck.Online.computeRankRequest = function() {
-  if (this.status === 200) {
-    var data = JSON.parse(this.responseText);
-    var duckList = data['duck_list'];
-    // TODO: Compute relative ranking based on match request and send back.
-    var rankedEntryKeys = [
-        duckList[0]['entry_key'], duckList[3]['entry_key'],
-      duckList[2]['entry_key'], duckList[1]['entry_key']];
-    Pond.Duck.Datastore.sendMatchResult(
-        data['match_key'], rankedEntryKeys,
-        function(){
-          Pond.Duck.Datastore.getMatchRequest(
-              Pond.Duck.Online.computeRankRequest);
-    });
-  } else {
-    // No matches currently available, wait before asking again.
-    setTimeout(function(){
-      Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Online.computeRankRequest);
-    }, 10000);
-  }
 };
 
 /**
