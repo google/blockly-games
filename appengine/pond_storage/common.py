@@ -17,6 +17,7 @@ limitations under the License.
 
 """Defines Pond online's datastore models and common functions."""
 
+import logging
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -73,14 +74,19 @@ class LeaderboardEntry(ndb.Model):
 
   Should be created only by calling Leaderboard.create_entry().
   """
-  leaderboard_key = ndb.KeyProperty(kind='Leaderboard', indexed=False,
-                                    required=True)
+  leaderboard_key = ndb.KeyProperty(kind='Leaderboard', required=True)
   ranking = ndb.IntegerProperty(required=True)
   instability = ndb.FloatProperty(required=True)
   duck_key = ndb.KeyProperty(kind=Duck, indexed=False, required=True)
 
   def clear_duck(self):
     self.duck_key = get_dummy_duck_key()
+    self.put()
+
+  def update_ranking(self, new_rank):
+    logging.info('RANK UPDATE: key=%s old_rank=%s new_rank=%s', self.key, self.ranking, new_rank)
+    self.instability = (self.instability + abs(self.ranking - new_rank))/2
+    self.ranking = new_rank
     self.put()
 
 class Leaderboard(ndb.Model):
@@ -98,8 +104,8 @@ class Leaderboard(ndb.Model):
     self.put()
     return le_key
 
-  def query_entries(self):
-    return LeaderboardEntry.query(leaderboard_key = self.key)
+  def get_entries_query(self):
+    return LeaderboardEntry.query(LeaderboardEntry.leaderboard_key == self.key)
 
 def get_main_leaderboard():
   """Returns main leaderboard."""
