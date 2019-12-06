@@ -23,6 +23,7 @@
 goog.provide('Pond.Duck.Datastore');
 
 goog.require('BlocklyGames');
+goog.require('BlocklyStorage');
 
 /**
  * Copy the duck with the given key.
@@ -36,7 +37,7 @@ Pond.Duck.Datastore.copyDuck = function(duckKey, getUserDucks, onSuccess) {
     var data = [];
     data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', getUserDucks));
-    BlocklyStorage['makeRequest']('pond-storage/copy', data.join('&'), onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/copy', data.join('&'), onSuccess);
 };
 
 /**
@@ -56,7 +57,7 @@ Pond.Duck.Datastore.createDuck = function(name, js, xml, getUserDucks, onSuccess
     data.push(Pond.Duck.Datastore.encodeElements('js', js));
     data.push(Pond.Duck.Datastore.encodeElements('xml', xml));
     data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', getUserDucks));
-    BlocklyStorage['makeRequest']('pond-storage/create', data.join('&'), onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/create', data.join('&'), onSuccess);
 };
 
 /**
@@ -71,7 +72,7 @@ Pond.Duck.Datastore.deleteDuck = function(duckKey, getUserDucks, onSuccess) {
     var data = [];
     data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', getUserDucks));
-    BlocklyStorage['makeRequest']('pond-storage/delete', data.join('&'), onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/delete', data.join('&'), onSuccess);
 };
 
 /**
@@ -88,7 +89,7 @@ Pond.Duck.Datastore.updateDuckCode = function(duckKey, js, xml, onSuccess) {
     data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('js', js));
     data.push(Pond.Duck.Datastore.encodeElements('xml', xml));
-    BlocklyStorage['makeRequest']('pond-storage/update', data.join('&'), onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/update', data.join('&'), onSuccess);
 };
 
 /**
@@ -102,7 +103,7 @@ Pond.Duck.Datastore.setPublished = function(duckKey, doPublish, onSuccess) {
     var data = [];
     data.push(Pond.Duck.Datastore.encodeElements('key', duckKey));
     data.push(Pond.Duck.Datastore.encodeElements('publish', doPublish));
-    BlocklyStorage['makeRequest']('pond-storage/publish', data.join('&'), onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/publish', data.join('&'), onSuccess);
 };
 
 /**
@@ -111,7 +112,7 @@ Pond.Duck.Datastore.setPublished = function(duckKey, doPublish, onSuccess) {
  *    successfully.
  */
 Pond.Duck.Datastore.getAllDucks = function(onSuccess) {
-    BlocklyStorage['makeRequest']('pond-storage/get', '', onSuccess, null, 'GET');
+    BlocklyStorage.makeRequest('pond-storage/get', '', onSuccess, null, 'GET');
 };
 
 /**
@@ -122,7 +123,7 @@ Pond.Duck.Datastore.getAllDucks = function(onSuccess) {
  */
 Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess) {
     var url = 'pond-storage/get?key='+ duckKey;
-    BlocklyStorage['makeRequest'](url, '', onSuccess, null, 'GET');
+    BlocklyStorage.makeRequest(url, '', onSuccess, null, 'GET');
 };
 
 /**
@@ -131,7 +132,7 @@ Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess) {
  *    successfully.
  */
 Pond.Duck.Datastore.getMatchRequest = function(onSuccess) {
-    BlocklyStorage['makeRequest']('pond-storage/rank', '', onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/rank', '', onSuccess);
 };
 
 /**
@@ -147,7 +148,7 @@ Pond.Duck.Datastore.sendMatchResult = function(matchKey, entryKeys, opt_onSucces
     var data = [];
     data.push(Pond.Duck.Datastore.encodeElements('matchKey', matchKey));
     data.push(Pond.Duck.Datastore.encodeElements('entryKeys', entryKeys));
-    BlocklyStorage['makeRequest']('pond-storage/rank', data.join('&'), opt_onSuccess);
+    BlocklyStorage.makeRequest('pond-storage/rank', data.join('&'), opt_onSuccess);
 };
 
 /**
@@ -158,7 +159,7 @@ Pond.Duck.Datastore.sendMatchResult = function(matchKey, entryKeys, opt_onSucces
  */
 Pond.Duck.Datastore.getOpponents = function(duckKey, onSuccess) {
     var url = 'pond-storage/opponents?key='+ duckKey;
-    BlocklyStorage['makeRequest'](url, '', onSuccess, null, 'GET');
+    BlocklyStorage.makeRequest(url, '', onSuccess, null, 'GET');
 };
 
 /**

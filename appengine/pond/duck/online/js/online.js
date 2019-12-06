@@ -24,13 +24,14 @@
 goog.provide('Pond.Duck.Online');
 
 goog.require('Blockly.utils.dom');
-goog.require('BlocklyInterface');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
+goog.require('BlocklyInterface');
+goog.require('BlocklyStorage');
 goog.require('Pond');
-goog.require('Pond.Duck');
 goog.require('Pond.Battle');
+goog.require('Pond.Duck');
 goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Online.soy');
 
@@ -335,7 +336,7 @@ Pond.Duck.Online.submitDuckForm_ = function(requiredFieldsIds, formId, action) {
   var form = document.getElementById(formId);
   var data = Pond.Duck.Online.encodeFormElements_(form);
   var onLoadCallback = Pond.Duck.Online.createDuckFormOnLoadCallback_(action);
-  BlocklyStorage['makeRequest'](form.action, data.join('&'), onLoadCallback);
+  BlocklyStorage.makeRequest(form.action, data.join('&'), onLoadCallback);
   BlocklyDialogs.hideDialog(true);
 };
 /**

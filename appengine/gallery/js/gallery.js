@@ -24,6 +24,7 @@
 goog.provide('Gallery');
 
 goog.require('BlocklyGames');
+goog.require('BlocklyStorage');
 goog.require('Gallery.soy');
 
 
@@ -99,7 +100,7 @@ Gallery.loadMore = function() {
       location = '/admin';
     }
   };
-  BlocklyStorage['makeRequest'](url, '', Gallery.receiveMore, onFailure, 'GET');
+  BlocklyStorage.makeRequest(url, '', Gallery.receiveMore, onFailure, 'GET');
   Gallery.loadRequested_ = true;
 };
 
@@ -148,7 +149,7 @@ Gallery.publish = function(element) {
   var publish = Number(element.checked);
   var url = '/gallery-api/admin';
   var data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
-  BlocklyStorage['makeRequest'](url, data);
+  BlocklyStorage.makeRequest(url, data);
 };
 
 /**

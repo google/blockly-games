@@ -253,9 +253,11 @@ BlocklyGames.init = function() {
     }
   }
 
-  if ('BlocklyStorage' in window) {
+  if (!BlocklyGames.IS_HTML) {
     // Setup login button.
-    BlocklyStorage['setupLogin']();
+    var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
+    BlocklyStorage.makeRequest('/login',
+        'dest_url=' + encodeURIComponent(destUrl), BlocklyGames.addLoginButton);
   }
 
   // Highlight levels that have been completed.
@@ -437,9 +439,3 @@ BlocklyGames.importAnalytics_ = function() {
   gaObject('create', 'UA-50448074-1', 'auto');
   gaObject('send', 'pageview');
 };
-
-// Export symbols that would otherwise be renamed by Closure compiler.
-// storage.js is not compiled and calls setCode, getCode, and getWorkspace.
-window['BlocklyGames'] = BlocklyGames;
-BlocklyGames['addLoginButton'] = BlocklyGames.addLoginButton;
-BlocklyGames['isLoginRequired'] = BlocklyGames.isLoginRequired;
