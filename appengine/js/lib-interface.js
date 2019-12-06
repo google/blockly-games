@@ -52,10 +52,10 @@ BlocklyInterface.init = function() {
   var linkButton = document.getElementById('linkButton');
   if (linkButton) {
     if (!BlocklyGames.IS_HTML) {
-      BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
       BlocklyStorage.getCode = BlocklyInterface.getCode;
       BlocklyStorage.setCode = BlocklyInterface.setCode;
       BlocklyStorage.monitorChanges = BlocklyInterface.monitorChanges;
+      BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
     } else {
       linkButton.style.display = 'none';
     }
