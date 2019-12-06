@@ -491,5 +491,3 @@ BlocklyDialogs.abortKeyDown = function(e) {
 window['BlocklyDialogs'] = BlocklyDialogs;
 // templace.soy has a hardcoded onclick="BlocklyDialogs.hidedialogs()".
 BlocklyDialogs['hideDialog'] = BlocklyDialogs.hideDialog;
-// storage.js calls storageAlert.
-BlocklyDialogs['storageAlert'] = BlocklyDialogs.storageAlert;

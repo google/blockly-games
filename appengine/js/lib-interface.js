@@ -27,6 +27,7 @@ goog.require('Blockly');
 goog.require('Blockly.geras.Renderer');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
+goog.require('BlocklyStorage');
 
 
 /**
@@ -49,17 +50,15 @@ BlocklyInterface.init = function() {
 
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
-  if ('BlocklyStorage' in window) {
-    BlocklyStorage['HTTPREQUEST_ERROR'] =
-        BlocklyGames.getMsg('Games_httpRequestError');
-    BlocklyStorage['LINK_ALERT'] = BlocklyGames.getMsg('Games_linkAlert');
-    BlocklyStorage['HASH_ERROR'] = BlocklyGames.getMsg('Games_hashError');
-    BlocklyStorage['XML_ERROR'] = BlocklyGames.getMsg('Games_xmlError');
-    if (linkButton) {
-      BlocklyGames.bindClick(linkButton, BlocklyStorage['link']);
+  if (linkButton) {
+    if (!BlocklyGames.IS_HTML) {
+      BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
+      BlocklyStorage.getCode = BlocklyInterface.getCode;
+      BlocklyStorage.setCode = BlocklyInterface.setCode;
+      BlocklyStorage.monitorChanges = BlocklyInterface.monitorChanges;
+    } else {
+      linkButton.style.display = 'none';
     }
-  } else if (linkButton) {
-    linkButton.style.display = 'none';
   }
 
   var languageMenu = document.getElementById('languageMenu');
@@ -76,9 +75,9 @@ BlocklyInterface.init = function() {
  *     previous level.  If a function, call it to modify the inherited blocks.
  */
 BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+  if (!BlocklyGames.IS_HTML && window.location.hash.length > 1) {
     // An href with #key triggers an AJAX call to retrieve saved blocks.
-    BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
+    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
     return;
   }
 
@@ -172,6 +171,22 @@ BlocklyInterface.getJsCode = function() {
  */
 BlocklyInterface.getWorkspace = function() {
   return BlocklyGames.workspace;
+};
+
+/**
+ * Start monitoring the workspace.  If a change is made that changes the XML,
+ * clear the key from the URL.  Stop monitoring the workspace once such a
+ * change is detected.
+ */
+BlocklyInterface.monitorChanges = function() {
+  var startCode = BlocklyInterface.getCode();
+  function change() {
+    if (startCode != BlocklyInterface.getCode()) {
+      window.location.hash = '';
+      BlocklyInterface.getWorkspace().removeChangeListener(bindData);
+    }
+  }
+  var bindData = BlocklyInterface.getWorkspace().addChangeListener(change);
 };
 
 /**
@@ -341,10 +356,3 @@ BlocklyInterface.importPrettify = function() {
   }
   setTimeout(load, 1);
 };
-
-// Export symbols that would otherwise be renamed by Closure compiler.
-// storage.js is not compiled and calls setCode, getCode, and getWorkspace.
-window['BlocklyInterface'] = BlocklyInterface;
-BlocklyInterface['setCode'] = BlocklyInterface.setCode;
-BlocklyInterface['getCode'] = BlocklyInterface.getCode;
-BlocklyInterface['getWorkspace'] = BlocklyInterface.getWorkspace;

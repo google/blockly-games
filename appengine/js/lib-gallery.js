@@ -25,6 +25,7 @@ goog.provide('BlocklyGallery');
 
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyStorage');
 
 
 /**
@@ -98,7 +99,7 @@ BlocklyGallery.makeFormRequest_ =
           encodeURIComponent(element.value));
     }
   }
-  BlocklyStorage['makeFormRequest'](
+  BlocklyStorage.makeRequest(
       form.action, data.join('&'), opt_onSuccess, opt_onFailure, opt_method);
 };
 
