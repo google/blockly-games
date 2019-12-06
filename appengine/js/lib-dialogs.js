@@ -488,6 +488,6 @@ BlocklyDialogs.abortKeyDown = function(e) {
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-// templace.soy has a hardcoded onclick="BlocklyDialogs.hidedialogs()".
 window['BlocklyDialogs'] = BlocklyDialogs;
+// templace.soy has a hardcoded onclick="BlocklyDialogs.hidedialogs()".
 BlocklyDialogs['hideDialog'] = BlocklyDialogs.hideDialog;

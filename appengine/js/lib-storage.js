@@ -16,50 +16,39 @@
  */
 
 /**
- * @fileoverview Loading and saving blocks with localStorage and cloud storage.
+ * @fileoverview Loading and saving blocks and code using cloud storage.
  * @author q.neutron@gmail.com (Quynh Neutron)
  */
 'use strict';
 
-// Create a namespace.
-var BlocklyStorage = {};
+goog.provide('BlocklyStorage');
+
+goog.require('BlocklyGames');
+
 
 /**
- * Backup code blocks or JavaScript to localStorage.
- * @private
+ * Function to get the code from Blockly or from the JS editor.
+ * @type Function
  */
-BlocklyStorage.backupBlocks_ = function() {
-  if ('localStorage' in window) {
-    var code = BlocklyInterface.getCode();
-    // Gets the current URL, not including the hash.
-    var url = window.location.href.split('#')[0];
-    window.localStorage.setItem(url, code);
-  }
-};
+BlocklyStorage.getCode = null;
 
 /**
- * Bind the localStorage backup function to the unload event.
+ * Function to set the code to Blockly or to the JS editor.
+ * @type Function
  */
-BlocklyStorage.backupOnUnload = function() {
-  window.addEventListener('unload', BlocklyStorage.backupBlocks_, false);
-};
+BlocklyStorage.setCode = null;
 
 /**
- * Restore code blocks or JavaScript from localStorage.
+ * Function to start monitoring for changes in Blockly or in the JS editor.
+ * @type Function
  */
-BlocklyStorage.restoreBlocks = function() {
-  var url = window.location.href.split('#')[0];
-  if ('localStorage' in window && window.localStorage[url]) {
-    var code = window.localStorage[url];
-    BlocklyInterface.setCode(code);
-  }
-};
+BlocklyStorage.monitorChanges = null;
 
 /**
  * Save blocks or JavaScript to database and return a link containing the key.
  */
 BlocklyStorage.link = function() {
-  var code = BlocklyInterface.getCode();
+  var code = BlocklyStorage.getCode();
   BlocklyStorage.makeRequest('/storage', 'xml=' + encodeURIComponent(code),
       BlocklyStorage.handleLinkResponse_);
 };
@@ -111,8 +100,8 @@ BlocklyStorage.makeRequest =
     } else if (opt_onFailure) {
       opt_onFailure.call(this);
     } else {
-      BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
-          'xhr_.status: ' + this.status);
+      BlocklyStorage.alert(BlocklyGames.getMsg('Games_httpRequestError') +
+          '\nXHR status: ' + this.status);
     }
     BlocklyStorage.xhrs_[url] = null;
   };
@@ -133,49 +122,38 @@ BlocklyStorage.makeRequest =
 BlocklyStorage.handleLinkResponse_ = function() {
   var data = this.responseText.trim();
   window.location.hash = data;
-  BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
+  BlocklyStorage.alert(BlocklyGames.getMsg('Games_linkAlert').replace('%1',
       window.location.href));
-  BlocklyStorage.monitorChanges_();
+  BlocklyStorage.monitorChanges();
 };
 
 /**
- * Callback function for retrieve xml AJAX call.
+ * Callback function for retrieve XML AJAX call.
  * @param {string} responseText Response to request.
  * @private
  */
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
   var data = this.responseText.trim();
   if (!data.length) {
-    BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
+    BlocklyStorage.alert(BlocklyGames.getMsg('Games_hashError').replace('%1',
         window.location.hash));
   } else {
-    BlocklyInterface.setCode(data);
+    BlocklyStorage.setCode(data);
   }
-  BlocklyStorage.monitorChanges_();
+  BlocklyStorage.monitorChanges();
 };
 
 /**
- * Start monitoring the workspace.  If a change is made that changes the XML,
- * clear the key from the URL.  Stop monitoring the workspace once such a
- * change is detected.
- * @private
- */
-BlocklyStorage.monitorChanges_ = function() {
-  var startCode = BlocklyInterface.getCode();
-  function change() {
-    if (startCode != BlocklyInterface.getCode()) {
-      window.location.hash = '';
-      BlocklyInterface.getWorkspace().removeChangeListener(bindData);
-    }
-  }
-  var bindData = BlocklyInterface.getWorkspace().addChangeListener(change);
-};
-
-/**
- * Present a text message to the user.
- * Designed to be overridden if an app has custom dialogs, or a butter bar.
+ * Present a text message modally to the user.
  * @param {string} message Text to alert.
  */
 BlocklyStorage.alert = function(message) {
-  window.alert(message);
+  // Try to use a nice dialog.
+  // Fall back to browser's alert() if BlocklyDialogs is not part of build.
+  if (typeof BlocklyDialogs === 'object') {
+    var linkButton = document.getElementById('linkButton');
+    BlocklyDialogs.storageAlert(linkButton, message);
+  } else {
+    alert(message);
+  }
 };
