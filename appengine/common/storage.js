@@ -130,7 +130,7 @@ BlocklyStorage.handleLinkResponse_ = function() {
 };
 
 /**
- * Callback function for retrieve xml AJAX call.
+ * Callback function for retrieve XML AJAX call.
  * @param {string} responseText Response to request.
  * @private
  */
@@ -164,9 +164,9 @@ BlocklyStorage.monitorChanges_ = function() {
 
 /**
  * Present a text message to the user.
- * Designed to be overridden if an app has custom dialogs, or a butter bar.
  * @param {string} message Text to alert.
  */
 BlocklyStorage.alert = function(message) {
-  window.alert(message);
+  var linkButton = document.getElementById('linkButton');
+  BlocklyDialogs.storageAlert(linkButton, message);
 };

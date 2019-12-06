@@ -55,9 +55,6 @@ BlocklyInterface.init = function() {
     BlocklyStorage['LINK_ALERT'] = BlocklyGames.getMsg('Games_linkAlert');
     BlocklyStorage['HASH_ERROR'] = BlocklyGames.getMsg('Games_hashError');
     BlocklyStorage['XML_ERROR'] = BlocklyGames.getMsg('Games_xmlError');
-    // Swap out the BlocklyStorage's alert() for a nicer dialog.
-    BlocklyStorage['alert'] =
-        BlocklyDialogs.storageAlert.bind(BlocklyDialogs, linkButton);
     if (linkButton) {
       BlocklyGames.bindClick(linkButton, BlocklyStorage['link']);
     }
