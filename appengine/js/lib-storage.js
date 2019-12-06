@@ -63,15 +63,6 @@ BlocklyStorage.retrieveXml = function(key) {
 };
 
 /**
- * Sets up login button.
- */
-BlocklyStorage.setupLogin = function() {
-  var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
-  BlocklyStorage.makeRequest('/login',
-      'dest_url=' + encodeURIComponent(destUrl), BlocklyGames.addLoginButton);
-};
-
-/**
  * Global reference to current AJAX requests.
  * @type Object.<string, XMLHttpRequest>
  */
