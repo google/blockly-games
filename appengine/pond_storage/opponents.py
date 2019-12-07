@@ -27,12 +27,12 @@ def get_opponent_ducks(duck):
   # TODO: Add filter for published ducks
   # TODO: Add logic here to pick the duck based on the ranking
   user_key = get_user_key(users.get_current_user())
-  duck_query = Duck.query()
+  duck_query = Duck.query().fetch(3)
   duck_list = []
   for duck in duck_query:
     if duck.key.parent() != user_key:
       duck_list.append(get_duck_info(duck))
-  return duck_list[0:3]
+  return duck_list
 
 forms = cgi.FieldStorage()
 if forms.has_key('key'):

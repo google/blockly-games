@@ -28,6 +28,7 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('BlocklyStorage');
+goog.require('Pond.Avatar');
 goog.require('Pond.Duck');
 goog.require('Pond.Duck.Datastore');
 goog.require('Pond.Duck.Online.soy');
@@ -65,7 +66,7 @@ Pond.Duck.Online.init = function() {
   BlocklyGames.bindClick('getOpponents', function() {
     Pond.Duck.Datastore.getOpponents(
         Pond.Duck.Online.duckKey,
-        Pond.Duck.Online.addNewOpponents);
+        Pond.Duck.Online.loadNewOpponents);
   });
   BlocklyGames.bindClick('defaultOpponents', function() {
     Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
@@ -190,17 +191,26 @@ Pond.Duck.Online.renderDuckInfo = function() {
 /**
  * Load a new set of opponents.
  */
-Pond.Duck.Online.addNewOpponents = function() {
-  var opponentList = JSON.parse(this.responseText);
-  var avatarList = [Pond.Avatar.createPlayerAvatar(Pond.Duck.Online.NAME)];
-  // TODO: If we don't have three opponents then fill in with default
-  if (opponentList) {
+Pond.Duck.Online.loadNewOpponents = function() {
+  var avatarList = [
+    Pond.Avatar.createPlayerAvatar(
+        Pond.Duck.Online.NAME, Pond.Duck.START_XY[0])];
+  if (this.status === 200) {
+    // Add provided opponents.
+    var opponentList = JSON.parse(this.responseText);
     for (var i = 0, duck; (duck = opponentList[i]); i++) {
-      var newAvatar = new Pond.Avatar(duck.name, duck['code']['js']);
+      var newAvatar = new Pond.Avatar(
+          duck.name, duck['code']['js'], Pond.Duck.START_XY[i + 1]);
       avatarList.push(newAvatar);
     }
-    Pond.Duck.loadAvatars(avatarList);
   }
+  // TODO: Inform the user if we weren't provided enough opponents and are
+  // loading default players as well.
+  var defaultPlayers = Pond.Duck.getDefaultAvatars();
+  for (var i = avatarList.length; i < 4; i++) {
+    avatarList.push(defaultPlayers[i]);
+  }
+  Pond.Duck.loadAvatars(avatarList);
 };
 
 /* Logic for Buttons and Forms for debugging purposes. */

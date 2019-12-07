@@ -155,10 +155,8 @@ Pond.Battle.clearAvatars = function() {
 /**
  * Add the avatar to the battle.
  * @param {!Pond.Avatar} avatar The avatar to add to the battle.
- * @param {Blockly.utils.Coordinate=} opt_startLoc Optional start location.
  */
-Pond.Battle.addAvatar = function(avatar, opt_startLoc) {
-  avatar.battleSetup(Pond.Battle, opt_startLoc);
+Pond.Battle.addAvatar = function(avatar) {
   Pond.Battle.AVATARS.push(avatar);
 };
 
