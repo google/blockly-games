@@ -479,14 +479,11 @@ Maze.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  var toolbox = document.getElementById('toolbox');
   // Scale the workspace so level 1 = 1.3, and level 10 = 1.0.
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'maxBlocks': Maze.MAX_BLOCKS,
+  BlocklyInterface.injectBlockly(
+      {'maxBlocks': Maze.MAX_BLOCKS,
        'rtl': rtl,
-       'toolbox': toolbox,
        'trashcan': true,
        'zoom': {'startScale': scale}});
   BlocklyGames.workspace.getAudioManager().load(Maze.SKIN.winSound, 'win');

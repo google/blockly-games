@@ -384,11 +384,8 @@ Bird.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'rtl': rtl,
-       'toolbox': toolbox,
+  BlocklyInterface.injectBlockly(
+      {'rtl': rtl,
        'trashcan': true});
   BlocklyGames.workspace.getAudioManager().load(
       ['bird/quack.ogg', 'bird/quack.mp3'], 'quack');

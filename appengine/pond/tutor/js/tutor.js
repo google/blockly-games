@@ -74,12 +74,8 @@ Pond.Tutor.init = function() {
       Blockly.svgResize(BlocklyGames.workspace);
     });
     onresize(null);
-    var toolbox = document.getElementById('toolbox');
-    BlocklyGames.workspace = Blockly.inject('blockly',
-        {'media': 'third-party/blockly/media/',
-         'oneBasedIndex': false,
-         'rtl': false,
-         'toolbox': toolbox,
+    BlocklyInterface.injectBlockly(
+        {'rtl': false,
          'trashcan': true});
     Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
         'damage,health,loc_x,getX,loc_y,getY,');

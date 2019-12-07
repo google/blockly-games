@@ -124,12 +124,8 @@ Pond.Duck.init = function() {
   BlocklyAce.importBabel();
 
   // Inject Blockly.
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'oneBasedIndex': false,
-       'rtl': false,
-       'toolbox': toolbox,
+  BlocklyInterface.injectBlockly(
+      {'rtl': false,
        'trashcan': true,
        'zoom': {'controls': true, 'wheel': true}});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +

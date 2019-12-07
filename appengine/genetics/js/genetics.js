@@ -228,16 +228,10 @@ Genetics.init = function() {
 
   if (blocklyDiv) {
     // Inject Blockly.
-    var toolbox = document.getElementById('toolbox');
-    BlocklyGames.workspace = Blockly.inject('blockly',
-        {
-          'media': 'third-party/blockly/media/',
-          'oneBasedIndex': false,
-          'rtl': false,
-          'toolbox': toolbox,
-          'trashcan': true,
-          'zoom': {'controls': true, 'wheel': true}
-        });
+    BlocklyInterface.injectBlockly(
+        {'rtl': false,
+         'trashcan': true,
+         'zoom': {'controls': true, 'wheel': true}});
     // Disable blocks not within a function.
     BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
 

@@ -166,14 +166,6 @@ BlocklyInterface.getJsCode = function() {
 };
 
 /**
- * Return the main workspace.
- * @return {Blockly.WorkspaceSvg}
- */
-BlocklyInterface.getWorkspace = function() {
-  return BlocklyGames.workspace;
-};
-
-/**
  * Start monitoring the workspace.  If a change is made that changes the XML,
  * clear the key from the URL.  Stop monitoring the workspace once such a
  * change is detected.
@@ -183,10 +175,24 @@ BlocklyInterface.monitorChanges = function() {
   function change() {
     if (startCode != BlocklyInterface.getCode()) {
       window.location.hash = '';
-      BlocklyInterface.getWorkspace().removeChangeListener(bindData);
+      BlocklyGames.workspace.removeChangeListener(bindData);
     }
   }
-  var bindData = BlocklyInterface.getWorkspace().addChangeListener(change);
+  var bindData = BlocklyGames.workspace.addChangeListener(change);
+};
+
+/**
+ * Inject Blockly workspace into page.
+ * @param {!Object} options Dictionary of Blockly options.
+ */
+BlocklyInterface.injectBlockly = function(options) {
+  var toolbox = document.getElementById('toolbox');
+  if (toolbox) {
+    options['toolbox'] = toolbox;
+  }
+  options['media'] = 'third-party/blockly/media/';
+  options['oneBasedIndex'] = false;
+  BlocklyGames.workspace = Blockly.inject('blockly', options);
 };
 
 /**

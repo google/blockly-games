@@ -141,13 +141,9 @@ Music.init = function() {
   onresize(null);
   // Scale the workspace so level 1 = 1.0, and level 10 = 0.7.
   var scale = 1.03333 - 0.0333333 * BlocklyGames.LEVEL;
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
+  BlocklyInterface.injectBlockly(
       {'disable': false,
-       'media': 'third-party/blockly/media/',
-       'oneBasedIndex': false,
        'rtl': rtl,
-       'toolbox': toolbox,
        'zoom': {
           'maxScale': 2,
           'controls': true,

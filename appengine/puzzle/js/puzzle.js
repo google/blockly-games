@@ -54,9 +54,8 @@ Puzzle.init = function() {
   onresize(null);
   window.addEventListener('resize', onresize);
 
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'rtl': rtl,
+  BlocklyInterface.injectBlockly(
+      {'rtl': rtl,
        'scrollbars': false,
        'trashcan': false});
 
