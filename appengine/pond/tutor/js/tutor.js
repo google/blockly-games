@@ -71,7 +71,7 @@ Pond.Tutor.init = function() {
     };
     window.addEventListener('scroll', function() {
       onresize(null);
-      Blockly.svgResize(BlocklyGames.workspace);
+      Blockly.svgResize(BlocklyInterface.workspace);
     });
     onresize(null);
     BlocklyInterface.injectBlockly(

@@ -184,7 +184,7 @@ Movie.answer = function(f) {
 Movie.isCorrect = function() {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return BlocklyGames.workspace.getAllBlocks().length > 1;
+    return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
   // Check the already recorded pixel errors on every frame.
   for (var f = 0; f <= Movie.FRAMES; f++) {
@@ -203,7 +203,7 @@ Movie.isCorrect = function() {
   }
   if (BlocklyGames.LEVEL == 9) {
     // Ensure that the background is behind the figure, not in front.
-    var blocks = BlocklyGames.workspace.getAllBlocks(true);
+    var blocks = BlocklyInterface.workspace.getAllBlocks(true);
     for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'movie_circle') {
         // Check that the radius on the first circle block is connected to a

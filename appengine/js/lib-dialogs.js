@@ -326,7 +326,7 @@ BlocklyDialogs.abortOffer = function() {
     return;
   }
   // Don't override an existing dialog, or interrupt a drag.
-  if (BlocklyDialogs.isDialogVisible_ || BlocklyGames.workspace.isDragging()) {
+  if (BlocklyDialogs.isDialogVisible_ || BlocklyInterface.workspace.isDragging()) {
     setTimeout(BlocklyDialogs.abortOffer, 15 * 1000);
     return;
   }
@@ -366,7 +366,7 @@ BlocklyDialogs.congratulations = function() {
   };
 
   // Add the user's code.
-  if (BlocklyGames.workspace) {
+  if (BlocklyInterface.workspace) {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
     var code = BlocklyInterface.getJsCode();

@@ -100,7 +100,7 @@ Turtle.init = function() {
   };
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    Blockly.svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize(null);
@@ -163,7 +163,7 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   BlocklyInterface.importInterpreter();
@@ -182,7 +182,7 @@ Turtle.init = function() {
   if (BlocklyGames.LEVEL == 1) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
-    BlocklyGames.workspace.addChangeListener(Turtle.watchCategories_);
+    BlocklyInterface.workspace.addChangeListener(Turtle.watchCategories_);
   }
 };
 
@@ -425,7 +425,7 @@ Turtle.watchCategories_ = function(event) {
   if (event.type == Blockly.Events.UI && event.element == 'category') {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
-    BlocklyGames.workspace.removeChangeListener(Turtle.watchCategories_);
+    BlocklyInterface.workspace.removeChangeListener(Turtle.watchCategories_);
   }
 };
 
@@ -567,7 +567,7 @@ Turtle.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  BlocklyGames.workspace.highlightBlock(null);
+  BlocklyInterface.workspace.highlightBlock(null);
   Turtle.reset();
 
   // Image cleared; prevent user from submitting to gallery.
@@ -695,7 +695,7 @@ Turtle.executeChunk_ = function() {
   // Wrap up if complete.
   if (!Turtle.pause) {
     document.getElementById('spinner').style.visibility = 'hidden';
-    BlocklyGames.workspace.highlightBlock(null);
+    BlocklyInterface.workspace.highlightBlock(null);
     Turtle.checkAnswer();
     // Image complete; allow the user to submit this image to gallery.
     Turtle.canSubmit = true;
@@ -845,7 +845,7 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      BlocklyGames.workspace.getAudioManager().play('win', 0.5);
+      BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {

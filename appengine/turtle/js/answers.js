@@ -178,14 +178,14 @@ Turtle.answer = function() {
 Turtle.isCorrect = function(pixelErrors) {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return BlocklyGames.workspace.getAllBlocks().length > 1;
+    return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
   console.log('Pixel errors: ' + pixelErrors);
   if (pixelErrors > 100) {
     // Too many errors.
     return false;
   }
-  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
+  var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
       (BlocklyGames.LEVEL == 3 && blockCount > 4)) {
     // Use a loop, dummy.

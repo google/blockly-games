@@ -72,10 +72,10 @@ Puzzle.init = function() {
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
     var xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   } else if (savedBlocks) {
     var xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   } else {
     // Create one of every block.
     var blocksAnimals = [];
@@ -84,15 +84,15 @@ Puzzle.init = function() {
     var i = 1;
     var block;
     while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
-      block = BlocklyGames.workspace.newBlock('animal');
+      block = BlocklyInterface.workspace.newBlock('animal');
       block.populate(i);
       blocksAnimals.push(block);
-      block = BlocklyGames.workspace.newBlock('picture');
+      block = BlocklyInterface.workspace.newBlock('picture');
       block.populate(i);
       blocksPictures.push(block);
       var j = 1;
       while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
-        block = BlocklyGames.workspace.newBlock('trait');
+        block = BlocklyInterface.workspace.newBlock('trait');
         block.populate(i, j);
         blocksTraits.push(block);
         j++;
@@ -123,8 +123,8 @@ Puzzle.init = function() {
     }
     // Position the blocks randomly.
     var MARGIN = 50;
-    Blockly.svgResize(BlocklyGames.workspace);
-    var workspaceBox = Blockly.svgSize(BlocklyGames.workspace.getParentSvg());
+    Blockly.svgResize(BlocklyInterface.workspace);
+    var workspaceBox = Blockly.svgSize(BlocklyInterface.workspace.getParentSvg());
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
@@ -146,7 +146,7 @@ Puzzle.init = function() {
       countedArea += block.cached_area_;
     }
   }
-  BlocklyGames.workspace.clearUndo();
+  BlocklyInterface.workspace.clearUndo();
 
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
@@ -159,7 +159,7 @@ Puzzle.init = function() {
   Blockly.SNAP_RADIUS *= 2;
   Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   // Preload the win sound.
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
 };
 
@@ -202,7 +202,7 @@ Puzzle.legs = function() {
  * Count and highlight the errors.
  */
 Puzzle.checkAnswers = function() {
-  var blocks = BlocklyGames.workspace.getAllBlocks();
+  var blocks = BlocklyInterface.workspace.getAllBlocks();
   var errors = 0;
   var badBlocks = [];
   for (var b = 0, block; (block = blocks[b]); b++) {
@@ -277,13 +277,13 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  BlocklyGames.workspace.getAudioManager().play('win', 0.5);
+  BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
   // Enable dragging of workspace.  This sets Blockly to allow blocks to
   // move off-screen, rather than auto-bump them back in bounds.
   // This has no UI change, since the workspace is now permanently
   // non-interactive due to the modal winning dialog.
-  BlocklyGames.workspace.options.moveOptions.drag = true;
-  var blocks = BlocklyGames.workspace.getTopBlocks(false);
+  BlocklyInterface.workspace.options.moveOptions.drag = true;
+  var blocks = BlocklyInterface.workspace.getTopBlocks(false);
   for (var i = 0, block; (block = blocks[i]); i++) {
     var angle = 360 * (i / blocks.length);
     Puzzle.animate(block, angle);
@@ -302,7 +302,7 @@ Puzzle.animate = function(block, angleOffset) {
     return;
   }
   // Collect all the metrics.
-  var workspaceMetrics = BlocklyGames.workspace.getMetrics();
+  var workspaceMetrics = BlocklyInterface.workspace.getMetrics();
   var halfHeight = workspaceMetrics.viewHeight / 2;
   var halfWidth = workspaceMetrics.viewWidth / 2;
   var blockHW = block.getHeightWidth();

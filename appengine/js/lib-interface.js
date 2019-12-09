@@ -31,6 +31,12 @@ goog.require('BlocklyStorage');
 
 
 /**
+ * Blockly's main workspace.
+ * @type Blockly.WorkspaceSvg
+ */
+BlocklyInterface.workspace = null;
+
+/**
  * Text editor (used as an alternative to Blockly in advanced apps).
  * @type Object
  */
@@ -119,9 +125,9 @@ BlocklyInterface.setCode = function(code) {
     // Blockly editor.
     var xml = Blockly.Xml.textToDom(code);
     // Clear the workspace to avoid merge.
-    BlocklyGames.workspace.clear();
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-    BlocklyGames.workspace.clearUndo();
+    BlocklyInterface.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    BlocklyInterface.workspace.clearUndo();
   }
 };
 
@@ -135,10 +141,10 @@ BlocklyInterface.getCode = function() {
     var text = BlocklyInterface.editor['getValue']();
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace, true);
+    var xml = Blockly.Xml.workspaceToDom(BlocklyInterface.workspace, true);
     // Remove x/y coordinates from XML if there's only one block stack.
     // There's no reason to store this, removing it helps with anonymity.
-    if (BlocklyGames.workspace.getTopBlocks(false).length == 1 &&
+    if (BlocklyInterface.workspace.getTopBlocks(false).length == 1 &&
         xml.querySelector) {
       var block = xml.querySelector('block');
       if (block) {
@@ -161,7 +167,7 @@ BlocklyInterface.getJsCode = function() {
     return BlocklyInterface.editor['getValue']();
   }
   // Blockly editor.
-  return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  return Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
 };
 
 /**
@@ -188,8 +194,8 @@ BlocklyInterface.injectBlockly = function(options) {
   }
   options['media'] = 'third-party/blockly/media/';
   options['oneBasedIndex'] = false;
-  BlocklyGames.workspace = Blockly.inject('blockly', options);
-  BlocklyGames.workspace.addChangeListener(BlocklyInterface.codeChanged);
+  BlocklyInterface.workspace = Blockly.inject('blockly', options);
+  BlocklyInterface.workspace.addChangeListener(BlocklyInterface.codeChanged);
 };
 
 /**
@@ -258,7 +264,7 @@ BlocklyInterface.highlight = function(id, opt_state) {
       id = m[1];
     }
   }
-  BlocklyGames.workspace.highlightBlock(id, opt_state);
+  BlocklyInterface.workspace.highlightBlock(id, opt_state);
 };
 
 /**

@@ -109,7 +109,7 @@ Pond.Duck.init = function() {
   };
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    Blockly.svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize(null);
@@ -149,9 +149,9 @@ Pond.Duck.init = function() {
       '</xml>';
   var xml = Blockly.Xml.textToDom(defaultXml);
   // Clear the workspace to avoid merge.
-  BlocklyGames.workspace.clear();
-  Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-  BlocklyGames.workspace.clearUndo();
+  BlocklyInterface.workspace.clear();
+  Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+  BlocklyInterface.workspace.clearUndo();
 
   var players = [
     {
@@ -224,7 +224,7 @@ Pond.Duck.changeTab = function(index) {
   }
   // Synchronize the JS editor.
   if (index == JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+    var code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
     Pond.Duck.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
     Pond.Duck.ignoreEditorChanges_ = false;
@@ -243,12 +243,12 @@ Pond.Duck.editorChanged = function() {
   if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
-      BlocklyGames.workspace.clear();
+      BlocklyInterface.workspace.clear();
       Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[0], 'tab-disabled');
       BlocklyInterface.blocksDisabled = false;
     }
   } else {
-    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+    if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link between blocks and JS.
       Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
