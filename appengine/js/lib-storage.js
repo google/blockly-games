@@ -39,10 +39,10 @@ BlocklyStorage.getCode = null;
 BlocklyStorage.setCode = null;
 
 /**
- * Function to start monitoring for changes in Blockly or in the JS editor.
- * @type Function()
+ * If code recorded code changes, delete the URL hash.
+ * @type ?string
  */
-BlocklyStorage.monitorChanges = null;
+BlocklyStorage.startCode = null;
 
 /**
  * Save blocks or JavaScript to database and return a link containing the key.
@@ -115,7 +115,7 @@ BlocklyStorage.handleLinkResponse_ = function() {
   window.location.hash = data;
   BlocklyStorage.alert_(BlocklyGames.getMsg('Games_linkAlert').replace('%1',
       window.location.href));
-  BlocklyStorage.monitorChanges();
+  BlocklyStorage.startCode = BlocklyStorage.getCode();
 };
 
 /**
@@ -131,7 +131,7 @@ BlocklyStorage.handleRetrieveXmlResponse_ = function() {
   } else {
     BlocklyStorage.setCode(data);
   }
-  BlocklyStorage.monitorChanges();
+  BlocklyStorage.startCode = BlocklyStorage.getCode();
 };
 
 /**

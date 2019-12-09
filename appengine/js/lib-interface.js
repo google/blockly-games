@@ -54,7 +54,6 @@ BlocklyInterface.init = function() {
     if (!BlocklyGames.IS_HTML) {
       BlocklyStorage.getCode = BlocklyInterface.getCode;
       BlocklyStorage.setCode = BlocklyInterface.setCode;
-      BlocklyStorage.monitorChanges = BlocklyInterface.monitorChanges;
       BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
     } else {
       linkButton.style.display = 'none';
@@ -166,19 +165,16 @@ BlocklyInterface.getJsCode = function() {
 };
 
 /**
- * Start monitoring the workspace.  If a change is made that changes the XML,
- * clear the key from the URL.  Stop monitoring the workspace once such a
- * change is detected.
+ * Monitor the block or JS editor.  If a change is made that changes the code,
+ * clear the key from the URL.
  */
-BlocklyInterface.monitorChanges = function() {
-  var startCode = BlocklyInterface.getCode();
-  function change() {
-    if (startCode != BlocklyInterface.getCode()) {
+BlocklyInterface.codeChanged = function() {
+  if (typeof BlocklyStorage == 'object' && BlocklyStorage.startCode !== null) {
+    if (BlocklyStorage.startCode != BlocklyInterface.getCode()) {
       window.location.hash = '';
-      BlocklyGames.workspace.removeChangeListener(bindData);
+      BlocklyStorage.startCode = null;
     }
   }
-  var bindData = BlocklyGames.workspace.addChangeListener(change);
 };
 
 /**
@@ -193,6 +189,7 @@ BlocklyInterface.injectBlockly = function(options) {
   options['media'] = 'third-party/blockly/media/';
   options['oneBasedIndex'] = false;
   BlocklyGames.workspace = Blockly.inject('blockly', options);
+  BlocklyGames.workspace.addChangeListener(BlocklyInterface.codeChanged);
 };
 
 /**

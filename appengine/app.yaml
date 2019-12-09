@@ -11,10 +11,6 @@ handlers:
 - url: /storage
   script: storage.py
   secure: always
-- url: /storage\.js
-  static_files: storage.js
-  upload: storage\.js
-  secure: always
 
 # Index page.
 - url: /

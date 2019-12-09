@@ -79,6 +79,7 @@ BlocklyAce.makeAceSession = function() {
   session['setMode']('ace/mode/javascript');
   session['setTabSize'](2);
   session['setUseSoftTabs'](true);
+  session['on']('change', BlocklyInterface.codeChanged);
   BlocklyAce.removeUnsupportedKeywords_();
   return session;
 };
