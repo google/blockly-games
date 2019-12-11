@@ -24,6 +24,14 @@ import random
 from google.appengine.ext import ndb
 from pond_storage import *
 
+def calculate_percent(list_length):
+  """Calculate percent based on minimum percent needed to get 3 ducks in the worst case"""
+  num_ducks_needed = 3.0
+  min_percent = num_ducks_needed / list_length
+  if min_percent < .10:
+    return .10
+  return min_percent
+
 def get_ducks_in_range(user_key, duck_ranking, duck_list, percent_range):
   """Get ducks with ranks between percent above and below current duck rank"""
   max_ranking = math.ceil(duck_ranking + len(duck_list) * percent_range)
@@ -41,8 +49,9 @@ def get_opponent_ducks(user_duck):
   user_key = get_user_key(users.get_current_user())
   duck_ranking = user_duck.leaderboard_entry_key.get().ranking
   duck_list = Duck.query(Duck.published == True).fetch()
-  opponent_ducks = []
-  percent_range = .10
+  opponent_ducks = []s
+  # Guess at a percent to start at given the current number of ducks
+  percent_range = calculate_percent(len(duck_list))
 
   # Increase range until the length of the opponent ducks is greater than 3
   while (len(opponent_ducks) < 3) or percent_range > 1:
