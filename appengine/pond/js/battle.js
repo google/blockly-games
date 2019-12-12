@@ -470,7 +470,12 @@ Pond.Battle.closestNeighbour = function(avatar) {
   return [closest, distance];
 };
 
+/**
+ * Logs provided message.
+ * @param {string} msg The message to log.
+ */
 Pond.Battle.log = function(msg) {
+  // Logs are ignored in headless mode.
   if (!Pond.Battle.isHeadless) {
     console.log(msg);
   }

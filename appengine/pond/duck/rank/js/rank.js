@@ -27,7 +27,16 @@ goog.require('Pond.Battle');
 goog.require('Pond.Duck');
 goog.require('Pond.Duck.Datastore');
 
+/**
+ * Match request identifier string.
+ * @type {String}
+ */
 Pond.Duck.Rank.MATCH_KEY = null;
+
+/**
+ * List of entries to be ranked based on match result.
+ * @type {Array.<string>}
+ */
 Pond.Duck.Rank.RANK_ENTRIES = [];
 
 /**
