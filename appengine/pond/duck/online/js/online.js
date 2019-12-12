@@ -24,6 +24,7 @@
 goog.provide('Pond.Duck.Online');
 
 goog.require('Blockly.utils.dom');
+goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('BlocklyStorage');
