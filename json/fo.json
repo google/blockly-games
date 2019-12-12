@@ -110,7 +110,7 @@
 	"Maze.helpMenu": "Klikka á %1 í 'um' blokkinum fyri at broyta treytina.",
 	"Maze.helpWallFollow": "Klárar tú at loysa hesa avbjóðandi villiniborgina? Royn at fylgja vegginum á vinstru hond. Einans fyri framkomnar forritarar!",
 	"Bird.noWorm": "hevur ikki maðk",
-	"Bird.heading": "yvirskrift",
+	"Bird.heading": "set kós",
 	"Bird.noWormTooltip": "Treytin tá fuglurin ikki hevur fingið maðkin.",
 	"Bird.headingTooltip": "Flyt samsvarandi vinklinum: 0 er til høgru, 90 er beint upp, o.s.fr.",
 	"Bird.positionTooltip": "x og y vísa hvar fulgurin er staddur. Tá x = 0 er fuglurin á vinstra kanti, tá x = 100 er hann á høgra kanti. Tá y = 0 er fuglurin á niðasta kanti, tá y = 100 er hann á ovara kanti.",
