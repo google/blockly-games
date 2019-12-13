@@ -28,6 +28,7 @@ goog.require('Blockly.utils.math');
 goog.require('BlocklyAce');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Pond.Battle');
 
 
 /**
@@ -45,7 +46,7 @@ Pond.Avatar = function(name, code, opt_startDamage, opt_startLoc) {
   this.startDamage_ = opt_startDamage || 0;
   this.battle_ = null;
   this.loc = new Blockly.utils.Coordinate();
-  console.log(this + ' loaded.');
+  Pond.Battle.log(this + ' loaded.');
 };
 
 /**
@@ -69,7 +70,8 @@ Pond.Avatar.createDefaultAvatar = function(name, divId, opt_startDamage, opt_sta
  */
 Pond.Avatar.createPlayerAvatar = function(name, opt_startDamage, opt_startLoc) {
   // TODO: Look into taking out getMsgWithFallback and replace with getMsg
-  return new Pond.Avatar(BlocklyGames.getMsgWithFallback(name, name), BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
+  return new Pond.Avatar(BlocklyGames.getMsgWithFallback(name, name),
+      BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
 };
 
 /**
@@ -195,7 +197,7 @@ Pond.Avatar.prototype.die = function() {
   this.damage = 100;
   this.battle_.RANK.unshift(this);
   this.battle_.EVENTS.push({'type': 'DIE', 'avatar': this});
-  console.log(this + ' sinks.');
+  Pond.Battle.log(this + ' sinks.');
 };
 
 // API functions exposed to the user.

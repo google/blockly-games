@@ -16,44 +16,93 @@
  */
 
 /**
- * @fileoverview Creates a view of all the ducks for a user.
- * @author aschmiedt@google.com (Abby Schmiedt)
+ * @fileoverview Computes leaderboard ranking matches.
  */
 'use strict';
 
 goog.provide('Pond.Duck.Rank');
 
+goog.require('Pond.Avatar');
+goog.require('Pond.Battle');
+goog.require('Pond.Duck');
 goog.require('Pond.Duck.Datastore');
 
 /**
- * .
+ * Match request identifier string.
+ * @type {String}
+ */
+Pond.Duck.Rank.MATCH_KEY = null;
+
+/**
+ * List of entries to be ranked based on match result.
+ * @type {Array.<string>}
+ */
+Pond.Duck.Rank.RANK_ENTRIES = [];
+
+/**
+ * Initialize interpreter and triggers match request. Called on page load.
  */
 Pond.Duck.Rank.init = function () {
-  // Start background match request computation.
-  Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Rank.computeRankRequest);
+  Pond.Battle.isHeadless = true;
+  Pond.Battle.GAME_FPS = 1000;
+  Pond.Battle.TIME_LIMIT = 60 * 1000;
+
+  // Lazy-load the JavaScript interpreter.
+  BlocklyInterface.importInterpreter();
+
+  // Start match request computation.
+  Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Rank.handleMatchRequest);
 };
 
 /**
- * Handle rank request response.
+ * Computes ranking match.
  */
-Pond.Duck.Rank.computeRankRequest = function() {
+Pond.Duck.Rank.computeMatch = function() {
+  if (!('Interpreter' in window)) {
+    // Interpreter lazy loads and hasn't arrived yet.  Try again later.
+    setTimeout(Pond.Duck.Rank.computeMatch, 250);
+    return;
+  }
+  Pond.Battle.reset();
+  Pond.Battle.start(Pond.Duck.Rank.sendResults);
+};
+
+/**
+ * Sends request with match results.
+ */
+Pond.Duck.Rank.sendResults = function() {
+  var rankedEntries = [];
+  for (var avatar, i = 0; (avatar = Pond.Battle.RANK[i]); i++) {
+    rankedEntries.push(Pond.Duck.Rank.RANK_ENTRIES[avatar.name])
+  }
+
+  Pond.Duck.Datastore.sendMatchResult(Pond.Duck.Rank.MATCH_KEY, rankedEntries,
+      function() {
+        Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Rank.handleMatchRequest);
+      })
+};
+
+/**
+ * Handles rank request response.
+ */
+Pond.Duck.Rank.handleMatchRequest = function() {
   if (this.status === 200) {
     var data = JSON.parse(this.responseText);
-    var duckList = data['duck_list'];
-    // TODO: Compute relative ranking based on match request and send back.
-    var rankedEntryKeys = [
-      duckList[0]['entry_key'], duckList[3]['entry_key'],
-      duckList[2]['entry_key'], duckList[1]['entry_key']];
-    Pond.Duck.Datastore.sendMatchResult(
-        data['match_key'], rankedEntryKeys,
-        function(){
-          Pond.Duck.Datastore.getMatchRequest(
-              Pond.Duck.Rank.computeRankRequest);
-        });
+    Pond.Duck.Rank.MATCH_KEY = data['match_key'];
+
+    var requestDucks = data['duck_list'];
+    Pond.Duck.Rank.RANK_ENTRIES = [];
+    Pond.Battle.clearAvatars();
+    for (var duck, i = 0; (duck = requestDucks[i]); i++) {
+      Pond.Battle.addAvatar(
+          new Pond.Avatar(i, duck['js']),Pond.Duck.START_XY[i]);
+      Pond.Duck.Rank.RANK_ENTRIES.push(duck['entry_key'])
+    }
+    Pond.Duck.Rank.computeMatch();
   } else {
     // No matches currently available, wait before asking again.
     setTimeout(function(){
-      Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Rank.computeRankRequest);
+      Pond.Duck.Datastore.getMatchRequest(Pond.Duck.Rank.handleMatchRequest);
     }, 10000);
   }
 };

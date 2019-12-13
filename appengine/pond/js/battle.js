@@ -25,7 +25,7 @@ goog.provide('Pond.Battle');
 
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
-goog.require('Pond.Avatar');
+goog.requireType('Pond.Avatar');
 
 
 /**
@@ -120,6 +120,12 @@ Pond.Battle.ticks = 0;
 Pond.Battle.TIME_LIMIT = 5 * 60 * 1000;
 
 /**
+ * Whether the simulation is running without a visualization.
+ * @type {boolean}
+ */
+Pond.Battle.isHeadless = false;
+
+/**
  * Callback function for end of game.
  * @type Function
  */
@@ -163,13 +169,13 @@ Pond.Battle.addAvatar = function(avatar, opt_startLoc) {
 Pond.Battle.start = function(doneCallback) {
   Pond.Battle.doneCallback_ = doneCallback;
   Pond.Battle.endTime_ = Date.now() + Pond.Battle.TIME_LIMIT;
-  console.log('Starting battle with ' + Pond.Battle.AVATARS.length +
-              ' avatars.');
+  Pond.Battle.log('Starting battle with ' + Pond.Battle.AVATARS.length +
+      ' avatars.');
   for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
     try {
       avatar.initInterpreter();
     } catch (e) {
-      console.log(avatar + ' fails to load: ' + e);
+      Pond.Battle.log(avatar + ' fails to load: ' + e);
       avatar.die();
     }
   }
@@ -327,7 +333,7 @@ Pond.Battle.updateInterpreters_ = function() {
       try {
         avatar.interpreter.step();
       } catch (e) {
-        console.log(avatar + ' throws an error: ' + e);
+        Pond.Battle.log(avatar + ' throws an error: ' + e);
         avatar.die();
       }
       Pond.Battle.currentAvatar = null;
@@ -462,4 +468,15 @@ Pond.Battle.closestNeighbour = function(avatar) {
     }
   }
   return [closest, distance];
+};
+
+/**
+ * Logs provided message.
+ * @param {string} msg The message to log.
+ */
+Pond.Battle.log = function(msg) {
+  // Logs are ignored in headless mode.
+  if (!Pond.Battle.isHeadless) {
+    console.log(msg);
+  }
 };
