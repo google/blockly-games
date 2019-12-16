@@ -31,11 +31,11 @@ NEARBY_PERCENT = .10
 
 def get_entries_in_range(user_duck, entries, start_rank, end_rank):
   user_entry = user_duck.leaderboard_entry_key.get()
-  entries = LeaderboardEntry.query(
+  newEntries = LeaderboardEntry.query(
     LeaderboardEntry.ranking >= start_rank,
     LeaderboardEntry.ranking <= end_rank,
     LeaderboardEntry.ranking != user_entry.ranking).fetch()
-  return entries
+  return newEntries
 
 def get_nearby_entries(user_duck, cur_rank, entries, total_entries, num_needed):
   opponent_entries = []
@@ -55,16 +55,10 @@ def get_worse_ducks(user_duck, entries, cur_rank, total_entries):
   max_rank = int(math.ceil(cur_rank - total_entries * END_PERCENT))
   worse_entries = get_entries_in_range(user_duck, entries, min_rank, max_rank)
 
-  for entry in worse_entries:
-    if entry in entries:
-      worse_entries.remove(entry)
   if len(worse_entries) == 0:
-    #TODO: Might want to just call get_better_ducks here
     last_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == total_entries).fetch()[0]
     # TODO: cleanup this so that we don't have to use the duck here
-    if (last_entry.duck_key.get() == user_duck):
-      worse_entries = get_nearby_entries(user_duck, cur_rank, entries, total_entries, 1)
-    else:
+    if (last_entry.duck_key.get() != user_duck):
       worse_entries.append(last_entry)
   return  worse_entries
 
@@ -78,12 +72,8 @@ def get_better_ducks(user_duck, entries, cur_rank, total_entries):
     # Get the top duck
     top_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == 1).fetch()[0]
     # if the current duck is the top duck, get entries in a range
-    if (top_entry.duck_key.get() == user_duck):
-      # TODO: Check that this will always return something
-      better_entries = get_nearby_entries(user_duck, cur_rank, entries, total_entries, 1)
-    else:
+    if (top_entry.duck_key.get() != user_duck):
       better_entries.append(top_entry)
-  # entries here should be guaranteed to have at least one thing in the list
   return better_entries
 
 def get_duck_info_from_entries(entries):
@@ -107,26 +97,26 @@ def get_opponents(user_duck):
   total_entries = user_entry_key.get().leaderboard_key.get().size
   entries = []
 
+  # Get all ducks with a better ranking in the given range
   better_entries = get_better_ducks(user_duck, entries, cur_rank, total_entries)
-
+  better_entry = None
   if (len(better_entries) > 0):
-    randIdx = random.randint(0, len(better_entries) - 1)
-    entries.append(better_entries[randIdx])
-    better_entries.remove(better_entries[randIdx])
-  else:
-    # No other ducks in list other than the given duck
-    return None
+    better_entry = better_entries[random.randint(0, len(better_entries) - 1)]
+    entries.append(better_entry)
+    better_entries.remove(better_entry)
 
+  # Get all ducks with a worse ranking that are not already in the entries list
   worse_entries = get_worse_ducks(user_duck, entries, cur_rank, total_entries)
+
+  #TODO: check if there is a way to stop overlapping so we don't have to do this.
+  if (better_entry in worse_entries):
+    worse_entries.remove(better_entry)
+
   if (len(worse_entries) > 0):
     randIdx = random.randint(0, len(worse_entries) - 1)
     entries.append(worse_entries[randIdx])
     worse_entries.remove(worse_entries[randIdx])
-  elif len(better_entries) > 0:
-    # If there are no below entries, but there are unused above entries use an above entries.
-    randIdx = random.randint(0, len(better_entries) - 1)
-    entries.append(better_entries[randIdx])
-    better_entries.remove(better_entries[randIdx])
+
   num_needed = 3 - len(entries)
   nearby_entries = get_nearby_entries(user_duck, cur_rank, entries, total_entries, num_needed)
   entries = entries + nearby_entries
