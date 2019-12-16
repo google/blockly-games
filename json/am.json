@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Hileamlak",
-			"Markos"
+			"Markos",
+			"Andemta"
 		]
 	},
 	"Games.name": "የብሎክሊ ጨዋታዎች",
@@ -15,8 +16,8 @@
 	"Games.pondTutor": "የኩሬ መለማመጃ",
 	"Games.pond": "የኩሬ ጨዋታ",
 	"Games.linesOfCode1": "ይህን ደረጃ በ1 የጃቫስክሪፕት መስመር ፈትተዋል",
-	"Games.linesOfCode2": "ይህን ደረጃ በ% 1 የጃቫስክሪፕት መስመሮች ፈትተዋል",
-	"Games.nextLevel": "ለደረጃ % 1 ዝግጁ ነዎት?",
+	"Games.linesOfCode2": "ይህን ደረጃ በ%1 የጃቫስክሪፕት መስመሮች ፈትተዋል",
+	"Games.nextLevel": "ለደረጃ %1 ዝግጁ ነዎት?",
 	"Games.finalLevel": "ለሚቀጥለው ፈተና ዝግጁ ነዎት?",
 	"Games.submitTitle": "አርዕስት",
 	"Games.linkTooltip": "ብሎኮች ያስቀምጡ እና መስፈንጠሪያ ያግኙ",
@@ -32,8 +33,8 @@
 	"Games.catText": "ጽሕፈት",
 	"Games.catColour": "ቀለም",
 	"Games.httpRequestError": "ማግኘት አልተቻለም",
-	"Games.linkAlert": "%1",
-	"Games.hashError": "ይቅርታ ፣ '% 1' ከማንኛውም የተቀመጠ ፕሮግራም ጋር አይጣጣምም",
+	"Games.linkAlert": "ብሎኮቹን በዚህ መስፈንጠርያ አጋሩ:\n\n%1",
+	"Games.hashError": "ይቅርታ ፣ '%1' ከማንኛውም የተቀመጠ ፕሮግራም ጋር አይጣጣምም",
 	"Games.xmlError": "የተቀመጠ ፋይልዎን መጫን አልተቻለም። ምናልባትም በልዩ የ ብሎኪ ስሪት ተፈጠረ ይሆን?",
 	"Games.submitted": "ለዚህ ፕሮግራም እናመሰግናለን! የሰለጠኑ ጦጣዎች ሰራተኞቻችን ከወደዱት በጥቂት ቀናት ጊዜ ውስጥ ያትሙታል",
 	"Games.listVariable": "ዝርዝር",
@@ -46,10 +47,10 @@
 	"Index.subTitle": "ለነገዎቹ ቀማሪዎች የተቀመሙ ጨዋታዎች",
 	"Index.moreInfo": "ለአስተማሪዎች መረጃ ...",
 	"Index.startOver": "እንደገና መጀመር ይፈልጋሉ?",
-	"Index.clearData": "ውሂብ ያፅዱ",
+	"Index.clearData": "መረጃ ያፅዱ",
 	"Puzzle.animal1": "ዳክዬ",
 	"Puzzle.animal1Trait1": "ላባዎች ያሉት",
-	"Puzzle.animal1Trait2": "ረዘም ያለ አፍ ያለው",
+	"Puzzle.animal1Trait2": "ማንቁርት ያለው",
 	"Puzzle.animal1HelpUrl": "https://en.wikipedia.org/wiki/Duck",
 	"Puzzle.animal2": "ድመት",
 	"Puzzle.animal2Trait1": "ጢም ያለው",
@@ -73,9 +74,9 @@
 	"Puzzle.tryAgain": "የደመቀው ብሎክ ትክክል አይደለም ፡፡\nመሞከርዎን አያቋርጡ！",
 	"Puzzle.checkAnswers": "መልሶችን ይመልከቱ",
 	"Puzzle.helpText": "ለእያንዳንዱ እንስሳ (አረንጓዴ) ስዕሉን ያያይዙ ፣ የእግሮቹን ብዛት ይምረጡ እና የባህሪያቱን አይነት መርጠው በመደርደር ያብጁት",
-	"Maze.moveForward": "ወደፊት ቀጥል",
-	"Maze.turnLeft": "ወደ ግራ ታጠፍ",
-	"Maze.turnRight": "ወደ ቀኝ ታጠፍ",
-	"Maze.moveForwardTooltip": "ይሄ ተጫዋቹን አንድ ርምጃ ወደ ፊት ይወስደዋል",
+	"Maze.moveForward": "ወደፊት ቀጥሉ",
+	"Maze.turnLeft": "ወደ ግራ ታጠፉ",
+	"Maze.turnRight": "ወደ ቀኝ ታጠፉ",
+	"Maze.moveForwardTooltip": "ይሄ ተጫዋቹን አንድ እርምጃ ወደ ፊት ይወስደዋል",
 	"Maze.turnTooltip": "ይሄ ተጫዋቹን ወደ ግራ ወይንም ወደቀኝ በ 90 ዲግሪዋች ያሳጥፈዋል"
 }

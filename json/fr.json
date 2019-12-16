@@ -11,7 +11,8 @@
 			"Urhixidur",
 			"Wladek92",
 			"Zarisi",
-			"Verdy p"
+			"Verdy p",
+			"Thibaut120094"
 		]
 	},
 	"Games.name": "Jeux Blockly",
@@ -220,7 +221,7 @@
 	"Music.restWholeTooltip": "Attend la durée d’une note entière.",
 	"Music.rest": "attendre %1",
 	"Music.setInstrumentTooltip": "Bascule sur l’instrument spécifié en jouant les notes musicales qui suivent.",
-	"Music.setInstrument": "fixe l’instrument à : %1",
+	"Music.setInstrument": "règle l’instrument à : %1",
 	"Music.startTooltip": "Exécute les blocs à l’intérieur quand le bouton « Lancer le programme » est cliqué.",
 	"Music.start": "quand %1 est cliqué",
 	"Music.pitchTooltip": "Une note (la note  C4 ou « do » de base vaut 7).",
@@ -245,7 +246,7 @@
 	"Music.helpText2b": "Créez une fonction pour jouer les quatre premières notes de « Frère Jacques ». Lancez cette fonction deux fois. N’ajoutez pas d’autres blocs de note.",
 	"Music.helpText3": "Créez une deuxième fonction pour la partie suivante de « Frère Jacques ». La dernière note est plus longue.",
 	"Music.helpText4": "Créez une troisième fonction pour la partie qui suit de « Frère Jacques ». Les quatre premières notes sont plus courtes.<x id=\"START_BREAK\"/><x id=\"START_IMAGE\"/>",
-	"Music.helpText5": "Terminez l’air complet de « Frère Jacques ».",
+	"Music.helpText5": "Terminez l’air complet de « Frère Jacques ».",
 	"Music.helpText6a": "Ce nouveau bloc vous permet de passer à un autre instrument.",
 	"Music.helpText6b": "Jouer votre air sur un violon.",
 	"Music.helpText7a": "Ce nouveau bloc ajoute un temps de silence.",
@@ -273,8 +274,8 @@
 	"Pond.helpText2": "Cette cible doit être touchée plusieurs fois. Utilisez une boucle « tant que (vrai) » pour faire quelque chose indéfiniment.",
 	"Pond.helpText3a": "Cet adversaire avance et recule, le rendant difficile à toucher. L’expression « analyser » retourne la distance exacte à l’opposant dans la direction spécifiée.",
 	"Pond.helpText3b": "Cette portée est exactement ce dont la commande « canon » a besoin pour tirer avec précision.",
-	"Pond.helpText4": "Cet adversaire est trop loin pour utiliser le canon (qui a une portée limite de 70 mètres). À la place, utilisez la commande « nager » pour commencer à nager vers l’adversaire et le percuter.",
-	"Pond.helpText5": "Cet adversaire est également trop loin pour utiliser le canon. Mais vous êtes trop faible pour survivre à une collision. Nagez vers l’adversaire tant que votre position horizontale est inférieure à 50. Puis « arrêter » avant d’utiliser le canon.",
+	"Pond.helpText4": "Cet adversaire est trop loin pour utiliser le canon (qui a une portée limite de 70 mètres). À la place, utilisez la commande « nager » pour commencer à nager vers l’adversaire et le percuter.",
+	"Pond.helpText5": "Cet adversaire est également trop loin pour utiliser le canon. Mais vous êtes trop faible pour survivre à une collision. Nagez vers l’adversaire tant que votre position horizontale est inférieure à 50. Puis « arrêter » avant d’utiliser le canon.",
 	"Pond.helpText6": "Cet adversaire s’éloignera quand il sera touché. Nagez vers lui s’il est hors de portée (70 mètres).",
 	"Pond.rabbitName": "Lapin",
 	"Pond.counterName": "Compteur",
