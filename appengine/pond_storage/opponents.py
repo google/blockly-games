@@ -135,22 +135,21 @@ def entries_to_duck_info(entries):
       'code': {'js': 'some code', 'opt_xml': 'some xml'},
       'published': 'true',
     }
-  """  
+  """
   ducks = []
-  #TODO: This can be updated when we deal with dummy ducks
   for entry in entries:
-    duck = entry.duck_key.get()
-    if (duck):
-      duck_info = get_duck_info(duck)
-      ducks.append(duck_info)
-    else:
+    if entry.is_dummy:
+      # TODO: handle/filter dummy entries earlier.
       duck_info = {
-        'name': "dummy",
-        'duck_key': 'aKey',
-        'code': {'js':'throw "dummy duck";'},
-        'publish':'true'
+          'name': "dummy",
+          'duck_key': 'aKey',
+          'code': {'js':'throw "dummy duck";'},
+          'publish':'true'
       }
-      ducks.append(duck_info)
+    else:
+      duck = entry.duck_key.get()
+      duck_info = get_duck_info(duck)
+    ducks.append(duck_info)
   return ducks
 
 def get_opponents(user_entry):

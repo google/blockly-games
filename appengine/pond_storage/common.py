@@ -58,17 +58,6 @@ class Duck(ndb.Model):
       return True
     return False
 
-def get_dummy_duck_key():
-  """Creates a dummy duck (always throws)."""
-  dummy_duck_id = 'dummy'
-  dummy_duck_key = ndb.Key(Duck, dummy_duck_id)
-  # Create entity if it does not exist.
-  if not dummy_duck_key.get():
-    dummy_code = Code(js='throw "dummy duck";')
-    dummy_duck = Duck(id=dummy_duck_id, name='', code=dummy_code)
-    dummy_duck.put()
-  return  dummy_duck_key
-
 class LeaderboardEntry(ndb.Model):
   """Entry in leaderboard, storing ranking information.
 
@@ -77,10 +66,11 @@ class LeaderboardEntry(ndb.Model):
   leaderboard_key = ndb.KeyProperty(kind='Leaderboard', required=True)
   ranking = ndb.IntegerProperty(required=True)
   instability = ndb.FloatProperty(required=True)
-  duck_key = ndb.KeyProperty(kind=Duck, indexed=False, required=True)
+  duck_key = ndb.KeyProperty(kind=Duck, indexed=False)
+  is_dummy = ndb.ComputedProperty(lambda self: self.duck_key is None)
 
   def clear_duck(self):
-    self.duck_key = get_dummy_duck_key()
+    del self.duck_key
     self.put()
 
   def update_ranking(self, new_rank):
