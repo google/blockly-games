@@ -24,23 +24,29 @@ import random
 from google.appengine.ext import ndb
 from pond_storage import *
 
+# Starting range for looking for ducks.
 _START_PERCENT = .10
-"""Looks above or below the current ranking by this number to find the start ranking."""
 
+# Ending range for looking for ducks.
 _END_PERCENT = .15
-"""Looks above or below the current ranking by this number to find the end ranking."""
 
-_NEARBY_PERCENT = .10
-"""Look above and below this percent to find nearby entries."""
+# Start looking above and below using this percent to find nearby entries.
+_NEARBY_START_PERCENT = .10
 
+# The percent interval increase for searching for nearby entries.
+_NEARBY_PERCENT_INCREASE = .20
+
+# The number of opponents needed.
 _OPPONENTS_NEEDED = 3
-"""The number of ducks opponents needed"""
 
-def get_entries_in_range(user_entry, exclude_entries, start_rank, end_rank):
+# The number of entries to fetch in a given range.
+_FETCH_LIMIT = 10
+
+def get_entries_in_range(user_entry, opponent_entries, start_rank, end_rank):
   """Get all entries in the given range.
   Args:
     user_entry: The current user's LeaderboardEntry.
-    exclude_entries: A list of LeaderboardEntry values already used.
+    opponent_entries: A list of LeaderboardEntry values already used.
     start_rank: The number of the rank we want to start getting LeaderboardEntrys at.
     end_rank: The number of the rank we want to stop getting LeaderboardEntrys at.
   Returns:
@@ -50,42 +56,42 @@ def get_entries_in_range(user_entry, exclude_entries, start_rank, end_rank):
     LeaderboardEntry.leaderboard_key == user_entry.leaderboard_key,
     LeaderboardEntry.ranking >= start_rank,
     LeaderboardEntry.ranking <= end_rank
-  ).fetch(10)
-  new_entries = [x for x in new_entries if x not in exclude_entries and x.key != user_entry.key]
+  ).fetch(_FETCH_LIMIT)
+  new_entries = [x for x in new_entries if x not in opponent_entries and x.key != user_entry.key]
 
   return new_entries
 
-def get_nearby_entries(user_entry, entries, total_entries, num_needed):
-  """Get ducks with similar rankings to the users duck
+def get_nearby_entries(user_entry, opponent_entries, total_entries, num_needed):
+  """Get ducks with similar rankings to the users duck.
   Args:
     user_entry: The current user's LeaderboardEntry
-    entries: A list of LeaderboardEntry values already used
+    opponent_entries: A list of LeaderboardEntry values already used
     total_entries: The number of total LeaderboardEntrys in the current users Leaderboard.
     num_needed: The number of LeaderboardEntry values needed.
   Returns:
     A list of nearby LeaderboardEntrys
   """
   nearby_entries = []
-  percent_range = _NEARBY_PERCENT
+  percent_range = _NEARBY_START_PERCENT
   while(len(nearby_entries) < num_needed and percent_range <= 1):
     min_rank = int(math.floor(user_entry.ranking - total_entries * percent_range))
     max_rank = int(math.ceil(user_entry.ranking + total_entries * percent_range))
-    nearby_entries = get_entries_in_range(user_entry, entries, min_rank, max_rank)
-    percent_range += .20
+    nearby_entries = get_entries_in_range(user_entry, opponent_entries, min_rank, max_rank)
+    percent_range += _NEARBY_PERCENT_INCREASE
   return random.sample(nearby_entries, num_needed)
 
-def get_worse_entry(user_entry, entries, total_entries):
-  """ Get a list of all the ducks with a worse ranking than the user duck
+def get_worse_entry(user_entry, opponent_entries, total_entries):
+  """ Get a list of all the ducks with a worse ranking than the user duck.
   Args:
     user_entry: The current user's LeaderboardEntry
-    entries: All LeaderboardEntry values already used
+    opponent_entries: All LeaderboardEntry values already used
     total_entries: The number of total LeaderboardEntrys in the current users Leaderboard.
   Returns:
     A list of worst LeaderboardEntrys
   """
   min_rank = int(math.floor(user_entry.ranking + total_entries * _START_PERCENT))
   max_rank = int(math.ceil(user_entry.ranking + total_entries * _END_PERCENT))
-  worse_entries = get_entries_in_range(user_entry, entries, min_rank, max_rank)
+  worse_entries = get_entries_in_range(user_entry, opponent_entries, min_rank, max_rank)
   worse_entry = None
   if len(worse_entries) == 0:
     last_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == total_entries).fetch()[0]
@@ -95,11 +101,11 @@ def get_worse_entry(user_entry, entries, total_entries):
     worse_entry = random.choice(worse_entries)
   return  worse_entry
 
-def get_better_entry(user_entry, entries, total_entries):
+def get_better_entry(user_entry, opponent_entries, total_entries):
   """Get a list of all the ducks with a better ranking than the user duck.
   Args:
     user_entry: The current user's LeaderboardEntry.
-    entries: A list of LeaderboardEntrys that are already used.
+    opponent_entries: A list of LeaderboardEntrys that are already used.
     total_entries: The number of total LeaderboardEntrys in the current users Leaderboard.
   Returns:
     A list of better LeaderboardEntrys.
@@ -107,7 +113,7 @@ def get_better_entry(user_entry, entries, total_entries):
   # Calculate max and min ranking
   max_rank = int(math.ceil(user_entry.ranking - total_entries * _START_PERCENT))
   min_rank = int(math.floor(user_entry.ranking - total_entries * _END_PERCENT))
-  better_entries = get_entries_in_range(user_entry, entries, min_rank, max_rank)
+  better_entries = get_entries_in_range(user_entry, opponent_entries, min_rank, max_rank)
   better_entry = None
   if len(better_entries) == 0:
     top_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == 1).fetch()[0]
@@ -148,11 +154,11 @@ def entries_to_duck_info(entries):
   return ducks
 
 def get_opponents(user_entry):
-  """Get optimal opponents for the user duck
+  """Get optimal opponents for the user duck.
   Args:
     user_entry: The current user's LeaderboardEntry
   Returns:
-    A list of duck info. For Example: 
+    A list of duck info. For example: 
     [
       {
         'name': 'bob',
@@ -164,23 +170,23 @@ def get_opponents(user_entry):
   """
   leaderboard = user_entry.leaderboard_key.get()
   total_entries = leaderboard.size
-  entries = []
+  opponent_entries = []  # TODO: This should be a list of entry keys instead of entries
 
   # Get all ducks with a better ranking in the given range
-  better_entry = get_better_entry(user_entry, entries, total_entries)
+  better_entry = get_better_entry(user_entry, opponent_entries, total_entries)
   if better_entry != None:
-    entries.append(better_entry)
+    opponent_entries.append(better_entry)
 
   # Get all ducks with a worse ranking that are not already in the entries list
-  worse_entry = get_worse_entry(user_entry, entries, total_entries)
+  worse_entry = get_worse_entry(user_entry, opponent_entries, total_entries)
   if worse_entry != None:
-    entries.append(worse_entry)
+    opponent_entries.append(worse_entry)
 
   # Get the rest of ducks needed by looking at nearby ducks
-  num_needed = _OPPONENTS_NEEDED - len(entries)
-  nearby_entries = get_nearby_entries(user_entry, entries, total_entries, num_needed)
-  entries.extend(nearby_entries)
-  return entries_to_duck_info(entries)
+  num_needed = _OPPONENTS_NEEDED - len(opponent_entries)
+  nearby_entries = get_nearby_entries(user_entry, opponent_entries, total_entries, num_needed)
+  opponent_entries.extend(nearby_entries)
+  return entries_to_duck_info(opponent_entries)
 
 
 forms = cgi.FieldStorage()
