@@ -23,7 +23,6 @@ import math
 import random
 from google.appengine.ext import ndb
 from pond_storage import *
-import pdb;
 
 _START_PERCENT = .10
 """Looks above or below the current ranking by this number to find the start ranking."""
@@ -47,8 +46,6 @@ def get_entries_in_range(user_entry, exclude_entries, start_rank, end_rank):
   Returns:
     A list of LeaderboardEntrys.
   """
-  # pdb.set_trace();
-  logging.info("Start Rank: %d End Rank: %d", start_rank, end_rank)
   new_entries = LeaderboardEntry.query(
     LeaderboardEntry.leaderboard_key == user_entry.leaderboard_key,
     LeaderboardEntry.ranking >= start_rank,
@@ -56,8 +53,6 @@ def get_entries_in_range(user_entry, exclude_entries, start_rank, end_rank):
   ).fetch(10)
   new_entries = [x for x in new_entries if x not in exclude_entries and x.key != user_entry.key]
 
-  logging.info("In new entries")
-  print_entries(new_entries)
   return new_entries
 
 def get_nearby_entries(user_entry, entries, total_entries, num_needed):
@@ -74,17 +69,10 @@ def get_nearby_entries(user_entry, entries, total_entries, num_needed):
   percent_range = _NEARBY_PERCENT
   while(len(nearby_entries) < num_needed and percent_range <= 1):
     min_rank = int(math.floor(user_entry.ranking - total_entries * percent_range))
-    logging.info('total_entries: %d', math.floor(user_entry.ranking - total_entries * percent_range))
     max_rank = int(math.ceil(user_entry.ranking + total_entries * percent_range))
     nearby_entries = get_entries_in_range(user_entry, entries, min_rank, max_rank)
-    logging.info("length of nearby entries:%d", len(nearby_entries))
-    print_entries(nearby_entries)
     percent_range += .20
   return random.sample(nearby_entries, num_needed)
-
-def print_entries(entries):
-  for entry in entries:
-    logging.info("Rank: %d",entry.ranking)
 
 def get_worse_entry(user_entry, entries, total_entries):
   """ Get a list of all the ducks with a worse ranking than the user duck
@@ -98,8 +86,6 @@ def get_worse_entry(user_entry, entries, total_entries):
   min_rank = int(math.floor(user_entry.ranking + total_entries * _START_PERCENT))
   max_rank = int(math.ceil(user_entry.ranking + total_entries * _END_PERCENT))
   worse_entries = get_entries_in_range(user_entry, entries, min_rank, max_rank)
-  logging.info("length of worse entries:%d", len(worse_entries))
-  print_entries(worse_entries)
   worse_entry = None
   if len(worse_entries) == 0:
     last_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == total_entries).fetch()[0]
@@ -107,7 +93,6 @@ def get_worse_entry(user_entry, entries, total_entries):
       worse_entry = last_entry
   elif (len(worse_entries) > 0):
     worse_entry = random.choice(worse_entries)
-    logging.info("Worse Entry Choice: %d", worse_entry.ranking)
   return  worse_entry
 
 def get_better_entry(user_entry, entries, total_entries):
@@ -123,8 +108,6 @@ def get_better_entry(user_entry, entries, total_entries):
   max_rank = int(math.ceil(user_entry.ranking - total_entries * _START_PERCENT))
   min_rank = int(math.floor(user_entry.ranking - total_entries * _END_PERCENT))
   better_entries = get_entries_in_range(user_entry, entries, min_rank, max_rank)
-  logging.info("length of better entries:%d", len(better_entries))
-  print_entries(better_entries)
   better_entry = None
   if len(better_entries) == 0:
     top_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == 1).fetch()[0]
@@ -132,7 +115,6 @@ def get_better_entry(user_entry, entries, total_entries):
       better_entry = top_entry
   elif (len(better_entries) > 0):
     better_entry = random.choice(better_entries)
-    logging.info("Better Entry Choice: %d", better_entry.ranking)
   return better_entry
 
 def entries_to_duck_info(entries):
