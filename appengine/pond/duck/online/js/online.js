@@ -48,7 +48,7 @@ Pond.Duck.Online.duckKey = undefined;
 Pond.Duck.Online.NAME = null;
 
 /**
- * Initialize Ace and the pond.  Called on page load.
+ * Initializes Ace and the pond.  Called on page load.
  */
 Pond.Duck.Online.init = function() {
   // Render the Soy template.
@@ -59,6 +59,8 @@ Pond.Duck.Online.init = function() {
       });
   Pond.Duck.TAB_INDEX.DUCK_INFO = 2;
   Pond.Duck.init();
+
+  BlocklyGames.bindClick('duckListButton', Pond.Duck.Online.openDuckList_);
 
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
   BlocklyGames.bindClick('duckUpdateButton', Pond.Duck.Online.showUpdateDuckForm);
@@ -91,7 +93,7 @@ Pond.Duck.Online.init = function() {
 };
 
 /**
- * Temporarily disable editors (does not affect blocksDisabled).
+ * Temporarily disables editors (does not affect blocksDisabled).
  * @param {boolean} disable Whether to disable the editors.
  */
 Pond.Duck.Online.tempDisableEditors = function(disable) {
@@ -111,7 +113,8 @@ Pond.Duck.Online.tempDisableEditors = function(disable) {
 };
 
 /**
- * Callback for when a user loads the page with a duck id.
+ * Loads a duck into the page.
+ * Called as request callback with Duck information in its response.
  */
 Pond.Duck.Online.loadDuck = function() {
   document.getElementById('spinner').style.display = 'none';
@@ -133,7 +136,8 @@ Pond.Duck.Online.loadDuck = function() {
 };
 
 /**
- * Callback for rendering updated duck info tab.
+ * Renders the duck info tab.
+ * Called as request callback with Duck information in its response.
  */
 Pond.Duck.Online.renderDuckInfo = function() {
   // Load duck info template.
@@ -189,7 +193,7 @@ Pond.Duck.Online.renderDuckInfo = function() {
 };
 
 /**
- * Load a new set of opponents.
+ * Loads a new set of opponents.
  */
 Pond.Duck.Online.loadNewOpponents = function() {
   var avatarList = [
@@ -213,7 +217,40 @@ Pond.Duck.Online.loadNewOpponents = function() {
   Pond.Duck.loadAvatars(avatarList);
 };
 
+/**
+ * Opens the duck list.
+ */
+Pond.Duck.Online.openDuckList_ = function() {
+  // TODO: handle potentially changing size of duck list (on copy or delete)
+  // TODO: allow for the dialog to be dismissed if there is a duck loaded
+  var duckList = document.getElementById('duckListIframe');
+  // Reload duck list content (editing source of iframe triggers reload)
+  duckList.src += '';
+  // Resize to fit content
+  var body = duckList.contentWindow.document.body;
+  var html = duckList.contentWindow.document.documentElement;
+  var computedWidth = Math.max(
+      body.scrollWidth, body.offsetWidth, body.clientWidth,
+      html.scrollWidth, html.offsetWidth, html.clientWidth);
+  var computedHeight = Math.max(
+      body.scrollHeight, body.offsetHeight, body.clientHeight,
+      html.scrollHeight, html.offsetHeight, html.clientHeight);
+  duckList.width = computedWidth;
+  duckList.height = computedHeight;
+
+  var content = document.getElementById('duckListDialog');
+  var style = {
+    width: 'fit-content',
+    'margin-left': '-25%',
+    left: '50%',
+    top: '3em'
+  };
+  var origin = document.getElementById('duckListButton');
+  BlocklyDialogs.showDialog(content, origin, true, true, style);
+};
+
 /* Logic for Buttons and Forms for debugging purposes. */
+// TODO: remove debugging forms as features continue to be implemented.
 /**
  * Store user code in specified form.
  * @param {string} formPrefix Prefix of element ids for form.

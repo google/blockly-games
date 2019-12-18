@@ -70,12 +70,11 @@ Pond.Duck.Board.deleteDuck = function(e) {
  * @param {Event} e The event that holds the duck key.
  */
 Pond.Duck.Board.editDuck = function(e) {
-  document.getElementById('loading').style.display = 'table-cell';
   var duckKey = e.target.getAttribute('data-duckurl');
-  var url = window.location.origin
+  var url = top.window.location.origin
       + '/pond-duck-online?lang='+ BlocklyGames.LANG
       + '&duck=' + duckKey;
-  window.location = url;
+  top.window.location = url;
 };
 
 /**
