@@ -142,8 +142,10 @@ Pond.Duck.init = function () {
 };
 
 /**
- * Returns default opponents for game. Soy template containing default AI code
- * must be loaded before calling.
+ * Returns default opponents for game.
+ * The soy templates: playerRook, playerCounter, and playerSniper (templates
+ * containing code for default opponents) must be loaded before calling this
+ * method.
  * @return {Array.<Pond.Avatar>}
  */
 Pond.Duck.getDefaultAvatars = function() {
