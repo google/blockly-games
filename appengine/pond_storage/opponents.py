@@ -23,6 +23,7 @@ import math
 import random
 from google.appengine.ext import ndb
 from pond_storage import *
+import pdb;
 
 START_PERCENT = .10
 END_PERCENT = .15
@@ -31,53 +32,74 @@ DUCKS_NEEDED = 3
 
 def get_entries_in_range(user_duck, entries, start_rank, end_rank):
   """Get all entries in the given range that"""
+  # pdb.set_trace();
+  logging.info("Start Rank: %d End Rank: %d", start_rank, end_rank)
   user_entry = user_duck.leaderboard_entry_key.get()
-  entryQuery = LeaderboardEntry.query()
-  entryQuery = entryQuery.filter(LeaderboardEntry.ranking >= start_rank)
-  entryQuery = entryQuery.filter(LeaderboardEntry.ranking <= end_rank)
-  entryQuery = entryQuery.filter(LeaderboardEntry.ranking != user_entry.ranking)
+  user_entry_key = user_duck.leaderboard_entry_key.id()
+  new_entries = LeaderboardEntry.query(
+    LeaderboardEntry.ranking >= start_rank,
+    LeaderboardEntry.ranking <= end_rank
+  ).fetch(10)
+  new_entries = [x for x in new_entries if x not in entries and x.key.id() != user_entry_key]
 
-  for entry in entries:
-    entryQuery = entryQuery.filter(LeaderboardEntry.ranking != entry.ranking)
-  newEntries = entryQuery.fetch()
-  return newEntries
+  logging.info("In new entries")
+  print_entries(new_entries)
+  return new_entries
 
 def get_nearby_entries(user_duck, cur_rank, entries, total_entries, num_needed):
   """Get ducks with similar rankings to the users duck"""
   nearby_entries = []
   percent_range = NEARBY_PERCENT
-
   while(len(nearby_entries) < num_needed and percent_range <= 1):
     min_rank = int(math.floor(cur_rank - total_entries * percent_range))
     max_rank = int(math.ceil(cur_rank + total_entries * percent_range))
     nearby_entries = get_entries_in_range(user_duck, entries, min_rank, max_rank)
+    logging.info("length of nearby entries:%d", len(nearby_entries))
+    print_entries(nearby_entries)
     percent_range += .20
   return random.sample(nearby_entries, num_needed)
 
-def get_worse_ducks(user_duck, entries, cur_rank, total_entries):
+def print_entries(entries):
+  for entry in entries:
+    logging.info("Rank: %d",entry.ranking)
+
+def get_worse_entry(user_duck, entries, cur_rank, total_entries):
   """ Get a list of all the ducks with a worse ranking than the user duck"""
   min_rank = int(math.floor(cur_rank + total_entries * START_PERCENT))
   max_rank = int(math.ceil(cur_rank + total_entries * END_PERCENT))
   worse_entries = get_entries_in_range(user_duck, entries, min_rank, max_rank)
-
-  if len(worse_entries) == 0 and user_duck.ranking != total_entries:
+  logging.info("length of worse entries:%d", len(worse_entries))
+  print_entries(worse_entries)
+  worse_entry = None
+  if len(worse_entries) == 0:
     last_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == total_entries).fetch()[0]
-    worse_entries.append(last_entry)
-  return  worse_entries
+    if last_entry.key.id() != user_duck.leaderboard_entry_key.id():
+      worse_entry = last_entry
+  elif (len(worse_entries) > 0):
+    worse_entry = random.choice(worse_entries)
+    logging.info("Worse Entry Choice: %d", worse_entry.ranking)
+  return  worse_entry
 
-def get_better_ducks(user_duck, entries, cur_rank, total_entries):
+def get_better_entry(user_duck, entries, cur_rank, total_entries):
   """Get a list of all the ducks with a better ranking than the user duck"""
   # Calculate max and min ranking
   max_rank = int(math.ceil(cur_rank - total_entries * START_PERCENT))
   min_rank = int(math.floor(cur_rank - total_entries * END_PERCENT))
   better_entries = get_entries_in_range(user_duck, entries, min_rank, max_rank)
-  
-  if len(better_entries) == 0 and user_duck.ranking != 1:
+  logging.info("length of better entries:%d", len(better_entries))
+  print_entries(better_entries)
+  better_entry = None
+  if len(better_entries) == 0:
     top_entry = LeaderboardEntry.query(LeaderboardEntry.ranking == 1).fetch()[0]
-    better_entries.append(top_entry)
-  return better_entries
+    if (top_entry.key.id() != user_duck.leaderboard_entry_key.id()):
+      better_entry = top_entry
+  elif (len(better_entries) > 0):
+    better_entry = random.choice(better_entries)
+    logging.info("Better Entry Choice: %d", better_entry.ranking)
 
-def get_duck_info_from_entries(entries):
+  return better_entry
+
+def entries_to_duck_info(entries):
   """Change a list of entries into a list of ducks"""
   ducks = []
   #TODO: This can be updated when we deal with dummy ducks
@@ -99,27 +121,25 @@ def get_duck_info_from_entries(entries):
 def get_opponents(user_duck):
   """Get optimal opponents for the user duck"""
   user_entry_key = user_duck.leaderboard_entry_key
+  user_entry = user_entry_key.get()
   cur_rank = user_entry_key.get().ranking
   total_entries = user_entry_key.get().leaderboard_key.get().size
   entries = []
 
   # Get all ducks with a better ranking in the given range
-  better_entries = get_better_ducks(user_duck, entries, cur_rank, total_entries)
-  if (len(better_entries) > 0):
-    better_entry = random.choice(better_entries)
+  better_entry = get_better_entry(user_duck, entries, cur_rank, total_entries)
+  if better_entry != None:
     entries.append(better_entry)
 
   # Get all ducks with a worse ranking that are not already in the entries list
-  worse_entries = get_worse_ducks(user_duck, entries, cur_rank, total_entries)
-  if (len(worse_entries) > 0):
-    worse_entry = random.choice(worse_entries)
+  worse_entry = get_worse_entry(user_duck, entries, cur_rank, total_entries)
+  if worse_entry != None:
     entries.append(worse_entry)
-
   # Get the rest of ducks needed by looking at nearby ducks
   num_needed = DUCKS_NEEDED - len(entries)
   nearby_entries = get_nearby_entries(user_duck, cur_rank, entries, total_entries, num_needed)
-  entries = entries + nearby_entries
-  return get_duck_info_from_entries(entries)
+  entries.extend(nearby_entries)
+  return entries_to_duck_info(entries)
 
 
 forms = cgi.FieldStorage()
