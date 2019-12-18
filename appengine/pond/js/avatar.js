@@ -35,16 +35,15 @@ goog.require('Pond.Battle');
  * Class for a avatar.
  * @param {string} name Avatar's name.
  * @param {string|!Function} code Avatar's code, or generator.
- * @param {number=} [opt_startDamage=0] Initial damage to avatar (0-100, default 0).
- * @param {Blockly.utils.Coordinate=} opt_startLoc Start location.
+ * @param {Blockly.utils.Coordinate} startLoc The default start location.
+ * @param {number=} [opt_startDamage=0] Initial damage to avatar (0-100).
  * @constructor
  */
-Pond.Avatar = function(name, code, opt_startDamage, opt_startLoc) {
+Pond.Avatar = function(name, code, startLoc, opt_startDamage) {
   this.name = name;
   this.code_ = code;
-  this.startLoc_ = opt_startLoc;
+  this.startLoc_ = startLoc;
   this.startDamage_ = opt_startDamage || 0;
-  this.battle_ = null;
   this.loc = new Blockly.utils.Coordinate();
   Pond.Battle.log(this + ' loaded.');
 };
@@ -53,25 +52,26 @@ Pond.Avatar = function(name, code, opt_startDamage, opt_startLoc) {
  * Given a name create the default player.
  * @param {string} name The name of the default player.
  * @param {string} divId The id of the div that holds this avatars code.
- * @param {number=} opt_startDamage The optional start damage.
- * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
+ * @param {Blockly.utils.Coordinate} startLoc The default start location.
+ * @param {number=} [opt_startDamage=0] Initial damage to avatar (0-100).
  */
-Pond.Avatar.createDefaultAvatar = function(name, divId, opt_startDamage, opt_startLoc) {
+Pond.Avatar.createDefaultAvatar = function(name, divId, startLoc, opt_startDamage) {
   var name = BlocklyGames.getMsg(name);
   var div = document.getElementById(divId);
   var code = div.textContent;
-  return new Pond.Avatar(name, code, opt_startDamage, opt_startLoc);
+  return new Pond.Avatar(name, code, startLoc, opt_startDamage);
 };
 
 /**
  * Create an avatar based on the current user's duck.
  * @param {string} name The name of the avatar.
- * @param {Blockly.utils.Coordinate=} opt_startLoc The optional start location.
+ * @param {Blockly.utils.Coordinate} startLoc The default start location.
+ * @param {number=} [opt_startDamage=0] Initial damage to avatar (0-100).
  */
-Pond.Avatar.createPlayerAvatar = function(name, opt_startDamage, opt_startLoc) {
+Pond.Avatar.createPlayerAvatar = function(name, startLoc, opt_startDamage) {
   // TODO: Look into taking out getMsgWithFallback and replace with getMsg
   return new Pond.Avatar(BlocklyGames.getMsgWithFallback(name, name),
-      BlocklyInterface.getJsCode, opt_startDamage, opt_startLoc);
+      BlocklyInterface.getJsCode, startLoc, opt_startDamage);
 };
 
 /**
@@ -129,17 +129,6 @@ Pond.Avatar.prototype.toString = function() {
 };
 
 /**
- * Prepares the avatar to be in a battle.
- * @param {!Pond.Battle} battle The battle the avatar is a part of.
- * @param {Blockly.utils.Coordinate} startLoc The starting location of the avatar.
- */
-Pond.Avatar.prototype.battleSetup = function(battle, startLoc) {
-  this.battle_ = battle;
-  // Only set the start location if it wasn't set previously.
-  this.startLoc_ = this.startLoc_ || startLoc;
-  this.reset();
-};
-/**
  * Reset this avatar to a starting state.
  */
 Pond.Avatar.prototype.reset = function() {
@@ -174,7 +163,7 @@ Pond.Avatar.prototype.initInterpreter = function() {
     alert(e);
     throw Error('Duck "' + this.name + '" has error in code:\n' + e);
   }
-  this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
+  this.interpreter = new Interpreter(code, Pond.Battle.initInterpreter);
 };
 
 /**
@@ -195,8 +184,8 @@ Pond.Avatar.prototype.die = function() {
   this.speed = 0;
   this.dead = true;
   this.damage = 100;
-  this.battle_.RANK.unshift(this);
-  this.battle_.EVENTS.push({'type': 'DIE', 'avatar': this});
+  Pond.Battle.RANK.unshift(this);
+  Pond.Battle.EVENTS.push({'type': 'DIE', 'avatar': this});
   Pond.Battle.log(this + ' sinks.');
 };
 
@@ -223,7 +212,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   degree = BlocklyGames.normalizeAngle(degree);
   resolution = Blockly.utils.math.clamp(resolution, 0, 20);
 
-  this.battle_.EVENTS.push({'type': 'SCAN', 'avatar': this,
+  Pond.Battle.EVENTS.push({'type': 'SCAN', 'avatar': this,
                             'degree': degree, 'resolution': resolution});
 
   // Compute both edges of the scan.
@@ -236,7 +225,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   var locY = this.loc.y;
   // Check every enemy for existence in the scan beam.
   var closest = Infinity;
-  for (var i = 0, enemy; (enemy = this.battle_.AVATARS[i]); i++) {
+  for (var i = 0, enemy; (enemy = Pond.Battle.AVATARS[i]); i++) {
     if (enemy == this || enemy.dead) {
       continue;
     }
@@ -317,7 +306,7 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
     throw TypeError;
   }
   var now = Date.now();
-  if (this.lastMissile + this.battle_.RELOAD_TIME * 1000 > now) {
+  if (this.lastMissile + Pond.Battle.RELOAD_TIME * 1000 > now) {
     return false;
   }
   this.lastMissile = now;
@@ -336,8 +325,8 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
     endLoc: endLoc,
     progress: 0
   };
-  this.battle_.MISSILES.push(missile);
-  this.battle_.EVENTS.push({'type': 'BANG', 'avatar': this,
+  Pond.Battle.MISSILES.push(missile);
+  Pond.Battle.EVENTS.push({'type': 'BANG', 'avatar': this,
       'degree': missile.degree});
   return true;
 };

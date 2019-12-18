@@ -95,7 +95,7 @@ Pond.Duck.Rank.handleMatchRequest = function() {
     Pond.Battle.clearAvatars();
     for (var duck, i = 0; (duck = requestDucks[i]); i++) {
       Pond.Battle.addAvatar(
-          new Pond.Avatar(i, duck['js']),Pond.Duck.START_XY[i]);
+          new Pond.Avatar(i, duck['js'], Pond.Duck.START_XY[i]));
       Pond.Duck.Rank.RANK_ENTRIES.push(duck['entry_key'])
     }
     Pond.Duck.Rank.computeMatch();

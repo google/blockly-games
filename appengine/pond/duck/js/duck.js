@@ -141,6 +141,23 @@ Pond.Duck.init = function () {
       'damage,health,loc_x,getX,loc_y,getY,');
 };
 
+/**
+ * Returns default opponents for game.
+ * The soy templates: playerRook, playerCounter, and playerSniper (templates
+ * containing code for default opponents) must be loaded before calling this
+ * method.
+ * @return {Array.<Pond.Avatar>}
+ */
+Pond.Duck.getDefaultAvatars = function() {
+  return [
+    Pond.Avatar.createDefaultAvatar(
+        'Pond_rookName', 'playerRook', Pond.Duck.START_XY[1]),
+    Pond.Avatar.createDefaultAvatar(
+        'Pond_counterName', 'playerCounter', Pond.Duck.START_XY[2]),
+    Pond.Avatar.createDefaultAvatar(
+        'Pond_sniperName', 'playerSniper', Pond.Duck.START_XY[3])
+  ];
+};
 
 /**
  * Load default players for the the pond game.
@@ -148,12 +165,10 @@ Pond.Duck.init = function () {
  *     or the default name.
  */
 Pond.Duck.loadDefaultAvatars = function (opt_currentPlayerName) {
-  var currentPlayer = Pond.Avatar.createPlayerAvatar('Pond_' + opt_currentPlayerName || 'Pond_myName');
-  var rookPlayer = Pond.Avatar.createDefaultAvatar('Pond_rookName', 'playerRook');
-  var counterPlayer = Pond.Avatar.createDefaultAvatar('Pond_counterName', 'playerCounter');
-  var sniperPlayer = Pond.Avatar.createDefaultAvatar('Pond_sniperName', 'playerSniper');
-  var avatars = [currentPlayer, rookPlayer, counterPlayer, sniperPlayer];
-
+  var avatars = [
+    Pond.Avatar.createPlayerAvatar(
+        opt_currentPlayerName || 'Pond_myName', Pond.Duck.START_XY[0])];
+  Array.prototype.push.apply(avatars, Pond.Duck.getDefaultAvatars());
   Pond.Duck.loadAvatars(avatars);
 };
 
@@ -163,7 +178,7 @@ Pond.Duck.loadDefaultAvatars = function (opt_currentPlayerName) {
 Pond.Duck.loadAvatars = function (avatars) {
   Pond.Battle.clearAvatars();
   for (var avatar, i = 0; (avatar = avatars[i]); i++) {
-    Pond.Battle.addAvatar(avatar, Pond.Duck.START_XY[i]);
+    Pond.Battle.addAvatar(avatar);
   }
   Pond.reset();
 };
