@@ -224,7 +224,7 @@ Pond.Duck.Online.openDuckList_ = function() {
   // TODO: handle potentially changing size of duck list (on copy or delete)
   // TODO: allow for the dialog to be dismissed if there is a duck loaded
   var duckList = document.getElementById('duckListIframe');
-  // Reload duck list content
+  // Reload duck list content (editing source of iframe triggers reload)
   duckList.src += '';
   // Resize to fit content
   var body = duckList.contentWindow.document.body;
