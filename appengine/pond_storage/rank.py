@@ -53,15 +53,14 @@ def create_ranking_match():
             js: The javascript code for the duck associated with that entry
     Or None if no valid match can be created.
   """
-  # TODO handle dummy ducks.
+  # TODO handle dummy entries.
   # 1. Find the entry with the highest instability not in a match request.
   unstable_leaderboard_entry = None
   unstable_entries_query = (
       LeaderboardEntry.query().order(-LeaderboardEntry.instability))
   for entry in unstable_entries_query:
-    # Check if it exists in a current match request (ignoring dummy ducks)
-    if (not MatchRequest.contains_entry(entry.key) and
-        entry.duck_key != get_dummy_duck_key()):
+    # Check if it exists in a current match request (ignoring dummy entries)
+    if not MatchRequest.contains_entry(entry.key) and not entry.is_dummy:
       unstable_leaderboard_entry = entry
       break
   if not unstable_leaderboard_entry:
@@ -78,8 +77,7 @@ def create_ranking_match():
   leaderboard = unstable_leaderboard_entry.leaderboard_key.get()
   leaderboard_query = leaderboard.get_entries_query()
   for entry in leaderboard_query:
-    if (entry != unstable_leaderboard_entry and
-        entry.duck_key != get_dummy_duck_key() and
+    if (entry != unstable_leaderboard_entry and not entry.is_dummy and
         not MatchRequest.contains_entry(entry.key)):
       entry_keys.append(entry.key)
       duck_list.append({
