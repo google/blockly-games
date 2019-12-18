@@ -14,6 +14,12 @@
  * Web page structure.
  */
 {template .start}
+
+  // TODO: move duck list button.
+  <button id="duckListButton">
+    Open Duck List
+  </button>
+
   <button id="duckCreateButton">
     Create your Duck
   </button>
@@ -53,6 +59,7 @@
   {/call}
 
   {call .rankComputeIframe /}
+  {call .duckListDialog /}
   {call .databaseDialogs /}
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.abortDialog /}
@@ -101,10 +108,20 @@
 {/template}
 
 /**
- * Iframe computing ranking position
+ * Iframe computing ranking position.
  */
 {template .rankComputeIframe}
   <iframe src="pond-duck-rank" style="display:none;"></iframe>
+{/template}
+
+
+/**
+ * Duck List dialog content.
+ */
+{template .duckListDialog}
+  <div id="duckListDialog" class="dialogHiddenContent">
+    <iframe style="border: 0" id="duckListIframe" src="pond-duck-board"></iframe>
+  </div>
 {/template}
 
 /**
