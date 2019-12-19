@@ -160,7 +160,10 @@ def entries_to_duck_info(entries):
   """
   ducks = []
   for entry in entries:
-    if entry.is_dummy:
+    if entry.has_duck:
+      duck = entry.duck_key.get()
+      duck_info = get_duck_info(duck)
+    else:
       # TODO: handle/filter dummy entries earlier.
       duck_info = {
           'name': "dummy",
@@ -168,9 +171,6 @@ def entries_to_duck_info(entries):
           'code': {'js':'throw "dummy duck";'},
           'publish':'true'
       }
-    else:
-      duck = entry.duck_key.get()
-      duck_info = get_duck_info(duck)
     ducks.append(duck_info)
   return ducks
 
