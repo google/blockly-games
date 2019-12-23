@@ -286,6 +286,10 @@ Pond.Duck.editorChanged = function () {
       BlocklyGames.workspace.clear();
       Pond.Duck.setBlocksEnabled(true);
     }
+    var saveBtn = document.getElementById('saveButton');
+    if (saveBtn) {
+      saveBtn.disabled = false;
+    }
   } else {
     if (!BlocklyGames.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {

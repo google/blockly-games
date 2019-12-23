@@ -90,6 +90,12 @@ Pond.Duck.Online.init = function() {
     // Show Blockly editor tab.
     Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);
   }
+  BlocklyGames.workspace.addChangeListener(function(){
+    var saveBtn = document.getElementById('saveButton');
+    if (saveBtn) {
+      saveBtn.disabled = false;
+    }
+  });
 };
 
 /**
@@ -183,12 +189,13 @@ Pond.Duck.Online.renderDuckInfo = function() {
 
   BlocklyGames.bindClick(
       'saveButton',
-      function() {
+      function(e) {
         Pond.Duck.Datastore.updateDuckCode(
             Pond.Duck.Online.duckKey,
             BlocklyInterface.getJsCode(),
             BlocklyInterface.blocksDisabled ? '' : BlocklyInterface.getXml(),
             Pond.Duck.Online.renderDuckInfo);
+        e.target.disabled = true;
       });
 };
 
