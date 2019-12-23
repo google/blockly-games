@@ -28,6 +28,7 @@
  * Web page structure.
  * @param appName Name of application.
  * @param tabareaHtml Html content of tabarea
+ * @param farLeftHtml Html content of left header bar
  */
 {template .start}
 
@@ -37,7 +38,7 @@
     {param levelLinkSuffix}{/param}
     {param hasLinkButton: false /}
     {param hasHelpButton: false /}
-    {param farLeftHtml}{/param}
+    {param farLeftHtml: $farLeftHtml/}
   {/call}
 
   {call Pond.soy.visualization /}
