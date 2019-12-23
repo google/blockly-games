@@ -65,6 +65,8 @@ pond-online-en: pond-multi-common-en
 	python build-app.py pond/duck/online en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/board/generated/en/soy.js --srcs appengine/pond/duck/board/template.soy
 	python build-app.py pond/duck/board en
+	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/leaderboard/generated/en/soy.js --srcs appengine/pond/duck/leaderboard/template.soy
+	python build-app.py pond/duck/leaderboard en
 	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/rank/generated/en/soy.js --srcs appengine/pond/duck/rank/template.soy
 	python build-app.py pond/duck/rank en
 
@@ -125,6 +127,11 @@ pond-online: pond-multi-common
 	mkdir -p appengine/pond/duck/board/generated;
 	i18n/json_to_js.py --output_dir appengine/pond/duck/board/generated --template appengine/pond/duck/board/template.soy json/*.json;
 	python build-app.py pond/duck/board
+	@echo
+	@echo "Generating JS from appengine/pond/duck/leaderboard/template.soy"
+	mkdir -p appengine/pond/duck/leaderboard/generated;
+	i18n/json_to_js.py --output_dir appengine/pond/duck/leaderboard/generated --template appengine/pond/duck/leaderboard/template.soy json/*.json;
+	python build-app.py pond/duck/leaderboard
 	@echo
 	@echo "Generating JS from appengine/pond/duck/rank/template.soy"
 	mkdir -p appengine/pond/duck/rank/generated;

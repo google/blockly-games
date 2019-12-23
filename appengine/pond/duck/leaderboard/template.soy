@@ -1,0 +1,54 @@
+{namespace Pond.Duck.Leaderboard.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pond-duck-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call Pond.soy.messages /}
+  <div style="display: none">
+    <span id="Pond_leaderboard_name">{{msg meaning="Pond.leaderboardName" desc="Name of the list that displays top ten ducks."}}Ranking{{/msg}}</span>
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <h1>
+    Pond of Heroes
+  </h1>
+  <div id="loading" style="width: 15px;">
+    <img id="spinner" src="common/loading.gif" height=15 width=15>
+  </div>
+  <div id="topDucks"></div>
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.storageDialog /}
+{/template}
+
+/**
+ * List of ducks.
+ * @param topDucks
+ */
+{template .topDucks}
+  <table>
+    {foreach $topDuck in $topDucks}
+      <tr>
+        <td {if $topDuck['isOwner']} class="user_duck" {/if}>
+          <span># {$topDuck['ranking']}</span> {$topDuck['name']}
+        </td>
+      </tr>
+    {/foreach}
+  </table>
+{/template}
