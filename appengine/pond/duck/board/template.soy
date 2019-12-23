@@ -62,13 +62,13 @@
         <td>{if $duck['ranking']}{$duck['ranking']}{else}UNRANKED{/if}</td>
         <td>{$duck['name']}</td>
         <td>
-          <button class="editDuck" data-duckurl={$duck['duckUrl']}>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</button>
+          <button class="editDuck" data-duck-key={$duck['duck_key']}>{{msg meaning="Pond.edit" desc="IBID"}}Edit{{/msg}}</button>
         </td>
         <td>
-          <button class="copyDuck" data-duckurl={$duck['duckUrl']}>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</button>
+          <button class="copyDuck" data-duck-key={$duck['duck_key']}>{{msg meaning="Pond.copy" desc="IBID"}}Copy{{/msg}}</button>
         </td>
         <td>
-          <button class="deleteDuck" data-duckurl={$duck['duckUrl']}>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</button>
+          <button class="deleteDuck" data-duck-key={$duck['duck_key']}>{{msg meaning="Pond.delete" desc="IBID"}}Delete{{/msg}}</button>
         </td>
       </tr>
     {/foreach}

@@ -136,6 +136,18 @@ Pond.Duck.Datastore.getMatchRequest = function(onSuccess) {
 };
 
 /**
+ * Get the top ten ducks with the best ranking.
+ * @param {string} duckKey The key for the duck. This is needed to tell what
+ *     leaderboard we should get the top ten ducks from.
+ * @param {!Function} onSuccess Function to call after request completes
+ *    successfully.
+ */
+Pond.Duck.Datastore.getTopTenDucks = function(duckKey, onSuccess) {
+    var url = 'pond-storage/get?key='+ duckKey + '&type=topducks';
+    BlocklyStorage.makeRequest(url, '', onSuccess, null, 'GET');
+};
+
+/**
  * Get a background match request for computing ranking.
  * @param {Array.<string>} matchKey The key for the match request corresponding to
  *      this result.

@@ -49,7 +49,7 @@ Pond.Duck.Board.init = function () {
  */
 Pond.Duck.Board.copyDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckKey = e.target.getAttribute('data-duckurl');
+  var duckKey = e.target.getAttribute('data-duck-key');
   Pond.Duck.Datastore.copyDuck(duckKey, true,
       Pond.Duck.Board.createGetDucksCallback('copied'));
 };
@@ -60,7 +60,7 @@ Pond.Duck.Board.copyDuck = function(e) {
  */
 Pond.Duck.Board.deleteDuck = function(e) {
   document.getElementById('loading').style.display = 'table-cell';
-  var duckKey = e.target.getAttribute('data-duckurl');
+  var duckKey = e.target.getAttribute('data-duck-key');
   Pond.Duck.Datastore.deleteDuck(duckKey, true,
       Pond.Duck.Board.createGetDucksCallback('deleted'));
 };
@@ -70,7 +70,7 @@ Pond.Duck.Board.deleteDuck = function(e) {
  * @param {Event} e The event that holds the duck key.
  */
 Pond.Duck.Board.editDuck = function(e) {
-  var duckKey = e.target.getAttribute('data-duckurl');
+  var duckKey = e.target.getAttribute('data-duck-key');
   var url = top.window.location.origin
       + '/pond-duck-online?lang='+ BlocklyGames.LANG
       + '&duck=' + duckKey;
@@ -100,7 +100,7 @@ Pond.Duck.Board.createGetDucksCallback = function(action) {
 /**
  * Callback function for AJAX call.
  * Response contains a list holding all the ducks for the current user
- * (name, duckUrl, and optionally ranking).
+ * (name, duck_key, and optionally ranking).
  */
 Pond.Duck.Board.refreshDuckList = function() {
   // Convert the response data into something template will understand.
