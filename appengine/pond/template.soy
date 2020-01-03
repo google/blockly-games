@@ -29,6 +29,7 @@
 
 /**
  * Canvas, health bars, and buttons.
+ * @param appName Name of application.
  */
 {template .visualization}
   <div id="visualization">
@@ -44,11 +45,22 @@
   </table>
 
   <table width="400">
+    {if $appName == 'Pond Online'}
     <tr>
       <td style="width: 190px; text-align: center; vertical-align: top;">
-        <button id="docsButton" title="{msg meaning="Pond.docsTooltip" desc="Tooltip for the button that opens the language reference documentation."}Display the language documentation.{/msg}">
-          {{msg meaning="Pond.documentation" desc="Text on the button that opens the language reference documentation.\n{lb}{lb}Identical|Documentation{rb}{rb}"}}Documentation{{/msg}}
+        <button id="getOpponents">
+          {msg meaning="Pond.getOpponents" desc="Text on the button used to get opponents for the user to play against."}Get Opponents{/msg}
         </button>
+      </td>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <button id="defaultOpponents">
+          {msg meaning="Pond.defaultOpponents" desc="Text on the button used to get the default opponents for user to play against."}Default Opponents{/msg}
+        </button>
+      </td>
+    </tr>
+    {/if}
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
       </td>
       <td>
         <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">

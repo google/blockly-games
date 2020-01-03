@@ -38,10 +38,13 @@
     {param levelLinkSuffix}{/param}
     {param hasLinkButton: false /}
     {param hasHelpButton: false /}
+    {param hasDocButton: true /}
     {param farLeftHtml: $farLeftHtml/}
   {/call}
 
-  {call Pond.soy.visualization /}
+  {call Pond.soy.visualization}
+    {param appName: $appName/}
+  {/call}
 
   <div id="tabarea">
     {$tabareaHtml |noAutoescape}
