@@ -63,8 +63,6 @@ Pond.Duck.Online.init = function() {
   BlocklyGames.bindClick('duckListButton', Pond.Duck.Online.openDuckList_);
 
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
-  BlocklyGames.bindClick('duckUpdateButton', Pond.Duck.Online.showUpdateDuckForm);
-  BlocklyGames.bindClick('duckDeleteButton', Pond.Duck.Online.showDeleteDuckForm);
   BlocklyGames.bindClick('getOpponents', function() {
     Pond.Duck.Datastore.getOpponents(
         Pond.Duck.Online.duckKey,
@@ -164,20 +162,23 @@ Pond.Duck.Online.renderDuckInfo = function() {
     BlocklyGames.bindClick(
         'publishButton',
         function() {
-          Pond.Duck.Datastore.setPublished(
+          if (confirm(BlocklyGames.getMsg('Online_publishDuckDialog'))) {
+            Pond.Duck.Datastore.setPublished(
               Pond.Duck.Online.duckKey, true, Pond.Duck.Online.renderDuckInfo);
+          }
         });
   }
   BlocklyGames.bindClick(
       'deleteButton',
       function() {
-        Pond.Duck.Datastore.deleteDuck(
-            Pond.Duck.Online.duckKey, false,
+        if (confirm(BlocklyGames.getMsg('Online_deleteDuckDialog'))) {
+          Pond.Duck.Datastore.deleteDuck(Pond.Duck.Online.duckKey, false,
             function() {
               var url = window.location.origin
                   + '/pond-duck-online?lang='+ BlocklyGames.LANG;
               window.location = url;
             });
+        }
       });
 
   BlocklyGames.bindClick(
