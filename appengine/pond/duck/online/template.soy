@@ -11,10 +11,21 @@
  */
 
 /**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call Pond.Duck.soy.messages /}
+  <div style="display: none">
+      <span id="Online_publishDuckDialog">{msg meaning="Online.publishDuckDialog" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Are you sure you want to publish this duck?{/msg}</span>
+      <span id="Online_deleteDuckDialog">{msg meaning="Online.deleteDuckDialog" desc="Warning dialog. Options are 'OK' and 'Cancel'."}Are you sure you want to delete this duck?{/msg}</span>
+  </div>
+{/template}
+
+/**
  * Web page structure.
  */
 {template .start}
-
+  {call .messages /}
   // TODO: move duck list button.
   <button id="duckListButton">
     Open Duck List
@@ -24,29 +35,13 @@
     Create your Duck
   </button>
 
-  <button id="duckUpdateButton">
-    Update a Duck
-  </button>
-
-  <button id="duckDeleteButton">
-    Delete a Duck
-  </button>
-
-  <button id="getOpponents">
-    Get Opponents
-  </button>
-
-  <button id="defaultOpponents">
-    Default Opponents
-  </button>
-
   {call Pond.Duck.soy.start}
     {param appName}
       Pond Online{sp}
     {/param}
     {param farLeftHtml}
       <button id="saveButton">
-        Save this Duck
+        {msg meaning="Online.saveDuck" desc="Text on the button used to save a duck."}Save{/msg}
       </button>
     {/param}
     {param tabareaHtml}
@@ -91,20 +86,20 @@
 
   {if $duck['published']}
     <button id="unPublishButton">
-      Unpublish this Duck
+      {msg meaning="Online.unpublishDuckButton" desc="Text on the button used to unpublish a duck."}Unpublish this Duck{/msg}
     </button>
   {else}
     <button id="publishButton">
-      Publish this Duck
+      {msg meaning="Online.publishDuckButton" desc="Text on the button used to publish a duck."}Publish this Duck{/msg}
     </button>
   {/if}
   <br>
   <button id="deleteButton">
-    Delete this Duck
+    {msg meaning="Online.deleteDuckButton" desc="Text on the button used to delete a duck."}Delete this Duck{/msg}
   </button>
   <br>
   <button id="copyButton">
-    Copy this Duck
+    {msg meaning="Online.copyDuckButton" desc="Text on the button used to copy a duck."}Copy this Duck{/msg}
   </button>
   <br>
 {/template}
@@ -146,52 +141,6 @@
           {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
         </button>
         <button id="duckCreateOk" class="secondary" type="submit">
-          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <div id="duckUpdateDialog" class="dialogHiddenContent">
-    <form id="duckUpdateForm" action="/pond-storage/update" method="post" onsubmit="return false">
-      <header>Update a duck</header>
-      <div>URL-safe Duck key:
-        {sp}
-        <input id="duckUpdateDuckKey" type="text" name="key" required>
-      </div>
-      <div>New duck name:
-        {sp}
-        <input id="duckUpdateName" type="text" name="name">
-      </div>
-      <input id="duckUpdateJs" type="hidden" name="js">
-      <input id="duckUpdateXml" type="hidden" name="xml">
-      <footer><!--Legal disclaimer goes here if needed.--></footer>
-
-      <div class="farSide">
-        <button id="duckUpdateCancel" type="button">
-          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
-        </button>
-        <button id="duckUpdateOk" class="secondary" type="submit">
-          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <div id="duckDeleteDialog" class="dialogHiddenContent">
-    <form id="duckDeleteForm" action="/pond-storage/delete" method="post" onsubmit="return false">
-      <header>Delete a duck</header>
-      <div>URL-safe Duck key:
-        {sp}
-        <input id="duckDeleteDuckKey" type="text" name="key" required>
-      </div>
-      <footer><!--Legal disclaimer goes here if needed.--></footer>
-
-      <div class="farSide">
-        <button id="duckDeleteCancel" type="button">
-          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
-        </button>
-        <button id="duckDeleteOk" class="secondary" type="submit">
           {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
         </button>
       </div>
