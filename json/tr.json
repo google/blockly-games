@@ -249,7 +249,7 @@
 	"Music.helpText2a": "Bir 'function' blokları bir arada gruplandırmanıza ve sonra birden fazla çalıştırmanıza izin verir.",
 	"Music.helpText2b": "'Frère Jacques'in ilk dört notasını çalmak için bir işlev oluşturun. Bu işlevi iki kez çalıştırın. Yeni not blokları eklemeyin.",
 	"Music.helpText3": "'Frère Jacques'in sonraki kısmı için ikinci bir fonksiyon oluşturun. Son not daha uzundur.",
-	"Music.helpText4": "'Frère Jacques'in sonraki kısmı için üçüncü bir fonksiyon oluşturun. İlk dört not daha kısadır. <X id='START_BREAK'/><x id ='START_IMAGE'/>",
+	"Music.helpText4": "'Frère Jacques'in sonraki kısmı için üçüncü bir fonksiyon oluşturun. İlk dört not daha kısadır.",
 	"Music.helpText5": "'Frère Jacques' şarkısının tamamını tamamlayın.",
 	"Music.helpText6a": "Bu yeni blok, başka bir enstrümana geçmenizi sağlar.",
 	"Music.helpText6b": "Melodinizi bir keman ile çalın.",

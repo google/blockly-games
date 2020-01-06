@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2019-02-19 16:30:06.279742",
+		"lastupdated": "2020-01-05 23:14:31.047241",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -235,7 +235,7 @@
 	"Music.helpText2a": "A 'function' allows you to group blocks together, then run them more than once.",
 	"Music.helpText2b": "Create a function to play the first four notes of 'Frère Jacques'. Run that function twice.  Don't add any new note blocks.",
 	"Music.helpText3": "Create a second function for the next part of 'Frère Jacques'. The last note is longer.",
-	"Music.helpText4": "Create a third function for the next part of 'Frère Jacques'. The first four notes are shorter.<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "Create a third function for the next part of 'Frère Jacques'. The first four notes are shorter.",
 	"Music.helpText5": "Complete the full tune of 'Frère Jacques'.",
 	"Music.helpText6a": "This new block lets you change to another instrument.",
 	"Music.helpText6b": "Play your tune with a violin.",

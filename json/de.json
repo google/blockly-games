@@ -238,7 +238,7 @@
 	"Music.helpText2a": "Eine „Funktion“ erlaubt dir die Gruppierung von Blöcken. Führe sie dann mehr als einmal aus.",
 	"Music.helpText2b": "Erstelle eine Funktion, um die ersten vier Noten von „Frère Jacques“ abzuspielen. Führe diese Funktion zweimal aus. Füge keine neuen Notenblöcke hinzu.",
 	"Music.helpText3": "Erstelle eine zweite Funktion für den nächsten Teil von „Frère Jacques“. Die letzte Note ist länger.",
-	"Music.helpText4": "Erstelle eine dritte Funktion für den nächsten Teil von „Frère Jacques“. Die ersten vier Noten sind kürzer.<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "Erstelle eine dritte Funktion für den nächsten Teil von „Frère Jacques“. Die ersten vier Noten sind kürzer.",
 	"Music.helpText5": "Vervollständige die Melodie von „Frère Jacques“.",
 	"Music.helpText6a": "Dieser neue Block lässt dich ein anderes Instrument auswählen.",
 	"Music.helpText6b": "Spiele deine Melodie mit einer Geige.",

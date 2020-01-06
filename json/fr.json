@@ -245,7 +245,7 @@
 	"Music.helpText2a": "Une « fonction » vous permet de regrouper ensemble des blocs, puis de les exécuter plus d’une fois.",
 	"Music.helpText2b": "Créez une fonction pour jouer les quatre premières notes de « Frère Jacques ». Lancez cette fonction deux fois. N’ajoutez pas d’autres blocs de note.",
 	"Music.helpText3": "Créez une deuxième fonction pour la partie suivante de « Frère Jacques ». La dernière note est plus longue.",
-	"Music.helpText4": "Créez une troisième fonction pour la partie qui suit de « Frère Jacques ». Les quatre premières notes sont plus courtes.<x id=\"START_BREAK\"/><x id=\"START_IMAGE\"/>",
+	"Music.helpText4": "Créez une troisième fonction pour la partie qui suit de « Frère Jacques ». Les quatre premières notes sont plus courtes.",
 	"Music.helpText5": "Terminez l’air complet de « Frère Jacques ».",
 	"Music.helpText6a": "Ce nouveau bloc vous permet de passer à un autre instrument.",
 	"Music.helpText6b": "Jouer votre air sur un violon.",
