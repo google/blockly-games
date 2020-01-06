@@ -210,7 +210,7 @@
 	"Movie.helpText10": "Instructions.",
 	"Movie.helpText10Reddit": "Instructions on publishing your movie.",
 	"Music.playNoteTooltip": "tooltip",
-	"Music.playNote": "Plays one musical note.  %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...).\n\n''FIXME''' :\n* Where are the translation for \"whole note\", \"quarter note\" (note: this cannot be split with the common term for \"note\", the adjectives for \"whole\" or \"half\" may combine differently or both may combine to a single and distinctive term), so \"%1 note\" should become just \"%1\" after fixing the code and adding new translation units.\n* The pitches (A, B, C, ...) are also language dependant (C=do/ut, D=re, ... G=sol, A=la, B=si) and should be translatable too.",
+	"Music.playNote": "Plays one musical note.  %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...).\n\n''FIXME''' :\n* Where are the translation for 'whole note', 'quarter note' (note: this cannot be split with the common term for 'note', the adjectives for 'whole' or 'half' may combine differently or both may combine to a single and distinctive term), so '%1 note' should become just '%1' after fixing the code and adding new translation units.\n* The pitches (A, B, C, ...) are also language dependant (C=do/ut, D=re, ... G=sol, A=la, B=si) and should be translatable too.",
 	"Music.restTooltip": "tooltip",
 	"Music.restWholeTooltip": "tooltip",
 	"Music.rest": "Plays no music for a duration specified.  %1 is the duration (whole, quarter, ...).",
