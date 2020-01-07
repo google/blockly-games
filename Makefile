@@ -157,12 +157,12 @@ deps:
 	mv babel.min.js $(APP_ENGINE_THIRD_PARTY)/
 	svn checkout --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
-	svn checkout https://github.com/google/blockly/branches/develop/blocks $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
-	svn checkout https://github.com/google/blockly/branches/develop/core $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn checkout https://github.com/google/blockly/branches/develop/externs $(APP_ENGINE_THIRD_PARTY)/blockly/externs
-	svn checkout https://github.com/google/blockly/branches/develop/generators $(APP_ENGINE_THIRD_PARTY)/blockly/generators
-	svn checkout https://github.com/google/blockly/branches/develop/media $(APP_ENGINE_THIRD_PARTY)/blockly/media
-	svn checkout https://github.com/google/blockly/branches/develop/msg $(APP_ENGINE_THIRD_PARTY)/blockly/msg
+	svn checkout https://github.com/google/blockly/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
+	svn checkout https://github.com/google/blockly/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
+	svn checkout https://github.com/google/blockly/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
+	svn checkout https://github.com/google/blockly/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
+	svn checkout https://github.com/google/blockly/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
+	svn checkout https://github.com/google/blockly/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
 	svn checkout https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
 	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
