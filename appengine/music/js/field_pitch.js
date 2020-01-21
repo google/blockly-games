@@ -75,9 +75,8 @@ CustomFields.FieldPitch.prototype.showEditor_ = function() {
   var editor = this.dropdownCreate_();
   Blockly.DropDownDiv.getContentDiv().appendChild(editor);
 
-  var border = this.sourceBlock_.getColourBorder();
-  border = border.colourBorder || border.colourLight;
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(), border);
+  Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(),
+      this.sourceBlock_.style.colourTertiary);
 
   Blockly.DropDownDiv.showPositionedByField(
       this, this.dropdownDispose_.bind(this));
