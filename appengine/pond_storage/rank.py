@@ -59,7 +59,7 @@ def create_ranking_match():
       LeaderboardEntry.query().order(-LeaderboardEntry.instability))
   for entry in unstable_entries_query:
     if not entry.has_duck:
-      move_down_dummy_entry(entry)
+      try_move_down_dummy_entry(entry)
       continue
     # Check if it exists in a current match request.
     if not MatchRequest.contains_entry(entry.key):
@@ -81,7 +81,7 @@ def create_ranking_match():
   leaderboard_query = leaderboard.get_entries_query()
   for entry in leaderboard_query:
     if not entry.has_duck:
-      move_down_dummy_entry(entry)
+      try_move_down_dummy_entry(entry)
       continue
     if (entry != unstable_leaderboard_entry and
         not MatchRequest.contains_entry(entry.key)):
@@ -103,13 +103,13 @@ def create_ranking_match():
   # 5. Return match request information.
   return {'duck_list': duck_list, 'match_key': match_key.urlsafe()}
 
-def move_down_dummy_entry(dummy_entry, retries=5):
+def try_move_down_dummy_entry(dummy_entry):
   """Tries to move dummy entry down and/or deletes it if it is at bottom."""
   @ndb.transactional(xg=True)
   def swap_with_lower(lower_entry_key):
     lower_entry = lower_entry_key.get()
     # First confirm that lower entry rank is still farther down in leaderboard.
-    if not lower_entry and lower_entry.ranking > dummy_entry.key.get().ranking:
+    if not lower_entry or lower_entry.ranking < dummy_entry.key.get().ranking:
       return False
     return swap_order([lower_entry_key, dummy_entry.key])
 
@@ -117,18 +117,15 @@ def move_down_dummy_entry(dummy_entry, retries=5):
   if leaderboard.delete_if_last_entry(dummy_entry.key):
     return
   # Try to move down.
-  attempts = 0
-  while attempts < retries:
-    lower_entry_keys = (
-        leaderboard.get_entries_query().filter(
-            LeaderboardEntry.ranking > dummy_entry.key.get().ranking,
-            LeaderboardEntry.has_duck == True  # Ignore other dummy entries
-        )
-          .fetch(1, keys_only=True))
-    if lower_entry_keys:
-      if swap_with_lower(lower_entry_keys[0]):
-        break
-    attempts += 1
+  lower_entry_keys = (
+      leaderboard.get_entries_query().filter(
+          LeaderboardEntry.ranking > dummy_entry.key.get().ranking,
+          LeaderboardEntry.has_duck == True  # Ignore other dummy entries
+      )
+        .fetch(5, keys_only=True))
+  for lower_entry_key in lower_entry_keys:
+    if swap_with_lower(lower_entry_key):
+      break
 
 def cleanup_expired_matches():
   """Deletes expired pending match requests in datastore."""
