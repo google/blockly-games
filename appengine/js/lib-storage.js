@@ -28,21 +28,21 @@ goog.require('BlocklyGames');
 
 /**
  * Function to get the code from Blockly or from the JS editor.
- * @type Function
+ * @type Function()
  */
 BlocklyStorage.getCode = null;
 
 /**
  * Function to set the code to Blockly or to the JS editor.
- * @type Function
+ * @type Function(string)
  */
 BlocklyStorage.setCode = null;
 
 /**
- * Function to start monitoring for changes in Blockly or in the JS editor.
- * @type Function
+ * If code recorded code changes, delete the URL hash.
+ * @type ?string
  */
-BlocklyStorage.monitorChanges = null;
+BlocklyStorage.startCode = null;
 
 /**
  * Save blocks or JavaScript to database and return a link containing the key.
@@ -91,7 +91,7 @@ BlocklyStorage.makeRequest =
     } else if (opt_onFailure) {
       opt_onFailure.call(this);
     } else {
-      BlocklyStorage.alert(BlocklyGames.getMsg('Games_httpRequestError') +
+      BlocklyStorage.alert_(BlocklyGames.getMsg('Games_httpRequestError') +
           '\nXHR status: ' + this.status);
     }
     BlocklyStorage.xhrs_[url] = null;
@@ -113,9 +113,9 @@ BlocklyStorage.makeRequest =
 BlocklyStorage.handleLinkResponse_ = function() {
   var data = this.responseText.trim();
   window.location.hash = data;
-  BlocklyStorage.alert(BlocklyGames.getMsg('Games_linkAlert').replace('%1',
+  BlocklyStorage.alert_(BlocklyGames.getMsg('Games_linkAlert').replace('%1',
       window.location.href));
-  BlocklyStorage.monitorChanges();
+  BlocklyStorage.startCode = BlocklyStorage.getCode();
 };
 
 /**
@@ -126,19 +126,20 @@ BlocklyStorage.handleLinkResponse_ = function() {
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
   var data = this.responseText.trim();
   if (!data.length) {
-    BlocklyStorage.alert(BlocklyGames.getMsg('Games_hashError').replace('%1',
+    BlocklyStorage.alert_(BlocklyGames.getMsg('Games_hashError').replace('%1',
         window.location.hash));
   } else {
     BlocklyStorage.setCode(data);
   }
-  BlocklyStorage.monitorChanges();
+  BlocklyStorage.startCode = BlocklyStorage.getCode();
 };
 
 /**
  * Present a text message modally to the user.
  * @param {string} message Text to alert.
+ * @private
  */
-BlocklyStorage.alert = function(message) {
+BlocklyStorage.alert_ = function(message) {
   // Try to use a nice dialog.
   // Fall back to browser's alert() if BlocklyDialogs is not part of build.
   if (typeof BlocklyDialogs === 'object') {

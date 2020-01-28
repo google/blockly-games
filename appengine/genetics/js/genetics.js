@@ -151,7 +151,7 @@ Genetics.init = function() {
   window.addEventListener('scroll', function() {
     onresize(null);
     if (blocklyDiv) {
-      Blockly.svgResize(BlocklyGames.workspace);
+      Blockly.svgResize(BlocklyInterface.workspace);
     }
   });
   window.addEventListener('resize', onresize);
@@ -228,18 +228,12 @@ Genetics.init = function() {
 
   if (blocklyDiv) {
     // Inject Blockly.
-    var toolbox = document.getElementById('toolbox');
-    BlocklyGames.workspace = Blockly.inject('blockly',
-        {
-          'media': 'third-party/blockly/media/',
-          'oneBasedIndex': false,
-          'rtl': false,
-          'toolbox': toolbox,
-          'trashcan': true,
-          'zoom': {'controls': true, 'wheel': true}
-        });
+    BlocklyInterface.injectBlockly(
+        {'rtl': false,
+         'trashcan': true,
+         'zoom': {'controls': true, 'wheel': true}});
     // Disable blocks not within a function.
-    BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+    BlocklyInterface.workspace.addChangeListener(Blockly.Events.disableOrphans);
 
     var defaultXml;
     switch (BlocklyGames.LEVEL) {
@@ -418,9 +412,9 @@ Genetics.init = function() {
         '</xml>'].join('');
     var xml = Blockly.Xml.textToDom(defaultXml);
     // Clear the workspace to avoid merge.
-    BlocklyGames.workspace.clear();
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-    BlocklyGames.workspace.clearUndo();
+    BlocklyInterface.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    BlocklyInterface.workspace.clearUndo();
   }
 
   BlocklyInterface.blocksDisabled = blocklyDiv == null;
@@ -1077,7 +1071,7 @@ Genetics.changeTab = function(index) {
   }
   // Synchronize the JS editor.
   if (index == JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+    var code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
     Genetics.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
     Genetics.ignoreEditorChanges_ = false;
@@ -1096,12 +1090,12 @@ Genetics.editorChanged = function() {
   if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
-      BlocklyGames.workspace.clear();
+      BlocklyInterface.workspace.clear();
       Blockly.utils.dom.removeClass(Genetics.editorTabs[0], 'tab-disabled');
       BlocklyInterface.blocksDisabled = false;
     }
   } else {
-    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+    if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link between blocks and JS.
       Blockly.utils.dom.addClass(Genetics.editorTabs[0], 'tab-disabled');

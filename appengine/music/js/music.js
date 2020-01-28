@@ -135,26 +135,22 @@ Music.init = function() {
   };
   window.addEventListener('scroll', function() {
       onresize(null);
-      Blockly.svgResize(BlocklyGames.workspace);
+      Blockly.svgResize(BlocklyInterface.workspace);
     });
   window.addEventListener('resize', onresize);
   onresize(null);
   // Scale the workspace so level 1 = 1.0, and level 10 = 0.7.
   var scale = 1.03333 - 0.0333333 * BlocklyGames.LEVEL;
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
+  BlocklyInterface.injectBlockly(
       {'disable': false,
-       'media': 'third-party/blockly/media/',
-       'oneBasedIndex': false,
        'rtl': rtl,
-       'toolbox': toolbox,
        'zoom': {
           'maxScale': 2,
           'controls': true,
           'wheel': true,
           'startScale': scale}});
-  BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
-  BlocklyGames.workspace.addChangeListener(Music.disableExtraStarts);
+  BlocklyInterface.workspace.addChangeListener(Blockly.Events.disableOrphans);
+  BlocklyInterface.workspace.addChangeListener(Music.disableExtraStarts);
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('play,rest,setInstrument,' +
       'start0,start1,start2,start3,start4,start5,start6,start7,start8,start9');
@@ -178,7 +174,7 @@ Music.init = function() {
   // After level 6 the user can create new start blocks.
   // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
-    var blocks = BlocklyGames.workspace.getTopBlocks(false);
+    var blocks = BlocklyInterface.workspace.getTopBlocks(false);
     for(var i = 0, block; (block = blocks[i]); i++) {
       block.setDeletable(true);
     }
@@ -457,7 +453,7 @@ Music.disableExtraStarts = function(e) {
 
   if (e instanceof Blockly.Events.Create) {
     var startBlocks = [];
-    var blocks = BlocklyGames.workspace.getTopBlocks(false);
+    var blocks = BlocklyInterface.workspace.getTopBlocks(false);
     for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'music_start' && !block.isInsertionMarker()) {
         startBlocks.push(block);
@@ -476,7 +472,7 @@ Music.disableExtraStarts = function(e) {
     if (maxStarts <= startBlocks.length) {
       // Disable start block in toolbox.
       toolboxStart.setAttribute('disabled', 'true');
-      BlocklyGames.workspace.updateToolbox(toolbox);
+      BlocklyInterface.workspace.updateToolbox(toolbox);
       Music.startCount = maxStarts;
     } else {
       Music.startCount = startBlocks.length;
@@ -484,7 +480,7 @@ Music.disableExtraStarts = function(e) {
   } else if (e instanceof Blockly.Events.Delete) {
     var startBlocksEnabled = [];
     var startBlocksDisabled = [];
-    var blocks = BlocklyGames.workspace.getTopBlocks(true);
+    var blocks = BlocklyInterface.workspace.getTopBlocks(true);
     for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'music_start') {
         (block.isEnabled() ? startBlocksEnabled : startBlocksDisabled)
@@ -501,7 +497,7 @@ Music.disableExtraStarts = function(e) {
     if (maxStarts > startBlocksEnabled.length) {
       // Enable start block in toolbox.
       toolboxStart.setAttribute('disabled', 'false');
-      BlocklyGames.workspace.updateToolbox(toolbox);
+      BlocklyInterface.workspace.updateToolbox(toolbox);
     }
     Music.startCount = startBlocksEnabled.length;
   }
@@ -564,7 +560,7 @@ Music.resetButtonClick = function(opt_e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  BlocklyGames.workspace.highlightBlock(null);
+  BlocklyInterface.workspace.highlightBlock(null);
   Music.reset();
 };
 
@@ -660,7 +656,7 @@ Music.tick = function() {
       }
     }
     document.getElementById('spinner').style.visibility = 'hidden';
-    BlocklyGames.workspace.highlightBlock(null);
+    BlocklyInterface.workspace.highlightBlock(null);
     // Playback complete; allow the user to submit this music to gallery.
     Music.canSubmit = true;
   } else {
@@ -996,7 +992,7 @@ Music.checkAnswer = function() {
     undefined  // Level 10.
   ][BlocklyGames.LEVEL];
   var blockCount = 0;
-  var blocks = BlocklyGames.workspace.getAllBlocks();
+  var blocks = BlocklyInterface.workspace.getAllBlocks();
   for (var i = 0, block; (block = blocks[i]); i++) {
     if (block.type != 'music_instrument' &&
         block.isEnabled() && !block.getInheritedDisabled()) {

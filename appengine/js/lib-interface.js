@@ -31,6 +31,12 @@ goog.require('BlocklyStorage');
 
 
 /**
+ * Blockly's main workspace.
+ * @type Blockly.WorkspaceSvg
+ */
+BlocklyInterface.workspace = null;
+
+/**
  * Text editor (used as an alternative to Blockly in advanced apps).
  * @type Object
  */
@@ -52,10 +58,9 @@ BlocklyInterface.init = function() {
   var linkButton = document.getElementById('linkButton');
   if (linkButton) {
     if (!BlocklyGames.IS_HTML) {
-      BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
       BlocklyStorage.getCode = BlocklyInterface.getCode;
       BlocklyStorage.setCode = BlocklyInterface.setCode;
-      BlocklyStorage.monitorChanges = BlocklyInterface.monitorChanges;
+      BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
     } else {
       linkButton.style.display = 'none';
     }
@@ -122,9 +127,9 @@ BlocklyInterface.setCode = function(code, opt_setJSOverride) {
     // Blockly editor.
     var xml = Blockly.Xml.textToDom(code);
     // Clear the workspace to avoid merge.
-    BlocklyGames.workspace.clear();
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-    BlocklyGames.workspace.clearUndo();
+    BlocklyInterface.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    BlocklyInterface.workspace.clearUndo();
   }
 };
 
@@ -153,7 +158,7 @@ BlocklyInterface.getJsCode = function() {
     return BlocklyInterface.editor['getValue']();
   }
   // Blockly editor.
-  return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  return Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
 };
 
 /**
@@ -161,10 +166,10 @@ BlocklyInterface.getJsCode = function() {
  * @return {string} XML.
  */
 BlocklyInterface.getXml = function() {
-  var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace, true);
+  var xml = Blockly.Xml.workspaceToDom(BlocklyInterface.workspace, true);
   // Remove x/y coordinates from XML if there's only one block stack.
   // There's no reason to store this, removing it helps with anonymity.
-  if (BlocklyGames.workspace.getTopBlocks(false).length == 1 &&
+  if (BlocklyInterface.workspace.getTopBlocks(false).length == 1 &&
       xml.querySelector) {
     var block = xml.querySelector('block');
     if (block) {
@@ -176,27 +181,31 @@ BlocklyInterface.getXml = function() {
 };
 
 /**
- * Return the main workspace.
- * @return {Blockly.WorkspaceSvg}
+ * Monitor the block or JS editor.  If a change is made that changes the code,
+ * clear the key from the URL.
  */
-BlocklyInterface.getWorkspace = function() {
-  return BlocklyGames.workspace;
+BlocklyInterface.codeChanged = function() {
+  if (typeof BlocklyStorage == 'object' && BlocklyStorage.startCode !== null) {
+    if (BlocklyStorage.startCode != BlocklyInterface.getCode()) {
+      window.location.hash = '';
+      BlocklyStorage.startCode = null;
+    }
+  }
 };
 
 /**
- * Start monitoring the workspace.  If a change is made that changes the XML,
- * clear the key from the URL.  Stop monitoring the workspace once such a
- * change is detected.
+ * Inject Blockly workspace into page.
+ * @param {!Object} options Dictionary of Blockly options.
  */
-BlocklyInterface.monitorChanges = function() {
-  var startCode = BlocklyInterface.getCode();
-  function change() {
-    if (startCode != BlocklyInterface.getCode()) {
-      window.location.hash = '';
-      BlocklyInterface.getWorkspace().removeChangeListener(bindData);
-    }
+BlocklyInterface.injectBlockly = function(options) {
+  var toolbox = document.getElementById('toolbox');
+  if (toolbox) {
+    options['toolbox'] = toolbox;
   }
-  var bindData = BlocklyInterface.getWorkspace().addChangeListener(change);
+  options['media'] = 'third-party/blockly/media/';
+  options['oneBasedIndex'] = false;
+  BlocklyInterface.workspace = Blockly.inject('blockly', options);
+  BlocklyInterface.workspace.addChangeListener(BlocklyInterface.codeChanged);
 };
 
 /**
@@ -265,7 +274,7 @@ BlocklyInterface.highlight = function(id, opt_state) {
       id = m[1];
     }
   }
-  BlocklyGames.workspace.highlightBlock(id, opt_state);
+  BlocklyInterface.workspace.highlightBlock(id, opt_state);
 };
 
 /**

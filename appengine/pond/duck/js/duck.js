@@ -114,7 +114,7 @@ Pond.Duck.init = function () {
   };
   window.addEventListener('scroll', function () {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    Blockly.svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize(null);
@@ -127,16 +127,10 @@ Pond.Duck.init = function () {
   BlocklyAce.importBabel();
 
   // Inject Blockly.
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {
-        'media': 'third-party/blockly/media/',
-        'oneBasedIndex': false,
-        'rtl': false,
-        'toolbox': toolbox,
-        'trashcan': true,
-        'zoom': {'controls': true, 'wheel': true}
-      });
+  BlocklyInterface.injectBlockly(
+      {'rtl': false,
+       'trashcan': true,
+       'zoom': {'controls': true, 'wheel': true}});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,getX,loc_y,getY,');
 };
@@ -283,11 +277,11 @@ Pond.Duck.editorChanged = function () {
   if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
-      BlocklyGames.workspace.clear();
+      BlocklyInterface.workspace.clear();
       Pond.Duck.setBlocksEnabled(true);
     }
   } else {
-    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+    if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link between blocks and JS.
       Pond.Duck.setBlocksEnabled(false);

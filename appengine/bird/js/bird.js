@@ -379,25 +379,22 @@ Bird.init = function() {
   };
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    Blockly.svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'rtl': rtl,
-       'toolbox': toolbox,
+  BlocklyInterface.injectBlockly(
+      {'rtl': rtl,
        'trashcan': true});
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
   if (BlocklyGames.LEVEL > 1) {
-    BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+    BlocklyInterface.workspace.addChangeListener(Blockly.Events.disableOrphans);
   }
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');
@@ -422,7 +419,7 @@ Bird.init = function() {
   // Open interactive help.  But wait 5 seconds for the
   // user to think a bit before they are told what to do.
   setTimeout(function() {
-    BlocklyGames.workspace.addChangeListener(function() {Bird.levelHelp();});
+    BlocklyInterface.workspace.addChangeListener(function() {Bird.levelHelp();});
     Bird.levelHelp();
   }, 5000);
   if (BlocklyGames.LEVEL > 8) {
@@ -447,7 +444,7 @@ Bird.mutatorHelpPid_ = 0;
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
-  if (BlocklyGames.workspace.isDragging()) {
+  if (BlocklyInterface.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
   } else if (BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
@@ -457,8 +454,8 @@ Bird.levelHelp = function() {
   }
   var rtl = BlocklyGames.isRtl();
   var userBlocks = Blockly.Xml.domToText(
-      Blockly.Xml.workspaceToDom(BlocklyGames.workspace));
-  var toolbar = BlocklyGames.workspace.flyout_.workspace_.getTopBlocks(true);
+      Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
+  var toolbar = BlocklyInterface.workspace.flyout_.workspace_.getTopBlocks(true);
   var content = document.getElementById('dialogHelp');
   var origin = null;
   var style = null;
@@ -468,7 +465,7 @@ Bird.levelHelp = function() {
         !Blockly.WidgetDiv.isVisible()) {
       style = {'width': '370px', 'top': '140px'};
       style[rtl ? 'right' : 'left'] = '215px';
-      var blocks = BlocklyGames.workspace.getTopBlocks(true);
+      var blocks = BlocklyInterface.workspace.getTopBlocks(true);
       if (blocks.length) {
         origin = blocks[0].getSvgRoot();
       } else {
@@ -493,7 +490,7 @@ Bird.levelHelp = function() {
       Bird.mutatorHelpPid_ = setInterval(Bird.levelHelp, 100);
     }
     if (userBlocks.indexOf('mutation else') == -1) {
-      var blocks = BlocklyGames.workspace.getTopBlocks(false);
+      var blocks = BlocklyInterface.workspace.getTopBlocks(false);
       for (var i = 0, block; (block = blocks[i]); i++) {
         if (block.type == 'controls_if') {
           break;
@@ -516,7 +513,7 @@ Bird.levelHelp = function() {
     }
   } else if (BlocklyGames.LEVEL == 6) {
     if (userBlocks.indexOf('mutation') == -1) {
-      var blocks = BlocklyGames.workspace.getTopBlocks(false);
+      var blocks = BlocklyInterface.workspace.getTopBlocks(false);
       for (var i = 0, block; (block = blocks[i]); i++) {
         if (block.type == 'controls_if') {
           break;
@@ -623,7 +620,7 @@ Bird.resetButtonClick = function(e) {
   var runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
-  BlocklyGames.workspace.highlightBlock(null);
+  BlocklyInterface.workspace.highlightBlock(null);
   Bird.reset(false);
 };
 
@@ -760,7 +757,7 @@ Bird.animate = function() {
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] == 'play') {
-    BlocklyGames.workspace.getAudioManager().play(action[1], 0.5);
+    BlocklyInterface.workspace.getAudioManager().play(action[1], 0.5);
   }
 
   Bird.pidList.push(setTimeout(Bird.animate, Bird.stepSpeed * 5));

@@ -214,7 +214,7 @@ class Gen_compressed(threading.Thread):
       '-jar', 'third-party-downloads/closure-compiler.jar',
       '--generate_exports',
       '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
-      '--dependency_mode=STRICT',
+      '--dependency_mode=PRUNE',
       '--externs', 'externs/gviz-externs.js',
       '--externs', 'externs/interpreter-externs.js',
       '--externs', 'externs/prettify-externs.js',
