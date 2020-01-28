@@ -34,7 +34,7 @@ goog.require('Pond.Visualization');
 
 /**
  * Optional callback function for when a game ends.
- * @type function(number)
+ * @type Function(number)
  */
 Pond.endBattle = null;
 

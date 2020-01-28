@@ -244,7 +244,7 @@
 	"Music.helpText2a": "Una 'función' te permite agrupar varios bloques juntos, y poder correrlos más de una vez.",
 	"Music.helpText2b": "Crear una función que toque las cuatro primeras notas de 'Fray Santiago'. Corre la función dos veces. No agregues ningun bloque de nota nuevo.",
 	"Music.helpText3": "Crea una segunda función para la siguiente parte de 'Fray Santiago'. La última nota es larga.",
-	"Music.helpText4": "Crea una tercera función para la siguiente parte de 'Fray Santiago'. Las primeras cuatro notas son cortas.<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "Crea una tercera función para la siguiente parte de 'Fray Santiago'. Las primeras cuatro notas son cortas.",
 	"Music.helpText5": "Completa el tema completo de 'Fray Santiago'.",
 	"Music.helpText6a": "Este nuevo bloque te permite cambiar a otro instrumento.",
 	"Music.helpText6b": "Reproduce tu tono con un violín.",

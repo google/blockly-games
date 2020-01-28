@@ -148,13 +148,19 @@
 {template .levelLinks private="true"}
   {sp}&nbsp;{sp}
   {for $i in range(1, $ij.maxLevel + 1)}
+    {let $url}
+      ?lang={$ij.lang}&level={$i}
+      {if $suffix}
+        &{$suffix}
+      {/if}
+    {/let}
     {sp}
     {if $i == $ij.level}
       <span class="level_number level_done" id="level{$i}">{$i}</span>
     {elseif $i == $ij.maxLevel}
-      <a class="level_number" id="level{$i}" href="?lang={$ij.lang}&level={$i}{$suffix}">{$i}</a>
+      <a class="level_number" id="level{$i}" href="{$url}">{$i}</a>
     {else}
-      <a class="level_dot" id="level{$i}" href="?lang={$ij.lang}&level={$i}{$suffix}"></a>
+      <a class="level_dot" id="level{$i}" href="{$url}"></a>
     {/if}
   {/for}
 {/template}
