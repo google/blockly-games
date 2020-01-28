@@ -93,7 +93,7 @@ Movie.init = function() {
   };
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    Blockly.svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize(null);
@@ -106,12 +106,8 @@ Movie.init = function() {
          '#ffffff', '#999999', '#000000'];
   }
 
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'oneBasedIndex': false,
-       'rtl': rtl,
-       'toolbox': toolbox,
+  BlocklyInterface.injectBlockly(
+      {'rtl': rtl,
        'trashcan': true,
        'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
            {'controls': true, 'wheel': true} : null});
@@ -140,7 +136,7 @@ Movie.init = function() {
   setTimeout(renderRemainingAnswers, 1);
   Movie.renderAxies_();
   Movie.display();
-  BlocklyGames.workspace.addChangeListener(Movie.display);
+  BlocklyInterface.workspace.addChangeListener(Movie.display);
 
   // Initialize the scrubber.
   var scrubberSvg = document.getElementById('scrubber');
@@ -150,7 +146,7 @@ Movie.init = function() {
   }
 
   // Preload the win sound.
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   BlocklyInterface.importInterpreter();
@@ -569,7 +565,7 @@ Movie.checkAnswers = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      BlocklyGames.workspace.getAudioManager().play('win', 0.5);
+      BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   }
@@ -579,7 +575,7 @@ Movie.checkAnswers = function() {
  * Send an image of the canvas to gallery.
  */
 Movie.submitToGallery = function() {
-  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
+  var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   var code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));

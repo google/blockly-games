@@ -250,7 +250,7 @@
 	"Music.helpText2a": "一个“函数”允许您将块组合在一起，然后多次运行它们。",
 	"Music.helpText2b": "创造一个函数来演奏乐曲“雅克兄弟”的前四个音符。运行这个函数两遍。不要增加新的音符块。",
 	"Music.helpText3": "为乐曲“雅克兄弟”的下一部分创建第二个函数。最后一个音符会更长一点。",
-	"Music.helpText4": "为乐曲“雅克兄弟”的下一部分创建第三个函数。前四个音符更短。<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "为乐曲“雅克兄弟”的下一部分创建第三个函数。前四个音符更短。",
 	"Music.helpText5": "完成“雅克兄弟”的整个曲子。",
 	"Music.helpText6a": "这个新块让您能够改成另一乐器。",
 	"Music.helpText6b": "用小提琴来演奏您的曲子。",
