@@ -88,7 +88,7 @@ Pond.Duck.Online.init = function() {
     // Show Blockly editor tab.
     Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);
   }
-  BlocklyGames.workspace.addChangeListener(function(){
+  BlocklyInterface.workspace.addChangeListener(function(){
     var saveBtn = document.getElementById('saveButton');
     if (saveBtn) {
       saveBtn.disabled = false;
@@ -158,6 +158,7 @@ Pond.Duck.Online.renderDuckInfo = function() {
           Pond.Duck.Datastore.setPublished(
               Pond.Duck.Online.duckKey, false, Pond.Duck.Online.renderDuckInfo);
         });
+    document.getElementById('getOpponents').disabled = false;
   } else {
     BlocklyGames.bindClick(
         'publishButton',
@@ -167,6 +168,7 @@ Pond.Duck.Online.renderDuckInfo = function() {
               Pond.Duck.Online.duckKey, true, Pond.Duck.Online.renderDuckInfo);
           }
         });
+    document.getElementById('getOpponents').disabled = true;
   }
   BlocklyGames.bindClick(
       'deleteButton',
