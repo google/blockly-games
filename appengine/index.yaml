@@ -21,3 +21,9 @@ indexes:
   properties:
   - name: public
   - name: created
+
+- kind: LeaderboardEntry
+  properties:
+  - name: has_duck
+  - name: leaderboard_key
+  - name: ranking

@@ -53,16 +53,19 @@ def create_ranking_match():
             js: The javascript code for the duck associated with that entry
     Or None if no valid match can be created.
   """
-  # TODO handle dummy entries.
   # 1. Find the entry with the highest instability not in a match request.
   unstable_leaderboard_entry = None
   unstable_entries_query = (
       LeaderboardEntry.query().order(-LeaderboardEntry.instability))
   for entry in unstable_entries_query:
-    # Check if it exists in a current match request (ignoring dummy entries)
-    if not MatchRequest.contains_entry(entry.key) and not entry.is_dummy:
+    if not entry.has_duck:
+      try_move_down_dummy_entry(entry)
+      continue
+    # Check if it exists in a current match request.
+    if not MatchRequest.contains_entry(entry.key):
       unstable_leaderboard_entry = entry
       break
+
   if not unstable_leaderboard_entry:
     logging.info('No ducks available for a match.')
     return None
@@ -77,7 +80,10 @@ def create_ranking_match():
   leaderboard = unstable_leaderboard_entry.leaderboard_key.get()
   leaderboard_query = leaderboard.get_entries_query()
   for entry in leaderboard_query:
-    if (entry != unstable_leaderboard_entry and not entry.is_dummy and
+    if not entry.has_duck:
+      try_move_down_dummy_entry(entry)
+      continue
+    if (entry != unstable_leaderboard_entry and
         not MatchRequest.contains_entry(entry.key)):
       entry_keys.append(entry.key)
       duck_list.append({
@@ -93,10 +99,33 @@ def create_ranking_match():
   # 4. Store match request in datastore.
   match = MatchRequest(entry_keys=entry_keys)
   match_key = match.put()
-  match_key_urlsafe = match_key.urlsafe()
-  logging.info('Created match request. matchKey:%s', match_key_urlsafe)
+  logging.info('Created match request. matchKey: %s', match_key)
   # 5. Return match request information.
-  return {'duck_list': duck_list, 'match_key': match_key_urlsafe}
+  return {'duck_list': duck_list, 'match_key': match_key.urlsafe()}
+
+def try_move_down_dummy_entry(dummy_entry):
+  """Tries to move dummy entry down and/or deletes it if it is at bottom."""
+  @ndb.transactional(xg=True)
+  def swap_with_lower(lower_entry_key):
+    lower_entry = lower_entry_key.get()
+    # First confirm that lower entry rank is still farther down in leaderboard.
+    if not lower_entry or lower_entry.ranking < dummy_entry.key.get().ranking:
+      return False
+    return swap_order([lower_entry_key, dummy_entry.key])
+
+  leaderboard = dummy_entry.leaderboard_key.get()
+  if leaderboard.delete_if_last_entry(dummy_entry.key):
+    return
+  # Try to move down.
+  lower_entry_keys = (
+      leaderboard.get_entries_query().filter(
+          LeaderboardEntry.ranking > dummy_entry.key.get().ranking,
+          LeaderboardEntry.has_duck == True  # Ignore other dummy entries
+      )
+        .fetch(5, keys_only=True))
+  for lower_entry_key in lower_entry_keys:
+    if swap_with_lower(lower_entry_key):
+      break
 
 def cleanup_expired_matches():
   """Deletes expired pending match requests in datastore."""
@@ -105,35 +134,41 @@ def cleanup_expired_matches():
       MatchRequest.expiry_time < now).fetch(keys_only=True)
   for request_key in expired_requests_keys:
     request_key.delete()
-    logging.info('Cleaned up expired match with key:%s', request_key.urlsafe())
+    logging.info('Cleaned up expired match with key :%s', request_key.urlsafe())
 
 def validate_match_result(match_key, entry_keys_urlsafe):
   """Returns whether the given match result combination is valid."""
   if match_key.kind() != 'MatchRequest':
-    logging.error('Provided matchKey:%s of unexpected kind: %s',
+    logging.error('Provided matchKey: %s of unexpected kind: %s',
                   match_key, match_key.kind())
     return False
   match_request = match_key.get()
   if not match_request:
-    logging.error('Provided matchKey:%s not found', match_key)
+    logging.error('Provided matchKey: %s not found', match_key)
     return False
   request_keys_urlsafe = {key.urlsafe() for key in match_request.entry_keys}
   return request_keys_urlsafe == set(entry_keys_urlsafe)
 
 @ndb.transactional(xg=True)
-def apply_match_result(entry_keys_urlsafe):
-  """Applies match result if possible and returns True on success."""
+def swap_order(entry_keys):
+  """Swaps rankings of provided entries based on provided order.
+
+  Args:
+    entry_keys: A list of ndb.Key objects for entries to swap.
+
+  Returns:
+    True on success, False if any entries are not found.
+  """
   leaderboard_entries = []
   rankings = []
   # Extract the ranking information.
-  for entry_key_urlsafe in entry_keys_urlsafe:
-    entry_key = ndb.Key(urlsafe=entry_key_urlsafe)
-    entry = entry_key.get()
+  for key in entry_keys:
+    entry = key.get()
     if entry:
       leaderboard_entries.append(entry)
       rankings.append(entry.ranking)
     else:
-      logging.error('Entry not found. entryKey:%s', entry_key)
+      logging.error('Entry not found. entryKey: %s', key)
       return False
   # Apply new duck rankings.
   rankings.sort()
@@ -141,30 +176,41 @@ def apply_match_result(entry_keys_urlsafe):
     entry.update_ranking(rankings[i])
   return True
 
-def process_match_result(match_key, entry_keys_urlsafe):
-  """Validates and applies the given match results, returns True on success."""
+def process_match_result(match_key_urlsafe, entry_keys_urlsafe):
+  """Validates and applies the given match results, returns True on success.
+
+  Args:
+    match_key_urlsafe: A urlsafe string representation of MatchRequest key.
+    entry_keys_urlsafe: A list of urlsafe string representations of
+        LeaderboardEntry keys.
+
+  Returns:
+    True on success, False otherwise.
+  """
+  match_key = ndb.Key(urlsafe=match_key_urlsafe)
+  entry_keys = [ndb.Key(urlsafe=url) for url in entry_keys_urlsafe]
+
   if validate_match_result(match_key, entry_keys_urlsafe):
     match_key.delete()
-    logging.info('Deleted match request. matchKey:%s', match_key_urlsafe)
-    if apply_match_result(entry_keys_urlsafe):
-      logging.info('Applied match results. matchKey:%s', match_key_urlsafe)
+    logging.info('Deleted match request. matchKey: %s', match_key)
+    if swap_order(entry_keys):
+      logging.info('Applied match results. matchKey: %s', match_key)
       return True
     else:
       logging.error(
-          'Processed match results, not applied. matchKey:%s entryKeys:%s',
-          match_key_urlsafe, entry_keys_urlsafe)
+          'Processed match results, not applied. matchKey: %s entryKeys:%s',
+          match_key, entry_keys)
   else:
     logging.error(
-        'No match request found for given result. matchKey:%s entryKeys:%s',
-        match_key_urlsafe, entry_keys_urlsafe)
+        'No match request found for given result. matchKey: %s entryKeys:%s',
+        match_key, entry_keys)
   return False
 
 forms = cgi.FieldStorage()
 if forms.has_key('matchKey') and forms.has_key('entryKeys'):
   match_key_urlsafe = forms['matchKey'].value
-  match_key = ndb.Key(urlsafe=match_key_urlsafe)
   entry_keys_urlsafe = forms['entryKeys'].value.split(',')
-  if process_match_result(match_key, entry_keys_urlsafe):
+  if process_match_result(match_key_urlsafe, entry_keys_urlsafe):
     print('Status: 204')
   else:
     print('Status: 400')
