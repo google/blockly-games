@@ -280,6 +280,10 @@ Pond.Duck.editorChanged = function () {
       BlocklyInterface.workspace.clear();
       Pond.Duck.setBlocksEnabled(true);
     }
+    var saveBtn = document.getElementById('saveButton');
+    if (saveBtn) {
+      saveBtn.disabled = false;
+    }
   } else {
     if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {

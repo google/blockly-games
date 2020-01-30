@@ -71,6 +71,10 @@ xml {
 }
 
 /* Buttons */
+button:disabled {
+  color: lightgray;
+}
+
 button {
   margin: 5px;
   padding: 10px;
