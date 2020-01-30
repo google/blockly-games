@@ -250,6 +250,13 @@ BlocklyGames.init = function() {
     }
   }
 
+  if (!BlocklyGames.IS_HTML) {
+    // Setup login button.
+    var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
+    BlocklyStorage.makeRequest('/login',
+        'dest_url=' + encodeURIComponent(destUrl), BlocklyGames.addLoginButton);
+  }
+
   // Highlight levels that have been completed.
   for (var i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
     var link = document.getElementById('level' + i);
