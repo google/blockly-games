@@ -143,6 +143,37 @@ def get_better_entry(user_entry, opponent_entries, leaderboard_size):
   # Better entry not found.
   return None
 
+def entries_to_duck_info(entries):
+  """Returns a list of extracted duck info.
+  Args:
+    entries: A list of LeaderboardEntry entities to extract duck info from.
+
+  Returns:
+    A list of dictionaries containing extracted duck information.
+    Example duck info dictionary:
+    {
+      'name': 'bob',
+      'duck_key': 'urlsafe duck key',
+      'code': {'js': 'some code', 'opt_xml': 'some xml'},
+      'published': 'true',
+    }
+  """
+  ducks = []
+  for entry in entries:
+    if entry.has_duck:
+      duck = entry.duck_key.get()
+      duck_info = get_duck_info(duck)
+    else:
+      # TODO: handle/filter dummy entries earlier.
+      duck_info = {
+          'name': "dummy",
+          'duck_key': 'aKey',
+          'code': {'js':'throw "dummy duck";'},
+          'publish':'true'
+      }
+    ducks.append(duck_info)
+  return ducks
+
 def get_opponents(user_entry, target_total):
   """Returns up to n optimal opponents for the provided entry.
 

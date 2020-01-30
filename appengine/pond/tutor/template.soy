@@ -35,10 +35,15 @@
     {param levelLinkSuffix}{/param}
     {param hasLinkButton: true /}
     {param hasHelpButton: true /}
+    {param hasDocButton: true /}
     {param farLeftHtml}{/param}
   {/call}
 
-  {call Pond.soy.visualization /}
+  {call Pond.soy.visualization}
+    {param appName}
+      {msg meaning="Games.pondTutor" desc="IBID"}Pond Tutor{/msg}
+    {/param}
+  {/call}
 
   {switch $ij.level}
     {case 1, 3, 5, 7, 9}

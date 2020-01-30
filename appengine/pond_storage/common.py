@@ -67,17 +67,33 @@ class LeaderboardEntry(ndb.Model):
   ranking = ndb.IntegerProperty(required=True)
   instability = ndb.FloatProperty(required=True)
   duck_key = ndb.KeyProperty(kind=Duck, indexed=False)
-  is_dummy = ndb.ComputedProperty(lambda self: self.duck_key is None)
+  has_duck = ndb.ComputedProperty(lambda self: self.duck_key is not None)
 
+  @ndb.transactional(xg=True)
   def clear_duck(self):
+    """Clears reference to duck or deletes entry if already at bottom."""
+    leaderboard = self.leaderboard_key.get()
+    if leaderboard.delete_if_last_entry(self.key):
+      return
+
     del self.duck_key
     self.put()
 
   def update_ranking(self, new_rank):
-    logging.info('RANK UPDATE: key=%s old_rank=%s new_rank=%s', self.key, self.ranking, new_rank)
+    """Updates ranking and instability of entry.
+
+    Updates the ranking and instability value of the entry. If the entry is a
+    dummy entry that has been moved to the bottom of the leaderboard, then it
+    deletes itself.
+    """
+    logging.info('RANK UPDATE: key=%s old_rank=%s new_rank=%s',
+                 self.key, self.ranking, new_rank)
     self.instability = (self.instability + abs(self.ranking - new_rank))/2
     self.ranking = new_rank
     self.put()
+    if not self.has_duck:
+      leaderboard = self.leaderboard_key.get()
+      leaderboard.delete_if_last_entry(self.key)
 
 class Leaderboard(ndb.Model):
   """Leaderboard information (source of truth for size of leaderboard)."""
@@ -93,6 +109,20 @@ class Leaderboard(ndb.Model):
     duck.put()
     self.put()
     return le_key
+
+  @ndb.transactional(xg=True)
+  def delete_if_last_entry(self, entry_key):
+    entry = entry_key.get()
+    if entry.leaderboard_key != self.key:
+      logging.error('Tried to remove entry from wrong leaderboard.')
+      return False
+    if entry.ranking == self.size:
+      self.size = self.size - 1
+      entry_key.delete()
+      logging.info('Cleaned up dummy entry with key :%s', entry_key)
+      self.put()
+      return True
+    return False
 
   def get_entries_query(self):
     return LeaderboardEntry.query(LeaderboardEntry.leaderboard_key == self.key)

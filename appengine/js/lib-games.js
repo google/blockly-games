@@ -183,7 +183,10 @@ BlocklyGames.isRtl = function() {
  * @return {boolean} True if login required, false otherwise.
  */
 BlocklyGames.isLoginRequired = function() {
-  return BlocklyGames.NAME.endsWith('-online');
+  if (BlocklyGames.NAME) {
+    return BlocklyGames.NAME.endsWith('-online');
+  }
+  return false;
 };
 
 /**
@@ -247,7 +250,7 @@ BlocklyGames.init = function() {
     }
   }
 
-  if (!BlocklyGames.IS_HTML) {
+  if (!BlocklyGames.IS_HTML && typeof BlocklyStorage === 'object') {
     // Setup login button.
     var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
     BlocklyStorage.makeRequest('/login',
