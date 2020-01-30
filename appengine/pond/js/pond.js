@@ -23,11 +23,11 @@
 
 goog.provide('Pond');
 
-goog.require('BlocklyDialogs');
 goog.require('Blockly.Comment');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.VerticalFlyout');
+goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
