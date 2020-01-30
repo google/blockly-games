@@ -23,6 +23,7 @@
 
 goog.provide('Pond');
 
+goog.require('BlocklyDialogs');
 goog.require('Blockly.Comment');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');

@@ -183,7 +183,10 @@ BlocklyGames.isRtl = function() {
  * @return {boolean} True if login required, false otherwise.
  */
 BlocklyGames.isLoginRequired = function() {
-  return BlocklyGames.NAME.endsWith('-online');
+  if (BlocklyGames.NAME) {
+    return BlocklyGames.NAME.endsWith('-online');
+  }
+  return false;
 };
 
 /**
@@ -245,13 +248,6 @@ BlocklyGames.init = function() {
       // No choices.  Hide the language menu.
       languageMenu.style.display = 'none';
     }
-  }
-
-  if (!BlocklyGames.IS_HTML) {
-    // Setup login button.
-    var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
-    BlocklyStorage.makeRequest('/login',
-        'dest_url=' + encodeURIComponent(destUrl), BlocklyGames.addLoginButton);
   }
 
   // Highlight levels that have been completed.

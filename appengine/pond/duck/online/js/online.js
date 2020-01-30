@@ -51,6 +51,11 @@ Pond.Duck.Online.NAME = null;
  * Initializes Ace and the pond.  Called on page load.
  */
 Pond.Duck.Online.init = function() {
+  if (BlocklyGames.isLoginRequired()) {
+    BlocklyStorage.makeRequest('/login',
+      'dest_url=' + encodeURIComponent(location.pathname), BlocklyGames.addLoginButton);
+  }
+
   // Render the Soy template.
   document.body.innerHTML = Pond.Duck.Online.soy.start({}, null,
       {
