@@ -250,7 +250,7 @@ BlocklyGames.init = function() {
     }
   }
 
-  if (!BlocklyGames.IS_HTML) {
+  if (!BlocklyGames.IS_HTML && typeof BlocklyStorage === 'object') {
     // Setup login button.
     var destUrl = BlocklyGames.isLoginRequired() ? '/' : location.pathname;
     BlocklyStorage.makeRequest('/login',
