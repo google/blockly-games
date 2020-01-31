@@ -204,7 +204,7 @@ def delete_duck(duck):
   duck.key.delete()
   return True
 
-def create_duck(name, opt_code):
+def create_duck(name, code=None):
   """Creates duck with the given attributes and returns key."""
   user_key = get_user_key(users.get_current_user())
   duck_query = Duck.query(ancestor=user_key)
@@ -214,7 +214,7 @@ def create_duck(name, opt_code):
     return None
   else:
     duck = Duck(name=name, parent=user_key)
-    if opt_code:
-      duck.code = opt_code
+    if code:
+      duck.code = code
     duck_key = duck.put()
     return duck_key
