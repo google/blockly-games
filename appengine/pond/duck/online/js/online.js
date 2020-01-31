@@ -60,8 +60,29 @@ Pond.Duck.Online.init = function() {
   Pond.Duck.TAB_INDEX.DUCK_INFO = 2;
   Pond.Duck.init();
 
-  BlocklyGames.bindClick('duckListButton', Pond.Duck.Online.openDuckList_);
+  Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
+  Pond.Duck.Online.disableInteraction(true);
+  // Hide Editors before content loads.
+  Pond.Duck.tabContent[Pond.Duck.TAB_INDEX.BLOCKLY]
+      .style.visibility = 'hidden';
+  Pond.Duck.tabContent[Pond.Duck.TAB_INDEX.JAVASCRIPT]
+      .style.visibility = 'hidden';
 
+  if (Pond.Duck.Online.duckKey) {
+    Pond.Duck.Datastore.getDuck(
+        Pond.Duck.Online.duckKey, Pond.Duck.Online.loadDuck,
+        function() {
+          var url = window.location.origin
+              + '/pond-duck-online?lang='+ BlocklyGames.LANG;
+          window.location = url;
+        });
+  } else {
+    document.getElementById('spinner').style.display = 'none';
+    Pond.reset();
+    Pond.Duck.Online.openDuckList_();
+  }
+
+  BlocklyGames.bindClick('duckListButton', Pond.Duck.Online.openDuckList_);
   BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
   BlocklyGames.bindClick('getOpponents', function() {
     Pond.Duck.Datastore.getOpponents(
@@ -71,24 +92,7 @@ Pond.Duck.Online.init = function() {
   BlocklyGames.bindClick('defaultOpponents', function() {
     Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   });
-
-  Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
-  if (Pond.Duck.Online.duckKey) {
-    Pond.Duck.Online.tempDisableEditors(true);
-    Pond.Duck.Datastore.getDuck(
-        Pond.Duck.Online.duckKey, Pond.Duck.Online.loadDuck);
-  } else {
-    Blockly.utils.dom.addClass(
-        Pond.Duck.tabs[Pond.Duck.TAB_INDEX.DUCK_INFO], 'tab-disabled');
-    document.getElementById('spinner').style.display = 'none';
-    // Load default code.
-    Pond.Duck.loadDefaultCode();
-    // Load opponents.
-    Pond.Duck.loadDefaultAvatars();
-    // Show Blockly editor tab.
-    Pond.Duck.changeTab(Pond.Duck.TAB_INDEX.BLOCKLY);
-  }
-  BlocklyInterface.workspace.addChangeListener(function(){
+  BlocklyInterface.workspace.addChangeListener(function() {
     var saveBtn = document.getElementById('saveButton');
     if (saveBtn) {
       saveBtn.disabled = false;
@@ -97,23 +101,31 @@ Pond.Duck.Online.init = function() {
 };
 
 /**
- * Temporarily disables editors (does not affect blocksDisabled).
- * @param {boolean} disable Whether to disable the editors.
+ * Temporarily disables/enables tabs and code buttons (does not affect
+ * blocksDisabled).
+ * @param {boolean} disable Whether to disable..
  */
-Pond.Duck.Online.tempDisableEditors = function(disable) {
+Pond.Duck.Online.disableInteraction = function(disable) {
   if (disable) {
     Blockly.utils.dom.addClass(
         Pond.Duck.tabs[Pond.Duck.TAB_INDEX.BLOCKLY], 'tab-disabled');
     Blockly.utils.dom.addClass(
         Pond.Duck.tabs[Pond.Duck.TAB_INDEX.JAVASCRIPT], 'tab-disabled');
-    Pond.Duck.tabContent[Pond.Duck.TAB_INDEX.BLOCKLY].style.visibility = 'hidden';
-    Pond.Duck.tabContent[Pond.Duck.TAB_INDEX.BLOCKLY].style.visibility = 'hidden';
+    Blockly.utils.dom.addClass(
+        Pond.Duck.tabs[Pond.Duck.TAB_INDEX.DUCK_INFO], 'tab-disabled');
+
   } else {
     Blockly.utils.dom.removeClass(
         Pond.Duck.tabs[Pond.Duck.TAB_INDEX.BLOCKLY], 'tab-disabled');
     Blockly.utils.dom.removeClass(
         Pond.Duck.tabs[Pond.Duck.TAB_INDEX.JAVASCRIPT], 'tab-disabled');
+    Blockly.utils.dom.removeClass(
+        Pond.Duck.tabs[Pond.Duck.TAB_INDEX.DUCK_INFO], 'tab-disabled');
   }
+  document.getElementById('runButton').disabled = disable;
+  document.getElementById('resetButton').disabled = disable;
+  document.getElementById('getOpponents').disabled = disable;
+  document.getElementById('defaultOpponents').disabled = disable;
 };
 
 /**
@@ -127,7 +139,7 @@ Pond.Duck.Online.loadDuck = function() {
   var opt_xml = meta['code']['opt_xml'];
   var code = opt_xml || meta['code']['js'];
 
-  Pond.Duck.Online.tempDisableEditors(false);
+  Pond.Duck.Online.disableInteraction(false);
   Pond.Duck.setBlocksEnabled(!!opt_xml);
   Pond.Duck.setCode(code);
   Pond.Duck.Online.NAME = meta['name'];

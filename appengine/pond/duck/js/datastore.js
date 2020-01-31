@@ -120,10 +120,12 @@ Pond.Duck.Datastore.getAllDucks = function(onSuccess) {
  * @param {string} duckKey The key for the duck.
  * @param {!Function} onSuccess Function to call after request completes
  *    successfully.
+ * @param {?Function=} opt_onFailure Function to call after request completes
+ *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
  */
-Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess) {
+Pond.Duck.Datastore.getDuck = function(duckKey, onSuccess, opt_onFailure) {
     var url = 'pond-storage/get?key='+ duckKey;
-    BlocklyStorage.makeRequest(url, '', onSuccess, null, 'GET');
+    BlocklyStorage.makeRequest(url, '', onSuccess, opt_onFailure, 'GET');
 };
 
 /**
