@@ -58,19 +58,6 @@ Pond.Duck.Leaderboard.refreshTopDucks = function() {
       Pond.Duck.Leaderboard.soy.topDucks({topDucks: responseData["topDucks"]},
       null);
   document.getElementById('loading').style.display = 'none';
-
-  var copyBtns = topDucksEl.getElementsByClassName('copyDuck');
-  var deleteBtns = topDucksEl.getElementsByClassName('deleteDuck');
-  var editBtns = topDucksEl.getElementsByClassName('editDuck');
-  for(var i = 0, cpyBtn; (cpyBtn = copyBtns[i]); i++) {
-    BlocklyGames.bindClick(cpyBtn, Pond.Duck.Leaderboard.copyDuck);
-  }
-  for(var i = 0, deleteBtn; (deleteBtn = deleteBtns[i]); i++) {
-    BlocklyGames.bindClick(deleteBtn, Pond.Duck.Leaderboard.deleteDuck);
-  }
-  for(var i = 0, editBtn; (editBtn = editBtns[i]); i++) {
-    BlocklyGames.bindClick(editBtn, Pond.Duck.Leaderboard.editDuck);
-  }
 };
 
 window.addEventListener('load', Pond.Duck.Leaderboard.init);

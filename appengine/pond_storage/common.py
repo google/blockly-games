@@ -153,16 +153,28 @@ def get_user_ducks():
     duck_list.append(duck_info)
   return duck_list
 
-def get_duck_info(duck):
+def get_duck_info(duck, opt_keys=[]):
   """Returns object containing specified duck's information."""
-  duck_info = {
+  if opt_keys:
+    duck_info = {}
+    if 'name' in opt_keys:
+      duck_info['name'] = duck.name
+    if 'duck_key' in opt_keys:
+      duck_info['duck_key'] = duck.key.urlsafe()
+    if 'code' in opt_keys:
+      duck_info['code'] = {'js': duck.code.js, 'opt_xml': duck.code.opt_xml}
+    if 'published' in opt_keys:
+      duck_info['published'] = duck.published
+  else:
+    duck_info = {
       'name': duck.name,
       'duck_key': duck.key.urlsafe(),
       'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml},
-      'published': duck.published,
-  }
+      'published': duck.published
+    }
   if duck.published:
     duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
+
   return duck_info
 
 def entries_to_duck_info(entries):
@@ -183,19 +195,18 @@ def entries_to_duck_info(entries):
   """
   ducks = []
   for entry in entries:
-    # TODO: Update to has_duck after changes are merged.
-    if entry.is_dummy:
+    if not entry.has_duck:
       # TODO: handle/filter dummy entries earlier.
       duck_info = {
           'name': "dummy",
           'duck_key': 'aKey',
           'code': {'js':'throw "dummy duck";'},
-          'publish':'true',
+          'published':'true',
           'ranking':entry.ranking
       }
     else:
       duck = entry.duck_key.get()
-      duck_info = get_duck_info(duck)
+      duck_info = get_duck_info(duck, ['name', 'duck_key', 'published'])
     ducks.append(duck_info)
   return ducks
 

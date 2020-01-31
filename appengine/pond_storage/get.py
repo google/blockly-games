@@ -67,7 +67,7 @@ def get_top_entries(user_entry, count):
   entry_query.order = ['ranking']
   return entry_query.fetch()
 
-def get_top_ducks(forms, duck):
+def get_top_ducks(count, duck):
   """Gets a list of the ducks with the best rankings.
   Args:
     forms: The field storage object.
@@ -85,10 +85,6 @@ def get_top_ducks(forms, duck):
       'isOwner':True
     }
   """
-  if forms.has_key('count'):
-    count = forms['count']
-  else:
-    count = 10
   if duck.leaderboard_entry_key:
     user_entry = duck.leaderboard_entry_key.get()
     top_entries = get_top_entries(user_entry, count)
@@ -106,7 +102,11 @@ if forms.has_key('key'):
   duck = duck_key.get()
   if verify_duck(duck):
     if forms.has_key('type') and forms['type'].value == 'topducks':
-      top_entries = get_top_ducks(forms, duck)
+      if forms.has_key('count'):
+        count = forms['count']
+      else:
+        count = 10
+      top_entries = get_top_ducks(count, duck)
       print('Content-Type: application/json\n')
       print(json.dumps({'topDucks': format_top_ducks(top_entries)}))
     else:
