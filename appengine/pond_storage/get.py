@@ -79,7 +79,6 @@ def get_top_ducks(count, duck):
     {
       'name': 'bob',
       'duck_key': 'urlsafe duck key',
-      'code': {'js': 'some code', 'opt_xml': 'some xml'},
       'published': 'true',
       'ranking':'1',
       'isOwner':True

@@ -188,7 +188,6 @@ def entries_to_duck_info(entries):
     {
       'name': 'bob',
       'duck_key': 'urlsafe duck key',
-      'code': {'js': 'some code', 'opt_xml': 'some xml'},
       'published': 'true',
       'ranking': 1
     }
@@ -200,7 +199,6 @@ def entries_to_duck_info(entries):
       duck_info = {
           'name': "dummy",
           'duck_key': 'aKey',
-          'code': {'js':'throw "dummy duck";'},
           'published':'true',
           'ranking':entry.ranking
       }
