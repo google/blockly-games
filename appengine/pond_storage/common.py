@@ -168,23 +168,70 @@ def get_user_ducks():
   duck_query = Duck.query(ancestor=user_key)
   duck_list = []
   for duck in duck_query:
-    duck_info = {'name': duck.name, 'duckUrl': duck.key.urlsafe()}
+    duck_info = {'name': duck.name, 'duck_key': duck.key.urlsafe()}
     if duck.published:
       duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
     duck_list.append(duck_info)
   return duck_list
 
-def get_duck_info(duck):
+def get_duck_info(duck, key_names=None):
   """Returns object containing specified duck's information."""
-  duck_info = {
+  user_key = get_user_key(users.get_current_user())
+  if key_names:
+    duck_info = {}
+    if 'name' in key_names:
+      duck_info['name'] = duck.name
+    if 'duck_key' in key_names:
+      duck_info['duck_key'] = duck.key.urlsafe()
+    if 'code' in key_names:
+      duck_info['code'] = {'js': duck.code.js, 'opt_xml': duck.code.opt_xml}
+    if 'published' in key_names:
+      duck_info['published'] = duck.published
+    if 'isOwner' in key_names:
+      duck_info['isOwner'] = duck.key.parent() == user_key
+  else:
+    duck_info = {
       'name': duck.name,
       'duck_key': duck.key.urlsafe(),
       'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml},
       'published': duck.published,
-  }
+      'isOwner': duck.key.parent() == user_key
+    }
   if duck.published:
     duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
+
   return duck_info
+
+def entries_to_duck_info(entries, key_names=None):
+  """Returns a list of extracted duck info.
+  Args:
+    entries: A list of LeaderboardEntry entities to extract duck info from.
+
+  Returns:
+    A list of dictionaries containing extracted duck information.
+    Example duck info dictionary:
+    {
+      'name': 'bob',
+      'duck_key': 'urlsafe duck key',
+      'published': 'true',
+      'ranking': 1
+    }
+  """
+  ducks = []
+  for entry in entries:
+    if not entry.has_duck:
+      # TODO: handle/filter dummy entries earlier.
+      duck_info = {
+          'name': "dummy",
+          'duck_key': 'aKey',
+          'published':'true',
+          'ranking':entry.ranking
+      }
+    else:
+      duck = entry.duck_key.get()
+      duck_info = get_duck_info(duck, key_names)
+    ducks.append(duck_info)
+  return ducks
 
 def verify_duck(duck):
   """Verifies whether duck exists and is owned by current user."""
