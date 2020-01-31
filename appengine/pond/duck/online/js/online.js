@@ -83,7 +83,6 @@ Pond.Duck.Online.init = function() {
   }
   // Bind buttons
   BlocklyGames.bindClick('duckListButton', Pond.Duck.Online.openDuckList_);
-  BlocklyGames.bindClick('duckCreateButton', Pond.Duck.Online.showCreateDuckForm);
   BlocklyGames.bindClick('getOpponents', function() {
     Pond.Duck.Datastore.getOpponents(
         Pond.Duck.Online.duckKey,
