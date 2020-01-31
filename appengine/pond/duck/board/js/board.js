@@ -39,7 +39,7 @@ Pond.Duck.Board.init = function () {
         html: BlocklyGames.IS_HTML,
       });
   var createBtn = document.getElementById('createButton');
-  BlocklyGames.bindClick(createBtn, Pond.Duck.Board.createDuck);
+  BlocklyGames.bindClick(createBtn, Pond.Duck.Board.showCreateDuckForm);
   Pond.Duck.Datastore.getAllDucks(Pond.Duck.Board.refreshDuckList);
 };
 
@@ -78,10 +78,50 @@ Pond.Duck.Board.editDuck = function(e) {
 };
 
 /**
- * TODO: Show the dialog to create a duck.
+ * Shows dialog for creating a new duck.
  */
-Pond.Duck.Board.createDuck = function() {
-  console.log("Show dialog here");
+Pond.Duck.Board.showCreateDuckForm = function() {
+  if (!Pond.Duck.Board.showCreateDuckForm.runOnce_) {
+    var cancel = document.getElementById( 'duckCreateCancel');
+    cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+    cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+    var ok = document.getElementById('duckCreateOk');
+    ok.addEventListener('click',Pond.Duck.Board.submitCreateDuckForm_, true);
+    ok.addEventListener('touchend', Pond.Duck.Board.submitCreateDuckForm_, true);
+    // Only bind the buttons once.
+    Pond.Duck.Board.showCreateDuckForm.runOnce_ = true;
+  }
+  var content = document.getElementById('duckCreateDialog');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+  var origin = document.getElementById('createButton');
+  BlocklyDialogs.showDialog(content, origin, true, true, style);
+  // Wait for the opening animation to complete, then focus the name field.
+  setTimeout(function() {
+    document.getElementById('duckCreateName').focus();
+  }, 250);
+};
+
+/**
+ * Submits the create duck form.
+ */
+Pond.Duck.Board.submitCreateDuckForm_ = function() {
+  // Validate name field is non-empty
+  var nameEl = document.getElementById('duckCreateName');
+  var name = nameEl.value.trim();
+  if (!name) {
+    nameEl.value = '';
+    nameEl.focus();
+    return;
+  }
+
+  Pond.Duck.Datastore.createDuck(name, function() {
+    Pond.Duck.Datastore.redirectToNewDuck.call(this);
+    BlocklyDialogs.hideDialog(true);
+  });
 };
 
 /**

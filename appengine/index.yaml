@@ -27,3 +27,8 @@ indexes:
   - name: has_duck
   - name: leaderboard_key
   - name: ranking
+
+- kind: LeaderboardEntry
+  properties:
+  - name: leaderboard_key
+  - name: ranking

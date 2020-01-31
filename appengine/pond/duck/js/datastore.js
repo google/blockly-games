@@ -43,20 +43,12 @@ Pond.Duck.Datastore.copyDuck = function(duckKey, getUserDucks, onSuccess) {
 /**
  * Create a duck with the given name.
  * @param {string} name The name of the duck.
- * @param {string} js The Javascript code to save.
- * @param {string} xml The xml code to save, empty if user is in javascript
- *      mode.
- * @param {boolean} getUserDucks Whether to return list of user ducks in
- *      response.
  * @param {!Function} onSuccess Function to call after request completes
  *    successfully.
  */
-Pond.Duck.Datastore.createDuck = function(name, js, xml, getUserDucks, onSuccess) {
+Pond.Duck.Datastore.createDuck = function(name, onSuccess) {
     var data = [];
     data.push(Pond.Duck.Datastore.encodeElements('name', name));
-    data.push(Pond.Duck.Datastore.encodeElements('js', js));
-    data.push(Pond.Duck.Datastore.encodeElements('xml', xml));
-    data.push(Pond.Duck.Datastore.encodeElements('getUserDucks', getUserDucks));
     BlocklyStorage.makeRequest('pond-storage/create', data.join('&'), onSuccess);
 };
 
@@ -170,10 +162,11 @@ Pond.Duck.Datastore.getOpponents = function(duckKey, onSuccess) {
 Pond.Duck.Datastore.redirectToNewDuck = function() {
     var meta = JSON.parse(this.responseText);
     var duckKey = meta['duck_key'];
-    var url = window.location.origin
+
+    var url = top.window.location.origin
         + '/pond-duck-online?lang='+ BlocklyGames.LANG
         + '&duck=' + duckKey;
-    window.location = url;
+    top.window.location = url;
 };
 
 /**

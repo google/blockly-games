@@ -22,11 +22,13 @@ import json
 from pond_storage import *
 
 forms = cgi.FieldStorage()
-js = forms['js'].value
 name = forms['name'].value
-code = Code(js=js)
-if forms.has_key('xml'):
-  code.opt_xml = forms['xml'].value
+code = None
+if forms.has_key('js'):
+  js = forms['js'].value
+  code = Code(js=js)
+  if forms.has_key('xml'):
+    code.opt_xml = forms['xml'].value
 duck_key = create_duck(name, code)
 meta = {'duck_key': duck_key.urlsafe()}
 if forms.has_key('getUserDucks') and forms['getUserDucks'].value == 'true':

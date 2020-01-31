@@ -40,6 +40,7 @@
     Create a Duck
   </button>
 
+  {call .createDuckDialog_ /}
   {call BlocklyGames.soy.dialog /}
   {call BlocklyGames.soy.storageDialog /}
 {/template}
@@ -73,4 +74,29 @@
       </tr>
     {/foreach}
   </table>
+{/template}
+
+/**
+ * Create duck dialog
+ */
+{template .createDuckDialog_}
+  <div id="duckCreateDialog" class="dialogHiddenContent">
+    <form id="duckCreateForm" onsubmit="return false">
+      <header>Create a duck</header>
+      <div>Duck name:
+        {sp}
+        <input id="duckCreateName" type="text" name="name" required>
+      </div>
+      <footer><!--Legal disclaimer goes here if needed.--></footer>
+
+      <div class="farSide">
+        <button id="duckCreateCancel" type="button">
+          {{msg meaning="Games.dialogCancel" desc="IBID"}}Cancel{{/msg}}
+        </button>
+        <button id="duckCreateOk" class="secondary" type="submit">
+          {{msg meaning="Games.dialogOk" desc="IBID"}}OK{{/msg}}
+        </button>
+      </div>
+    </form>
+  </div>
 {/template}

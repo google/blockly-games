@@ -26,10 +26,31 @@ class Code(ndb.Model):
   js = ndb.TextProperty(required=True)
   opt_xml = ndb.TextProperty()
 
+def get_default_code():
+  js = 'cannon(0, 70);\n'
+  xml = '<xml>' \
+        '<block type=\"pond_cannon\">' \
+        '<value name=\"DEGREE\">' \
+        '<shadow type=\"pond_math_number\">' \
+        '<mutation angle_field=\"true\"></mutation>' \
+        '<field name=\"NUM\">0</field>' \
+        '</shadow>' \
+        '</value>' \
+        '<value name=\"RANGE\">' \
+        '<shadow type=\"pond_math_number\">' \
+        '<mutation angle_field=\"false\"></mutation>' \
+        '<field name=\"NUM\">70</field><' \
+        '/shadow>' \
+        '</value>' \
+        '</block>' \
+        '</xml>'
+  return Code(js=js, opt_xml=xml)
+
 class Duck(ndb.Model):
   """Stores user duck code and reference to leaderboard entry if published."""
   name = ndb.StringProperty(indexed=False, required=True)
-  code = ndb.LocalStructuredProperty(Code, indexed=False, required=True)
+  code = ndb.LocalStructuredProperty(Code, indexed=False, required=True,
+                                     default=get_default_code())
   leaderboard_entry_key = ndb.KeyProperty(indexed=False,
                                           kind='LeaderboardEntry')
   published = ndb.ComputedProperty(
@@ -183,7 +204,7 @@ def delete_duck(duck):
   duck.key.delete()
   return True
 
-def create_duck(name, code):
+def create_duck(name, opt_code):
   """Creates duck with the given attributes and returns key."""
   user_key = get_user_key(users.get_current_user())
   duck_query = Duck.query(ancestor=user_key)
@@ -192,6 +213,8 @@ def create_duck(name, code):
     print('Status: 403 Owner has too many ducks')
     return None
   else:
-    duck = Duck(name=name, code=code, parent=user_key)
+    duck = Duck(name=name, parent=user_key)
+    if opt_code:
+      duck.code = opt_code
     duck_key = duck.put()
     return duck_key
