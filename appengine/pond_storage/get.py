@@ -25,32 +25,6 @@ from google.appengine.api import users
 from pond_storage import *
 
 
-def format_top_ducks(top_ducks_info):
-  """Adds an isOwner property to top ducks that are owned by the current user.
-  Args:
-    top_ducks_info: A list of ducks with the best rankings.
-  Returns:
-    A list of dictionaries containing duck information.
-    Example:
-    {
-      'name': 'bob',
-      'duck_key': 'urlsafe duck key',
-      'code': {'js': 'some code', 'opt_xml': 'some xml'},
-      'published': 'true',
-      'isOwner':'True'
-    }
-  """
-  formatted_ducks = []
-  user_key = get_user_key(users.get_current_user())
-  user_ducks = Duck.query(ancestor=user_key).fetch()
-
-  for duck_info in top_ducks_info:
-    matches = [x for x in user_ducks if x.key.urlsafe() == duck_info['duck_key']]
-    if len(matches) > 0:
-      duck_info['isOwner'] = True
-    formatted_ducks.append(duck_info)
-  return formatted_ducks
-
 def get_top_entries(user_entry, count):
   """Gets the entries with the best rankings.
   Args:
@@ -71,7 +45,7 @@ def get_top_ducks(count, duck):
   """Gets a list of the ducks with the best rankings.
   Args:
     forms: The field storage object.
-    duck: The Duck entity the user is currently usings.
+    duck: The Duck entity the user is currently using.
   Returns:
     A list of dictionaries containing extracted duck information for the top
     ducks.
@@ -87,8 +61,7 @@ def get_top_ducks(count, duck):
   if duck.leaderboard_entry_key:
     user_entry = duck.leaderboard_entry_key.get()
     top_entries = get_top_entries(user_entry, count)
-    top_ducks_info = entries_to_duck_info(top_entries)
-    return format_top_ducks(top_ducks_info)
+    return entries_to_duck_info(top_entries, ['name', 'duck_key', 'published', 'isOwner'])
   else:
     logging.error("Can not get leaderboard for unpublished duck.")
     return []
@@ -107,7 +80,7 @@ if forms.has_key('key'):
         count = 10
       top_entries = get_top_ducks(count, duck)
       print('Content-Type: application/json\n')
-      print(json.dumps({'topDucks': format_top_ducks(top_entries)}))
+      print(json.dumps({'topDucks': top_entries}))
     else:
       duck_info = get_duck_info(duck)
       print('Content-Type: application/json\n')

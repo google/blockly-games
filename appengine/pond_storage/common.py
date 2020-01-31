@@ -155,6 +155,7 @@ def get_user_ducks():
 
 def get_duck_info(duck, opt_keys=[]):
   """Returns object containing specified duck's information."""
+  user_key = get_user_key(users.get_current_user())
   if opt_keys:
     duck_info = {}
     if 'name' in opt_keys:
@@ -165,19 +166,22 @@ def get_duck_info(duck, opt_keys=[]):
       duck_info['code'] = {'js': duck.code.js, 'opt_xml': duck.code.opt_xml}
     if 'published' in opt_keys:
       duck_info['published'] = duck.published
+    if 'isOwner' in opt_keys:
+      duck_info['isOwner'] = duck.key.parent() == user_key
   else:
     duck_info = {
       'name': duck.name,
       'duck_key': duck.key.urlsafe(),
       'code': {'js': duck.code.js, 'opt_xml': duck.code.opt_xml},
-      'published': duck.published
+      'published': duck.published,
+      'isOwner': duck.key.parent() == user_key
     }
   if duck.published:
     duck_info['ranking'] = duck.leaderboard_entry_key.get().ranking
 
   return duck_info
 
-def entries_to_duck_info(entries):
+def entries_to_duck_info(entries, opt_keys=[]):
   """Returns a list of extracted duck info.
   Args:
     entries: A list of LeaderboardEntry entities to extract duck info from.
@@ -204,7 +208,7 @@ def entries_to_duck_info(entries):
       }
     else:
       duck = entry.duck_key.get()
-      duck_info = get_duck_info(duck, ['name', 'duck_key', 'published'])
+      duck_info = get_duck_info(duck, opt_keys)
     ducks.append(duck_info)
   return ducks
 
