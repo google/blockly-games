@@ -181,7 +181,7 @@ def get_duck_info(duck, opt_keys=[]):
 
   return duck_info
 
-def entries_to_duck_info(entries, opt_keys=[]):
+def entries_to_duck_info(entries, keys=None):
   """Returns a list of extracted duck info.
   Args:
     entries: A list of LeaderboardEntry entities to extract duck info from.
