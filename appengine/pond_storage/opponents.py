@@ -166,7 +166,7 @@ def entries_to_duck_info(entries):
       duck_info = get_duck_info(duck)
       ducks.append(duck_info)
     else:
-      logging.info("entries_to_duck_info : Dummy duck was not filtered properly");
+      logging.error("entries_to_duck_info : Dummy duck was not filtered properly");
   return ducks
 
 def get_opponents(user_entry, target_total):
