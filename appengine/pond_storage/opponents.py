@@ -60,7 +60,8 @@ def get_entries_in_range(user_entry, opponent_entries, min_rank, max_rank):
       LeaderboardEntry.ranking <= max_rank
   ).fetch(_FETCH_LIMIT)
   new_entries = [e for e in entries
-                 if e not in opponent_entries and e.key != user_entry.key]
+                 if e not in opponent_entries and e.key != user_entry.key and
+                 e.has_duck == True]
   return new_entries
 
 def get_nearby_entries(
@@ -164,7 +165,8 @@ def entries_to_duck_info(entries):
       duck = entry.duck_key.get()
       duck_info = get_duck_info(duck)
     else:
-      # TODO: handle/filter dummy entries earlier.
+      logging.info("entries_to_duck_info : Dummy ducks should be filtered earlier" +
+          "on");
       duck_info = {
           'name': "dummy",
           'duck_key': 'aKey',
