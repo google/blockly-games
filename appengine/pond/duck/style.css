@@ -24,6 +24,13 @@
   border: 1px solid #ddd;
 }
 
+#leaderboard {
+  position: fixed !important;
+  height: auto !important;
+  bottom: 10px;
+  border: 1px solid #ddd;
+}
+
 .playerDuckBody {
   background-image: url(../sprites.png);
   background-position: 0 0;

@@ -88,6 +88,8 @@ Pond.Duck.Online.init = function() {
         Pond.Duck.Online.duckKey,
         Pond.Duck.Online.loadNewOpponents);
   });
+
+  BlocklyGames.bindClick('leaderboard-tab', Pond.Duck.Online.openLeaderboard_);
   BlocklyGames.bindClick('defaultOpponents', function() {
     Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   });
@@ -97,6 +99,28 @@ Pond.Duck.Online.init = function() {
       saveBtn.disabled = false;
     }
   });
+};
+
+/**
+ * Add an iframe holding the leaderboard to the tab. If an iframe already exists
+ * then refresh the leaderboard.
+ */
+Pond.Duck.Online.openLeaderboard_ = function() {
+  var div = document.getElementById('leaderboard');
+  var childNodes = div.childNodes;
+  if (childNodes.length > 0) {
+    var iframe = div.childNodes[0];
+    iframe.contentWindow.location.reload(true);
+  } else {
+    var iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.overflow = 'hidden';
+    iframe.style.height = '100%';
+    iframe.style.position = 'absolute';
+    iframe.src = 'pond-duck-leaderboard?lang='+ BlocklyGames.LANG
+        + '&duck=' + Pond.Duck.Online.duckKey;
+    div.append(iframe);
+  }
 };
 
 /**
