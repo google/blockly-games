@@ -76,6 +76,9 @@ Pond.Duck.Online.init = function() {
               + '/pond-duck-online?lang='+ BlocklyGames.LANG;
           window.location = url;
         });
+    var iframe = document.getElementById('leaderboard-iframe');
+    iframe.src = 'pond-duck-leaderboard?lang='+ BlocklyGames.LANG + '&duck=' +
+        Pond.Duck.Online.duckKey;
   } else {
     document.getElementById('spinner').style.display = 'none';
     Pond.reset();
@@ -89,7 +92,7 @@ Pond.Duck.Online.init = function() {
         Pond.Duck.Online.loadNewOpponents);
   });
 
-  BlocklyGames.bindClick('leaderboard-tab', Pond.Duck.Online.openLeaderboard_);
+  BlocklyGames.bindClick('leaderboard-tab', Pond.Duck.Online.refreshLeaderboard_);
   BlocklyGames.bindClick('defaultOpponents', function() {
     Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   });
@@ -105,22 +108,9 @@ Pond.Duck.Online.init = function() {
  * Add an iframe holding the leaderboard to the tab. If an iframe already exists
  * then refresh the leaderboard.
  */
-Pond.Duck.Online.openLeaderboard_ = function() {
-  var div = document.getElementById('leaderboard');
-  var childNodes = div.childNodes;
-  if (childNodes.length > 0) {
-    var iframe = div.childNodes[0];
-    iframe.contentWindow.location.reload(true);
-  } else {
-    var iframe = document.createElement('iframe');
-    iframe.style.width = '100%';
-    iframe.style.overflow = 'hidden';
-    iframe.style.height = '100%';
-    iframe.style.position = 'absolute';
-    iframe.src = 'pond-duck-leaderboard?lang='+ BlocklyGames.LANG
-        + '&duck=' + Pond.Duck.Online.duckKey;
-    div.append(iframe);
-  }
+Pond.Duck.Online.refreshLeaderboard_ = function() {
+  var iframe = document.getElementById('leaderboard-iframe');
+  iframe.contentWindow.location.reload(true);
 };
 
 /**
