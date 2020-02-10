@@ -25,10 +25,10 @@
 }
 
 #leaderboard {
-  position: fixed !important;
-  height: auto !important;
-  bottom: 10px;
   border: 1px solid #ddd;
+  bottom: 10px;
+  height: auto !important;
+  position: fixed !important;
 }
 
 .playerDuckBody {
