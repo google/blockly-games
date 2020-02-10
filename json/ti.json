@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Taj11"
+			"Taj11",
+			"Joanmp17"
 		]
 	},
 	"Games.name": "ሳንዱቅ ጨዋታ",
@@ -25,8 +26,8 @@
 	"Games.resetTooltip": "ፕሮግራም ኣምቁራፅ ነዚ ደረጃ ከምብሓዱሽ ጀምር",
 	"Games.resetProgram": "ከምብሓዱሽ ጀምር",
 	"Games.help": "ሓገዝ",
-	"Games.dialogOk": "እሺ",
-	"Games.dialogCancel": "ሰርዝ",
+	"Games.dialogOk": "ሕራይ",
+	"Games.dialogCancel": "ኣትርፍ",
 	"Games.catLogic": "ሎጂክ",
 	"Games.catLoops": "ኣዝዋሪታት",
 	"Games.catMath": "ሒሳብ",
