@@ -51,16 +51,17 @@ Pond.Duck.Online.NAME = null;
  * Initializes Ace and the pond.  Called on page load.
  */
 Pond.Duck.Online.init = function() {
+  Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
   // Render the Soy template.
   document.body.innerHTML = Pond.Duck.Online.soy.start({}, null,
       {
         lang: BlocklyGames.LANG,
-        html: BlocklyGames.IS_HTML
+        html: BlocklyGames.IS_HTML,
+        duckKey: Pond.Duck.Online.duckKey
       });
   Pond.Duck.TAB_INDEX.DUCK_INFO = 2;
   Pond.Duck.init();
 
-  Pond.Duck.Online.duckKey =  BlocklyGames.getStringParamFromUrl('duck', null);
   Pond.Duck.Online.disableInteraction(true);
   // Hide Editors before content loads.
   Pond.Duck.tabContent[Pond.Duck.TAB_INDEX.BLOCKLY]
@@ -88,6 +89,8 @@ Pond.Duck.Online.init = function() {
         Pond.Duck.Online.duckKey,
         Pond.Duck.Online.loadNewOpponents);
   });
+
+  BlocklyGames.bindClick('leaderboard-tab', Pond.Duck.Online.refreshLeaderboard_);
   BlocklyGames.bindClick('defaultOpponents', function() {
     Pond.Duck.loadDefaultAvatars(Pond.Duck.Online.NAME);
   });
@@ -97,6 +100,15 @@ Pond.Duck.Online.init = function() {
       saveBtn.disabled = false;
     }
   });
+};
+
+/**
+ * Add an iframe holding the leaderboard to the tab. If an iframe already exists
+ * then refresh the leaderboard.
+ */
+Pond.Duck.Online.refreshLeaderboard_ = function() {
+  var iframe = document.getElementById('leaderboard-iframe');
+  iframe.contentWindow.location.reload(true);
 };
 
 /**
