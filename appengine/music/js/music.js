@@ -607,7 +607,7 @@ Music.execute = function() {
   for (var i = 1; i <= Music.startCount; i++) {
     var interpreter = new Interpreter('');
     // Replace this thread's global scope with the cross-thread global.
-    interpreter.stateStack[0].scope = Music.interpreter['globalScope'];
+    interpreter.stateStack[0].scope = Music.interpreter.globalScope;
     interpreter.appendCode('start' + i + '();\n');
     Music.threads.push(new Music.Thread(i, interpreter.stateStack));
   }
