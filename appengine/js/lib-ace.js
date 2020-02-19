@@ -74,7 +74,7 @@ BlocklyAce.makeAceSession = function() {
 };
 
 /**
- * Remove keywords not supported by the JS Interpreter.
+ * Remove keywords not supported by the JS-Interpreter.
  * This trims out bogus entries in the autocomplete.
  * @private
  */

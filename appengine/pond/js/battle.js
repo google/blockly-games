@@ -342,73 +342,73 @@ Pond.Battle.updateInterpreters_ = function() {
 
 /**
  * Inject the Pond API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Pond.Battle.initInterpreter = function(interpreter, scope) {
+Pond.Battle.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(degree, resolution) {
     return Pond.Battle.currentAvatar.scan(degree, resolution);
   };
-  interpreter.setProperty(scope, 'scan',
+  interpreter.setProperty(globalObject, 'scan',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(degree, range) {
     return Pond.Battle.currentAvatar.cannon(degree, range);
   };
-  interpreter.setProperty(scope, 'cannon',
+  interpreter.setProperty(globalObject, 'cannon',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(degree, speed) {
     Pond.Battle.currentAvatar.drive(degree, speed);
   };
-  interpreter.setProperty(scope, 'drive',
+  interpreter.setProperty(globalObject, 'drive',
       interpreter.createNativeFunction(wrapper));
-  interpreter.setProperty(scope, 'swim',
+  interpreter.setProperty(globalObject, 'swim',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     Pond.Battle.currentAvatar.stop();
   };
-  interpreter.setProperty(scope, 'stop',
+  interpreter.setProperty(globalObject, 'stop',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.damage;
   };
-  interpreter.setProperty(scope, 'damage',
+  interpreter.setProperty(globalObject, 'damage',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return 100 - Pond.Battle.currentAvatar.damage;
   };
-  interpreter.setProperty(scope, 'health',
+  interpreter.setProperty(globalObject, 'health',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.speed;
   };
-  interpreter.setProperty(scope, 'speed',
+  interpreter.setProperty(globalObject, 'speed',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.loc.x;
   };
-  interpreter.setProperty(scope, 'loc_x',
+  interpreter.setProperty(globalObject, 'loc_x',
       interpreter.createNativeFunction(wrapper));
-  interpreter.setProperty(scope, 'getX',
+  interpreter.setProperty(globalObject, 'getX',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.loc.y;
   };
-  interpreter.setProperty(scope, 'loc_y',
+  interpreter.setProperty(globalObject, 'loc_y',
       interpreter.createNativeFunction(wrapper));
-  interpreter.setProperty(scope, 'getY',
+  interpreter.setProperty(globalObject, 'getY',
       interpreter.createNativeFunction(wrapper));
 
-  var myMath = interpreter.getProperty(scope, 'Math');
+  var myMath = interpreter.getProperty(globalObject, 'Math');
   if (myMath) {
     wrapper = function(number) {
       return Math.sin(Blockly.utils.math.toRadians(number));

@@ -712,11 +712,12 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
  * @param {!Genetics.Mouse} mouse The mouse that is running the function.
  * @param {!Genetics.Mouse|undefined} suitor The mouse passed as a parameter to
  *     the function (for acceptMate function call).
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  * @private
  */
-Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
+Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter,
+    globalObject) {
   var pseudoMe = undefined;
   var pseudoSuitor = interpreter.ARRAY;
   var pseudoAliveMice = interpreter.createObject(interpreter.ARRAY);
@@ -756,25 +757,25 @@ Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter, scope) {
   wrapper = function() {
     return pseudoMe;
   };
-  interpreter.setProperty(scope, 'getSelf',
+  interpreter.setProperty(globalObject, 'getSelf',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
     return pseudoAliveMice;
   };
-  interpreter.setProperty(scope, 'getMice',
+  interpreter.setProperty(globalObject, 'getMice',
       interpreter.createNativeFunction(wrapper));
   if (pseudoSuitor) {
     wrapper = function() {
       return pseudoSuitor;
     };
-    interpreter.setProperty(scope, 'getSuitor',
+    interpreter.setProperty(globalObject, 'getSuitor',
         interpreter.createNativeFunction(wrapper));
   }
 
   var sex = interpreter.nativeToPseudo(Genetics.Mouse.Sex);
-  interpreter.setProperty(scope, 'Sex', sex);
+  interpreter.setProperty(globalObject, 'Sex', sex);
 
-  var myMath = interpreter.getProperty(scope, 'Math');
+  var myMath = interpreter.getProperty(globalObject, 'Math');
   if (myMath) {
     wrapper = function(minValue, maxValue) {
       return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;

@@ -320,7 +320,7 @@ Movie.renderAxies_ = function() {
 
 /**
  * Draw one frame of the movie.
- * @param {!Interpreter} interpreter A JS Interpreter loaded with user code.
+ * @param {!Interpreter} interpreter A JS-Interpreter loaded with user code.
  * @private
  */
 Movie.drawFrame_ = function(interpreter) {
@@ -406,40 +406,40 @@ Movie.display = function(opt_frameNumber) {
 
 /**
  * Inject the Movie API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Movie.initInterpreter = function(interpreter, scope) {
+Movie.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(x, y, radius) {
     Movie.circle(x, y, radius);
   };
-  interpreter.setProperty(scope, 'circle',
+  interpreter.setProperty(globalObject, 'circle',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(x, y, w, h) {
     Movie.rect(x, y, w, h);
   };
-  interpreter.setProperty(scope, 'rect',
+  interpreter.setProperty(globalObject, 'rect',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(x1, y1, x2, y2, w) {
     Movie.line(x1, y1, x2, y2, w);
   };
-  interpreter.setProperty(scope, 'line',
+  interpreter.setProperty(globalObject, 'line',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(colour) {
     Movie.penColour(colour);
   };
-  interpreter.setProperty(scope, 'penColour',
+  interpreter.setProperty(globalObject, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return Movie.frameNumber;
   };
-  interpreter.setProperty(scope, 'time',
+  interpreter.setProperty(globalObject, 'time',
       interpreter.createNativeFunction(wrapper));
 };
 

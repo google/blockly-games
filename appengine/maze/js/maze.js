@@ -924,56 +924,56 @@ Maze.resetButtonClick = function(e) {
 
 /**
  * Inject the Maze API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Maze.initInterpreter = function(interpreter, scope) {
+Maze.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(id) {
     Maze.move(0, id);
   };
-  interpreter.setProperty(scope, 'moveForward',
+  interpreter.setProperty(globalObject, 'moveForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     Maze.move(2, id);
   };
-  interpreter.setProperty(scope, 'moveBackward',
+  interpreter.setProperty(globalObject, 'moveBackward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     Maze.turn(0, id);
   };
-  interpreter.setProperty(scope, 'turnLeft',
+  interpreter.setProperty(globalObject, 'turnLeft',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     Maze.turn(1, id);
   };
-  interpreter.setProperty(scope, 'turnRight',
+  interpreter.setProperty(globalObject, 'turnRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     return Maze.isPath(0, id);
   };
-  interpreter.setProperty(scope, 'isPathForward',
+  interpreter.setProperty(globalObject, 'isPathForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     return Maze.isPath(1, id);
   };
-  interpreter.setProperty(scope, 'isPathRight',
+  interpreter.setProperty(globalObject, 'isPathRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     return Maze.isPath(2, id);
   };
-  interpreter.setProperty(scope, 'isPathBackward',
+  interpreter.setProperty(globalObject, 'isPathBackward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     return Maze.isPath(3, id);
   };
-  interpreter.setProperty(scope, 'isPathLeft',
+  interpreter.setProperty(globalObject, 'isPathLeft',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
     return Maze.notDone();
   };
-  interpreter.setProperty(scope, 'notDone',
+  interpreter.setProperty(globalObject, 'notDone',
       interpreter.createNativeFunction(wrapper));
 };
 

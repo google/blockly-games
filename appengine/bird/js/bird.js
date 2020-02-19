@@ -626,31 +626,31 @@ Bird.ResultType = {
 
 /**
  * Inject the Bird API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Bird.initInterpreter = function(interpreter, scope) {
+Bird.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(angle, id) {
     Bird.heading(angle, id);
   };
-  interpreter.setProperty(scope, 'heading',
+  interpreter.setProperty(globalObject, 'heading',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
     return !Bird.hasWorm;
   };
-  interpreter.setProperty(scope, 'noWorm',
+  interpreter.setProperty(globalObject, 'noWorm',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
     return Bird.pos.x;
   };
-  interpreter.setProperty(scope, 'getX',
+  interpreter.setProperty(globalObject, 'getX',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
     return Bird.pos.y;
   };
-  interpreter.setProperty(scope, 'getY',
+  interpreter.setProperty(globalObject, 'getY',
       interpreter.createNativeFunction(wrapper));
 };
 

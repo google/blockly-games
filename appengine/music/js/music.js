@@ -555,27 +555,27 @@ Music.resetButtonClick = function(opt_e) {
 
 /**
  * Inject the Music API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Music.initInterpreter = function(interpreter, scope) {
+Music.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(duration, pitch, id) {
     Music.play(duration, pitch, id);
   };
-  interpreter.setProperty(scope, 'play',
+  interpreter.setProperty(globalObject, 'play',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(duration, id) {
     Music.rest(duration, id);
   };
-  interpreter.setProperty(scope, 'rest',
+  interpreter.setProperty(globalObject, 'rest',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(instrument, id) {
     Music.setInstrument(instrument, id);
   };
-  interpreter.setProperty(scope, 'setInstrument',
+  interpreter.setProperty(globalObject, 'setInstrument',
       interpreter.createNativeFunction(wrapper));
 };
 
@@ -607,7 +607,7 @@ Music.execute = function() {
   for (var i = 1; i <= Music.startCount; i++) {
     var interpreter = new Interpreter('');
     // Replace this thread's global scope with the cross-thread global.
-    interpreter.stateStack[0].scope = Music.interpreter.global;
+    interpreter.stateStack[0].scope = Music.interpreter['globalScope'];
     interpreter.appendCode('start' + i + '();\n');
     Music.threads.push(new Music.Thread(i, interpreter.stateStack));
   }
@@ -1048,7 +1048,7 @@ Music.submitToGallery = function() {
 /**
  * One execution thread.
  * @param {number} i Number of this thread (1-4).
- * @param {!Array.<!Interpreter.State>} stateStack JS Interpreter state stack.
+ * @param {!Array.<!Interpreter.State>} stateStack JS-Interpreter state stack.
  * @constructor
  */
 Music.Thread = function(i, stateStack) {

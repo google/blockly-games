@@ -565,78 +565,78 @@ Turtle.resetButtonClick = function(e) {
 
 /**
  * Inject the Turtle API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Turtle.initInterpreter = function(interpreter, scope) {
+Turtle.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(distance, id) {
     Turtle.move(distance, id);
   };
-  interpreter.setProperty(scope, 'moveForward',
+  interpreter.setProperty(globalObject, 'moveForward',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(distance, id) {
     Turtle.move(-distance, id);
   };
-  interpreter.setProperty(scope, 'moveBackward',
+  interpreter.setProperty(globalObject, 'moveBackward',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(angle, id) {
     Turtle.turn(angle, id);
   };
-  interpreter.setProperty(scope, 'turnRight',
+  interpreter.setProperty(globalObject, 'turnRight',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(angle, id) {
     Turtle.turn(-angle, id);
   };
-  interpreter.setProperty(scope, 'turnLeft',
+  interpreter.setProperty(globalObject, 'turnLeft',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(id) {
     Turtle.penDown(false, id);
   };
-  interpreter.setProperty(scope, 'penUp',
+  interpreter.setProperty(globalObject, 'penUp',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     Turtle.penDown(true, id);
   };
-  interpreter.setProperty(scope, 'penDown',
+  interpreter.setProperty(globalObject, 'penDown',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(width, id) {
     Turtle.penWidth(width, id);
   };
-  interpreter.setProperty(scope, 'penWidth',
+  interpreter.setProperty(globalObject, 'penWidth',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(colour, id) {
     Turtle.penColour(colour, id);
   };
-  interpreter.setProperty(scope, 'penColour',
+  interpreter.setProperty(globalObject, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(id) {
     Turtle.isVisible(false, id);
   };
-  interpreter.setProperty(scope, 'hideTurtle',
+  interpreter.setProperty(globalObject, 'hideTurtle',
       interpreter.createNativeFunction(wrapper));
   wrapper = function(id) {
     Turtle.isVisible(true, id);
   };
-  interpreter.setProperty(scope, 'showTurtle',
+  interpreter.setProperty(globalObject, 'showTurtle',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(text, id) {
     Turtle.drawPrint(text, id);
   };
-  interpreter.setProperty(scope, 'print',
+  interpreter.setProperty(globalObject, 'print',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(font, size, style, id) {
     Turtle.drawFont(font, size, style, id);
   };
-  interpreter.setProperty(scope, 'font',
+  interpreter.setProperty(globalObject, 'font',
       interpreter.createNativeFunction(wrapper));
 };
 
