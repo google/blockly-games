@@ -18,7 +18,8 @@
 			"Anwar2",
 			"DeRudySoulStorm",
 			"Stojex",
-			"CiaPan"
+			"CiaPan",
+			"Krzyz23"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -64,7 +65,7 @@
 	"Games.helpAbort": "Ten poziom jest bardzo trudny. Czy chciałbyś/chciałabyś pominąć go i iść do następnej gry? Możesz zawsze powrócić później.",
 	"Index.clear": "Usunąć wszystkie rozwiązania?",
 	"Index.subTitle": "Gry dla przyszłych programistów.",
-	"Index.moreInfo": "Więcej informacji...",
+	"Index.moreInfo": "Informację dla nauczycieli",
 	"Index.startOver": "Chcesz zacząć od nowa?",
 	"Index.clearData": "Wyczyść dane",
 	"Puzzle.animal1": "Kaczka",
@@ -220,7 +221,12 @@
 	"Movie.helpText10": "Utwórz dowolną anikację. Masz dostęp do wielu nowych bloków, którw możesz poznawać. Miłej zabawy!",
 	"Movie.helpText10Reddit": "Użyj przycisku \"Wyświetl galerię\"aby oglądnąć animacje utworzone przez innych. Jeśli udało Ci się utworzyć intetesującą animację, użyj przycisku \"Udostępnij do galerii\" aby ją opublikować.",
 	"Music.playNoteTooltip": "Odtwórz jeden ton o zadanym czasie trwania i wysokości.",
+	"Music.piano": "Piano",
+	"Music.guitar": "Gitara",
 	"Music.galleryTooltip": "Otwórz galerię muzyki.",
+	"Music.galleryMsg": "Zobacz Galerię",
+	"Music.submitTooltip": "Wyślij swoją muzykę do galerii",
+	"Music.submitMsg": "Wyślij do Galerii",
 	"Pond.scanTooltip": "Szuka wrogów. Wybierz kierunek (0-360). Zwraca odległość do najbliższego wroga w tym kierunku. Zwraca nieskończoność jeśli nie znajdzie wroga.",
 	"Pond.cannonTooltip": "Wystrzel z działa. Wybierz kierunek (0-360) i odległość (0-70).",
 	"Pond.swimTooltip": "Płyń do przodu. Wybierz kierunek (0-360).",
