@@ -154,7 +154,7 @@
 	"Turtle.printHelpUrl": "https://tr.wikipedia.org/wiki/Matbaacılık",
 	"Turtle.printTooltip": "Metni, kaplumbağa yönünde bulunduğu yere çizer.",
 	"Turtle.print": "yazdır",
-	"Turtle.fontHelpUrl": "https://tr.wikipedia.org/wiki/Font",
+	"Turtle.fontHelpUrl": "https://tr.wikipedia.org/wiki/Yazı_tipi",
 	"Turtle.fontTooltip": "Yazdırma bloğu tarafından kullanılan yazı tipini ayarlar.",
 	"Turtle.font": "yazı tipi",
 	"Turtle.fontSize": "yazı tipi boyutu",
