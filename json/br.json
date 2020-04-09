@@ -1,12 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dishual",
 			"Fohanno",
 			"Fulup",
+			"Gwendal",
 			"Gwenn-Ael",
-			"Y-M D",
-			"Dishual",
-			"Gwendal"
+			"Y-M D"
 		]
 	},
 	"Games.name": "C'hoarioù Blockly",
@@ -53,7 +53,7 @@
 	"Games.helpAbort": "Diaes-kenañ eo al live-mañ. Ha c'hoant ho peus da lammat anezhañ ha da dremen d'ar c'hoari war-lerc'h ? Gallout a rit atav distreiñ dezhañ diwezhatoc'h.",
 	"Index.clear": "Lemel holl ho tiskoulmoù ?",
 	"Index.subTitle": "C'hoarioù evit programmerien warc'hoazh.",
-	"Index.moreInfo": "Gouzout hiroc'h...",
+	"Index.moreInfo": "Titouroù pedagogel...",
 	"Index.startOver": "Ha c'hoant ho peus da adkregiñ ?",
 	"Index.clearData": "Nullañ ar roadennoù",
 	"Puzzle.animal1": "Houad",

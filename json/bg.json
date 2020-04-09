@@ -1,13 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"DCLXVI",
 			"Alpinistbg",
+			"DCLXVI",
 			"Gkostov",
-			"Vodnokon4e",
-			"StanProg",
 			"InsomniHat",
-			"Ted Masters"
+			"StanProg",
+			"Ted Masters",
+			"Vodnokon4e"
 		]
 	},
 	"Games.name": "Игри Blockly",

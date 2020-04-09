@@ -2,13 +2,13 @@
 	"@metadata": {
 		"authors": [
 			"Beta16",
-			"Isiond",
-			"Nerimic",
 			"Gbonanome",
-			"Mario",
 			"Gianfranco",
-			"Selven",
-			"Segaz3"
+			"Isiond",
+			"Mario",
+			"Nerimic",
+			"Segaz3",
+			"Selven"
 		]
 	},
 	"Games.name": "Giochi Blockly",

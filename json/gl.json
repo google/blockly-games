@@ -1,12 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Toliño",
-			"Macofe",
 			"Chairego apc",
-			"Navhy",
 			"Elisardojm",
-			"Iváns"
+			"Iváns",
+			"Macofe",
+			"Toliño"
 		]
 	},
 	"Games.name": "Xogos do Blockly",

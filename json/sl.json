@@ -2,12 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Anzeljg",
-			"Eleassar",
-			"Igor.pesek",
 			"Dbc334",
+			"Eleassar",
 			"HairyFotr",
-			"Stefanb",
-			"MaxiMouse"
+			"Igor.pesek",
+			"MaxiMouse",
+			"Stefanb"
 		]
 	},
 	"Games.name": "Blockly igre",

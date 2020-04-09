@@ -1,22 +1,22 @@
 {
 	"@metadata": {
 		"authors": [
+			"AliceJ",
+			"BaRaN6161 TURK",
 			"Bahadir",
+			"Ece Alpdeniz",
 			"Espertus",
-			"Joseph",
-			"Kozlu",
-			"Trockya",
-			"Ramona.Stewart",
-			"Macofe",
-			"Sucsuzz",
 			"Gurkanht",
 			"HakanIST",
-			"Kumkumuk",
-			"Ece Alpdeniz",
-			"Velg",
-			"AliceJ",
 			"Hedda",
-			"BaRaN6161 TURK"
+			"Joseph",
+			"Kozlu",
+			"Kumkumuk",
+			"Macofe",
+			"Ramona.Stewart",
+			"Sucsuzz",
+			"Trockya",
+			"Velg"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -197,7 +197,7 @@
 	"Movie.rectTooltip": "Belirtilen konuma ve belirtilen genişlik ve yüksekliğe sahip bir dikdörtgen çizer.",
 	"Movie.rectDraw": "dikdörtgen",
 	"Movie.lineTooltip": "Belirtilen genişlikte bir noktadan diğerine bir çizgi çizer.",
-	"Movie.lineDraw": "çizgi",
+	"Movie.lineDraw": "satır",
 	"Movie.timeTooltip": "Animasyondaki geçerli saati döndürür (0-100).",
 	"Movie.colourTooltip": "Kalemin rengini değiştirir.",
 	"Movie.setColour": "rengi olarak ayarla",
