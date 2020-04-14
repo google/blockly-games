@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Aswn",
 			"ElangoRamanujam",
 			"Ezhillang"
 		]
@@ -79,6 +80,8 @@
 	"Maze.pathRight": "பாதை வலது பக்கம் இருந்தால்",
 	"Maze.repeatUntil": "பலமுரை திரும்ப செய் (முடயேனில்)",
 	"Bird.heading": "தலைப்பு",
+	"Turtle.turnRight": "வலப்பக்கம் திரும்புக",
+	"Turtle.turnLeft": "இடப்பக்கம் திரும்புக",
 	"Turtle.print": "அச்சிடுக",
 	"Turtle.font": "எழுத்துரு",
 	"Turtle.fontSize": "எழுத்துரு அளவு",
@@ -102,6 +105,7 @@
 	"Movie.submitTooltip": "காட்சியகத்தில் தங்களின் படத்தைச் சமர்ப்பிக்கவும்.",
 	"Movie.submitMsg": "காட்சியகத்தில் சமர்ப்பிக்க",
 	"Movie.helpText1": "எளிய வரைபடங்களை வரை",
+	"Music.piano": "பியானோ",
 	"Music.violin": "வயலின்",
 	"Music.guitar": "கிட்டார்",
 	"Music.flute": "புல்லாங்குழல்",
