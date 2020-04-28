@@ -990,6 +990,8 @@ Maze.execute = function() {
   Maze.log = [];
   Blockly.selected && Blockly.selected.unselect();
   var code = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
   Maze.result = Maze.ResultType.UNSET;
   var interpreter = new Interpreter(code, Maze.initInterpreter);
 

@@ -38,6 +38,19 @@ BlocklyInterface.editor = null;
 BlocklyInterface.blocksDisabled = false;
 
 /**
+ * User's code (XML or JS) from the editor (Blockly or ACE) from previous
+ * execution.
+ * @type string
+ */
+BlocklyInterface.executedCode = '';
+
+/**
+ * User's JavaScript code from previous execution.
+ * @type string
+ */
+BlocklyInterface.executedJsCode = '';
+
+/**
  * Common startup tasks for all apps.
  */
 BlocklyInterface.init = function() {
@@ -196,7 +209,7 @@ BlocklyInterface.saveToLocalStorage = function() {
     return;
   }
   var name = BlocklyGames.NAME + BlocklyGames.LEVEL;
-  window.localStorage[name] = BlocklyInterface.getCode();
+  window.localStorage[name] = BlocklyInterface.executedCode;
 };
 
 /**

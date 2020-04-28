@@ -7,5 +7,3 @@ appengine/*/*/generated/
 appengine/third-party/
 json/keys.json
 third-party-downloads/*
-
-*.komodoproject

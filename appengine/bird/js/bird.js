@@ -667,6 +667,8 @@ Bird.execute = function() {
   Bird.log = [];
   Blockly.selected && Blockly.selected.unselect();
   var code = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
   if (start != -1 && end != -1) {

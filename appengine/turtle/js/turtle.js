@@ -653,6 +653,8 @@ Turtle.execute = function() {
   Turtle.reset();
   Blockly.selected && Blockly.selected.unselect();
   var code = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
   Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
 };

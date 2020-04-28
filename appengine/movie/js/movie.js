@@ -381,7 +381,18 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  var code = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.workspace.isDragging()) {
+    // Don't update code during a drag (insertion markers mess everything up).
+    var code = BlocklyInterface.executedJsCode;
+  } else {
+    var code = BlocklyInterface.getJsCode();
+  }
+  if (!code || BlocklyInterface.executedJsCode != code) {
+    // Code has changed, clear all recorded frame info.
+    Movie.pixelErrors = new Array(Movie.FRAMES);
+    BlocklyInterface.executedJsCode = code;
+    BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  }
   try {
     var interpreter = new Interpreter(code, Movie.initInterpreter);
   } catch (e) {

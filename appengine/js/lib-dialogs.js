@@ -358,7 +358,7 @@ BlocklyDialogs.congratulations = function() {
   if (BlocklyInterface.workspace) {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
-    var code = BlocklyInterface.getJsCode();
+    var code = BlocklyInterface.executedJsCode;
     code = BlocklyInterface.stripCode(code);
     var noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
     noComments = noComments.replace(/\/\*.*\*\//g, '');  /* Block comments. */

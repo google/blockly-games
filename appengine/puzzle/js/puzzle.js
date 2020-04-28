@@ -219,6 +219,7 @@ Puzzle.checkAnswers = function() {
   } else {
     messages = [BlocklyGames.getMsg('Puzzle_error0').replace(
         '%1', blocks.length)];
+    BlocklyInterface.executedCode = BlocklyInterface.getCode();
     BlocklyInterface.saveToLocalStorage();
   }
   var textDiv = document.getElementById('answerMessage');

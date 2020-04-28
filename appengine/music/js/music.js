@@ -140,6 +140,7 @@ Music.init = function() {
           'startScale': scale}});
   BlocklyInterface.workspace.addChangeListener(Blockly.Events.disableOrphans);
   BlocklyInterface.workspace.addChangeListener(Music.disableExtraStarts);
+  BlocklyInterface.workspace.addChangeListener(Music.disableSubmit);
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('play,rest,setInstrument,' +
       'start0,start1,start2,start3,start4,start5,start6,start7,start8,start9');
@@ -496,6 +497,16 @@ Music.disableExtraStarts = function(e) {
 };
 
 /**
+ * Don't allow gallery submissions after a code change but before an execution.
+ * @param {!Blockly.Events.Abstract} e Change event.
+ */
+Music.disableSubmit = function(e) {
+  if (!(e instanceof Blockly.Events.Ui)) {
+    Music.canSubmit = false;
+  }
+};
+
+/**
  * Reset the music to the start position, clear the display, and kill any
  * pending tasks.
  */
@@ -599,6 +610,8 @@ Music.execute = function() {
   Music.startCount = 0;
   // Create an interpreter whose global scope will be the cross-thread global.
   var code = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
   if (Music.startCount == 0) {  // Blank workspace.
     Music.resetButtonClick();
   }
@@ -929,7 +942,7 @@ Music.checkAnswer = function() {
 
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
-    var code = BlocklyInterface.getJsCode();
+    var code = BlocklyInterface.executedJsCode;
     var instrumentList = code.match(/setInstrument\('\w+'/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.

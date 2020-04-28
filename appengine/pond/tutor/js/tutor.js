@@ -139,7 +139,7 @@ Pond.Tutor.init = function() {
       var div = document.getElementById(avatarData.code);
       var code = div.textContent;
     } else {
-      var code = BlocklyInterface.getJsCode;
+      var code = Pond.Tutor.getJsCode;
     }
     var name = BlocklyGames.getMsg(avatarData.name);
     Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);
@@ -148,6 +148,18 @@ Pond.Tutor.init = function() {
 };
 
 window.addEventListener('load', Pond.Tutor.init);
+
+/**
+ * Get the user's executable code as JS from the editor (Blockly or ACE).
+ * Save a copy of the code for the congrats dialog and level auto save.
+ * @return {string} JS code.
+ */
+Pond.Tutor.getJsCode = function() {
+  var code = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  return code;
+};
 
 Pond.Tutor.PLAYERS = [
   // Level 0.
