@@ -124,8 +124,9 @@ Movie.init = function() {
   }
   setTimeout(renderRemainingAnswers, 1);
   Movie.renderAxies_();
+  Movie.codeChange();
+  BlocklyInterface.workspace.addChangeListener(Movie.codeChange);
   Movie.display();
-  BlocklyInterface.workspace.addChangeListener(Movie.display);
 
   // Initialize the scrubber.
   var scrubberSvg = document.getElementById('scrubber');
@@ -346,6 +347,29 @@ Movie.drawFrame_ = function(interpreter) {
 };
 
 /**
+ * Generate new JavaScript if the code has changed.
+ * @param {!Blockly.Events.Abstract=} opt_e Change event.
+ */
+Movie.codeChange = function(opt_e) {
+  if (opt_e instanceof Blockly.Events.Ui) {
+    return;
+  }
+  if (BlocklyInterface.workspace.isDragging()) {
+    // Don't update code during a drag (insertion markers mess everything up).
+    return;
+  }
+  var code = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.executedJsCode == code) {
+    return;
+  }
+  // Code has changed, clear all recorded frame info.
+  Movie.pixelErrors = new Array(Movie.FRAMES);
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  Movie.display();
+};
+
+/**
  * Copy the scratch canvas to the display canvas.
  * @param {number=} opt_frameNumber Which frame to draw (0-100).
  *     If not defined, draws the current frame.
@@ -381,18 +405,7 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  if (BlocklyInterface.workspace.isDragging()) {
-    // Don't update code during a drag (insertion markers mess everything up).
-    var code = BlocklyInterface.executedJsCode;
-  } else {
-    var code = BlocklyInterface.getJsCode();
-  }
-  if (!code || BlocklyInterface.executedJsCode != code) {
-    // Code has changed, clear all recorded frame info.
-    Movie.pixelErrors = new Array(Movie.FRAMES);
-    BlocklyInterface.executedJsCode = code;
-    BlocklyInterface.executedCode = BlocklyInterface.getCode();
-  }
+  var code = BlocklyInterface.executedJsCode;
   try {
     var interpreter = new Interpreter(code, Movie.initInterpreter);
   } catch (e) {
