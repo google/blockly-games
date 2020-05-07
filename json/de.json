@@ -5,6 +5,7 @@
 			"Das Schäfchen",
 			"Flow",
 			"Metalhead64",
+			"Sillyfreak",
 			"Sushi"
 		]
 	},
@@ -52,7 +53,7 @@
 	"Games.helpAbort": "Dieses Level ist sehr schwierig. Möchtest du es überspringen und zum nächsten Spiel gehen? Du kannst später immer noch zurückkehren.",
 	"Index.clear": "Alle deine Lösungen löschen?",
 	"Index.subTitle": "Spiele für die Programmierer von morgen.",
-	"Index.moreInfo": "Weitere Informationen…",
+	"Index.moreInfo": "Informationen für Lehrpersonen…",
 	"Index.startOver": "Neu anfangen?",
 	"Index.clearData": "Daten löschen",
 	"Puzzle.animal1": "Ente",
