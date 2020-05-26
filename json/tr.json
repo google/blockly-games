@@ -268,7 +268,7 @@
 	"Pond.locXTooltip": "Oynatıcının X koordinatını döndürür (0 sol kenar, 100 sağ kenardır).",
 	"Pond.locYTooltip": "Oynatıcının Y koordinatını döndürür (0 alt kenar, 100 üst kenardır).",
 	"Pond.docsTooltip": "Dil belgelerini görüntüleyin.",
-	"Pond.documentation": "Belgeleme",
+	"Pond.documentation": "Belgelendirme",
 	"Pond.playerName": "Oyuncu",
 	"Pond.targetName": "Hedef",
 	"Pond.pendulumName": "PendulumSarkaç",
