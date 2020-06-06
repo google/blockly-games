@@ -170,13 +170,17 @@ Turtle.isCorrect = function(pixelErrors) {
     return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
   console.log('Pixel errors: ' + pixelErrors);
-  if (pixelErrors > 100) {
+  // There's an alternate solution for level 9 that has the moon rotated by
+  // 12 degrees.  Allow that one to pass.
+  // https://groups.google.com/forum/#!topic/blockly-games/xMwt-JHnZGY
+  if (pixelErrors > (BlocklyGames.LEVEL == 9 ? 600 : 100)) {
     // Too many errors.
     return false;
   }
   var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
-      (BlocklyGames.LEVEL == 3 && blockCount > 4)) {
+      (BlocklyGames.LEVEL == 3 && blockCount > 4) ||
+      (BlocklyGames.LEVEL == 5 && blockCount > 10)) {
     // Use a loop, dummy.
     var content = document.getElementById('helpUseLoop');
     var style = {
