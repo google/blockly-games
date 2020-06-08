@@ -3,6 +3,7 @@
 		"authors": [
 			"Aefgh39622",
 			"Gulpin",
+			"Linuxmetel",
 			"Oda",
 			"Shirayuki",
 			"Suiato",
@@ -217,6 +218,7 @@
 	"Music.drum": "ドラム",
 	"Music.galleryTooltip": "音楽のギャラリーを開きます。",
 	"Music.galleryMsg": "ギャラリーを見る",
+	"Music.submitMsg": "ギャラリーへ送信",
 	"Pond.scanTooltip": "敵を探します。方向（0～360）を指定してください。その方向で最も近くにいる敵への距離を返します。敵が見つからない場合には無限大を返します。",
 	"Pond.cannonTooltip": "大砲を発射します。方向（0～360）と距離（0～70）を指定してください。",
 	"Pond.swimTooltip": "前へ泳ぐ。方向を指定してください。(0-360)",
@@ -242,5 +244,6 @@
 	"Pond.rabbitName": "ウサギ",
 	"Pond.counterName": "カウンター",
 	"Pond.rookName": "ルーク",
-	"Pond.sniperName": "スナイパー"
+	"Pond.sniperName": "スナイパー",
+	"Gallery": "ギャラリー"
 }
