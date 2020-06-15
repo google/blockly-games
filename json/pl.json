@@ -222,6 +222,8 @@
 	"Movie.helpText10": "Utwórz dowolną anikację. Masz dostęp do wielu nowych bloków, którw możesz poznawać. Miłej zabawy!",
 	"Movie.helpText10Reddit": "Użyj przycisku \"Wyświetl galerię\"aby oglądnąć animacje utworzone przez innych. Jeśli udało Ci się utworzyć intetesującą animację, użyj przycisku \"Udostępnij do galerii\" aby ją opublikować.",
 	"Music.playNoteTooltip": "Odtwórz jeden ton o zadanym czasie trwania i wysokości.",
+	"Music.restTooltip": "Czeka przez określony czas.",
+	"Music.start": "po kliknięciu %1",
 	"Music.firstPart": "pierwsza część",
 	"Music.piano": "Piano",
 	"Music.guitar": "Gitara",
