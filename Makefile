@@ -168,8 +168,12 @@ deps:
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
 	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
 
+	@# Blockly's externs include extra files we don't want.
+	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/externs/block-externs.js
+	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/externs/generator-externs.js
+
 	@# Blockly's date field needs Closure.  But we don't use it.
-	rm -r $(APP_ENGINE_THIRD_PARTY)/blockly/core/field_date.js
+	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/core/field_date.js
 
 	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
 	@# Remove @license tag so compiler will strip Google's license.
