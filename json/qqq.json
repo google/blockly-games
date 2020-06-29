@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"BaRaN6161 TURK",
 			"Liuxinyu970226",
 			"McDutchie",
 			"Nike",
@@ -64,7 +65,7 @@
 	"Puzzle.animal2Trait1": "Whiskers: A trait that cats have.\n{{Identical|Whisker}}",
 	"Puzzle.animal2Trait2": "Fur: A trait that cats have.\n{{Identical|Fur}}",
 	"Puzzle.animal2HelpUrl": "The URL of a page with basic information about '''cats''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
-	"Puzzle.animal3": "Bee: The insect.\n{{Identical|Bee}}",
+	"Puzzle.animal3": "Bee: The insect.",
 	"Puzzle.animal3Trait1": "Honey: A trait that bees have.\n{{Identical|Honey}}",
 	"Puzzle.animal3Trait2": "Stinger: A trait that bees have.\n{{Identical|Stinger}}",
 	"Puzzle.animal3HelpUrl": "The URL of a page with basic information about '''bees''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
