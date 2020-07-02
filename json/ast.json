@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Crucifunked",
+			"Fitoschido",
 			"Xuacu"
 		]
 	},
@@ -39,7 +40,7 @@
 	"Games.httpRequestError": "Hubo un problema col pidimientu.",
 	"Games.linkAlert": "Comparti los tos bloques con esti enllaz:\n\n%1",
 	"Games.hashError": "Sentímoslo, '%1' nun correspuende con nengún programa guardáu.",
-	"Games.xmlError": "Nun pudo cargase l'archivu guardáu.\n¿Quiciabes foi creáu con otra versión de Blockyl?",
+	"Games.xmlError": "Nun pudo cargase'l ficheru guardáu.\n¿Quiciabes foi creáu con otra versión de Blockly?",
 	"Games.submitted": "¡Gracies por esti programa! Si gusta al nuesu grupu espertu de monos entrenaos, van espublizalu na galería nun par de díes.",
 	"Games.listVariable": "Llista",
 	"Games.textVariable": "Testu",
