@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Genetics
- *
- * Copyright 2016 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -25,11 +12,11 @@
 
 goog.provide('Genetics.Visualization');
 
+goog.require('Blockly.utils.dom');
+goog.require('Blockly.utils.math');
 goog.require('Genetics.Cage');
 goog.require('Genetics.MouseAvatar');
-goog.require('goog.dom');
-goog.require('goog.math');
-goog.require('goog.object');
+
 
 /**
  * Number of milliseconds between update calls.
@@ -53,7 +40,7 @@ Genetics.Visualization.DUST_SIZE = 50;
  * The hex values of the player colors.
  * @const {!Array.<string>}
  */
-Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
+Genetics.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#223068'];
 
 /**
  * Indicates whether the game has been stopped.
@@ -124,7 +111,7 @@ Genetics.Visualization.mouseSexes_ = {};
 /**
  * List indexed by player ID of number of mice with pickFight function of that
  * player.
- * @private {!Array<number, number>}
+ * @private {!Array.<number, number>}
  * @const
  */
 Genetics.Visualization.pickFightOwners_ = [];
@@ -158,16 +145,34 @@ Genetics.Visualization.init = function() {
   // Sync the display size constant on mouseAvatar.
   Genetics.MouseAvatar.DISPLAY_SIZE = Genetics.Visualization.DISPLAY_SIZE;
 
-  var tabDiv = document.getElementById('vizTabbar');
-  if (tabDiv) {
-    // Setup the tabs.
-    Genetics.tabbar = new goog.ui.TabBar();
-    Genetics.tabbar.decorate(tabDiv);
+  // Setup the tabs.
+  function tabHandler(selectedIndex) {
+    return function() {
+      if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+        return;
+      }
+      for (var i = 0; i < tabs.length; i++) {
+        if (selectedIndex == i) {
+          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+        } else {
+          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+        }
+      }
+      changeTab(selectedIndex);
+    };
+  }
+
+  var tabs = Array.prototype.slice.call(
+      document.querySelectorAll('#vizTabbar>.tab'));
+  if (tabs.length) {
+    for (var i = 0; i < tabs.length; i++) {
+      BlocklyGames.bindClick(tabs[i], tabHandler(i));
+    }
 
     var changeTab = function(index) {
       // Show the correct tab contents.
       var names = ['displayContent', 'charts'];
-      for (var i = 0, name; name = names[i]; i++) {
+      for (var i = 0, name; (name = names[i]); i++) {
         var div = document.getElementById(name);
         if (name == 'displayContent') {
           div.style.visibility = (i == index) ? 'visible' : 'hidden';
@@ -180,81 +185,115 @@ Genetics.Visualization.init = function() {
         }
       }
     };
-    // Handle SELECT events dispatched by tabs.
-    goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
-        function(e) {
-          var index = e.target.getParent().getSelectedTabIndex();
-          changeTab(index);
-        });
-
     changeTab(0);
-
-    var createCharts = function() {
-      // Create the base options for chart style shared between charts.
-      var chartOpts = {
-        'hAxis': {'title': 'Time', 'titleTextStyle': {'color': '#333'},
-          'format': '0'},
-        'vAxis': {'minValue': 0},
-        'chartArea': { 'left': '8%', 'top': '8%', 'width': '60%',
-          'height': '70%' },
-        'backgroundColor': 'white'
-      };
-      var stackGraphOpts = goog.object.unsafeClone(chartOpts);
-      stackGraphOpts['colors'] = Genetics.Visualization.COLOURS;
-      stackGraphOpts['isStacked'] = 'relative';
-      stackGraphOpts['lineWidth'] = 0;
-      stackGraphOpts['areaOpacity'] = 0.8;
-      stackGraphOpts['vAxis']['maxValue'] = 1;
-      var populationChartOpts = chartOpts;
-      var pickFightOpts = stackGraphOpts;
-      var proposeMateOpts = goog.object.clone(stackGraphOpts);
-      var acceptMateOpts = goog.object.clone(stackGraphOpts);
-
-      populationChartOpts['title'] = 'Population';
-      populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
-      populationChartOpts['isStacked'] = true;
-      populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
-      Genetics.Visualization.populationChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': populationChartOpts,
-            'containerId': 'populationChart'
-          });
-      pickFightOpts['title'] = 'Pick Fight';
-      Genetics.Visualization.pickFightChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': pickFightOpts,
-            'containerId': 'pickFightChart'
-          });
-      proposeMateOpts['title'] = 'Propose Mate';
-      Genetics.Visualization.proposeMateChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': proposeMateOpts,
-            'containerId': 'proposeMateChart'
-          });
-      acceptMateOpts['title'] = 'Accept Mate';
-      Genetics.Visualization.acceptMateChartWrapper_ =
-          new google.visualization.ChartWrapper({
-            'chartType': 'AreaChart',
-            'options': acceptMateOpts,
-            'containerId': 'acceptMateChart'
-          });
-
-      // Set chart Data for all charts.
-      Genetics.Visualization.resetChartData_();
-
-      Genetics.Visualization.populationChartWrapper_.draw();
-      Genetics.Visualization.pickFightChartWrapper_.draw();
-      Genetics.Visualization.proposeMateChartWrapper_.draw();
-      Genetics.Visualization.acceptMateChartWrapper_.draw();
-    };
-    google.charts.load('current', {'packages': ['corechart']});
-    google.charts.setOnLoadCallback(createCharts);
+    Genetics.Visualization.importCharts_();
   }
 
   Genetics.Visualization.display_ = document.getElementById('display');
+};
+
+/**
+ * Load the Google Chart API.
+ * Defer loading until page is loaded and responsive.
+ * @private
+ */
+Genetics.Visualization.importCharts_ = function() {
+  function load() {
+    //<script type="text/javascript"
+    //  src="https://www.gstatic.com/charts/loader.js"></script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://www.gstatic.com/charts/loader.js';
+    script.addEventListener('load', Genetics.Visualization.initCharts_);
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
+};
+
+/**
+ * Setup the charts (run once).
+ * @private
+ */
+Genetics.Visualization.initCharts_ = function() {
+  if (typeof google != 'object') {
+    throw Error('Loaded Google Charts API, but no "google" object.');
+  }
+  var createCharts = function() {
+    // Create the base options for chart style shared between charts.
+    var ChartOpts = function() {
+      this['hAxis'] = {
+        'title': 'Time',
+        'titleTextStyle': {'color': '#333'},
+        'format': '0'
+      };
+      this['vAxis'] = {'minValue': 0};
+      this['chartArea'] = {
+        'left': '8%',
+        'top': '8%',
+        'width': '60%',
+        'height': '70%'
+      };
+      this['backgroundColor'] = 'white';
+    };
+    var StackGraphOpts = function() {
+      this['colors'] = Genetics.Visualization.COLOURS;
+      this['isStacked'] = 'relative';
+      this['lineWidth'] = 0;
+      this['areaOpacity'] = 0.8;
+      this['vAxis']['maxValue'] = 1;
+    };
+    StackGraphOpts.prototype = new ChartOpts();
+
+    var populationChartOpts = new ChartOpts();
+    var pickFightOpts = new StackGraphOpts();
+    var proposeMateOpts = new StackGraphOpts();
+    var acceptMateOpts = new StackGraphOpts();
+
+    populationChartOpts['title'] = 'Population';
+    populationChartOpts['colors'] = ['#ADD8E6', '#FFB5C1'];
+    populationChartOpts['isStacked'] = true;
+    populationChartOpts['vAxis']['maxValue'] = Genetics.Cage.MAX_POPULATION;
+    Genetics.Visualization.populationChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': populationChartOpts,
+          'containerId': 'populationChart'
+        });
+    pickFightOpts['title'] = 'Pick Fight';
+    Genetics.Visualization.pickFightChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': pickFightOpts,
+          'containerId': 'pickFightChart'
+        });
+    proposeMateOpts['title'] = 'Propose Mate';
+    Genetics.Visualization.proposeMateChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': proposeMateOpts,
+          'containerId': 'proposeMateChart'
+        });
+    acceptMateOpts['title'] = 'Accept Mate';
+    Genetics.Visualization.acceptMateChartWrapper_ =
+        new google.visualization.ChartWrapper({
+          'chartType': 'AreaChart',
+          'options': acceptMateOpts,
+          'containerId': 'acceptMateChart'
+        });
+
+    // Set chart Data for all charts.
+    Genetics.Visualization.resetChartData_();
+
+    Genetics.Visualization.populationChartWrapper_.draw();
+    Genetics.Visualization.pickFightChartWrapper_.draw();
+    Genetics.Visualization.proposeMateChartWrapper_.draw();
+    Genetics.Visualization.acceptMateChartWrapper_.draw();
+    // Enable the charts tab.
+    var tab = document.querySelectorAll('#vizTabbar>.tab')[1];
+    Blockly.utils.dom.removeClass(tab, 'tab-disabled');
+  };
+  google.charts.load('current', {'packages': ['corechart']});
+  google.charts.setOnLoadCallback(createCharts);
 };
 
 /**
@@ -262,27 +301,28 @@ Genetics.Visualization.init = function() {
  * @private
  */
 Genetics.Visualization.resetChartData_ = function() {
-  if (google.visualization) {
-    Genetics.Visualization.populationChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable(
-            [[{label: 'Time', type: 'number'},
-              {label: Genetics.Mouse.Sex.MALE, type: 'number'},
-              {label: Genetics.Mouse.Sex.FEMALE, type: 'number'}]],
-            false));
-
-    var playerLabels = [{label: 'Time', type: 'number'}];
-    for (var i = 0, player; player = Genetics.Cage.players[i]; i++) {
-      playerLabels.push({label: player.name, type: 'number'});
-    }
-    Genetics.Visualization.pickFightChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable([playerLabels], false));
-    Genetics.Visualization.proposeMateChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable([playerLabels], false));
-    Genetics.Visualization.acceptMateChartWrapper_.setDataTable(
-        google.visualization.arrayToDataTable([playerLabels], false));
-
-    Genetics.Visualization.chartsNeedUpdate_ = true;
+  if (!Genetics.Visualization.populationChartWrapper_) {
+    return;  // Offline or Chart API hasn't loaded yet.
   }
+  Genetics.Visualization.populationChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable(
+          [[{label: 'Time', type: 'number'},
+            {label: Genetics.Mouse.Sex.MALE, type: 'number'},
+            {label: Genetics.Mouse.Sex.FEMALE, type: 'number'}]],
+          false));
+
+  var playerLabels = [{label: 'Time', type: 'number'}];
+  for (var i = 0, player; (player = Genetics.Cage.players[i]); i++) {
+    playerLabels.push({label: player.name, type: 'number'});
+  }
+  Genetics.Visualization.pickFightChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable([playerLabels], false));
+  Genetics.Visualization.proposeMateChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable([playerLabels], false));
+  Genetics.Visualization.acceptMateChartWrapper_.setDataTable(
+      google.visualization.arrayToDataTable([playerLabels], false));
+
+  Genetics.Visualization.chartsNeedUpdate_ = true;
 };
 
 /**
@@ -327,7 +367,7 @@ Genetics.Visualization.reset = function() {
   var nameRow = document.getElementById('playerNameRow');
   var statsRow = document.getElementById('playerStatRow');
 
-  for (var playerId = 0, player; player = Genetics.Cage.players[playerId];
+  for (var playerId = 0, player; (player = Genetics.Cage.players[playerId]);
       playerId++) {
     // Assign a colour to each avatar.
     var hexColour = Genetics.Visualization.COLOURS[playerId];
@@ -339,7 +379,7 @@ Genetics.Visualization.reset = function() {
     nameDiv.title = playerName;
     nameDiv.style.background = hexColour;
     var text = document.createTextNode(playerName);
-    goog.dom.removeChildren(nameDiv);
+    nameDiv.innerHTML = '';
     nameDiv.appendChild(text);
     // Setup stats percentages for each function if there is a div for it.
     td = statsRow.cells[playerId];
@@ -371,7 +411,7 @@ Genetics.Visualization.reset = function() {
   }
 
   // Remove child DOM elements on display div.
-  goog.dom.removeChildren(Genetics.Visualization.display_);
+  Genetics.Visualization.display_.innerHTML = '';
 };
 
 /**
@@ -504,6 +544,9 @@ Genetics.Visualization.processCageEvents_ = function() {
 
     var mouse = (event['ID'] !== undefined) ?
         Genetics.Visualization.mice_[event['ID']] : null;
+    if (mouse === undefined) {
+      throw Error('Event has no mouse.');
+    }
     var opponent = (event['OPT_OPPONENT'] !== undefined) ?
         Genetics.Visualization.mice_[event['OPT_OPPONENT']] : null;
     var askedMouse = (event['OPT_PARTNER'] !== undefined) ?
@@ -528,7 +571,7 @@ Genetics.Visualization.processCageEvents_ = function() {
             Genetics.MouseAvatar.WIDTH;
 
         Genetics.Visualization.animateAddMouse_(addedMouse, x, y, false,
-            goog.bind(addedMouse.freeMouse, addedMouse));
+            addedMouse.freeMouse.bind(addedMouse));
         break;
       case 'START_GAME':
         Genetics.log('Starting game with ' + Genetics.Cage.players.length +
@@ -565,7 +608,7 @@ Genetics.Visualization.processCageEvents_ = function() {
         Genetics.Visualization.gameRankings_ = event['OPT_RANKINGS'];
         break;
       default:
-        throw 'unhandled visualization event ' + JSON.stringify(event);
+        throw Error('unhandled visualization event ' + JSON.stringify(event));
     }
 
   }
@@ -608,7 +651,7 @@ Genetics.Visualization.processFightEvent_ = function(
     } else {
       opponent.busy = true;
       Genetics.Visualization.moveMiceTogether_(instigator, opponent,
-          goog.partial(Genetics.Visualization.fight_, instigator, opponent,
+          Genetics.Visualization.fight_.bind(null, instigator, opponent,
               result, endFight));
     }
   }
@@ -650,17 +693,17 @@ Genetics.Visualization.processMateEvent_ = function(
     Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
         getMouseName(proposingMouse) + ' asked it out.');
   } else if (result == 'REJECTION') {
-    var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
-            parseInt(askedMouse.element.style.left, 10)) +
+    var x = (parseInt(proposingMouse.element.style.left, 10) +
+             parseInt(askedMouse.element.style.left, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
-    var y = goog.math.average(parseInt(proposingMouse.element.style.top, 10),
-            parseInt(askedMouse.element.style.top, 10)) +
+    var y = (parseInt(proposingMouse.element.style.top, 10) +
+             parseInt(askedMouse.element.style.top, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
 
     // Show a broken heart.
     var afterBroken = function() {
       Genetics.log(getMouseName(proposingMouse) + ' asked ' +
-          getMouseName(askedMouse) + ' to mate, The answer is NO!');
+          getMouseName(askedMouse) + ' to mate, the answer is NO!');
 
       proposingMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
       askedMouse.freeMouse(Genetics.Visualization.wanderAfterMate);
@@ -668,19 +711,19 @@ Genetics.Visualization.processMateEvent_ = function(
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.partial(Genetics.Visualization.showImageOverMouse_, proposingMouse,
+        Genetics.Visualization.showImageOverMouse_.bind(null, proposingMouse,
             'genetics/broken-heart.png', Genetics.MouseAvatar.WIDTH, 1000,
             afterBroken));
   } else {
     // result == 'SUCCESS' || result == 'INCOMPATIBLE' || result == 'INFERTILE'
     Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
-        getMouseName(askedMouse, true, true) + ' to mate, The answer is YES!');
+        getMouseName(askedMouse, true, true) + ' to mate, the answer is YES!');
 
-    var x = goog.math.average(parseInt(proposingMouse.element.style.left, 10),
-            parseInt(askedMouse.element.style.left, 10)) +
+    var x = (parseInt(proposingMouse.element.style.left, 10) +
+             parseInt(askedMouse.element.style.left, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
-    var y = goog.math.average(parseInt(proposingMouse.element.style.top, 10),
-            parseInt(askedMouse.element.style.top, 10)) +
+    var y = (parseInt(proposingMouse.element.style.top, 10) +
+             parseInt(askedMouse.element.style.top, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
 
     var message;
@@ -706,7 +749,7 @@ Genetics.Visualization.processMateEvent_ = function(
     var mateResult = function() {
       if (result == 'SUCCESS') {
         Genetics.Visualization.animateAddMouse_(offspring, x, y, true,
-            goog.bind(offspring.freeMouse, offspring));
+            offspring.freeMouse.bind(offspring));
       } else {
         Genetics.log(message);
       }
@@ -716,7 +759,7 @@ Genetics.Visualization.processMateEvent_ = function(
     proposingMouse.busy = true;
     askedMouse.busy = true;
     Genetics.Visualization.moveMiceTogether_(proposingMouse, askedMouse,
-        goog.partial(Genetics.Visualization.showImage_, heartSrc, x, y, 50, 700,
+        Genetics.Visualization.showImage_.bind(null, heartSrc, x, y, 50, 700,
             mateResult));
   }
 };
@@ -767,31 +810,32 @@ Genetics.Visualization.displayGameEnd_ = function() {
  * @private
  */
 Genetics.Visualization.updateChartData_ = function() {
-  if (google.visualization) {
-    Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
-        [Genetics.Visualization.roundNumber_,
-          Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
-          Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
-
-    var pickFightState = [Genetics.Visualization.roundNumber_];
-    var proposeMateState = [Genetics.Visualization.roundNumber_];
-    var acceptMateState = [Genetics.Visualization.roundNumber_];
-    for (var playerId = 0; playerId < Genetics.Cage.players.length;
-        playerId++) {
-      pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
-      proposeMateState.push(
-          Genetics.Visualization.proposeMateOwners_[playerId]);
-      acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
-    }
-    Genetics.Visualization.pickFightChartWrapper_.getDataTable()
-        .addRow(pickFightState);
-    Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
-        .addRow(proposeMateState);
-    Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
-        .addRow(acceptMateState);
-
-    Genetics.Visualization.chartsNeedUpdate_ = true;
+  if (!Genetics.Visualization.populationChartWrapper_) {
+    return;  // Offline or Chart API hasn't loaded yet.
   }
+  Genetics.Visualization.populationChartWrapper_.getDataTable().addRow(
+      [Genetics.Visualization.roundNumber_,
+        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.MALE],
+        Genetics.Visualization.mouseSexes_[Genetics.Mouse.Sex.FEMALE]]);
+
+  var pickFightState = [Genetics.Visualization.roundNumber_];
+  var proposeMateState = [Genetics.Visualization.roundNumber_];
+  var acceptMateState = [Genetics.Visualization.roundNumber_];
+  for (var playerId = 0; playerId < Genetics.Cage.players.length;
+      playerId++) {
+    pickFightState.push(Genetics.Visualization.pickFightOwners_[playerId]);
+    proposeMateState.push(
+        Genetics.Visualization.proposeMateOwners_[playerId]);
+    acceptMateState.push(Genetics.Visualization.acceptMateOwners_[playerId]);
+  }
+  Genetics.Visualization.pickFightChartWrapper_.getDataTable()
+      .addRow(pickFightState);
+  Genetics.Visualization.proposeMateChartWrapper_.getDataTable()
+      .addRow(proposeMateState);
+  Genetics.Visualization.acceptMateChartWrapper_.getDataTable()
+      .addRow(acceptMateState);
+
+  Genetics.Visualization.chartsNeedUpdate_ = true;
 };
 
 /**
@@ -903,8 +947,8 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
   var mouse1X = parseInt(mouse1.element.style.left, 10);
   var mouse0Y = parseInt(mouse0.element.style.top, 10);
   var mouse1Y = parseInt(mouse1.element.style.top, 10);
-  var x = goog.math.average(mouse0X, mouse1X);
-  var y = goog.math.average(mouse0Y, mouse1Y);
+  var x = (mouse0X + mouse1X) / 2;
+  var y = (mouse0Y + mouse1Y) / 2;
 
   var movementDir = Math.atan2(mouse0Y - y, mouse0X - x);
   // Calculate offset points so that mice don't overlap.
@@ -921,8 +965,8 @@ Genetics.Visualization.moveMiceTogether_ = function(mouse0, mouse1, callback) {
     if (hasOtherMouseArrived) {
       // Turn mice towards each other.
       var mouseXDir = Math.atan2(y - mouse0TargetY, x - mouse0TargetX);
-      mouse0.direction = mouseXDir;
-      mouse1.direction = mouseXDir + Math.PI;
+      mouse0.setDirection(mouseXDir);
+      mouse1.setDirection(mouseXDir + Math.PI);
 
       callback();
     }
@@ -948,12 +992,12 @@ Genetics.Visualization.fight_ = function(
   var getMouseName = Genetics.Visualization.getMouseName_;
   var fightCloud = document.getElementById('dust').cloneNode(true);
   // Calculate the position of the cloud over the mice.
-  var cloudTop = goog.math.average(parseInt(instigator.element.style.top, 10),
-          parseInt(opponent.element.style.top, 10)) +
+  var cloudTop = (parseInt(instigator.element.style.top, 10) +
+                  parseInt(opponent.element.style.top, 10)) / 2 +
       Genetics.MouseAvatar.HALF_SIZE -
       Genetics.Visualization.DUST_SIZE / 2;
-  var cloudLeft = goog.math.average(parseInt(instigator.element.style.left, 10),
-          parseInt(opponent.element.style.left, 10)) +
+  var cloudLeft = (parseInt(instigator.element.style.left, 10) +
+                   parseInt(opponent.element.style.left, 10)) / 2 +
       Genetics.MouseAvatar.HALF_SIZE -
       Genetics.Visualization.DUST_SIZE / 2;
 
@@ -1007,11 +1051,11 @@ Genetics.Visualization.fight_ = function(
 Genetics.Visualization.addMouse = function(mouse, x, y, direction) {
   var getMouseName = Genetics.Visualization.getMouseName_;
   var mouseAvatar = Genetics.Visualization.createMouseAvatar_(mouse);
-  mouseAvatar.direction = direction;
+  mouseAvatar.setDirection(direction);
 
-  var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var xPos = Blockly.utils.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
-  var yPos = goog.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var yPos = Blockly.utils.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.HEIGHT);
   mouseAvatar.element.style.left = xPos + 'px';
   mouseAvatar.element.style.top = yPos + 'px';
@@ -1042,9 +1086,9 @@ Genetics.Visualization.animateAddMouse_ = function(
     mouseAvatar, x, y, isBirth, callback) {
   var getMouseName = Genetics.Visualization.getMouseName_;
 
-  var xPos = goog.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var xPos = Blockly.utils.math.clamp(x - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
-  var yPos = goog.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
+  var yPos = Blockly.utils.math.clamp(y - Genetics.MouseAvatar.HALF_SIZE, 0,
       Genetics.Visualization.DISPLAY_SIZE - Genetics.MouseAvatar.HEIGHT);
   mouseAvatar.element.style.left = xPos + 'px';
   mouseAvatar.element.style.top = yPos + 'px';
@@ -1163,5 +1207,3 @@ Genetics.Visualization.removeMouseAvatar_ = function(mouseAvatar) {
   // Remove mapping to mouse avatar.
   delete Genetics.Visualization.mice_[mouseAvatar.id];
 };
-
-

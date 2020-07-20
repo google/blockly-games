@@ -22,7 +22,7 @@ Interpreter.Value;
 /**
  * Class for a state.
  * @param {!Object} node AST node for the state.
- * @param {!Interpreter.Object} scope Scope object for the state.
+ * @param {!Interpreter.Scope} scope Scope object for the state.
  * @constructor
  */
 Interpreter.State = function(node, scope) {};
@@ -70,6 +70,11 @@ Interpreter.prototype.value;
 Interpreter.prototype.stateStack;
 
 /**
+ * @type {Interpreter.Scope}
+ */
+Interpreter.prototype.globalScope;
+
+/**
  * Add more code to the interpreter.
  * @param {string|!Object} code Raw JavaScript text or AST.
  */
@@ -97,9 +102,9 @@ Interpreter.prototype.run = function() {};
 Interpreter.prototype.createObject = function(constructor) {};
 
 /**
- * Create a new function.
+ * Create a new interpreted function.
  * @param {!Object} node AST node defining the function.
- * @param {!Object} scope Parent scope.
+ * @param {!Interpreter.Scope} scope Parent scope.
  * @return {!Interpreter.Object} New function.
  */
 Interpreter.prototype.createFunction = function(node, scope) {};
@@ -107,10 +112,7 @@ Interpreter.prototype.createFunction = function(node, scope) {};
 /**
  * Create a new native function.
  * @param {!Function} nativeFunc JavaScript function.
- * @param {boolean=} opt_constructor If true, the function's
- * prototype will have its constructor property set to the function.
- * If false, the function cannot be called as a constructor (e.g. escape).
- * Defaults to undefined.
+ * @param {boolean} isConstructor True if function can be used with 'new'.
  * @return {!Interpreter.Object} New function.
  */
 Interpreter.prototype.createNativeFunction =
@@ -124,20 +126,22 @@ Interpreter.prototype.createNativeFunction =
 Interpreter.prototype.createAsyncFunction = function(asyncFunc) {};
 
 /**
- * Converts from a native JS object or value to a JS interpreter object.
- * Can handle JSON-style values.
- * @param {*} nativeObj The native JS object to be converted.
- * @return {Interpreter.Value} The equivalent JS interpreter object.
+ * Converts from a native JavaScript object or value to a JS-Interpreter object.
+ * Can handle JSON-style values, regular expressions, dates and functions.
+ * Does NOT handle cycles.
+ * @param {*} nativeObj The native JavaScript object to be converted.
+ * @return {Interpreter.Value} The equivalent JS-Interpreter object.
  */
 Interpreter.prototype.nativeToPseudo = function(nativeObj) {};
 
 /**
- * Converts from a JS interpreter object to native JS object.
- * Can handle JSON-style values, plus cycles.
- * @param {Interpreter.Value} pseudoObj The JS interpreter object to be
+ * Converts from a JS-Interpreter object to native JavaScript object.
+ * Can handle JSON-style values, regular expressions, and dates.
+ * Does handle cycles.
+ * @param {Interpreter.Value} pseudoObj The JS-Interpreter object to be
  * converted.
  * @param {Object=} opt_cycles Cycle detection (used in recursive calls).
- * @return {*} The equivalent native JS object or value.
+ * @return {*} The equivalent native JavaScript object or value.
  */
 Interpreter.prototype.pseudoToNative = function(pseudoObj, opt_cycles) {};
 

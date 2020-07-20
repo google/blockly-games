@@ -2,13 +2,13 @@
 	"@metadata": {
 		"authors": [
 			"Beta16",
-			"Isiond",
-			"Nerimic",
 			"Gbonanome",
-			"Mario",
 			"Gianfranco",
-			"Selven",
-			"Segaz3"
+			"Isiond",
+			"Mario",
+			"Nerimic",
+			"Segaz3",
+			"Selven"
 		]
 	},
 	"Games.name": "Giochi Blockly",
@@ -55,7 +55,7 @@
 	"Games.helpAbort": "Questo livello è molto difficile. Desideri saltarlo e andare al successivo? Puoi sempre tornare indietro più tardi.",
 	"Index.clear": "Cancella tutte le sue soluzioni?",
 	"Index.subTitle": "Giochi per i programmatori di domani.",
-	"Index.moreInfo": "Ulteriori informazioni...",
+	"Index.moreInfo": "Informazioni per gli educatori...",
 	"Index.startOver": "Vuoi ricominciare?",
 	"Index.clearData": "Pulisci dati",
 	"Puzzle.animal1": "Anatra",

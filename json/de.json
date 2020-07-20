@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dan-yell",
+			"Das Schäfchen",
 			"Flow",
 			"Metalhead64",
-			"Das Schäfchen",
-			"Dan-yell",
+			"Sillyfreak",
 			"Sushi"
 		]
 	},
@@ -52,7 +53,7 @@
 	"Games.helpAbort": "Dieses Level ist sehr schwierig. Möchtest du es überspringen und zum nächsten Spiel gehen? Du kannst später immer noch zurückkehren.",
 	"Index.clear": "Alle deine Lösungen löschen?",
 	"Index.subTitle": "Spiele für die Programmierer von morgen.",
-	"Index.moreInfo": "Weitere Informationen…",
+	"Index.moreInfo": "Informationen für Lehrpersonen…",
 	"Index.startOver": "Neu anfangen?",
 	"Index.clearData": "Daten löschen",
 	"Puzzle.animal1": "Ente",
@@ -238,7 +239,7 @@
 	"Music.helpText2a": "Eine „Funktion“ erlaubt dir die Gruppierung von Blöcken. Führe sie dann mehr als einmal aus.",
 	"Music.helpText2b": "Erstelle eine Funktion, um die ersten vier Noten von „Frère Jacques“ abzuspielen. Führe diese Funktion zweimal aus. Füge keine neuen Notenblöcke hinzu.",
 	"Music.helpText3": "Erstelle eine zweite Funktion für den nächsten Teil von „Frère Jacques“. Die letzte Note ist länger.",
-	"Music.helpText4": "Erstelle eine dritte Funktion für den nächsten Teil von „Frère Jacques“. Die ersten vier Noten sind kürzer.<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "Erstelle eine dritte Funktion für den nächsten Teil von „Frère Jacques“. Die ersten vier Noten sind kürzer.",
 	"Music.helpText5": "Vervollständige die Melodie von „Frère Jacques“.",
 	"Music.helpText6a": "Dieser neue Block lässt dich ein anderes Instrument auswählen.",
 	"Music.helpText6b": "Spiele deine Melodie mit einer Geige.",

@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Genetics
- *
- * Copyright 2016 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -25,7 +12,7 @@
 
 goog.provide('Genetics.Mouse');
 
-goog.require('goog.math');
+goog.require('Blockly.utils.math');
 
 
 /**
@@ -43,15 +30,15 @@ Genetics.Mouse = function(id, sex, playerId, opt_parentOne, opt_parentTwo) {
   // Returns a random integer between two integers; minValue (inclusive)
   // and maxValue (inclusive).
   function randomInt(minValue, maxValue) {
-    return goog.math.randomInt(maxValue - minValue + 1) + minValue;
+    return Math.floor(Math.random() * maxValue - minValue + 1) + minValue;
   }
   if (opt_parentOne && opt_parentTwo) {
     // Choose which functions are inherited from parents.
-    var pickFightParent = goog.math.randomInt(2);
-    var mateQuestionParent = goog.math.randomInt(2);
+    var pickFightParent = randomInt(0, 1);
+    var mateQuestionParent = randomInt(0, 1);
     // Guarantee that at least one function is inherited from each parent.
     var acceptMateParent = (pickFightParent === mateQuestionParent) ?
-        !mateQuestionParent : goog.math.randomInt(2);
+        !mateQuestionParent : randomInt(0, 1);
     this.pickFightOwner = pickFightParent ? opt_parentOne.pickFightOwner :
         opt_parentTwo.pickFightOwner;
     this.proposeMateOwner = mateQuestionParent ?
@@ -59,18 +46,17 @@ Genetics.Mouse = function(id, sex, playerId, opt_parentOne, opt_parentTwo) {
     this.acceptMateOwner = acceptMateParent ? opt_parentOne.acceptMateOwner :
         opt_parentTwo.acceptMateOwner;
     // Assign stats based on parents with some mutations.
-    this.size = goog.math.clamp(
-        goog.math.average(opt_parentOne.size + opt_parentTwo.size) +
+    this.size = Blockly.utils.math.clamp(
+        (opt_parentOne.size + opt_parentTwo.size) / 2 +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION),
         Genetics.Mouse.MIN_SIZE, Genetics.Mouse.MAX_SIZE);
     this.startAggressiveness = Math.max(0, Math.round(
-        goog.math.average(opt_parentOne.startAggressiveness,
-                          opt_parentTwo.startAggressiveness)) +
+        (opt_parentOne.startAggressiveness, opt_parentTwo.startAggressiveness)
+        / 2) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
     this.aggressiveness = this.startAggressiveness;
     this.startFertility = Math.max(0, Math.round(
-        goog.math.average(opt_parentOne.startFertility,
-                          opt_parentTwo.startFertility)) +
+        (opt_parentOne.startFertility + opt_parentTwo.startFertility) / 2) +
         randomInt(Genetics.Mouse.MIN_MUTATION, Genetics.Mouse.MAX_MUTATION));
   } else {
     // Mouse is a first generation mouse.

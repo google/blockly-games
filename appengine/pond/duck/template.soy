@@ -29,22 +29,24 @@
  */
 {template .start}
   {call .messages /}
-  <h1>
-    {call BlocklyGames.soy.titleSpan}
-      {param appName}
-        {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
-      {/param}
-    {/call}
-  </h1>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+    {/param}
+    {param levelLinkSuffix}{/param}
+    {param hasLinkButton: false /}
+    {param hasHelpButton: false /}
+    {param farLeftHtml}{/param}
+  {/call}
 
   {call Pond.soy.visualization /}
 
   <div id="tabarea">
-    <div id="tabbar" class="goog-tab-bar goog-tab-bar-top">
-      <div class="goog-tab goog-tab-selected">{{msg meaning="Games.blocks" desc="IBID"}}Blocks{{/msg}}</div>
-      <div class="goog-tab">JavaScript</div>
+    <div id="editorBar" class="tab-bar">
+      <div class="tab tab-selected">{{msg meaning="Games.blocks" desc="IBID"}}Blocks{{/msg}}</div>
+      <div class="tab">JavaScript</div>
     </div>
-    <div class="goog-tab-bar-clear"></div>
+    <div class="tab-bar-clear"></div>
     <div id="blockly"></div>
     <div id="editor"></div>
   </div>
@@ -62,7 +64,7 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none;">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
       <block type="pond_cannon">
         <value name="DEGREE">

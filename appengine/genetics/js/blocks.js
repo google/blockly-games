@@ -1,24 +1,11 @@
 /**
- * Blockly Games: Genetics Blocks
- *
- * Copyright 2016 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Blocks for Blockly's Genetics application.
+ * @fileoverview Blocks for Genetics game.
  * @author kozbial@google.com (Monica Kozbial)
  */
 'use strict';
@@ -27,8 +14,10 @@ goog.provide('Genetics.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.utils.xml');
+goog.require('Blockly.FieldDropdown');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.JSBlocks');
+goog.require('BlocklyGames.JsBlocks');
 
 
 /**
@@ -40,29 +29,29 @@ Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE = 360;
  */
 Genetics.Blocks.GENETICS_HUE = 20;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 /**
  * Generates the JavaScript from a "mouse function" block (pickFight,
  * proposeMate, acceptMate) given the name and arguments of the function.
  * @param {string} name The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
- * @param {!Blockly.Block} block The block.
- * @return {null}
+ * @return {!Function} A generator function with arguments bound.
  * @private
  */
-Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(name,
-    args, block) {
-  // Define a procedure with a return value.
-  var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
-  var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
-      Blockly.JavaScript.ORDER_NONE) || '';
-  returnValue = '  return ' + returnValue + ';\n';
-  var code = 'function ' + name + '(' + args + ') {\n' +
-      branch + returnValue + '}';
-  code = Blockly.JavaScript.scrub_(block, code);
-  Blockly.JavaScript.definitions_[name] = code;
-  return null;
+Genetics.Blocks.functionJavaScriptFactory_ = function(name, args) {
+  return function(block) {
+    // Define a procedure with a return value.
+    var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
+    var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
+        Blockly.JavaScript.ORDER_NONE) || '';
+    returnValue = '  return ' + returnValue + ';\n';
+    var code = 'function ' + name + '(' + args + ') {\n' +
+        branch + returnValue + '}';
+    code = Blockly.JavaScript.scrub_(block, code);
+    Blockly.JavaScript.definitions_[name] = code;
+    return null;
+  };
 };
 
 /**
@@ -71,34 +60,36 @@ Blockly.JavaScript['genetics_generateMouseFunctionJS_'] = function(name,
  * @param {string} name The name of the mouse function.
  * @param {string} args A comma separated string of the argument variable names.
  * @param {string} returnType The return type of the mouse function.
- * @this Blockly.Block
+ * @return {!Function} An initialization function with arguments bound.
+ * @this {Blockly.Block}
  * @private
  */
-Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
-    function(name, args, returnType) {
-  this.jsonInit({
-    "message0": "function %1(%2) { %3 %4 return %5 }",
-    "args0": [
-      name,
-      args,
-      {
-        "type": "input_dummy"
-      },
-      {
-        "type": "input_statement",
-        "name": "STACK"
-      },
-      {
-        "type": "input_value",
-        "check": returnType,
-        "align": "right",
-        "name": "RETURN"
-      }
-    ],
-    "inputsInline": true,
-    "colour": Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE,
-    "tooltip": BlocklyGames.getMsg('Genetics_' + name + 'Tooltip')
-  });
+Genetics.Blocks.functionInitFactory_ = function(name, args, returnType) {
+  return function() {
+    this.jsonInit({
+      "message0": "function %1(%2) { %3 %4 return %5 }",
+      "args0": [
+        name,
+        args,
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "STACK"
+        },
+        {
+          "type": "input_value",
+          "check": returnType,
+          "align": "right",
+          "name": "RETURN"
+        }
+      ],
+      "inputsInline": true,
+      "colour": Genetics.Blocks.GENETICS_MOUSEFUNCTIONS_HUE,
+      "tooltip": BlocklyGames.getMsg('Genetics_' + name + 'Tooltip')
+    });
+  };
 };
 
 // TODO Add function flag to mouseFunctions once it has been implemented in
@@ -109,8 +100,7 @@ Blockly.Blocks['genetics_initMouseFunctionBlock_'] =
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_pickFight'] = {
-  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'pickFight', '', 'Mouse')
+  init: Genetics.Blocks.functionInitFactory_('pickFight', '', 'Mouse')
 };
 
 /**
@@ -118,16 +108,14 @@ Blockly.Blocks['genetics_pickFight'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_pickFight'] =
-    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'pickFight', '');
+    Genetics.Blocks.functionJavaScriptFactory_('pickFight', '');
 
 /**
  * Block for defining mouse decision on which other mouse to mate with.
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_proposeMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'proposeMate', '', 'Mouse')
+  init: Genetics.Blocks.functionInitFactory_('proposeMate', '', 'Mouse')
 };
 
 /**
@@ -135,20 +123,18 @@ Blockly.Blocks['genetics_proposeMate'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_proposeMate'] =
-    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'proposeMate', '');
+    Genetics.Blocks.functionJavaScriptFactory_('proposeMate', '');
 
 /**
  * Block for defining mouse decision on whether to mate with a specific mouse.
  * @type {{init: !Function}}
  */
 Blockly.Blocks['genetics_acceptMate'] = {
-  init: goog.partial(Blockly.Blocks['genetics_initMouseFunctionBlock_'],
-                     'acceptMate', 'suitor', 'Boolean'),
+  init: Genetics.Blocks.functionInitFactory_('acceptMate', 'suitor', 'Boolean'),
   /**
    * Return all variables referenced by this block.
    * @return {!Array.<string>} List of variable names.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   getVars: function() {
     return ['suitor'];
@@ -156,7 +142,7 @@ Blockly.Blocks['genetics_acceptMate'] = {
   /**
    * Add custom menu options to this block's context menu.
    * @param {!Array} options List of menu options to add to.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   customContextMenu: function(options) {
     // Add options to create getters for suitor parameter.
@@ -164,10 +150,19 @@ Blockly.Blocks['genetics_acceptMate'] = {
       var option = {enabled: true};
       var name = 'suitor';
       option.text = Blockly.Msg['VARIABLES_SET_CREATE_GET'].replace('%1', name);
-      var xmlField = goog.dom.createDom('field', null, name);
-      xmlField.setAttribute('name', 'VAR');
-      var xmlBlock = goog.dom.createDom('block', null, xmlField);
+      /* Creates the following XML:
+       * <block type="variables_get">
+       *   <field name="VAR">suitor</field>
+       * </block>
+       */
+      var xmlBlock = Blockly.utils.xml.createElement('block');
       xmlBlock.setAttribute('type', 'variables_get');
+      var xmlField = Blockly.utils.xml.createElement('field');
+      xmlField.setAttribute('name', 'VAR');
+      var argumentName = Blockly.utils.xml.createTextNode(name);
+      xmlField.appendChild(argumentName);
+      xmlBlock.appendChild(xmlField);
+
       option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
       options.push(option);
     }
@@ -179,13 +174,12 @@ Blockly.Blocks['genetics_acceptMate'] = {
  * @type {!Function}
  */
 Blockly.JavaScript['genetics_acceptMate'] =
-    goog.partial(Blockly.JavaScript['genetics_generateMouseFunctionJS_'],
-                 'acceptMate', 'suitor');
+    Genetics.Blocks.functionJavaScriptFactory_('acceptMate', 'suitor');
 
 Blockly.Blocks['genetics_getSelf'] = {
   /**
    * Block for getting the mouse making the decision.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -212,7 +206,7 @@ Blockly.JavaScript['genetics_getSelf'] = function(block) {
 Blockly.Blocks['genetics_getMice'] = {
   /**
    * Block for getting all mice in the cage.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -241,7 +235,7 @@ Blockly.JavaScript['genetics_getMice'] = function(block) {
 Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Initialization of the getProperties block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var PROPERTIES =
@@ -291,7 +285,7 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @param {string} newProp Either a property requesting a function owner that
    * returns a string or a property that returns a number.
    * @private
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   updateType_: function(newProp) {
     if (newProp == 'SEX') {
@@ -303,7 +297,7 @@ Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Create XML to represent the output type.
    * @return {Element} XML storage element.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   mutationToDom: function() {
     var container = document.createElement('mutation');
@@ -313,7 +307,7 @@ Blockly.Blocks['genetics_getProperties'] = {
   /**
    * Parse XML to restore the output type.
    * @param {!Element} xmlElement XML storage element.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
     this.updateType_(xmlElement.getAttribute('property'));
@@ -366,7 +360,7 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
       code += 'acceptMateOwner';
       break;
     default:
-      throw 'Unknown mouse property: ' + property;
+      throw Error('Unknown mouse property: ' + property);
   }
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
@@ -377,7 +371,7 @@ Blockly.JavaScript['genetics_getProperties'] = function(block) {
 Blockly.Blocks['genetics_sex'] = {
   /**
    * Initializes the sex block.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -418,7 +412,7 @@ Blockly.JavaScript['genetics_sex'] = function(block) {
 Blockly.Blocks['genetics_math_randomInt'] = {
   /**
    * Retrieves a random integer value between two numbers inclusive.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({

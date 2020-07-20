@@ -3,9 +3,9 @@
 		"authors": [
 			"Costin PIETRARU",
 			"Espertus",
+			"MSClaudiu",
 			"Minisarm",
-			"Oana",
-			"MSClaudiu"
+			"Oana"
 		]
 	},
 	"Games.name": "Blockly Games",
@@ -238,7 +238,7 @@
 	"Music.helpText2a": "O 'function' care vă permite să grupați blocurile împreună, apoi să executați mai multe de o dată.",
 	"Music.helpText2b": "Creați o funcție pentru a reda primele patru note ale 'Frère Jacques'. Rulați această funcție de două ori. Nu adăugați blocuri noi.",
 	"Music.helpText3": "Creați a doua funcție pentru următoarea parte a 'Frère Jacques'. Ultima notă este mai lungă.",
-	"Music.helpText4": "Creați a treia funcție pentru următoarea parte a 'Frère Jacques'. Primele patru note sunt mai scurte. <x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "Creați a treia funcție pentru următoarea parte a 'Frère Jacques'. Primele patru note sunt mai scurte.",
 	"Music.helpText5": "Finalizați melodia completă a lui 'Frère Jacques'.",
 	"Music.helpText6a": "Acest nou bloc vă permite să treceți la un alt instrument.",
 	"Music.helpText6b": "Redați melodia dvs. cu o vioară.",

@@ -48,36 +48,16 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.movie" desc="IBID"}Movie{/msg}
-            {/param}
-          {/call}
-          {call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="common/1x1.gif" class="link icon21">
-        </button>
-        &nbsp;
-        <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.movie" desc="IBID"}Movie{/msg}
+    {/param}
+    {param levelLinkSuffix}{/param}
+    {param hasLinkButton: true /}
+    {param hasHelpButton: true /}
+    {param farLeftHtml}{/param}
+  {/call}
+
   <div id="visualization">
     <div id="coordinates">
       <span id="x"></span>
@@ -128,7 +108,6 @@
         {sp}
         <input id="galleryTitle" type="text" name="title" required>
       </div>
-      <footer><!--Legal disclaimer goes here if needed.--></footer>
 
       <div class="farSide">
         <button id="galleryCancel" type="button">
@@ -189,7 +168,7 @@
         {/msg}
         <br><br>
         <code class="ltr">y = ((time - 50) &divide; 5) ^ 2</code>
-        <code class="rtl">2 ^ (5 &divide; (50 - time)) = y</code>
+        <code class="rtl">&lrm;2 ^ (5 &divide; (50 - time)) = y&lrm;</code>
       {elseif $ij.level == 6}
         {msg meaning="Movie.helpText6" desc="Instructions.  Drawing hands on a picture of a person."}
           Give the person a couple of hands.
@@ -226,7 +205,7 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     <category name="{msg meaning="Games.movie" desc="IBID"}Movie{/msg}">
       <block type="movie_circle">
         <value name="X">

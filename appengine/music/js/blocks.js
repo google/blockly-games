@@ -1,25 +1,11 @@
 /**
  * @license
- * Blockly Games: Music Graphics Blocks
- *
- * Copyright 2012 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2012 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Blocks for Blockly's Music Graphics application.
+ * @fileoverview Blocks for Music game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -27,13 +13,15 @@
 goog.provide('Music.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Lists');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Loops');
+goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.variables');
-goog.require('Blockly.FieldPitch');
+goog.require('Blockly.Constants.Variables');
+goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldImage');
+goog.require('Blockly.FieldTextInput');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');
@@ -42,6 +30,7 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
+goog.require('CustomFields.FieldPitch');
 
 
 /**
@@ -52,11 +41,11 @@ Music.Blocks.HUE = 160;
 Blockly.Blocks['music_pitch'] = {
   /**
    * Block for pitch.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldPitch('7'), 'PITCH');
+        .appendField(new CustomFields.FieldPitch('7'), 'PITCH');
     this.setOutput(true, 'Number');
     this.setColour(Blockly.Msg['MATH_HUE']);
     this.setTooltip(BlocklyGames.getMsg('Music_pitchTooltip'));
@@ -64,13 +53,14 @@ Blockly.Blocks['music_pitch'] = {
 };
 
 Blockly.JavaScript['music_pitch'] = function(block) {
-  return [block.getFieldValue('PITCH'), Blockly.JavaScript.ORDER_ATOMIC];
+  return [Number(block.getFieldValue('PITCH')),
+      Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.Blocks['music_note'] = {
   /**
    * Block for playing note.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var options = [
@@ -116,14 +106,14 @@ Blockly.Blocks['music_note'] = {
 Blockly.JavaScript['music_note'] = function(block) {
   var pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
       Blockly.JavaScript.ORDER_COMMA) || '7';
-  return 'play(' + block.getFieldValue('DURATION') + ', ' + pitch +
-          ', \'block_id_' + block.id + '\');\n';
+  return 'play(' + Number(block.getFieldValue('DURATION')) + ', ' + pitch +
+      ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_rest_whole'] = {
   /**
    * Block for waiting a whole note.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -153,7 +143,7 @@ Blockly.JavaScript['music_rest_whole'] = function(block) {
 Blockly.Blocks['music_rest'] = {
   /**
    * Block for waiting.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -186,14 +176,14 @@ Blockly.Blocks['music_rest'] = {
 };
 
 Blockly.JavaScript['music_rest'] = function(block) {
-  return 'rest(' + block.getFieldValue('DURATION') +
+  return 'rest(' + Number(block.getFieldValue('DURATION')) +
       ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_instrument'] = {
   /**
    * Block for changing instrument.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -224,14 +214,14 @@ Blockly.Blocks['music_instrument'] = {
 };
 
 Blockly.JavaScript['music_instrument'] = function(block) {
-  return 'setInstrument(\'' + block.getFieldValue('INSTRUMENT')  +
-          '\', \'block_id_' + block.id + '\');\n';
+  var instrument = Blockly.JavaScript.quote_(block.getFieldValue('INSTRUMENT'));
+  return 'setInstrument(' + instrument + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['music_start'] = {
   /**
    * Block for starting an execution thread.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -272,7 +262,7 @@ if (BlocklyGames.LEVEL < 10) {
   /**
    * Block for defining a procedure with no return value.
    * Remove comment and mutator.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   Blockly.Blocks['procedures_defnoreturn'].init = function() {
     var nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);

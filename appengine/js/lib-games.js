@@ -1,32 +1,19 @@
 /**
- * Blockly Games: Common code (minumum needed to support the index page).
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Common support code for all Blockly apps and the index.
+ * @fileoverview Common support code for all games and the index.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 goog.provide('BlocklyGames');
 
-goog.require('goog.dom.classes');
-goog.require('goog.math');
+goog.require('Blockly.utils.math');
+
 
 /**
  * Lookup for names of languages.  Keys should be in ISO 639 format.
@@ -48,12 +35,12 @@ BlocklyGames.LANGUAGE_NAME = {
   'de': 'Deutsch',
   'el': 'Ελληνικά',
   'en': 'English',
-//  'eo': 'Esperanto',
+  'eo': 'Esperanto',
   'es': 'Español',
   'eu': 'Euskara',
   'fa': 'فارسی',
   'fi': 'Suomi',
-//  'fo': 'Føroyskt',
+  'fo': 'Føroyskt',
   'fr': 'Français',
 //  'frr': 'Frasch',
   'gl': 'Galego',
@@ -109,6 +96,7 @@ BlocklyGames.LANGUAGE_NAME = {
 //  'sw': 'Kishwahili',
 //  'ta': 'தமிழ்',
   'th': 'ภาษาไทย',
+  'ti': 'ትግርኛ',
 //  'tl': 'Tagalog',
   'tr': 'Türkçe',
   'uk': 'Українська',
@@ -140,19 +128,13 @@ BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
  * Is the site being served as raw HTML files, as opposed to on App Engine.
  * @type boolean
  */
-BlocklyGames.IS_HTML = !!window.location.pathname.match(/\.html$/);
-
-/**
- * Blockly's main workspace.
- * @type Blockly.WorkspaceSvg
- */
-BlocklyGames.workspace = null;
+BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
 
 /**
  * Extracts a parameter from the URL.
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.
- * @param {string} defaultValue Value to return if paramater not found.
+ * @param {string} defaultValue Value to return if parameter not found.
  * @return {string} The parameter value or the default value if not found.
  */
 BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
@@ -172,7 +154,8 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  */
 BlocklyGames.getNumberParamFromUrl = function(name, minValue, maxValue) {
   var val = Number(BlocklyGames.getStringParamFromUrl(name, 'NaN'));
-  return isNaN(val) ? minValue : goog.math.clamp(minValue, val, maxValue);
+  return isNaN(val) ? minValue :
+      Blockly.utils.math.clamp(minValue, val, maxValue);
 };
 
 /**
@@ -195,6 +178,7 @@ BlocklyGames.MAX_LEVEL = 10;
 
 /**
  * User's level (e.g. 5).
+ * @type {number}
  */
 BlocklyGames.LEVEL =
     BlocklyGames.getNumberParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
@@ -248,7 +232,7 @@ BlocklyGames.init = function() {
     var link = document.getElementById('level' + i);
     var done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, i);
     if (link && done) {
-      goog.dom.classes.add(link, 'level_done');
+      link.className += ' level_done';
     }
   }
 
@@ -260,7 +244,7 @@ BlocklyGames.init = function() {
   }
 
   // Lazy-load Google analytics.
-  setTimeout(BlocklyGames.importAnalytics, 1);
+  setTimeout(BlocklyGames.importAnalytics_, 1);
 };
 
 /**
@@ -273,7 +257,7 @@ BlocklyGames.changeLanguage = function() {
   var search = window.location.search;
   if (search.length <= 1) {
     search = '?lang=' + newLang;
-  } else if (search.match(/[?&]lang=[^&]*/)) {
+  } else if (/[?&]lang=[^&]*/.test(search)) {
     search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
   } else {
     search = search.replace(/\?/, '?lang=' + newLang + '&');
@@ -300,7 +284,6 @@ BlocklyGames.loadFromLocalStorage = function(name, level) {
   }
   return xml;
 };
-
 
 /**
  * Gets the message with the given key from the document.
@@ -348,11 +331,25 @@ BlocklyGames.bindClick = function(el, func) {
   el.addEventListener('touchend', func, true);
 };
 
+/**
+ * Normalizes an angle to be in range [0-360]. Angles outside this range will
+ * be normalized to be the equivalent angle with that range.
+ * @param {number} angle Angle in degrees.
+ * @return {number} Standardized angle.
+ */
+BlocklyGames.normalizeAngle = function(angle) {
+  angle %= 360;
+  if (angle < 0) {
+    angle += 360;
+  }
+  return angle;
+};
 
 /**
  * Load the Google Analytics.
+ * @private
  */
-BlocklyGames.importAnalytics = function() {
+BlocklyGames.importAnalytics_ = function() {
   if (BlocklyGames.IS_HTML) {
     return;
   }

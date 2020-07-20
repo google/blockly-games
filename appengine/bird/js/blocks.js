@@ -1,24 +1,11 @@
 /**
- * Blockly Games: Bird Blocks
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Blocks for Blockly's Bird application.
+ * @fileoverview Blocks for Bird game.
  * @author q.neutron@gmail.com (Quynh Neutron)
  */
 'use strict';
@@ -26,8 +13,10 @@
 goog.provide('Bird.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Math');
+goog.require('Blockly.FieldAngle');
+goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.math');
@@ -44,12 +33,12 @@ Bird.Blocks.VARIABLES_HUE = 330;
  */
 Bird.Blocks.MOVEMENT_HUE = 290;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['bird_noWorm'] = {
   /**
    * Block for no worm condition.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -69,7 +58,7 @@ Blockly.JavaScript['bird_noWorm'] = function(block) {
 Blockly.Blocks['bird_heading'] = {
   /**
    * Block for moving bird in a direction.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Bird.Blocks.MOVEMENT_HUE);
@@ -83,14 +72,14 @@ Blockly.Blocks['bird_heading'] = {
 
 Blockly.JavaScript['bird_heading'] = function(block) {
   // Generate JavaScript for moving bird in a direction.
-  var dir = parseFloat(block.getFieldValue('ANGLE'));
+  var dir = Number(block.getFieldValue('ANGLE'));
   return 'heading(' + dir + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['bird_position'] = {
   /**
    * Block for getting bird's x or y position.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -118,7 +107,7 @@ Blockly.JavaScript['bird_position'] = function(block) {
 Blockly.Blocks['bird_compare'] = {
   /**
    * Block for comparing bird's x or y position with a number.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
@@ -157,7 +146,7 @@ Blockly.JavaScript['bird_compare'] = function(block) {
 Blockly.Blocks['bird_and'] = {
   /**
    * Block for logical operator 'and'.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['LOGIC_OPERATION_HELPURL']);
@@ -198,7 +187,7 @@ Blockly.JavaScript['bird_and'] = function(block) {
 Blockly.Blocks['bird_ifElse'] = {
   /**
    * Block for 'if/else'.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['CONTROLS_IF_HELPURL']);
@@ -231,7 +220,7 @@ Blockly.Blocks['controls_if'].oldInit = Blockly.Blocks['controls_if'].init;
 
   /**
    * Modify the stock 'if' block to be a singleton.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
 Blockly.Blocks['controls_if'].init = function() {
   this.oldInit();

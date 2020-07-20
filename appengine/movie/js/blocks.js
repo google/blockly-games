@@ -1,24 +1,11 @@
 /**
- * Blockly Games: Movie Blocks
- *
- * Copyright 2012 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2012 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Blocks for Blockly's Movie application.
+ * @fileoverview Blocks for Movie game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -26,14 +13,14 @@
 goog.provide('Movie.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.colour');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Colour');
+goog.require('Blockly.Constants.Lists');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Loops');
+goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.texts');
-goog.require('Blockly.Blocks.variables');
+goog.require('Blockly.Constants.Text');
+goog.require('Blockly.Constants.Variables');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.colour');
 goog.require('Blockly.JavaScript.lists');
@@ -51,12 +38,12 @@ goog.require('BlocklyGames');
  */
 Movie.Blocks.SHAPE_HUE = 160;
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['movie_circle'] = {
   /**
    * Block for drawing a circle.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Movie.Blocks.SHAPE_HUE);
@@ -82,18 +69,18 @@ Blockly.Blocks['movie_circle'] = {
 Blockly.JavaScript['movie_circle'] = function(block) {
   // Generate JavaScript for drawing a circle.
   var x = Blockly.JavaScript.valueToCode(block, 'X',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var y = Blockly.JavaScript.valueToCode(block, 'Y',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var radius = Blockly.JavaScript.valueToCode(block, 'RADIUS',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   return 'circle(' + x + ', ' + y + ', ' + radius + ');\n';
 };
 
 Blockly.Blocks['movie_rect'] = {
   /**
    * Block for drawing a rectangle.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Movie.Blocks.SHAPE_HUE);
@@ -123,20 +110,20 @@ Blockly.Blocks['movie_rect'] = {
 Blockly.JavaScript['movie_rect'] = function(block) {
   // Generate JavaScript for drawing a rectangle.
   var x = Blockly.JavaScript.valueToCode(block, 'X',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var y = Blockly.JavaScript.valueToCode(block, 'Y',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var width = Blockly.JavaScript.valueToCode(block, 'WIDTH',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var height = Blockly.JavaScript.valueToCode(block, 'HEIGHT',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   return 'rect(' + x + ', ' + y + ', ' + width + ', ' + height + ');\n';
 };
 
 Blockly.Blocks['movie_line'] = {
   /**
    * Block for drawing a line.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Movie.Blocks.SHAPE_HUE);
@@ -170,24 +157,23 @@ Blockly.Blocks['movie_line'] = {
 Blockly.JavaScript['movie_line'] = function(block) {
   // Generate JavaScript for drawing a line.
   var x1 = Blockly.JavaScript.valueToCode(block, 'X1',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var y1 = Blockly.JavaScript.valueToCode(block, 'Y1',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var x2 = Blockly.JavaScript.valueToCode(block, 'X2',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var y2 = Blockly.JavaScript.valueToCode(block, 'Y2',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   var width = Blockly.JavaScript.valueToCode(block, 'WIDTH',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   return 'line(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', ' +
       width + ');\n';
 };
 
-
 Blockly.Blocks['movie_time'] = {
   /**
    * Block for getting the current time value.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['VARIABLES_HUE']);
@@ -207,7 +193,7 @@ Blockly.JavaScript['movie_time'] = function(block) {
 Blockly.Blocks['movie_colour'] = {
   /**
    * Block for setting the colour.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['COLOUR_HUE']);

@@ -1,35 +1,23 @@
 /**
  * @license
- * Blockly Games: Music
- *
- * Copyright 2016 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Music pitch input field.
+ * @fileoverview Music pitch input field. Borrowed from Blockly Games.
  * @author fraser@google.com (Neil Fraser)
+ * @author samelh@google.com (Sam El-Husseini)
  */
 'use strict';
 
-goog.provide('Blockly.FieldPitch');
+goog.provide('CustomFields.FieldPitch');
 
 goog.require('Blockly.FieldTextInput');
-goog.require('goog.math');
-goog.require('goog.userAgent');
+goog.require('Blockly.utils.math');
+goog.require('Blockly.utils.object');
 
+var CustomFields = CustomFields || {};
 
 /**
  * Class for an editable pitch field.
@@ -37,62 +25,48 @@ goog.require('goog.userAgent');
  * @extends {Blockly.FieldTextInput}
  * @constructor
  */
-Blockly.FieldPitch = function(text) {
-  Blockly.FieldPitch.superClass_.constructor.call(this, text);
+CustomFields.FieldPitch = function(text) {
+  CustomFields.FieldPitch.superClass_.constructor.call(this, text);
 };
-goog.inherits(Blockly.FieldPitch, Blockly.FieldTextInput);
+Blockly.utils.object.inherits(CustomFields.FieldPitch, Blockly.FieldTextInput);
+
+/**
+ * Construct a FieldPitch from a JSON arg object.
+ * @param {!Object} options A JSON object with options (pitch).
+ * @return {!CustomFields.FieldPitch} The new field instance.
+ * @package
+ * @nocollapse
+ */
+CustomFields.FieldPitch.fromJson = function(options) {
+  return new CustomFields.FieldPitch(options['pitch']);
+};
 
 /**
  * All notes available for the picker.
  */
-Blockly.FieldPitch.NOTES = [
-  'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4'
-];
-
-/**
- * Language-neutral currently selected value (MIDI number).
- * @type {string}
- * @private
- */
-Blockly.FieldPitch.prototype.value_ = '';
-
-/**
- * Clean up this FieldPitch, as well as the inherited FieldTextInput.
- * @return {!Function} Closure to call on destruction of the WidgetDiv.
- * @private
- */
-Blockly.FieldPitch.prototype.dispose_ = function() {
-  var thisField = this;
-  return function() {
-    Blockly.FieldPitch.superClass_.dispose_.call(thisField)();
-    thisField.imageElement_ = null;
-    if (thisField.clickWrapper_) {
-      Blockly.unbindEvent_(thisField.clickWrapper_);
-    }
-    if (thisField.moveWrapper_) {
-      Blockly.unbindEvent_(thisField.moveWrapper_);
-    }
-  };
-};
+CustomFields.FieldPitch.NOTES = 'C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4'.split(/ /);
 
 /**
  * Show the inline free-text editor on top of the text and the note picker.
  * @private
  */
-Blockly.FieldPitch.prototype.showEditor_ = function() {
-  var noFocus =
-      goog.userAgent.MOBILE || goog.userAgent.ANDROID || goog.userAgent.IPAD;
-  // Mobile browsers have issues with in-line textareas (focus & keyboards).
-  Blockly.FieldPitch.superClass_.showEditor_.call(this, noFocus);
+CustomFields.FieldPitch.prototype.showEditor_ = function() {
+  CustomFields.FieldPitch.superClass_.showEditor_.call(this);
+
   var div = Blockly.WidgetDiv.DIV;
   if (!div.firstChild) {
     // Mobile interface uses Blockly.prompt.
     return;
   }
   // Build the DOM.
-  this.imageElement_ = document.createElement('div');
-  this.imageElement_.id = 'notePicker';
-  div.appendChild(this.imageElement_);
+  var editor = this.dropdownCreate_();
+  Blockly.DropDownDiv.getContentDiv().appendChild(editor);
+
+  Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(),
+      this.sourceBlock_.style.colourTertiary);
+
+  Blockly.DropDownDiv.showPositionedByField(
+      this, this.dropdownDispose_.bind(this));
 
   // The note picker is different from other fields in that it updates on
   // mousemove even if it's not in the middle of a drag.  In future we may
@@ -100,76 +74,123 @@ Blockly.FieldPitch.prototype.showEditor_ = function() {
   // bindEventWithChecks_ allows it to work without a mousedown/touchstart.
   this.clickWrapper_ =
       Blockly.bindEvent_(this.imageElement_, 'click', this,
-      Blockly.WidgetDiv.hide);
+          this.hide_);
   this.moveWrapper_ =
       Blockly.bindEvent_(this.imageElement_, 'mousemove', this,
-      this.onMouseMove);
+          this.onMouseMove);
+
   this.updateGraph_();
+};
+
+/**
+ * Create the pitch editor.
+ * @return {!Element} The newly created pitch picker.
+ * @private
+ */
+CustomFields.FieldPitch.prototype.dropdownCreate_ = function() {
+  this.imageElement_ = document.createElement('div');
+  this.imageElement_.id = 'notePicker';
+
+  return this.imageElement_;
+};
+
+/**
+ * Dispose of events belonging to the pitch editor.
+ * @private
+ */
+CustomFields.FieldPitch.prototype.dropdownDispose_ = function() {
+  Blockly.unbindEvent_(this.clickWrapper_);
+  Blockly.unbindEvent_(this.moveWrapper_);
+};
+
+/**
+ * Hide the editor.
+ * @private
+ */
+CustomFields.FieldPitch.prototype.hide_ = function() {
+  Blockly.WidgetDiv.hide();
+  Blockly.DropDownDiv.hideWithoutAnimation();
 };
 
 /**
  * Set the note to match the mouse's position.
  * @param {!Event} e Mouse move event.
  */
-Blockly.FieldPitch.prototype.onMouseMove = function(e) {
+CustomFields.FieldPitch.prototype.onMouseMove = function(e) {
   var bBox = this.imageElement_.getBoundingClientRect();
   var dy = e.clientY - bBox.top;
-  var note = goog.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
+  var note = Blockly.utils.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
   this.imageElement_.style.backgroundPosition = (-note * 37) + 'px 0';
-  Blockly.FieldTextInput.htmlInput_.value = Blockly.FieldPitch.NOTES[note];
-  this.setValue(note);
-  this.validate_();
-  this.resizeEditor_();
+  this.setEditorValue_(note);
 };
 
 /**
- * Set a new note, also set the corresponding MIDI value, and update the picker.
- * @param {?string} newText New text.
+ * Convert the machine-readable value (0-12) to human-readable text (C3-A4).
+ * @param {number|string} value The provided value.
+ * @return {string|undefined} The respective note, or undefined if invalid.
  */
-Blockly.FieldPitch.prototype.setText = function(newText) {
-  newText = this.callValidator(newText) || newText;
-  Blockly.FieldPitch.superClass_.setText.call(this, newText);
-  if (!this.textElement_) {
-    // Not rendered yet.
-    return;
+CustomFields.FieldPitch.prototype.valueToNote = function(value) {
+  return CustomFields.FieldPitch.NOTES[Number(value)];
+};
+
+/**
+ * Convert the human-readable text (C3-A4) to machine-readable value (0-12).
+ * @param {string} text The provided note.
+ * @return {number|undefined} The respective value, or undefined if invalid.
+ */
+CustomFields.FieldPitch.prototype.noteToValue = function(text) {
+  var normalizedText = text.trim().toUpperCase();
+  var i = CustomFields.FieldPitch.NOTES.indexOf(normalizedText);
+  return i > -1 ? i : undefined;
+};
+
+/**
+ * Get the text to be displayed on the field node.
+ * @return {?string} The HTML value if we're editing, otherwise null. Null means
+ *   the super class will handle it, likely a string cast of value.
+ * @protected
+ */
+CustomFields.FieldPitch.prototype.getText_ = function() {
+  if (this.isBeingEdited_) {
+    return CustomFields.FieldPitch.superClass_.getText_.call(this);
   }
-  var i = Blockly.FieldPitch.NOTES.indexOf(newText);
-  if (i != -1) {
-    this.value_ = String(i);
-  }
+  return this.valueToNote(this.getValue()) || null;
+};
+
+/**
+ * Transform the provided value into a text to show in the HTML input.
+ * @param {*} value The value stored in this field.
+ * @return {string} The text to show on the HTML input.
+ */
+CustomFields.FieldPitch.prototype.getEditorText_ = function(value) {
+  return this.valueToNote(value);
+};
+
+/**
+ * Transform the text received from the HTML input (note) into a value
+ * to store in this field.
+ * @param {string} text Text received from the HTML input.
+ * @return {*} The value to store.
+ */
+CustomFields.FieldPitch.prototype.getValueFromEditorText_ = function(text) {
+  return this.noteToValue(text);
+};
+
+/**
+ * Updates the graph when the field rerenders.
+ * @private
+ * @override
+ */
+CustomFields.FieldPitch.prototype.render_ = function() {
+  CustomFields.FieldPitch.superClass_.render_.call(this);
   this.updateGraph_();
-};
-
-/**
- * Get the language-neutral value from this note picker.
- * @return {string} Current text.
- */
-Blockly.FieldPitch.prototype.getValue = function() {
-  return this.value_;
-};
-
-/**
- * Set the language-neutral value for this note picker.
- * @param {string} newValue New value to set.
- */
-Blockly.FieldPitch.prototype.setValue = function(newValue) {
-  if (newValue === null || newValue === this.value_) {
-    return;  // No change if null.
-  }
-  this.value_ = newValue;
-  // Look up and display the human-readable text.
-  var note = Blockly.FieldPitch.NOTES[Number(newValue)];
-  if (note === undefined) {
-    throw 'Invalid note value: ' + newValue;
-  }
-  this.setText(note);
 };
 
 /**
  * Redraw the note picker with the current note.
  * @private
  */
-Blockly.FieldPitch.prototype.updateGraph_ = function() {
+CustomFields.FieldPitch.prototype.updateGraph_ = function() {
   if (!this.imageElement_) {
     return;
   }
@@ -178,17 +199,19 @@ Blockly.FieldPitch.prototype.updateGraph_ = function() {
 };
 
 /**
- * Ensure that only a valid note may be entered.
- * @param {string} text The user's text.
- * @return {?string} A string representing a valid note, or null if invalid.
+ * Ensure that only a valid value may be entered.
+ * @param {*} opt_newValue The input value.
+ * @return {*} A valid value, or null if invalid.
  */
-Blockly.FieldPitch.prototype.classValidator = function(text) {
-  if (text === null) {
+CustomFields.FieldPitch.prototype.doClassValidation_ = function(opt_newValue) {
+  if (opt_newValue === null || opt_newValue === undefined) {
     return null;
   }
-  text = text.replace(/\s/g, '').toUpperCase();
-  if (Blockly.FieldPitch.NOTES.indexOf(text) != -1) {
-    return text;
+  var note = this.valueToNote(opt_newValue);
+  if (note) {
+    return opt_newValue;
   }
   return null;
 };
+
+Blockly.fieldRegistry.register('field_pitch', CustomFields.FieldPitch);

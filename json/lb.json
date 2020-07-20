@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby",
-			"Les Meloures"
+			"Les Meloures",
+			"Robby"
 		]
 	},
 	"Games.name": "Blockly-Spiller",
@@ -39,7 +39,7 @@
 	"Games.blocks": "Bléck",
 	"Games.congratulations": "Gratulatioun!",
 	"Index.clear": "All Är Léisunge läschen?",
-	"Index.moreInfo": "Méi Informatiounen ...",
+	"Index.moreInfo": "Pedagogesch Informatiounen...",
 	"Index.startOver": "Wëllt Dir vu vir ufänken?",
 	"Puzzle.animal1": "Int",
 	"Puzzle.animal2": "Kaz",

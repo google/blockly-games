@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Genetics
- *
- * Copyright 2016 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -25,10 +12,9 @@
 
 goog.provide('Genetics.MouseAvatar');
 
+goog.require('Blockly.utils.dom');
+goog.require('Blockly.utils.math');
 goog.require('Genetics.Mouse');
-goog.require('goog.dom');
-goog.require('goog.math');
-goog.require('goog.object');
 
 
 /**
@@ -73,37 +59,37 @@ Genetics.MouseAvatar = function(mouse) {
    * The SVG element containing the mouse.
    * @const {SVGElement}
    */
-  this.element = document.createElementNS(Blockly.SVG_NS, 'svg');
-  this.element.setAttribute('id', 'mouse' + mouse.id);
-  this.element.setAttribute('class', 'mouse');
+  this.element = Blockly.utils.dom.createSvgElement('svg', {
+      'id': 'mouse' + mouse.id,
+      'class': 'mouse',
+    }, null);
   this.element.style.transformOrigin = Genetics.MouseAvatar.HALF_SIZE + 'px ' +
       Genetics.MouseAvatar.HALF_SIZE + 'px';
 
-  // Create clip path for mouse image
-  var mouseClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
-  mouseClip.setAttribute('id', 'mouse' + mouse.id + 'ClipPath');
-  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
-  clipRect.setAttribute('width', Genetics.MouseAvatar.WIDTH + 'px');
-  clipRect.setAttribute('height', Genetics.MouseAvatar.FULL_HEIGHT + 'px');
-  mouseClip.appendChild(clipRect);
-  this.element.appendChild(mouseClip);
+  // Create clip path for mouse image.
+  var mouseClip = Blockly.utils.dom.createSvgElement('clipPath', {
+      'id': 'mouse' + mouse.id + 'ClipPath'
+    }, this.element);
+  Blockly.utils.dom.createSvgElement('rect', {
+      'width': Genetics.MouseAvatar.WIDTH + 'px',
+      'height': Genetics.MouseAvatar.FULL_HEIGHT + 'px'
+    }, mouseClip);
 
   /**
    * The image element containing the mouse sprite.
    * @private {HTMLImageElement}
    * @const
    */
-  this.image_ = document.createElementNS(Blockly.SVG_NS, 'image');
-  this.image_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'genetics/mouse.png');
-  this.image_.setAttribute('width', Genetics.MouseAvatar.WIDTH * 3 + 'px');
-  this.image_.setAttribute('height',
-      Genetics.MouseAvatar.FULL_HEIGHT * 2 + 'px');
+  this.image_ = Blockly.utils.dom.createSvgElement('image', {
+      'width': Genetics.MouseAvatar.WIDTH * 3 + 'px',
+      'height': Genetics.MouseAvatar.FULL_HEIGHT * 2 + 'px',
+      'clip-path': 'url(#mouse' + mouse.id + 'ClipPath)'
+    }, this.element);
   if (this.sex == Genetics.Mouse.Sex.FEMALE) {
-    this.image_.setAttribute('y', - Genetics.MouseAvatar.FULL_HEIGHT + 'px');
+    this.image_.setAttribute('y', -Genetics.MouseAvatar.FULL_HEIGHT + 'px');
   }
-  this.image_.setAttribute('clip-path', 'url(#mouse' + mouse.id + 'ClipPath)');
-  this.element.appendChild(this.image_);
+  this.image_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
+      'genetics/mouse.png');
 
   // Calculate the pie chart arc start/end based on avatar size.
   var xOffset = Genetics.MouseAvatar.WIDTH / 2 -
@@ -119,39 +105,32 @@ Genetics.MouseAvatar = function(mouse) {
   var y3 = radius * 1.5 + yOffset;
   var centerX = radius + xOffset;
   var centerY = radius + yOffset;
+  var arc = ' A ' + radius + ' ' + radius + ', 0, 0, 1, '
+  var lz = ' L ' + centerX + ' ' + centerY + ' Z';
 
   // Draw top right slice.
-  var proposeMateSlice = document.createElementNS(Blockly.SVG_NS, 'path');
-  proposeMateSlice.setAttribute('d', 'M ' + x1 + ' ' + y1 +
-      ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-      x2 + ' ' + y2 + ' L ' + centerX + ' ' + centerY + ' Z');
-  proposeMateSlice.setAttribute('fill',
-      Genetics.Visualization.COLOURS[this.proposeMateOwner]);
-  this.element.appendChild(proposeMateSlice);
+  Blockly.utils.dom.createSvgElement('path', {
+      'fill': Genetics.Visualization.COLOURS[this.proposeMateOwner],
+      'd': 'M ' + x1 + ' ' + y1 + arc + x2 + ' ' + y2 + lz
+    }, this.element);
 
   // Draw bottom slice.
-  var pickFightSlice = document.createElementNS(Blockly.SVG_NS, 'path');
-  pickFightSlice.setAttribute('d', 'M ' + x2 + ' ' + y2 +
-      ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-      x3 + ' ' + y3 + ' L ' + centerX + ' ' + centerY + ' Z');
-  pickFightSlice.setAttribute('fill',
-      Genetics.Visualization.COLOURS[this.pickFightOwner]);
-  this.element.appendChild(pickFightSlice);
+  Blockly.utils.dom.createSvgElement('path', {
+      'fill': Genetics.Visualization.COLOURS[this.pickFightOwner],
+      'd': 'M ' + x2 + ' ' + y2 + arc + x3 + ' ' + y3 + lz
+    }, this.element);
 
   // Draw top left slice.
-  var acceptMateSlice = document.createElementNS(Blockly.SVG_NS, 'path');
-  acceptMateSlice.setAttribute('d', 'M ' + x3 + ' ' + y3 +
-      ' A ' + radius + ' ' + radius + ', 0, 0, 1, ' +
-      x1 + ' ' + y1 + ' L ' + centerX + ' ' + centerY + ' Z');
-  acceptMateSlice.setAttribute('fill',
-      Genetics.Visualization.COLOURS[this.acceptMateOwner]);
-  this.element.appendChild(acceptMateSlice);
+  Blockly.utils.dom.createSvgElement('path', {
+      'fill': Genetics.Visualization.COLOURS[this.acceptMateOwner],
+      'd': 'M ' + x3 + ' ' + y3 + arc + x1 + ' ' + y1 + lz
+    }, this.element);
 
   /**
    * The direction of the mouse, in radians, between 0 and 2PI.
    * @private {number}
    */
-  this.direction_ = Math.random() * 2 * Math.PI; // Choose a random direction.
+  this.direction_ = Math.random() * 2 * Math.PI;  // Choose a random direction.
 
   /**
    * Whether the mouse is performing a busy animation.
@@ -164,60 +143,17 @@ Genetics.MouseAvatar = function(mouse) {
    * @const {Array.<number>}
    */
   this.actionPids = [0, 0];
-  var wanderAbout = goog.bind(function() {
+  var thisAvatar = this;  // Save 'this' for use in recursive closure.
+  var wanderAbout = function() {
     var wanderTime = 400 + 100 * Math.random();
-    if (!Genetics.MouseAvatar.wanderingDisabled && !this.busy) {
-      this.randomMove_(wanderTime);
+    if (!Genetics.MouseAvatar.wanderingDisabled && !thisAvatar.busy) {
+      thisAvatar.randomMove_(wanderTime);
     }
-    this.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
+    thisAvatar.actionPids[Genetics.MouseAvatar.IDLE_ACTION_PID_INDEX] =
         setTimeout(wanderAbout, wanderTime);
-  }, this);
+  };
   wanderAbout();
 };
-
-Object.defineProperty(Genetics.MouseAvatar.prototype, 'direction', {
-  /**
-   * Sets the direction to a value between 0-2PI in radians and rotates the
-   * mouse to match the direction. Direction angle is clockwise, with 0
-   * indicating the mouse facing right.
-   * @param {number} direction The new value for direction.
-   * @this Genetics.MouseAvatar
-   */
-  set: function(direction) {
-    // Convert direction to a value between 0-2PI
-    direction = goog.math.standardAngleInRadians(direction);
-    // Determine what the change of direction is.
-    var delta = goog.math.angleDifference(direction, this.direction_);
-    if (Math.abs(delta) > Math.PI / 10) {
-      // If change is significant enough, show tail animation.
-      var image = this.image_;
-      var resetStraight = function() {
-        image.setAttribute('x', '0px');
-      };
-      if (delta > 0) {
-        // If the mouse turned right.
-        this.image_.setAttribute('x', -Genetics.MouseAvatar.WIDTH + 'px');
-        setTimeout(resetStraight, 150);
-      } else if (delta < 0) {
-        // If the mouse turned left.
-        this.image_.setAttribute('x', -2 * Genetics.MouseAvatar.WIDTH + 'px');
-        setTimeout(resetStraight, 150);
-      }
-    }
-    // Rotate mouse image to match direction facing.
-    this.element.style.transform =
-        'rotate(' + (direction + Math.PI / 2) + 'rad)';
-    this.direction_ = direction;
-  },
-  /**
-   * Returns the direction the mouse is facing as an angle in radians.
-   * @return {number}
-   * @this Genetics.MouseAvatar
-   */
-  get: function() {
-    return this.direction_;
-  }
-});
 
 /**
  * The width of a mouse.
@@ -288,6 +224,50 @@ Genetics.MouseAvatar.DISPLAY_SIZE = 0;
 Genetics.MouseAvatar.wanderingDisabled = false;
 
 /**
+ * Sets the direction to a value between 0-2PI in radians and rotates the
+ * mouse to match the direction. Direction angle is clockwise, with 0
+ * indicating the mouse facing right.
+ * @param {number} direction The new value for direction.
+ */
+Genetics.MouseAvatar.prototype.setDirection = function(direction) {
+  // Convert direction to a value between 0-2PI
+  direction %= 2 * Math.PI;
+  if (direction < 0) {
+    direction += 2 * Math.PI;
+  }
+  // Determine what the change of direction is.
+  var delta = this.direction_ - direction;
+  if (Math.abs(delta) > Math.PI / 10) {
+    // If change is significant enough, show tail animation.
+    var image = this.image_;
+    var resetStraight = function() {
+      image.setAttribute('x', '0px');
+    };
+    if (delta > 0) {
+      // If the mouse turned right.
+      this.image_.setAttribute('x', -Genetics.MouseAvatar.WIDTH + 'px');
+      setTimeout(resetStraight, 150);
+    } else if (delta < 0) {
+      // If the mouse turned left.
+      this.image_.setAttribute('x', -2 * Genetics.MouseAvatar.WIDTH + 'px');
+      setTimeout(resetStraight, 150);
+    }
+  }
+  // Rotate mouse image to match direction facing.
+  this.element.style.transform =
+      'rotate(' + (direction + Math.PI / 2) + 'rad)';
+  this.direction_ = direction;
+};
+
+/**
+ * Returns the direction the mouse is facing as an angle in radians.
+ * @return {number}
+ */
+Genetics.MouseAvatar.prototype.getDirection = function() {
+  return this.direction_;
+};
+
+/**
  * Stops the mouse animations and clears all queued actions.
  */
 Genetics.MouseAvatar.prototype.stop = function() {
@@ -320,9 +300,9 @@ Genetics.MouseAvatar.prototype.stopMove = function() {
  * @param {number=} opt_time The duration of the move in milliseconds.
  */
 Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
-  var xClamped = goog.math.clamp(x, 0,
+  var xClamped = Blockly.utils.math.clamp(x, 0,
       Genetics.MouseAvatar.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
-  var yClamped = goog.math.clamp(y, 0,
+  var yClamped = Blockly.utils.math.clamp(y, 0,
       Genetics.MouseAvatar.DISPLAY_SIZE - Genetics.MouseAvatar.WIDTH);
 
   var mouseX = parseInt(this.element.style.left, 10);
@@ -341,14 +321,14 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
     this.element.style.left = xClamped + 'px';
     this.element.style.top = yClamped + 'px';
     // Turn mouse towards requested destination.
-    this.direction = Math.atan2(y - mouseY, x - mouseX);
+    this.setDirection(Math.atan2(y - mouseY, x - mouseX));
     this.actionPids[Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX] =
         setTimeout(callback, time);
     return;
   }
 
   // Turn mouse towards destination.
-  this.direction = Math.atan2(yDelta, xDelta);
+  this.setDirection(Math.atan2(yDelta, xDelta));
 
   this.element.style['transition'] = 'top ' + time + 'ms linear, left ' +
       time + 'ms linear';
@@ -368,7 +348,7 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
 Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
   // Choose a direction based off current direction.
   var range = Math.PI / 2;
-  var moveDirection = this.direction + Math.random() * range - range / 2;
+  var moveDirection = this.getDirection() + Math.random() * range - range / 2;
   // Calculate destination in direction chosen.
   var distance = Genetics.MouseAvatar.IDLE_SPEED * time;
   var mouseX = parseInt(this.element.style.left, 10);
@@ -386,7 +366,7 @@ Genetics.MouseAvatar.prototype.randomMove_ = function(time) {
  */
 Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
   if (opt_wanderBeforeFree) {
-    this.moveAbout_(3, goog.bind(this.freeMouse, this));
+    this.moveAbout_(3, this.freeMouse.bind(this));
   } else {
     this.busy = false;
   }
@@ -403,15 +383,16 @@ Genetics.MouseAvatar.prototype.freeMouse = function(opt_wanderBeforeFree) {
  */
 Genetics.MouseAvatar.prototype.moveAbout_ = function(steps, callback) {
   var count = 0;
-  var moveStep = goog.bind(function() {
+  var thisAvatar = this;  // Save 'this' for use in recursive closure.
+  var moveStep = function() {
     var moveTime = 400 + 100 * Math.random();
-    this.randomMove_(moveTime);
+    thisAvatar.randomMove_(moveTime);
     if (++count < steps) {
-      this.actionPids[Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX] =
+      thisAvatar.actionPids[Genetics.MouseAvatar.BUSY_ACTION_PID_INDEX] =
           setTimeout(moveStep, moveTime);
     } else {
       callback();
     }
-  }, this);
+  };
   moveStep();
 };

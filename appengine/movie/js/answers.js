@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Movie Answers
- *
- * Copyright 2014 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2014 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -186,7 +173,7 @@ Movie.answer = function(f) {
 Movie.isCorrect = function() {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return BlocklyGames.workspace.getAllBlocks().length > 1;
+    return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
   // Check the already recorded pixel errors on every frame.
   for (var f = 0; f <= Movie.FRAMES; f++) {
@@ -205,7 +192,7 @@ Movie.isCorrect = function() {
   }
   if (BlocklyGames.LEVEL == 9) {
     // Ensure that the background is behind the figure, not in front.
-    var blocks = BlocklyGames.workspace.getAllBlocks(true);
+    var blocks = BlocklyInterface.workspace.getAllBlocks(true);
     for (var i = 0, block; (block = blocks[i]); i++) {
       if (block.type == 'movie_circle') {
         // Check that the radius on the first circle block is connected to a

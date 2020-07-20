@@ -1,11 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Osgraven",
 			"Cocu",
-			"SuperPotato",
 			"Jon Harald Søby",
-			"Kingu"
+			"Kingu",
+			"Osgraven",
+			"SuperPotato"
 		]
 	},
 	"Games.name": "Blockly-spill",

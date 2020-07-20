@@ -44,37 +44,20 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.maze" desc="IBID"}Maze{/msg}
-            {/param}
-          {/call}
-          {call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}&skin={$ij.skin}{/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="common/1x1.gif" class="link icon21">
-        </button>
-        &nbsp;
-        <button id="pegmanButton">
-          <img src="common/1x1.gif">
-          <span id="pegmanButtonArrow"></span>
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.maze" desc="IBID"}Maze{/msg}
+    {/param}
+    {param levelLinkSuffix}skin={$ij.skin}{/param}
+    {param hasLinkButton: true /}
+    {param hasHelpButton: false /}
+    {param farLeftHtml}
+      <button id="pegmanButton">
+        <img src="common/1x1.gif">
+        <span id="pegmanButtonArrow"></span>
+      </button>
+    {/param}
+  {/call}
 
   <div id="visualization">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="400px">
@@ -238,7 +221,7 @@
  * Toolboxes for each level.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none;">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     <block type="maze_moveForward"></block>
     <block type="maze_turn"><field name="DIR">turnLeft</field></block>
     <block type="maze_turn"><field name="DIR">turnRight</field></block>

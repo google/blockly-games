@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Pond
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -26,8 +13,9 @@
 goog.provide('Pond.Visualization');
 
 goog.require('Blockly');
+goog.require('Blockly.utils.math');
+goog.require('Blockly.utils.userAgent');
 goog.require('Pond.Battle');
-goog.require('goog.userAgent');
 
 
 /**
@@ -45,7 +33,7 @@ Pond.Visualization.EXPLOSIONS = [];
 Pond.Visualization.SPRITES = new Image();
 Pond.Visualization.SPRITES.src = 'pond/sprites.png';
 
-Pond.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#11162a'];
+Pond.Visualization.COLOURS = ['#ff8b00', '#c90015', '#166c0b', '#223068'];
 
 Pond.Visualization.pid = 0;
 
@@ -73,7 +61,7 @@ Pond.Visualization.init = function() {
       'splash');
   // iOS can only process one sound at a time.  Trying to load more than one
   // corrupts the earlier ones.  Just load one and leave the others uncached.
-  if (!goog.userAgent.IPAD && !goog.userAgent.IPHONE) {
+  if (!Blockly.utils.userAgent.IPAD && !Blockly.utils.userAgent.IPHONE) {
     Pond.Visualization.preloadAudio_();
   }
 };
@@ -92,11 +80,15 @@ Pond.Visualization.reset = function() {
   Pond.Visualization.stop();
   Pond.Visualization.EXPLOSIONS.length = 0;
   // Clear out the avatar status row.
-  var row = document.getElementById('avatarStatRow');
-  row.innerHTML = '';
+  var row1 = document.getElementById('avatarStatRow1');
+  row1.innerHTML = '';
+  var row2 = document.getElementById('avatarStatRow2');
+  row2.innerHTML = '';
   var nameDivs = [];
   var healthDivs = [];
-  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+    // Players 0+1 on first row, 2+3 or second, 4+5 on first, etc.
+    var row = (Math.floor(i / 2) % 2) ? row2 : row1;
     // Assign a colour to each avatar.
     var hexColour =
         Pond.Visualization.COLOURS[i % Pond.Visualization.COLOURS.length];
@@ -127,10 +119,10 @@ Pond.Visualization.reset = function() {
     td.appendChild(div);
     row.appendChild(td);
   }
-  for (var i = 0, div; div = nameDivs[i]; i++) {
+  for (var i = 0, div; (div = nameDivs[i]); i++) {
     div.style.width = (div.parentNode.offsetWidth - 2) + 'px';
   }
-  for (var i = 0, div; div = healthDivs[i]; i++) {
+  for (var i = 0, div; (div = healthDivs[i]); i++) {
     div.style.height = (div.parentNode.offsetHeight - 2) + 'px';
   }
   // Render a single frame.
@@ -186,17 +178,17 @@ Pond.Visualization.display_ = function() {
   ctx.fill();
   // Draw the avatars, dead ones first.
   var avatars = [];
-  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
     if (avatar.dead) {
       avatars.push(avatar);
     }
   }
-  for (var i = 0, avatar; avatar = Pond.Battle.AVATARS[i]; i++) {
+  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
     if (!avatar.dead) {
       avatars.push(avatar);
     }
   }
-  for (var i = 0, avatar; avatar = avatars[i]; i++) {
+  for (var i = 0, avatar; (avatar = avatars[i]); i++) {
     ctx.save();
     var x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
     var y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
@@ -216,7 +208,7 @@ Pond.Visualization.display_ = function() {
       } else {
         var speed = Pond.Visualization.AVATAR_SIZE * 2;
       }
-      ctx.rotate(-avatar.degree / 180 * Math.PI);
+      ctx.rotate(Blockly.utils.math.toRadians(-avatar.degree));
       ctx.drawImage(Pond.Visualization.SPRITES,
           Pond.Visualization.AVATAR_SIZE * 13, speed,
           Pond.Visualization.AVATAR_SIZE,
@@ -242,7 +234,7 @@ Pond.Visualization.display_ = function() {
     // Offset the head from the middle.
     var headRadialOffset = 12;
     var headVerticalOffset = 2;
-    var radians = avatar.facing / 180 * Math.PI;
+    var radians = Blockly.utils.math.toRadians(avatar.facing);
     var hx = Math.cos(radians) * headRadialOffset;
     var hy = -Math.sin(radians) * headRadialOffset - headVerticalOffset;
     ctx.translate(hx, hy);
@@ -255,7 +247,7 @@ Pond.Visualization.display_ = function() {
     }
     // For unknown reasons remainder is too large.  Scale down the rotation.
     remainder /= 1.5;
-    ctx.rotate(-remainder / 180 * Math.PI);
+    ctx.rotate(Blockly.utils.math.toRadians(-remainder));
     ctx.drawImage(Pond.Visualization.SPRITES,
         quad * Pond.Visualization.AVATAR_SIZE, colour,
         Pond.Visualization.AVATAR_SIZE,
@@ -269,7 +261,7 @@ Pond.Visualization.display_ = function() {
   }
 
   // Draw the missiles.
-  for (var i = 0, missile; missile = Pond.Battle.MISSILES[i]; i++) {
+  for (var i = 0, missile; (missile = Pond.Battle.MISSILES[i]); i++) {
     ctx.save();
     var progress = missile.progress / missile.range;
     var dx = (missile.endLoc.x - missile.startLoc.x) * progress;
@@ -314,16 +306,16 @@ Pond.Visualization.display_ = function() {
       // Impact between two avatars, or a avatar and the wall.
       // Only play the crash sound if this avatar hasn't crashed recently.
       var lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
-      if (!lastCrash || lastCrash + 1000 < goog.now()) {
+      if (!lastCrash || lastCrash + 1000 < Date.now()) {
         Pond.Visualization.playAudio_('whack', event['damage'] /
                           Pond.Battle.COLLISION_DAMAGE);
-        Pond.Visualization.CRASH_LOG[avatar.id] = goog.now();
+        Pond.Visualization.CRASH_LOG[avatar.id] = Date.now();
       }
     } else if (event['type'] == 'SCAN') {
       // Show a sensor scan beam.
       var halfResolution = Math.max(event['resolution'] / 2, 0.5);
-      var angle1 = -goog.math.toRadians(event['degree'] + halfResolution);
-      var angle2 = -goog.math.toRadians(event['degree'] - halfResolution);
+      var angle1 = -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
+      var angle2 = -Blockly.utils.math.toRadians(event['degree'] - halfResolution);
       ctx.beginPath();
       var x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
       var y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
@@ -375,7 +367,7 @@ Pond.Visualization.display_ = function() {
   Pond.Visualization.ctxDisplay_.drawImage(ctx.canvas, 0, 0);
 
   // Update the health bars.
-  for (var i = 0, avatar; avatar = avatars[i]; i++) {
+  for (var i = 0, avatar; (avatar = avatars[i]); i++) {
     var div = avatar.visualizationHealth;
     div.parentNode.title = avatar.name + ': ' +
         Math.round(100 - avatar.damage) + '%';
@@ -421,7 +413,7 @@ Pond.Visualization.preloadAudio_ = function() {
   for (var name in Pond.Visualization.SOUNDS_) {
     var sound = Pond.Visualization.SOUNDS_[name];
     sound.volume = .01;
-    sound.play();
+    sound.play().catch(function() {});
     sound.pause();
   }
 };
@@ -436,9 +428,7 @@ Pond.Visualization.preloadAudio_ = function() {
 Pond.Visualization.playAudio_ = function(name, opt_volume) {
   var sound = Pond.Visualization.SOUNDS_[name];
   var mySound;
-  var ie9 = goog.userAgent.DOCUMENT_MODE &&
-            goog.userAgent.DOCUMENT_MODE === 9;
-  if (ie9 || goog.userAgent.IPAD || goog.userAgent.ANDROID) {
+  if (Blockly.utils.userAgent.IPAD || Blockly.utils.userAgent.ANDROID) {
     // Creating a new audio node causes lag in IE9, Android and iPad. Android
     // and IE9 refetch the file from the server, iPad uses a singleton audio
     // node which must be deleted and recreated for each new audio tag.

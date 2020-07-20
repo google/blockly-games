@@ -1,24 +1,11 @@
 /**
- * Blockly Games: Maze Blocks
- *
- * Copyright 2012 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2012 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Blocks for Blockly's Maze application.
+ * @fileoverview Blocks for Maze game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -27,6 +14,8 @@ goog.provide('Maze.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
 
 
@@ -55,12 +44,12 @@ Maze.Blocks.LEFT_TURN = ' \u21BA';
  */
 Maze.Blocks.RIGHT_TURN = ' \u21BB';
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['maze_moveForward'] = {
   /**
    * Block for moving forward.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -81,7 +70,7 @@ Blockly.JavaScript['maze_moveForward'] = function(block) {
 Blockly.Blocks['maze_turn'] = {
   /**
    * Block for turning left or right.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -108,7 +97,7 @@ Blockly.JavaScript['maze_turn'] = function(block) {
 Blockly.Blocks['maze_if'] = {
   /**
    * Block for 'if' conditional if there is a path.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -141,7 +130,7 @@ Blockly.JavaScript['maze_if'] = function(block) {
 Blockly.Blocks['maze_ifElse'] = {
   /**
    * Block for 'if/else' conditional if there is a path.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -178,7 +167,7 @@ Blockly.JavaScript['maze_ifElse'] = function(block) {
 Blockly.Blocks['maze_forever'] = {
   /**
    * Block for repeat loop.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Maze.Blocks.LOOPS_HUE);

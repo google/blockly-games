@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-# Converts .xlf files into .json files for use at http://translatewiki.net.
+# Converts .json files from Translatewiki into .js files.
 #
-# Copyright 2013 Google Inc.
-# http://blockly.googlecode.com/
+# Copyright 2013 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,10 +18,10 @@
 
 import argparse
 import codecs      # for codecs.open(..., 'utf-8')
+import glob
 import json        # for json.load()
 import os          # for os.path()
 import subprocess  # for subprocess.check_call()
-import sys         # for sys.argv
 from common import InputError
 
 # Store parsed command-line arguments in global variable.
@@ -161,7 +160,7 @@ def _process_file(path_to_json, target_lang, key_dict):
         if key != '@metadata':
             try:
                 identifier = key_dict[key]
-            except KeyError, e:
+            except KeyError as e:
                 print('Key "%s" is in %s but not in %s' %
                       (key, filename, args.key_file))
                 raise e
@@ -181,19 +180,19 @@ def main():
     """Parses arguments and iterates over files."""
 
     # Set up argument parser.
-    parser = argparse.ArgumentParser(description='Convert JSON files to XLF.')
+    parser = argparse.ArgumentParser(description='Convert JSON files to JS.')
     parser.add_argument('--source_lang', default='en',
                         help='ISO 639-1 source language code')
     parser.add_argument('--output_dir', default='generated/',
                         help='relative directory for output files')
-    parser.add_argument('--key_file', default='keys.json',
+    parser.add_argument('--key_file', default='json/keys.json',
                         help='relative path to input keys file')
     parser.add_argument('--template', default='template.soy')
     parser.add_argument('--min_length', default=30,
                         help='minimum line length (not counting last line)')
     parser.add_argument('--max_length', default=50,
                         help='maximum line length (not guaranteed)')
-    parser.add_argument('--path_to_jar', default='../apps/_soy',
+    parser.add_argument('--path_to_jar', default='third-party-downloads',
                         help='relative path from working directory to '
                         'SoyToJsSrcCompiler.jar')
     parser.add_argument('files', nargs='+', help='input files')
@@ -203,8 +202,8 @@ def main():
     args = parser.parse_args()
 
     # Make sure output_dir ends with slash.
-    if (not args.output_dir.endswith('/')):
-      args.output_dir = args.output_dir + '/'
+    if (not args.output_dir.endswith(os.path.sep)):
+      args.output_dir += os.path.sep
 
     # Read in keys.json, mapping descriptions (e.g., Maze.turnLeft) to
     # Closure keys (long hash numbers).
@@ -215,6 +214,9 @@ def main():
     # Process each input file.
     print('Creating .xlf files...')
     processed_langs = []
+    if len(args.files) == 1:
+      # Windows does not expand globs automatically.
+      args.files = glob.glob(args.files[0])
     for arg_file in args.files:
       (path_to_json, filename) = os.path.split(arg_file)
       if not filename.endswith('.json'):
@@ -241,10 +243,9 @@ def main():
         print('Created ' + processed_lang_list + '/soy.js in ' + args.output_dir)
       else:
         print('Created {' + processed_lang_list + '}/soy.js in ' + args.output_dir)
-      command = ['rm']
-      command.extend(map(lambda s: args.output_dir + s + '.xlf',
-                         processed_langs))
-      subprocess.check_call(command)
+
+      for lang in processed_langs:
+        os.remove(args.output_dir + lang + '.xlf')
       print('Removed .xlf files.')
 
 

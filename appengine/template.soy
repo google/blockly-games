@@ -75,6 +75,53 @@
 {/template}
 
 /**
+ * Top toolbar for page
+ * @param appName Name of application.
+ * @param levelLinkSuffix Any extra parameters for links.
+ * @param hasLinkButton Whether the page has a link button.
+ * @param hasHelpButton Whether the page has a help button.
+ * @param farLeftHtml Additional content to add to farLeft toolbar.
+ */
+{template .headerBar private="true"}
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call .titleSpan}
+            {param appName: $appName /}
+          {/call}
+          {if $ij.level}
+            {call .levelLinks}
+              {param suffix}{if $levelLinkSuffix}{$levelLinkSuffix}{/if}{/param}
+            {/call}
+          {/if}
+        </h1>
+      </td>
+      <td id="header_cta" class="farSide">
+        <select id="languageMenu"></select>
+        {if $hasLinkButton}
+          &nbsp;
+          <button id="linkButton"
+                  title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+            <img src="common/1x1.gif" class="link icon21">
+          </button>
+        {/if}
+        {if $hasHelpButton}
+          &nbsp;
+          <button id="helpButton">
+            {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+          </button>
+        {/if}
+        {if $farLeftHtml}
+          &nbsp;
+          {$farLeftHtml |noAutoescape}
+        {/if}
+      </td>
+    </tr>
+  </table>
+{/template}
+
+/**
  * Print the title span (Blockly Games : AppName).
  * @param appName Name of application.
  */
@@ -94,21 +141,24 @@
 
 /**
  * List of links to other levels.
- * @param level Current level.
- * @param maxLevel Maximum level.
- * @param lang Language code.
  * @param suffix Any extra parameters for links.
  */
 {template .levelLinks private="true"}
   {sp}&nbsp;{sp}
-  {for $i in range(1, $maxLevel + 1)}
+  {for $i in range(1, $ij.maxLevel + 1)}
+    {let $url}
+      ?lang={$ij.lang}&level={$i}
+      {if $suffix}
+        &{$suffix}
+      {/if}
+    {/let}
     {sp}
-    {if $i == $level}
+    {if $i == $ij.level}
       <span class="level_number level_done" id="level{$i}">{$i}</span>
-    {elseif $i == $maxLevel}
-      <a class="level_number" id="level{$i}" href="?lang={$lang}&level={$i}{$suffix}">{$i}</a>
+    {elseif $i == $ij.maxLevel}
+      <a class="level_number" id="level{$i}" href="{$url}">{$i}</a>
     {else}
-      <a class="level_dot" id="level{$i}" href="?lang={$lang}&level={$i}{$suffix}"></a>
+      <a class="level_dot" id="level{$i}" href="{$url}"></a>
     {/if}
   {/for}
 {/template}

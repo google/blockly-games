@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Pond Tutor
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -25,6 +12,8 @@
 
 goog.provide('Pond.Tutor');
 
+goog.require('Blockly.utils.Coordinate');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -33,7 +22,6 @@ goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
 goog.require('Pond.Tutor.soy');
 goog.require('Pond.Visualization');
-goog.require('goog.math.Coordinate');
 
 
 BlocklyGames.NAME = 'pond-tutor';
@@ -72,14 +60,11 @@ Pond.Tutor.init = function() {
     };
     window.addEventListener('scroll', function() {
       onresize(null);
-      Blockly.svgResize(BlocklyGames.workspace);
+      Blockly.svgResize(BlocklyInterface.workspace);
     });
     onresize(null);
-    var toolbox = document.getElementById('toolbox');
-    BlocklyGames.workspace = Blockly.inject('blockly',
-        {'media': 'third-party/blockly/media/',
-         'rtl': false,
-         'toolbox': toolbox,
+    BlocklyInterface.injectBlockly(
+        {'rtl': false,
          'trashcan': true});
     Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
         'damage,health,loc_x,getX,loc_y,getY,');
@@ -88,38 +73,39 @@ Pond.Tutor.init = function() {
     if (BlocklyGames.LEVEL == 7) {
       defaultXml =
         '<xml>' +
-        '  <block type="pond_swim" x="70" y="70">' +
-        '    <value name="DEGREE">' +
-        '      <shadow type="pond_math_number">' +
-        '        <mutation angle_field="true"></mutation>' +
-        '        <field name="NUM">0</field>' +
-        '      </shadow>' +
-        '    </value>' +
-        '  </block>' +
+          '<block type="pond_swim" x="70" y="70">' +
+            '<value name="DEGREE">' +
+              '<shadow type="pond_math_number">' +
+                '<mutation angle_field="true"></mutation>' +
+                '<field name="NUM">0</field>' +
+              '</shadow>' +
+            '</value>' +
+          '</block>' +
         '</xml>';
     } else {
       defaultXml =
         '<xml>' +
-        '  <block type="pond_cannon" x="70" y="70">' +
-        '    <value name="DEGREE">' +
-        '      <shadow type="pond_math_number">' +
-        '        <mutation angle_field="true"></mutation>' +
-        '        <field name="NUM">0</field>' +
-        '      </shadow>' +
-        '    </value>' +
-        '    <value name="RANGE">' +
-        '      <shadow type="pond_math_number">' +
-        '        <mutation angle_field="false"></mutation>' +
-        '        <field name="NUM">70</field>' +
-        '      </shadow>' +
-        '    </value>' +
-        '  </block>' +
+          '<block type="pond_cannon" x="70" y="70">' +
+            '<value name="DEGREE">' +
+              '<shadow type="pond_math_number">' +
+                '<mutation angle_field="true"></mutation>' +
+                '<field name="NUM">0</field>' +
+              '</shadow>' +
+            '</value>' +
+            '<value name="RANGE">' +
+              '<shadow type="pond_math_number">' +
+                '<mutation angle_field="false"></mutation>' +
+                '<field name="NUM">70</field>' +
+              '</shadow>' +
+            '</value>' +
+          '</block>' +
         '</xml>';
     }
     BlocklyInterface.loadBlocks(defaultXml);
   }
 
   if (editorDiv) {
+    BlocklyInterface.blocksDisabled = true;
     // Remove the container for source code in the 'done' dialog.
     var containerCode = document.getElementById('containerCode');
     containerCode.parentNode.removeChild(containerCode);
@@ -130,13 +116,7 @@ Pond.Tutor.init = function() {
     } else {
       defaultCode = 'cannon(0, 70);';
     }
-    BlocklyInterface.editor = window['ace']['edit']('editor');
-    BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-    BlocklyInterface.editor['setShowPrintMargin'](false);
-    var session = BlocklyInterface.editor['getSession']();
-    session['setMode']('ace/mode/javascript');
-    session['setTabSize'](2);
-    session['setUseSoftTabs'](true);
+    BlocklyAce.makeAceSession();
     BlocklyInterface.loadBlocks(defaultCode + '\n');
 
     var onresize = function(e) {
@@ -146,23 +126,20 @@ Pond.Tutor.init = function() {
       editorDiv.style.width = (window.innerWidth - 440) + 'px';
     };
     window.addEventListener('scroll', onresize);
+
+    // Lazy-load the ESx-ES5 transpiler.
+    BlocklyAce.importBabel();
   }
 
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  for (var avatarData, i = 0; avatarData = Pond.Tutor.PLAYERS[i]; i++) {
+  for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
     if (avatarData.code) {
       var div = document.getElementById(avatarData.code);
       var code = div.textContent;
     } else {
-      if (blocklyDiv) {
-        var code = function() {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-        };
-      } else {
-        var code = function() {return BlocklyInterface.editor['getValue']()};
-      }
+      var code = Pond.Tutor.getJsCode;
     }
     var name = BlocklyGames.getMsg(avatarData.name);
     Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);
@@ -172,19 +149,31 @@ Pond.Tutor.init = function() {
 
 window.addEventListener('load', Pond.Tutor.init);
 
+/**
+ * Get the user's executable code as JS from the editor (Blockly or ACE).
+ * Save a copy of the code for the congrats dialog and level auto save.
+ * @return {string} JS code.
+ */
+Pond.Tutor.getJsCode = function() {
+  var code = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  return code;
+};
+
 Pond.Tutor.PLAYERS = [
   // Level 0.
   undefined,
   // Level 1.
   [
     {
-      start: new goog.math.Coordinate(50, 30),
+      start: new Blockly.utils.Coordinate(50, 30),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(50, 70),
+      start: new Blockly.utils.Coordinate(50, 70),
       damage: 99,
       name: 'Pond_targetName',
       code: 'playerTarget'
@@ -193,13 +182,13 @@ Pond.Tutor.PLAYERS = [
   // Level 2.
   [
     {
-      start: new goog.math.Coordinate(70, 50),
+      start: new Blockly.utils.Coordinate(70, 50),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(20, 50),
+      start: new Blockly.utils.Coordinate(20, 50),
       damage: 99,
       name: 'Pond_targetName',
       code: 'playerTarget'
@@ -208,13 +197,13 @@ Pond.Tutor.PLAYERS = [
   // Level 3.
   [
     {
-      start: new goog.math.Coordinate(20, 20),
+      start: new Blockly.utils.Coordinate(20, 20),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(20 + 42.4264, 20 + 42.4264),
+      start: new Blockly.utils.Coordinate(20 + 42.4264, 20 + 42.4264),
       damage: 0,
       name: 'Pond_targetName',
       code: 'playerTarget'
@@ -223,13 +212,13 @@ Pond.Tutor.PLAYERS = [
   // Level 4.
   [
     {
-      start: new goog.math.Coordinate(50, 80),
+      start: new Blockly.utils.Coordinate(50, 80),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(50, 20),
+      start: new Blockly.utils.Coordinate(50, 20),
       damage: 0,
       name: 'Pond_targetName',
       code: 'playerTarget'
@@ -238,13 +227,13 @@ Pond.Tutor.PLAYERS = [
   // Level 5.
   [
     {
-      start: new goog.math.Coordinate(90, 50),
+      start: new Blockly.utils.Coordinate(90, 50),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(50, 50),
+      start: new Blockly.utils.Coordinate(50, 50),
       damage: 0,
       name: 'Pond_pendulumName',
       code: 'playerPendulum'
@@ -253,13 +242,13 @@ Pond.Tutor.PLAYERS = [
   // Level 6.
   [
     {
-      start: new goog.math.Coordinate(10, 50),
+      start: new Blockly.utils.Coordinate(10, 50),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(50, 50),
+      start: new Blockly.utils.Coordinate(50, 50),
       damage: 0,
       name: 'Pond_pendulumName',
       code: 'playerPendulum'
@@ -268,13 +257,13 @@ Pond.Tutor.PLAYERS = [
   // Level 7.
   [
     {
-      start: new goog.math.Coordinate(20, 80),
+      start: new Blockly.utils.Coordinate(20, 80),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(80, 20),
+      start: new Blockly.utils.Coordinate(80, 20),
       damage: 99,
       name: 'Pond_targetName',
       code: 'playerTarget'
@@ -283,13 +272,13 @@ Pond.Tutor.PLAYERS = [
   // Level 8.
   [
     {
-      start: new goog.math.Coordinate(50, 90),
+      start: new Blockly.utils.Coordinate(50, 90),
       damage: 0,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(50, 10),
+      start: new Blockly.utils.Coordinate(50, 10),
       damage: 99,
       name: 'Pond_pendulumName',
       code: 'playerPendulum'
@@ -298,13 +287,13 @@ Pond.Tutor.PLAYERS = [
   // Level 9.
   [
     {
-      start: new goog.math.Coordinate(5, 50),
+      start: new Blockly.utils.Coordinate(5, 50),
       damage: 99,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(95, 50),
+      start: new Blockly.utils.Coordinate(95, 50),
       damage: 0,
       name: 'Pond_targetName',
       code: 'playerTarget'
@@ -313,13 +302,13 @@ Pond.Tutor.PLAYERS = [
   // Level 10.
   [
     {
-      start: new goog.math.Coordinate(10, 10),
+      start: new Blockly.utils.Coordinate(10, 10),
       damage: 50,
       name: 'Pond_playerName',
       code: null
     },
     {
-      start: new goog.math.Coordinate(40, 40),
+      start: new Blockly.utils.Coordinate(40, 40),
       damage: 0,
       name: 'Pond_scaredName',
       code: 'playerScared'

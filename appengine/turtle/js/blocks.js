@@ -1,24 +1,11 @@
 /**
- * Blockly Games: Turtle Blocks
- *
- * Copyright 2012 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2012 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Blocks for Blockly's Turtle application.
+ * @fileoverview Blocks for Turtle game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -26,14 +13,16 @@
 goog.provide('Turtle.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.colour');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.Blocks.math');
+goog.require('Blockly.Constants.Colour');
+goog.require('Blockly.Constants.Lists');
+goog.require('Blockly.Constants.Logic');
+goog.require('Blockly.Constants.Loops');
+goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.texts');
-goog.require('Blockly.Blocks.variables');
+goog.require('Blockly.Constants.Text');
+goog.require('Blockly.Constants.Variables');
+goog.require('Blockly.FieldColour');
+goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.colour');
 goog.require('Blockly.JavaScript.lists');
@@ -61,12 +50,12 @@ Turtle.Blocks.LEFT_TURN = ' \u21BA';
  */
 Turtle.Blocks.RIGHT_TURN = ' \u21BB';
 
-// Extensions to Blockly's language and JavaScript generator.
+// Extensions to Blockly's existing blocks and JavaScript generator.
 
 Blockly.Blocks['turtle_move'] = {
   /**
    * Block for moving forward or backwards.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -85,7 +74,7 @@ Blockly.Blocks['turtle_move'] = {
 Blockly.JavaScript['turtle_move'] = function(block) {
   // Generate JavaScript for moving forward or backwards.
   var value = Blockly.JavaScript.valueToCode(block, 'VALUE',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -93,7 +82,7 @@ Blockly.JavaScript['turtle_move'] = function(block) {
 Blockly.Blocks['turtle_move_internal'] = {
   /**
    * Block for moving forward or backwards.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -116,7 +105,7 @@ Blockly.Blocks['turtle_move_internal'] = {
 
 Blockly.JavaScript['turtle_move_internal'] = function(block) {
   // Generate JavaScript for moving forward or backwards.
-  var value = block.getFieldValue('VALUE');
+  var value = Number(block.getFieldValue('VALUE'));
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -124,7 +113,7 @@ Blockly.JavaScript['turtle_move_internal'] = function(block) {
 Blockly.Blocks['turtle_turn'] = {
   /**
    * Block for turning left or right.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -146,7 +135,7 @@ Blockly.Blocks['turtle_turn'] = {
 Blockly.JavaScript['turtle_turn'] = function(block) {
   // Generate JavaScript for turning left or right.
   var value = Blockly.JavaScript.valueToCode(block, 'VALUE',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+      Blockly.JavaScript.ORDER_COMMA) || '0';
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -154,7 +143,7 @@ Blockly.JavaScript['turtle_turn'] = function(block) {
 Blockly.Blocks['turtle_turn_internal'] = {
   /**
    * Block for turning left or right.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var DIRECTIONS =
@@ -182,7 +171,7 @@ Blockly.Blocks['turtle_turn_internal'] = {
 
 Blockly.JavaScript['turtle_turn_internal'] = function(block) {
   // Generate JavaScript for turning left or right.
-  var value = block.getFieldValue('VALUE');
+  var value = Number(block.getFieldValue('VALUE'));
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -190,7 +179,7 @@ Blockly.JavaScript['turtle_turn_internal'] = function(block) {
 Blockly.Blocks['turtle_width'] = {
   /**
    * Block for setting the width.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Turtle.Blocks.HUE);
@@ -206,14 +195,14 @@ Blockly.Blocks['turtle_width'] = {
 Blockly.JavaScript['turtle_width'] = function(block) {
   // Generate JavaScript for setting the width.
   var width = Blockly.JavaScript.valueToCode(block, 'WIDTH',
-      Blockly.JavaScript.ORDER_NONE) || '1';
+      Blockly.JavaScript.ORDER_COMMA) || '1';
   return 'penWidth(' + width + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_pen'] = {
   /**
    * Block for pen up/down.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -238,14 +227,13 @@ Blockly.Blocks['turtle_pen'] = {
 
 Blockly.JavaScript['turtle_pen'] = function(block) {
   // Generate JavaScript for pen up/down.
-  return block.getFieldValue('PEN') +
-      '(\'block_id_' + block.id + '\');\n';
+  return block.getFieldValue('PEN') + '(\'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_colour'] = {
   /**
    * Block for setting the colour.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['COLOUR_HUE']);
@@ -261,15 +249,14 @@ Blockly.Blocks['turtle_colour'] = {
 Blockly.JavaScript['turtle_colour'] = function(block) {
   // Generate JavaScript for setting the colour.
   var colour = Blockly.JavaScript.valueToCode(block, 'COLOUR',
-      Blockly.JavaScript.ORDER_NONE) || '\'#000000\'';
-  return 'penColour(' + colour + ', \'block_id_' +
-      block.id + '\');\n';
+      Blockly.JavaScript.ORDER_COMMA) || '\'#000000\'';
+  return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_colour_internal'] = {
   /**
    * Block for setting the colour.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setColour(Blockly.Msg['COLOUR_HUE']);
@@ -284,15 +271,14 @@ Blockly.Blocks['turtle_colour_internal'] = {
 
 Blockly.JavaScript['turtle_colour_internal'] = function(block) {
   // Generate JavaScript for setting the colour.
-  var colour = '\'' + block.getFieldValue('COLOUR') + '\'';
-  return 'penColour(' + colour + ', \'block_id_' +
-      block.id + '\');\n';
+  var colour = Blockly.JavaScript.quote_(block.getFieldValue('COLOUR'));
+  return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_visibility'] = {
   /**
    * Block for changing turtle visiblity.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({
@@ -324,7 +310,7 @@ Blockly.JavaScript['turtle_visibility'] = function(block) {
 Blockly.Blocks['turtle_print'] = {
   /**
    * Block for printing text.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.setHelpUrl(BlocklyGames.getMsg('Turtle_printHelpUrl'));
@@ -340,15 +326,14 @@ Blockly.Blocks['turtle_print'] = {
 Blockly.JavaScript['turtle_print'] = function(block) {
   // Generate JavaScript for printing text.
   var argument0 = String(Blockly.JavaScript.valueToCode(block, 'TEXT',
-      Blockly.JavaScript.ORDER_NONE) || '\'\'');
-  return 'print(' + argument0 + ', \'block_id_' +
-      block.id + '\');\n';
+      Blockly.JavaScript.ORDER_COMMA) || '\'\'');
+  return 'print(' + argument0 + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_font'] = {
   /**
    * Block for setting the font.
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     var FONTLIST =
@@ -378,16 +363,17 @@ Blockly.Blocks['turtle_font'] = {
 
 Blockly.JavaScript['turtle_font'] = function(block) {
   // Generate JavaScript for setting the font.
-  return 'font(\'' + block.getFieldValue('FONT') + '\',' +
-      Number(block.getFieldValue('FONTSIZE')) + ',\'' +
-      block.getFieldValue('FONTSTYLE') + '\', \'block_id_' +
-      block.id + '\');\n';
+  var font = Blockly.JavaScript.quote_(block.getFieldValue('FONT'));
+  var fontSize = Number(block.getFieldValue('FONTSIZE'));
+  var fontStyle = Blockly.JavaScript.quote_(block.getFieldValue('FONTSTYLE'));
+  return 'font(' + font + ',' + fontSize + ',' + fontStyle +
+      ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['turtle_repeat_internal'] = {
   /**
    * Block for repeat n times (internal number).
-   * @this Blockly.Block
+   * @this {Blockly.Block}
    */
   init: function() {
     this.jsonInit({

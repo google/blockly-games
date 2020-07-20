@@ -1,32 +1,19 @@
 /**
- * Blockly Games: Gallery
- *
- * Copyright 2018 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Gallery application.
+ * @fileoverview JavaScript for Gallery.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 goog.provide('Gallery');
 
-goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyStorage');
 goog.require('Gallery.soy');
 
 
@@ -39,13 +26,13 @@ Gallery.init = function() {
   Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
   var isAdmin = (Gallery.app == 'admin');
   if (!isAdmin && ['turtle', 'movie', 'music'].indexOf(Gallery.app) == -1) {
-    throw 'Unknown app: ' + Gallery.app;
+    throw Error('Unknown app: ' + Gallery.app);
   }
   if (isAdmin) {
     document.body.className = 'admin';
   }
   // Render the Soy template.
-  // First, just render the messages.
+  // First, render the messages so we can access the app name.
   document.body.innerHTML = Gallery.soy.messages({}, null, {});
   // Second, look up the app name message.
   var appName = isAdmin ?
@@ -71,6 +58,11 @@ Gallery.init = function() {
 Gallery.hasMore = true;
 
 /**
+ * Flag for whether gallery is waiting on loading request.
+ */
+Gallery.loadRequested_ = false;
+
+/**
  * Opaque key to current data loading cursor.
  */
 Gallery.cursor = '';
@@ -79,41 +71,35 @@ Gallery.cursor = '';
  * Load more entries.
  */
 Gallery.loadMore = function() {
-  if (Gallery.xhr_ || !Gallery.hasMore) {
+  if (Gallery.loadRequested_ || !Gallery.hasMore) {
     return;
   }
+
   document.getElementById('loading').style.visibility = 'visible';
-  var xhr = new XMLHttpRequest();
   var url = '/gallery-api/view?app=' + encodeURIComponent(Gallery.app);
   if (Gallery.cursor) {
     url += '&cursor=' + encodeURIComponent(Gallery.cursor);
   }
-  xhr.open('GET', url, true);
-  xhr.onreadystatechange = Gallery.receiveMore;
-  xhr.send();
-  Gallery.xhr_ = xhr;
+  var onFailure = function() {
+    console.warn('Load returned status ' + this.status);
+    Gallery.loadRequested_ = false;
+    Gallery.hasMore = false;
+    if (this.status === 401) {
+      // User isn't logged in.  Bounce to the admin page.
+      location = '/admin';
+    }
+  };
+  BlocklyStorage.makeRequest(url, '', Gallery.receiveMore, onFailure, 'GET');
+  Gallery.loadRequested_ = true;
 };
 
 /**
  * Receive entries from the Gallery server.
  */
 Gallery.receiveMore = function() {
-  var xhr = Gallery.xhr_;
-  if (xhr.readyState !== 4) {
-    return;  // Not ready yet.
-  }
+  Gallery.loadRequested_ = false;
   document.getElementById('loading').style.visibility = 'hidden';
-  Gallery.xhr_ = null;
-  if (xhr.status !== 200) {
-    console.warn('Load returned status ' + xhr.status);
-    Gallery.hasMore = false;
-    if (xhr.status === 401) {
-      // User isn't logged in.  Bounce to the admin page.
-      location = '/admin';
-    }
-    return;
-  }
-  var meta = JSON.parse(xhr.responseText);
+  var meta = JSON.parse(this.responseText);
   if (!meta['more']) {
     Gallery.hasMore = false;
   }
@@ -150,12 +136,9 @@ Gallery.display = function(record) {
 Gallery.publish = function(element) {
   var key = element.id.substring(8);
   var publish = Number(element.checked);
-
-  var xhr = new XMLHttpRequest();
   var url = '/gallery-api/admin';
-  xhr.open('POST', url, true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.send('key=' + encodeURIComponent(key) + '&public=' + publish);
+  var data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
+  BlocklyStorage.makeRequest(url, data);
 };
 
 /**
@@ -172,7 +155,7 @@ Gallery.needMore = function() {
 window.addEventListener('load', Gallery.init);
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-if (!goog.global['Gallery']) {
-  goog.global['Gallery'] = {};
+if (!window['Gallery']) {
+  window['Gallery'] = {};
 }
-goog.global['Gallery']['publish'] = Gallery.publish;
+window['Gallery']['publish'] = Gallery.publish;

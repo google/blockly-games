@@ -1,16 +1,17 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dnow",
 			"Gasolin",
+			"Jessica1213",
 			"Justincheng12345",
-			"Liuxinyu970226",
-			"LNDDYL",
 			"Kasimtan",
 			"Kly",
+			"LNDDYL",
+			"Liuxinyu970226",
 			"Maskers",
-			"Dnow",
-			"Jessica1213",
-			"Wehwei"
+			"Wehwei",
+			"Xiplus"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -42,7 +43,7 @@
 	"Games.catText": "文字",
 	"Games.catLists": "清單",
 	"Games.catColour": "顏色",
-	"Games.catVariables": "變量",
+	"Games.catVariables": "變數",
 	"Games.catProcedures": "函式",
 	"Games.httpRequestError": "這個請求有些問題。",
 	"Games.linkAlert": "透過此連結分享您的區塊：\n\n%1",
@@ -57,7 +58,7 @@
 	"Games.helpAbort": "此關卡非常困難。您是否要跳過並進入下一關？您隨時可以返回這關。",
 	"Index.clear": "刪除你所有的解法？",
 	"Index.subTitle": "為了明日的程式設計師所設計的遊戲。",
-	"Index.moreInfo": "更多資訊...",
+	"Index.moreInfo": "給教育者的資訊...",
 	"Index.startOver": "要重新開始嗎？",
 	"Index.clearData": "清空數據",
 	"Puzzle.animal1": "鴨子",
@@ -243,7 +244,7 @@
 	"Music.helpText2a": "「功能」可讓您把區塊聚集起來，並且可多次執行。",
 	"Music.helpText2b": "建立一個功能來演奏《兩隻老虎》的前四個音符。請執行此功能兩次，並且不要添加任何新的區塊。",
 	"Music.helpText3": "建立內容是《兩隻老虎》下一段的第二個功能。最後的音符為長音。",
-	"Music.helpText4": "建立內容是《兩隻老虎》下一段的第三個功能。前四個音符為短音。<x id='START_BREAK'/><x id='START_IMAGE'/>",
+	"Music.helpText4": "建立內容是《兩隻老虎》下一段的第三個功能。前四個音符為短音。",
 	"Music.helpText5": "作出《兩隻老虎》的完整旋律。",
 	"Music.helpText6a": "此新的區塊讓您可更改成其它樂器。",
 	"Music.helpText6b": "以小提琴演奏您的旋律。",

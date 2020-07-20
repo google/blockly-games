@@ -6,6 +6,4 @@ appengine/*/generated/
 appengine/*/*/generated/
 appengine/third-party/
 json/keys.json
-third-party/
-
-*.komodoproject
+third-party-downloads/*

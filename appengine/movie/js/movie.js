@@ -1,31 +1,28 @@
 /**
- * Blockly Games: Movie
- *
- * Copyright 2014 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2014 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Movie application.
+ * @fileoverview JavaScript for Movie game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 goog.provide('Movie');
 
+goog.require('Blockly.Comment');
+goog.require('Blockly.FieldColour');
+goog.require('Blockly.FlyoutButton');
+goog.require('Blockly.Toolbox');
+goog.require('Blockly.Trashcan');
+goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.style');
+goog.require('Blockly.VerticalFlyout');
+goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
+goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Movie.Answers');
@@ -85,7 +82,7 @@ Movie.init = function() {
   };
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    Blockly.svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
   onresize(null);
@@ -98,11 +95,8 @@ Movie.init = function() {
          '#ffffff', '#999999', '#000000'];
   }
 
-  var toolbox = document.getElementById('toolbox');
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'rtl': rtl,
-       'toolbox': toolbox,
+  BlocklyInterface.injectBlockly(
+      {'rtl': rtl,
        'trashcan': true,
        'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
            {'controls': true, 'wheel': true} : null});
@@ -130,8 +124,9 @@ Movie.init = function() {
   }
   setTimeout(renderRemainingAnswers, 1);
   Movie.renderAxies_();
+  Movie.codeChange();
+  BlocklyInterface.workspace.addChangeListener(Movie.codeChange);
   Movie.display();
-  BlocklyGames.workspace.addChangeListener(Movie.display);
 
   // Initialize the scrubber.
   var scrubberSvg = document.getElementById('scrubber');
@@ -141,10 +136,12 @@ Movie.init = function() {
   }
 
   // Preload the win sound.
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['movie/win.mp3', 'movie/win.ogg'], 'win');
+  // Lazy-load the JavaScript interpreter.
+  BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  setTimeout(BlocklyInterface.importPrettify, 1);
+  BlocklyInterface.importPrettify();
 
   BlocklyGames.bindClick('helpButton', Movie.showHelp);
   if (location.hash.length < 2 &&
@@ -187,9 +184,12 @@ Movie.updateCoordinates = function(e) {
     x -= window.innerWidth;
   }
   // Compensate for the location of the visualization.
-  var offset = goog.style.getBounds(document.getElementById('visualization'));
-  x += rtl ? offset.left : -offset.left;
-  y -= offset.top;
+  var viz = document.getElementById('visualization');
+  var position = Blockly.utils.style.getPageOffset(viz);
+  var scroll = Blockly.utils.style.getViewportPageOffset();
+  var offset = Blockly.utils.Coordinate.difference(position, scroll);
+  x += rtl ? offset.x : -offset.x;
+  y -= offset.y;
   // The visualization is 400x400, but the coordinates are 100x100.
   x /= 4;
   y /= 4;
@@ -208,8 +208,8 @@ Movie.updateCoordinates = function(e) {
     y = Math.round(y / 10) * 10;
   }
   if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
-    document.getElementById('x').innerHTML = 'x = ' + x;
-    document.getElementById('y').innerHTML = 'y = ' + y;
+    document.getElementById('x').textContent = 'x = ' + x;
+    document.getElementById('y').textContent = 'y = ' + y;
   } else {
     Movie.hideCoordinates();
   }
@@ -321,7 +321,7 @@ Movie.renderAxies_ = function() {
 
 /**
  * Draw one frame of the movie.
- * @param {!Interpreter} interpreter A JS Interpreter loaded with user code.
+ * @param {!Interpreter} interpreter A JS-Interpreter loaded with user code.
  * @private
  */
 Movie.drawFrame_ = function(interpreter) {
@@ -347,11 +347,39 @@ Movie.drawFrame_ = function(interpreter) {
 };
 
 /**
+ * Generate new JavaScript if the code has changed.
+ * @param {!Blockly.Events.Abstract=} opt_e Change event.
+ */
+Movie.codeChange = function(opt_e) {
+  if (opt_e instanceof Blockly.Events.Ui) {
+    return;
+  }
+  if (BlocklyInterface.workspace.isDragging()) {
+    // Don't update code during a drag (insertion markers mess everything up).
+    return;
+  }
+  var code = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.executedJsCode == code) {
+    return;
+  }
+  // Code has changed, clear all recorded frame info.
+  Movie.pixelErrors = new Array(Movie.FRAMES);
+  BlocklyInterface.executedJsCode = code;
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  Movie.display();
+};
+
+/**
  * Copy the scratch canvas to the display canvas.
  * @param {number=} opt_frameNumber Which frame to draw (0-100).
  *     If not defined, draws the current frame.
  */
 Movie.display = function(opt_frameNumber) {
+  if (!('Interpreter' in window)) {
+    // Interpreter lazy loads and hasn't arrived yet.  Try again later.
+    setTimeout(function() {Movie.display(opt_frameNumber);}, 250);
+    return;
+  }
   if (typeof opt_frameNumber == 'number') {
     Movie.frameNumber = opt_frameNumber;
   }
@@ -377,7 +405,7 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var code = BlocklyInterface.executedJsCode;
   try {
     var interpreter = new Interpreter(code, Movie.initInterpreter);
   } catch (e) {
@@ -402,40 +430,40 @@ Movie.display = function(opt_frameNumber) {
 
 /**
  * Inject the Movie API into a JavaScript interpreter.
- * @param {!Interpreter} interpreter The JS Interpreter.
- * @param {!Interpreter.Object} scope Global scope.
+ * @param {!Interpreter} interpreter The JS-Interpreter.
+ * @param {!Interpreter.Object} globalObject Global object.
  */
-Movie.initInterpreter = function(interpreter, scope) {
+Movie.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(x, y, radius) {
     Movie.circle(x, y, radius);
   };
-  interpreter.setProperty(scope, 'circle',
+  interpreter.setProperty(globalObject, 'circle',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(x, y, w, h) {
     Movie.rect(x, y, w, h);
   };
-  interpreter.setProperty(scope, 'rect',
+  interpreter.setProperty(globalObject, 'rect',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(x1, y1, x2, y2, w) {
     Movie.line(x1, y1, x2, y2, w);
   };
-  interpreter.setProperty(scope, 'line',
+  interpreter.setProperty(globalObject, 'line',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function(colour) {
     Movie.penColour(colour);
   };
-  interpreter.setProperty(scope, 'penColour',
+  interpreter.setProperty(globalObject, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {
     return Movie.frameNumber;
   };
-  interpreter.setProperty(scope, 'time',
+  interpreter.setProperty(globalObject, 'time',
       interpreter.createNativeFunction(wrapper));
 };
 
@@ -550,7 +578,7 @@ Movie.checkAnswers = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      BlocklyGames.workspace.getAudioManager().play('win', 0.5);
+      BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   }
@@ -560,8 +588,8 @@ Movie.checkAnswers = function() {
  * Send an image of the canvas to gallery.
  */
 Movie.submitToGallery = function() {
-  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
-  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
+  var code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || code.indexOf('time()') == -1) {
     alert(BlocklyGames.getMsg('Movie_submitDisabled'));
     return;
@@ -584,7 +612,7 @@ Movie.submitToGallery = function() {
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
-  BlocklyDialogs.showGalleryForm();
+  BlocklyGallery.showGalleryForm();
 };
 
 window.addEventListener('load', Movie.init);

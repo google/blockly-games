@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Pond
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -25,16 +12,18 @@
 
 goog.provide('Pond.Avatar');
 
-goog.require('goog.math');
-goog.require('goog.math.Coordinate');
-goog.require('goog.net.XhrIo');
+goog.require('Blockly.utils.Coordinate');
+goog.require('Blockly.utils.math');
+goog.require('BlocklyAce');
+goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 
 
 /**
  * Class for a avatar.
  * @param {string} name Avatar's name.
  * @param {string|!Function} code Avatar's code, or generator.
- * @param {!goog.math.Coordinate} startLoc Start location.
+ * @param {!Blockly.utils.Coordinate} startLoc Start location.
  * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
  * @param {!Pond.Battle} battle The battle featuring the avatar.
  * @constructor
@@ -45,7 +34,7 @@ Pond.Avatar = function(name, code, startLoc, startDamage, battle) {
   this.startLoc_ = startLoc;
   this.startDamage_ = startDamage || 0;
   this.battle_ = battle;
-  this.loc = new goog.math.Coordinate();
+  this.loc = new Blockly.utils.Coordinate();
   this.reset();
   console.log(this + ' loaded.');
 };
@@ -87,7 +76,7 @@ Pond.Avatar.prototype.desiredSpeed = 0;
 
 /**
  * X/Y location of the avatar (0 - 100).
- * @type goog.math.Coordinate
+ * @type Blockly.utils.Coordinate
  */
 Pond.Avatar.prototype.loc = null;
 
@@ -118,19 +107,28 @@ Pond.Avatar.prototype.reset = function() {
   this.loc.x = this.startLoc_.x;
   this.loc.y = this.startLoc_.y;
   // Face the centre.
-  this.degree = goog.math.angle(this.loc.x, this.loc.y, 50, 50);
+  this.degree = Pond.Avatar.pointsToAngle(this.loc.x, this.loc.y, 50, 50);
   this.facing = this.degree;
+  this.interpreter = null;
+};
+
+/**
+ * Create an interpreter for this avatar.
+ */
+Pond.Avatar.prototype.initInterpreter = function() {
   var code = this.code_;
-  if (goog.isFunction(code)) {
+  if (typeof code == 'function') {
     code = code();
-  } else if (!goog.isString(code)) {
-    throw 'Avatar ' + this.name + ' has invalid code: ' + code;
+  } else if (typeof code != 'string') {
+    throw Error('Duck "' + this.name + '" has invalid code: ' + code);
   }
-  if ('Interpreter' in window) {
-    this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
-  } else {
-    this.interpreter = null;
+  try {
+    code = BlocklyAce.transpileToEs5(code) || code;
+  } catch (e) {
+    alert(e);
+    throw Error('Duck "' + this.name + '" has error in code:\n' + e);
   }
+  this.interpreter = new Interpreter(code, this.battle_.initInterpreter);
 };
 
 /**
@@ -172,27 +170,27 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   } else {
     resolution = opt_resolution;
   }
-  if (!goog.isNumber(degree) || isNaN(degree) ||
-      !goog.isNumber(resolution) || isNaN(resolution)) {
-    throw TypeError;
+  if ((typeof degree != 'number') || isNaN(degree) ||
+      (typeof resolution != 'number') || isNaN(resolution)) {
+    throw TypeError();
   }
-  degree = goog.math.standardAngle(degree);
-  resolution = goog.math.clamp(resolution, 0, 20);
+  degree = BlocklyGames.normalizeAngle(degree);
+  resolution = Blockly.utils.math.clamp(resolution, 0, 20);
 
   this.battle_.EVENTS.push({'type': 'SCAN', 'avatar': this,
                             'degree': degree, 'resolution': resolution});
 
   // Compute both edges of the scan.
-  var scan1 = goog.math.standardAngle(degree - resolution / 2);
-  var scan2 = goog.math.standardAngle(degree + resolution / 2);
+  var scan1 = BlocklyGames.normalizeAngle(degree - resolution / 2);
+  var scan2 = BlocklyGames.normalizeAngle(degree + resolution / 2);
   if (scan1 > scan2) {
     scan2 += 360;
   }
   var locX = this.loc.x;
   var locY = this.loc.y;
-  // Check every enemy for existance in the scan beam.
+  // Check every enemy for existence in the scan beam.
   var closest = Infinity;
-  for (var i = 0, enemy; enemy = this.battle_.AVATARS[i]; i++) {
+  for (var i = 0, enemy; (enemy = this.battle_.AVATARS[i]); i++) {
     if (enemy == this || enemy.dead) {
       continue;
     }
@@ -206,7 +204,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
     }
     // Compute angle between avatar and enemy's centre.
     var angle = Math.atan2(ey - locY, ex - locX);
-    angle = goog.math.standardAngle(goog.math.toDegrees(angle));
+    angle = BlocklyGames.normalizeAngle(Blockly.utils.math.toDegrees(angle));
     // Raise angle by 360 if needed (handles wrapping).
     if (angle < scan1) {
       angle += 360;
@@ -231,15 +229,15 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
   } else {
     speed = opt_speed;
   }
-  if (!goog.isNumber(degree) || isNaN(degree) ||
-      !goog.isNumber(speed) || isNaN(speed)) {
+  if ((typeof degree != 'number') || isNaN(degree) ||
+      (typeof speed != 'number') || isNaN(speed)) {
     throw TypeError;
   }
-  var desiredDegree = goog.math.standardAngle(degree);
+  var desiredDegree = BlocklyGames.normalizeAngle(degree);
   if (this.degree != desiredDegree) {
     if (this.speed <= 50) {
       // Changes in direction can be negotiated at speeds of less than 50%.
-      this.degree = goog.math.standardAngle(degree);
+      this.degree = BlocklyGames.normalizeAngle(degree);
       this.facing = this.degree;
     } else {
       // Stop the avatar if an over-speed turn was commanded.
@@ -250,7 +248,7 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
     // If starting, bump the speed immediately so that avatars can see a change.
     this.speed = 0.1;
   }
-  this.desiredSpeed = goog.math.clamp(speed, 0, 100);
+  this.desiredSpeed = Blockly.utils.math.clamp(speed, 0, 100);
 };
 
 /**
@@ -268,8 +266,8 @@ Pond.Avatar.prototype.stop = function() {
  *     previous shot.
  */
 Pond.Avatar.prototype.cannon = function(degree, range) {
-  if (!goog.isNumber(degree) || isNaN(degree) ||
-      !goog.isNumber(range) || isNaN(range)) {
+  if ((typeof degree != 'number') || isNaN(degree) ||
+      (typeof range != 'number') || isNaN(range)) {
     throw TypeError;
   }
   var now = Date.now();
@@ -277,13 +275,13 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
     return false;
   }
   this.lastMissile = now;
-  var startLoc = this.loc.clone();
-  degree = goog.math.standardAngle(degree);
+  var startLoc = new Blockly.utils.Coordinate(this.loc.x, this.loc.y);
+  degree = BlocklyGames.normalizeAngle(degree);
   this.facing = degree;
-  range = goog.math.clamp(range, 0, 70);
-  var endLoc = new goog.math.Coordinate(
-      startLoc.x + goog.math.angleDx(degree, range),
-      startLoc.y + goog.math.angleDy(degree, range));
+  range = Blockly.utils.math.clamp(range, 0, 70);
+  var endLoc = new Blockly.utils.Coordinate(
+      startLoc.x + Pond.Avatar.angleDx(degree, range),
+      startLoc.y + Pond.Avatar.angleDy(degree, range));
   var missile = {
     avatar: this,
     startLoc: startLoc,
@@ -296,4 +294,44 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
   this.battle_.EVENTS.push({'type': 'BANG', 'avatar': this,
       'degree': missile.degree});
   return true;
+};
+
+
+/**
+ * For a given angle and radius, finds the X portion of the offset.
+ * Copied from Closure's goog.math.angleDx.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The x-distance for the angle and radius.
+ */
+Pond.Avatar.angleDx = function(degrees, radius) {
+  return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * For a given angle and radius, finds the Y portion of the offset.
+ * Copied from Closure's goog.math.angleDy.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The y-distance for the angle and radius.
+ */
+Pond.Avatar.angleDy = function(degrees, radius) {
+  return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * Computes the angle between two points (x1,y1) and (x2,y2).
+ * Angle zero points in the +X direction, 90 degrees points in the +Y
+ * direction (down) and from there we grow clockwise towards 360 degrees.
+ * Copied from Closure's goog.math.angle.
+ * @param {number} x1 x of first point.
+ * @param {number} y1 y of first point.
+ * @param {number} x2 x of second point.
+ * @param {number} y2 y of second point.
+ * @return {number} Standardized angle in degrees of the vector from
+ *     x1,y1 to x2,y2.
+ */
+Pond.Avatar.pointsToAngle = function(x1, y1, x2, y2) {
+  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  return BlocklyGames.normalizeAngle(angle);
 };

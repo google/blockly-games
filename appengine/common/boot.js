@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Bootloader
- *
- * Copyright 2014 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2014 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -23,6 +10,12 @@
  */
 'use strict';
 
+// Redirect to new domain.
+if (location.host == 'blockly-games.appspot.com') {
+  location.replace('https://blockly.games' +
+      location.pathname + location.search + location.hash);
+}
+
 (function() {
   // Application path.
   var appName = location.pathname.match(/\/([-\w]+)(\.html)?$/);
@@ -30,11 +23,12 @@
 
   // Supported languages (consistent across all apps).
   window['BlocklyGamesLanguages'] = [
-    'ar', 'be', 'be-tarask', 'bg', 'bn', 'br', 'cs', 'da', 'de', 'el', 'en',
-    'es', 'eu', 'fa', 'fi', 'fr', 'gl', 'ha', 'he', 'hi', 'hu', 'hy', 'ia',
-    'id', 'ig', 'is', 'it', 'ja', 'kab', 'ko', 'lt', 'lv', 'ms', 'my', 'nb',
-    'nl', 'pl', 'pms', 'pt', 'pt-br', 'ro', 'ru', 'sc', 'sk', 'sl', 'sq',
-    'sr', 'sv', 'th', 'tr', 'uk', 'ur', 'vi', 'yo', 'zh-hans', 'zh-hant'
+    'ar', 'be', 'be-tarask', 'bg', 'bn', 'br', 'cs', 'da', 'de', 'el',
+    'en', 'eo', 'es', 'eu', 'fa', 'fi', 'fo', 'fr', 'gl', 'ha', 'he',
+    'hi', 'hu', 'hy', 'ia', 'id', 'ig', 'is', 'it', 'ja', 'kab', 'ko',
+    'lt', 'lv', 'ms', 'my', 'nb', 'nl', 'pl', 'pms', 'pt', 'pt-br',
+    'ro', 'ru', 'sc', 'sk', 'sl', 'sq', 'sr', 'sv', 'th', 'ti', 'tr',
+    'uk', 'ur', 'vi', 'yo', 'zh-hans', 'zh-hant'
   ];
 
   // Use a series of heuristics that determine the likely language of this user.

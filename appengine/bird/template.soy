@@ -29,32 +29,15 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.bird" desc="IBID"}Bird{/msg}
-            {/param}
-          {/call}
-          {call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="common/1x1.gif" class="link icon21">
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.bird" desc="IBID"}Bird{/msg}
+    {/param}
+    {param levelLinkSuffix}{/param}
+    {param hasLinkButton: true /}
+    {param hasHelpButton: false /}
+    {param farLeftHtml}{/param}
+  {/call}
 
   <div id="visualization">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px">
@@ -164,7 +147,7 @@
  * Toolboxes for each level.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none;">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     <block type="bird_heading"></block>
     {if $ij.level >= 2}
       {if $ij.level == 4 or $ij.level == 5}

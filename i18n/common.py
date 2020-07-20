@@ -2,8 +2,8 @@
 
 # Code shared by translation conversion scripts.
 #
-# Copyright 2013 Google Inc.
-# http://blockly.googlecode.com/
+# Copyright 2013 Google LLC
+# https://developers.google.com/blockly/
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -100,14 +100,14 @@ def _create_lang_file(author, lang, output_dir):
     lang_file = codecs.open(lang_file_name, 'w', 'utf-8')
     print('Created file: ' + lang_file_name)
     # string.format doesn't like printing braces, so break up our writes.
-    lang_file.write("""{
-\t"@metadata": {
-\t\t"author": "%s",
-\t\t"lastupdated": "%s",
-\t\t"locale": "%s",
+    lang_file.write('{\n\t"@metadata": {')
+    lang_file.write("""
+\t\t"author": "{0}",
+\t\t"lastupdated": "{1}",
+\t\t"locale": "{2}",
 \t\t"messagedocumentation" : "qqq"
-\t},
-""" % (author, str(datetime.now()), lang))
+""".format(author, str(datetime.now()), lang))
+    lang_file.write('\t},\n')
     return lang_file
 
 

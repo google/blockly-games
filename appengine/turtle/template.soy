@@ -40,11 +40,11 @@
     <span id="Turtle_hideTurtle">{msg meaning="Turtle.hideTurtle" desc="block text - Infinitive or imperative of a verb telling a turtle to hide itself (become invisible)."}hide turtle{/msg}</span>
     <span id="Turtle_showTurtle">{msg meaning="Turtle.showTurtle" desc="block text - Infinitive or imperative of a verb telling a turtle to show itself (become visible after having been invisible)."}show turtle{/msg}</span>
 
-    <span id="Turtle_printHelpUrl">{{msg meaning="Turtle.printHelpUrl" desc="{lb}{lb}Optional{rb}{rb} URL - Information about printing or typography."}}https://en.wikipedia.org/wiki/Printing{{/msg}}</span>
+    <span id="Turtle_printHelpUrl">{{msg meaning="Turtle.printHelpUrl" desc="{lb}{lb}Optional{rb}{rb} The URL of a page with basic information about '''printing''' or '''typography'''.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project."}}https://en.wikipedia.org/wiki/Printing{{/msg}}</span>
     <span id="Turtle_printTooltip">{msg meaning="Turtle.printTooltip" desc="tooltip - Note that 'print' refers to displaying text on the screen, not on an external printer."}Draws text in the turtle's direction at its location.{/msg}</span>
     <span id="Turtle_print">{{msg meaning="Turtle.print" desc="block text - Infinitive or imperative of a verb telling a turtle to display text on the screen.  This is always followed by a block indicating what should be printed.\n{lb}{lb}Identical|Print{rb}{rb}"}}print{{/msg}}</span>
 
-    <span id="Turtle_fontHelpUrl">{{msg meaning="Turtle.fontHelpUrl" desc="{lb}{lb}Optional{rb}{rb} URL - Information about typographic fonts."}}https://en.wikipedia.org/wiki/Font{{/msg}}</span>
+    <span id="Turtle_fontHelpUrl">{{msg meaning="Turtle.fontHelpUrl" desc="{lb}{lb}Optional{rb}{rb} The URL of a page with basic information about '''typographic fonts'''.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project."}}https://en.wikipedia.org/wiki/Font{{/msg}}</span>
     <span id="Turtle_fontTooltip">{msg meaning="Turtle.fontTooltip" desc="tooltip - This is shown on the block that lets the user specify the font [family], size, and style that should be used for subsequent displays of text."}Sets the font used by the print block.{/msg}</span>
     <span id="Turtle_font">{{msg meaning="Turtle.font" desc="block text - This precedes a dropdown menu specifying the typographic font [family] that should be used when displaying text.\n{lb}{lb}Identical|Font{rb}{rb}"}}font{{/msg}}</span>
     <span id="Turtle_fontSize">{{msg meaning="Turtle.fontSize" desc="block text - This precedes a number specifying the size of the typographic font that should be used when displaying text.  This appears in the same block as 'font', so that word should not be repeated.\n{lb}{lb}Identical|Font size{rb}{rb}"}}font size{{/msg}}</span>
@@ -61,36 +61,16 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}
-            {/param}
-          {/call}
-          {call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="common/1x1.gif" class="link icon21">
-        </button>
-        &nbsp;
-        <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}
+    {/param}
+    {param levelLinkSuffix}{/param}
+    {param hasLinkButton: true /}
+    {param hasHelpButton: true /}
+    {param farLeftHtml}{/param}
+  {/call}
+
   <div id="visualization">
     <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
     <canvas id="answer" width="400" height="400" style="display: none"></canvas>
@@ -111,13 +91,13 @@
           <clipPath id="slowClipPath">
             <rect width=26 height=12 x=5 y=14 />
           </clipPath>
-          <image xlink:href="turtle/icons.png" height=42 width=84 x=-21 y=-10
+          <image xlink:href="common/icons.png" height=63 width=84 x=-21 y=-10
               clip-path="url(#slowClipPath)" />
           <!-- Fast icon. -->
           <clipPath id="fastClipPath">
             <rect width=26 height=16 x=120 y=10 />
           </clipPath>
-          <image xlink:href="turtle/icons.png" height=42 width=84 x=120 y=-11
+          <image xlink:href="common/icons.png" height=63 width=84 x=120 y=-11
               clip-path="url(#fastClipPath)" />
         </svg>
       </td>
@@ -165,7 +145,6 @@
         {sp}
         <input id="galleryTitle" type="text" name="title" required>
       </div>
-      <footer><!--Legal disclaimer goes here if needed.--></footer>
 
       <div class="farSide">
         <button id="galleryCancel" type="button">
@@ -283,7 +262,7 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     {if $ij.level == 10}
       <category name="{msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}">
         <block type="turtle_move">

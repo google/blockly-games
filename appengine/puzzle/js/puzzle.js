@@ -1,36 +1,23 @@
 /**
- * Blockly Games: Puzzle
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Puzzle application.
+ * @fileoverview JavaScript for Puzzle game.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 goog.provide('Puzzle');
 
-goog.require('Puzzle.soy');
-goog.require('Puzzle.Blocks');
+goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('goog.math');
+goog.require('Puzzle.soy');
+goog.require('Puzzle.Blocks');
 
 
 BlocklyGames.NAME = 'puzzle';
@@ -56,9 +43,8 @@ Puzzle.init = function() {
   onresize(null);
   window.addEventListener('resize', onresize);
 
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-       'rtl': rtl,
+  BlocklyInterface.injectBlockly(
+      {'rtl': rtl,
        'scrollbars': false,
        'trashcan': false});
 
@@ -75,10 +61,10 @@ Puzzle.init = function() {
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
     var xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   } else if (savedBlocks) {
     var xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   } else {
     // Create one of every block.
     var blocksAnimals = [];
@@ -87,15 +73,15 @@ Puzzle.init = function() {
     var i = 1;
     var block;
     while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
-      block = BlocklyGames.workspace.newBlock('animal');
+      block = BlocklyInterface.workspace.newBlock('animal');
       block.populate(i);
       blocksAnimals.push(block);
-      block = BlocklyGames.workspace.newBlock('picture');
+      block = BlocklyInterface.workspace.newBlock('picture');
       block.populate(i);
       blocksPictures.push(block);
       var j = 1;
       while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
-        block = BlocklyGames.workspace.newBlock('trait');
+        block = BlocklyInterface.workspace.newBlock('trait');
         block.populate(i, j);
         blocksTraits.push(block);
         j++;
@@ -126,8 +112,8 @@ Puzzle.init = function() {
     }
     // Position the blocks randomly.
     var MARGIN = 50;
-    Blockly.svgResize(BlocklyGames.workspace);
-    var workspaceBox = Blockly.svgSize(BlocklyGames.workspace.getParentSvg());
+    Blockly.svgResize(BlocklyInterface.workspace);
+    var workspaceBox = Blockly.svgSize(BlocklyInterface.workspace.getParentSvg());
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
@@ -149,7 +135,7 @@ Puzzle.init = function() {
       countedArea += block.cached_area_;
     }
   }
-  BlocklyGames.workspace.clearUndo();
+  BlocklyInterface.workspace.clearUndo();
 
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
@@ -162,7 +148,7 @@ Puzzle.init = function() {
   Blockly.SNAP_RADIUS *= 2;
   Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   // Preload the win sound.
-  BlocklyGames.workspace.getAudioManager().load(
+  BlocklyInterface.workspace.getAudioManager().load(
       ['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
 };
 
@@ -185,7 +171,7 @@ Puzzle.shuffle = function(arr) {
 
 /**
  * Return a list of all legs.
- * @return {!Array<!Array<string>>} Array of human-readable and
+ * @return {!Array.<!Array.<string>>} Array of human-readable and
  *   language-neutral tuples.
  */
 Puzzle.legs = function() {
@@ -196,7 +182,7 @@ Puzzle.legs = function() {
     list[i] = [legs, String(i)];
     i++;
   }
-  // Sort numericallly.
+  // Sort numerically.
   list.sort(function(a, b) {return a[0] - b[0];});
   return list;
 };
@@ -205,10 +191,10 @@ Puzzle.legs = function() {
  * Count and highlight the errors.
  */
 Puzzle.checkAnswers = function() {
-  var blocks = BlocklyGames.workspace.getAllBlocks();
+  var blocks = BlocklyInterface.workspace.getAllBlocks();
   var errors = 0;
   var badBlocks = [];
-  for (var b = 0, block; block = blocks[b]; b++) {
+  for (var b = 0, block; (block = blocks[b]); b++) {
     if (!block.isCorrect()) {
       errors++;
       // Bring the offending blocks to the front.
@@ -233,6 +219,7 @@ Puzzle.checkAnswers = function() {
   } else {
     messages = [BlocklyGames.getMsg('Puzzle_error0').replace(
         '%1', blocks.length)];
+    BlocklyInterface.executedCode = BlocklyInterface.getCode();
     BlocklyInterface.saveToLocalStorage();
   }
   var textDiv = document.getElementById('answerMessage');
@@ -280,8 +267,13 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  BlocklyGames.workspace.getAudioManager().play('win', 0.5);
-  var blocks = BlocklyGames.workspace.getTopBlocks(false);
+  BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
+  // Enable dragging of workspace.  This sets Blockly to allow blocks to
+  // move off-screen, rather than auto-bump them back in bounds.
+  // This has no UI change, since the workspace is now permanently
+  // non-interactive due to the modal winning dialog.
+  BlocklyInterface.workspace.options.moveOptions.drag = true;
+  var blocks = BlocklyInterface.workspace.getTopBlocks(false);
   for (var i = 0, block; (block = blocks[i]); i++) {
     var angle = 360 * (i / blocks.length);
     Puzzle.animate(block, angle);
@@ -300,7 +292,7 @@ Puzzle.animate = function(block, angleOffset) {
     return;
   }
   // Collect all the metrics.
-  var workspaceMetrics = BlocklyGames.workspace.getMetrics();
+  var workspaceMetrics = BlocklyInterface.workspace.getMetrics();
   var halfHeight = workspaceMetrics.viewHeight / 2;
   var halfWidth = workspaceMetrics.viewWidth / 2;
   var blockHW = block.getHeightWidth();
@@ -316,9 +308,9 @@ Puzzle.animate = function(block, angleOffset) {
   var angle = angleOffset + (ms / 50 % 360);
   // Vary the radius sinusoidally.
   radius *= Math.sin(((ms % 5000) / 5000) * (Math.PI * 2)) / 8 + 7 / 8;
-  var targetX = goog.math.angleDx(angle, radius) + halfWidth -
+  var targetX = Puzzle.angleDx(angle, radius) + halfWidth -
       blockHW.width / 2;
-  var targetY = goog.math.angleDy(angle, radius) + halfHeight -
+  var targetY = Puzzle.angleDy(angle, radius) + halfHeight -
       blockHW.height / 2;
   var speed = 5;
 
@@ -328,12 +320,51 @@ Puzzle.animate = function(block, angleOffset) {
     var dx = targetX - blockXY.x;
     var dy = targetY - blockXY.y;
   } else {
-    var heading = goog.math.angle(blockXY.x, blockXY.y, targetX, targetY);
-    var dx = Math.round(goog.math.angleDx(heading, speed));
-    var dy = Math.round(goog.math.angleDy(heading, speed));
+    var heading = Puzzle.pointsToAngle(blockXY.x, blockXY.y, targetX, targetY);
+    var dx = Math.round(Puzzle.angleDx(heading, speed));
+    var dy = Math.round(Puzzle.angleDy(heading, speed));
   }
   block.moveBy(dx, dy);
   setTimeout(Puzzle.animate.bind(null, block, angleOffset), 50);
+};
+
+/**
+ * For a given angle and radius, finds the X portion of the offset.
+ * Copied from Closure's goog.math.angleDx.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The x-distance for the angle and radius.
+ */
+Puzzle.angleDx = function(degrees, radius) {
+  return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * For a given angle and radius, finds the Y portion of the offset.
+ * Copied from Closure's goog.math.angleDy.
+ * @param {number} degrees Angle in degrees (zero points in +X direction).
+ * @param {number} radius Radius.
+ * @return {number} The y-distance for the angle and radius.
+ */
+Puzzle.angleDy = function(degrees, radius) {
+  return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
+};
+
+/**
+ * Computes the angle between two points (x1,y1) and (x2,y2).
+ * Angle zero points in the +X direction, 90 degrees points in the +Y
+ * direction (down) and from there we grow clockwise towards 360 degrees.
+ * Copied from Closure's goog.math.angle.
+ * @param {number} x1 x of first point.
+ * @param {number} y1 y of first point.
+ * @param {number} x2 x of second point.
+ * @param {number} y2 y of second point.
+ * @return {number} Standardized angle in degrees of the vector from
+ *     x1,y1 to x2,y2.
+ */
+Puzzle.pointsToAngle = function(x1, y1, x2, y2) {
+  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  return BlocklyGames.normalizeAngle(angle);
 };
 
 /**

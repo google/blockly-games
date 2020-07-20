@@ -19,7 +19,7 @@
     // Block text and their associated tooltips and URLs (interleaved to
     // assist with translation).
     <span id="Music_playNoteTooltip">{msg meaning="Music.playNoteTooltip" desc="tooltip"}Plays one musical note of the specified duration and pitch.{/msg}</span>
-    <span id="Music_playNote">{msg meaning="Music.playNote" desc="Plays one musical note.  %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...)."}play %1 note %2{/msg}</span>
+    <span id="Music_playNote">{msg meaning="Music.playNote" desc="Plays one musical note.  %1 is duration of the note (whole, quarter, ...), %2 is the pitch of the note (A, B, C, ...).\n\n''FIXME''' :\n* Where are the translation for 'whole note', 'quarter note' (note: this cannot be split with the common term for 'note', the adjectives for 'whole' or 'half' may combine differently or both may combine to a single and distinctive term), so '%1 note' should become just '%1' after fixing the code and adding new translation units.\n* The pitches (A, B, C, ...) are also language dependant (C=do/ut, D=re, ... G=sol, A=la, B=si) and should be translatable too."}play %1 note %2{/msg}</span>
     <span id="Music_restTooltip">{msg meaning="Music.restTooltip" desc="tooltip"}Waits for the specified duration.{/msg}</span>
     <span id="Music_restWholeTooltip">{msg meaning="Music.restWholeTooltip" desc="tooltip"}Waits for one whole note.{/msg}</span>
     <span id="Music_rest">{msg meaning="Music.rest" desc="Plays no music for a duration specified.  %1 is the duration (whole, quarter, ...)."}rest %1{/msg}</span>
@@ -48,36 +48,16 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.music" desc="IBID"}Music{/msg}
-            {/param}
-          {/call}
-          {call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
-        <select id="languageMenu"></select>
-        &nbsp;
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
-          <img src="common/1x1.gif" class="link icon21">
-        </button>
-        &nbsp;
-        <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
-        </button>
-      </td>
-    </tr>
-  </table>
+  {call BlocklyGames.soy.headerBar}
+    {param appName}
+      {msg meaning="Games.music" desc="IBID"}Music{/msg}
+    {/param}
+    {param levelLinkSuffix}{/param}
+    {param hasLinkButton: true /}
+    {param hasHelpButton: true /}
+    {param farLeftHtml}{/param}
+  {/call}
+
   <div id="paddingBox"></div>
   <div id="staveBox"></div>
   <div id="musicBox">
@@ -98,13 +78,13 @@
           <clipPath id="slowClipPath">
             <rect width=26 height=12 x=5 y=14 />
           </clipPath>
-          <image xlink:href="music/icons.png" height=42 width=84 x=-21 y=-10
+          <image xlink:href="common/icons.png" height=63 width=84 x=-21 y=-10
               clip-path="url(#slowClipPath)" />
           <!-- Fast icon. -->
           <clipPath id="fastClipPath">
             <rect width=26 height=16 x=120 y=10 />
           </clipPath>
-          <image xlink:href="music/icons.png" height=42 width=84 x=120 y=-11
+          <image xlink:href="common/icons.png" height=63 width=84 x=120 y=-11
               clip-path="url(#fastClipPath)" />
         </svg>
       </td>
@@ -152,7 +132,6 @@
         {sp}
         <input id="galleryTitle" type="text" name="title" required>
       </div>
-      <footer><!--Legal disclaimer goes here if needed.--></footer>
 
       <div class="farSide">
         <button id="galleryCancel" type="button">
@@ -217,8 +196,8 @@
         {msg meaning="Music.helpText4" desc="Instructions."}
           Create a third function for the next part of 'Frère Jacques'.
           The first four notes are shorter.
-        <br><img src="music/note0.125.png" class="sampleNote">
         {/msg}
+        <br><img src="music/note0.125.png" class="sampleNote">
       {elseif $ij.level == 5}
         {msg meaning="Music.helpText5" desc="Instructions."}
           Complete the full tune of 'Frère Jacques'.
@@ -269,7 +248,7 @@
  * Toolbox.
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none">
+  <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     {if $ij.level == 10}
       <category name="{msg meaning="Games.music" desc="IBID"}Music{/msg}">
         <block type="music_pitch">
@@ -349,13 +328,6 @@
           <value name="NUMBER_TO_CHECK">
             <shadow type="math_number">
               <field name="NUM">0</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="math_change">
-          <value name="DELTA">
-            <shadow type="math_number">
-              <field name="NUM">1</field>
             </shadow>
           </value>
         </block>

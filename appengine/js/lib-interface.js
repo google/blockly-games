@@ -1,24 +1,11 @@
 /**
- * Blockly Games: Common code for interfacing with Blockly.
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview Common support code for Blockly apps.
+ * @fileoverview Common support code for games that embed Blockly.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -26,16 +13,42 @@
 goog.provide('BlocklyInterface');
 
 goog.require('Blockly');
+goog.require('Blockly.geras.Renderer');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
-goog.require('goog.string');
+goog.require('BlocklyStorage');
 
+
+/**
+ * Blockly's main workspace.
+ * @type Blockly.WorkspaceSvg
+ */
+BlocklyInterface.workspace = null;
 
 /**
  * Text editor (used as an alternative to Blockly in advanced apps).
  * @type Object
  */
 BlocklyInterface.editor = null;
+
+/**
+ * Is the blocks editor disabled due to the JS editor having control?
+ * @type boolean
+ */
+BlocklyInterface.blocksDisabled = false;
+
+/**
+ * User's code (XML or JS) from the editor (Blockly or ACE) from previous
+ * execution.
+ * @type string
+ */
+BlocklyInterface.executedCode = '';
+
+/**
+ * User's JavaScript code from previous execution.
+ * @type string
+ */
+BlocklyInterface.executedJsCode = '';
 
 /**
  * Common startup tasks for all apps.
@@ -45,20 +58,14 @@ BlocklyInterface.init = function() {
 
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
-  if ('BlocklyStorage' in window) {
-    BlocklyStorage['HTTPREQUEST_ERROR'] =
-        BlocklyGames.getMsg('Games_httpRequestError');
-    BlocklyStorage['LINK_ALERT'] = BlocklyGames.getMsg('Games_linkAlert');
-    BlocklyStorage['HASH_ERROR'] = BlocklyGames.getMsg('Games_hashError');
-    BlocklyStorage['XML_ERROR'] = BlocklyGames.getMsg('Games_xmlError');
-    // Swap out the BlocklyStorage's alert() for a nicer dialog.
-    BlocklyStorage['alert'] =
-        BlocklyDialogs.storageAlert.bind(BlocklyDialogs, linkButton);
-    if (linkButton) {
-      BlocklyGames.bindClick(linkButton, BlocklyStorage['link']);
+  if (linkButton) {
+    if (!BlocklyGames.IS_HTML) {
+      BlocklyStorage.getCode = BlocklyInterface.getCode;
+      BlocklyStorage.setCode = BlocklyInterface.setCode;
+      BlocklyGames.bindClick(linkButton, BlocklyStorage.link);
+    } else {
+      linkButton.style.display = 'none';
     }
-  } else if (linkButton) {
-    linkButton.style.display = 'none';
   }
 
   var languageMenu = document.getElementById('languageMenu');
@@ -66,10 +73,6 @@ BlocklyInterface.init = function() {
     languageMenu.addEventListener('change',
         BlocklyInterface.changeLanguage, true);
   }
-
-  // Switch to zero-based indexing so that later JS levels match the blocks.
-  Blockly.Blocks && (Blockly.Blocks.ONE_BASED_INDEXING = false);
-  Blockly.JavaScript && (Blockly.JavaScript.ONE_BASED_INDEXING = false);
 };
 
 /**
@@ -79,9 +82,9 @@ BlocklyInterface.init = function() {
  *     previous level.  If a function, call it to modify the inherited blocks.
  */
 BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+  if (!BlocklyGames.IS_HTML && window.location.hash.length > 1) {
     // An href with #key triggers an AJAX call to retrieve saved blocks.
-    BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
+    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
     return;
   }
 
@@ -124,9 +127,9 @@ BlocklyInterface.setCode = function(code) {
     // Blockly editor.
     var xml = Blockly.Xml.textToDom(code);
     // Clear the workspace to avoid merge.
-    BlocklyGames.workspace.clear();
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-    BlocklyGames.workspace.clearUndo();
+    BlocklyInterface.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    BlocklyInterface.workspace.clearUndo();
   }
 };
 
@@ -140,10 +143,10 @@ BlocklyInterface.getCode = function() {
     var text = BlocklyInterface.editor['getValue']();
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace, true);
+    var xml = Blockly.Xml.workspaceToDom(BlocklyInterface.workspace, true);
     // Remove x/y coordinates from XML if there's only one block stack.
     // There's no reason to store this, removing it helps with anonymity.
-    if (BlocklyGames.workspace.getTopBlocks(false).length == 1 &&
+    if (BlocklyInterface.workspace.getTopBlocks(false).length == 1 &&
         xml.querySelector) {
       var block = xml.querySelector('block');
       if (block) {
@@ -157,11 +160,44 @@ BlocklyInterface.getCode = function() {
 };
 
 /**
- * Return the main workspace.
- * @return {Blockly.WorkspaceSvg}
+ * Get the user's executable code as JS from the editor (Blockly or ACE).
+ * @return {string} JS code.
  */
-BlocklyInterface.getWorkspace = function() {
-  return BlocklyGames.workspace;
+BlocklyInterface.getJsCode = function() {
+  if (BlocklyInterface.blocksDisabled) {
+    // Text editor.
+    return BlocklyInterface.editor['getValue']();
+  }
+  // Blockly editor.
+  return Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
+};
+
+/**
+ * Monitor the block or JS editor.  If a change is made that changes the code,
+ * clear the key from the URL.
+ */
+BlocklyInterface.codeChanged = function() {
+  if (typeof BlocklyStorage == 'object' && BlocklyStorage.startCode !== null) {
+    if (BlocklyStorage.startCode != BlocklyInterface.getCode()) {
+      window.location.hash = '';
+      BlocklyStorage.startCode = null;
+    }
+  }
+};
+
+/**
+ * Inject Blockly workspace into page.
+ * @param {!Object} options Dictionary of Blockly options.
+ */
+BlocklyInterface.injectBlockly = function(options) {
+  var toolbox = document.getElementById('toolbox');
+  if (toolbox) {
+    options['toolbox'] = toolbox;
+  }
+  options['media'] = 'third-party/blockly/media/';
+  options['oneBasedIndex'] = false;
+  BlocklyInterface.workspace = Blockly.inject('blockly', options);
+  BlocklyInterface.workspace.addChangeListener(BlocklyInterface.codeChanged);
 };
 
 /**
@@ -173,7 +209,7 @@ BlocklyInterface.saveToLocalStorage = function() {
     return;
   }
   var name = BlocklyGames.NAME + BlocklyGames.LEVEL;
-  window.localStorage[name] = BlocklyInterface.getCode();
+  window.localStorage[name] = BlocklyInterface.executedCode;
 };
 
 /**
@@ -185,21 +221,21 @@ BlocklyInterface.indexPage = function() {
 };
 
 /**
- * Save the blocks and reload with a different language.
+ * Save the blocks/code for a one-time reload.
  */
-BlocklyInterface.changeLanguage = function() {
+BlocklyInterface.saveToSessionStorage = function() {
   // Store the blocks for the duration of the reload.
   // MSIE 11 does not support sessionStorage on file:// URLs.
   if (window.sessionStorage) {
-    if (BlocklyInterface.editor) {
-      var text = BlocklyInterface.editor['getValue']();
-    } else {
-      var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
-      var text = Blockly.Xml.domToText(xml);
-    }
-    window.sessionStorage.loadOnceBlocks = text;
+    window.sessionStorage.loadOnceBlocks = BlocklyInterface.getCode();
   }
+};
 
+/**
+ * Save the blocks and reload with a different language.
+ */
+BlocklyInterface.changeLanguage = function() {
+  BlocklyInterface.saveToSessionStorage();
   BlocklyGames.changeLanguage();
 };
 
@@ -230,7 +266,7 @@ BlocklyInterface.highlight = function(id, opt_state) {
       id = m[1];
     }
   }
-  BlocklyGames.workspace.highlightBlock(id, opt_state);
+  BlocklyInterface.workspace.highlightBlock(id, opt_state);
 };
 
 /**
@@ -253,11 +289,12 @@ BlocklyInterface.injectReadonly = function(id, xml) {
 /**
  * Convert the user's code to raw JavaScript.
  * @param {string} code Generated code.
- * @return {string} The code without serial numbers and timeout checks.
+ * @return {string} The code without serial numbers.
  */
 BlocklyInterface.stripCode = function(code) {
   // Strip out serial numbers.
-  return goog.string.trimRight(code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')'));
+  code = code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')');
+  return code.replace(/\s+$/, '');
 };
 
 /**
@@ -295,37 +332,38 @@ BlocklyInterface.eventSpam.previousType_ = null;
 BlocklyInterface.eventSpam.previousDate_ = 0;
 
 /**
- * Load the JavaScript interperter.
+ * Load the JavaScript interpreter.
+ * Defer loading until page is loaded and responsive.
  */
 BlocklyInterface.importInterpreter = function() {
-  //<script type="text/javascript"
-  //  src="third-party/JS-Interpreter/compiled.js"></script>
-  var script = document.createElement('script');
-  script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', 'third-party/JS-Interpreter/compiled.js');
-  document.head.appendChild(script);
+  function load() {
+    //<script type="text/javascript"
+    //  src="third-party/JS-Interpreter/compressed.js"></script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'third-party/JS-Interpreter/compressed.js';
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
 };
 
 /**
  * Load the Prettify CSS and JavaScript.
+ * Defer loading until page is loaded and responsive.
  */
 BlocklyInterface.importPrettify = function() {
-  //<link rel="stylesheet" type="text/css" href="common/prettify.css">
-  //<script type="text/javascript" src="common/prettify.js"></script>
-  var link = document.createElement('link');
-  link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('type', 'text/css');
-  link.setAttribute('href', 'common/prettify.css');
-  document.head.appendChild(link);
-  var script = document.createElement('script');
-  script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', 'common/prettify.js');
-  document.head.appendChild(script);
+  function load() {
+    //<link rel="stylesheet" type="text/css" href="common/prettify.css">
+    //<script type="text/javascript" src="common/prettify.js"></script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'common/prettify.css';
+    document.head.appendChild(link);
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'common/prettify.js';
+    document.head.appendChild(script);
+  }
+  setTimeout(load, 1);
 };
-
-// Export symbols that would otherwise be renamed by Closure compiler.
-// storage.js is not compiled and calls setCode, getCode, and getWorkspace.
-window['BlocklyInterface'] = BlocklyInterface;
-BlocklyInterface['setCode'] = BlocklyInterface.setCode;
-BlocklyInterface['getCode'] = BlocklyInterface.getCode;
-BlocklyInterface['getWorkspace'] = BlocklyInterface.getWorkspace;

@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
+			"AZISS",
+			"Adil",
 			"Cekli829",
 			"Khan27",
 			"Mushviq Abdulla",
-			"Wertuose",
-			"AZISS"
+			"Wertuose"
 		]
 	},
 	"Games.name": "Blockly Oyunu",
@@ -45,6 +46,7 @@
 	"Games.textVariable": "mətn",
 	"Games.blocks": "Bloklar",
 	"Games.congratulations": "Təbriklər!",
+	"Index.clear": "Bütün həllər silinsin?",
 	"Index.moreInfo": "Daha ətraflı",
 	"Index.startOver": "Yenidən başlamaq istəyirsini?",
 	"Index.clearData": "Məlumatları təmizlə",
@@ -83,6 +85,7 @@
 	"Maze.pathLeft": "əgər yol soldadısa",
 	"Maze.pathRight": "əgər yol sağdadısa",
 	"Maze.repeatUntil": "təkrarla, ta ki",
+	"Maze.moveForwardTooltip": "Oyunçunu bir xana irəli aparır.",
 	"Maze.turnTooltip": "Yolçunu 90 dərəcə sola və ya sağa döndər.",
 	"Maze.ifTooltip": "Əgər göstərilən istiqamətə yol varsa, hər-hansı bir iş gör.",
 	"Maze.ifelseTooltip": "Əgər göstərilən istiqamətə yol varsa, birinci blokda göstərilən hərəkətləri icra et. Əks halda, ikinci blokda göstərilən hərəkətlərin icrasına başla.",
@@ -104,6 +107,8 @@
 	"Turtle.fontBold": "qalın",
 	"Turtle.fontItalic": "kursiv",
 	"Turtle.galleryMsg": "Qalereyaya bax",
+	"Turtle.submitMsg": "Qalereyaya göndər",
+	"Turtle.helpText3b": "Sarı ulduz çək.",
 	"Movie.x": "x",
 	"Movie.y": "y",
 	"Movie.x1": "başlanğıc x",
@@ -124,6 +129,7 @@
 	"Music.drum": "baraban",
 	"Music.choir": "xor",
 	"Music.galleryMsg": "Qalereyaya bax",
+	"Music.submitMsg": "Qalereyaya göndər",
 	"Pond.docsTooltip": "Dil üzrə sənədləşməni göstərir.",
 	"Pond.documentation": "Sənədləşdirmə",
 	"Pond.playerName": "Oyunçu",

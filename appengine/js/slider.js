@@ -1,20 +1,7 @@
 /**
- * Blockly Games: SVG Slider
- *
- * Copyright 2012 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2012 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -25,7 +12,8 @@
 
 goog.provide('Slider');
 
-goog.require('goog.math');
+goog.require('Blockly.utils.dom');
+goog.require('Blockly.utils.math');
 
 
 /**
@@ -46,6 +34,7 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   this.value_ = 0.5;
   this.changeFunc_ = opt_changeFunc;
   this.animationTasks_ = [];
+  var SVG_NS = Blockly.utils.dom.SVG_NS;
 
   // Draw the slider.
   /*
@@ -56,35 +45,31 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
       d="m 8,0 l -8,8 v 12 h 16 v -12 z" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var track = document.createElementNS(Slider.SVG_NS_, 'line');
-  track.setAttribute('class', 'sliderTrack');
-  track.setAttribute('x1', x);
-  track.setAttribute('y1', y);
-  track.setAttribute('x2', x + width);
-  track.setAttribute('y2', y);
-  svgParent.appendChild(track);
-  this.track_ = track;
-  var rect = document.createElementNS(Slider.SVG_NS_, 'rect');
-  rect.setAttribute('style', 'opacity: 0');
-  rect.setAttribute('x', x - this.TARGET_OVERHANG_);
-  rect.setAttribute('y', y - this.TARGET_OVERHANG_);
-  rect.setAttribute('width', width + 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('height', 2 * this.TARGET_OVERHANG_);
-  rect.setAttribute('rx', this.TARGET_OVERHANG_);
-  rect.setAttribute('ry', this.TARGET_OVERHANG_);
-  svgParent.appendChild(rect);
-  this.trackTarget_ = rect;
-  var knob = document.createElementNS(Slider.SVG_NS_, 'path');
-  knob.setAttribute('class', 'sliderKnob');
-  knob.setAttribute('d', 'm 0,0 l -8,8 v 12 h 16 v -12 z');
-  svgParent.appendChild(knob);
-  this.knob_ = knob;
-  var circle = document.createElementNS(Slider.SVG_NS_, 'circle');
-  circle.setAttribute('style', 'opacity: 0');
-  circle.setAttribute('r', this.TARGET_OVERHANG_);
-  circle.setAttribute('cy', y);
-  svgParent.appendChild(circle);
-  this.knobTarget_ = circle;
+  this.track_ = Blockly.utils.dom.createSvgElement('line', {
+      'class': 'sliderTrack',
+      'x1': x,
+      'y1': y,
+      'x2': x + width,
+      'y2': y,
+    }, svgParent);
+  this.trackTarget_ = Blockly.utils.dom.createSvgElement('rect', {
+      'style': 'opacity: 0',
+      'x': x - this.TARGET_OVERHANG_,
+      'y': y - this.TARGET_OVERHANG_,
+      'width': width + 2 * this.TARGET_OVERHANG_,
+      'height': 2 * this.TARGET_OVERHANG_,
+      'rx': this.TARGET_OVERHANG_,
+      'ry': this.TARGET_OVERHANG_
+    }, svgParent);
+  this.knob_ = Blockly.utils.dom.createSvgElement('path', {
+      'class': 'sliderKnob',
+      'd': 'm 0,0 l -8,8 v 12 h 16 v -12 z'
+    }, svgParent);
+  this.knobTarget_ = Blockly.utils.dom.createSvgElement('circle', {
+      'style': 'opacity: 0',
+      'r': this.TARGET_OVERHANG_,
+      'cy': y
+    }, svgParent);
   this.setValue(0.5);
 
   // Find the root SVG object.
@@ -104,8 +89,6 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   Slider.bindEvent_(document, 'mouseover', null, Slider.mouseOver_);
 };
 
-
-Slider.SVG_NS_ = 'http://www.w3.org/2000/svg';
 
 Slider.activeSlider_ = null;
 Slider.startMouseX_ = 0;
@@ -242,7 +225,7 @@ Slider.prototype.animateValue = function(value) {
  * @param {number} value New value.
  */
 Slider.prototype.setValue = function(value) {
-  this.value_ = goog.math.clamp(value, 0, 1);
+  this.value_ = Blockly.utils.math.clamp(value, 0, 1);
   var x = this.KNOB_MIN_X_ +
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_) * this.value_;
   this.knob_.setAttribute('transform',

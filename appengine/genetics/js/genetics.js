@@ -1,31 +1,25 @@
 /**
- * Blockly Games: Genetics
- *
- * Copyright 2016 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * @fileoverview JavaScript for Blockly's Genetics game application and level
- * specific logic.
+ * @fileoverview JavaScript for Genetics game and level specific logic.
  * @author kozbial@google.com (Monica Kozbial)
  */
 'use strict';
 
 goog.provide('Genetics');
 
+goog.require('Blockly.Comment');
+goog.require('Blockly.FlyoutButton');
+goog.require('Blockly.Toolbox');
+goog.require('Blockly.Trashcan');
+goog.require('Blockly.utils.dom');
+goog.require('Blockly.VerticalFlyout');
+goog.require('Blockly.ZoomControls');
+goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -35,9 +29,6 @@ goog.require('Genetics.Mouse');
 goog.require('Genetics.MouseAvatar');
 goog.require('Genetics.Visualization');
 goog.require('Genetics.soy');
-goog.require('goog.array');
-goog.require('goog.ui.Tab');
-goog.require('goog.ui.TabBar');
 
 
 /**
@@ -47,15 +38,14 @@ goog.require('goog.ui.TabBar');
 BlocklyGames.NAME = 'genetics';
 
 /**
- * Is the blocks editor the program source (true) or is the JS editor
- * the program source (false).
- * @private {boolean}
+ * Array of editor tabs (Blockly and ACE).
+ * @type Array.<!Element>
  */
-Genetics.blocksEnabled_ = true;
+Genetics.editorTabs = null;
 
 /**
- * ACE editor fires change events even on programatically caused changes.
- * This property is used to signal times when a programatic change is made.
+ * ACE editor fires change events even on programmatically caused changes.
+ * This property is used to signal times when a programmatic change is made.
  * @private {boolean}
  */
 Genetics.ignoreEditorChanges_ = true;
@@ -80,19 +70,32 @@ Genetics.init = function() {
   BlocklyGames.bindClick('closeDocs', Genetics.docsCloseClick);
 
   // Lazy-load the JavaScript interpreter.
-  setTimeout(BlocklyInterface.importInterpreter, 1);
+  BlocklyInterface.importInterpreter();
+
+  // Setup the tabs.
+  function tabHandler(selectedIndex) {
+    return function() {
+      if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+        return;
+      }
+      for (var i = 0; i < tabs.length; i++) {
+        if (selectedIndex == i) {
+          Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
+        } else {
+          Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
+        }
+      }
+      Genetics.changeTab(selectedIndex);
+    };
+  }
 
   if (BlocklyGames.LEVEL > 8) {
-    // Setup the tabs.
-    Genetics.tabbar = new goog.ui.TabBar();
-    Genetics.tabbar.decorate(document.getElementById('tabbar'));
-
-    // Handle SELECT events dispatched by tabs.
-    goog.events.listen(Genetics.tabbar, goog.ui.Component.EventType.SELECT,
-        function(e) {
-          var index = e.target.getParent().getSelectedTabIndex();
-          Genetics.changeTab(index);
-        });
+    var tabs = Array.prototype.slice.call(
+        document.querySelectorAll('#editorBar>.tab'));
+    for (var i = 0; i < tabs.length; i++) {
+      BlocklyGames.bindClick(tabs[i], tabHandler(i));
+    }
+    Genetics.editorTabs = tabs;
   }
 
   BlocklyGames.bindClick('helpButton', Genetics.showHelp);
@@ -118,7 +121,7 @@ Genetics.init = function() {
           Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
       var divLeft = rtl ? '10px' : '420px';
       var divWidth = (window.innerWidth - 440) + 'px';
-      for (var i = 0, div; div = divs[i]; i++) {
+      for (var i = 0, div; (div = divs[i]); i++) {
         div.style.top = divTop;
         div.style.left = divLeft;
         div.style.width = divWidth;
@@ -136,7 +139,9 @@ Genetics.init = function() {
 
   window.addEventListener('scroll', function() {
     onresize(null);
-    Blockly.svgResize(BlocklyGames.workspace);
+    if (blocklyDiv) {
+      Blockly.svgResize(BlocklyInterface.workspace);
+    }
   });
   window.addEventListener('resize', onresize);
   onresize(null);
@@ -201,32 +206,23 @@ Genetics.init = function() {
             '}'].join('');
         break;
     }
-    BlocklyInterface.editor = window['ace']['edit']('editor');
-    BlocklyInterface.editor['setTheme']('ace/theme/chrome');
-    BlocklyInterface.editor['setShowPrintMargin'](false);
-    var session = BlocklyInterface.editor['getSession']();
-    session['setMode']('ace/mode/javascript');
-    session['setTabSize'](2);
-    session['setUseSoftTabs'](true);
+    var session = BlocklyAce.makeAceSession();
     session['on']('change', Genetics.editorChanged);
     if (defaultCode) {
       BlocklyInterface.loadBlocks(defaultCode + '\n', false);
     }
+    // Lazy-load the ESx-ES5 transpiler.
+    BlocklyAce.importBabel();
   }
 
   if (blocklyDiv) {
     // Inject Blockly.
-    var toolbox = document.getElementById('toolbox');
-    BlocklyGames.workspace = Blockly.inject('blockly',
-        {
-          'media': 'third-party/blockly/media/',
-          'rtl': false,
-          'toolbox': toolbox,
-          'trashcan': true,
-          'zoom': {'controls': true, 'wheel': true}
-        });
+    BlocklyInterface.injectBlockly(
+        {'rtl': false,
+         'trashcan': true,
+         'zoom': {'controls': true, 'wheel': true}});
     // Disable blocks not within a function.
-    BlocklyGames.workspace.addChangeListener(Blockly.Events.disableOrphans);
+    BlocklyInterface.workspace.addChangeListener(Blockly.Events.disableOrphans);
 
     var defaultXml;
     switch (BlocklyGames.LEVEL) {
@@ -267,7 +263,7 @@ Genetics.init = function() {
                       '</shadow>',
                     '</value>',
                     '<statement name="DO">',
-                      '<block type="variables_set" >',
+                      '<block type="variables_set">',
                         '<field name="VAR">mouse</field>',
                         '<value name="VALUE">',
                           '<block type="lists_getIndex">',
@@ -405,12 +401,12 @@ Genetics.init = function() {
         '</xml>'].join('');
     var xml = Blockly.Xml.textToDom(defaultXml);
     // Clear the workspace to avoid merge.
-    BlocklyGames.workspace.clear();
-    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
-    BlocklyGames.workspace.clearUndo();
+    BlocklyInterface.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    BlocklyInterface.workspace.clearUndo();
   }
 
-  Genetics.blocksEnabled_ = blocklyDiv != null;
+  BlocklyInterface.blocksDisabled = blocklyDiv == null;
 
   // Set level specific settings in Cage.
   var players;
@@ -481,18 +477,12 @@ Genetics.init = function() {
       }
     ];
   }
-  for (var playerData, i = 0; playerData = players[i]; i++) {
+  for (var playerData, i = 0; (playerData = players[i]); i++) {
     if (playerData.code) {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
     } else {
-      var code = function() {
-        if (Genetics.blocksEnabled_) {
-          return Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
-        } else {
-          return BlocklyInterface.editor['getValue']();
-        }
-      };
+      var code = BlocklyInterface.getJsCode;
     }
     var name = BlocklyGames.getMsg(playerData.name);
     Genetics.Cage.addPlayer(name, code);
@@ -658,7 +648,7 @@ Genetics.addStartingMice = function() {
         size: 1
       }
     ];
-    goog.array.shuffle(startingMice);
+    Genetics.shuffle(startingMice);
   } else if (BlocklyGames.LEVEL <= 8) {
     startingMice = [
       {
@@ -732,7 +722,7 @@ Genetics.addStartingMice = function() {
         sex: Genetics.Mouse.Sex.MALE
       }
     ];
-    goog.array.shuffle(startingMice);
+    Genetics.shuffle(startingMice);
   } else {  // BlocklyGames.LEVEL >= 9
     startingMice = [];
     var mouseId = 0;
@@ -746,12 +736,11 @@ Genetics.addStartingMice = function() {
         });
       }
     }
-    goog.array.shuffle(startingMice);
+    Genetics.shuffle(startingMice);
   }
-  for (var i = 0, mouseStats; mouseStats = startingMice[i]; i++) {
-    var sex = mouseStats.sex ||
-        ((goog.math.randomInt(2) == 0) ? Genetics.Mouse.Sex.MALE :
-            Genetics.Mouse.Sex.FEMALE);
+  for (var i = 0, mouseStats; (mouseStats = startingMice[i]); i++) {
+    var sex = mouseStats.sex || ((Math.random() > 0.5) ?
+        Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE);
     var mouse = new Genetics.Mouse(mouseStats.id, sex, mouseStats.playerId);
     // Set other mouse attributes if a value was declared.
     if (mouseStats.size != null) {
@@ -774,6 +763,23 @@ Genetics.addStartingMice = function() {
 };
 
 /**
+ * Shuffles the values in the specified array using the Fisher-Yates in-place
+ * shuffle (also known as the Knuth Shuffle).
+ * Runtime: O(n)
+ * Based on Closure's goog.array.shuffle.
+ * @param {!Array} arr The array to be shuffled.
+ */
+Genetics.shuffle = function(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    // Choose a random array index in [0, i] (inclusive with i).
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+};
+
+/**
  * Returns whether the game is over and adds events to the event queue if it is.
  * Handles Genetics levels 1 to 8 only.
  * @return {boolean}
@@ -788,7 +794,7 @@ Genetics.checkForLevelEnd = function() {
       // Player was asked to return the last mouse from the list (which also
       // happens to be the only mouse smaller than the player mouse).
       // Case 1 and Case 2
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         // This level should have only one fight event.
         if (event['TYPE'] == 'FIGHT') {
           new Genetics.Cage.Event('END_GAME',
@@ -811,7 +817,7 @@ Genetics.checkForLevelEnd = function() {
       // succeed if they win 3 fights.
       // Case 3 and Case 4
       var successfulFights = 0;
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         if (event['TYPE'] == 'FIGHT') {
           if (event['RESULT'] == 'WIN') {
             successfulFights++;
@@ -842,7 +848,7 @@ Genetics.checkForLevelEnd = function() {
       // a mate that fits this criteria.
       // Case 5 and Case 6
       var successfulMates = 0;
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         if (event['TYPE'] == 'MATE') {
           if (event['RESULT'] == 'SUCCESS') {
             if (BlocklyGames.LEVEL == 6 &&
@@ -883,7 +889,7 @@ Genetics.checkForLevelEnd = function() {
       // succeeds if they correctly respond 5 times.
       // Case 7 and Case 8
       var successfulMates = 0;
-      for (var i = 0, event; event = Genetics.Cage.Events[i]; i++) {
+      for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         if (event['TYPE'] == 'MATE') {
           if (event['RESULT'] == 'SUCCESS') {
             if (BlocklyGames.LEVEL == 8 &&
@@ -923,7 +929,7 @@ Genetics.checkForLevelEnd = function() {
       }
       return false;
     default:
-      throw 'unhandled checkForLevelEnd for level ' + BlocklyGames.LEVEL;
+      throw Error('unhandled checkForLevelEnd for level ' + BlocklyGames.LEVEL);
   }
 };
 
@@ -1010,7 +1016,6 @@ Genetics.reset = function() {
   // Disable wandering so that mice don't move until game plays.
   Genetics.MouseAvatar.wanderingDisabled = true;
   Genetics.addStartingMice();
-
 };
 
 /**
@@ -1038,13 +1043,13 @@ Genetics.changeTab = function(index) {
   var JAVASCRIPT = 1;
   // Show the correct tab contents.
   var names = ['blockly', 'editor'];
-  for (var i = 0, name; name = names[i]; i++) {
+  for (var i = 0, name; (name = names[i]); i++) {
     var div = document.getElementById(name);
     div.style.visibility = (i == index) ? 'visible' : 'hidden';
   }
   // Show/hide Blockly divs.
   var names = ['.blocklyTooltipDiv', '.blocklyToolboxDiv'];
-  for (var i = 0, name; name = names[i]; i++) {
+  for (var i = 0, name; (name = names[i]); i++) {
     var div = document.querySelector(name);
     div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
   }
@@ -1054,8 +1059,8 @@ Genetics.changeTab = function(index) {
         '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
-  if (index == JAVASCRIPT && Genetics.blocksEnabled_) {
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  if (index == JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
+    var code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
     Genetics.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
     Genetics.ignoreEditorChanges_ = false;
@@ -1070,26 +1075,25 @@ Genetics.editorChanged = function() {
   if (Genetics.ignoreEditorChanges_) {
     return;
   }
-  if (Genetics.blocksEnabled_) {
-    if (!BlocklyGames.workspace.getTopBlocks(false).length ||
+  var code = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.blocksDisabled) {
+    if (!code.trim()) {
+      // Reestablish link between blocks and JS.
+      BlocklyInterface.workspace.clear();
+      Blockly.utils.dom.removeClass(Genetics.editorTabs[0], 'tab-disabled');
+      BlocklyInterface.blocksDisabled = false;
+    }
+  } else {
+    if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.getMsg('Games_breakLink'))) {
       // Break link between blocks and JS.
-      Genetics.tabbar.getChildAt(0).setEnabled(false);
-      Genetics.blocksEnabled_ = false;
+      Blockly.utils.dom.addClass(Genetics.editorTabs[0], 'tab-disabled');
+      BlocklyInterface.blocksDisabled = true;
     } else {
       // Abort change, preserve link.
-      var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
       Genetics.ignoreEditorChanges_ = true;
       BlocklyInterface.editor['setValue'](code, -1);
       Genetics.ignoreEditorChanges_ = false;
-    }
-  } else {
-    var code = BlocklyInterface.editor['getValue']();
-    if (!code.trim()) {
-      // Reestablish link between blocks and JS.
-      BlocklyGames.workspace.clear();
-      Genetics.tabbar.getChildAt(0).setEnabled(true);
-      Genetics.blocksEnabled_ = true;
     }
   }
 };

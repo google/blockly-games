@@ -1,20 +1,7 @@
 /**
- * Blockly Games: Turtle Answers
- *
- * Copyright 2013 Google Inc.
- * https://github.com/google/blockly-games
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @license
+ * Copyright 2013 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -180,16 +167,20 @@ Turtle.answer = function() {
 Turtle.isCorrect = function(pixelErrors) {
   if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return BlocklyGames.workspace.getAllBlocks().length > 1;
+    return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
   console.log('Pixel errors: ' + pixelErrors);
-  if (pixelErrors > 100) {
+  // There's an alternate solution for level 9 that has the moon rotated by
+  // 12 degrees.  Allow that one to pass.
+  // https://groups.google.com/forum/#!topic/blockly-games/xMwt-JHnZGY
+  if (pixelErrors > (BlocklyGames.LEVEL == 9 ? 600 : 100)) {
     // Too many errors.
     return false;
   }
-  var blockCount = BlocklyGames.workspace.getAllBlocks().length;
+  var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
-      (BlocklyGames.LEVEL == 3 && blockCount > 4)) {
+      (BlocklyGames.LEVEL == 3 && blockCount > 4) ||
+      (BlocklyGames.LEVEL == 5 && blockCount > 10)) {
     // Use a loop, dummy.
     var content = document.getElementById('helpUseLoop');
     var style = {

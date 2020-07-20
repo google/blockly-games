@@ -72,6 +72,12 @@ html[dir="RTL"] button.primary {
   position: absolute;
 }
 
+.ledgerLineWide {
+  height: 1px;
+  width: 27px;
+  position: absolute;
+}
+
 .barLine {
   height:36px;
   width: 1px;
@@ -129,23 +135,4 @@ html[dir="RTL"] .sampleNote {
 }
 .sliderKnob:hover {
   fill: #eee;
-}
-
-/* Sprited icons. */
-.icon21 {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
-}
-.camera {
-  background-position: -21px 0px;
-}
-.stop {
-  background-position: -42px 0px;
-}
-.run {
-  background-position: -63px 0px;
-}
-.gallery {
-  background-position: -63px -21px;
 }
