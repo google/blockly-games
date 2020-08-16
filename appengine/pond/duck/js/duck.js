@@ -170,18 +170,33 @@ Pond.Duck.init = function() {
   ];
 
   for (var playerData, i = 0; (playerData = players[i]); i++) {
+    var name = BlocklyGames.getMsg(playerData.name);
     if (playerData.code) {
       var div = document.getElementById(playerData.code);
       var code = div.textContent;
     } else {
-      var code = BlocklyInterface.getJsCode;
+      var code = Pond.Duck.getJsCode;
     }
-    var name = BlocklyGames.getMsg(playerData.name);
     Pond.Battle.addAvatar(name, code, playerData.start, playerData.damage);
   }
   Pond.reset();
   Pond.Duck.changeTab(0);
   Pond.Duck.ignoreEditorChanges_ = false;
+};
+
+/**
+ * Get the user's executable code as JS from the editor (Blockly or ACE).
+ * @return {string} JS code.
+ */
+Pond.Duck.getJsCode = function() {
+  var code = BlocklyInterface.getJsCode();
+  try {
+    code = BlocklyAce.transpileToEs5(code) || code;
+  } catch (e) {
+    alert(e);
+    throw Error('Your duck has an error:\n' + e);
+  }
+  return code;
 };
 
 /**

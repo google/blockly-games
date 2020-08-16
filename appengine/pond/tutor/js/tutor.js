@@ -158,6 +158,12 @@ Pond.Tutor.getJsCode = function() {
   var code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  try {
+    code = BlocklyAce.transpileToEs5(code) || code;
+  } catch (e) {
+    alert(e);
+    throw Error('Duck "' + this.name + '" has error in code:\n' + e);
+  }
   return code;
 };
 
