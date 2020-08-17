@@ -271,9 +271,5 @@
 	"Pond.helpText4": "Dieser Gegner ist zu weit weg, um die Kanone zu verwenden (sie hat ein Limit von 70 Metern). Verwende stattdessen den Befehl „swim“, um mit dem Schwimmen nach gegenüber zu beginnen und mit dem Gegner zusammenzustoßen.",
 	"Pond.helpText5": "Dieser Gegner ist ebenfalls zu weit weg, um die Kanone zu verwenden. Aber du bist zu schwach, um einen Zusammenstoß zu überleben. Schwimme nach gegenüber zum Gegner, derweil ist dein horizontaler Standort weniger als 50. Dann „stop“ und verwende die Kanone.",
 	"Pond.helpText6": "Dieser Gegner zieht fort, wenn er geschlagen wird. Schwimm nach gegenüber, falls er außerhalb des Bereichs ist (70 Meter).",
-	"Pond.rabbitName": "Kaninchen",
-	"Pond.counterName": "Zähler",
-	"Pond.rookName": "Turm",
-	"Pond.sniperName": "Scharfschütze",
 	"Gallery": "Galerie"
 }

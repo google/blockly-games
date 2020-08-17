@@ -256,9 +256,5 @@
 	"Pond.helpText4": "Questo avversario è troppo lontano per usare il cannone (che ha un limite di 70 metri). Utilizza, invece, il comando 'swim' per iniziare a nuotare verso l'avversario e scontrarcisi.",
 	"Pond.helpText5": "Anche questo avversario è troppo lontano per usare il cannone. Ma sei troppo debole per sopravvivere a una collisione. Nuota verso l'avversario mentre la tua posizione orizzontale è minore di 50. Poi fermati ('stop') e usa il cannone.",
 	"Pond.helpText6": "Questo avversario si allontanerà quando verrà colpito. Nuota verso di esso se è fuori della tua portata (70 metri).",
-	"Pond.rabbitName": "Coniglio",
-	"Pond.counterName": "Contatore",
-	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Cecchino",
 	"Gallery": "Galleria"
 }

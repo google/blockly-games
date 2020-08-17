@@ -30,7 +30,7 @@
   user-select: none;
 }
 
-.tab-bar>.tab {
+.tab-bar>div {
   border-bottom: 0;
   float: left;
   margin: 1px 4px 0 0;
@@ -76,4 +76,9 @@
   clear: both;
   height: 0;
   overflow: hidden;
+}
+
+#avatar-select {
+  margin-top: 2px;
+  color: #fff;
 }

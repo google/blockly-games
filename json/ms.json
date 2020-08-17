@@ -222,9 +222,5 @@
 	"Pond.helpText3b": "Jarak ini menepati apa yang diperlukan oleh perintah 'cannon' untuk menembak dengan tepat.",
 	"Pond.helpText4": "Lawan ini terlalu jauh dari capaian meriam (dengan had 70 meter). Oleh itu gunakan perintah 'swim' untuk mula berenang ke arah lawan hingga melanggarnya.",
 	"Pond.helpText5": "Lawan ini juga terlalu jauh dari capaian meriam. Tetapi anda terlalu lemah untuk terselamat dari pelanggaran. Berenang ke arah lawan sedangkan lokasi mendatar anda kurang daripada 50. Kemudian 'stop' dan gunakan meriam.",
-	"Pond.helpText6": "Lawan ini akan berganjak apabila ditembak. Renang ke arahnya jika ia di luar jarak tembakan (70 meter).",
-	"Pond.rabbitName": "Rabbit",
-	"Pond.counterName": "Pengira",
-	"Pond.rookName": "Rook",
-	"Pond.sniperName": "Sniper"
+	"Pond.helpText6": "Lawan ini akan berganjak apabila ditembak. Renang ke arahnya jika ia di luar jarak tembakan (70 meter)."
 }

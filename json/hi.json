@@ -160,8 +160,5 @@
 	"Movie.submitMsg": "गैलरी में भेजें",
 	"Movie.helpText1": "इस व्यक्ति का चित्र बनाने के लिए सामान्य आकार का उपयोग करें।",
 	"Pond.playerName": "खिलाड़ी",
-	"Pond.targetName": "लक्ष्य",
-	"Pond.rabbitName": "खरगोश",
-	"Pond.rookName": "कौआ",
-	"Pond.sniperName": "निशानची"
+	"Pond.targetName": "लक्ष्य"
 }

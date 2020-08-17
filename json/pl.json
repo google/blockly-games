@@ -258,9 +258,5 @@
 	"Pond.helpText4": "Ten przeciwnik jest za daleko, aby użyć działa (które ma limit 70 metrów). Zamiast tego, użyj komendy 'swim', aby podpłynąć do przeciwnika i zderzyć się z nim.",
 	"Pond.helpText5": "Ten przeciwnii jest również za daleko by użyć działa. Jesteś jednak za słaby aby przeżyć zderzenie. Płyń w jego stronę dopóki pozycja w poziomie nie osiągnie 50. Następnie 'stop' i użyj działa.",
 	"Pond.helpText6": "Ten przeciwnik odpłynie po trafieniu. Płyń za nim jeśli jest poza zasięgiem (70 metrów).",
-	"Pond.rabbitName": "Królik",
-	"Pond.counterName": "Licznik",
-	"Pond.rookName": "Wieża",
-	"Pond.sniperName": "Snajper",
 	"Gallery": "Galeria"
 }

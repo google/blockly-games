@@ -176,9 +176,5 @@
 	"Pond.documentation": "Documentacion",
 	"Pond.playerName": "Jogaire",
 	"Pond.targetName": "Cibla",
-	"Pond.pendulumName": "Pendula",
-	"Pond.rabbitName": "Conilh",
-	"Pond.counterName": "Comptador",
-	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Tiraire"
+	"Pond.pendulumName": "Pendula"
 }

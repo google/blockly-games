@@ -15,26 +15,27 @@ goog.provide('Pond.Avatar');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
-goog.require('BlocklyInterface');
 
 
 /**
  * Class for a avatar.
  * @param {string} name Avatar's name.
- * @param {string|!Function} code Avatar's code, or generator.
  * @param {!Blockly.utils.Coordinate} startLoc Start location.
  * @param {?number} startDamage Initial damage to avatar (0-100, default 0).
+ * @param {boolean} editable Allow user to edit code.
  * @param {!Pond.Battle} battle The battle featuring the avatar.
  * @constructor
  */
-Pond.Avatar = function(name, code, startLoc, startDamage, battle) {
+Pond.Avatar = function(name, startLoc, startDamage, editable, battle) {
   this.name = name;
-  this.code_ = code;
   this.startLoc_ = startLoc;
   this.startDamage_ = startDamage || 0;
+  this.editable= editable;
   this.battle_ = battle;
   this.loc = new Blockly.utils.Coordinate();
   this.reset();
+  this.visualizationIndex = battle.AVATARS.length;
+  battle.AVATARS.push(this);
   console.log(this + ' loaded.');
 };
 
@@ -90,6 +91,14 @@ Pond.Avatar.prototype.lastMissile = 0;
  */
 Pond.Avatar.prototype.toString = function() {
   return '[' + this.name + ']';
+};
+
+/**
+ * Sets the code for this avatar.
+ * @param {string|!Function} code Avatar's code, or generator.
+ */
+Pond.Avatar.prototype.setCode = function(code) {
+  this.code_ = code;
 };
 
 /**

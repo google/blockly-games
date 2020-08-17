@@ -270,9 +270,5 @@
 	"Pond.helpText4": "Acest adversar este prea departe pentru a folosi tunul (care are o limită de 70 de metri). În schimb, utilizați comanda 'înotați' pentru a începe să înotați spre adversar și să se prăbușească în el.",
 	"Pond.helpText5": "Acest adversar este, de asemenea, prea departe pentru a folosi tunul. Dar ești prea slab pentru a supraviețui unei coliziuni. Învârtiți spre adversar în timp ce poziția dvs. orizontală este mai mică de 50. Apoi 'opriți' și utilizați tunul.",
 	"Pond.helpText6": "Acest adversar se va îndepărta atunci când este lovit. Înotați spre el dacă este în afara razei de acțiune (70 de metri).",
-	"Pond.rabbitName": "Iepure",
-	"Pond.counterName": "Tejghea",
-	"Pond.rookName": "Corb",
-	"Pond.sniperName": "Sniper",
 	"Gallery": "Galerie"
 }

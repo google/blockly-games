@@ -260,9 +260,5 @@
 	"Pond.helpText3b": "Ky  është pikërisht ajo që komanda e 'cannon' duhet të zjarri me saktësi.",
 	"Pond.helpText4": "Ky kundërshtar është shumë larg për ta përdorur topin (i cili ka një limit prej 70 metrash). Në vend të kësaj, përdorni komandën 'swim' për të filluar notimin ndaj kundërshtarit dhe përplasuni në të.",
 	"Pond.helpText5": "Ky kundërshtar është gjithashtu shumë larg për të përdorur topin. Por ti je shumë i dobët për të mbijetuar një përplasje. Noto drejt kundërshtarit ndërsa vendndodhja yte horizontale është më pak se 50. Pastaj 'ndalo' dhe përdor topin.",
-	"Pond.helpText6": "Ky kundërshtar do të largohet kur të goditet. Noto drejt tij nëse është jashtë rrezes së veprimit (70 metra).",
-	"Pond.rabbitName": "Lepur",
-	"Pond.counterName": "Numërues",
-	"Pond.rookName": "Torrë",
-	"Pond.sniperName": "Snajper"
+	"Pond.helpText6": "Ky kundërshtar do të largohet kur të goditet. Noto drejt tij nëse është jashtë rrezes së veprimit (70 metra)."
 }

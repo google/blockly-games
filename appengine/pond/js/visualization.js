@@ -74,6 +74,16 @@ Pond.Visualization.stop = function() {
 };
 
 /**
+ * Get the colour for an avatar.
+ * @param {!Pond.Avatar} avatar An avatar.
+ * @return {string} Hex code string.
+ */
+Pond.Visualization.getColour = function(avatar) {
+  return Pond.Visualization.COLOURS
+      [avatar.visualizationIndex % Pond.Visualization.COLOURS.length];
+};
+
+/**
  * Stop and reset the visualization.
  */
 Pond.Visualization.reset = function() {
@@ -86,13 +96,12 @@ Pond.Visualization.reset = function() {
   row2.innerHTML = '';
   var nameDivs = [];
   var healthDivs = [];
+  var avatarSelect = document.getElementById('avatar-select');
   for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
-    // Players 0+1 on first row, 2+3 or second, 4+5 on first, etc.
+    // Players 0+1 on first row, 2+3 on second, 4+5 on first, etc.
     var row = (Math.floor(i / 2) % 2) ? row2 : row1;
     // Assign a colour to each avatar.
-    var hexColour =
-        Pond.Visualization.COLOURS[i % Pond.Visualization.COLOURS.length];
-    avatar.visualizationIndex = i;
+    var hexColour = this.getColour(avatar);
     // Add a cell to the avatar status row.
     // <td>
     //   <div class="avatarStatHealth"></div>
@@ -100,6 +109,17 @@ Pond.Visualization.reset = function() {
     //   <div>&nbsp;</div>
     // </td>
     var td = document.createElement('td');
+    if (avatarSelect) {
+      td.className = 'asButton';
+      td.setAttribute('role', 'button');
+      var handler = (function(n) {return function() {
+        avatarSelect.selectedIndex = n;
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
+        avatarSelect.dispatchEvent(evt);
+      }})(i);
+      td.addEventListener('click', handler);
+    }
     td.style.borderColor = hexColour;
     var div = document.createElement('div');
     div.className = 'avatarStatHealth';
@@ -293,8 +313,7 @@ Pond.Visualization.display_ = function() {
     ctx.arc(missileX, missileY, Pond.Visualization.MISSILE_RADIUS,
             0, Math.PI * 2, true);
     ctx.closePath();
-    ctx.fillStyle = Pond.Visualization.COLOURS[
-        missile.avatar.visualizationIndex % Pond.Visualization.COLOURS.length];
+    ctx.fillStyle = this.getColour(missile.avatar);
     ctx.fill();
   }
 

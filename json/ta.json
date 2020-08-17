@@ -114,9 +114,5 @@
 	"Pond.playerName": "வீரர்",
 	"Pond.targetName": "இலக்கு",
 	"Pond.pendulumName": "ஊசலி",
-	"Pond.scaredName": "பயந்திருத்தல்",
-	"Pond.rabbitName": "முயல்",
-	"Pond.counterName": "எண்ணி",
-	"Pond.rookName": "யானை",
-	"Pond.sniperName": "மறை வேடர்"
+	"Pond.scaredName": "பயந்திருத்தல்"
 }

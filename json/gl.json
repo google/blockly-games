@@ -156,8 +156,5 @@
 	"Pond.playerName": "Xogador",
 	"Pond.targetName": "Obxectivo",
 	"Pond.pendulumName": "Péndulo",
-	"Pond.scaredName": "Agoiado",
-	"Pond.rabbitName": "Coello",
-	"Pond.counterName": "Contador",
-	"Pond.rookName": "Torre"
+	"Pond.scaredName": "Agoiado"
 }

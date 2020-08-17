@@ -276,9 +276,5 @@
 	"Pond.helpText4": "Tämä vastustaja on liian kaukana jotta voisit käyttää kanuunaa (kantama on 70 metriä). Joudut siksi käyttämään 'swim' toimintoa uidaksesi vastustajaa kohti ja törmätäksesi siihen.",
 	"Pond.helpText5": "Tämä vihollinen on myös liian kaukana jotta kanuunaa voisi käyttää. Olet myös liian heikko selviytyäksesi yhteentörmäyksestä. Ui vastustajaa kohti kunnes etäisyys on vähemmän kuin 50. Pysähdy sitter ja käytä kanuunaa.",
 	"Pond.helpText6": "Tämä vihollinen siirtyy kauemmas kun saa osuman. Ui sitä kohti jos se on ampumasäteen ulkopuolella (70 metriä).",
-	"Pond.rabbitName": "Jänis",
-	"Pond.counterName": "Laskuri",
-	"Pond.rookName": "Torni",
-	"Pond.sniperName": "Tarkka-ampuja",
 	"Gallery": "Galleria"
 }

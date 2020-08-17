@@ -267,9 +267,5 @@
 	"Pond.helpText4": "Denne motstanderen er for langt unna til å bruke kanonen (som har en grense på 70 meter). Bruk i stedet kommandoen «swim» for å svømme mot motstanderen og kræsje inn i den.",
 	"Pond.helpText5": "Denne motstanderen er også for langt unna til å bruke kanonen. Men du er for svak til å overleve et kræsj. Svøm mot motstanderen mens din horisontale lokasjon er mindre enn 50. Bruk så «stop» og bruk kanonen.",
 	"Pond.helpText6": "Denne motstanderen vil flytte seg vekk når den blir truffet. Svøm mot den om den er for langt unna (70 meter).",
-	"Pond.rabbitName": "Kanin",
-	"Pond.counterName": "Teller",
-	"Pond.rookName": "Tårn",
-	"Pond.sniperName": "Skarpskytter",
 	"Gallery": "Galleri"
 }

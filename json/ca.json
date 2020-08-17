@@ -270,9 +270,5 @@
 	"Pond.helpText4": "Aquest oponent és massa lluny per fer servir el canó (limitat a 70 metres). Fes servir, en canvi, la comanda 'nedar' per nedar cap a l'oponent i xocar-hi.",
 	"Pond.helpText5": "Aquest oponent és massa lluny per fer servir el canó. Però ets massa feble per sobreviure a un xoc. Neda cap a ell mentre la teva posició sigui menys de 50. Llavors atura't amb 'Aturar' i fes servir el canó.",
 	"Pond.helpText6": "Aquest oponent se n'anirà quan el toquis. Neda cap a ell si és fora d'abast (70 metres).",
-	"Pond.rabbitName": "Conill",
-	"Pond.counterName": "Comptador",
-	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Franctirador",
 	"Gallery": "Galeria"
 }

@@ -230,9 +230,5 @@
 	"Pond.helpText3b": "Domet je tačno ono što komanda 'cannon' treba da bi se pucalo precizno.",
 	"Pond.helpText4": "Ovaj protivnik je predaleko da bi se koristio top (koji ima domet od 70 metara). Umesto toga, koristite komandu 'swim' da biste počeli plivati prema protivniku i zabili se u njega.",
 	"Pond.helpText5": "Ovaj protivnik je takođe predaleko da bi se koristio top. Ali Vi ste preslabi da preživite sudar. Plivajte prema protivniku dok Vam je horizontalna lokacija manja od 50. Potom koristite 'stop' i upotrebite top.",
-	"Pond.helpText6": "Ovaj protivnik će se udaljiti kada je pogođen. Plivajte prema njemu ako je van dometa (70 metara).",
-	"Pond.rabbitName": "Zec",
-	"Pond.counterName": "Brojač",
-	"Pond.rookName": "Topa",
-	"Pond.sniperName": "Snajper"
+	"Pond.helpText6": "Ovaj protivnik će se udaljiti kada je pogođen. Plivajte prema njemu ako je van dometa (70 metara)."
 }

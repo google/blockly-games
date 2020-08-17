@@ -276,9 +276,5 @@
 	"Pond.helpText4": "這個對手離得太遠了，距離超出大炮所能射到的範圍（限 70 公尺）。不過使用 swim（游動）指令可游向對手並且撞擊它。",
 	"Pond.helpText5": "此對手距離超出大炮所能射到的範圍。而且以你的健康狀況無法撞擊對手。當您的水平位置小於 50 您可游往對手的方向。然後 stop（停止）以使用大炮。",
 	"Pond.helpText6": "這個對手在被攻擊的時候會逃跑。若距離超過範圍 (70公尺)請游往它的方向。",
-	"Pond.rabbitName": "兔子",
-	"Pond.counterName": "計數器",
-	"Pond.rookName": "車",
-	"Pond.sniperName": "狙擊手",
 	"Gallery": "展廊"
 }

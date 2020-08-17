@@ -278,9 +278,5 @@
 	"Pond.helpText4": "Esse oponente está muito longe para usar o canhão (que tem um alcance de 70 metros). Em vez disso, use o comando 'swim' para começar a nadar até o oponente e abalroá-lo.",
 	"Pond.helpText5": "Este oponente também esta muito longe para usar o canhão. Mas você está muito fraco para sobreviver uma colisão. Nade até o oponente enquanto a sua posição horizontal seja menor que 50. Então pare e use o canhão.",
 	"Pond.helpText6": "Este oponente irá afastar-se quando atingido. Nade até ele se estiver fora do alcance (70 metros).",
-	"Pond.rabbitName": "Coelho",
-	"Pond.counterName": "Contador",
-	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Franco-atirador",
 	"Gallery": "Galeria"
 }

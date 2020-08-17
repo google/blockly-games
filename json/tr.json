@@ -281,9 +281,5 @@
 	"Pond.helpText4": "Bu rakip topu kullanmak için çok uzak (70 metre sınırı var). Bunun yerine, rakibe doğru yüzmeye başlamak ve ona çarpmak için 'swim' komutunu kullanın.",
 	"Pond.helpText5": "Bu rakip de topu kullanmak için çok uzakta. Ama bir çarpışmadan kurtulmak için çok güçsüzsünüz. Yatay konumunuz 50'den azken rakibe doğru yüzün. Sonra 'stop' ve topu kullanın.",
 	"Pond.helpText6": "Bu rakip vurulduğunda uzaklaşacak. Menzil dışındaysa (70 metre) yüzün.",
-	"Pond.rabbitName": "Tavşan",
-	"Pond.counterName": "Sayaç",
-	"Pond.rookName": "Kale",
-	"Pond.sniperName": "Sniper",
 	"Gallery": "Galeri"
 }

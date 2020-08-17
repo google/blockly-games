@@ -274,9 +274,5 @@
 	"Pond.helpText4": "Deze tegenstander is te ver weg om het kanon gebruiken (dat heeft een limiet van 70 meter). Gebruik in plaats daarvan het commando \"swim\" opdracht om te beginnen met zwemmen in de richting van de tegenstander en er tegenaan te botsen.",
 	"Pond.helpText5": "Deze tegenstander is ook te ver weg om het kanon te gebruiken. Maar je bent te zwak om een botsing te overleven. Zwem in de richting van de tegenstander tot de horizontale afstand kleiner is dan 50. \"stop\" dan en gebruik het kanon.",
 	"Pond.helpText6": "Deze tegenstander zwemt weg als die geraakt wordt. Zwemmen in de richting van de tegenstander als deze zich buiten het bereik bevindt (70 meter).",
-	"Pond.rabbitName": "Konijn",
-	"Pond.counterName": "Teller",
-	"Pond.rookName": "Toren",
-	"Pond.sniperName": "Sluipschutter",
 	"Gallery": "Galerij"
 }

@@ -239,9 +239,5 @@
 	"Pond.helpText3b": "Presne takúto silu potrebuje príkaz \"cannon\" na presný zásah.",
 	"Pond.helpText4": "Tento protivník je mimo dosahu kanóna (ktorý má limit 70 metrov). Namiesto streľby použi príkaz \"swim\", plávaj smerom k protivníkovi a nabúraj doň.",
 	"Pond.helpText5": "Tento protivník je tiež mimo dosahu kanóna. Si príliš slabý a náraz neprežiješ. Plávaj teda smerom k súperovi, kým je tvoja vodorovná súradnica menšia ako 50. Potom použi \"stop\" a \"cannon\".",
-	"Pond.helpText6": "Tento protivník po zásahu začne utekať. Ak je mimo dosahu, plávaj mu oproti.",
-	"Pond.rabbitName": "Králik",
-	"Pond.counterName": "Počítadlo",
-	"Pond.rookName": "Veža",
-	"Pond.sniperName": "Ostreľovač"
+	"Pond.helpText6": "Tento protivník po zásahu začne utekať. Ak je mimo dosahu, plávaj mu oproti."
 }

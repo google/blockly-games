@@ -276,9 +276,5 @@
 	"Pond.helpText4": "Este oponente está demasiado lejos para usar el cañón (que tiene un límite de 70 metros). En su lugar, utiliza la orden «swim» para comenzar a nadar hacia el oponente y chocar contra él.",
 	"Pond.helpText5": "Este oponente también está demasiado lejos como para usar el cañón. Pero eres demasiado débil para sobrevivir a una colisión. Nada hacia el oponente mientras su ubicación horizontal sea menor a 50. Luego detente (con 'stop') y usa el cañón.",
 	"Pond.helpText6": "Este oponente se alejará cuando sea golpeado. Nada hacia él si está fuera de alcance (70 metros).",
-	"Pond.rabbitName": "Conejo",
-	"Pond.counterName": "Contador",
-	"Pond.rookName": "Torre",
-	"Pond.sniperName": "Francotirador",
 	"Gallery": "Galería"
 }

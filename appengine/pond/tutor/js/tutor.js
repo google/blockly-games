@@ -135,14 +135,17 @@ Pond.Tutor.init = function() {
   onresize(null);
 
   for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
+    var name = BlocklyGames.getMsg(avatarData.name);
+    var avatar = new Pond.Avatar(name, avatarData.start, avatarData.damage,
+        i == 0, Pond.Battle);
     if (avatarData.code) {
       var div = document.getElementById(avatarData.code);
       var code = div.textContent;
+      avatar.setCode(code);
     } else {
       var code = Pond.Tutor.getJsCode;
+      avatar.setCode(code);
     }
-    var name = BlocklyGames.getMsg(avatarData.name);
-    Pond.Battle.addAvatar(name, code, avatarData.start, avatarData.damage);
   }
   Pond.reset();
 };

@@ -274,9 +274,5 @@
 	"Pond.helpText4": "Đối thủ này quá xa để sử dụng khẩu pháo (có giới hạn 70 mét). Thay vào đó, sử dụng lệnh 'swim' để bắt đầu bơi về phía đối thủ và đâm vào nó.",
 	"Pond.helpText5": "Đối thủ này cũng quá xa để sử dụng khẩu pháo. Nhưng bạn quá yếu để tồn tại một vụ va chạm. Bơi về phía đối thủ trong khi vị trí nằm ngang của bạn nhỏ hơn 50. Sau đó 'stop' và sử dụng khẩu pháo.",
 	"Pond.helpText6": "Đối thủ này sẽ di chuyển đi khi nó bị bắn trúng. Bơi về phía nó nếu nó nằm ngoài phạm vi (70 mét).",
-	"Pond.rabbitName": "Thỏ",
-	"Pond.counterName": "Người tính đếm",
-	"Pond.rookName": "Con xe",
-	"Pond.sniperName": "Người núp bắn",
 	"Gallery": "Phòng trưng bày"
 }

@@ -42,9 +42,22 @@ Pond.Duck.editorTabs = null;
 Pond.Duck.ignoreEditorChanges_ = true;
 
 /**
+ * Currently selected avatar.
+ * @type Pond.Avatar
+ */
+Pond.Duck.currentAvatar = null;
+
+/**
+ * Array of duck data that was loaded separately.
+ * @type Array.<!Object>
+ */
+Pond.Duck.duckData = null;
+
+/**
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Duck.init = function() {
+  Pond.Duck.duckData = window['DUCKS'];
   // Render the Soy template.
   document.body.innerHTML = Pond.Duck.soy.start({}, null,
       {lang: BlocklyGames.LANG,
@@ -142,44 +155,41 @@ Pond.Duck.init = function() {
   Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   BlocklyInterface.workspace.clearUndo();
 
-  var players = [
-    {
-      start: new Blockly.utils.Coordinate(20, 80),
-      damage: 0,
-      name: 'Pond_myName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 80),
-      damage: 0,
-      name: 'Pond_rookName',
-      code: 'playerRook'
-    },
-    {
-      start: new Blockly.utils.Coordinate(20, 20),
-      damage: 0,
-      name: 'Pond_counterName',
-      code: 'playerCounter'
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 20),
-      damage: 0,
-      name: 'Pond_sniperName',
-      code: 'playerSniper'
-    }
+  var coordinates = [
+    new Blockly.utils.Coordinate(20, 80),
+    new Blockly.utils.Coordinate(80, 80),
+    new Blockly.utils.Coordinate(20, 20),
+    new Blockly.utils.Coordinate(80, 20)
   ];
+  var avatarSelect = document.getElementById('avatar-select');
+  for (var duckData, i = 0; (duckData = Pond.Duck.duckData[i]); i++) {
+    if (duckData.name === null) {
+      duckData.name = BlocklyGames.getMsg('Pond_myName');
+    }
+    if (avatarSelect) {
+      var option = new Option(duckData.name, duckData.id);
+      avatarSelect.add(option);
+    }
 
-  for (var playerData, i = 0; (playerData = players[i]); i++) {
-    var name = BlocklyGames.getMsg(playerData.name);
-    if (playerData.code) {
-      var div = document.getElementById(playerData.code);
-      var code = div.textContent;
+    if (duckData.es5) {
+      var code = duckData.es5;
     } else {
       var code = Pond.Duck.getJsCode;
     }
-    Pond.Battle.addAvatar(name, code, playerData.start, playerData.damage);
+    var avatar = new Pond.Avatar(duckData.name, coordinates[i], 0, i == 0,
+        Pond.Battle);
+    avatar.setCode(code);
   }
+  avatarSelect.addEventListener('change', Pond.Duck.changeAvatar);
   Pond.reset();
+  if (avatarSelect) {
+    Pond.Duck.changeAvatar();
+    // BUG: Setting the background colour of a select element causes the arrow
+    // to disappear in Firefox:
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1298510
+    avatarSelect.style.width = '0';
+    setTimeout(function() {avatarSelect.style.width = 'auto';}, 0);
+  }
   Pond.Duck.changeTab(0);
   Pond.Duck.ignoreEditorChanges_ = false;
 };
@@ -197,6 +207,20 @@ Pond.Duck.getJsCode = function() {
     throw Error('Your duck has an error:\n' + e);
   }
   return code;
+};
+
+/**
+ * Called by the avatar selector when changed.
+ */
+Pond.Duck.changeAvatar = function() {
+  var avatarSelect = document.getElementById('avatar-select');
+  var i = avatarSelect.selectedIndex;
+  if (Pond.Duck.currentAvatar == Pond.Battle.AVATARS[i]) {
+    return;
+  }
+  Pond.Duck.currentAvatar = Pond.Battle.AVATARS[i];
+  avatarSelect.style.backgroundColor =
+      Pond.Visualization.getColour(Pond.Duck.currentAvatar);
 };
 
 /**
@@ -266,4 +290,11 @@ Pond.Duck.editorChanged = function() {
   }
 };
 
+(function() {
+  //<script type="text/javascript" src="pond/duck/default-ducks.js"></script>
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'pond/duck/default-ducks.js';
+  document.head.appendChild(script);
+})();
 window.addEventListener('load', Pond.Duck.init);

@@ -115,22 +115,6 @@ Pond.Battle.TIME_LIMIT = 5 * 60 * 1000;
 Pond.Battle.doneCallback_ = null;
 
 /**
- * Starting positions for avatars.
- */
-Pond.Battle.START_XY = [
-  new Blockly.utils.Coordinate(10, 90),
-  new Blockly.utils.Coordinate(90, 10),
-  new Blockly.utils.Coordinate(10, 10),
-  new Blockly.utils.Coordinate(90, 90),
-  // Only first four positions are currently used.
-  new Blockly.utils.Coordinate(50, 99),
-  new Blockly.utils.Coordinate(50, 1),
-  new Blockly.utils.Coordinate(1, 50),
-  new Blockly.utils.Coordinate(99, 50),
-  new Blockly.utils.Coordinate(50, 49)
-];
-
-/**
  * Stop and reset the battle.
  */
 Pond.Battle.reset = function() {
@@ -142,23 +126,6 @@ Pond.Battle.reset = function() {
   for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
     avatar.reset();
   }
-};
-
-/**
- * Create avatar and add it to the battle.
- * @param {string} name Name of avatar.
- * @param {string|!Function} code Avatar's code, or a code generator.
- * @param {Blockly.utils.Coordinate} opt_startLoc Start location.
- * @param {?number} opt_startDamage Initial damage to avatar (0-100, default 0).
- */
-Pond.Battle.addAvatar = function(name, code, opt_startLoc, opt_startDamage) {
-  if (!opt_startLoc) {
-    var i = Pond.Battle.AVATARS.length;
-    opt_startLoc = Pond.Battle.START_XY[i];
-  }
-  var avatar = new Pond.Avatar(name, code, opt_startLoc, opt_startDamage,
-                               Pond.Battle);
-  Pond.Battle.AVATARS.push(avatar);
 };
 
 /**
@@ -348,6 +315,12 @@ Pond.Battle.updateInterpreters_ = function() {
 Pond.Battle.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
+  wrapper = function(value) {
+    console.log(value);
+  };
+  interpreter.setProperty(globalObject, 'log',
+      interpreter.createNativeFunction(wrapper));
+
   wrapper = function(degree, resolution) {
     return Pond.Battle.currentAvatar.scan(degree, resolution);
   };

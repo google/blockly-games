@@ -34,6 +34,11 @@
   border-radius: 2px;
 }
 
+#avatarStatTable td.asButton:hover {
+  opacity: 0.8;
+  user-select: none;
+}
+
 #avatarStatTable div:not(.avatarStatHealth) {
   padding: 1px;
 }
