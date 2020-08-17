@@ -153,5 +153,22 @@
 	"Turtle.helpText1": "Looge programm, mis joonistab ruudu.",
 	"Turtle.helpText2": "Muutke oma programmi nii, et ruudu asemel joonistatakse viisnurk.",
 	"Turtle.helpText3a": "Seal on uus plokk, mis võimaldab teil värvi muuta:",
-	"Turtle.helpText3b": "Joonista kollane täht."
+	"Turtle.helpText3b": "Joonista kollane täht.",
+	"Turtle.helpText5": "Kas saate ühe tähe asemel joonistada neli tähte, mis moodustavad ruutu?",
+	"Turtle.helpText6": "Joonista kolm kollast tähte ja üks valge joon.",
+	"Turtle.helpText7": "Joonistage tähed ja seejärel joonistage neli valget joont.",
+	"Turtle.helpText8": "360 valge joone joonistamine näeb välja nagu täiskuu.",
+	"Turtle.helpText9": "Kas saate lisada musta ringi, et kuust saaks poolkuu?",
+	"Turtle.helpText10": "Joonistage kõike, mida soovite. Teil on tohutult palju uusi plokke, mida saate uurida. Lõbutsege!",
+	"Turtle.helpText10Reddit": "Kasutage nuppu 'Vaata galeriid', et näha, mida teised inimesed joonistasid. Kui joonistate midagi huvitavat, kasutage selle avaldamiseks nuppu \"Edasta galeriisse\".",
+	"Turtle.helpToolbox": "Plokkide nägemiseks valige kategooria.",
+	"Movie.x": "x",
+	"Movie.y": "y",
+	"Movie.radius": "raadius",
+	"Movie.width": "laius",
+	"Movie.height": "kõrgus",
+	"Movie.circleTooltip": "Joonistab ringi kindlaksmääratud asukohas ja määratud raadiusega.",
+	"Movie.circleDraw": "ring",
+	"Movie.rectTooltip": "Joonistab ristküliku määratletud asukohas ning määratud laiuse ja kõrgusega.",
+	"Movie.rectDraw": "ristkülik"
 }
