@@ -54,6 +54,14 @@ Pond.currentAvatar = null;
 Pond.Duck.duckData = null;
 
 /**
+ * Indices of tabs.
+ */
+Pond.Duck.tabIndex = {
+  BLOCKS: 0,
+  JAVASCRIPT: 1
+};
+
+/**
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Duck.init = function() {
@@ -181,13 +189,13 @@ Pond.Duck.changeAvatar = function() {
     Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
     BlocklyInterface.workspace.clearUndo();
     Pond.Duck.setBlocksDisabled(false);
-    Pond.Duck.changeTab(0);
+    Pond.Duck.changeTab(Pond.Duck.tabIndex.BLOCKS);
   }
 
   if (Pond.currentAvatar.js !== undefined) {
     BlocklyInterface.editor['setValue'](Pond.currentAvatar.js, -1);
     Pond.Duck.setBlocksDisabled(true);
-    Pond.Duck.changeTab(1);
+    Pond.Duck.changeTab(Pond.Duck.tabIndex.JAVASCRIPT);
   }
   BlocklyInterface.editor['setReadOnly'](!Pond.currentAvatar.editable);
   Pond.Duck.ignoreEditorChanges_ = false;
@@ -198,8 +206,6 @@ Pond.Duck.changeAvatar = function() {
  * @param {number} index Which tab is now active (0-1).
  */
 Pond.Duck.changeTab = function(index) {
-  var BLOCKS = 0;
-  var JAVASCRIPT = 1;
   // Change highlighting.
   for (var i = 0; i < Pond.Duck.editorTabs.length; i++) {
     if (index == i) {
@@ -217,15 +223,15 @@ Pond.Duck.changeTab = function(index) {
   Blockly.hideChaff(false);
   // Synchronize the documentation popup.
   document.getElementById('docsButton').disabled = false;
-  BlocklyGames.LEVEL = (index == BLOCKS) ? 11 : 12;
+  BlocklyGames.LEVEL = (index == Pond.Duck.tabIndex.BLOCKS) ? 11 : 12;
   if (Pond.isDocsVisible_) {
     var frame = document.getElementById('frameDocs');
     frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
         '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
-  if (!Pond.Duck.ignoreEditorChanges_ && index == JAVASCRIPT &&
-      !BlocklyInterface.blocksDisabled) {
+  if (!Pond.Duck.ignoreEditorChanges_ && !BlocklyInterface.blocksDisabled &&
+      index == Pond.Duck.tabIndex.JAVASCRIPT) {
     var code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
     Pond.Duck.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
@@ -268,10 +274,11 @@ Pond.Duck.editorChanged = function() {
  */
 Pond.Duck.setBlocksDisabled = function(disabled) {
   BlocklyInterface.blocksDisabled = disabled;
+  var tab = Pond.Duck.editorTabs[Pond.Duck.tabIndex.BLOCKS];
   if (disabled) {
-    Blockly.utils.dom.addClass(Pond.Duck.editorTabs[0], 'tab-disabled');
+    Blockly.utils.dom.addClass(tab, 'tab-disabled');
   } else {
-    Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[0], 'tab-disabled');
+    Blockly.utils.dom.removeClass(tab, 'tab-disabled');
   }
 };
 
