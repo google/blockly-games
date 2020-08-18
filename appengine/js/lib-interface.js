@@ -138,7 +138,7 @@ BlocklyInterface.setCode = function(code) {
  * @return {string} XML or JS code.
  */
 BlocklyInterface.getCode = function() {
-  if (BlocklyInterface.editor) {
+  if (BlocklyInterface.blocksDisabled) {
     // Text editor.
     var text = BlocklyInterface.editor['getValue']();
   } else {

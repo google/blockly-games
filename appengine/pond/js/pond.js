@@ -46,6 +46,12 @@ Pond.init = function() {
 };
 
 /**
+ * Currently selected avatar.
+ * @type Pond.Avatar
+ */
+Pond.currentAvatar = null;
+
+/**
  * Is the documentation open?
  * @private
  */
@@ -102,6 +108,26 @@ Pond.docsCloseClick = function() {
 };
 
 /**
+ * Save changes to the editor back to the current avatar.
+ */
+Pond.saveAvatar = function() {
+  var avatar = Pond.currentAvatar;
+  if (!avatar) return;
+  var code = BlocklyInterface.getCode();
+  var es5 = BlocklyInterface.getJsCode();
+  if (BlocklyInterface.blocksDisabled) {
+    try {
+      es5 = BlocklyAce.transpileToEs5(es5) || es5;
+    } catch (e) {
+      alert(e);
+    }
+    avatar.setCode(undefined, code, es5);
+  } else {
+    avatar.setCode(code, undefined, es5);
+  }
+};
+
+/**
  * Click the run button.  Start the Pond.
  * @param {!Event} e Mouse or touch event.
  */
@@ -110,6 +136,7 @@ Pond.runButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
+  Pond.saveAvatar();
   var runButton = document.getElementById('runButton');
   var resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
