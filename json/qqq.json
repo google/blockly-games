@@ -1,4 +1,15 @@
 {
+	"@metadata": {
+		"authors": [
+			"BaRaN6161 TURK",
+			"Liuxinyu970226",
+			"McDutchie",
+			"Nike",
+			"Robby",
+			"Siebrand",
+			"Verdy p"
+		]
+	},
 	"Games.name": "The project name.",
 	"Games.puzzle": "title - Specifies that this is Blockly's '''Puzzle''' game.  Use the word for a jigsaw puzzle.\n{{Identical|Puzzle}}",
 	"Games.maze": "title - Specifies that this is Blockly's '''Maze''' game.\n{{Identical|Maze}}",
@@ -45,7 +56,7 @@
 	"Index.subTitle": "Brief description of Blockly Games.",
 	"Index.moreInfo": "Link to a description of Blockly Games, intended for parents and teachers.",
 	"Index.startOver": "Label next to button for deleting all the user's data.",
-	"Index.clearData": "Text on button for deleting all the user's data.\n{{Identical|Clear data}}",
+	"Index.clearData": "Text on button for deleting all the user's data.",
 	"Puzzle.animal1": "Duck: The bird.\n{{Identical|Duck}}",
 	"Puzzle.animal1Trait1": "Feathers: A trait that ducks have.\n{{Identical|Feather}}",
 	"Puzzle.animal1Trait2": "Beak: A trait that ducks have.\n{{Identical|Beak}}",
@@ -54,7 +65,7 @@
 	"Puzzle.animal2Trait1": "Whiskers: A trait that cats have.\n{{Identical|Whisker}}",
 	"Puzzle.animal2Trait2": "Fur: A trait that cats have.\n{{Identical|Fur}}",
 	"Puzzle.animal2HelpUrl": "The URL of a page with basic information about '''cats''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
-	"Puzzle.animal3": "Bee: The insect.\n{{Identical|Bee}}",
+	"Puzzle.animal3": "Bee: The insect.",
 	"Puzzle.animal3Trait1": "Honey: A trait that bees have.\n{{Identical|Honey}}",
 	"Puzzle.animal3Trait2": "Stinger: A trait that bees have.\n{{Identical|Stinger}}",
 	"Puzzle.animal3HelpUrl": "The URL of a page with basic information about '''bees''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
@@ -173,7 +184,7 @@
 	"Movie.width": "Label for a rectangle or line's width input.\n{{Identical|Width}}",
 	"Movie.height": "Label for a rectangle's height input.\n{{Identical|Height}}",
 	"Movie.circleTooltip": "tooltip",
-	"Movie.circleDraw": "Command to draw a circle.\n{{Identical|Circle}}",
+	"Movie.circleDraw": "Command to draw a circle.",
 	"Movie.rectTooltip": "tooltip",
 	"Movie.rectDraw": "Command to draw a rectangle.\n{{Identical|Rectangle}}",
 	"Movie.lineTooltip": "tooltip",
