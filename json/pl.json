@@ -253,6 +253,7 @@
 	"Music.helpText6a": "Ten nowy blok umożliwia przejście na inny instrument.",
 	"Music.helpText6b": "Zagraj swoją melodię na skrzypcach.",
 	"Music.helpText8": "Każdy blok startowy powinien zagrać „Frère Jacques” dwa razy.",
+	"Music.helpText10Reddit": "Użyj przycisku 'Zobacz galerię', aby zobaczyć, co skomponowali inni użytkownicy. Jeśli skomponujesz coś interesującego, użyj przycisku 'Prześlij do galerii', aby go opublikować.",
 	"Pond.scanTooltip": "Szuka wrogów. Wybierz kierunek (0-360). Zwraca odległość do najbliższego wroga w tym kierunku. Zwraca nieskończoność jeśli nie znajdzie wroga.",
 	"Pond.cannonTooltip": "Wystrzel z działa. Wybierz kierunek (0-360) i odległość (0-70).",
 	"Pond.swimTooltip": "Płyń do przodu. Wybierz kierunek (0-360).",
