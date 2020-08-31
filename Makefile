@@ -147,7 +147,7 @@ deps:
 	unzip -o closure-templates-for-javascript-latest.zip SoyToJsSrcCompiler.jar; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
 	unzip -o closure-templates-msg-extractor-latest.zip SoyMsgExtractor.jar; \
-	wget -N https://dl.google.com/closure-compiler/compiler-latest.zip; \
+	wget -N https://dl.google.com/closure-compiler/compiler-20200719.zip; \
 	unzip -o compiler-latest.zip -x COPYING README.md; \
 	mv -f closure-compiler-v*.jar closure-compiler.jar; \
 	chmod +x build/closurebuilder.py
