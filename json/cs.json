@@ -8,6 +8,7 @@
 			"Ilimanaq29",
 			"Macofe",
 			"Michaelbrabec",
+			"Robins7",
 			"Vorkronor"
 		]
 	},
@@ -227,5 +228,6 @@
 	"Pond.helpText3b": "Tato vzdálenost je přesně to, co příkaz 'cannon' potřebuje aby střílel přesně.",
 	"Pond.helpText4": "Tento soupeř je pro dělo příliš daleko (které má limit 70 metrů). Místo toho použij příkaz 'swim' aby jste začali plavat směrem k oponentovi, a narazil do něj.",
 	"Pond.helpText5": "Tento protivník je též mimo dosahu děla. Jste příliš slabý a náraz nepřežijete. Plavte tedy směrem k soupeři, dokud je vaše vodorovná souřadnice menší než 50. Potom použijte 'stop' a dělo.",
-	"Pond.helpText6": "Tento soupeř bude po zásahu utíkat. Plavej směrem k  němu, pokud je mimo dosah (70 metrů)."
+	"Pond.helpText6": "Tento soupeř bude po zásahu utíkat. Plavej směrem k  němu, pokud je mimo dosah (70 metrů).",
+	"Gallery": "Galerie"
 }
