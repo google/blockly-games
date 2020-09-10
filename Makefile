@@ -142,7 +142,10 @@ deps:
 	mkdir -p third-party-downloads
 	@# All following commands are in third-party-downloads, use backslashes to keep them on the same line as the cd command.
 	cd third-party-downloads; \
-	svn checkout https://github.com/google/closure-library/trunk/closure/bin/build build; \
+	wget -N https://github.com/google/closure-library/archive/v20200719.zip; \
+	mv -f v20200719.zip closure-library-20200719.zip; \
+	unzip -j -o closure-library-20200719.zip closure-library-20200719/closure/bin/build/* -d ./build/; \
+	sed -i "253s/\[js_source\.GetPath() + '\\\n'/[(js_source.GetPath() + '\\\n').encode()/" build/closurebuilder.py; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip; \
 	unzip -o closure-templates-for-javascript-latest.zip SoyToJsSrcCompiler.jar; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
