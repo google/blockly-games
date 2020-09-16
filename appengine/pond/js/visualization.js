@@ -101,7 +101,7 @@ Pond.Visualization.reset = function() {
     // Players 0+1 on first row, 2+3 on second, 4+5 on first, etc.
     var row = (Math.floor(i / 2) % 2) ? row2 : row1;
     // Assign a colour to each avatar.
-    var hexColour = this.getColour(avatar);
+    var hexColour = Pond.Visualization.getColour(avatar);
     // Add a cell to the avatar status row.
     // <td>
     //   <div class="avatarStatHealth"></div>
@@ -313,7 +313,7 @@ Pond.Visualization.display_ = function() {
     ctx.arc(missileX, missileY, Pond.Visualization.MISSILE_RADIUS,
             0, Math.PI * 2, true);
     ctx.closePath();
-    ctx.fillStyle = this.getColour(missile.avatar);
+    ctx.fillStyle = Pond.Visualization.getColour(missile.avatar);
     ctx.fill();
   }
 
@@ -431,7 +431,7 @@ Pond.Visualization.loadAudio_ = function(filenames, name) {
 Pond.Visualization.preloadAudio_ = function() {
   for (var name in Pond.Visualization.SOUNDS_) {
     var sound = Pond.Visualization.SOUNDS_[name];
-    sound.volume = .01;
+    sound.volume = 0.01;
     sound.play().catch(function() {});
     sound.pause();
   }
