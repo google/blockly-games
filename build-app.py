@@ -149,6 +149,7 @@ class Gen_uncompressed(threading.Thread):
         '--root=appengine/third-party/',
         '--root=appengine/generated/%s/' % self.lang,
         '--root=appengine/js/',
+        '--exclude=',
         '--namespace=%s' % self.name.replace('/', '.').title(),
         '--output_mode=list']
     directory = self.name
