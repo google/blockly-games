@@ -114,16 +114,16 @@ Pond.saveAvatar = function() {
   var avatar = Pond.currentAvatar;
   if (!avatar) return;
   var code = BlocklyInterface.getCode();
-  var es5 = BlocklyInterface.getJsCode();
+  var compiled = BlocklyInterface.getJsCode();
   if (BlocklyInterface.blocksDisabled) {
     try {
-      es5 = BlocklyAce.transpileToEs5(es5) || es5;
+      compiled = BlocklyAce.transpileToEs5(compiled) || compiled;
     } catch (e) {
       alert(e);
     }
-    avatar.setCode(undefined, code, es5);
+    avatar.setCode(undefined, code, compiled);
   } else {
-    avatar.setCode(code, undefined, es5);
+    avatar.setCode(code, undefined, compiled);
   }
 };
 

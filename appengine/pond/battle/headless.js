@@ -57,7 +57,7 @@ function load() {
     var start = coordinates.splice(Math.floor(Math.random() * coordinates.length), 1);
     start = start[0] || new Blockly.utils.Coordinate(50, 50);
     var avatar = new Pond.Avatar(duck.id, start, 0, false, Pond.Battle);
-    avatar.setCode(undefined, duck.es5, duck.es5);
+    avatar.setCode(undefined, duck.compiled, duck.compiled);
   }
   Pond.Battle.start(done);
 }

@@ -144,9 +144,9 @@ Pond.Duck.init = function() {
     var avatar = new Pond.Avatar(duckData.name, coordinates[i], 0,
         duckData.editable, Pond.Battle);
     if (duckData.blockly === undefined && duckData.js === undefined) {
-      duckData.js = duckData.es5;
+      duckData.js = duckData.compiled;
     }
-    avatar.setCode(duckData.blockly, duckData.js, duckData.es5);
+    avatar.setCode(duckData.blockly, duckData.js, duckData.compiled);
   }
   avatarSelect.addEventListener('change', Pond.Duck.changeAvatar);
   Pond.reset();

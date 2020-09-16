@@ -47,6 +47,9 @@ People are more used to games having 'health' (more is better) rather than
 'damage' (less is better).  Pond introduces 'health()', with 'damage()' being
 an undocumented function.
 
+* Log
+
+
 * Trigonometry
 CROBOTS has top-level sin/cos/tan/atan functions that use degrees.
 Pond adds these to the JavaScript Math object as Math.sin_deg/Math.cos_deg/etc.
