@@ -151,24 +151,6 @@ Pond.Tutor.init = function() {
 
 window.addEventListener('load', Pond.Tutor.init);
 
-/**
- * Get the user's executable code as JS from the editor (Blockly or ACE).
- * Save a copy of the code for the congrats dialog and level auto save.
- * @return {string} JS code.
- */
-Pond.Tutor.getJsCode = function() {
-  var code = BlocklyInterface.getJsCode();
-  BlocklyInterface.executedJsCode = code;
-  BlocklyInterface.executedCode = BlocklyInterface.getCode();
-  try {
-    code = BlocklyAce.transpileToEs5(code) || code;
-  } catch (e) {
-    alert(e);
-    throw Error('Duck "' + this.name + '" has error in code:\n' + e);
-  }
-  return code;
-};
-
 Pond.Tutor.PLAYERS = [
   // Level 0.
   undefined,

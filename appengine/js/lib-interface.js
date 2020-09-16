@@ -201,7 +201,7 @@ BlocklyInterface.injectBlockly = function(options) {
 };
 
 /**
- * Save the blocks for this level to persistent client-side storage.
+ * Save the blocks/JS for this level to persistent client-side storage.
  */
 BlocklyInterface.saveToLocalStorage = function() {
   // MSIE 11 does not support localStorage on file:// URLs.
