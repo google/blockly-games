@@ -131,6 +131,7 @@ Pond.Tutor.init = function() {
     BlocklyAce.importBabel();
   }
 
+  BlocklyGames.bindClick('runButton', Pond.Tutor.runButtonClick);
   window.addEventListener('resize', onresize);
   onresize(null);
 
@@ -150,6 +151,17 @@ Pond.Tutor.init = function() {
 };
 
 window.addEventListener('load', Pond.Tutor.init);
+
+
+/**
+ * Click the run button.  Save the code for the end of level dialog and save.
+ * This runs in parallel with Pond.runButtonClick on a separate event handler.
+ * @param {!Event} e Mouse or touch event.
+ */
+Pond.Tutor.runButtonClick = function(e) {
+  BlocklyInterface.executedJsCode = BlocklyInterface.getJsCode();
+  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+};
 
 Pond.Tutor.PLAYERS = [
   // Level 0.
@@ -317,7 +329,7 @@ Pond.endBattle = function(survivors) {
     // Everyone died.
   } else if (survivors == 1) {
     // Winner.
-    if (typeof Pond.Battle.RANK[0].code_ == 'function') {
+    if (Pond.Battle.RANK[0].visualizationIndex == 0) {
       if ((BlocklyGames.LEVEL == 5 || BlocklyGames.LEVEL == 6) &&
           Pond.Battle.ticks > 200000) {
         // Avatar just pinged Pendulum to death with fixed range.
