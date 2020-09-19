@@ -316,7 +316,9 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
   // API
   var wrapper;
   wrapper = function(value) {
-    console.log(value);
+    // Restrict logging to just numbers so that the console doesn't fill up
+    // with 'problematic' messages when running 3rd party ducks.
+    console.log(Pond.Battle.currentAvatar.name + ' logs: ' + Number(value));
   };
   interpreter.setProperty(globalObject, 'log',
       interpreter.createNativeFunction(wrapper));

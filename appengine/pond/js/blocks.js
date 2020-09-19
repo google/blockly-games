@@ -239,6 +239,38 @@ Blockly.JavaScript['pond_getY'] = function(block) {
   return ['getY()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+Blockly.Blocks['pond_log'] = {
+  /**
+   * Block for log statement.
+   * @this {Blockly.Block}
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1(%2);",
+      "args0": [
+        "log",
+        {
+          "type": "input_value",
+          "name": "VALUE"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_logTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['pond_log'] = function(block) {
+  // Generate JavaScript for logging.
+  var value_text = Blockly.JavaScript.valueToCode(block, 'VALUE',
+      Blockly.JavaScript.ORDER_NONE) || '\'\'';
+  return 'log(' + value_text + ');\n';
+};
+
+
 Blockly.Blocks['pond_math_number'] = {
   /**
    * Numeric or angle value.

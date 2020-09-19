@@ -259,6 +259,7 @@
 	"Pond.speedTooltip": "Tooltip for the block that reports the player's speed.",
 	"Pond.locXTooltip": "Tooltip for the block that reports the player's horizontal location.",
 	"Pond.locYTooltip": "Tooltip for the block that reports the player's vertical location.",
+	"Pond.logTooltip": "Tooltip for the block that prints debugging information.",
 	"Pond.docsTooltip": "Tooltip for the button that opens the language reference documentation.",
 	"Pond.documentation": "Text on the button that opens the language reference documentation.\n{{Identical|Documentation}}",
 	"Pond.playerName": "Generic name for the player of this video game.\n{{Identical|Player}}",

@@ -253,6 +253,7 @@
 	"Pond.speedTooltip": "Returns the current speed of the player (0 is stopped, 100 is full speed).",
 	"Pond.locXTooltip": "Returns the X coordinate of the player (0 is the left edge, 100 is the right edge).",
 	"Pond.locYTooltip": "Returns the Y coordinate of the player (0 is the bottom edge, 100 is the top edge).",
+	"Pond.logTooltip": "Prints a number to your browser's console.",
 	"Pond.docsTooltip": "Display the language documentation.",
 	"Pond.documentation": "Documentation",
 	"Pond.playerName": "Player",

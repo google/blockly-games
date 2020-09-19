@@ -1,6 +1,6 @@
-Pond is a reimplementation of Tom Poindexter's 1985 game CROBOTS.  Google has
-(with the author's permission) updated the game to be playable by a new
-generation of programmers.
+Blockly Games' Pond is a reimplementation of Tom Poindexter's 1985 game CROBOTS.
+Google has (with the author's permission) updated the game to be playable by a
+new generation of programmers.
 
 Differences between Pond and CROBOTS:
 
@@ -48,7 +48,9 @@ People are more used to games having 'health' (more is better) rather than
 an undocumented function.
 
 * Log
-
+The 'log()' function prints a value to the browser's console.  This is great
+for debugging.  The printed value is restricted to a number for precautionary
+legal reasons.
 
 * Trigonometry
 CROBOTS has top-level sin/cos/tan/atan functions that use degrees.
@@ -63,7 +65,7 @@ learn about programming through his game.  We hope to continue this success
 with Pond.  As with CROBOTS, all the code for Pond is open source.
 
 The original DOS-based CROBOTS game may be found here:
-  http://crobots.deepthought.it/home.php
+  https://crobots.deepthought.it/home.php
   https://github.com/tpoindex/crobots/
 
 --
