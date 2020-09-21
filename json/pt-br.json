@@ -271,6 +271,7 @@
 	"Pond.speedTooltip": "Retorna a velocidade atual do jogador (0 esta parádo, 100 esta na velocidade maxima)",
 	"Pond.locXTooltip": "Retorna a coordenada X do jogador (0 é a margem esquerda, 100 é a margem direita).",
 	"Pond.locYTooltip": "Retorna a  coordenada Y do jogador (0 é a borda inferior, 100 é a borda superior).",
+	"Pond.logTooltip": "Imprime um número no console do seu navegador.",
 	"Pond.docsTooltip": "Mostrar a documentação de idioma.",
 	"Pond.documentation": "Documentação",
 	"Pond.playerName": "Jogador",

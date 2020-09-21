@@ -252,6 +252,7 @@
 	"Pond.speedTooltip": "A smon l'andi atual dël giugador (0 a l'é ferm, 100 a l'é a andi pien).",
 	"Pond.locXTooltip": "A smon la coordinà X dël giugador (0 a l'é ël bòrd ësnistr, 100 a l'é ël bòrd drit).",
 	"Pond.locYTooltip": "A smon la coordinà Y dël giugador (0 a l'é ël bass, 100 a l'é l'àut).",
+	"Pond.logTooltip": "A stampa un nùmer an sël cruscòt ëd sò navigador.",
 	"Pond.docsTooltip": "A smon la documentassion an sla lenga.",
 	"Pond.documentation": "Documentassion",
 	"Pond.playerName": "Giugador",

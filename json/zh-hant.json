@@ -262,6 +262,7 @@
 	"Pond.speedTooltip": "返回角色目前的速度（0 代表停止，100 代表全速）。",
 	"Pond.locXTooltip": "返回角色的 x 座標位置（0 代表最左邊，100 代表最右邊）。",
 	"Pond.locYTooltip": "返回角色的 y 座標位置（0 代表最上面，100 代表最下面）。",
+	"Pond.logTooltip": "印出一個數字到您的瀏覽器控制台。",
 	"Pond.docsTooltip": "顯示語言說明文件。",
 	"Pond.documentation": "說明文件",
 	"Pond.playerName": "角色",

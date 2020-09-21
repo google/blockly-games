@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Aprungfoster",
+			"Florian COLLIN",
 			"Gomoko",
 			"Immortal",
 			"Josee Desharnais",
@@ -264,6 +265,7 @@
 	"Pond.speedTooltip": "Renvoie la vitesse actuelle du joueur (0 est à l’arrêt, 100 est à pleine vitesse).",
 	"Pond.locXTooltip": "Renvoie la coordonnée X du joueur (0 est le bord gauche, 100 le bord droit).",
 	"Pond.locYTooltip": "Renvoie la coordonnée Y du joueur (0 est le bord du bas, 100 est le bord du haut).",
+	"Pond.logTooltip": "Imprime un nombre sur la console de votre navigateur.",
 	"Pond.docsTooltip": "Affiche la documentation sur la langue.",
 	"Pond.documentation": "Documentation",
 	"Pond.playerName": "Joueur",
