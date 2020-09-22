@@ -37,6 +37,7 @@ html[dir="RTL"] #languageMenu {
 }
 
 a {
+  outline: none;
   text-decoration: none;
 }
 

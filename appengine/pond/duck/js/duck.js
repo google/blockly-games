@@ -135,18 +135,18 @@ Pond.Duck.init = function() {
   ];
   var avatarSelect = document.getElementById('avatar-select');
   for (var duckData, i = 0; (duckData = Pond.Duck.duckData[i]); i++) {
-    if (duckData.name === null) {
-      duckData.name = BlocklyGames.getMsg('Pond_myName');
+    if (duckData['name'] === null) {
+      duckData['name'] = BlocklyGames.getMsg('Pond_myName');
     }
-    var option = new Option(duckData.name, duckData.id);
+    var option = new Option(duckData['name'], duckData['id']);
     avatarSelect.add(option);
 
-    var avatar = new Pond.Avatar(duckData.name, coordinates[i], 0,
-        duckData.editable, Pond.Battle);
-    if (duckData.blockly === undefined && duckData.js === undefined) {
-      duckData.js = duckData.compiled;
+    var avatar = new Pond.Avatar(duckData['name'], coordinates[i], 0,
+        duckData['editable'], Pond.Battle);
+    if (duckData['blockly'] === undefined && duckData['js'] === undefined) {
+      duckData['js'] = duckData['compiled'];
     }
-    avatar.setCode(duckData.blockly, duckData.js, duckData.compiled);
+    avatar.setCode(duckData['blockly'], duckData['js'], duckData['compiled']);
   }
   avatarSelect.addEventListener('change', Pond.Duck.changeAvatar);
   Pond.reset();
