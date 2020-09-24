@@ -258,6 +258,7 @@
 	"Pond.speedTooltip": "Returnerar spelarens aktuella hastigheten (0 är stopp, 100 är full fart).",
 	"Pond.locXTooltip": "Returnerar spelarens X-koordinat (0 är den vänstra kanten, 100 är den högra kanten).",
 	"Pond.locYTooltip": "Returnerar spelarens Y-koordinat (0 är den nedersta kanten, 100 är den översta kanten).",
+	"Pond.logTooltip": "Skriver ett nummer till din webbläsares konsol.",
 	"Pond.docsTooltip": "Visa språkets dokumentation.",
 	"Pond.documentation": "Dokumentation",
 	"Pond.playerName": "Spelare",
