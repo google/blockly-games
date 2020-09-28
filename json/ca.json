@@ -5,6 +5,7 @@
 			"Arnaugir",
 			"Fitoschido",
 			"Lluís Batlle",
+			"Mguix",
 			"Micobu"
 		]
 	},
@@ -256,6 +257,7 @@
 	"Pond.speedTooltip": "Torna la velocitat actual del ninot (0 si és aturat, 100 si és amb velocitat màxima)",
 	"Pond.locXTooltip": "Torna al coordenada X del ninot (0 és la banda esquerra i 100 és la banda dreta).",
 	"Pond.locYTooltip": "Torna la coordenada Y del ninot (0 és la banda de sota i 100 és la de sobre).",
+	"Pond.logTooltip": "Imprimeix un nombre a la consola del navegador.",
 	"Pond.docsTooltip": "Mostra la documentació del llenguatge.",
 	"Pond.documentation": "Documentació",
 	"Pond.playerName": "Ninot",
