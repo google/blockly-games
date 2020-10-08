@@ -260,6 +260,7 @@
 	"Pond.speedTooltip": "يرجع السرعة الحالية للاعب (0 توقف، 100 سرعة كاملة).",
 	"Pond.locXTooltip": "يرجع تنسيق اللاعب X (0 الحافة اليسرى، و 100 الحافة اليمنى).",
 	"Pond.locYTooltip": "يرجع تنسيق اللاعب Y (0 الحافة السفلية، و 100 الحافة العلوية).",
+	"Pond.logTooltip": "يطبع رقما لمتصفحك.",
 	"Pond.docsTooltip": "عرض وثائق اللغة.",
 	"Pond.documentation": "توثيق",
 	"Pond.playerName": "اللاعب",
