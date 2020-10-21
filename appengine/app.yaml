@@ -178,6 +178,7 @@ skip_files:
 # Custom skip patterns.
 - ^genetics/.*$
 - ^\w+/sources/.*$
+- ^(.*/)?node_modules/.*$
 - ^third-party/ace/snippets/.*$
 - ^third-party/blockly/\.github/.*$
 - ^third-party/blockly/externs/.*$
