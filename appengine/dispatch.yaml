@@ -1,0 +1,4 @@
+dispatch:
+  # Send all traffic for admin.blockly.games to the reverse proxy.
+  - url: "admin.blockly.games/*"
+    service: proxy

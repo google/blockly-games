@@ -1,0 +1,5 @@
+service: proxy
+runtime: nodejs12
+
+vpc_access_connector:
+  name: projects/blockly-games/locations/us-central1/connectors/gae-to-default

@@ -1,0 +1,23 @@
+{
+  "name": "blockly-games-rproxy",
+  "description": "GAE Reverse Proxy for Blockly Games.",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Christopher Allen <cpcallen@google.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/google/blockly-games.git"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "start": "node proxy.js"
+  },
+  "dependencies": {
+    "gcp-metadata": "^4.2.0",
+    "google-auth-library": "^6.1.1",
+    "http-proxy": "^1.18.1"
+  }
+}
