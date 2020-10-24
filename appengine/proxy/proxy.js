@@ -77,7 +77,7 @@ async function handle(req, res) {
   }
 
   proxy.web(req, res, {
-    target: 'https://xhrserver-1.us-central1-a.c.blockly-games.internal'
+    target: 'http://xhrserver-1.us-central1-a.c.blockly-games.internal'
   });
 }
 
