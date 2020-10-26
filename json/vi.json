@@ -260,6 +260,7 @@
 	"Pond.speedTooltip": "Trả về tốc độ hiện tại của trình phát (0 là dừng lại, 100 là tốc độ cao nhất).",
 	"Pond.locXTooltip": "Trả về tọa độ X của trình phát (0 là cạnh bên trái, 100 là cạnh bên phải).",
 	"Pond.locYTooltip": "Trả về tọa độ Y của trình phát (0 là cạnh dưới cùng, 100 là cạnh trên cùng).",
+	"Pond.logTooltip": "In một số vào bảng điều khiển của trình duyệt của bạn.",
 	"Pond.docsTooltip": "Hiển thị tài liệu ngôn ngữ.",
 	"Pond.documentation": "Tài liệu",
 	"Pond.playerName": "Người chơi",

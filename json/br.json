@@ -257,6 +257,7 @@
 	"Pond.speedTooltip": "Distreiñ tizh a vremañ ar c'hoarier (0 zo par da \"ehanet\", 100 zo par \"diwar dizh\").",
 	"Pond.locXTooltip": "Distreiñ daveenn X ar c'hoarier (0 zo ar bord kleiz, 100 zo par d'ar vord dehou)",
 	"Pond.locYTooltip": "Retorn a ra daveenn Y ar c'hoarier (0 zo an traoñ, 100 zo ar c'hrec'h).",
+	"Pond.logTooltip": "Moullañ a ra un niver war penell ho merdeer.",
 	"Pond.docsTooltip": "Diskwel an teuliadur diwar-benn ar yezh.",
 	"Pond.documentation": "Teuliadur",
 	"Pond.playerName": "C'hoarier",

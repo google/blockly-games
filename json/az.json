@@ -5,6 +5,7 @@
 			"Adil",
 			"Cekli829",
 			"Khan27",
+			"Maqa001",
 			"Mushviq Abdulla",
 			"Wertuose"
 		]
@@ -42,6 +43,8 @@
 	"Games.catProcedures": "Funksiyalar",
 	"Games.httpRequestError": "Sorğu ilə əlaqəli problem var.",
 	"Games.linkAlert": "Şəxsi bloklarını bu linklə bölüş:\n\n%1",
+	"Games.hashError": "Üzr istəyirik, '%1' heç bir qeyd olunmuş proqramla uyğun gəlmir.",
+	"Games.xmlError": "Yadda saxladığınız sənəd yüklənə bilmədi. Bəlkə Blockly'nin fərqli bir versiyası ilə yaradıldı?",
 	"Games.listVariable": "siyahı",
 	"Games.textVariable": "mətn",
 	"Games.blocks": "Bloklar",
