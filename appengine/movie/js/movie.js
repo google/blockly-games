@@ -351,7 +351,7 @@ Movie.drawFrame_ = function(interpreter) {
  * @param {!Blockly.Events.Abstract=} opt_e Change event.
  */
 Movie.codeChange = function(opt_e) {
-  if (opt_e instanceof Blockly.Events.Ui) {
+  if (opt_e.isUiEvent) {
     return;
   }
   if (BlocklyInterface.workspace.isDragging()) {
