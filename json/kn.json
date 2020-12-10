@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ksh31",
 			"Mahadevaiah Siddaiah",
 			"Nayvik",
 			"Niekiran"
@@ -209,7 +210,7 @@
 	"Music.playNoteTooltip": "ನಿಗದಿತ ಅವಧಿ ಮತ್ತು ತೀವ್ರತೆಯ ಒಂದು ಸಂಗೀತದ ನೋಟ್ ಅನ್ನು ನುಡಿಸುತ್ತದೆ.",
 	"Music.playNote": "ನುಡಿಸು %1 ನೋಟ್ %2",
 	"Music.restTooltip": "ನಿರ್ದಿಷ್ಟಪಡಿಸಿದ ಅವಧಿಯವರೆಗೆ ಕಾಯುತ್ತದೆ.",
-	"Music.restWholeTooltip": "ಒಂದು ಸಂಪೂರ್ಣ ನೋಟ್ ಗೆ ಕಾಯುತ್ತದೆ.",
+	"Music.restWholeTooltip": "ಒಂದು ಸಂಪೂರ್ಣ ನೋಟ್-ಗಾಗಿ ಕಾಯುತ್ತದೆ.",
 	"Music.rest": "ವಿರಾಮ %1",
 	"Music.setInstrumentTooltip": "ತದ ನಂತರದ ಸಂಗೀತ ನೋಟ್ ಗಳನ್ನು ನುಡಿಸುವಾಗ ನಿರ್ದಿಷ್ಟಪಡಿಸಿದ ಸಾಧನಕ್ಕೆ ಬದಲಾಯಿಸುತ್ತದೆ.",
 	"Music.setInstrument": "ವಾದ್ಯ %1 ಗೊತ್ತುಪಡಿಸು",
