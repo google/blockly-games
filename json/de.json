@@ -6,7 +6,8 @@
 			"Flow",
 			"Metalhead64",
 			"Sillyfreak",
-			"Sushi"
+			"Sushi",
+			"Wurzeltrick"
 		]
 	},
 	"Games.name": "Blockly-Spiele",
@@ -257,6 +258,7 @@
 	"Pond.speedTooltip": "Gibt die aktuelle Geschwindigkeit des Spielers zurück (0 ist angehalten, 100 ist volle Geschwindigkeit).",
 	"Pond.locXTooltip": "Gibt die X-Koordinate des Spielers zurück (0 ist die linke, 100 die rechte Kante).",
 	"Pond.locYTooltip": "Gibt die Y-Koordinate des Spielers zurück (0 ist die untere, 100 die obere Kante).",
+	"Pond.logTooltip": "Gibt eine Nummer auf deiner Browser-Konsole aus.",
 	"Pond.docsTooltip": "Zeigt die Sprachdokumentation an.",
 	"Pond.documentation": "Dokumentation",
 	"Pond.playerName": "Spieler",

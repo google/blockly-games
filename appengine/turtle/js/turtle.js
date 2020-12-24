@@ -411,7 +411,7 @@ Turtle.categoryClicked_ = false;
  * @private
  */
 Turtle.watchCategories_ = function(event) {
-  if (event.type == Blockly.Events.UI && event.element == 'category') {
+  if (event.type == Blockly.Events.TOOLBOX_ITEM_SELECT) {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
     BlocklyInterface.workspace.removeChangeListener(Turtle.watchCategories_);

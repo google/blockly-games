@@ -559,7 +559,7 @@ Maze.init = function() {
  * @param {Blockly.Events.Abstract=} opt_event Custom data for event.
  */
 Maze.levelHelp = function(opt_event) {
-  if (opt_event && opt_event.type == Blockly.Events.UI) {
+  if (opt_event && opt_event.isUiEvent) {
     // Just a change to highlighting or somesuch.
     return;
   } else if (BlocklyInterface.workspace.isDragging()) {

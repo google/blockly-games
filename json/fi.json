@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Actuallyisjoha",
+			"Areee",
 			"Espeox",
 			"KK",
 			"McSalama",
@@ -263,6 +264,7 @@
 	"Pond.speedTooltip": "Palauttaa pelajaan nopeuden (0 tarkoittaa pysähtynyttä, 100 täyttä nopeutta).",
 	"Pond.locXTooltip": "Palauttaa pelaajan X-koordinaatin (0 on vasen reuna, 100 on oikea reuna)",
 	"Pond.locYTooltip": "Palauttaa pelaajan Y-koordinaatin (0 on alareuna, 100 on yläreuna)",
+	"Pond.logTooltip": "Tulostaa luvun selaimesi konsoliin.",
 	"Pond.docsTooltip": "Näytä kieliohje",
 	"Pond.documentation": "Ohjeet",
 	"Pond.playerName": "Pelaaja",

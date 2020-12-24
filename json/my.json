@@ -144,7 +144,7 @@
 	"Turtle.print": "ပရင့်ထုတ်",
 	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "ပုံနှိပ် block ကိုအသုံးပြုပြီး font ထည့်သွင်းပါ။",
-	"Turtle.font": "font",
+	"Turtle.font": "ဖောင့်",
 	"Turtle.fontSize": "font အရွယ်အစား",
 	"Turtle.fontNormal": "ပုံမှန်",
 	"Turtle.fontBold": "အထူ",

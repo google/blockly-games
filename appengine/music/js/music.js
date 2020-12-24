@@ -501,7 +501,7 @@ Music.disableExtraStarts = function(e) {
  * @param {!Blockly.Events.Abstract} e Change event.
  */
 Music.disableSubmit = function(e) {
-  if (!(e instanceof Blockly.Events.Ui)) {
+  if (!e.isUiEvent) {
     Music.canSubmit = false;
   }
 };
