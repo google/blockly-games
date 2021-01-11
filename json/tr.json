@@ -281,7 +281,7 @@
 	"Pond.helpText3a": "Bu rakip ileri geri hareket ederek vurmayı zorlaştırıyor. 'scan' ifadesi, rakibe tam olarak belirtilen yönde döndürür.",
 	"Pond.helpText3b": "Bu menzil 'cannon' komutunun tam olarak ateş etmesi için gereken şeydir.",
 	"Pond.helpText4": "Bu rakip topu kullanmak için çok uzak (70 metre sınırı var). Bunun yerine, rakibe doğru yüzmeye başlamak ve ona çarpmak için 'swim' komutunu kullanın.",
-	"Pond.helpText5": "Bu rakip de topu kullanmak için çok uzakta. Ama bir çarpışmadan kurtulmak için çok güçsüzsünüz. Yatay konumunuz 50'den azken rakibe doğru yüzün. Sonra 'stop' ve topu kullanın.",
+	"Pond.helpText5": "Bu rakip aynı zamanda topu kullanamayacak kadar uzakta. Ancak bir çarpışmadan kurtulmak için çok zayıfsın. Yatay konumunuz 50'den azken rakibe doğru yüzün. Sonra 'durun' ve topu kullanın.",
 	"Pond.helpText6": "Bu rakip vurulduğunda uzaklaşacak. Menzil dışındaysa (70 metre) yüzün.",
 	"Gallery": "Galeri"
 }
