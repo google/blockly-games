@@ -1,15 +1,13 @@
-runtime: python27
-api_version: 1
-threadsafe: no
+service: default
+runtime: nodejs12
+
+vpc_access_connector:
+  name: projects/blockly-games/locations/us-central1/connectors/gae-to-default
+
 # App Engine default is 10m.
 default_expiration: "12h"
 
 handlers:
-# Storage API.
-- url: /storage
-  script: storage.py
-  secure: always
-
 # Index page.
 - url: /
   static_files: index.html
@@ -23,13 +21,6 @@ handlers:
 - url: /about
   static_files: about.html
   upload: about\.html
-  secure: always
-
-# Admin page.
-- url: /admin
-  static_files: admin.html
-  upload: admin\.html
-  login: admin
   secure: always
 
 # Bird app.
@@ -115,20 +106,6 @@ handlers:
 - url: /gallery/
   static_dir: gallery
   secure: always
-- url: /gallery-api/submit
-  script: gallery_api/submit.py
-  secure: always
-- url: /gallery-api/view
-  script: gallery_api/view.py
-  secure: always
-- url: /gallery-api/expire
-  script: gallery_api/expire.py
-  login: admin
-  secure: always
-- url: /gallery-api/admin
-  script: gallery_api/admin.py
-  login: admin
-  secure: always
 
 # Shared files.
 - url: /common
@@ -158,38 +135,5 @@ handlers:
   upload: robots\.txt
   secure: always
 
-# Legacy Reddit redirects.
-# Obsolete as of May 2018.
-- url: /turtle-reddit
-  script: reddit.py
-  secure: always
-- url: /movie-reddit
-  script: reddit.py
-  secure: always
+# Everything else gets proxied to xhrserver-1.
 
-# Source files and uncompiled versions.
-skip_files:
-# App Engine default patterns.
-- ^(.*/)?#.*#$
-- ^(.*/)?.*~$
-- ^(.*/)?.*\.py[co]$
-- ^(.*/)?.*/RCS/.*$
-- ^(.*/)?\..*$
-# Custom skip patterns.
-- ^genetics/.*$
-- ^\w+/sources/.*$
-- ^(.*/)?node_modules/.*$
-- ^third-party/ace/snippets/.*$
-- ^third-party/blockly/\.github/.*$
-- ^third-party/blockly/externs/.*$
-- ^third-party/blockly/generators/dart.*$
-- ^third-party/blockly/generators/lua.*$
-- ^third-party/blockly/generators/php.*$
-- ^third-party/blockly/generators/python.*$
-- ^third-party/blockly/msg/json/.*$
-- ^third-party/blockly/\w*\.\w+$
-- ^third-party/JS-Interpreter/demos.*$
-- ^third-party/third_party_goog/.*$
-- ^third-party/JS-Interpreter/[^c].*$  # Only serve compressed.js.
-- ^.+\.soy$
-- ^.+\.md$
