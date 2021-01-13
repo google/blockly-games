@@ -253,6 +253,7 @@
 	"Pond.speedTooltip": "Retorna le velocitate actual del jocator (0 es immobile, 100 es plen velocitate).",
 	"Pond.locXTooltip": "Retorna le coordinata X del jocator (0 es le bordo sinistre, 100 es le bordo dextre).",
 	"Pond.locYTooltip": "Retorna le coordinata Y del jocator (0 es le bordo inferior, 100 es le bordo superior).",
+	"Pond.logTooltip": "Scribe un numero sur le consola de tu navigator.",
 	"Pond.docsTooltip": "Monstrar le documentation del linguage.",
 	"Pond.documentation": "Documentation",
 	"Pond.playerName": "Jocator",

@@ -261,7 +261,7 @@
 	"Pond.speedTooltip": "Geeft de huidige snelheid van de speler terug (0 is staat stil, 100 is volle snelheid).",
 	"Pond.locXTooltip": "Geeft het X-coördinaat van de speler terug (0 is de linkerkant, 100 is de rechterkant).",
 	"Pond.locYTooltip": "Geeft het Y-coördinaat van de speler terug (0 is de onderkant, 100 is de bovenkant).",
-	"Pond.logTooltip": "Drukt een nummer af op het console van je browser.",
+	"Pond.logTooltip": "Drukt een nummer af op de console van je browser.",
 	"Pond.docsTooltip": "Documentatie van de programmeertaal weergeven.",
 	"Pond.documentation": "Documentatie",
 	"Pond.playerName": "Speler",
