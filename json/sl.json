@@ -122,7 +122,7 @@
 	"Bird.helpHeading": "Spremeni smerni kot, da bo ptica ujela črva in nato pristala v gnezdu.",
 	"Bird.helpHasWorm": "Uporabi ta delček, da greš v eno smer, če črva imaš in v drugo smer, če črva nimaš.",
 	"Bird.helpX": "'x' je tvoj trenutni vodoravni položaj. Uporabi ta delček, da greš v eno smer, če je 'x' manjši od števila, sicer v drugo smer.",
-	"Bird.helpElse": "Klikni ikono, da spremeniš delček 'če'.",
+	"Bird.helpElse": "Kliknite ikono, da spremenite blok 'če'.",
 	"Bird.helpElseIf": "V tej stopnji moraš uporabiti delčka \"drugače če\" in \"drugače\".",
 	"Bird.helpAnd": "Delček \"in\" je resničen natanko tedaj, ko sta oba vhoda (podatka) resnična.",
 	"Bird.helpMutator": "Povleci delček \"drugače\" v delček \"če\".",
