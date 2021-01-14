@@ -1,4 +1,4 @@
-service: proxy
+service: admin
 runtime: nodejs12
 
 vpc_access_connector:
