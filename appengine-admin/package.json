@@ -1,6 +1,6 @@
 {
-  "name": "blockly-games-rproxy",
-  "description": "GAE Reverse Proxy for Blockly Games.",
+  "name": "blockly-games-admin",
+  "description": "GAE Reverse Proxy for Blockly Games's admin interface.",
   "version": "0.0.1",
   "private": true,
   "license": "Apache-2.0",

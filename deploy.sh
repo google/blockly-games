@@ -10,6 +10,6 @@ VERSION=5
 
 echo 'Beginning deployment...'
 gcloud app deploy --project $PROJECT --version $VERSION --no-promote \
-       app.yaml proxy/proxy-service.yaml dispatch.yaml
+       appengine/app.yaml appengine-admin/app.yaml dispatch.yaml
 echo 'Deployment finished.'
 
