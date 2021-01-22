@@ -1,4 +1,4 @@
-// Copyright 2017 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@ const gcpMetadata = require('gcp-metadata');
 const http = require('http');
 const httpProxy = require('http-proxy');
 const {OAuth2Client} = require('google-auth-library');
+
+/** @const {string} Name of backend server to proxy API requests to. */
+const BACKEND_HOSTNAME = 'xhrserver-1.us-central1-a.c.blockly-games.internal'
 
 const oAuth2Client = new OAuth2Client();
 const proxy = httpProxy.createProxyServer();
@@ -77,7 +80,7 @@ async function handle(req, res) {
   }
 
   proxy.web(req, res, {
-    target: 'http://xhrserver-1.us-central1-a.c.blockly-games.internal'
+    target: 'http://' + BACKEND_HOSTNAME
   });
 }
 
