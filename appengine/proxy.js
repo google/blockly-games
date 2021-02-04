@@ -20,8 +20,11 @@ const httpProxy = require('http-proxy');
 /** @const {string} Name of backend server to proxy API requests to. */
 const BACKEND_HOSTNAME = 'xhrserver-1.us-central1-a.c.blockly-games.internal'
 
-/** @const {string} Host header to send to backend. */
-const HOST = 'blockly.games';
+/** @const {!Array{string|!RegExp}} List of allowed values for Host header. */
+const ALLOWED_HOSTS = [
+  'blockly.games',
+  /^\d-dot-blockly-games\.appspot\.com$/,
+];
 
 /** @const {!Array<string>} List of allowed path prefixes to forward. */
 const ALLOWED_PREFIXES = [
@@ -36,7 +39,6 @@ const ALLOWED_PREFIXES = [
 // Create proxy service.
 const proxy = httpProxy.createProxyServer({
   target: 'http://' + BACKEND_HOSTNAME,
-  headers: {Host: HOST},
 });
 
 proxy.on('error', (e) => {
@@ -69,16 +71,20 @@ function sendError(req, res, statusCode, message) {
  * @return {void}
  */
 async function handle(req, res) {
-  const token = req.headers['x-goog-iap-jwt-assertion'];
-  for (const prefix of ALLOWED_PREFIXES) {
-    if (req.url.startsWith(prefix)) {
-      proxy.web(req, res);
-      return;
-    }
+  if (!ALLOWED_HOSTS.some((pattern) => 
+      typeof pattern === 'string' && req.headers.host === pattern
+      || pattern instanceof RegExp && pattern.test(req.headers.host))) {
+    // No host matched.
+    sendError(req, res, 400, `Invalid Host ${req.headers.host}`);
+    return;
   }
-
-  // No prefix matched.
-  sendError(req, res, 404, "Not Found");
+  if (!ALLOWED_PREFIXES.some((prefix) => req.url.startsWith(prefix))) {
+    // No prefix matched.
+    sendError(req, res, 404, "Not Found");
+    return;
+  }
+  // Host and requested URL acceptable.
+  proxy.web(req, res);
 }
 
 /**
