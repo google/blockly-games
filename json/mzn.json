@@ -1,12 +1,15 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "خا",
+	"@metadata": {
+		"authors": []
+	},
 	"Games.puzzle": "پازل",
+	"Games.help": "کومک",
+	"Games.dialogOk": "خا",
 	"Puzzle.legsChoose": "چینه...",
 	"Puzzle.error0": "خاره!\nتموم  %1 بلوک‌ها درست هسته.",
 	"Puzzle.error1": "تقریباً! اتا بلوک غلطه.",
 	"Puzzle.error2": " %1 بلوک‌ها غلط هستنه.",
 	"Puzzle.tryAgain": "پررنگ بلوک غلطه.\nاَی دِباره تِلاش هاکن.",
-	"Games.help": "کومک",
-	"Puzzle.checkAnswers": "جوابِ بررسی"
+	"Puzzle.checkAnswers": "جوابِ بررسی",
+	"Puzzle.helpText": "هر کشور وسّه (سَوز)، وشونِ پرچم پَلی، زوون ره چینه هاکن و ونه شهرون فهرست ره بساز"
 }

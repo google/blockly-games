@@ -1,11 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"सरोज कुमार ढकाल"
+			"पर्वत सुबेदी",
+			"सरोज कुमार ढकाल",
+			"हिमाल सुबेदी"
 		]
 	},
 	"Games.runProgram": "अनुप्रयोग चलाउने",
 	"Games.resetProgram": "रिसेट गर्नुहोस्",
+	"Games.help": "सहायता",
 	"Games.dialogOk": "हुन्छ",
 	"Games.dialogCancel": "रद्द गर्ने",
 	"Games.catLogic": "लजिक",
@@ -18,6 +21,8 @@
 	"Games.catProcedures": "अनुक्रियाहरु",
 	"Games.listVariable": "सूची",
 	"Games.textVariable": "पाठ",
+	"Puzzle.legsChoose": "छान्ने...",
+	"Puzzle.error0": "उत्तम !\nसबै  %1 ब्लकहरू सहि छन्",
 	"Maze.moveForward": "अघि बढ्ने",
 	"Maze.turnLeft": "बायाँ मोड्ने",
 	"Maze.turnRight": "दायाँ मोड्ने",
@@ -28,12 +33,11 @@
 	"Maze.pathLeft": "यदि बायाँ तिर बाटो छ भने",
 	"Maze.pathRight": "यदि दाहिने तिर बाटो छ भने",
 	"Maze.repeatUntil": "यस सम्म दोहोर्‌याउने",
-	"Puzzle.legsChoose": "छान्ने...",
-	"Puzzle.error0": "उत्तम !\nसबै  %1 ब्लकहरू सहि छन्",
-	"Games.help": "सहायता",
 	"Turtle.print": "छाप्नुहोस्",
-	"Turtle.fontSize": "फन्ट आकार",
+	"Turtle.font": "लिपि",
+	"Turtle.fontSize": "लिपि आकार",
 	"Turtle.fontNormal": "सामान्य",
 	"Turtle.fontBold": "मोटो",
-	"Turtle.fontItalic": "छड्के"
+	"Turtle.fontItalic": "छड्के",
+	"Pond.playerName": "प्रवाहक"
 }

@@ -1,7 +1,37 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "Baş e",
-	"Puzzle.legsChoose": "hilbijêre...",
+	"@metadata": {
+		"authors": [
+			"Bikarhêner",
+			"Ghybu"
+		]
+	},
+	"Games.bird": "Çivîk",
+	"Games.turtle": "Kusî",
+	"Games.runProgram": "Here Programe",
+	"Games.resetProgram": "Jê bibe",
 	"Games.help": "Alîkarî",
-	"Puzzle.checkAnswers": "Bersivan kontrol bike"
+	"Games.dialogOk": "Baş e",
+	"Games.dialogCancel": "Betal bike",
+	"Games.catText": "Nivîs",
+	"Games.catLists": "Lîste",
+	"Games.catColour": "Reng",
+	"Games.listVariable": "lîste",
+	"Games.textVariable": "nivîs",
+	"Games.congratulations": "Pîroz be!",
+	"Puzzle.animal3": "Mêş",
+	"Puzzle.picture": "wêne:",
+	"Puzzle.legsChoose": "hilbijêre...",
+	"Puzzle.checkAnswers": "Bersivan kontrol bike",
+	"Bird.heading": "sernivîs",
+	"Turtle.printHelpUrl": "https://en.wikipedia.org/wiki/Printing",
+	"Turtle.print": "çap bike",
+	"Turtle.fontNormal": "normal",
+	"Turtle.fontItalic": "xwahr",
+	"Turtle.galleryMsg": "Binere Galerîye",
+	"Movie.x": "x",
+	"Movie.y": "y",
+	"Movie.radius": "nîveşkêl",
+	"Pond.documentation": "Belgekirin",
+	"Pond.playerName": "Lîstikvan",
+	"Pond.targetName": "Mebest"
 }

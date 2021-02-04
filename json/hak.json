@@ -5,6 +5,9 @@
 			"Jetlag"
 		]
 	},
+	"Games.puzzle": "迷局",
+	"Games.maze": "迷宮",
+	"Games.help": "幫助",
 	"Games.dialogOk": "確定",
 	"Games.dialogCancel": "取消",
 	"Games.catMath": "Sṳ-ho̍k kûng-sṳt",
@@ -17,8 +20,13 @@
 	"Games.xmlError": "沒存到你保存个檔案。可能它係從其他版本个Blockly創建麼？",
 	"Games.listVariable": "列表",
 	"Games.textVariable": "文字",
-	"Games.puzzle": "迷局",
-	"Games.maze": "迷宮",
+	"Puzzle.legsChoose": "選擇",
+	"Puzzle.error0": "讚！\n%1 格仔全部正確。",
+	"Puzzle.error1": "差滴！有 1 格毋著。",
+	"Puzzle.error2": "%1 格毋著。",
+	"Puzzle.tryAgain": "加光个格仔毋著。\n繼續努力。",
+	"Puzzle.checkAnswers": "核對答案",
+	"Puzzle.helpText": "每隻國家（青色），選擇其對應个旗幟，語言，與城市。",
 	"Maze.turnLeft": "左彎",
 	"Maze.turnRight": "右彎",
 	"Maze.doCode": "做",
@@ -28,12 +36,5 @@
 	"Maze.pathRight": "佬右邊有路",
 	"Maze.repeatUntil": "重覆直到",
 	"Maze.moveForwardTooltip": "前行一步。",
-	"Maze.turnTooltip": "向左還有向右彎90度。",
-	"Puzzle.legsChoose": "選擇",
-	"Puzzle.error0": "讚！\n%1 格仔全部正確。",
-	"Puzzle.error1": "差滴！有 1 格毋著。",
-	"Puzzle.error2": "%1 格毋著。",
-	"Puzzle.tryAgain": "加光个格仔毋著。\n繼續努力。",
-	"Games.help": "幫助",
-	"Puzzle.checkAnswers": "核對答案"
+	"Maze.turnTooltip": "向左還有向右彎90度。"
 }

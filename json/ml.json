@@ -1,12 +1,15 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "ശരി",
+	"@metadata": {
+		"authors": []
+	},
 	"Games.puzzle": "പ്രഹേളിക",
+	"Games.help": "സഹായം",
+	"Games.dialogOk": "ശരി",
 	"Puzzle.legsChoose": "തിരഞ്ഞെടുക്കുക:",
 	"Puzzle.error0": "കൊള്ളാം!\nഎല്ലാ %1 തടയലുകളും ശരിയാണ്.",
 	"Puzzle.error1": "കുഴപ്പമില്ല! ഒരു തടയൽ ശരിയല്ല.",
 	"Puzzle.error2": "%1 തടയലുകൾ ശരിയല്ല.",
 	"Puzzle.tryAgain": "പ്രമുഖമാക്കി കാണിക്കുന്ന തടയൽ ശരിയല്ല.\nവീണ്ടും ശ്രമിക്കുക.",
-	"Games.help": "സഹായം",
-	"Puzzle.checkAnswers": "ഉത്തരങ്ങൾ പരിശോധിക്കുക"
+	"Puzzle.checkAnswers": "ഉത്തരങ്ങൾ പരിശോധിക്കുക",
+	"Puzzle.helpText": "ഓരോ രാജ്യത്തിനും (പച്ച), അതിന്റെ പതാക ചേർക്കുക, ഭാഷ തിരഞ്ഞെടുക്കുക ഒപ്പം നഗരങ്ങളുടെ പട്ടിക തയ്യാറാക്കുക."
 }

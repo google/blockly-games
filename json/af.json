@@ -1,12 +1,15 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "OK",
+	"@metadata": {
+		"authors": []
+	},
 	"Games.puzzle": "Legkaart",
+	"Games.help": "Hulp",
+	"Games.dialogOk": "OK",
 	"Puzzle.legsChoose": "kies...",
 	"Puzzle.error0": "Perfek!\nAl %1 blokke is korrek.",
 	"Puzzle.error1": "Byna! Eén blok is inkorrek.",
 	"Puzzle.error2": "%1 blokke is inkorrek.",
 	"Puzzle.tryAgain": "Die gemerkte blok is nie korrek nie.\nHou aan om te probeer.",
-	"Games.help": "Hulp",
-	"Puzzle.checkAnswers": "Kontroleer antwoorde"
+	"Puzzle.checkAnswers": "Kontroleer antwoorde",
+	"Puzzle.helpText": "Vir elke land (groen), koppel die vlag, kies die taal en maak 'n stapel van sy stede."
 }

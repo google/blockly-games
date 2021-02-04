@@ -1,12 +1,15 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "კარგი",
+	"@metadata": {
+		"authors": []
+	},
 	"Games.puzzle": "თავსატეხი",
+	"Games.help": "დახმარება",
+	"Games.dialogOk": "კარგი",
 	"Puzzle.legsChoose": "აირჩიეთ...",
 	"Puzzle.error0": "ბრწყინვალეა!\nყველა %1 ბლოკი სწორია.",
 	"Puzzle.error1": "თითქმის! ერთი ბლოკი არასწორია.",
 	"Puzzle.error2": "%1 ბლოკი არასწორია.",
 	"Puzzle.tryAgain": "გამოყოფილი ბლოკი არასწორია.\nკიდევ სცადეთ.",
-	"Games.help": "დახმარება",
-	"Puzzle.checkAnswers": "პასუხების შემოწმება"
+	"Puzzle.checkAnswers": "პასუხების შემოწმება",
+	"Puzzle.helpText": "თითოეულ ქვეყანას (მწვანე), მიამაგრეთ მისი დროშა, აირჩიეთ ოფიციალური ენა და ამ ქვეყანაში მდებარე ქალაქები."
 }

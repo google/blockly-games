@@ -1,12 +1,15 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "ASSENTIOR",
+	"@metadata": {
+		"authors": []
+	},
 	"Games.puzzle": "Ludus",
+	"Games.help": "Auxilium",
+	"Games.dialogOk": "ASSENTIOR",
 	"Puzzle.legsChoose": "elige...",
 	"Puzzle.error0": "Bene!\nOmnes %1 sectiones recte solvisti.",
 	"Puzzle.error1": "Paene! Una sectio vitiosa est.",
 	"Puzzle.error2": "%1 sectiones vitiosae sunt.",
 	"Puzzle.tryAgain": "Sectio excerpta vitiosa est.",
-	"Games.help": "Auxilium",
-	"Puzzle.checkAnswers": "Responsa examinare"
+	"Puzzle.checkAnswers": "Responsa examinare",
+	"Puzzle.helpText": "Unicuique civitati vexillum proprium adiunge, linguam elige et urbes eius indice."
 }

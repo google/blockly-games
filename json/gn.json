@@ -4,9 +4,11 @@
 			"P. S. F. Freitas"
 		]
 	},
+	"Games.turtle": "Karumbe",
 	"Games.linkTooltip": "Oñongatu ha ombojoaju vorekuéra.",
 	"Games.runProgram": "Pejapo pe Jejaporã",
 	"Games.resetProgram": "Ñepyrũ jey",
+	"Games.dialogOk": "Oĩma",
 	"Games.catLogic": "Kuaarape",
 	"Games.catLoops": "Tapykuegua",
 	"Games.catMath": "Papapykuaa",
@@ -19,18 +21,20 @@
 	"Games.linkAlert": "Temboja'o nde vorekuéra ko joaju ndie:\n\n%1",
 	"Games.listVariable": "tysýi",
 	"Games.textVariable": "jehaipy",
-	"Maze.doCode": "pejapo",
-	"Maze.elseCode": "térã",
+	"Games.breakLink": "Reñepyrũrõ remoambue JavaScript jehaipy, ndaikatúi remoambue jey umi atýra. Oĩma?",
 	"Puzzle.legsChoose": "jeporavo...",
 	"Puzzle.error0": "Iporãite!\nOpa %1 vorekuéra oĩ porã.",
 	"Puzzle.error1": "Haimete porã! Peteĩ vore oĩ vai.",
 	"Puzzle.error2": "%1 vorekuéra oĩ vai.",
+	"Maze.doCode": "pejapo",
+	"Maze.elseCode": "térã",
 	"Turtle.penUp": "ejupi haiha",
 	"Turtle.penDown": "eguejy haiha",
+	"Turtle.printHelpUrl": "https://en.wikipedia.org/wiki/Printing",
+	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.font": "tai ysaja",
 	"Turtle.fontSize": "tai tuichakue",
 	"Turtle.fontNormal": "tai tee",
 	"Turtle.fontBold": "bold",
-	"Turtle.fontItalic": "italic",
-	"Games.turtle": "Karumbe"
+	"Turtle.fontItalic": "italic"
 }

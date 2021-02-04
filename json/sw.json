@@ -1,15 +1,27 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": [
+			"Yasen igra"
+		]
+	},
+	"Games.puzzle": "Fumbo",
+	"Games.maze": "Mzingile",
 	"Games.linkTooltip": "Hifadhi na kiungo cha vishiku.",
 	"Games.runProgram": "Endesha Programu",
 	"Games.resetProgram": "Seti upya",
+	"Games.help": "Huduma",
 	"Games.dialogOk": "Sawa",
 	"Games.httpRequestError": "Kuna shida na amri.",
 	"Games.linkAlert": "Sambaza vishiku vyako na kiungo hiki: \n\n%1",
 	"Games.hashError": "Samahani, '%1' haiendani na faili yoyote ya Blockly.",
 	"Games.xmlError": "Upakiaji wa faili yako iliyohifadhiwa haiwezekani.  Labda iliundwa na toleo tofauti ya Blockly?",
-	"Games.puzzle": "Fumbo",
-	"Games.maze": "Mzingile",
+	"Puzzle.legsChoose": "chagua...",
+	"Puzzle.error0": "Hongera!\nVishiku vyote %1 ni sahihi.",
+	"Puzzle.error1": "Uko karibu! Kishiku kimoja ni kosefu.",
+	"Puzzle.error2": "Vishiku vi%1 ni kosefu.",
+	"Puzzle.tryAgain": "Kishiku kinachobainishwa ni kosefu.",
+	"Puzzle.checkAnswers": "Kuangalia Majibu",
+	"Puzzle.helpText": "Kwa kila nchi (kijani), ambatisha bendera yake, kuchagua lugha yake, na kupanganya miji yake.",
 	"Maze.moveForward": "songa mbele",
 	"Maze.turnLeft": "geuka kushoto",
 	"Maze.turnRight": "geuka kulia",
@@ -34,11 +46,7 @@
 	"Maze.helpRepeatMany": "Fikia lengo kwa kutumia vishiku vitano tu.",
 	"Maze.helpIf": "Vishiku vya 'iwapo' vitatenda kama masharti yake ni kweli tu. Jaribu kugeuka kushota kama kuna njia kwenda kushoto.",
 	"Maze.helpWallFollow": "Je, unaweza kutatua mzingile mgumu huu? Jaribu kufuatia ukuta wa kushoto. Wanaprogramu wa juu tu!",
-	"Puzzle.legsChoose": "chagua...",
-	"Puzzle.error0": "Hongera!\nVishiku vyote %1 ni sahihi.",
-	"Puzzle.error1": "Uko karibu! Kishiku kimoja ni kosefu.",
-	"Puzzle.error2": "Vishiku vi%1 ni kosefu.",
-	"Puzzle.tryAgain": "Kishiku kinachobainishwa ni kosefu.",
-	"Games.help": "Huduma",
-	"Puzzle.checkAnswers": "Kuangalia Majibu"
+	"Movie.radius": "rediasi",
+	"Movie.width": "upana",
+	"Movie.height": "urefu"
 }

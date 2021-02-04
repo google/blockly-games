@@ -4,6 +4,8 @@
 			"Ayie7791"
 		]
 	},
+	"Games.puzzle": "Hiëm",
+	"Games.maze": "Pageuë peusisat",
 	"Games.linkTooltip": "Keubah ngon neupawôt keu theun",
 	"Games.runProgram": "Peujak program",
 	"Games.resetProgram": "Atô keulayi",
@@ -23,8 +25,12 @@
 	"Games.xmlError": "Beureukaih keuneubah droëneuh han jeuët geupasoë. Kadang na neupeugot ngon versi seuneutheun yang la'én",
 	"Games.listVariable": "dapeuta",
 	"Games.textVariable": "haraih",
-	"Games.puzzle": "Hiëm",
-	"Games.maze": "Pageuë peusisat",
+	"Puzzle.legsChoose": "piléh",
+	"Puzzle.error0": "samporeuna!\nBanmandum % 1 blok ka beutôi.",
+	"Puzzle.error1": "Bacut teuk! Saboh blok hana beutôi",
+	"Puzzle.error2": "% 1 blok hana beutôi.",
+	"Puzzle.tryAgain": "Blok nyang geupeuleumah hana beutôi. Neucuba lom.",
+	"Puzzle.checkAnswers": "Pareksa jeunaweueb",
 	"Maze.moveForward": "ba ukeuë",
 	"Maze.turnLeft": "Puta wië",
 	"Maze.turnRight": "puta uneun",
@@ -37,12 +43,6 @@
 	"Maze.repeatUntil": "neuulang sampoë",
 	"Maze.moveForwardTooltip": "Pinah ureuëng meu'èn saboh kutak ukeuë.",
 	"Maze.turnTooltip": "Peulingka ureuëng meu'en 90 derjat u wië atawa uneun.",
-	"Puzzle.legsChoose": "piléh",
-	"Puzzle.error0": "samporeuna!\nBanmandum % 1 blok ka beutôi.",
-	"Puzzle.error1": "Bacut teuk! Saboh blok hana beutôi",
-	"Puzzle.error2": "% 1 blok hana beutôi.",
-	"Puzzle.tryAgain": "Blok nyang geupeuleumah hana beutôi. Neucuba lom.",
-	"Puzzle.checkAnswers": "Pareksa jeunaweueb",
 	"Turtle.moveForward": "ba ukeuë",
 	"Turtle.moveBackward": "ba u likot"
 }

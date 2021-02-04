@@ -1,12 +1,15 @@
 {
-	"@metadata": [],
-	"Games.dialogOk": "OK",
+	"@metadata": {
+		"authors": []
+	},
 	"Games.puzzle": "Баш катырма.",
+	"Games.help": "Жардам",
+	"Games.dialogOk": "OK",
 	"Puzzle.legsChoose": "тандаңыз...",
 	"Puzzle.error0": "Мыкты!\nБардык блоктор %1 туура жайгашкан.",
 	"Puzzle.error1": "Аз калды!\nБир блок гана туура эмес жайгашкан.",
 	"Puzzle.error2": "Бир нече блок (%1) туура эмес жайгашкан.",
 	"Puzzle.tryAgain": "Белгиленген блок туура эмес жайгашкан.\nДагы аракет кылыңыз.",
-	"Games.help": "Жардам",
-	"Puzzle.checkAnswers": "Жоопторду текшерүү"
+	"Puzzle.checkAnswers": "Жоопторду текшерүү",
+	"Puzzle.helpText": "Ар бир өлкөгө (жашыл), туусун кадаңыз, расмий тилин тандаңыз, жана ал өлкөнүн шаарларын белгилеңиз."
 }
