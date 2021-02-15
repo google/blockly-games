@@ -277,8 +277,8 @@
 	"Pond.helpText2": "Cette cible doit être touchée plusieurs fois. Utilisez une boucle « tant que (vrai) » pour faire quelque chose indéfiniment.",
 	"Pond.helpText3a": "Cet adversaire avance et recule, le rendant difficile à toucher. L’expression « analyser » retourne la distance exacte à l’opposant dans la direction spécifiée.",
 	"Pond.helpText3b": "Cette portée est exactement ce dont la commande « canon » a besoin pour tirer avec précision.",
-	"Pond.helpText4": "Cet adversaire est trop loin pour utiliser le canon (qui a une portée limite de 70 mètres). À la place, utilisez la commande « nager » pour commencer à nager vers l’adversaire et le percuter.",
-	"Pond.helpText5": "Cet adversaire est également trop loin pour utiliser le canon. Mais vous êtes trop faible pour survivre à une collision. Nagez vers l’adversaire tant que votre position horizontale est inférieure à 50. Puis « arrêter » avant d’utiliser le canon.",
+	"Pond.helpText4": "Cet adversaire est trop loin pour utiliser le canon (qui a une portée limite de 70 mètres). À la place, utilisez la commande « nager » pour commencer à nager vers l’adversaire et le percuter.",
+	"Pond.helpText5": "Cet adversaire est également trop loin pour utiliser le canon. Mais vous êtes trop faible pour survivre à une collision. Nagez vers l’adversaire tant que votre position horizontale est inférieure à 50. Puis « arrêter » avant d’utiliser le canon.",
 	"Pond.helpText6": "Cet adversaire s’éloignera quand il sera touché. Nagez vers lui s’il est hors de portée (70 mètres).",
 	"Gallery": "Galerie"
 }
