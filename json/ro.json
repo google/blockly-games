@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Andreyyshore",
 			"Costin PIETRARU",
 			"Espertus",
 			"MSClaudiu",
@@ -105,7 +106,7 @@
 	"Maze.helpOneTopBlock": "La acest nivel trebuie să alipești toate blocurile în spațiul de lucru alb.",
 	"Maze.helpRun": "Rulează-ți programul pentru a vedea ce se întâmplă.",
 	"Maze.helpReset": "Programul tău nu a rezolvat labirintul. Apasă „Resetează” și mai încearcă o dată.",
-	"Maze.helpRepeat": "Mergi până la sfârşitul acestui drum, utilizând doar două blocuri. Pentru a rula un bloc de mai multe ori folosește comanda \"repetă\".",
+	"Maze.helpRepeat": "Mergi până la sfârșitul acestui drum, utilizând doar două blocuri. Pentru a rula un bloc de mai multe ori folosește comanda „repetă”.",
 	"Maze.helpCapacity": "Ai folosit toate blocurile pentru acest nivel. Pentru a crea un nou bloc, trebuie mai întâi să ștergi un bloc existent.",
 	"Maze.helpRepeatMany": "Poți include mai mult de un bloc în interiorul unui bloc „repetă până când”.",
 	"Maze.helpSkins": "Alege-ți personajul favorit din acest meniu.",
@@ -259,7 +260,7 @@
 	"Pond.docsTooltip": "Afișați documentația lingvistică.",
 	"Pond.documentation": "Documentație",
 	"Pond.playerName": "Jucător",
-	"Pond.targetName": "Ţintă",
+	"Pond.targetName": "Țintă",
 	"Pond.pendulumName": "Pendulă",
 	"Pond.scaredName": "Înspăimântat",
 	"Pond.helpUseScan": "Soluția ta funcționează, dar poți face mai bine. Utilizați 'scanare' pentru a spune tunului cât de departe să tragă.",
