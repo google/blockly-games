@@ -13,12 +13,12 @@
 goog.provide('BlocklyInterface');
 
 goog.require('Blockly');
+goog.require('Blockly.ContextMenuItems');
+goog.require('Blockly.ShortcutItems');
 goog.require('Blockly.geras.Renderer');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('BlocklyStorage');
-goog.require('Blockly.ShortcutItems');
-goog.require('Blockly.ContextMenuItems');
 
 
 /**
