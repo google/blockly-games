@@ -113,7 +113,7 @@ Puzzle.init = function() {
     // Position the blocks randomly.
     var MARGIN = 50;
     Blockly.svgResize(BlocklyInterface.workspace);
-    var workspaceBox = Blockly.svgSize(BlocklyInterface.workspace.getParentSvg());
+    var workspaceBox = BlocklyInterface.workspace.getCachedParentSvgSize();
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
