@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Les Meloures",
-			"Robby"
+			"Robby",
+			"Soued031"
 		]
 	},
 	"Games.name": "Blockly-Spiller",
@@ -31,7 +32,7 @@
 	"Games.catColour": "Faarf",
 	"Games.catVariables": "Variabelen",
 	"Games.catProcedures": "Funktiounen",
-	"Games.httpRequestError": "Et gouf e Problem mat der Ufro.",
+	"Games.httpRequestError": "Et gouf e Probleem mat der Ufro.",
 	"Games.hashError": "Leider entsprécht '%1' kengem vun de gespäicherte Programmer.",
 	"Games.xmlError": "Äre gespäicherte Fichier konnt net geluede ginn. Vläicht hutt Dir e mat enger anerer Versioun vu Blockly gemaach?",
 	"Games.listVariable": "Lëscht",
