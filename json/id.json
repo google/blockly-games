@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"AJBot2",
 			"Adisetiawan",
 			"Hidayatsrf",
 			"Kasimtan",
@@ -199,7 +200,7 @@
 	"Movie.helpText3": "Blok 'time' berubah dari 0 hingga 100. Tetapi kali ini Anda ingin menempatkan posisi horizontal bola merah mulai dari 100 hingga 0. Dapatkah Anda pikirkan rumus matematika sederhana untuk memutarbalikkan arah bola?",
 	"Movie.helpText4": "Gunakan cara yang telah Anda pelajari di level sebelumnya untuk membuat empat bola hijau bergerak ke empat arah berbeda.",
 	"Movie.helpText5": "Tidaklah sulit untuk membuat kepala tikus bergerak. Dapatkah Anda mencari solusi matematika untuk membuat telinganya bergerak?",
-	"Movie.helpText6": "Dua baris sederhana. Coba pikirkan apa hasil terakhirnya.",
+	"Movie.helpText6": "Beri orang itu beberapa tangan.",
 	"Movie.helpText7": "Rumus matematika untuk bola jatuh agak rumit. Inilah jawabannya:",
 	"Movie.helpText8": "Gunakan blok 'if' untuk menggambar bola merah dan biru untuk pertengahan pertama film. Kemudian gambarkan bola hijau untuk pertengahan kedua film.",
 	"Movie.helpText9": "Dapatkah Anda membuat sebuah bola dengan menelusuri kabel? Kabelnya telah digambarkan untuk Anda. Jika Anda bisa membuat ini, Anda bisa membuat apa saja.",
