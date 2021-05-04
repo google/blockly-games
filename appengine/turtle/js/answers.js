@@ -173,7 +173,11 @@ Turtle.isCorrect = function(pixelErrors) {
   // There's an alternate solution for level 9 that has the moon rotated by
   // 12 degrees.  Allow that one to pass.
   // https://groups.google.com/forum/#!topic/blockly-games/xMwt-JHnZGY
-  if (pixelErrors > (BlocklyGames.LEVEL == 9 ? 600 : 100)) {
+  // There's also an alternate solution for level 8 that has multiple
+  // redraws.  Allow that one to pass too.
+  // https://groups.google.com/g/blockly-games/c/aOq4F5FIK64
+  if (pixelErrors > (BlocklyGames.LEVEL == 9 ? 600 :
+      (BlocklyGames.LEVEL == 8 ? 150 : 100))) {
     // Too many errors.
     return false;
   }
