@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Beta16",
 			"Gbonanome",
 			"Gianfranco",
@@ -138,7 +139,7 @@
 	"Turtle.colourTooltip": "Cambia il colore della penna.",
 	"Turtle.setColour": "imposta colore a",
 	"Turtle.penTooltip": "Alza o abbassa la penna, per iniziare a disegnare o fermarti.",
-	"Turtle.penUp": "penna sù",
+	"Turtle.penUp": "penna su",
 	"Turtle.penDown": "penna giù",
 	"Turtle.turtleVisibilityTooltip": "Rende la tartaruga (cerchio con la freccia), visibile o invisibile.",
 	"Turtle.hideTurtle": "nascondi tartaruga",
