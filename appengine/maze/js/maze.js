@@ -103,7 +103,7 @@ Maze.SKINS = [
 
   }
 ];
-Maze.SKIN_ID = BlocklyGames.getNumberParamFromUrl('skin', 1, Maze.SKINS.length);
+Maze.SKIN_ID = BlocklyGames.getNumberParamFromUrl('skin', 3, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**
