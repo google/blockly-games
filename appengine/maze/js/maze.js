@@ -90,9 +90,20 @@ Maze.SKINS = [
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_panda.mp3', 'maze/fail_panda.ogg'],
     crashType: Maze.CRASH_FALL
+  },
+  {
+    sprite: 'maze/avatar_angrybird.png',
+    tiles: 'maze/tiles_angrybird.png',
+    marker: 'maze/marker.png',
+    background: 'maze/bg_angrybird.png',
+    look: '#000',
+    winSound: ['maze/win.mp3', 'maze/win.ogg'],
+    crashSound: ['maze/fail_pegman.mp3', 'maze/fail_pegman.ogg'],
+    crashType: Maze.CRASH_SPIN
+
   }
 ];
-Maze.SKIN_ID = BlocklyGames.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
+Maze.SKIN_ID = BlocklyGames.getNumberParamFromUrl('skin', 1, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**

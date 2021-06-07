@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2020-08-16 18:41:08.421811",
+		"lastupdated": "2021-06-07 03:14:58.930510",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -79,12 +79,14 @@
 	"Puzzle.checkAnswers": "Check Answers",
 	"Puzzle.helpText": "For each animal (green), attach its picture, choose its number of legs, and make a stack of its traits.",
 	"Maze.moveForward": "move forward",
+	"Maze.moveBackward": "move backward",
 	"Maze.turnLeft": "turn left",
 	"Maze.turnRight": "turn right",
 	"Maze.doCode": "do",
 	"Maze.elseCode": "else",
 	"Maze.helpIfElse": "If-else blocks will do one thing or the other.",
 	"Maze.pathAhead": "if path ahead",
+	"Maze.pathbackwards": "if path backward",
 	"Maze.pathLeft": "if path to the left",
 	"Maze.pathRight": "if path to the right",
 	"Maze.repeatUntil": "repeat until",

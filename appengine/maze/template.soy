@@ -17,6 +17,7 @@
   {call BlocklyGames.soy.messages /}
   <div style="display: none">
     <span id="Maze_moveForward">{msg meaning="Maze.moveForward" desc="block text - Imperative or infinitive of a verb for a person moving (walking) in the direction he/she is facing."}move forward{/msg}</span>
+    <span id="Maze_moveBackward">{msg meaning="Maze.moveBackward" desc="block text - Imperative or infinitive of a verb for a person moving (walking) in the direction he/she is facing."}move backward{/msg}</span>    
     <span id="Maze_turnLeft">{msg meaning="Maze.turnLeft" desc="[[Translating:Blockly#Drop-Down_Menus dropdown]] - Imperative or infinitive of a verb for a person turning his head and body one quarter rotation counter-clockwise.  Prefer a translation that has text in common with the translation of 'turn right'.  See [[Translating:Blockly#Drop-Down_Menus]]."}turn left{/msg}</span>
     <span id="Maze_turnRight">{msg meaning="Maze.turnRight" desc="[[Translating:Blockly#Drop-Down_Menus dropdown]] - Imperative or infinitive of a verb for a person turning his head and body one quarter rotation clockwise.  Prefer a translation that has text in common with the translation of 'turn left'.  See [[Translating:Blockly#Drop-Down_Menus]]."}turn right{/msg}</span>
     <span id="Maze_doCode">{{msg meaning="Maze.doCode" desc="block text - Imperative or infinitive of a verb preceding one or more commands to a person.  This is part of [https://github.com/google/blockly/wiki/Loops#repeat repeat] and [https://github.com/google/blockly/wiki/IfElse#If_blocks if] blocks.\n{lb}{lb}Identical|Do{rb}{rb}"}}do{{/msg}}</span>
@@ -25,10 +26,14 @@
     // so that it is adjacent to the previous definition.
     <span id="Maze_helpIfElse">{msg meaning="Maze.helpIfElse" desc="callout - This is shown when the 'if-else' block is introduced.  For 'if-else' concatenate the words for 'if' and 'else/otherwise'."}If-else blocks will do one thing or the other.{/msg}</span>
     <span id="Maze_pathAhead">{msg meaning="Maze.pathAhead" desc="[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'.  Prefer translation that has text in common with 'if path to the left' and 'if path to the right'."}if path ahead{/msg}</span>
+    <span id="Maze_pathBackward">{msg meaning="Maze.pathbackwards" desc="[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path at your back', as in: 'if path at back, go backward'.  Prefer translation that has text in common with 'if path to the left' and 'if path to the right'."}if path backward{/msg}</span>
     <span id="Maze_pathLeft">{msg meaning="Maze.pathLeft" desc="[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path to the left', as in: 'if path to the left, turn left'."}if path to the left{/msg}</span>
     <span id="Maze_pathRight">{msg meaning="Maze.pathRight" desc="[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path to the right', as in: 'if path to the right, turn right'."}if path to the right{/msg}</span>
     <span id="Maze_repeatUntil">{msg meaning="Maze.repeatUntil" desc="block text - Imperative or infinitive of a verb to repeat the following commands.  The phrase is followed by the symbol denoting the end of the maze."}repeat until{/msg}</span>
     <span id="Maze_moveForwardTooltip">{msg meaning="Maze.moveForwardTooltip" desc="tooltip - Moves the icon on the screen representing the player forward one square on the maze board."}Moves the player forward one space.{/msg}</span>
+    <span id="Maze_moveBackwardTooltip">{msg meaning="Maze.moveForwardTooltip" desc="tooltip - Moves the icon on the screen representing the player forward one square on the maze board."}Moves the player forward one space.{/msg}</span>
+    <span id="Maze_moveLeftTooltip">{msg meaning="Maze.moveForwardTooltip" desc="tooltip - Moves the icon on the screen representing the player forward one square on the maze board."}Moves the player forward one space.{/msg}</span>
+    <span id="Maze_moveRightTooltip">{msg meaning="Maze.moveForwardTooltip" desc="tooltip - Moves the icon on the screen representing the player forward one square on the maze board."}Moves the player forward one space.{/msg}</span>
     <span id="Maze_turnTooltip">{msg meaning="Maze.turnTooltip" desc="tooltip - Turns the icon on the screen representing the player 90 degrees counter-clockwise (left) or clockwise (right)."}Turns the player left or right by 90 degrees.{/msg}</span>
     <span id="Maze_ifTooltip">{msg meaning="Maze.ifTooltip" desc="tooltip - 'path' refers to a path through a maze."}If there is a path in the specified direction, then do some actions.{/msg}</span>
     <span id="Maze_ifelseTooltip">{msg meaning="Maze.ifelseTooltip" desc="tooltip - 'path' refers to a path through a maze."}If there is a path in the specified direction, then do the first block of actions. Otherwise, do the second block of actions.{/msg}</span>
@@ -223,8 +228,11 @@
 {template .toolbox}
   <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
     <block type="maze_moveForward"></block>
-    <block type="maze_turn"><field name="DIR">turnLeft</field></block>
-    <block type="maze_turn"><field name="DIR">turnRight</field></block>
+    <block type="maze_moveBackward"></block>
+    <block type="maze_turnLeft"></block>
+    <block type="maze_turnRight"></block>
+    /*<block type="maze_turn"><field name="DIR">turnLeft</field></block>
+    <block type="maze_turn"><field name="DIR">turnRight</field></block>*/
     {if $ij.level > 2}
       <block type="maze_forever"></block>
       {if $ij.level == 6}
