@@ -111,6 +111,7 @@
 	"Bird.heading": "標題",
 	"Bird.noWormTooltip": "鳥冇得到蠕蟲嘅情況。",
 	"Bird.headingTooltip": "向畀定角度嘅方向移動：0嚮右移動，90嚮直向上移動等。",
+	"Bird.positionTooltip": "x同y標記鳥嘅位置。 当x = 0鳥靠近左邊緣時，当x = 100它靠近右邊緣時。 當y=0鳥在底部時，當y=100它在頂部時。",
 	"Turtle.moveForward": "前進",
 	"Turtle.moveBackward": "向後移動",
 	"Turtle.turnRight": "右轉",
