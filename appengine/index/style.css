@@ -79,10 +79,12 @@ a {
   fill: rgba(0, 0, 0, .1);
 }
 
+a:focus > .iconBorder,
 a:hover > .iconBorder {
   fill: rgba(255, 255, 255, .1);
 }
 
+a:focus > text,
 a:hover > text {
   fill: #666;
 }
