@@ -152,7 +152,7 @@ deps:
 	chmod +x build/closurebuilder.py
 
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)
-	wget -N https://unpkg.com/@babel/standalone@7.6.4/babel.min.js
+	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
 	mv babel.min.js $(APP_ENGINE_THIRD_PARTY)/
 	svn checkout --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
