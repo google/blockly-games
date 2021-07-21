@@ -328,7 +328,12 @@ BlocklyGames.bindClick = function(el, func) {
     el = document.getElementById(el);
   }
   el.addEventListener('click', func, true);
-  el.addEventListener('touchend', func, true);
+  function touchFunc(e) {
+    // Prevent code from being executed twice on touchscreens.
+    e.preventDefault();
+    func(e);
+  }
+  el.addEventListener('touchend', touchFunc, true);
 };
 
 /**
