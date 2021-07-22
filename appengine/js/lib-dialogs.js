@@ -88,12 +88,30 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
 
   function endResult() {
     // Check that the dialog wasn't closed during opening.
-    if (BlocklyDialogs.isDialogVisible_) {
-      dialog.style.visibility = 'visible';
-      dialog.style.zIndex = 10;
-      border.style.visibility = 'hidden';
+    if (!BlocklyDialogs.isDialogVisible_) {
+      return;
+    }
+    dialog.style.visibility = 'visible';
+    dialog.style.zIndex = 10;
+    border.style.visibility = 'hidden';
+
+    // Focus on the dialog's most important button.
+    var buttons = content.getElementsByClassName('primary');
+    if (!buttons.length) {
+      buttons = content.getElementsByClassName('secondary');
+      if (!buttons.length) {
+        buttons = content.getElementsByTagName('button');
+      }
+    }
+    if (buttons.length) {
+      buttons[0].focus();
     }
   }
+  // The origin (if it exists) might be a button we should lose focus on.
+  try {
+    origin.blur();
+  } catch(e) {}
+
   if (animate && origin) {
     BlocklyDialogs.matchBorder_(origin, false, 0.2);
     BlocklyDialogs.matchBorder_(dialog, true, 0.8);
