@@ -30,8 +30,6 @@
 	"Games.resetTooltip": "Zastaví program a vrátí úroveň do výchozího stavu.",
 	"Games.resetProgram": "Reset",
 	"Games.help": "Nápověda",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Zrušit",
 	"Games.catLogic": "Logika",
 	"Games.catLoops": "Smyčky",
 	"Games.catMath": "Matika",

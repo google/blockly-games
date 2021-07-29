@@ -10,7 +10,6 @@
 	"Games.runProgram": "Endesha Programu",
 	"Games.resetProgram": "Seti upya",
 	"Games.help": "Huduma",
-	"Games.dialogOk": "Sawa",
 	"Games.httpRequestError": "Kuna shida na amri.",
 	"Games.linkAlert": "Sambaza vishiku vyako na kiungo hiki: \n\n%1",
 	"Games.hashError": "Samahani, '%1' haiendani na faili yoyote ya Blockly.",

@@ -30,8 +30,6 @@
 	"Games.resetTooltip": "Zastaviť program a vrátiť úroveň do pôvodného stavu.",
 	"Games.resetProgram": "Odznova",
 	"Games.help": "Pomoc",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Zrušiť",
 	"Games.catLogic": "Logické",
 	"Games.catLoops": "Slučky",
 	"Games.catMath": "Matematika",

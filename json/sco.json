@@ -11,8 +11,6 @@
 	"Games.runProgram": "Rin Program",
 	"Games.resetProgram": "Reset",
 	"Games.help": "Heelp",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Cancel",
 	"Games.catLogic": "Logeec",
 	"Games.catLoops": "Luips",
 	"Games.catMath": "Maths",

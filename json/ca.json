@@ -30,8 +30,6 @@
 	"Games.resetTooltip": "Atura el programa i reinicia el nivell.",
 	"Games.resetProgram": "Reinicialitza",
 	"Games.help": "Ajuda",
-	"Games.dialogOk": "D'acord",
-	"Games.dialogCancel": "Cancel·la",
 	"Games.catLogic": "Lògica",
 	"Games.catLoops": "Bucles",
 	"Games.catMath": "Matemàtiques",

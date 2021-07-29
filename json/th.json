@@ -32,8 +32,6 @@
 	"Games.resetTooltip": "หยุดโปรแกรมและเริ่มใหม่",
 	"Games.resetProgram": "เริ่มใหม่",
 	"Games.help": "ช่วยเหลือ",
-	"Games.dialogOk": "ตกลง",
-	"Games.dialogCancel": "ยกเลิก",
 	"Games.catLogic": "ตรรกะ",
 	"Games.catLoops": "การวนซ้ำ",
 	"Games.catMath": "คณิตศาสตร์",

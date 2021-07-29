@@ -29,8 +29,6 @@
 	"Games.resetTooltip": "Stopp programmet og nullstill nivået.",
 	"Games.resetProgram": "Nullstill",
 	"Games.help": "Hjelp",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Avbryt",
 	"Games.catLogic": "Logikk",
 	"Games.catLoops": "Løkker",
 	"Games.catMath": "Matte",

@@ -27,8 +27,6 @@
 	"Games.resetTooltip": "প্রোগ্রামটি বন্ধ করুন এবং লেভেলটি পুন:স্থাপন করুন।",
 	"Games.resetProgram": "পুন:স্থাপন করুন",
 	"Games.help": "সাহায্য",
-	"Games.dialogOk": "ঠিক আছে",
-	"Games.dialogCancel": "বাতিল",
 	"Games.catLogic": "যুক্তি",
 	"Games.catLoops": "লুপসমূহ",
 	"Games.catMath": "গণিত",

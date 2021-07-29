@@ -28,8 +28,6 @@
 	"Games.resetTooltip": "Stop the program and reset the level.",
 	"Games.resetProgram": "Reïnicializar",
 	"Games.help": "Ajuda",
-	"Games.dialogOk": "D'acòrdi",
-	"Games.dialogCancel": "Anullar",
 	"Games.catLogic": "Logic",
 	"Games.catLoops": "Boclas",
 	"Games.catMath": "Math",

@@ -26,8 +26,6 @@
 	"Games.resetTooltip": "Stoppar le programma e reinitialisar le nivello.",
 	"Games.resetProgram": "Reinitialisar",
 	"Games.help": "Adjuta",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Cancellar",
 	"Games.catLogic": "Logica",
 	"Games.catLoops": "Buclas",
 	"Games.catMath": "Mathematica",

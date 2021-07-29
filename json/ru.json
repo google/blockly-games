@@ -37,8 +37,6 @@
 	"Games.resetTooltip": "Прерывает программу и сбрасывает в начальное состояние.",
 	"Games.resetProgram": "Сбросить",
 	"Games.help": "Справка",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Отмена",
 	"Games.catLogic": "Логика",
 	"Games.catLoops": "Циклы",
 	"Games.catMath": "Математика",
