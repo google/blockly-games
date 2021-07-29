@@ -34,8 +34,6 @@
 	"Games.resetTooltip": "Stop het programma en begin het niveau opnieuw.",
 	"Games.resetProgram": "Opnieuw instellen",
 	"Games.help": "Hulp",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Annuleren",
 	"Games.catLogic": "Logica",
 	"Games.catLoops": "Lussen",
 	"Games.catMath": "Formules",

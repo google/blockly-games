@@ -31,8 +31,6 @@
 	"Games.resetTooltip": "Stoppa programmet och återställ nivån.",
 	"Games.resetProgram": "Återställ",
 	"Games.help": "Hjälp",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Avbryt",
 	"Games.catLogic": "Logik",
 	"Games.catLoops": "Loopar",
 	"Games.catMath": "Matematik",

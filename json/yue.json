@@ -25,8 +25,6 @@
 	"Games.resetTooltip": "停止程序並重置級別。",
 	"Games.resetProgram": "重設",
 	"Games.help": "幫手",
-	"Games.dialogOk": "仲可以",
-	"Games.dialogCancel": "取消",
 	"Games.catLogic": "邏輯",
 	"Games.catLoops": "循環",
 	"Games.catMath": "數學",

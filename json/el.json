@@ -37,8 +37,6 @@
 	"Games.resetTooltip": "Διακοπή του προγράμματος και επαναφορά του επιπέδου.",
 	"Games.resetProgram": "Επαναφορά",
 	"Games.help": "Βοήθεια",
-	"Games.dialogOk": "Εντάξει",
-	"Games.dialogCancel": "Ακύρωση",
 	"Games.catLogic": "Λογική",
 	"Games.catLoops": "Επαναλήψεις",
 	"Games.catMath": "Μαθηματικά",

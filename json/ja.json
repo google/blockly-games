@@ -35,8 +35,6 @@
 	"Games.resetTooltip": "プログラムを止めて、レベルをリセット。",
 	"Games.resetProgram": "リセット",
 	"Games.help": "ヘルプ",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "キャンセル",
 	"Games.catLogic": "論理",
 	"Games.catLoops": "繰り返し",
 	"Games.catMath": "数学",

@@ -31,8 +31,6 @@
 	"Games.resetTooltip": "Зупинити програму і скинути в початковий стан.",
 	"Games.resetProgram": "Очистити",
 	"Games.help": "Довідка",
-	"Games.dialogOk": "Гаразд",
-	"Games.dialogCancel": "Скасувати",
 	"Games.catLogic": "Логіка",
 	"Games.catLoops": "Цикли",
 	"Games.catMath": "Математика",

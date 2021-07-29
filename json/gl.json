@@ -21,8 +21,6 @@
 	"Games.runProgram": "Executar o programa",
 	"Games.resetProgram": "Restablecer",
 	"Games.help": "Axuda",
-	"Games.dialogOk": "Aceptar",
-	"Games.dialogCancel": "Cancelar",
 	"Games.catLogic": "Lóxica",
 	"Games.catLoops": "Bucles",
 	"Games.catMath": "Matemáticas",

@@ -42,8 +42,6 @@
 	"Games.resetTooltip": "停止程序运行并重置本关。",
 	"Games.resetProgram": "重置",
 	"Games.help": "帮助",
-	"Games.dialogOk": "确认",
-	"Games.dialogCancel": "取消",
 	"Games.catLogic": "逻辑",
 	"Games.catLoops": "循环",
 	"Games.catMath": "数学",

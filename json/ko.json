@@ -36,8 +36,6 @@
 	"Games.resetTooltip": "프로그램을 멈추고 레벨을 초기화합니다.",
 	"Games.resetProgram": "다시하기",
 	"Games.help": "도움말",
-	"Games.dialogOk": "확인",
-	"Games.dialogCancel": "취소",
 	"Games.catLogic": "논리",
 	"Games.catLoops": "반복",
 	"Games.catMath": "수학",

@@ -41,8 +41,6 @@
 	"Games.resetTooltip": "Programı durdurun ve seviyeyi sıfırlayın.",
 	"Games.resetProgram": "Sıfırla",
 	"Games.help": "Yardım",
-	"Games.dialogOk": "Tamam",
-	"Games.dialogCancel": "İptal",
 	"Games.catLogic": "Mantık",
 	"Games.catLoops": "Döngüler",
 	"Games.catMath": "Matematik",

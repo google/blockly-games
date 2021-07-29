@@ -29,8 +29,6 @@
 	"Games.resetTooltip": "Hentikan program dan me-reset level.",
 	"Games.resetProgram": "Reset",
 	"Games.help": "Bantuan",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Batal",
 	"Games.catLogic": "Logika",
 	"Games.catLoops": "Perulangan",
 	"Games.catMath": "Matematika",

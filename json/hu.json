@@ -36,8 +36,6 @@
 	"Games.resetTooltip": "Program leállítása, és a szint visszaállítása.",
 	"Games.resetProgram": "Visszaállítás",
 	"Games.help": "Súgó",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Mégse",
 	"Games.catLogic": "Logika",
 	"Games.catLoops": "Ciklusok",
 	"Games.catMath": "Matek",

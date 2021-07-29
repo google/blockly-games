@@ -31,8 +31,6 @@
 	"Games.resetTooltip": "Stoppt das Programm und setzt das Level zurück.",
 	"Games.resetProgram": "Zurücksetzen",
 	"Games.help": "Hilfe",
-	"Games.dialogOk": "OK",
-	"Games.dialogCancel": "Abbrechen",
 	"Games.catLogic": "Logik",
 	"Games.catLoops": "Schleifen",
 	"Games.catMath": "Mathematik",

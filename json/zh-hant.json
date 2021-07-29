@@ -35,8 +35,6 @@
 	"Games.resetTooltip": "停止程式並重置關卡。",
 	"Games.resetProgram": "重置",
 	"Games.help": "說明",
-	"Games.dialogOk": "確定",
-	"Games.dialogCancel": "取消",
 	"Games.catLogic": "邏輯",
 	"Games.catLoops": "迴圈",
 	"Games.catMath": "運算",
