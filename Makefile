@@ -142,14 +142,12 @@ deps:
 	mkdir -p third-party-downloads
 	@# All following commands are in third-party-downloads, use backslashes to keep them on the same line as the cd command.
 	cd third-party-downloads; \
-	svn checkout https://github.com/google/closure-library/trunk/closure/bin/build build; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip; \
 	unzip -o closure-templates-for-javascript-latest.zip SoyToJsSrcCompiler.jar; \
 	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
 	unzip -o closure-templates-msg-extractor-latest.zip SoyMsgExtractor.jar; \
 	wget -N https://unpkg.com/google-closure-compiler-java/compiler.jar; \
 	mv -f compiler.jar closure-compiler.jar; \
-	chmod +x build/closurebuilder.py
 
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js

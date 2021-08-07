@@ -145,7 +145,7 @@ class Gen_uncompressed(threading.Thread):
     self.lang = lang
 
   def run(self):
-    cmd = ['third-party-downloads/build/closurebuilder.py',
+    cmd = ['third-party/closurebuilder/closurebuilder.py',
         '--root=appengine/third-party/',
         '--root=appengine/generated/%s/' % self.lang,
         '--root=appengine/js/',
