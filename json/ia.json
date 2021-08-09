@@ -35,7 +35,7 @@
 	"Games.catVariables": "Variabiles",
 	"Games.catProcedures": "Functiones",
 	"Games.httpRequestError": "Il habeva un problema con le requesta.",
-	"Games.linkAlert": "Divide tu blocos con iste ligamine:\n\n%1",
+	"Games.linkAlert": "Condivide tu blocos con iste ligamine:\n\n%1",
 	"Games.hashError": "Infelicemente, '%1' non corresponde a alcun programma salveguardate.",
 	"Games.xmlError": "Impossibile cargar le file salveguardate. Pote esser que illo ha essite create con un altere version de Blockly?",
 	"Games.submitted": "Gratias pro iste programma! Si nostre equipa lo ama, illes lo publicara in le galeria intra alcun dies.",

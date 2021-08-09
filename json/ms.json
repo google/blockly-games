@@ -4,6 +4,7 @@
 			"Anakmalaysia",
 			"Aurora",
 			"Espertus",
+			"Izington",
 			"Jeluang Terluang",
 			"Kurniasan"
 		]
@@ -14,11 +15,14 @@
 	"Games.bird": "Burung",
 	"Games.turtle": "Pepenyu",
 	"Games.movie": "Filem",
+	"Games.music": "Muzik",
 	"Games.pond": "Pond",
+	"Games.genetics": "Genetik",
 	"Games.linesOfCode1": "Anda telah menyelesaikan  tahap ini dengan 1 baris JavaScript:",
 	"Games.linesOfCode2": "Anda telah menyelesaikan  tahap ini dengan %1 baris JavaScript:",
 	"Games.nextLevel": "Sedia untuk tahap %2?",
 	"Games.finalLevel": "Sedia untuk cabaran seterusnya?",
+	"Games.submitTitle": "Tajuk:",
 	"Games.linkTooltip": "Simpan dan pautkan kepada blok.",
 	"Games.runTooltip": "Jalankan atur cara anda.",
 	"Games.runProgram": "Jalankan Program",
@@ -199,6 +203,15 @@
 	"Movie.helpText9": "Bolehkah anda membuat bola yang mengikut dawai? Dawai sudah pun disediakan. Jika boleh, anda boleh berbuat sesuka hati.",
 	"Movie.helpText10": "Bikinlah filem sesuka hati anda. Ada banyak blok baru untuk dicuba. Semoga ceria!",
 	"Movie.helpText10Reddit": "Tekan butang \"Lihat Galeri\" untuk menonton filem bikinan orang lain. Jika anda ada filem yang menarik, tekan \"Hantarkan ke Galeri\" untuk menyiarkan filem anda.",
+	"Music.piano": "piano",
+	"Music.trumpet": "trompet",
+	"Music.banjo": "banjo",
+	"Music.violin": "biola",
+	"Music.guitar": "gitar",
+	"Music.flute": "seruling",
+	"Music.drum": "dram",
+	"Music.choir": "koir",
+	"Music.galleryMsg": "Lihat Galeri",
 	"Pond.scanTooltip": "Imbaskan musuh. Tetapkan arah (0-360). Memaparkan jarak dengan musuh terdekat di arah tersebut. Memaparkan Infinity jika tidak terdapat musuh.",
 	"Pond.cannonTooltip": "Tembakkan meriam. Tetapkan arah (0-360) dan jarak (0-70).",
 	"Pond.swimTooltip": "Berenang ke depan. Nyatakan arah (0-360).",
@@ -220,5 +233,6 @@
 	"Pond.helpText3b": "Jarak ini menepati apa yang diperlukan oleh perintah 'cannon' untuk menembak dengan tepat.",
 	"Pond.helpText4": "Lawan ini terlalu jauh dari capaian meriam (dengan had 70 meter). Oleh itu gunakan perintah 'swim' untuk mula berenang ke arah lawan hingga melanggarnya.",
 	"Pond.helpText5": "Lawan ini juga terlalu jauh dari capaian meriam. Tetapi anda terlalu lemah untuk terselamat dari pelanggaran. Berenang ke arah lawan sedangkan lokasi mendatar anda kurang daripada 50. Kemudian 'stop' dan gunakan meriam.",
-	"Pond.helpText6": "Lawan ini akan berganjak apabila ditembak. Renang ke arahnya jika ia di luar jarak tembakan (70 meter)."
+	"Pond.helpText6": "Lawan ini akan berganjak apabila ditembak. Renang ke arahnya jika ia di luar jarak tembakan (70 meter).",
+	"Gallery": "Galeri"
 }
