@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bugoslav",
 			"Gordana Sokol",
 			"Lkralj15",
 			"Ninocka"
@@ -193,7 +194,7 @@
 	"Movie.submitMsg": "Pošalji u galeriju",
 	"Movie.helpLayer": "Pomaknite pozadinski krug na vrh programa. Tada će se pojaviti iza osobe.",
 	"Movie.helpText1": "Upotrijebite jednostavne oblike kako biste nacrtali ovu osobu.",
-	"Movie.helpText2a": "Ova razina je film. Želite da se ruke osobo pomiču preko zaslona. Kliknite na gumb pokreni kako biste vidjeli pretpregled.",
+	"Movie.helpText2a": "Ova razina je film. Želite da se ruke osobe pomiču preko zaslona. Kliknite na gumb pokreni kako biste vidjeli pretpregled.",
 	"Movie.helpText2b": "Za vrijeme izvođenja filma, vremenski blok broji od 0 do 100. Obzirom da želite da 'y' položaj ruku počne u 0 i ide do 100 to bi trebao biti jednostavno.",
 	"Movie.helpText3": "Za vrijeme izvođenja filma, vremenski blok broji od 0 do 100. Vi želite da 'y' položaj ruku počne u 100 i ide do 0. Možete li smisliti jednostavnu matematičku formulu kojom biste obrnuli smjer?",
 	"Movie.helpText4": "Iskoristite što ste naučili na prethodnoj razini kako biste napravili prekrižene noge.",
