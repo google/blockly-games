@@ -188,7 +188,7 @@
 	"Movie.rectTooltip": "Hãy vẽ một hình chữ nhật tại một vị trí cụ thể với chiều ngang và chiều cao cụ thể.",
 	"Movie.rectDraw": "hình chữ nhật",
 	"Movie.lineTooltip": "Hãy vẽ một đường thẳng từ một điểm đến điểm còn lại với một chiều ngang cụ thể.",
-	"Movie.lineDraw": "đường thẳng",
+	"Movie.lineDraw": "dòng",
 	"Movie.timeTooltip": "Hoàn trả thời điểm hiện tại ở phim (0-100).",
 	"Movie.colourTooltip": "Thay màu của bút vẽ.",
 	"Movie.setColour": "gán màu",
