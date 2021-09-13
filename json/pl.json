@@ -208,6 +208,7 @@
 	"Movie.galleryMsg": "Wyświetl galerię",
 	"Movie.submitTooltip": "Udostępnij swój film w galeri.",
 	"Movie.submitMsg": "Udostępnij do galerii",
+	"Movie.helpLayer": "Przenieś kółko tła na górę programu. Wtedy pojawi się za osobą.",
 	"Movie.helpText1": "Użyj prostych kształtów, aby narysować tę postać.",
 	"Movie.helpText2a": "Ten poziom jest filmem. Chcesz, aby ramię postaci wykonało ruch po ekranie. Kliknij przycisk play, aby zobaczyć zapowiedź.",
 	"Movie.helpText2b": "Podczas pokazu filmu wartość klocka 'czas' zwiększa się od 0 do 100. Ponieważ chcesz, aby współrzędna 'y' ramienia zmieniała się od 0 do 100, to powinno być łatwe.",
