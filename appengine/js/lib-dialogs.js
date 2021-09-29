@@ -86,11 +86,11 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
   // Inject 'Ok' and 'Cancel' from Blockly's messages.
   var okButtons = content.getElementsByClassName('dialogOk');
   for (var i = 0; i < okButtons.length; i++) {
-    okButtons[i].textContent = Blockly.Msg.DIALOG_OK;
+    okButtons[i].textContent = Blockly.Msg['DIALOG_OK'];
   }
   var cancelButtons = content.getElementsByClassName('dialogCancel');
   for (var i = 0; i < cancelButtons.length; i++) {
-    cancelButtons[i].textContent = Blockly.Msg.DIALOG_CANCEL;
+    cancelButtons[i].textContent = Blockly.Msg['DIALOG_CANCEL'];
   }
   dialog.appendChild(content);
   content.className = content.className.replace('dialogHiddenContent', '');
