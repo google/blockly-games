@@ -152,7 +152,7 @@ Genetics.Visualization.init = function() {
         return;
       }
       for (var i = 0; i < tabs.length; i++) {
-        if (selectedIndex == i) {
+        if (selectedIndex === i) {
           Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
         } else {
           Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
@@ -174,14 +174,14 @@ Genetics.Visualization.init = function() {
       var names = ['displayContent', 'charts'];
       for (var i = 0, name; (name = names[i]); i++) {
         var div = document.getElementById(name);
-        if (name == 'displayContent') {
-          div.style.visibility = (i == index) ? 'visible' : 'hidden';
+        if (name === 'displayContent') {
+          div.style.visibility = (i === index) ? 'visible' : 'hidden';
         } else {
-          Genetics.Visualization.areChartsVisible_ = (i == index);
-          if (i == index) {
+          Genetics.Visualization.areChartsVisible_ = (i === index);
+          if (i === index) {
             Genetics.Visualization.drawCharts_();
           }
-          div.style.display = (i == index) ? 'block' : 'none';
+          div.style.display = (i === index) ? 'block' : 'none';
         }
       }
     };
@@ -215,7 +215,7 @@ Genetics.Visualization.importCharts_ = function() {
  * @private
  */
 Genetics.Visualization.initCharts_ = function() {
-  if (typeof google != 'object') {
+  if (typeof google !== 'object') {
     throw Error('Loaded Google Charts API, but no "google" object.');
   }
   var createCharts = function() {
@@ -626,7 +626,7 @@ Genetics.Visualization.processFightEvent_ = function(
   var getMouseName = Genetics.Visualization.getMouseName_;
   var result = event['RESULT'];
 
-  if (result == 'NONE') {
+  if (result === 'NONE') {
     // Show a peace sign.
     var afterPeace = function() {
       Genetics.log(getMouseName(instigator) + ' elected to never fight again.');
@@ -640,13 +640,13 @@ Genetics.Visualization.processFightEvent_ = function(
     // Show a fight animation.
     var endFight = function() {
       instigator.freeMouse();
-      if (result != 'SELF') {
+      if (result !== 'SELF') {
         opponent.freeMouse();
       }
     };
 
     instigator.busy = true;
-    if (result == 'SELF') {
+    if (result === 'SELF') {
       Genetics.Visualization.fight_(instigator, instigator, result, endFight);
     } else {
       opponent.busy = true;
@@ -675,10 +675,10 @@ Genetics.Visualization.processMateEvent_ = function(
   var getMouseName = Genetics.Visualization.getMouseName_;
 
   var result = event['RESULT'];
-  if (result == 'NONE') {
+  if (result === 'NONE') {
     Genetics.log(getMouseName(proposingMouse) +
         ' elected to never mate again.');
-  } else if (result == 'SELF') {
+  } else if (result === 'SELF') {
     // Show a heart.
     var afterHeart = function() {
       Genetics.log(getMouseName(proposingMouse) +
@@ -689,10 +689,10 @@ Genetics.Visualization.processMateEvent_ = function(
     proposingMouse.busy = true;
     Genetics.Visualization.showImageOverMouse_(proposingMouse,
         'genetics/heart.png', Genetics.MouseAvatar.WIDTH, 1000, afterHeart);
-  } else if (result == 'MATE_EXPLODED') {
+  } else if (result === 'MATE_EXPLODED') {
     Genetics.log(getMouseName(askedMouse) + ' exploded after ' +
         getMouseName(proposingMouse) + ' asked it out.');
-  } else if (result == 'REJECTION') {
+  } else if (result === 'REJECTION') {
     var x = (parseInt(proposingMouse.element.style.left, 10) +
              parseInt(askedMouse.element.style.left, 10)) / 2 +
         Genetics.MouseAvatar.HALF_SIZE;
@@ -715,7 +715,7 @@ Genetics.Visualization.processMateEvent_ = function(
             'genetics/broken-heart.png', Genetics.MouseAvatar.WIDTH, 1000,
             afterBroken));
   } else {
-    // result == 'SUCCESS' || result == 'INCOMPATIBLE' || result == 'INFERTILE'
+    // result === 'SUCCESS' || result === 'INCOMPATIBLE' || result === 'INFERTILE'
     Genetics.log(getMouseName(proposingMouse, true, true) + ' asked ' +
         getMouseName(askedMouse, true, true) + ' to mate, the answer is YES!');
 
@@ -728,18 +728,18 @@ Genetics.Visualization.processMateEvent_ = function(
 
     var message;
     var heartSrc;
-    if (result == 'SUCCESS') {
+    if (result === 'SUCCESS') {
       // If mating is successful, create and add reference to offspring so that
       // future events involving that mouse that are detected before the end
       // of the birth animation will be able to access it.
       var offspring = Genetics.Visualization
           .createMouseAvatar_(event['OPT_OFFSPRING']);
       heartSrc = 'genetics/heart.png';
-    } else if (result == 'INCOMPATIBLE') {
+    } else if (result === 'INCOMPATIBLE') {
       message = getMouseName(proposingMouse) + ' mated with ' +
           getMouseName(askedMouse) + ', another ' + proposingMouse.sex + '.';
       heartSrc = 'genetics/rainbow-heart.png';
-    } else if (result == 'INFERTILE') {
+    } else if (result === 'INFERTILE') {
       message = 'Mating between ' + getMouseName(proposingMouse) +
           ' and ' + getMouseName(askedMouse) + ' failed because ' +
           getMouseName(askedMouse) + ' is sterile.';
@@ -747,7 +747,7 @@ Genetics.Visualization.processMateEvent_ = function(
     }
 
     var mateResult = function() {
-      if (result == 'SUCCESS') {
+      if (result === 'SUCCESS') {
         Genetics.Visualization.animateAddMouse_(offspring, x, y, true,
             offspring.freeMouse.bind(offspring));
       } else {
@@ -876,7 +876,7 @@ Genetics.Visualization.getMouseName_ = function(
       Genetics.Cage.players[mouse.pickFightOwner].name + ')';
   var mouseStats = '[id:' + mouse.id + '/size:' + mouse.size + '/sex: ' +
       mouse.sex + ']';
-  var names = (mouse.sex == Genetics.Mouse.Sex.FEMALE) ? FEMININE_NAMES :
+  var names = (mouse.sex === Genetics.Mouse.Sex.FEMALE) ? FEMININE_NAMES :
       MASCULINE_NAMES;
   var name = names[mouse.id % names.length || 0];
   var ordinal = Math.floor(mouse.id / names.length) + 1;
@@ -904,20 +904,20 @@ Genetics.Visualization.getMouseName_ = function(
 Genetics.Visualization.killMouse_ = function(mouseAvatar, reason) {
   Genetics.Visualization.removeMouseAvatar_(mouseAvatar);
 
-  if (reason != 'FIGHT') {
+  if (reason !== 'FIGHT') {
     var x = parseInt(mouseAvatar.element.style.left) +
         Genetics.MouseAvatar.WIDTH / 2;
     var y = parseInt(mouseAvatar.element.style.top) +
         Genetics.MouseAvatar.WIDTH / 2;
-    if (reason == 'EXPLOSION') {
+    if (reason === 'EXPLOSION') {
       // The mouse exploded.
       Genetics.Visualization.showImage_('genetics/explode.png', x, y,
           Genetics.MouseAvatar.WIDTH, 1000);
-    } else if (reason == 'OVERPOPULATION') {
+    } else if (reason === 'OVERPOPULATION') {
       // The mouse died because of overpopulation
       Genetics.Visualization.showImage_('genetics/kickedOut.png', x, y,
           Genetics.MouseAvatar.WIDTH, 1000);
-    } else {  // reason == 'RETIRE'
+    } else {  // reason === 'RETIRE'
       // The mouse died normally.
       Genetics.Visualization.showImage_('genetics/retire.png', x, y,
           Genetics.MouseAvatar.WIDTH, 1000);
@@ -1005,20 +1005,20 @@ Genetics.Visualization.fight_ = function(
   fightCloud.style.left = cloudLeft + 'px';
 
   var afterFightCloud = function(e) {
-    if (e.target == fightCloud) {
+    if (e.target === fightCloud) {
       fightCloud.removeEventListener('animationend', afterFightCloud, false);
       instigator.element.style.display = '';
       opponent.element.style.display = '';
-      if (result == 'WIN') {
+      if (result === 'WIN') {
         Genetics.log(getMouseName(instigator) + ' fights and kills ' +
             getMouseName(opponent) + '.');
         Genetics.Visualization.killMouse_(opponent, 'FIGHT');
-      } else if (result == 'LOSS') {
+      } else if (result === 'LOSS') {
 
         Genetics.log(getMouseName(instigator) + ' fights and is ' +
             'killed by ' + getMouseName(opponent) + '.');
         Genetics.Visualization.killMouse_(instigator, 'FIGHT');
-      } else if (result == 'TIE') {
+      } else if (result === 'TIE') {
         Genetics.log(getMouseName(instigator) + ' fights ' +
             getMouseName(opponent) + ' to a draw.');
       } else {  // If result is 'SELF'.
@@ -1094,7 +1094,7 @@ Genetics.Visualization.animateAddMouse_ = function(
   mouseAvatar.element.style.top = yPos + 'px';
 
   var afterDroppingIn = function(e) {
-    if (e.target == mouseAvatar.element) {
+    if (e.target === mouseAvatar.element) {
       if (isBirth) {
         Genetics.log(getMouseName(mouseAvatar, true, true) + ' was born!');
       } else {
@@ -1166,7 +1166,7 @@ Genetics.Visualization.showImage_ = function(
   img.style.top = y - size / 2 + 'px';
 
   var afterShow = function(e) {
-    if (e.target == img) {
+    if (e.target === img) {
       img.parentNode.removeChild(img);
       if (opt_callback) {
         opt_callback();

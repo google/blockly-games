@@ -79,7 +79,7 @@ Genetics.init = function() {
         return;
       }
       for (var i = 0; i < tabs.length; i++) {
-        if (selectedIndex == i) {
+        if (selectedIndex === i) {
           Blockly.utils.dom.addClass(tabs[i], 'tab-selected');
         } else {
           Blockly.utils.dom.removeClass(tabs[i], 'tab-selected');
@@ -406,7 +406,7 @@ Genetics.init = function() {
     BlocklyInterface.workspace.clearUndo();
   }
 
-  BlocklyInterface.blocksDisabled = blocklyDiv == null;
+  BlocklyInterface.blocksDisabled = blocklyDiv === null;
 
   // Set level specific settings in Cage.
   var players;
@@ -435,10 +435,10 @@ Genetics.init = function() {
     Genetics.Cage.soloPlayerMouse = BlocklyGames.LEVEL <= 6;
     Genetics.Cage.skipPickFight = BlocklyGames.LEVEL >= 5;
     Genetics.Cage.ignorePlayerMouse =
-        BlocklyGames.LEVEL == 7 || BlocklyGames.LEVEL == 8;
+        BlocklyGames.LEVEL === 7 || BlocklyGames.LEVEL === 8;
     Genetics.Cage.prependedCode =
         document.getElementById('playerTutor').textContent;
-  } else if (BlocklyGames.LEVEL == 9) {
+  } else if (BlocklyGames.LEVEL === 9) {
     players = [
       {
         name: 'Genetics_myName',
@@ -457,7 +457,7 @@ Genetics.init = function() {
         code: 'playerSimple'
       }
     ];
-  } else {  // BlocklyGames.LEVEL == 10
+  } else {  // BlocklyGames.LEVEL === 10
     players = [
       {
         name: 'Genetics_myName',
@@ -501,7 +501,7 @@ Genetics.init = function() {
  */
 Genetics.addStartingMice = function() {
   var startingMice;
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     startingMice = [
       {
         // Create player mouse.
@@ -541,7 +541,7 @@ Genetics.addStartingMice = function() {
         size: 1
       }
     ];
-  } else if (BlocklyGames.LEVEL == 2) {
+  } else if (BlocklyGames.LEVEL === 2) {
     startingMice = [
       {
         // Create player mouse.
@@ -730,7 +730,7 @@ Genetics.addStartingMice = function() {
       for (var i = 0; i < 2; i++) {
         startingMice.push({
           id: mouseId++,
-          sex: (i % 2 == 0) ? Genetics.Mouse.Sex.MALE :
+          sex: (i % 2 === 0) ? Genetics.Mouse.Sex.MALE :
               Genetics.Mouse.Sex.FEMALE,
           playerId: playerId
         });
@@ -743,13 +743,13 @@ Genetics.addStartingMice = function() {
         Genetics.Mouse.Sex.MALE : Genetics.Mouse.Sex.FEMALE);
     var mouse = new Genetics.Mouse(mouseStats.id, sex, mouseStats.playerId);
     // Set other mouse attributes if a value was declared.
-    if (mouseStats.size != null) {
+    if (mouseStats.size !== null) {
       mouse.size = mouseStats.size;
     }
-    if (mouseStats.fertility != null) {
+    if (mouseStats.fertility !== null) {
       mouse.fertility = mouseStats.fertility;
     }
-    if (mouseStats.aggressiveness != null) {
+    if (mouseStats.aggressiveness !== null) {
       mouse.aggressiveness = mouseStats.aggressiveness;
     }
     Genetics.Cage.addMouse(mouse);
@@ -796,12 +796,12 @@ Genetics.checkForLevelEnd = function() {
       // Case 1 and Case 2
       for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
         // This level should have only one fight event.
-        if (event['TYPE'] == 'FIGHT') {
+        if (event['TYPE'] === 'FIGHT') {
           new Genetics.Cage.Event('END_GAME',
-              event['RESULT'] == 'WIN').addToQueue();
+              event['RESULT'] === 'WIN').addToQueue();
           return true;
-        } else if (event['TYPE'] != 'START_GAME' &&
-            event['TYPE'] != 'NEXT_ROUND') {
+        } else if (event['TYPE'] !== 'START_GAME' &&
+            event['TYPE'] !== 'NEXT_ROUND') {
           // If an unexpected event occurred, then the level is failed.
           new Genetics.Cage.Event('END_GAME', false).addToQueue();
           return true;
@@ -818,10 +818,10 @@ Genetics.checkForLevelEnd = function() {
       // Case 3 and Case 4
       var successfulFights = 0;
       for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
-        if (event['TYPE'] == 'FIGHT') {
-          if (event['RESULT'] == 'WIN') {
+        if (event['TYPE'] === 'FIGHT') {
+          if (event['RESULT'] === 'WIN') {
             successfulFights++;
-            if (successfulFights == 3) {
+            if (successfulFights === 3) {
               new Genetics.Cage.Event('END_GAME', true).addToQueue();
               return true;
             }
@@ -830,8 +830,8 @@ Genetics.checkForLevelEnd = function() {
             new Genetics.Cage.Event('END_GAME', false).addToQueue();
             return true;
           }
-        } else if (event['TYPE'] != 'START_GAME' &&
-            event['TYPE'] != 'NEXT_ROUND') {
+        } else if (event['TYPE'] !== 'START_GAME' &&
+            event['TYPE'] !== 'NEXT_ROUND') {
           // If an unexpected event occurred, then the level is failed.
           new Genetics.Cage.Event('END_GAME', false).addToQueue();
           return true;
@@ -849,9 +849,9 @@ Genetics.checkForLevelEnd = function() {
       // Case 5 and Case 6
       var successfulMates = 0;
       for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
-        if (event['TYPE'] == 'MATE') {
-          if (event['RESULT'] == 'SUCCESS') {
-            if (BlocklyGames.LEVEL == 6 &&
+        if (event['TYPE'] === 'MATE') {
+          if (event['RESULT'] === 'SUCCESS') {
+            if (BlocklyGames.LEVEL === 6 &&
                 Genetics.Cage.miceMap_[event['OPT_PARTNER']].size <=
                 Genetics.Mouse.SIZE) {
               // If it is level 6 and the player tried to mate with someone
@@ -860,7 +860,7 @@ Genetics.checkForLevelEnd = function() {
               return true;
             }
             successfulMates++;
-            if (successfulMates == 5) {
+            if (successfulMates === 5) {
               new Genetics.Cage.Event('END_GAME', true).addToQueue();
               return true;
             }
@@ -870,8 +870,8 @@ Genetics.checkForLevelEnd = function() {
             new Genetics.Cage.Event('END_GAME', false).addToQueue();
             return true;
           }
-        } else if (event['TYPE'] != 'START_GAME' &&
-            event['TYPE'] != 'NEXT_ROUND') {
+        } else if (event['TYPE'] !== 'START_GAME' &&
+            event['TYPE'] !== 'NEXT_ROUND') {
           // If an unexpected event occurred, then the level is failed.
           new Genetics.Cage.Event('END_GAME', false).addToQueue();
           return true;
@@ -890,9 +890,9 @@ Genetics.checkForLevelEnd = function() {
       // Case 7 and Case 8
       var successfulMates = 0;
       for (var i = 0, event; (event = Genetics.Cage.Events[i]); i++) {
-        if (event['TYPE'] == 'MATE') {
-          if (event['RESULT'] == 'SUCCESS') {
-            if (BlocklyGames.LEVEL == 8 &&
+        if (event['TYPE'] === 'MATE') {
+          if (event['RESULT'] === 'SUCCESS') {
+            if (BlocklyGames.LEVEL === 8 &&
                 Genetics.Cage.miceMap_[event['ID']].size <=
                 Genetics.Mouse.SIZE) {
               // If it is level 8 and the player tried to mate with someone
@@ -901,14 +901,14 @@ Genetics.checkForLevelEnd = function() {
               return true;
             }
             successfulMates++;
-            if (successfulMates == 5) {
+            if (successfulMates === 5) {
               new Genetics.Cage.Event('END_GAME', true).addToQueue();
               return true;
             }
-          } else if (event['RESULT'] == 'REJECTION') {
+          } else if (event['RESULT'] === 'REJECTION') {
             var self = Genetics.Cage.miceMap_[0];
             var mate = Genetics.Cage.miceMap_[event['ID']];
-            if (self.sex != mate.sex && (BlocklyGames.LEVEL != 8 ||
+            if (self.sex !== mate.sex && (BlocklyGames.LEVEL !== 8 ||
                 self.size < mate.sex)) {
               // If the player rejected a correct mate request, then they fail.
               new Genetics.Cage.Event('END_GAME', false).addToQueue();
@@ -920,8 +920,8 @@ Genetics.checkForLevelEnd = function() {
             new Genetics.Cage.Event('END_GAME', false).addToQueue();
             return true;
           }
-        } else if (event['TYPE'] != 'START_GAME' &&
-            event['TYPE'] != 'NEXT_ROUND' && event['TYPE'] != 'RETIRE') {
+        } else if (event['TYPE'] !== 'START_GAME' &&
+            event['TYPE'] !== 'NEXT_ROUND' && event['TYPE'] !== 'RETIRE') {
           // If an unexpected event occurred, then the level is failed.
           new Genetics.Cage.Event('END_GAME', false).addToQueue();
           return true;
@@ -1045,13 +1045,13 @@ Genetics.changeTab = function(index) {
   var names = ['blockly', 'editor'];
   for (var i = 0, name; (name = names[i]); i++) {
     var div = document.getElementById(name);
-    div.style.visibility = (i == index) ? 'visible' : 'hidden';
+    div.style.visibility = (i === index) ? 'visible' : 'hidden';
   }
   // Show/hide Blockly divs.
   var names = ['.blocklyTooltipDiv', '.blocklyToolboxDiv'];
   for (var i = 0, name; (name = names[i]); i++) {
     var div = document.querySelector(name);
-    div.style.visibility = (index == BLOCKS) ? 'visible' : 'hidden';
+    div.style.visibility = (index === BLOCKS) ? 'visible' : 'hidden';
   }
   if (Genetics.isDocsVisible_) {
     var frame = document.getElementById('frameDocs');
@@ -1059,7 +1059,7 @@ Genetics.changeTab = function(index) {
         '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
-  if (index == JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
+  if (index === JAVASCRIPT && !BlocklyInterface.blocksDisabled) {
     var code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
     Genetics.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);

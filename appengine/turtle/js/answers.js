@@ -165,7 +165,7 @@ Turtle.answer = function() {
  * @return {boolean} True if the level is solved, false otherwise.
  */
 Turtle.isCorrect = function(pixelErrors) {
-  if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
+  if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
     return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
@@ -176,15 +176,15 @@ Turtle.isCorrect = function(pixelErrors) {
   // There's also an alternate solution for level 8 that has multiple
   // redraws.  Allow that one to pass too.
   // https://groups.google.com/g/blockly-games/c/aOq4F5FIK64
-  if (pixelErrors > (BlocklyGames.LEVEL == 9 ? 600 :
-      (BlocklyGames.LEVEL == 8 ? 150 : 100))) {
+  if (pixelErrors > (BlocklyGames.LEVEL === 9 ? 600 :
+      (BlocklyGames.LEVEL === 8 ? 150 : 100))) {
     // Too many errors.
     return false;
   }
   var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
-      (BlocklyGames.LEVEL == 3 && blockCount > 4) ||
-      (BlocklyGames.LEVEL == 5 && blockCount > 10)) {
+      (BlocklyGames.LEVEL === 3 && blockCount > 4) ||
+      (BlocklyGames.LEVEL === 5 && blockCount > 10)) {
     // Use a loop, dummy.
     var content = document.getElementById('helpUseLoop');
     var style = {

@@ -415,7 +415,7 @@ Blockly.Blocks['lists_create_with'].updateShape_ = function() {
   for (var i = 0; i < this.itemCount_; i++) {
     if (!this.getInput('ADD' + i)) {
       var input = this.appendValueInput('ADD' + i);
-      if (i == 0) {
+      if (i === 0) {
         input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
       } else {
         input.appendField(',');

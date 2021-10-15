@@ -24,8 +24,8 @@ BlocklyGames.NAME = 'gallery';
  */
 Gallery.init = function() {
   Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
-  var isAdmin = (Gallery.app == 'admin');
-  if (!isAdmin && ['turtle', 'movie', 'music'].indexOf(Gallery.app) == -1) {
+  var isAdmin = (Gallery.app === 'admin');
+  if (!isAdmin && ['turtle', 'movie', 'music'].indexOf(Gallery.app) === -1) {
     throw Error('Unknown app: ' + Gallery.app);
   }
   if (isAdmin) {

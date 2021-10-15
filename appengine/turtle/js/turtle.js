@@ -105,7 +105,7 @@ Turtle.init = function() {
   BlocklyInterface.injectBlockly(
       {'rtl': rtl,
        'trashcan': true,
-       'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
+       'zoom': BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL ?
            {'controls': true, 'wheel': true} : null});
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
@@ -120,7 +120,7 @@ Turtle.init = function() {
   var sliderSvg = document.getElementById('slider');
   Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
 
-  if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
+  if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
     var defaultXml =
         '<xml>' +
           '<block type="turtle_move" x="70" y="70">' +
@@ -140,7 +140,7 @@ Turtle.init = function() {
         '</xml>';
   }
   BlocklyInterface.loadBlocks(defaultXml,
-      BlocklyGames.LEVEL != BlocklyGames.MAX_LEVEL || Turtle.transform10);
+      BlocklyGames.LEVEL !== BlocklyGames.MAX_LEVEL || Turtle.transform10);
 
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
   Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
@@ -164,11 +164,11 @@ Turtle.init = function() {
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
     setTimeout(Turtle.showHelp, 1000);
-    if (BlocklyGames.LEVEL == 9) {
+    if (BlocklyGames.LEVEL === 9) {
       setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
     }
   }
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
     BlocklyInterface.workspace.addChangeListener(Turtle.watchCategories_);
@@ -187,16 +187,16 @@ Turtle.transform10 = function(xml) {
   var tree = Blockly.Xml.textToDom(xml);
   var node = tree;
   while (node) {
-    if (node.nodeName.toLowerCase() == 'block') {
+    if (node.nodeName.toLowerCase() === 'block') {
       var type = node.getAttribute('type');
       // Find the last child that's a 'field'.
       var child = node.lastChild;
-      while (child && child.nodeName.toLowerCase() != 'field') {
+      while (child && child.nodeName.toLowerCase() !== 'field') {
         child = child.previousSibling;
       }
       var childName = child && child.getAttribute('name');
 
-      if (type == 'turtle_colour_internal' && childName== 'COLOUR') {
+      if (type === 'turtle_colour_internal' && childName== 'COLOUR') {
         /*
         Old:
           <block type="turtle_colour_internal">
@@ -224,7 +224,7 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
 
-      if (type == 'turtle_repeat_internal' && childName== 'TIMES') {
+      if (type === 'turtle_repeat_internal' && childName== 'TIMES') {
         /*
         Old:
           <block type="turtle_repeat_internal">
@@ -255,7 +255,7 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
 
-      if (type == 'turtle_move_internal' && childName== 'VALUE') {
+      if (type === 'turtle_move_internal' && childName== 'VALUE') {
         /*
         Old:
           <block type="turtle_move_internal">
@@ -286,7 +286,7 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
 
-      if (type == 'turtle_turn_internal' && childName== 'VALUE') {
+      if (type === 'turtle_turn_internal' && childName== 'VALUE') {
         /*
         Old:
           <block type="turtle_move_internal">
@@ -351,11 +351,11 @@ Turtle.showHelp = function() {
     top: '5em'
   };
 
-  if (BlocklyGames.LEVEL == 3) {
+  if (BlocklyGames.LEVEL === 3) {
     var xml = '<xml><block type="turtle_colour_internal" x="5" y="10">' +
         '<field name="COLOUR">#ffff00</field></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp3', xml);
-  } else if (BlocklyGames.LEVEL == 4) {
+  } else if (BlocklyGames.LEVEL === 4) {
     var xml = '<xml><block type="turtle_pen" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp4', xml);
   }
@@ -369,7 +369,7 @@ Turtle.showHelp = function() {
  */
 Turtle.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
     setTimeout(Turtle.showCategoryHelp, 5000);
@@ -411,7 +411,7 @@ Turtle.categoryClicked_ = false;
  * @private
  */
 Turtle.watchCategories_ = function(event) {
-  if (event.type == Blockly.Events.TOOLBOX_ITEM_SELECT) {
+  if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
     BlocklyInterface.workspace.removeChangeListener(Turtle.watchCategories_);

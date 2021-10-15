@@ -12,8 +12,6 @@
 
 goog.provide('BlocklyGames');
 
-goog.require('Blockly.utils.math');
-
 
 /**
  * Lookup for names of languages.  Keys should be in ISO 639 format.
@@ -159,7 +157,7 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
 BlocklyGames.getNumberParamFromUrl = function(name, minValue, maxValue) {
   var val = Number(BlocklyGames.getStringParamFromUrl(name, 'NaN'));
   return isNaN(val) ? minValue :
-      Blockly.utils.math.clamp(minValue, val, maxValue);
+      Math.max(minValue, Math.min(val, maxValue));
 };
 
 /**
@@ -167,7 +165,7 @@ BlocklyGames.getNumberParamFromUrl = function(name, minValue, maxValue) {
  * @return {boolean} True if RTL, false if LTR.
  */
 BlocklyGames.isRtl = function() {
-  return BlocklyGames.LANGUAGE_RTL.indexOf(BlocklyGames.LANG) != -1;
+  return BlocklyGames.LANGUAGE_RTL.indexOf(BlocklyGames.LANG) !== -1;
 };
 
 /**
@@ -220,7 +218,7 @@ BlocklyGames.init = function() {
       var tuple = languages[i];
       var lang = tuple[1];
       var option = new Option(tuple[0], lang);
-      if (lang == BlocklyGames.LANG) {
+      if (lang === BlocklyGames.LANG) {
         option.selected = true;
       }
       languageMenu.options.add(option);
@@ -328,7 +326,7 @@ BlocklyGames.bindClick = function(el, func) {
   if (!el) {
     throw TypeError('Element not found: ' + el);
   }
-  if (typeof el == 'string') {
+  if (typeof el === 'string') {
     el = document.getElementById(el);
   }
   el.addEventListener('click', func, true);

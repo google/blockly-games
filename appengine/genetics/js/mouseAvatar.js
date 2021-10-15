@@ -85,7 +85,7 @@ Genetics.MouseAvatar = function(mouse) {
       'height': Genetics.MouseAvatar.FULL_HEIGHT * 2 + 'px',
       'clip-path': 'url(#mouse' + mouse.id + 'ClipPath)'
     }, this.element);
-  if (this.sex == Genetics.Mouse.Sex.FEMALE) {
+  if (this.sex === Genetics.Mouse.Sex.FEMALE) {
     this.image_.setAttribute('y', -Genetics.MouseAvatar.FULL_HEIGHT + 'px');
   }
   this.image_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
@@ -312,7 +312,7 @@ Genetics.MouseAvatar.prototype.move = function(x, y, callback, opt_time) {
   var yDelta = yClamped - mouseY;
 
   // Calculate the time it would take to get to destination if not set.
-  var time = (opt_time != null) ? opt_time :
+  var time = (opt_time !== null) ? opt_time :
       Math.hypot(Math.abs(xDelta), Math.abs(yDelta)) /
           Genetics.MouseAvatar.BUSY_SPEED;
 

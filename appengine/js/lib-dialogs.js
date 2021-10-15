@@ -395,12 +395,12 @@ BlocklyDialogs.congratulations = function() {
     var lineCount = noComments.split('\n').length;
     var pre = document.getElementById('containerCode');
     pre.textContent = code;
-    if (typeof prettyPrintOne == 'function') {
+    if (typeof prettyPrintOne === 'function') {
       code = pre.innerHTML;
       code = prettyPrintOne(code, 'js');
       pre.innerHTML = code;
     }
-    if (lineCount == 1) {
+    if (lineCount === 1) {
       var text = BlocklyGames.getMsg('Games_linesOfCode1');
     } else {
       var text = BlocklyGames.getMsg('Games_linesOfCode2')
@@ -441,7 +441,7 @@ BlocklyDialogs.congratulations = function() {
  */
 BlocklyDialogs.dialogKeyDown_ = function(e) {
   if (BlocklyDialogs.isDialogVisible_) {
-    if (e.keyCode == 13 || e.keyCode == 27 || e.keyCode == 32) {
+    if (e.keyCode === 13 || e.keyCode === 27 || e.keyCode === 32) {
       BlocklyDialogs.hideDialog(true);
       e.stopPropagation();
       e.preventDefault();
@@ -472,7 +472,7 @@ BlocklyDialogs.stopDialogKeyDown = function() {
  */
 BlocklyDialogs.congratulationsKeyDown = function(e) {
   BlocklyDialogs.dialogKeyDown_(e);
-  if (e.keyCode == 13 || e.keyCode == 32) {
+  if (e.keyCode === 13 || e.keyCode === 32) {
     BlocklyInterface.nextLevel();
   }
 };
@@ -484,7 +484,7 @@ BlocklyDialogs.congratulationsKeyDown = function(e) {
  */
 BlocklyDialogs.abortKeyDown = function(e) {
   BlocklyDialogs.dialogKeyDown_(e);
-  if (e.keyCode == 13 || e.keyCode == 32) {
+  if (e.keyCode === 13 || e.keyCode === 32) {
     BlocklyInterface.indexPage();
   }
 };

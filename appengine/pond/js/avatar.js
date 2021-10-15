@@ -170,8 +170,8 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   } else {
     resolution = opt_resolution;
   }
-  if ((typeof degree != 'number') || isNaN(degree) ||
-      (typeof resolution != 'number') || isNaN(resolution)) {
+  if ((typeof degree !== 'number') || isNaN(degree) ||
+      (typeof resolution !== 'number') || isNaN(resolution)) {
     throw TypeError();
   }
   degree = BlocklyGames.normalizeAngle(degree);
@@ -191,7 +191,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   // Check every enemy for existence in the scan beam.
   var closest = Infinity;
   for (var i = 0, enemy; (enemy = this.battle_.AVATARS[i]); i++) {
-    if (enemy == this || enemy.dead) {
+    if (enemy === this || enemy.dead) {
       continue;
     }
     var ex = enemy.loc.x;
@@ -229,12 +229,12 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
   } else {
     speed = opt_speed;
   }
-  if ((typeof degree != 'number') || isNaN(degree) ||
-      (typeof speed != 'number') || isNaN(speed)) {
+  if ((typeof degree !== 'number') || isNaN(degree) ||
+      (typeof speed !== 'number') || isNaN(speed)) {
     throw TypeError;
   }
   var desiredDegree = BlocklyGames.normalizeAngle(degree);
-  if (this.degree != desiredDegree) {
+  if (this.degree !== desiredDegree) {
     if (this.speed <= 50) {
       // Changes in direction can be negotiated at speeds of less than 50%.
       this.degree = BlocklyGames.normalizeAngle(degree);
@@ -244,7 +244,7 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
       speed = 0;
     }
   }
-  if (this.speed == 0 && speed > 0) {
+  if (this.speed === 0 && speed > 0) {
     // If starting, bump the speed immediately so that avatars can see a change.
     this.speed = 0.1;
   }
@@ -266,8 +266,8 @@ Pond.Avatar.prototype.stop = function() {
  *     previous shot.
  */
 Pond.Avatar.prototype.cannon = function(degree, range) {
-  if ((typeof degree != 'number') || isNaN(degree) ||
-      (typeof range != 'number') || isNaN(range)) {
+  if ((typeof degree !== 'number') || isNaN(degree) ||
+      (typeof range !== 'number') || isNaN(range)) {
     throw TypeError;
   }
   var now = Date.now();

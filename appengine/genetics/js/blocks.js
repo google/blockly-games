@@ -288,7 +288,7 @@ Blockly.Blocks['genetics_getProperties'] = {
    * @this {Blockly.Block}
    */
   updateType_: function(newProp) {
-    if (newProp == 'SEX') {
+    if (newProp === 'SEX') {
       this.outputConnection.setCheck('String');
     } else {
       this.outputConnection.setCheck('Number');
@@ -401,7 +401,7 @@ Blockly.JavaScript['genetics_sex'] = function(block) {
   // Generate JavaScript for getting sex enum.
   var type = block.getFieldValue('TYPE');
   var code = 'Genetics.Mouse.Sex.';
-  if(type == 'MALE') {
+  if(type === 'MALE') {
     code += 'Male';
   } else {
     code += 'Female';

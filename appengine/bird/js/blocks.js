@@ -135,7 +135,7 @@ Blockly.Blocks['bird_compare'] = {
 
 Blockly.JavaScript['bird_compare'] = function(block) {
   // Generate JavaScript for comparing bird's x or y position with a number.
-  var operator = (block.getFieldValue('OP') == 'LT') ? '<' : '>';
+  var operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
   var order = Blockly.JavaScript.ORDER_RELATIONAL;
   var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
   var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
@@ -216,14 +216,14 @@ Blockly.JavaScript['bird_ifElse'] = function(block) {
 };
 
 // Backup the initialization function on the stock 'if' block.
-Blockly.Blocks['controls_if'].oldInit = Blockly.Blocks['controls_if'].init;
+Blockly.Blocks['controls_if'].oldInit_ = Blockly.Blocks['controls_if'].init;
 
   /**
    * Modify the stock 'if' block to be a singleton.
    * @this {Blockly.Block}
    */
 Blockly.Blocks['controls_if'].init = function() {
-  this.oldInit();
+  this.oldInit_();
   this.setPreviousStatement(false);
   this.setNextStatement(false);
   this.setDeletable(false);

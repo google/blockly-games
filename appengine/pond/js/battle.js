@@ -432,7 +432,7 @@ Pond.Battle.closestNeighbour = function(avatar) {
   var closest = null;
   var distance = Infinity;
   for (var i = 0, neighbour; (neighbour = Pond.Battle.AVATARS[i]); i++) {
-    if (!neighbour.dead && avatar != neighbour) {
+    if (!neighbour.dead && avatar !== neighbour) {
       var thisDistance = Math.min(distance,
           Blockly.utils.Coordinate.distance(avatar.loc, neighbour.loc));
       if (thisDistance < distance) {

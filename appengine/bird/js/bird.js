@@ -320,7 +320,7 @@ Bird.drawMap = function() {
           'y2': i * Bird.MAP_SIZE
         }, svg);
     }
-    if (major == 2) {
+    if (major === 2) {
       if (xAxis) {
         // X axis.
         var number = Blockly.utils.dom.createSvgElement('text', {
@@ -340,7 +340,7 @@ Bird.drawMap = function() {
         number.appendChild(document.createTextNode(Math.round(100 - i * 100)));
       }
     }
-    major = major == 1 ? 2 : 1;
+    major = major === 1 ? 2 : 1;
   }
 };
 
@@ -391,7 +391,7 @@ Bird.init = function() {
   Bird.drawMap();
 
   var defaultXml;
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     defaultXml = '<xml><block type="bird_heading" x="70" y="70"></block></xml>';
   } else if (BlocklyGames.LEVEL < 5) {
     defaultXml = '<xml><block type="bird_ifElse" x="70" y="70"></block></xml>';
@@ -448,9 +448,9 @@ Bird.levelHelp = function() {
   var content = document.getElementById('dialogHelp');
   var origin = null;
   var style = null;
-  if (BlocklyGames.LEVEL == 1) {
-    if ((userBlocks.indexOf('>90<') != -1 ||
-        userBlocks.indexOf('bird_heading') == -1) &&
+  if (BlocklyGames.LEVEL === 1) {
+    if ((userBlocks.indexOf('>90<') !== -1 ||
+        userBlocks.indexOf('bird_heading') === -1) &&
         !Blockly.WidgetDiv.isVisible()) {
       style = {'width': '370px', 'top': '140px'};
       style[rtl ? 'right' : 'left'] = '215px';
@@ -461,27 +461,27 @@ Bird.levelHelp = function() {
         origin = toolbar[0].getSvgRoot();
       }
     }
-  } else if (BlocklyGames.LEVEL == 2) {
-    if (userBlocks.indexOf('bird_noWorm') == -1) {
+  } else if (BlocklyGames.LEVEL === 2) {
+    if (userBlocks.indexOf('bird_noWorm') === -1) {
       style = {'width': '350px', 'top': '170px'};
       style[rtl ? 'right' : 'left'] = '180px';
       origin = toolbar[1].getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 4) {
-    if (userBlocks.indexOf('bird_compare') == -1) {
+  } else if (BlocklyGames.LEVEL === 4) {
+    if (userBlocks.indexOf('bird_compare') === -1) {
       style = {'width': '350px', 'top': '230px'};
       style[rtl ? 'right' : 'left'] = '180px';
       origin = toolbar[2].getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 5) {
+  } else if (BlocklyGames.LEVEL === 5) {
     if (!Bird.mutatorHelpPid_) {
       // Keep polling the mutator's state.
       Bird.mutatorHelpPid_ = setInterval(Bird.levelHelp, 100);
     }
-    if (userBlocks.indexOf('mutation else') == -1) {
+    if (userBlocks.indexOf('mutation else') === -1) {
       var blocks = BlocklyInterface.workspace.getTopBlocks(false);
       for (var i = 0, block; (block = blocks[i]); i++) {
-        if (block.type == 'controls_if') {
+        if (block.type === 'controls_if') {
           break;
         }
       }
@@ -500,11 +500,11 @@ Bird.levelHelp = function() {
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
       }
     }
-  } else if (BlocklyGames.LEVEL == 6) {
-    if (userBlocks.indexOf('mutation') == -1) {
+  } else if (BlocklyGames.LEVEL === 6) {
+    if (userBlocks.indexOf('mutation') === -1) {
       var blocks = BlocklyInterface.workspace.getTopBlocks(false);
       for (var i = 0, block; (block = blocks[i]); i++) {
-        if (block.type == 'controls_if') {
+        if (block.type === 'controls_if') {
           break;
         }
       }
@@ -513,15 +513,15 @@ Bird.levelHelp = function() {
       style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
       origin = block.getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 8) {
-    if (userBlocks.indexOf('bird_and') == -1) {
+  } else if (BlocklyGames.LEVEL === 8) {
+    if (userBlocks.indexOf('bird_and') === -1) {
       style = {'width': '350px', 'top': '360px'};
       style[rtl ? 'right' : 'left'] = '450px';
       origin = toolbar[4].getSvgRoot();
     }
   }
   if (style) {
-    if (content.parentNode != document.getElementById('dialog')) {
+    if (content.parentNode !== document.getElementById('dialog')) {
       BlocklyDialogs.showDialog(content, origin, true, false, style, null);
     }
   } else {
@@ -671,7 +671,7 @@ Bird.execute = function() {
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
-  if (start != -1 && end != -1) {
+  if (start !== -1 && end !== -1) {
     // Ugly hack: if there is an 'if' statement, ignore isolated heading blocks.
     code = code.substring(start, end + 2);
   }
@@ -713,7 +713,7 @@ Bird.execute = function() {
   }
 
   // Fast animation if execution is successful.  Slow otherwise.
-  Bird.stepSpeed = (result == Bird.ResultType.SUCCESS) ? 10 : 15;
+  Bird.stepSpeed = (result === Bird.ResultType.SUCCESS) ? 10 : 15;
 
   // Bird.log now contains a transcript of all the user's actions.
   // Reset the bird and animate the transcript.
@@ -735,19 +735,19 @@ Bird.animate = function() {
   }
   BlocklyInterface.highlight(action.pop());
 
-  if (action[0] == 'move' || action[0] == 'goto') {
+  if (action[0] === 'move' || action[0] === 'goto') {
     Bird.pos.x = action[1];
     Bird.pos.y = action[2];
     Bird.angle = action[3];
-    Bird.displayBird(action[0] == 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR);
-  } else if (action[0] == 'worm') {
+    Bird.displayBird(action[0] === 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR);
+  } else if (action[0] === 'worm') {
     var worm = document.getElementById('worm');
     worm.style.visibility = 'hidden';
-  } else if (action[0] == 'finish') {
+  } else if (action[0] === 'finish') {
     Bird.displayBird(Bird.Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
-  } else if (action[0] == 'play') {
+  } else if (action[0] === 'play') {
     BlocklyInterface.workspace.getAudioManager().play(action[1], 0.5);
   }
 
@@ -780,11 +780,11 @@ Bird.displayBird = function(pose) {
   remainder *= -1;
 
   var row;
-  if (pose == Bird.Pose.SOAR) {
+  if (pose === Bird.Pose.SOAR) {
     row = 0;
-  } else if (pose == Bird.Pose.SIT) {
+  } else if (pose === Bird.Pose.SIT) {
     row = 3;
-  } else if (pose == Bird.Pose.FLAP) {
+  } else if (pose === Bird.Pose.FLAP) {
     row = Math.round(Date.now() / Bird.FLAP_SPEED) % 3;
   } else {
     throw Error('Unknown pose.');

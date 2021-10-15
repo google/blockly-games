@@ -400,7 +400,7 @@ while (true) {
 /* Moves south-west when hit.  Does not fire. */
 var d = damage();
 while (true) {
-  if (d != damage()) {
+  if (d !== damage()) {
     swim(45, 100);
     var t = 0;
     for (var t = 0; t < 100; t++) {}

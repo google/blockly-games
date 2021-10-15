@@ -38,7 +38,7 @@ BlocklyAce.importBabel = function() {
  * @throws SyntaxError if code is unparsable.
  */
 BlocklyAce.transpileToEs5 = function(code) {
-  if (typeof Babel != 'object') {
+  if (typeof Babel !== 'object') {
     return undefined;
   }
   var options = {

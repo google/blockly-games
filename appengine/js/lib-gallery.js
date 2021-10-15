@@ -62,9 +62,9 @@ BlocklyGallery.showGalleryForm = function() {
  * @private
  */
 BlocklyGallery.galleryKeyDown_ = function(e) {
-  if (e.keyCode == 27) {
+  if (e.keyCode === 27) {
     BlocklyDialogs.hideDialog(true);
-  } else if (e.keyCode == 13) {
+  } else if (e.keyCode === 13) {
     BlocklyGallery.gallerySubmit_();
   }
 };

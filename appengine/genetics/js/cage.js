@@ -133,7 +133,7 @@ Genetics.Cage.Event = function(type, var_args) {
 Genetics.Cage.Event.prototype.addToQueue = function() {
   // Headless does not need to keep track of events that are not END_GAME.
   if (Genetics.Cage.isHeadless &&
-      this.TYPE != 'END_GAME') {
+      this.TYPE !== 'END_GAME') {
     return;
   }
   Genetics.Cage.Events.push(this);
@@ -221,7 +221,7 @@ Genetics.Cage.start = function(opt_checkForEndOverride) {
   Genetics.Cage.nextAvailableMouseId_ = Genetics.Cage.nextRoundMice_.length;
   for (var playerId = 0, player; (player = Genetics.Cage.players[playerId]);
       playerId++) {
-    if (typeof player.code == 'function') {
+    if (typeof player.code === 'function') {
       // Cache code if player code is generator.
       player.cachedCode = Genetics.Cage.prependedCode + '\n' + player.code();
     }
@@ -257,7 +257,7 @@ Genetics.Cage.update = function() {
   // If history is not being preserved as it is processed, delay computation of
   // new events if the Events queue has become very large.
   if (Genetics.Cage.historyPreserved || Genetics.Cage.Events.length < 100) {
-    if (Genetics.Cage.currentRoundMice_.length == 0) {
+    if (Genetics.Cage.currentRoundMice_.length === 0) {
       if (Genetics.Cage.roundNumber_ < Genetics.Cage.MAX_ROUNDS) {
         // Cycle to next round.
         Genetics.Cage.currentRoundMice_ = Genetics.Cage.nextRoundMice_.slice(0);
@@ -268,8 +268,8 @@ Genetics.Cage.update = function() {
 
     if (Genetics.Cage.currentRoundMice_.length) {
       var mouse = Genetics.Cage.currentRoundMice_.shift();
-      if ((mouse.id != 0 && !Genetics.Cage.soloPlayerMouse) ||
-          (mouse.id == 0 && !Genetics.Cage.ignorePlayerMouse)) {
+      if ((mouse.id !== 0 && !Genetics.Cage.soloPlayerMouse) ||
+          (mouse.id === 0 && !Genetics.Cage.ignorePlayerMouse)) {
         Genetics.Cage.simulateLife(mouse);
       }
     }
@@ -294,7 +294,7 @@ Genetics.Cage.update = function() {
 Genetics.Cage.checkForEnd = function() {
   var playerRankings = { 'pickFight': [], 'proposeMate': [], 'acceptMate': []};
   // Check if there are no mice left.
-  if (Genetics.Cage.nextRoundMice_.length == 0) {
+  if (Genetics.Cage.nextRoundMice_.length === 0) {
     new Genetics.Cage.Event('END_GAME', false, playerRankings).addToQueue();
     return true;
   }
@@ -308,9 +308,9 @@ Genetics.Cage.checkForEnd = function() {
   var firstMouseInQueue = Genetics.Cage.nextRoundMice_[0];
   for (var i = 0, mouse; (mouse = Genetics.Cage.nextRoundMice_[i]); i++) {
     if (!isTimeExpired &&
-        (mouse.pickFightOwner != firstMouseInQueue.pickFightOwner ||
-        mouse.proposeMateOwner != firstMouseInQueue.proposeMateOwner ||
-        mouse.acceptMateOwner != firstMouseInQueue.acceptMateOwner)) {
+        (mouse.pickFightOwner !== firstMouseInQueue.pickFightOwner ||
+        mouse.proposeMateOwner !== firstMouseInQueue.proposeMateOwner ||
+        mouse.acceptMateOwner !== firstMouseInQueue.acceptMateOwner)) {
       // If time hasn't expired and there is not a domination victory, it is not
       // game end yet.
       return false;
@@ -328,7 +328,7 @@ Genetics.Cage.checkForEnd = function() {
     playerRankings['proposeMate'].push([proposeMateWinner]);
     playerRankings['acceptMate'].push([acceptMateWinner]);
     new Genetics.Cage.Event('END_GAME',
-        pickFightWinner == 0 && proposeMateWinner == 0 && acceptMateWinner == 0,
+        pickFightWinner === 0 && proposeMateWinner === 0 && acceptMateWinner === 0,
         playerRankings).addToQueue();
     return true;
   }
@@ -344,7 +344,7 @@ Genetics.Cage.checkForEnd = function() {
       for (var j = 0; !isFunctionRanked && j < playerFunctionRanking.length;
           j++) {
         var currentRankPlayerId = playerFunctionRanking[j][0];
-        if (playerFunctionCount[playerId] ==
+        if (playerFunctionCount[playerId] ===
             playerFunctionCount[currentRankPlayerId]) {
           // If player has the same count as a player at the current rank,
           // add them to the same list.
@@ -410,7 +410,7 @@ Genetics.Cage.instigateFight_ = function(mouse) {
     mouse.aggressiveness = 0;
     return;
   }
-  if (typeof chosen != 'object' ||
+  if (typeof chosen !== 'object' ||
       !Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     // If return is invalid, mouse explodes.
     new Genetics.Cage.Event('EXPLODE', mouse.id, 'pickFight',
@@ -420,7 +420,7 @@ Genetics.Cage.instigateFight_ = function(mouse) {
   }
   // Retrieve local copy of mouse to ensure that mouse was not modified.
   var opponent = Genetics.Cage.miceMap_[chosen.id];
-  if (mouse.id == opponent.id) {
+  if (mouse.id === opponent.id) {
     // If mouse chooses to fight against itself, it dies.
     new Genetics.Cage.Event('FIGHT', mouse.id, 'SELF').addToQueue();
     Genetics.Cage.die(mouse);
@@ -465,7 +465,7 @@ Genetics.Cage.tryMate_ = function(suitor) {
     suitor.fertility = 0;
     return;
   }
-  if (typeof chosen != 'object' ||
+  if (typeof chosen !== 'object' ||
       !Genetics.Cage.miceMap_.hasOwnProperty(chosen.id)) {
     // If return is invalid, mouse explodes.
     new Genetics.Cage.Event('EXPLODE', suitor.id, 'proposeMate',
@@ -513,7 +513,7 @@ Genetics.Cage.createOffspring_ = function(parent1, parent2) {
   for (var i = 0, aliveMouse; (aliveMouse = Genetics.Cage.nextRoundMice_[i]);
       i++) {
     populationFertility += aliveMouse.fertility;
-    if (aliveMouse.sex == Genetics.Mouse.Sex.FEMALE) {
+    if (aliveMouse.sex === Genetics.Mouse.Sex.FEMALE) {
       femaleFertility += aliveMouse.fertility;
     }
   }
@@ -534,7 +534,7 @@ Genetics.Cage.createOffspring_ = function(parent1, parent2) {
  * @private
  */
 Genetics.Cage.isMatingSuccessful_ = function(proposingMouse, askedMouse) {
-  if (proposingMouse.id == askedMouse.id) {
+  if (proposingMouse.id === askedMouse.id) {
     // If mouse tries to mate with itself, it does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'SELF').addToQueue();
     return false;
@@ -562,7 +562,7 @@ Genetics.Cage.isMatingSuccessful_ = function(proposingMouse, askedMouse) {
   // Asked mouse accepted the mating request.
   // Use up one mating attempt for asked mouse.
   askedMouse.fertility--;
-  if (proposingMouse.sex == askedMouse.sex) {
+  if (proposingMouse.sex === askedMouse.sex) {
     // If mice have the same sex, mate does not succeed.
     new Genetics.Cage.Event('MATE', proposingMouse.id, 'INCOMPATIBLE',
         askedMouse.id).addToQueue();
@@ -593,11 +593,11 @@ Genetics.Cage.addMouse = function(mouse) {
  */
 Genetics.Cage.die = function(mouse) {
   var i = Genetics.Cage.nextRoundMice_.indexOf(mouse);
-  if (i != -1) {
+  if (i !== -1) {
     Genetics.Cage.nextRoundMice_.splice(i, 1);
   }
   i = Genetics.Cage.currentRoundMice_.indexOf(mouse);
-  if (i != -1) {
+  if (i !== -1) {
     Genetics.Cage.nextRoundMice_.splice(i, 1);
   }
   delete Genetics.Cage.miceMap_[mouse.id];
@@ -627,7 +627,7 @@ Genetics.Cage.runMouseFunction = function(mouse, mouseFunction, opt_param) {
     result.success = true;
     result.value = interpreter.pseudoToNative(interpreter.value);
   } catch (e) {
-    if (e == Infinity) {
+    if (e === Infinity) {
       result.cause = 'Timeout';
     } else {
       result.cause = e;
@@ -664,9 +664,9 @@ Genetics.Cage.getInterpreter_ = function(mouse, mouseFunctionName, opt_suitor) {
   }
   var playerName = Genetics.Cage.players[playerId].name;
   var code = Genetics.Cage.players[playerId].code;
-  if (typeof code == 'function') {
+  if (typeof code === 'function') {
     code = Genetics.Cage.players[playerId].cachedCode;
-  } else if (typeof code != 'string') {
+  } else if (typeof code !== 'string') {
     throw Error('Mouse "' + playerName + '" has invalid code: ' + code);
   }
   try {
@@ -740,13 +740,13 @@ Genetics.Cage.initInterpreter_ = function(mouse, suitor, interpreter,
       'id': aliveMouse.id
     };
     var pseudoMouse = interpreter.nativeToPseudo(clonedMouse);
-    if (aliveMouse.id == mouse.id) {
+    if (aliveMouse.id === mouse.id) {
       // If the mouse running the interpreter has been created, save it.
       pseudoMe = pseudoMouse;
     } else {
       // If the mouse is not the mouse running the interpreter, add to list.
       interpreter.setProperty(pseudoAliveMice, aliveMiceIndex++, pseudoMouse);
-      if (suitor && aliveMouse.id == suitor.id) {
+      if (suitor && aliveMouse.id === suitor.id) {
         // If the suitor parameter was defined and has been created, save it.
         pseudoSuitor = pseudoMouse;
       }

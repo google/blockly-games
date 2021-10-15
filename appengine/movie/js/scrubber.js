@@ -128,7 +128,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
       'common/icons.png');
 
   // Find the root SVG object.
-  while (svgParent && svgParent.nodeName.toLowerCase() != 'svg') {
+  while (svgParent && svgParent.nodeName.toLowerCase() !== 'svg') {
     svgParent = svgParent.parentElement;
   }
   this.SVG_ = svgParent;
@@ -159,8 +159,8 @@ Scrubber.prototype.knobMouseDown_ = function(e) {
   if (this.playPid_) {
     this.playPause_();
   }
-  if (e.type == 'touchstart') {
-    if (e.changedTouches.length != 1) {
+  if (e.type === 'touchstart') {
+    if (e.changedTouches.length !== 1) {
       return;
     }
     Scrubber.touchToMouse_(e);
@@ -195,7 +195,7 @@ Scrubber.mouseOver_ = function(e) {
   var node = e.target;
   // Find the root SVG object.
   do {
-    if (node == Scrubber.activeScrubber_.SVG_) {
+    if (node === Scrubber.activeScrubber_.SVG_) {
       return;
     }
   } while (node = node.parentNode);
@@ -212,8 +212,8 @@ Scrubber.knobMouseMove_ = function(e) {
   if (!thisScrubber) {
     return;
   }
-  if (e.type == 'touchmove') {
-    if (e.changedTouches.length != 1) {
+  if (e.type === 'touchmove') {
+    if (e.changedTouches.length !== 1) {
       return;
     }
     Scrubber.touchToMouse_(e);
@@ -233,8 +233,8 @@ Scrubber.prototype.rectMouseDown_ = function(e) {
   if (this.playPid_) {
     this.playPause_();
   }
-  if (e.type == 'touchstart') {
-    if (e.changedTouches.length != 1) {
+  if (e.type === 'touchstart') {
+    if (e.changedTouches.length !== 1) {
       return;
     }
     Scrubber.touchToMouse_(e);

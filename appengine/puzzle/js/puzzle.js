@@ -210,7 +210,7 @@ Puzzle.checkAnswers = function() {
   }, 500);
 
   var messages;
-  if (errors == 1) {
+  if (errors === 1) {
     messages = [BlocklyGames.getMsg('Puzzle_error1'),
                 BlocklyGames.getMsg('Puzzle_tryAgain')];
   } else if (errors) {
