@@ -12,7 +12,6 @@
 
 goog.provide('Index');
 
-goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
 goog.require('Index.soy');
 
@@ -102,12 +101,12 @@ Index.drawGauge = function(app, angle) {
   var xOffset = 150;
   var yOffset = 60;
   var radius = 52.75;
-  var theta = Blockly.utils.math.toRadians(angle - 45);
+  var theta = (angle - 45) * Math.PI / 180;
   var x = xOffset - Math.cos(theta) * radius;
   var y = yOffset - Math.sin(theta) * radius;
   var flag = angle > 180 ? 1 : 0;
   // The starting point is at angle zero.
-  theta = Blockly.utils.math.toRadians(0 - 45);
+  theta = (0 - 45) * Math.PI / 180;
   var mx = xOffset - Math.cos(theta) * radius;
   var my = yOffset - Math.sin(theta) * radius;
   var path = document.getElementById('gauge-' + app);
