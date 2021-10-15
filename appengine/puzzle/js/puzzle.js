@@ -178,7 +178,7 @@ Puzzle.legs = function() {
   var list = [[BlocklyGames.getMsg('Puzzle_legsChoose'), '0']];
   var i = 1;
   var legs;
-  while (legs = BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Legs')) {
+  while ((legs = BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Legs'))) {
     list[i] = [legs, String(i)];
     i++;
   }

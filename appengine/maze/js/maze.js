@@ -449,7 +449,7 @@ Maze.init = function() {
   var pegmanButton = document.getElementById('pegmanButton');
   Blockly.bindEvent_(pegmanButton, 'mousedown', null, Maze.showPegmanMenu);
   var pegmanButtonArrow = document.getElementById('pegmanButtonArrow');
-  var arrow = document.createTextNode(Blockly.FieldDropdown.ARROW_CHAR);
+  var arrow = document.createTextNode('▾');
   pegmanButtonArrow.appendChild(arrow);
 
   var rtl = BlocklyGames.isRtl();
@@ -696,7 +696,7 @@ Maze.levelHelp = function(opt_event) {
         var option = options[0].substring(prefix);
       }
       // Add dropdown arrow: "option ▾" (LTR) or "▾ אופציה" (RTL)
-      span.textContent = option + ' ' + Blockly.FieldDropdown.ARROW_CHAR;
+      span.textContent = option + ' ▾';
       // Inject fake dropdown into message.
       var container = document.getElementById('helpMenuText');
       var msg = container.textContent;
