@@ -10,6 +10,7 @@
 			"LNDDYL",
 			"Liuxinyu970226",
 			"Maskers",
+			"Weather Top Wizard",
 			"Wehwei",
 			"Xiplus"
 		]
@@ -146,7 +147,7 @@
 	"Turtle.showTurtle": "顯示烏龜",
 	"Turtle.printHelpUrl": "https://zh.wikipedia.org/wiki/印刷",
 	"Turtle.printTooltip": "在烏龜的方向及位置繪製文字。",
-	"Turtle.print": "打印",
+	"Turtle.print": "列印",
 	"Turtle.fontHelpUrl": "https://zh.wikipedia.org/wiki/字體",
 	"Turtle.fontTooltip": "設置列印區塊要使用的字體。",
 	"Turtle.font": "字體",
