@@ -152,15 +152,16 @@ deps:
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
 	mv babel.min.js $(APP_ENGINE_THIRD_PARTY)/
-	svn checkout --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
+	@# GitHub doesn't support git archive, so download files using svn.
+	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
-	svn checkout https://github.com/google/blockly/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
-	svn checkout https://github.com/google/blockly/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn checkout https://github.com/google/blockly/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
-	svn checkout https://github.com/google/blockly/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
-	svn checkout https://github.com/google/blockly/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
-	svn checkout https://github.com/google/blockly/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
-	svn checkout https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
+	svn export https://github.com/google/blockly/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
+	svn export https://github.com/google/blockly/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
+	svn export https://github.com/google/blockly/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
+	svn export https://github.com/google/blockly/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
+	svn export https://github.com/google/blockly/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
+	svn export https://github.com/google/blockly/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
+	svn export https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
 	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
 	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
@@ -169,7 +170,7 @@ deps:
 	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/externs/block-externs.js
 	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/externs/generator-externs.js
 
-	svn checkout https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
+	svn export https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
 	@# Remove @license tag so compiler will strip Google's license.
 	sed 's/@license//' $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter.js > $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
