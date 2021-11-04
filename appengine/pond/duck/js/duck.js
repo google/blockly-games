@@ -220,7 +220,9 @@ Pond.Duck.changeTab = function(index) {
     var div = document.getElementById(name);
     div.style.visibility = (i === index) ? 'visible' : 'hidden';
   }
-  Blockly.hideChaff(false);
+  if (BlocklyInterface.workspace) {
+    BlocklyInterface.workspace.hideChaff(false);
+  }
   // Synchronize the documentation popup.
   document.getElementById('docsButton').disabled = false;
   BlocklyGames.LEVEL = (index === Pond.Duck.tabIndex.BLOCKS) ? 11 : 12;

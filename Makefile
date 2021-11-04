@@ -152,16 +152,16 @@ deps:
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
 	mv babel.min.js $(APP_ENGINE_THIRD_PARTY)/
-	@# GitHub doesn't support git archive, so download files using svn.
+	@# GitHub doesn't support Git archive, so download files using SVN.
 	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
-	svn export https://github.com/google/blockly/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
-	svn export https://github.com/google/blockly/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn export https://github.com/google/blockly/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
-	svn export https://github.com/google/blockly/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
-	svn export https://github.com/google/blockly/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
-	svn export https://github.com/google/blockly/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
-	svn export https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
+	svn export --force https://github.com/google/blockly/branches/develop/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
+	svn export --force https://github.com/google/blockly/branches/develop/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
+	svn export --force https://github.com/google/blockly/branches/develop/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
+	svn export --force https://github.com/google/blockly/branches/develop/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
+	svn export --force https://github.com/google/blockly/branches/develop/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
+	svn export --force https://github.com/google/blockly/branches/develop/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
+	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
 	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
 	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
