@@ -257,9 +257,7 @@ Puzzle.checkAnswers = function() {
     blink();
   } else {
     setTimeout(Puzzle.endDance, 2000);
-    if (Blockly.selected) {
-      Blockly.selected.unselect();
-    }
+    BlocklyInterface.clearSelected();
   }
 };
 

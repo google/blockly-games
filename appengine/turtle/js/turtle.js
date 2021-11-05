@@ -651,7 +651,7 @@ Turtle.execute = function() {
   }
 
   Turtle.reset();
-  Blockly.selected && Blockly.selected.unselect();
+  BlocklyInterface.clearSelected();
   var code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();

@@ -272,6 +272,16 @@ BlocklyInterface.highlight = function(id, opt_state) {
 };
 
 /**
+ * Unselect any selected blocks.
+ */
+BlocklyInterface.clearSelected = function() {
+  var selected = Blockly.common.getSelected();
+  if (selected) {
+    selected.unselect();
+  }
+};
+
+/**
  * Inject readonly Blockly.  Only inserts once.
  * @param {string} id ID of div to be injected into.
  * @param {string|!Array.<string>} xml XML string(s) describing blocks.

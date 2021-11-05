@@ -605,7 +605,7 @@ Music.execute = function() {
     return;
   }
   Music.reset();
-  Blockly.selected && Blockly.selected.unselect();
+  BlocklyInterface.clearSelected();
   // For safety, recompute startCount in the generator.
   Music.startCount = 0;
   // Create an interpreter whose global scope will be the cross-thread global.
