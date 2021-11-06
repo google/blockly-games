@@ -135,6 +135,34 @@ BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
 BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
 
 /**
+ * Report client-side errors back to the server.
+ * @param {!ErrorEvent} event Error event.
+ */
+BlocklyGames.errorReporter = function(event) {
+  try {
+    //if (Math.random() > 0.5) return;
+    // Rate-limit the reports to once every 10 seconds.
+    var now = Date.now();
+    if (BlocklyGames.errorReporter.lastHit_ + 10 * 1000 > now) return;
+    BlocklyGames.errorReporter.lastHit_ = now;
+    var req = new XMLHttpRequest();
+    var params = "error=" + encodeURIComponent(event.error) +
+        '&amp;url=' + encodeURIComponent(window.location);
+    req.open("POST", "/errorReporter");
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.send(params);
+    console.log('Error reported.');
+  } catch(e) {
+    // Error in error reporter.  Do NOT recursively call the error reporter.
+    console.log(event.error);
+  }
+};
+BlocklyGames.errorReporter.lastHit_ = 0;
+if (!BlocklyGames.IS_HTML) {
+  window.addEventListener('error', BlocklyGames.errorReporter);
+}
+
+/**
  * Extracts a parameter from the URL.
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.
