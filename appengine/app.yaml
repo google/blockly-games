@@ -10,6 +10,11 @@ handlers:
   script: storage.py
   secure: always
 
+# Error reporting.
+- url: /errorReporter
+  script: errorReporter.py
+  secure: always
+
 # Index page.
 - url: /
   static_files: index.html
