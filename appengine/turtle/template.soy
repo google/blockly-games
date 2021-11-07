@@ -161,7 +161,7 @@
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.abortDialog /}
   {call BlocklyGames.soy.storageDialog /}
-  {if $ij.level < 4}
+  {if $ij.level < 6}
     <div id="helpUseLoop" class="dialogHiddenContent">
       <div style="padding-bottom: 0.7ex">
         {msg meaning="Turtle.helpUseLoop" desc="Dialog telling user to seek a better answer."}
@@ -172,7 +172,7 @@
           {msg meaning="Turtle.helpUseLoop3" desc="Dialog telling user to seek a simpler answer."}
             Draw the shape with just three blocks.
           {/msg}
-        {else}
+        {elseif $ij.level < 4}
           {msg meaning="Turtle.helpUseLoop4" desc="Dialog telling user to seek a simpler answer."}
             Draw the star with just four blocks.
           {/msg}
