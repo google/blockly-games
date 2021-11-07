@@ -454,7 +454,7 @@ Music.disableExtraStarts = function(e) {
       for (var i = 0, id; (id = e.ids[i]); i++) {
         for (var j = 0, startBlock; (startBlock = startBlocks[j]); j++) {
           if (startBlock.id === id) {
-            startBlock.setDisabled(true);
+            startBlock.setEnabled(false);
           }
         }
       }
@@ -481,7 +481,7 @@ Music.disableExtraStarts = function(e) {
            startBlocksDisabled.length) {
       // Enable a disabled start block.
       var block = startBlocksDisabled.shift();
-      block.setDisabled(false);
+      block.setEnabled(true);
       startBlocksEnabled.push(block);
     }
     if (maxStarts > startBlocksEnabled.length) {
