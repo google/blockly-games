@@ -27,6 +27,20 @@ var CustomFields = CustomFields || {};
  */
 CustomFields.FieldPitch = function(text) {
   CustomFields.FieldPitch.superClass_.constructor.call(this, text);
+
+  /**
+   * Click event data.
+   * @type {?Blockly.browserEvents.Data}
+   * @private
+   */
+  this.clickWrapper_ = null;
+
+  /**
+   * Move event data.
+   * @type {?Blockly.browserEvents.Data}
+   * @private
+   */
+  this.moveWrapper_ = null;
 };
 Blockly.utils.object.inherits(CustomFields.FieldPitch, Blockly.FieldTextInput);
 
@@ -48,7 +62,7 @@ CustomFields.FieldPitch.NOTES = 'C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4'.split(/
 
 /**
  * Show the inline free-text editor on top of the text and the note picker.
- * @private
+ * @protected
  */
 CustomFields.FieldPitch.prototype.showEditor_ = function() {
   CustomFields.FieldPitch.superClass_.showEditor_.call(this);
@@ -62,7 +76,7 @@ CustomFields.FieldPitch.prototype.showEditor_ = function() {
   var editor = this.dropdownCreate_();
   Blockly.DropDownDiv.getContentDiv().appendChild(editor);
 
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(),
+  Blockly.DropDownDiv.setColour(this.sourceBlock_.style.colourPrimary,
       this.sourceBlock_.style.colourTertiary);
 
   Blockly.DropDownDiv.showPositionedByField(
@@ -73,11 +87,9 @@ CustomFields.FieldPitch.prototype.showEditor_ = function() {
   // change this behaviour.  For now, using bindEvent_ instead of
   // bindEventWithChecks_ allows it to work without a mousedown/touchstart.
   this.clickWrapper_ =
-      Blockly.bindEvent_(this.imageElement_, 'click', this,
-          this.hide_);
-  this.moveWrapper_ =
-      Blockly.bindEvent_(this.imageElement_, 'mousemove', this,
-          this.onMouseMove);
+      Blockly.browserEvents.bind(this.imageElement_, 'click', this, this.hide_);
+  this.moveWrapper_ = Blockly.browserEvents.bind(
+      this.imageElement_, 'mousemove', this, this.onMouseMove);
 
   this.updateGraph_();
 };
@@ -99,8 +111,15 @@ CustomFields.FieldPitch.prototype.dropdownCreate_ = function() {
  * @private
  */
 CustomFields.FieldPitch.prototype.dropdownDispose_ = function() {
-  Blockly.unbindEvent_(this.clickWrapper_);
-  Blockly.unbindEvent_(this.moveWrapper_);
+  if (this.clickWrapper_) {
+    Blockly.browserEvents.unbind(this.clickWrapper_);
+    this.clickWrapper_ = null;
+  }
+  if (this.moveWrapper_) {
+    Blockly.browserEvents.unbind(this.moveWrapper_);
+    this.moveWrapper_ = null;
+  }
+  this.imageElement_ = null;
 };
 
 /**
