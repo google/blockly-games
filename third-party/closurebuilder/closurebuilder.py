@@ -207,10 +207,10 @@ def main():
                       level=logging.INFO)
   options, args = _GetOptionsParser().parse_args()
 
-  logging.warning(
-      'This utility is deprecated! See '
-      'https://github.com/google/closure-library/wiki/Migrating-off-Closure-Python-Scripts'
-      ' for more details.')
+  #logging.warning(
+  #    'This utility is deprecated! See '
+  #    'https://github.com/google/closure-library/wiki/Migrating-off-Closure-Python-Scripts'
+  #    ' for more details.')
 
   # Make our output pipe.
   if options.output_file:
