@@ -290,7 +290,6 @@ Pond.Visualization.display_ = function() {
     var halfRange = missile.range / 2;
     var height = missile.range * 0.15;  // Change to set height of arc.
     var xAxis = missile.progress - halfRange;
-    var xIntercept = Math.sqrt(height);
     var parabola = height -
         Math.pow(xAxis / Math.sqrt(height) * height / halfRange, 2);
     // Calculate the on-canvas coordinates.
@@ -432,7 +431,11 @@ Pond.Visualization.preloadAudio_ = function() {
   for (var name in Pond.Visualization.SOUNDS_) {
     var sound = Pond.Visualization.SOUNDS_[name];
     sound.volume = 0.01;
-    sound.play().catch(function() {});
+    try {
+      sound.play();
+    } catch(e) {
+      // Sound API can be flaky.  And IE doesn't support the promise chain.
+    }
     sound.pause();
   }
 };
