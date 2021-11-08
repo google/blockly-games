@@ -247,7 +247,7 @@ Blockly.Blocks['controls_for'].onchange = function(e) {
 
 Blockly.JavaScript['controls_for'] = function(block) {
   // For loop.
-  var variable = Blockly.JavaScript.variableDB_.getName(
+  var variable = Blockly.JavaScript.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   var from = Blockly.JavaScript.valueToCode(block, 'FROM',
       Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
@@ -358,7 +358,7 @@ Blockly.JavaScript['math_change'] = function(block) {
   // Add to a variable in place.
   var delta = Blockly.JavaScript.valueToCode(block, 'DELTA',
       Blockly.JavaScript.ORDER_ADDITION) || '0';
-  var varName = Blockly.JavaScript.variableDB_.getName(
+  var varName = Blockly.JavaScript.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' += ' + delta + ';\n';
 };
