@@ -175,7 +175,7 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
 };
 
 /**
- * Extracts a numeric parameter from the URL.
+ * Extracts an integer parameter from the URL.
  * If the parameter is absent or less than min_value, min_value is
  * returned.  If it is greater than max_value, max_value is returned.
  * @param {string} name The name of the parameter.
@@ -183,8 +183,8 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  * @param {number} maxValue The maximum legal value.
  * @return {number} A number in the range [min_value, max_value].
  */
-BlocklyGames.getNumberParamFromUrl = function(name, minValue, maxValue) {
-  var val = Number(BlocklyGames.getStringParamFromUrl(name, 'NaN'));
+BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
+  var val = Math.floor(Number(BlocklyGames.getStringParamFromUrl(name, 'NaN')));
   return isNaN(val) ? minValue :
       Math.max(minValue, Math.min(val, maxValue));
 };
@@ -212,7 +212,7 @@ BlocklyGames.MAX_LEVEL = 10;
  * @type {number}
  */
 BlocklyGames.LEVEL =
-    BlocklyGames.getNumberParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
+    BlocklyGames.getIntegerParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
 
 /**
  * Common startup tasks for all apps.
