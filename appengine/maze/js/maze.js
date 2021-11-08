@@ -92,7 +92,8 @@ Maze.SKINS = [
     crashType: Maze.CRASH_FALL
   }
 ];
-Maze.SKIN_ID = BlocklyGames.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
+Maze.SKIN_ID =
+    BlocklyGames.getNumberParamFromUrl('skin', 0, Maze.SKINS.length - 1);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**
