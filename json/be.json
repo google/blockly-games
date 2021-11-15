@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Mechanizatar",
-			"SimondR"
+			"SimondR",
+			"ZlyiLev"
 		]
 	},
 	"Games.name": "Гульні Blockly",
@@ -47,7 +48,7 @@
 	"Index.subTitle": "Гульні для будучых праграмістаў.",
 	"Index.moreInfo": "Больш падрабязна...",
 	"Index.startOver": "Хочаце пачаць нанова?",
-	"Index.clearData": "Ачысціць дадзеныя",
+	"Index.clearData": "Ачысціць даныя",
 	"Puzzle.animal1": "Качка",
 	"Puzzle.animal1Trait1": "Пёры",
 	"Puzzle.animal1Trait2": "Дзюба",
