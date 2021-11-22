@@ -12,6 +12,7 @@
 			"Maskers",
 			"Weather Top Wizard",
 			"Wehwei",
+			"Winston Sung",
 			"Xiplus"
 		]
 	},
@@ -163,7 +164,7 @@
 	"Turtle.helpUseLoop": "你的解法有用，但是你還可以做得更好。",
 	"Turtle.helpUseLoop3": "請僅使用到 3 塊區塊來畫出這個圖形。",
 	"Turtle.helpUseLoop4": "只用 4 塊積木來畫出這個圖形。",
-	"Turtle.helpText1": "創建一個程式來畫出一個正方形。",
+	"Turtle.helpText1": "建立畫出一個正方形的程式。",
 	"Turtle.helpText2": "更改你的程式，讓它改為繪製一個五邊形而不是正方形。",
 	"Turtle.helpText3a": "有一個新的區塊了，它可以讓你修改顏色：",
 	"Turtle.helpText3b": "畫一個黃色的星星。",
