@@ -141,6 +141,8 @@ BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
 BlocklyGames.errorReporter = function(event) {
   try {
     //if (Math.random() > 0.5) return;
+    // 3rd party script errors (likely plugins) have no useful info.
+    if (event.lineno == 0 && event.colno == 0) return;
     // Rate-limit the reports to once every 10 seconds.
     var now = Date.now();
     if (BlocklyGames.errorReporter.lastHit_ + 10 * 1000 > now) return;
