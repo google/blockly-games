@@ -155,12 +155,12 @@ deps:
 	@# GitHub doesn't support git archive, so download files using svn.
 	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
-	svn export https://github.com/google/blockly/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
-	svn export https://github.com/google/blockly/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn export https://github.com/google/blockly/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
-	svn export https://github.com/google/blockly/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
-	svn export https://github.com/google/blockly/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
-	svn export https://github.com/google/blockly/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
+	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
+	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
+	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
+	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
+	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
+	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
 	svn export https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
 	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
