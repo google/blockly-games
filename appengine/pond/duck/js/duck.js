@@ -262,8 +262,10 @@ Pond.Duck.editorChanged = function() {
     } else {
       // Abort change, preserve link.
       Pond.Duck.ignoreEditorChanges_ = true;
-      BlocklyInterface.editor['setValue'](code, -1);
-      Pond.Duck.ignoreEditorChanges_ = false;
+      setTimeout(function() {
+        BlocklyInterface.editor['setValue'](code, -1);
+        Pond.Duck.ignoreEditorChanges_ = false;
+      }, 0);
     }
   }
 };

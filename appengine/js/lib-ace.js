@@ -48,7 +48,6 @@ BlocklyAce.transpileToEs5 = function(code) {
   return fish.code;
 };
 
-
 /**
  * Create an ACE editor, and return the session object.
  * @return {!Object} ACE session object
