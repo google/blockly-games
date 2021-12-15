@@ -149,7 +149,7 @@ class Gen_uncompressed(threading.Thread):
         '--root=appengine/third-party/',
         '--root=appengine/generated/%s/' % self.lang,
         '--root=appengine/js/',
-        '--exclude=',
+        '--exclude=appengine/third-party/blockly/closure/goog/base_minimal.js',
         '--namespace=%s' % self.name.replace('/', '.').title(),
         '--output_mode=list']
     directory = self.name
@@ -225,11 +225,12 @@ class Gen_compressed(threading.Thread):
       '--language_out', 'ECMASCRIPT5_STRICT',
       '--entry_point=%s' % self.name.replace('/', '.').title(),
       "--js='appengine/third-party/**.js'",
-      "--js='!appengine/third-party/base.js'",
+      "--js='!appengine/third-party/blockly/closure/goog/base.js'",
       "--js='!appengine/third-party/blockly/externs/**.js'",
       "--js='appengine/generated/%s/*.js'" % self.lang,
       "--js='appengine/js/*.js'",
       '--warning_level', 'QUIET',
+      '--define', 'COMPILED=true',
     ]
     directory = self.name
     while directory:
