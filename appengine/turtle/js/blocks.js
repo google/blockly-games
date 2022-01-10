@@ -13,12 +13,6 @@
 goog.provide('Turtle.Blocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Constants.Colour');
-goog.require('Blockly.Constants.Lists');
-goog.require('Blockly.Constants.Logic');
-goog.require('Blockly.Constants.Loops');
-goog.require('Blockly.Constants.Math');
-goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Constants.Text');
 goog.require('Blockly.Constants.Variables');
 goog.require('Blockly.FieldColour');
@@ -32,6 +26,12 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.JavaScript.variables');
+goog.require('Blockly.blocks.colour');
+goog.require('Blockly.blocks.lists');
+goog.require('Blockly.blocks.logic');
+goog.require('Blockly.blocks.loops');
+goog.require('Blockly.blocks.math');
+goog.require('Blockly.blocks.procedures');
 goog.require('BlocklyGames');
 
 

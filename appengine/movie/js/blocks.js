@@ -18,7 +18,6 @@ goog.require('Blockly.Constants.Lists');
 goog.require('Blockly.Constants.Logic');
 goog.require('Blockly.Constants.Loops');
 goog.require('Blockly.Constants.Math');
-goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Constants.Text');
 goog.require('Blockly.Constants.Variables');
 goog.require('Blockly.JavaScript');
@@ -30,6 +29,7 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.JavaScript.variables');
+goog.require('Blockly.blocks.procedures');
 goog.require('BlocklyGames');
 
 
