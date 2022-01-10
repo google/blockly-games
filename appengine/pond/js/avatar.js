@@ -237,7 +237,7 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
   if (this.degree !== desiredDegree) {
     if (this.speed <= 50) {
       // Changes in direction can be negotiated at speeds of less than 50%.
-      this.degree = BlocklyGames.normalizeAngle(degree);
+      this.degree = desiredDegree;
       this.facing = this.degree;
     } else {
       // Stop the avatar if an over-speed turn was commanded.
