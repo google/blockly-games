@@ -11,6 +11,7 @@
 			"Suiato",
 			"Sujiniku",
 			"TAKAHASHI Shuuji",
+			"Tokoroten",
 			"きこねす"
 		]
 	},
@@ -74,7 +75,7 @@
 	"Puzzle.animal4": "カタツムリ",
 	"Puzzle.animal4Trait1": "カラ",
 	"Puzzle.animal4Trait2": "スライム",
-	"Puzzle.animal4HelpUrl": "https://en.wikipedia.org/wiki/Snail",
+	"Puzzle.animal4HelpUrl": "https://ja.wikipedia.org/wiki/カタツムリ",
 	"Puzzle.picture": "絵:",
 	"Puzzle.legs": "足:",
 	"Puzzle.legsChoose": "選んでください...",
@@ -147,7 +148,7 @@
 	"Turtle.printHelpUrl": "https://ja.wikipedia.org/wiki/印刷",
 	"Turtle.printTooltip": "タートルの方向と場所を文字として表示します。",
 	"Turtle.print": "表示",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
+	"Turtle.fontHelpUrl": "https://ja.wikipedia.org/wiki/フォント",
 	"Turtle.fontTooltip": "表示ブロックで使うフォントを設定します。",
 	"Turtle.font": "フォント",
 	"Turtle.fontSize": "フォント サイズ",
