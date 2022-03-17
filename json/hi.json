@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"AnupamM",
 			"Bl707",
 			"Phoenix303",
 			"Rishi.Singh",
@@ -22,6 +23,7 @@
 	"Games.linesOfCode2": "आपने %1 स्तर जावास्क्रिप्ट पंक्ति के साथ इस स्तर को हल किया:",
 	"Games.nextLevel": "क्या आप स्तर %1 के लिए तैयार हैं?",
 	"Games.finalLevel": "क्या आप अगली चुनौती के लिए तैयार हैं?",
+	"Games.submitTitle": "शीर्षक:",
 	"Games.linkTooltip": "सेव करें और ब्लॉक से लिंक करें।",
 	"Games.runTooltip": "आपने जो लिखा है, उसे रन करें।",
 	"Games.runProgram": "प्रोग्राम चलाएँ",
@@ -157,6 +159,18 @@
 	"Movie.galleryMsg": "गैलरी देखें",
 	"Movie.submitMsg": "गैलरी में भेजें",
 	"Movie.helpText1": "इस व्यक्ति का चित्र बनाने के लिए सामान्य आकार का उपयोग करें।",
+	"Music.piano": "पियानो",
+	"Music.trumpet": "तुरही",
+	"Music.banjo": "बैंजो",
+	"Music.violin": "वायोलिन",
+	"Music.guitar": "गिटार",
+	"Music.flute": "बांसुरी",
+	"Music.drum": "ड्रम",
+	"Music.choir": "गायक-मंडली",
+	"Music.submitDisabled": "अपने प्रोग्राम को तब तक चलाएं जब तक वह रुक न जाए। तब आप अपने संगीत को गैलरी में जमा कर सकते हैं।",
+	"Music.galleryTooltip": "संगीत की गैलरी खोलें।",
+	"Music.galleryMsg": "गैलरी देखें",
+	"Music.submitTooltip": "अपने संगीत को गैलरी में जमा करें।",
 	"Pond.playerName": "खिलाड़ी",
 	"Pond.targetName": "लक्ष्य"
 }
