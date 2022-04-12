@@ -108,13 +108,18 @@ Blockly.Blocks['pond_swim'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "%1(%2);",
+      "message0": "%1(%2, %3);",
       "args0": [
           "swim",
         {
           "type": "input_value",
           "name": "DEGREE",
           "check": ["Number", "Angle"]
+        },
+        {
+          "type": "input_value",
+          "name": "SPEED",
+          "check": "Number"
         }
       ],
       "inputsInline": true,
@@ -130,7 +135,9 @@ Blockly.JavaScript['pond_swim'] = function(block) {
   // Generate JavaScript for swimming.
   var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
       Blockly.JavaScript.ORDER_NONE) || 0;
-  return 'swim(' + value_degree + ');\n';
+  var value_range = Blockly.JavaScript.valueToCode(block, 'SPEED',
+      Blockly.JavaScript.ORDER_COMMA) || 0;    
+  return 'swim(' + value_degree + ', ' + value_range + ');\n';
 };
 
 Blockly.Blocks['pond_stop'] = {
@@ -174,6 +181,27 @@ Blockly.Blocks['pond_health'] = {
 Blockly.JavaScript['pond_health'] = function(block) {
   // Generate JavaScript for avatar health.
   return ['health()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Blocks['pond_direction'] = {
+  /**
+   * Block for avatar direction.
+   * @this {Blockly.Block}
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1(%2)",
+      "args0": ["direction", ""],
+      "output": "Number",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_directionTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['pond_direction'] = function(block) {
+  // Generate JavaScript for avatar health.
+  return ['direction()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['pond_speed'] = {
