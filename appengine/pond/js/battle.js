@@ -126,6 +126,9 @@ Pond.Battle.reset = function() {
   for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
     avatar.reset();
   }
+
+  var debugLog = document.getElementById('debugLog');
+  debugLog.innerHTML = '';
 };
 
 /**
@@ -319,6 +322,16 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
     // Restrict logging to just numbers so that the console doesn't fill up
     // with 'problematic' messages when running 3rd party ducks.
     console.log(Pond.Battle.currentAvatar.name + ' logs: ' + Number(value));
+    var debugLog = document.getElementById('debugLog');
+    var tag = document.createElement("p");
+    var text = document.createTextNode(value);
+    tag.appendChild(text);
+    debugLog.appendChild(tag);
+
+    if (debugLog.hasChildNodes() && debugLog.children.length >= 20) {
+      debugLog.removeChild(debugLog.children[0]);
+    }
+
   };
   interpreter.setProperty(globalObject, 'log',
       interpreter.createNativeFunction(wrapper));
@@ -365,6 +378,12 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
     return Pond.Battle.currentAvatar.speed;
   };
   interpreter.setProperty(globalObject, 'speed',
+      interpreter.createNativeFunction(wrapper));
+
+  wrapper = function() {
+    return Pond.Battle.currentAvatar.degree;
+  };
+  interpreter.setProperty(globalObject, 'direction',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {

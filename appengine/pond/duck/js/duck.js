@@ -125,7 +125,7 @@ Pond.Duck.init = function() {
   BlocklyAce.importBabel();
 
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
-      'damage,health,loc_x,getX,loc_y,getY,log');
+      'damage,health,direction,loc_x,getX,loc_y,getY,log');
 
   var coordinates = [
     new Blockly.utils.Coordinate(20, 80),
