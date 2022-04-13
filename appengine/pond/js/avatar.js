@@ -85,6 +85,9 @@ Pond.Avatar.prototype.loc = null;
  */
 Pond.Avatar.prototype.lastMissile = 0;
 
+
+Pond.Avatar.prototype.isTakingDamage = false;
+
 /**
  * A text representation of this avatar for debugging purposes.
  * @return {string} String representation.
@@ -116,6 +119,7 @@ Pond.Avatar.prototype.reset = function() {
   delete this.lastMissile;
 
   this.damage = this.startDamage_;
+  this.isTakingDamage = false;
   this.loc.x = this.startLoc_.x;
   this.loc.y = this.startLoc_.y;
   // Face the centre.
@@ -140,6 +144,7 @@ Pond.Avatar.prototype.addDamage = function(add) {
   if (this.damage >= 100) {
     this.die();
   }
+  this.isTakingDamage = true;
 };
 
 /**
@@ -294,6 +299,10 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
   this.battle_.EVENTS.push({'type': 'BANG', 'avatar': this,
       'degree': missile.degree});
   return true;
+};
+
+Pond.Avatar.prototype.updateState = function() {
+  this.isTakingDamage = false;
 };
 
 

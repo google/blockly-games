@@ -232,6 +232,8 @@ Pond.Battle.updateAvatars_ = function() {
     if (avatar.dead) {
       continue;
     }
+    avatar.updateState();
+
     // Accelerate or decelerate.
     if (avatar.speed < avatar.desiredSpeed) {
       avatar.speed = Math.min(avatar.speed + Pond.Battle.ACCELERATION,
@@ -384,6 +386,12 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
     return Pond.Battle.currentAvatar.degree;
   };
   interpreter.setProperty(globalObject, 'direction',
+      interpreter.createNativeFunction(wrapper));
+
+  wrapper = function() {
+    return Pond.Battle.currentAvatar.isTakingDamage;
+  };
+  interpreter.setProperty(globalObject, 'isTakingDamage',
       interpreter.createNativeFunction(wrapper));
 
   wrapper = function() {

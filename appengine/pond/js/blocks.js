@@ -204,6 +204,27 @@ Blockly.JavaScript['pond_direction'] = function(block) {
   return ['direction()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+
+Blockly.Blocks['pond_is_taking_damage'] = {
+  /**
+   * Block for whether avactor is currently taking any damage
+   * @this {Blockly.Block}
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1(%2)",
+      "args0": ["is_taking_damage", ""],
+      "output": "Boolean",
+      "colour": Pond.Blocks.POND_HUE,
+      "tooltip": BlocklyGames.getMsg('Pond_isTakingDamageTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['pond_is_taking_damage'] = function(block) {
+  return ['isTakingDamage()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
 Blockly.Blocks['pond_speed'] = {
   /**
    * Block for avatar speed.
