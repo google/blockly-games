@@ -19,7 +19,7 @@ goog.require('Blockly.VerticalFlyout');
 goog.require('BlocklyGames');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
-
+goog.require('BlocklyStorage');
 
 /**
  * Optional callback function for when a game ends.
@@ -39,10 +39,15 @@ Pond.init = function() {
   BlocklyGames.bindClick('docsButton', Pond.docsButtonClick);
   BlocklyGames.bindClick('closeDocs', Pond.docsCloseClick);
 
+  BlocklyGames.bindClick('saveButton', Pond.saveButtonClick);
+  BlocklyGames.bindClick('loadButton', Pond.loadButtonClick);
+
   // Lazy-load the JavaScript interpreter.
   BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
   BlocklyInterface.importPrettify();
+
+  setTimeout(Pond.loadButtonClick, 250);
 };
 
 /**
@@ -107,6 +112,14 @@ Pond.docsCloseClick = function() {
   dialog.style.visibility = 'hidden';
 };
 
+Pond.saveButtonClick = function() {
+  BlocklyStorage.backupBlocks();
+};
+
+Pond.loadButtonClick = function() {
+  BlocklyStorage.restoreBlocks();
+};
+
 /**
  * Save changes to the editor back to the current avatar.
  */
@@ -136,6 +149,9 @@ Pond.runButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
+
+  Pond.saveButtonClick();
+
   Pond.saveAvatar();
   var runButton = document.getElementById('runButton');
   var resetButton = document.getElementById('resetButton');

@@ -138,3 +138,34 @@ BlocklyStorage.alert_ = function(message) {
     alert(message);
   }
 };
+
+
+/**
+ * Restore code blocks from localStorage.
+ * @param {Blockly.WorkspaceSvg=} opt_workspace Workspace.
+ */
+BlocklyStorage.restoreBlocks = function(opt_workspace) {
+//  var url = window.location.href.split('#')[0];
+  var url = "https://gleung.com";
+  if ('localStorage' in window && window.localStorage[url]) {
+    var workspace = opt_workspace || Blockly.getMainWorkspace();
+    var xml = Blockly.Xml.textToDom(window.localStorage[url]);
+    Blockly.Xml.domToWorkspace(xml, workspace);
+  }
+};
+
+/**
+ * Backup code blocks to localStorage.
+ * @param {!Blockly.WorkspaceSvg} workspace Workspace.
+ * @private
+ */
+BlocklyStorage.backupBlocks = function(opt_workspace) {
+  var workspace = opt_workspace || Blockly.getMainWorkspace();
+  if ('localStorage' in window) {
+    var xml = Blockly.Xml.workspaceToDom(workspace);
+    // Gets the current URL, not including the hash.
+    //var url = window.location.href.split('#')[0];
+    var url = "https://gleung.com";
+    window.localStorage.setItem(url, Blockly.Xml.domToText(xml));
+  }
+};

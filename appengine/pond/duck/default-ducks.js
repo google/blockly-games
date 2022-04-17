@@ -15,23 +15,8 @@ var DUCKS = [
     name: null,
     id: "default",
     editable: true,
-    blockly: `<xml>
-<block type="pond_swim" x="70" y="70">
-  <value name="DEGREE">
-    <shadow type="pond_math_number">
-      <mutation angle_field="true"></mutation>
-      <field name="NUM">0</field>
-    </shadow>
-  </value>
-  <value name="SPEED">
-    <shadow type="pond_math_number">
-      <mutation angle_field="false"></mutation>
-      <field name="NUM">100</field>
-    </shadow>
-  </value>
-  </block>
-</xml>`,
-    compiled: "swim(0, 100);",
+    blockly: `<xml></xml>`,
+    compiled: "",
     competent: false
   },
   //{name: "Rook", id: "rook", editable: false, compiled: "/* rook.r  -  scans the battlefield like a rook, i.e., only 0,90,180,270 */\n/* move horizontally only, but looks horz and vertically */\n\n/* move to center of board */\nif (getY() < 50) {\n  while (getY() < 40)        /* stop near center */\n    drive(90, 100);           /* start moving */\n} else {\n  while (getY() > 60)        /* stop near center */\n    drive(270, 100);          /* start moving */\n}\ndrive(0, 0);\nwhile (speed() > 0)\n  ;\n\n/* initialize starting parameters */\nvar d = damage();\nvar course = 0;\nvar boundary = 99;\ndrive(course, 30);\n\n/* main loop */\nwhile(true) {\n  /* look all directions */\n  look(0);\n  look(90);\n  look(180);\n  look(270);\n\n  /* if near end of battlefield, change directions */\n  if (course == 0) {\n    if (getX() > boundary || speed() == 0)\n      change();\n  }\n  else {\n    if (getX() < boundary || speed() == 0)\n      change();\n  }\n}\n\n/* look somewhere, and fire cannon repeatedly at in-range target */\nfunction look(deg) {\n  var range;\n  while ((range = scan(deg, 4)) <= 70)  {\n    drive(course, 0);\n    cannon(deg, range);\n    if (d + 20 != damage()) {\n      d = damage();\n      change();\n    }\n  }\n}\n\nfunction change() {\n  if (course == 0) {\n    boundary = 1;\n    course = 180;\n  } else {\n    boundary = 99;\n    course = 0;\n  }\n  drive(course, 30);\n}"},
