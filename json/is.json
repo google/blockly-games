@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Jonbg",
+			"LoveIceLang",
 			"Sveinn í Felli"
 		]
 	},
@@ -47,7 +48,7 @@
 	"Games.helpAbort": "Þessi áfangi er mjög erfiður. Viltu sleppa honum og fara í næsta leik? Þú getur alltaf reynt aftur seinna.",
 	"Index.clear": "Eyða öllum lausnum þínum?",
 	"Index.subTitle": "Leikir fyrir forritara framtíðarinnar.",
-	"Index.moreInfo": "Nánar...",
+	"Index.moreInfo": "Upplýsingar fyrir kennara...",
 	"Index.startOver": "Viltu byrja upp á nýtt?",
 	"Index.clearData": "Eyða gögnum",
 	"Puzzle.animal1": "Önd",
