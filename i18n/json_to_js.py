@@ -152,7 +152,7 @@ def _process_file(path_to_json, target_lang, key_dict):
     try:
         j = json.load(in_file)
         in_file.close()
-    except ValueError, e:
+    except ValueError as e:
         print('Error reading ' + filename)
         raise InputError(file, str(e))
     out_file = _create_xlf(target_lang)

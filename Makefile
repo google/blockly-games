@@ -79,41 +79,41 @@ en: index-en puzzle-en maze-en bird-en turtle-en movie-en music-en pond-docs-en 
 index puzzle maze bird turtle movie music gallery: common
 	@echo "Generating JS from appengine/$@/template.soy"
 	mkdir -p appengine/$@/generated;
-	i18n/json_to_js.py --output_dir appengine/$@/generated --template appengine/$@/template.soy json/*.json;
+	python i18n/json_to_js.py --output_dir appengine/$@/generated --template appengine/$@/template.soy json/*.json;
 	python build-app.py $@
 	@echo
 
 pond-docs: pond-common
 	@echo "Generating JS from appengine/pond/docs/template.soy"
 	mkdir -p appengine/pond/docs/generated;
-	i18n/json_to_js.py --output_dir appengine/pond/docs/generated --template appengine/pond/docs/template.soy json/*.json;
+	python i18n/json_to_js.py --output_dir appengine/pond/docs/generated --template appengine/pond/docs/template.soy json/*.json;
 	python build-app.py pond/docs
 	@echo
 
 pond-tutor: pond-common
 	@echo "Generating JS from appengine/pond/tutor/template.soy"
 	mkdir -p appengine/pond/tutor/generated;
-	i18n/json_to_js.py --output_dir appengine/pond/tutor/generated --template appengine/pond/tutor/template.soy json/*.json;
+	python i18n/json_to_js.py --output_dir appengine/pond/tutor/generated --template appengine/pond/tutor/template.soy json/*.json;
 	python build-app.py pond/tutor
 	@echo
 
 pond-duck: pond-common
 	@echo "Generating JS from appengine/pond/duck/template.soy"
 	mkdir -p appengine/pond/duck/generated;
-	i18n/json_to_js.py --output_dir appengine/pond/duck/generated --template appengine/pond/duck/template.soy json/*.json;
+	python i18n/json_to_js.py --output_dir appengine/pond/duck/generated --template appengine/pond/duck/template.soy json/*.json;
 	python build-app.py pond/duck
 	@echo
 
 pond-common: common
 	@echo "Generating JS from appengine/pond/template.soy"
 	mkdir -p appengine/pond/generated;
-	i18n/json_to_js.py --output_dir appengine/pond/generated --template appengine/pond/template.soy json/*.json;
+	python i18n/json_to_js.py --output_dir appengine/pond/generated --template appengine/pond/template.soy json/*.json;
 	@echo
 
 common: soy-to-json
 	@echo "Generating JS from appengine/template.soy"
 	mkdir -p appengine/generated;
-	i18n/json_to_js.py --output_dir appengine/generated --template appengine/template.soy json/*.json;
+	python i18n/json_to_js.py --output_dir appengine/generated --template appengine/template.soy json/*.json;
 	@echo
 
 soy-to-json:
@@ -122,14 +122,14 @@ soy-to-json:
 	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)
 	@# Creates json/en.json, json/qqq.json, json/keys.json.
 	@# Deletes extracted_msgs.xlf
-	i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
+	python i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
 	@echo
 
 languages: soy-to-json
 	@for app in $(ALL_JSON); do \
 	  echo "Generating JS from appengine/$$app/template.soy"; \
 	  mkdir -p appengine/$$app/generated; \
-	  i18n/json_to_js.py --output_dir appengine/$$app/generated --template appengine/$$app/template.soy json/*.json; \
+	  python i18n/json_to_js.py --output_dir appengine/$$app/generated --template appengine/$$app/template.soy json/*.json; \
 	  echo; \
 	done
 	@for app in $(USER_APPS); do \
