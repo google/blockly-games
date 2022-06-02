@@ -20,7 +20,8 @@
 			"Ty221",
 			"WaldiSt",
 			"Wojtas",
-			"Woytecr"
+			"Woytecr",
+			"Łukasz3212"
 		]
 	},
 	"Games.name": "Gry Blockly",
@@ -222,6 +223,7 @@
 	"Movie.helpText10": "Utwórz dowolną anikację. Masz dostęp do wielu nowych bloków, którw możesz poznawać. Miłej zabawy!",
 	"Movie.helpText10Reddit": "Użyj przycisku \"Wyświetl galerię\"aby oglądnąć animacje utworzone przez innych. Jeśli udało Ci się utworzyć intetesującą animację, użyj przycisku \"Udostępnij do galerii\" aby ją opublikować.",
 	"Music.playNoteTooltip": "Odtwórz jeden ton o zadanym czasie trwania i wysokości.",
+	"Music.playNote": "graj %1 nota %2",
 	"Music.restTooltip": "Czeka przez określony czas.",
 	"Music.restWholeTooltip": "Czeka na jedną całą nutę.",
 	"Music.rest": "reszta %1",
@@ -233,6 +235,7 @@
 	"Music.firstPart": "pierwsza część",
 	"Music.piano": "Piano",
 	"Music.trumpet": "trąbka",
+	"Music.banjo": "banjo",
 	"Music.violin": "skrzypce",
 	"Music.guitar": "Gitara",
 	"Music.flute": "flet",
