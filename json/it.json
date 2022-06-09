@@ -3,6 +3,7 @@
 		"authors": [
 			"Ajeje Brazorf",
 			"Beta16",
+			"Black Sky83",
 			"Gbonanome",
 			"Gianfranco",
 			"Isiond",
@@ -241,6 +242,7 @@
 	"Pond.speedTooltip": "Restituisce la velocità attuale del giocatore (0 è fermo, 100 è alla velocità massima).",
 	"Pond.locXTooltip": "Restituisce la coordinata X del giocatore (0 è il bordo sinistro, 100 è il bordo destro).",
 	"Pond.locYTooltip": "Restituisce la coordinata Y del giocatore (0 è il bordo inferiore, 100 è il bordo superiore).",
+	"Pond.logTooltip": "Stampa un numero sulla console del tuo browser.",
 	"Pond.docsTooltip": "Mostra la documentazione in lingua.",
 	"Pond.documentation": "Documentazione",
 	"Pond.playerName": "Giocatore",
