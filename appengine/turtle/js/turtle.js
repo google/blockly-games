@@ -196,7 +196,7 @@ Turtle.transform10 = function(xml) {
       }
       var childName = child && child.getAttribute('name');
 
-      if (type == 'turtle_colour_internal' && childName== 'COLOUR') {
+      if (type == 'turtle_colour_internal' && childName == 'COLOUR') {
         /*
         Old:
           <block type="turtle_colour_internal">
@@ -224,7 +224,7 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
 
-      if (type == 'turtle_repeat_internal' && childName== 'TIMES') {
+      if (type == 'turtle_repeat_internal' && childName == 'TIMES') {
         /*
         Old:
           <block type="turtle_repeat_internal">
@@ -255,7 +255,7 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
 
-      if (type == 'turtle_move_internal' && childName== 'VALUE') {
+      if (type == 'turtle_move_internal' && childName == 'VALUE') {
         /*
         Old:
           <block type="turtle_move_internal">
@@ -286,7 +286,7 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
 
-      if (type == 'turtle_turn_internal' && childName== 'VALUE') {
+      if (type == 'turtle_turn_internal' && childName == 'VALUE') {
         /*
         Old:
           <block type="turtle_move_internal">
@@ -443,8 +443,8 @@ Turtle.reset = function() {
 
   // Clear the canvas.
   Turtle.ctxScratch.canvas.width = Turtle.ctxScratch.canvas.width;
-  Turtle.ctxScratch.strokeStyle = '#ffffff';
-  Turtle.ctxScratch.fillStyle = '#ffffff';
+  Turtle.ctxScratch.strokeStyle = '#fff';
+  Turtle.ctxScratch.fillStyle = '#fff';
   Turtle.ctxScratch.lineWidth = 5;
   Turtle.ctxScratch.lineCap = 'round';
   Turtle.ctxScratch.font = 'normal 18pt Arial';
@@ -466,7 +466,7 @@ Turtle.display = function() {
   Turtle.ctxDisplay.beginPath();
   Turtle.ctxDisplay.rect(0, 0,
       Turtle.ctxDisplay.canvas.width, Turtle.ctxDisplay.canvas.height);
-  Turtle.ctxDisplay.fillStyle = '#000000';
+  Turtle.ctxDisplay.fillStyle = '#000';
   Turtle.ctxDisplay.fill();
 
   // Draw the answer layer.
@@ -574,70 +574,67 @@ Turtle.initInterpreter = function(interpreter, globalObject) {
   wrapper = function(distance, id) {
     Turtle.move(distance, id);
   };
-  interpreter.setProperty(globalObject, 'moveForward',
-      interpreter.createNativeFunction(wrapper));
+  wrap('moveForward');
+
   wrapper = function(distance, id) {
     Turtle.move(-distance, id);
   };
-  interpreter.setProperty(globalObject, 'moveBackward',
-      interpreter.createNativeFunction(wrapper));
+  wrap('moveBackward');
 
   wrapper = function(angle, id) {
     Turtle.turn(angle, id);
   };
-  interpreter.setProperty(globalObject, 'turnRight',
-      interpreter.createNativeFunction(wrapper));
+  wrap('turnRight');
+
   wrapper = function(angle, id) {
     Turtle.turn(-angle, id);
   };
-  interpreter.setProperty(globalObject, 'turnLeft',
-      interpreter.createNativeFunction(wrapper));
+  wrap('turnLeft');
 
   wrapper = function(id) {
     Turtle.penDown(false, id);
   };
-  interpreter.setProperty(globalObject, 'penUp',
-      interpreter.createNativeFunction(wrapper));
+  wrap('penUp');
+
   wrapper = function(id) {
     Turtle.penDown(true, id);
   };
-  interpreter.setProperty(globalObject, 'penDown',
-      interpreter.createNativeFunction(wrapper));
+  wrap('penDown');
 
   wrapper = function(width, id) {
     Turtle.penWidth(width, id);
   };
-  interpreter.setProperty(globalObject, 'penWidth',
-      interpreter.createNativeFunction(wrapper));
+  wrap('penWidth');
 
   wrapper = function(colour, id) {
     Turtle.penColour(colour, id);
   };
-  interpreter.setProperty(globalObject, 'penColour',
-      interpreter.createNativeFunction(wrapper));
+  wrap('penColour');
 
   wrapper = function(id) {
     Turtle.isVisible(false, id);
   };
-  interpreter.setProperty(globalObject, 'hideTurtle',
-      interpreter.createNativeFunction(wrapper));
+  wrap('hideTurtle');
+
   wrapper = function(id) {
     Turtle.isVisible(true, id);
   };
-  interpreter.setProperty(globalObject, 'showTurtle',
-      interpreter.createNativeFunction(wrapper));
+  wrap('showTurtle');
 
   wrapper = function(text, id) {
     Turtle.drawPrint(text, id);
   };
-  interpreter.setProperty(globalObject, 'print',
-      interpreter.createNativeFunction(wrapper));
+  wrap('print');
 
   wrapper = function(font, size, style, id) {
     Turtle.drawFont(font, size, style, id);
   };
-  interpreter.setProperty(globalObject, 'font',
-      interpreter.createNativeFunction(wrapper));
+  wrap('font');
+
+  function wrap(name) {
+    interpreter.setProperty(globalObject, name,
+        interpreter.createNativeFunction(wrapper));
+  }
 };
 
 /**
@@ -767,7 +764,7 @@ Turtle.penWidth = function(width, opt_id) {
 
 /**
  * Change the colour of the pen.
- * @param {string} colour Hexadecimal #rrggbb colour string.
+ * @param {string} colour CSS colour string.
  * @param {string=} opt_id ID of block.
  */
 Turtle.penColour = function(colour, opt_id) {

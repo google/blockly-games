@@ -320,106 +320,97 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
     // with 'problematic' messages when running 3rd party ducks.
     console.log(Pond.Battle.currentAvatar.name + ' logs: ' + Number(value));
   };
-  interpreter.setProperty(globalObject, 'log',
-      interpreter.createNativeFunction(wrapper));
+  wrap('log');
 
   wrapper = function(degree, resolution) {
     return Pond.Battle.currentAvatar.scan(degree, resolution);
   };
-  interpreter.setProperty(globalObject, 'scan',
-      interpreter.createNativeFunction(wrapper));
+  wrap('scan');
 
   wrapper = function(degree, range) {
     return Pond.Battle.currentAvatar.cannon(degree, range);
   };
-  interpreter.setProperty(globalObject, 'cannon',
-      interpreter.createNativeFunction(wrapper));
+  wrap('cannon');
 
   wrapper = function(degree, speed) {
     Pond.Battle.currentAvatar.drive(degree, speed);
   };
-  interpreter.setProperty(globalObject, 'drive',
-      interpreter.createNativeFunction(wrapper));
-  interpreter.setProperty(globalObject, 'swim',
-      interpreter.createNativeFunction(wrapper));
+  wrap('drive');
+  wrap('swim');
 
   wrapper = function() {
     Pond.Battle.currentAvatar.stop();
   };
-  interpreter.setProperty(globalObject, 'stop',
-      interpreter.createNativeFunction(wrapper));
+  wrap('stop');
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.damage;
   };
-  interpreter.setProperty(globalObject, 'damage',
-      interpreter.createNativeFunction(wrapper));
+  wrap('damage');
 
   wrapper = function() {
     return 100 - Pond.Battle.currentAvatar.damage;
   };
-  interpreter.setProperty(globalObject, 'health',
-      interpreter.createNativeFunction(wrapper));
+  wrap('health');
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.speed;
   };
-  interpreter.setProperty(globalObject, 'speed',
-      interpreter.createNativeFunction(wrapper));
+  wrap('speed');
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.loc.x;
   };
-  interpreter.setProperty(globalObject, 'loc_x',
-      interpreter.createNativeFunction(wrapper));
-  interpreter.setProperty(globalObject, 'getX',
-      interpreter.createNativeFunction(wrapper));
+  wrap('loc_x');
+  wrap('getX');
 
   wrapper = function() {
     return Pond.Battle.currentAvatar.loc.y;
   };
-  interpreter.setProperty(globalObject, 'loc_y',
-      interpreter.createNativeFunction(wrapper));
-  interpreter.setProperty(globalObject, 'getY',
-      interpreter.createNativeFunction(wrapper));
+  wrap('loc_y');
+  wrap('getY');
+
+  function wrap(name) {
+    interpreter.setProperty(globalObject, name,
+        interpreter.createNativeFunction(wrapper));
+  }
 
   var myMath = interpreter.getProperty(globalObject, 'Math');
   if (myMath) {
     wrapper = function(number) {
       return Math.sin(Blockly.utils.math.toRadians(number));
     };
-    interpreter.setProperty(myMath, 'sin_deg',
-        interpreter.createNativeFunction(wrapper));
+    wrapMath('sin_deg');
 
     wrapper = function(number) {
       return Math.cos(Blockly.utils.math.toRadians(number));
     };
-    interpreter.setProperty(myMath, 'cos_deg',
-        interpreter.createNativeFunction(wrapper));
+    wrapMath('cos_deg');
 
     wrapper = function(number) {
       return Math.tan(Blockly.utils.math.toRadians(number));
     };
-    interpreter.setProperty(myMath, 'tan_deg',
-        interpreter.createNativeFunction(wrapper));
+    wrapMath('tan_deg');
 
     wrapper = function(number) {
       return Blockly.utils.math.toDegrees(Math.asin(number));
     };
-    interpreter.setProperty(myMath, 'asin_deg',
-        interpreter.createNativeFunction(wrapper));
+    wrapMath('asin_deg');
 
     wrapper = function(number) {
       return Blockly.utils.math.toDegrees(Math.acos(number));
     };
-    interpreter.setProperty(myMath, 'acos_deg',
-        interpreter.createNativeFunction(wrapper));
+    wrapMath('acos_deg');
 
     wrapper = function(number) {
       return Blockly.utils.math.toDegrees(Math.atan(number));
     };
-    interpreter.setProperty(myMath, 'atan_deg',
-        interpreter.createNativeFunction(wrapper));
+    wrapMath('atan_deg');
+
+    function wrapMath(name) {
+      interpreter.setProperty(myMath, name,
+          interpreter.createNativeFunction(wrapper));
+    }
   }
 };
 

@@ -934,48 +934,52 @@ Maze.initInterpreter = function(interpreter, globalObject) {
   wrapper = function(id) {
     Maze.move(0, id);
   };
-  interpreter.setProperty(globalObject, 'moveForward',
-      interpreter.createNativeFunction(wrapper));
+  wrap('moveForward');
+
   wrapper = function(id) {
     Maze.move(2, id);
   };
-  interpreter.setProperty(globalObject, 'moveBackward',
-      interpreter.createNativeFunction(wrapper));
+  wrap('moveBackward');
+
   wrapper = function(id) {
     Maze.turn(0, id);
   };
-  interpreter.setProperty(globalObject, 'turnLeft',
-      interpreter.createNativeFunction(wrapper));
+  wrap('turnLeft');
+
   wrapper = function(id) {
     Maze.turn(1, id);
   };
-  interpreter.setProperty(globalObject, 'turnRight',
-      interpreter.createNativeFunction(wrapper));
+  wrap('turnRight');
+
   wrapper = function(id) {
     return Maze.isPath(0, id);
   };
-  interpreter.setProperty(globalObject, 'isPathForward',
-      interpreter.createNativeFunction(wrapper));
+  wrap('isPathForward');
+
   wrapper = function(id) {
     return Maze.isPath(1, id);
   };
-  interpreter.setProperty(globalObject, 'isPathRight',
-      interpreter.createNativeFunction(wrapper));
+  wrap('isPathRight');
+
   wrapper = function(id) {
     return Maze.isPath(2, id);
   };
-  interpreter.setProperty(globalObject, 'isPathBackward',
-      interpreter.createNativeFunction(wrapper));
+  wrap('isPathBackward');
+
   wrapper = function(id) {
     return Maze.isPath(3, id);
   };
-  interpreter.setProperty(globalObject, 'isPathLeft',
-      interpreter.createNativeFunction(wrapper));
+  wrap('isPathLeft');
+
   wrapper = function() {
     return Maze.notDone();
   };
-  interpreter.setProperty(globalObject, 'notDone',
-      interpreter.createNativeFunction(wrapper));
+  wrap('notDone');
+
+  function wrap(name) {
+    interpreter.setProperty(globalObject, name,
+        interpreter.createNativeFunction(wrapper));
+  }
 };
 
 /**

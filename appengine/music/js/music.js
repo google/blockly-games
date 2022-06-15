@@ -594,19 +594,22 @@ Music.initInterpreter = function(interpreter, globalObject) {
   wrapper = function(duration, pitch, id) {
     Music.play(duration, pitch, id);
   };
-  interpreter.setProperty(globalObject, 'play',
-      interpreter.createNativeFunction(wrapper));
+  wrap('play');
+
   wrapper = function(duration, id) {
     Music.rest(duration, id);
   };
-  interpreter.setProperty(globalObject, 'rest',
-      interpreter.createNativeFunction(wrapper));
+  wrap('rest');
 
   wrapper = function(instrument, id) {
     Music.setInstrument(instrument, id);
   };
-  interpreter.setProperty(globalObject, 'setInstrument',
-      interpreter.createNativeFunction(wrapper));
+  wrap('setInstrument');
+
+  function wrap(name) {
+    interpreter.setProperty(globalObject, name,
+        interpreter.createNativeFunction(wrapper));
+  }
 };
 
 /**

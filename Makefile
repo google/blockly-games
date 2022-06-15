@@ -166,19 +166,15 @@ deps:
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
 	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
 
-	@# Blockly's externs include extra files we don't want.
-	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/externs/block-externs.js
-	rm -f $(APP_ENGINE_THIRD_PARTY)/blockly/externs/generator-externs.js
-
 	svn export https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
 	@# Remove @license tag so compiler will strip Google's license.
 	sed 's/@license//' $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter.js > $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar third-party-downloads/closure-compiler.jar\
-	 --language_out ECMASCRIPT5_STRICT\
-	 --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/acorn.js\
-	 --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js\
-	 --js_output_file $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/compressed.js
+	  --language_out ECMASCRIPT5_STRICT\
+	  --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/acorn.js\
+	  --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js\
+	  --js_output_file $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/compressed.js
 	rm $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 
 clean: clean-languages clean-deps

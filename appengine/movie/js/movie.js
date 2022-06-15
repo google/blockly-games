@@ -389,7 +389,7 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.beginPath();
   Movie.ctxDisplay.rect(0, 0,
       Movie.ctxDisplay.canvas.width, Movie.ctxDisplay.canvas.height);
-  Movie.ctxDisplay.fillStyle = '#ffffff';
+  Movie.ctxDisplay.fillStyle = '#fff';
   Movie.ctxDisplay.fill();
 
   // Copy the answer.
@@ -439,32 +439,32 @@ Movie.initInterpreter = function(interpreter, globalObject) {
   wrapper = function(x, y, radius) {
     Movie.circle(x, y, radius);
   };
-  interpreter.setProperty(globalObject, 'circle',
-      interpreter.createNativeFunction(wrapper));
+  wrap('circle');
 
   wrapper = function(x, y, w, h) {
     Movie.rect(x, y, w, h);
   };
-  interpreter.setProperty(globalObject, 'rect',
-      interpreter.createNativeFunction(wrapper));
+  wrap('rect');
 
   wrapper = function(x1, y1, x2, y2, w) {
     Movie.line(x1, y1, x2, y2, w);
   };
-  interpreter.setProperty(globalObject, 'line',
-      interpreter.createNativeFunction(wrapper));
+  wrap('line');
 
   wrapper = function(colour) {
     Movie.penColour(colour);
   };
-  interpreter.setProperty(globalObject, 'penColour',
-      interpreter.createNativeFunction(wrapper));
+  wrap('penColour');
 
   wrapper = function() {
     return Movie.frameNumber;
   };
-  interpreter.setProperty(globalObject, 'time',
-      interpreter.createNativeFunction(wrapper));
+  wrap('time');
+
+  function wrap(name) {
+    interpreter.setProperty(globalObject, name,
+        interpreter.createNativeFunction(wrapper));
+  }
 };
 
 /**
@@ -531,7 +531,7 @@ Movie.line = function(x1, y1, x2, y2, width) {
 
 /**
  * Change the colour of the pen.
- * @param {string} colour Hexadecimal #rrggbb colour string.
+ * @param {string} colour CSS colour string.
  */
 Movie.penColour = function(colour) {
   Movie.ctxScratch.strokeStyle = colour;

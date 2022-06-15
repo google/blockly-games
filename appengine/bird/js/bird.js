@@ -635,23 +635,27 @@ Bird.initInterpreter = function(interpreter, globalObject) {
   wrapper = function(angle, id) {
     Bird.heading(angle, id);
   };
-  interpreter.setProperty(globalObject, 'heading',
-      interpreter.createNativeFunction(wrapper));
+  wrap('heading');
+
   wrapper = function() {
     return !Bird.hasWorm;
   };
-  interpreter.setProperty(globalObject, 'noWorm',
-      interpreter.createNativeFunction(wrapper));
+  wrap('noWorm');
+
   wrapper = function() {
     return Bird.pos.x;
   };
-  interpreter.setProperty(globalObject, 'getX',
-      interpreter.createNativeFunction(wrapper));
+  wrap('getX');
+
   wrapper = function() {
     return Bird.pos.y;
   };
-  interpreter.setProperty(globalObject, 'getY',
-      interpreter.createNativeFunction(wrapper));
+  wrap('getY');
+
+  function wrap(name) {
+    interpreter.setProperty(globalObject, name,
+        interpreter.createNativeFunction(wrapper));
+  }
 };
 
 /**
