@@ -13,7 +13,8 @@
 			"SimondR",
 			"Staspotanin2",
 			"Tourorist",
-			"Wikisaurus"
+			"Wikisaurus",
+			"Zauzolkov"
 		]
 	},
 	"Games.name": "Игры Blockly",
@@ -192,7 +193,7 @@
 	"Movie.rectTooltip": "Рисует прямоугольник в заданном месте с заданной длиной и шириной.",
 	"Movie.rectDraw": "прямоугольник",
 	"Movie.lineTooltip": "Рисует отрезок заданной ширины между указанными точками.",
-	"Movie.lineDraw": "рисовать",
+	"Movie.lineDraw": "линия",
 	"Movie.timeTooltip": "Возвращает текущее время в фильме (0-100).",
 	"Movie.colourTooltip": "Меняет цвет пера.",
 	"Movie.setColour": "установить цвет",

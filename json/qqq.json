@@ -8,7 +8,8 @@
 			"Nike",
 			"Robby",
 			"Siebrand",
-			"Verdy p"
+			"Verdy p",
+			"Zauzolkov"
 		]
 	},
 	"Games.name": "The project name.",
@@ -187,7 +188,7 @@
 	"Movie.rectTooltip": "tooltip",
 	"Movie.rectDraw": "Command to draw a rectangle.\n{{Identical|Rectangle}}",
 	"Movie.lineTooltip": "tooltip",
-	"Movie.lineDraw": "Command to draw a rectangle.\n{{Identical|Line}}",
+	"Movie.lineDraw": "Command to draw a line.\n{{Identical|Line}}",
 	"Movie.timeTooltip": "tooltip",
 	"Movie.colourTooltip": "tooltip - Changes the colour of ink in the pen carried by the turtle.",
 	"Movie.setColour": "block text - Infinitive or imperative of a verb to specify the colour of the lines that should be drawn in the future by an imaginary pen.  This is followed by a block showing the colour",
