@@ -17,6 +17,7 @@ goog.require('Blockly.JavaScript');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -53,11 +54,11 @@ Blockly.Blocks['maze_moveForward'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.getMsg('Maze_moveForward'),
+      "message0": BlocklyGames.Msg['Maze.moveForward'],
       "previousStatement": null,
       "nextStatement": null,
       "colour": Maze.Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('Maze_moveForwardTooltip')
+      "tooltip": BlocklyGames.Msg['Maze.moveForwardTooltip']
     });
   }
 };
@@ -74,8 +75,8 @@ Blockly.Blocks['maze_turn'] = {
    */
   init: function() {
     var DIRECTIONS =
-        [[BlocklyGames.getMsg('Maze_turnLeft'), 'turnLeft'],
-         [BlocklyGames.getMsg('Maze_turnRight'), 'turnRight']];
+        [[BlocklyGames.Msg['Maze.turnLeft'], 'turnLeft'],
+         [BlocklyGames.Msg['Maze.turnRight'], 'turnRight']];
     // Append arrows to direction messages.
     DIRECTIONS[0][0] += Maze.Blocks.LEFT_TURN;
     DIRECTIONS[1][0] += Maze.Blocks.RIGHT_TURN;
@@ -84,7 +85,7 @@ Blockly.Blocks['maze_turn'] = {
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Maze_turnTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Maze.turnTooltip']);
   }
 };
 
@@ -101,9 +102,9 @@ Blockly.Blocks['maze_if'] = {
    */
   init: function() {
     var DIRECTIONS =
-        [[BlocklyGames.getMsg('Maze_pathAhead'), 'isPathForward'],
-         [BlocklyGames.getMsg('Maze_pathLeft'), 'isPathLeft'],
-         [BlocklyGames.getMsg('Maze_pathRight'), 'isPathRight']];
+        [[BlocklyGames.Msg['Maze.pathAhead'], 'isPathForward'],
+         [BlocklyGames.Msg['Maze.pathLeft'], 'isPathLeft'],
+         [BlocklyGames.Msg['Maze.pathRight'], 'isPathRight']];
     // Append arrows to direction messages.
     DIRECTIONS[1][0] += Maze.Blocks.LEFT_TURN;
     DIRECTIONS[2][0] += Maze.Blocks.RIGHT_TURN;
@@ -111,8 +112,8 @@ Blockly.Blocks['maze_if'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
     this.appendStatementInput('DO')
-        .appendField(BlocklyGames.getMsg('Maze_doCode'));
-    this.setTooltip(BlocklyGames.getMsg('Maze_ifTooltip'));
+        .appendField(BlocklyGames.Msg['Maze.doCode']);
+    this.setTooltip(BlocklyGames.Msg['Maze.ifTooltip']);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
   }
@@ -134,9 +135,9 @@ Blockly.Blocks['maze_ifElse'] = {
    */
   init: function() {
     var DIRECTIONS =
-        [[BlocklyGames.getMsg('Maze_pathAhead'), 'isPathForward'],
-         [BlocklyGames.getMsg('Maze_pathLeft'), 'isPathLeft'],
-         [BlocklyGames.getMsg('Maze_pathRight'), 'isPathRight']];
+        [[BlocklyGames.Msg['Maze.pathAhead'], 'isPathForward'],
+         [BlocklyGames.Msg['Maze.pathLeft'], 'isPathLeft'],
+         [BlocklyGames.Msg['Maze.pathRight'], 'isPathRight']];
     // Append arrows to direction messages.
     DIRECTIONS[1][0] += Maze.Blocks.LEFT_TURN;
     DIRECTIONS[2][0] += Maze.Blocks.RIGHT_TURN;
@@ -144,10 +145,10 @@ Blockly.Blocks['maze_ifElse'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
     this.appendStatementInput('DO')
-        .appendField(BlocklyGames.getMsg('Maze_doCode'));
+        .appendField(BlocklyGames.Msg['Maze.doCode']);
     this.appendStatementInput('ELSE')
-        .appendField(BlocklyGames.getMsg('Maze_elseCode'));
-    this.setTooltip(BlocklyGames.getMsg('Maze_ifelseTooltip'));
+        .appendField(BlocklyGames.Msg['Maze.elseCode']);
+    this.setTooltip(BlocklyGames.Msg['Maze.ifelseTooltip']);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
   }
@@ -172,12 +173,12 @@ Blockly.Blocks['maze_forever'] = {
   init: function() {
     this.setColour(Maze.Blocks.LOOPS_HUE);
     this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Maze_repeatUntil'))
+        .appendField(BlocklyGames.Msg['Maze.repeatUntil'])
         .appendField(new Blockly.FieldImage(Maze.SKIN.marker, 12, 16));
     this.appendStatementInput('DO')
-        .appendField(BlocklyGames.getMsg('Maze_doCode'));
+        .appendField(BlocklyGames.Msg['Maze.doCode']);
     this.setPreviousStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Maze_whileTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Maze.whileTooltip']);
   }
 };
 

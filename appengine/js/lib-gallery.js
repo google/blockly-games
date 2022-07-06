@@ -14,6 +14,7 @@ goog.provide('BlocklyGallery');
 
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyStorage');
 
 
@@ -69,7 +70,6 @@ BlocklyGallery.galleryKeyDown_ = function(e) {
   }
 };
 
-
 /**
  * Fire a new AJAX request.
  * @param {HTMLFormElement} form Form to retrieve request URL and data from.
@@ -107,7 +107,7 @@ BlocklyGallery.gallerySubmit_ = function() {
 
   var form = document.getElementById('galleryForm');
   var onSuccess = function() {
-    BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games_submitted'));
+    BlocklyDialogs.storageAlert(null, BlocklyGames.Msg['Games.submitted']);
   };
   BlocklyGallery.makeFormRequest_(form, onSuccess);
   BlocklyDialogs.hideDialog(true);

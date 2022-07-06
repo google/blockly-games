@@ -13,7 +13,7 @@
 goog.provide('Pond.Docs');
 
 goog.require('BlocklyGames');
-goog.require('Pond.Docs.soy');
+goog.require('Pond.Docs.html');
 
 
 /**
@@ -23,7 +23,7 @@ Pond.Docs.init = function() {
   var param = window.location.search.match(/[?&]mode=([^&]+)/);
   var level = param ? Number(param[1]) : Infinity;
   var pond = level % 2 ? 'blocks' : 'js';
-  document.body.innerHTML = Pond.Docs.soy.start({}, null,
+  document.body.innerHTML = Pond.Docs.html.start(
       {level: level,
        pond: pond});
 

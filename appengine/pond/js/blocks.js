@@ -21,6 +21,7 @@ goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.math');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JsBlocks');
+goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -49,7 +50,7 @@ Blockly.Blocks['pond_scan'] = {
       "inputsInline": true,
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_scanTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.scanTooltip']
     });
   }
 };
@@ -87,7 +88,7 @@ Blockly.Blocks['pond_cannon'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_cannonTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.cannonTooltip']
     });
   }
 };
@@ -121,7 +122,7 @@ Blockly.Blocks['pond_swim'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_swimTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.swimTooltip']
     });
   }
 };
@@ -145,7 +146,7 @@ Blockly.Blocks['pond_stop'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_stopTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.stopTooltip']
     });
   }
 };
@@ -166,7 +167,7 @@ Blockly.Blocks['pond_health'] = {
       "args0": ["health", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_healthTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.healthTooltip']
     });
   }
 };
@@ -187,7 +188,7 @@ Blockly.Blocks['pond_speed'] = {
       "args0": ["speed", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_speedTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.speedTooltip']
     });
   }
 };
@@ -208,7 +209,7 @@ Blockly.Blocks['pond_getX'] = {
       "args0": ["getX", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_locXTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.locXTooltip']
     });
   }
 };
@@ -229,7 +230,7 @@ Blockly.Blocks['pond_getY'] = {
       "args0": ["getY", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_locYTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.locYTooltip']
     });
   }
 };
@@ -258,7 +259,7 @@ Blockly.Blocks['pond_log'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond_logTooltip')
+      "tooltip": BlocklyGames.Msg['Pond.logTooltip']
     });
   }
 };
@@ -286,7 +287,7 @@ Blockly.Blocks['pond_math_number'] = {
   },
   /**
    * Create XML to represent whether the 'NUM' field is an angle.
-   * @return {Element} XML storage element.
+   * @return {!Element} XML storage element.
    * @this {Blockly.Block}
    */
   mutationToDom: function() {

@@ -29,6 +29,7 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -48,19 +49,19 @@ Blockly.Blocks['movie_circle'] = {
     this.appendValueInput('X')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_circleDraw'))
-        .appendField(BlocklyGames.getMsg('Movie_x'));
+        .appendField(BlocklyGames.Msg['Movie.circleDraw'])
+        .appendField(BlocklyGames.Msg['Movie.x']);
     this.appendValueInput('Y')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_y'));
+        .appendField(BlocklyGames.Msg['Movie.y']);
     this.appendValueInput('RADIUS')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_radius'));
+        .appendField(BlocklyGames.Msg['Movie.radius']);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Movie_circleTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Movie.circleTooltip']);
   }
 };
 
@@ -85,23 +86,23 @@ Blockly.Blocks['movie_rect'] = {
     this.appendValueInput('X')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_rectDraw'))
-        .appendField(BlocklyGames.getMsg('Movie_x'));
+        .appendField(BlocklyGames.Msg['Movie.rectDraw'])
+        .appendField(BlocklyGames.Msg['Movie.x']);
     this.appendValueInput('Y')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_y'));
+        .appendField(BlocklyGames.Msg['Movie.y']);
     this.appendValueInput('WIDTH')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_width'));
+        .appendField(BlocklyGames.Msg['Movie.width']);
     this.appendValueInput('HEIGHT')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_height'));
+        .appendField(BlocklyGames.Msg['Movie.height']);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Movie_rectTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Movie.rectTooltip']);
   }
 };
 
@@ -128,27 +129,27 @@ Blockly.Blocks['movie_line'] = {
     this.appendValueInput('X1')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_lineDraw'))
-        .appendField(BlocklyGames.getMsg('Movie_x1'));
+        .appendField(BlocklyGames.Msg['Movie.lineDraw'])
+        .appendField(BlocklyGames.Msg['Movie.x1']);
     this.appendValueInput('Y1')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_y1'));
+        .appendField(BlocklyGames.Msg['Movie.y1']);
     this.appendValueInput('X2')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_x2'));
+        .appendField(BlocklyGames.Msg['Movie.x2']);
     this.appendValueInput('Y2')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_y2'));
+        .appendField(BlocklyGames.Msg['Movie.y2']);
     this.appendValueInput('WIDTH')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_width'));
+        .appendField(BlocklyGames.Msg['Movie.width']);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Movie_rectTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Movie.rectTooltip']);
   }
 };
 
@@ -178,7 +179,7 @@ Blockly.Blocks['movie_time'] = {
     this.appendDummyInput()
         .appendField('time (0\u2192100)');
     this.setOutput(true, 'Number');
-    this.setTooltip(BlocklyGames.getMsg('Movie_timeTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Movie.timeTooltip']);
   }
 };
 
@@ -197,10 +198,10 @@ Blockly.Blocks['movie_colour'] = {
     this.setColour(Blockly.Msg['COLOUR_HUE']);
     this.appendValueInput('COLOUR')
         .setCheck('Colour')
-        .appendField(BlocklyGames.getMsg('Movie_setColour'));
+        .appendField(BlocklyGames.Msg['Movie.setColour']);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Movie_colourTooltip'));
+    this.setTooltip(BlocklyGames.Msg['Movie.colourTooltip']);
   }
 };
 

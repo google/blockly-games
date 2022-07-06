@@ -15,6 +15,7 @@ goog.provide('BlocklyDialogs');
 goog.require('Blockly');
 goog.require('Blockly.utils.style');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 
 
@@ -82,15 +83,6 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     BlocklyDialogs.dialogMouseDownWrapper_ =
         Blockly.bindEvent_(header, 'mousedown', null,
                            BlocklyDialogs.dialogMouseDown_);
-  }
-  // Inject 'Ok' and 'Cancel' from Blockly's messages.
-  var okButtons = content.getElementsByClassName('dialogOk');
-  for (var i = 0; i < okButtons.length; i++) {
-    okButtons[i].textContent = Blockly.Msg['DIALOG_OK'];
-  }
-  var cancelButtons = content.getElementsByClassName('dialogCancel');
-  for (var i = 0; i < cancelButtons.length; i++) {
-    cancelButtons[i].textContent = Blockly.Msg['DIALOG_CANCEL'];
   }
   dialog.appendChild(content);
   content.className = content.className.replace('dialogHiddenContent', '');
@@ -401,19 +393,19 @@ BlocklyDialogs.congratulations = function() {
       pre.innerHTML = code;
     }
     if (lineCount == 1) {
-      var text = BlocklyGames.getMsg('Games_linesOfCode1');
+      var text = BlocklyGames.Msg['Games.linesOfCode1'];
     } else {
-      var text = BlocklyGames.getMsg('Games_linesOfCode2')
+      var text = BlocklyGames.Msg['Games.linesOfCode2']
           .replace('%1', String(lineCount));
     }
     linesText.appendChild(document.createTextNode(text));
   }
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    var text = BlocklyGames.getMsg('Games_nextLevel')
+    var text = BlocklyGames.Msg['Games.nextLevel']
         .replace('%1', String(BlocklyGames.LEVEL + 1));
   } else {
-    var text = BlocklyGames.getMsg('Games_finalLevel');
+    var text = BlocklyGames.Msg['Games.finalLevel'];
   }
 
   var cancel = document.getElementById('doneCancel');

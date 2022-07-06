@@ -37,71 +37,75 @@ import threading
 WARNING = '// Automatically generated file.  Do not edit!\n'
 
 
-messageNames = []
+blocklyMessageNames = []
+blocklyGamesMessageNames = []
 
-def main(name, lang):
-  if lang != None:
-    filterMessages(name, lang)
+def main(name):
+  if not os.path.exists('appengine/%s/generated' % name):
+    os.mkdir('appengine/%s/generated' % name)
+  compile(name)
+  filterMessages(name)
+  # Extract the list of supported languages from boot.js.
+  # This is a bit fragile.
+  boot = open('appengine/common/boot.js', 'r')
+  js = ' '.join(boot.readlines())
+  boot.close()
+  m = re.search('\[\'BlocklyGamesLanguages\'\] = (\[[-,\'\\s\\w]+\])', js)
+  if not m:
+    raise Exception("Can't find BlocklyGamesLanguages in boot.js")
+  langs = m.group(1)
+  langs = langs.replace("'", '"')
+  langs = json.loads(langs)
+  for lang in langs:
     language(name, lang)
-  else:
-    # Extract the list of supported languages from boot.js.
-    # This is a bit fragile.
-    boot = open('appengine/common/boot.js', 'r')
-    js = ' '.join(boot.readlines())
-    boot.close()
-    m = re.search('\[\'BlocklyGamesLanguages\'\] = (\[[-,\'\\s\\w]+\])', js)
-    if not m:
-      raise Exception("Can't find BlocklyGamesLanguages in boot.js")
-    langs = m.group(1)
-    langs = langs.replace("'", '"')
-    langs = json.loads(langs)
-    filterMessages(name, langs[0])
-    for lang in langs:
-      language(name, lang)
 
 
-def filterMessages(name, lang):
-  global messageNames
-  # Do a dummy compile and identify all the Blockly messages used.
+def filterMessages(name):
+  global blocklyMessageNames, blocklyGamesMessageNames
+  # Identify all the Blockly messages used.
   print("Scanning for Blockly messages in %s..." % name)
-  f = open('appengine/%s/generated/%s/msg.js' % (name, lang), 'w')
-  f.write("""
-goog.provide('BlocklyGames.Msg');
-goog.require('Blockly.Msg');
-Blockly.Msg["ybr8uu2q3b"] = '';
-""")
-  f.close()
-  thread0 = Gen_compressed(name, lang)
-  thread0.start()
-  thread0.join()
-  f = open('appengine/%s/generated/%s/compressed.js' % (name, lang), 'r')
+  f = open('appengine/%s/generated/compressed.js' % name, 'r')
   js = f.read()
   f.close()
+
   # Locate what Blockly.Msg has compiled into (e.g. h.Y)
-  m = re.search('([\w.$]+)\.ybr8uu2q3b=', js)
+  m = re.search('Blockly\.Msg=([\w.$]+)', js)
   if m:
     blocklyMsg = m.group(1)
     blocklyMsg = blocklyMsg.replace('.', '\\.').replace('$', '\\$')
-    msgs1 = re.findall('\W' + blocklyMsg + '.([A-Z0-9_]+)', js);
-    msgs2 = re.findall('\WBKY_([A-Z0-9_]+)', js);
-    messageNames = list(set(msgs1 + msgs2))
+    msgs1 = re.findall('\W' + blocklyMsg + '.([A-Z0-9_]+)', js)
+    msgs2 = re.findall('\WBKY_([A-Z0-9_]+)', js)
+    blocklyMessageNames = list(set(msgs1 + msgs2))
     # Resolve references.
     # Blockly.Msg["TEXT_APPEND_VAR"] = Blockly.Msg["VAR_DEFAULT_NAME"];
     # Does not handle long chains of references.
-    msgs = getMessages(lang)
+    msgs = getMessages('en')
     for msg in msgs:
       m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = Blockly\.Msg\["([A-Z0-9_]+)"\]', msg)
-      if m and m.group(1) in messageNames:
-        messageNames.append(m.group(2))
-  messageNames.sort()
-  print("Found %d Blockly messages." % len(messageNames))
+      if m and m.group(1) in blocklyMessageNames:
+        blocklyMessageNames.append(m.group(2))
+    print("Found %d Blockly messages." % len(blocklyMessageNames))
+  else:
+    print("Unable to find any Blockly messages.")
+  blocklyMessageNames.sort()
+
+  # Locate what BlocklyGames.Msg has compiled into (e.g. t.G)
+  m = re.search('BlocklyGames\.Msg=([\w.$]+)', js)
+  if m:
+    blocklyGamesMsg = m.group(1)
+    blocklyGamesMsg = blocklyGamesMsg.replace('.', '\\.').replace('$', '\\$')
+    msgs = re.findall('\W' + blocklyGamesMsg + '\["([^"]+)"\]', js)
+    msgs += re.findall('\W' + blocklyGamesMsg + '\.([\w$]+)', js)
+    blocklyGamesMessageNames = list(set(msgs))
+    print("Found %d Blockly Games messages." % len(blocklyGamesMessageNames))
+  else:
+    print("Unable to find any Blockly Games messages.")
+  blocklyGamesMessageNames.sort()
 
 
 def getMessages(lang):
-  # Read Blockly's message file for this language (default to English).
-  blocklyMsgFileName = 'appengine/third-party/blockly/msg/js/%s.js' % lang;
-  if not os.path.exists(blocklyMsgFileName):
-    blocklyMsgFileName = 'appengine/third-party/blockly/msg/js/en.js';
+  # Read all messages for this language.
+  blocklyMsgFileName = 'appengine/generated/msg/%s.js' % lang
   f = open(blocklyMsgFileName, 'r')
   msgs = f.readlines()
   f.close()
@@ -109,28 +113,31 @@ def getMessages(lang):
 
 
 def language(name, lang):
-  global messageNames
+  global blocklyMessageNames, blocklyGamesMessageNames
   msgs = getMessages(lang)
   # Write copy to Blockly Games.
-  f = open('appengine/%s/generated/%s/msg.js' % (name, lang), 'w')
+  if not os.path.exists('appengine/%s/generated/msg' % name):
+    os.mkdir('appengine/%s/generated/msg' % name)
+  f = open('appengine/%s/generated/msg/%s.js' % (name, lang), 'w')
+  f.write(WARNING)
+  f.write("'use strict';\n")
   for msg in msgs:
-    if msg == "'use strict';\n":
-      f.write("""'use strict';
-
-goog.provide('BlocklyGames.Msg');
-goog.require('Blockly.Msg');
-""")
-    else:
-      # Only write out messages that are used (as detected in filterMessages).
-      m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = ', msg)
-      if not m or m.group(1) in messageNames:
-        f.write(msg)
+    # Only write out messages that are used (as detected in filterMessages).
+    m = re.search('Blockly\.Msg\["([\w.]+)"\] = ', msg)
+    if m and m.group(1) in blocklyMessageNames:
+      f.write(msg)
+    m = re.search('BlocklyGames\.Msg\["([\w.]+)"\] = ', msg)
+    if m and m.group(1) in blocklyGamesMessageNames:
+      f.write(msg)
   f.close()
-  print('Compiling %s - %s' % (name.title(), lang))
+
+
+def compile(name):
+  print('Compiling %s' % name.title())
   # Run uncompressed and compressed code generation in separate threads.
   # For multi-core computers, this offers a significant speed boost.
-  thread1 = Gen_uncompressed(name, lang)
-  thread2 = Gen_compressed(name, lang)
+  thread1 = Gen_uncompressed(name)
+  thread2 = Gen_compressed(name)
   thread1.start()
   thread2.start()
   thread1.join()
@@ -139,22 +146,21 @@ goog.require('Blockly.Msg');
 
 
 class Gen_uncompressed(threading.Thread):
-  def __init__(self, name, lang):
+  def __init__(self, name):
     threading.Thread.__init__(self)
     self.name = name
-    self.lang = lang
 
   def run(self):
     cmd = ['third-party/closurebuilder/closurebuilder.py',
         '--root=appengine/third-party/',
-        '--root=appengine/generated/%s/' % self.lang,
+        '--root=appengine/generated/',
         '--root=appengine/js/',
         '--exclude=',
         '--namespace=%s' % self.name.replace('/', '.').title(),
         '--output_mode=list']
     directory = self.name
     while directory:
-      cmd.append('--root=appengine/%s/generated/%s/' % (directory, self.lang))
+      cmd.append('--root=appengine/%s/generated/' % directory)
       cmd.append('--root=appengine/%s/js/' % directory)
       (directory, sep, fragment) = directory.rpartition(os.path.sep)
     try:
@@ -176,10 +182,9 @@ class Gen_uncompressed(threading.Thread):
       else:
         raise Exception('"%s" is not in "%s".' % (file, prefix))
       srcs.append('"%s%s"' % (path, file))
-    f = open('appengine/%s/generated/%s/uncompressed.js' %
-        (self.name, self.lang), 'w')
+    srcs.append('"generated/msg/" + window[\'BlocklyGamesLang\'] + ".js"')
+    f = open('appengine/%s/generated/uncompressed.js' % self.name, 'w')
     f.write("""%s
-
 window.CLOSURE_NO_DEPS = true;
 
 (function() {
@@ -204,10 +209,9 @@ window.CLOSURE_NO_DEPS = true;
 
 
 class Gen_compressed(threading.Thread):
-  def __init__(self, name, lang):
+  def __init__(self, name):
     threading.Thread.__init__(self)
     self.name = name
-    self.lang = lang
 
   def run(self):
     cmd = [
@@ -222,20 +226,19 @@ class Gen_compressed(threading.Thread):
       '--externs', 'externs/soundJS-externs.js',
       '--externs', 'externs/storage-externs.js',
       '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
-      '--language_in', 'ECMASCRIPT5_STRICT',
+      #'--language_in', 'ECMASCRIPT5_STRICT',
       '--language_out', 'ECMASCRIPT5_STRICT',
       '--entry_point=%s' % self.name.replace('/', '.').title(),
       "--js='appengine/third-party/**.js'",
-      "--js='!appengine/third-party/base.js'",
+      #"--js='!appengine/third-party/base.js'",
       "--js='!appengine/third-party/blockly/externs/**.js'",
-      "--js='appengine/generated/%s/*.js'" % self.lang,
+      "--js='appengine/generated/*.js'",
       "--js='appengine/js/*.js'",
       '--warning_level', 'QUIET',
     ]
     directory = self.name
     while directory:
-      cmd.append("--js='appengine/%s/generated/%s/*.js'" %
-          (directory, self.lang))
+      cmd.append("--js='appengine/%s/generated/*.js'" % directory)
       cmd.append("--js='appengine/%s/js/*.js'" % directory)
       (directory, sep, fragment) = directory.rpartition(os.path.sep)
     try:
@@ -248,10 +251,16 @@ class Gen_compressed(threading.Thread):
     script = self.trim_licence(script)
     print('Compressed to %d KB.' % (len(script) / 1024))
 
-    f = open('appengine/%s/generated/%s/compressed.js' %
-        (self.name, self.lang), 'w')
+    f = open('appengine/%s/generated/compressed.js' % self.name, 'w')
     f.write(WARNING)
     f.write(script)
+    # Load the chosen language pack.
+    f.write("""
+(function(){var s=document.createElement('script');
+s.src='%s/generated/msg/'+window['BlocklyGamesLang']+'.js';
+s.type='text/javascript';
+document.head.appendChild(s);})();
+""" % self.name)
     f.close()
 
   def trim_licence(self, code):
@@ -286,9 +295,7 @@ def readStdout(proc):
 
 if __name__ == '__main__':
   if len(sys.argv) == 2:
-    main(sys.argv[1], None)
-  elif len(sys.argv) == 3:
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1])
   else:
-    print('Format: %s <appname> [<language>]' % sys.argv[0])
+    print('Format: %s <appname>' % sys.argv[0])
     sys.exit(2)

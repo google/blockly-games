@@ -22,10 +22,11 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('CustomFields.FieldPitch');
 goog.require('Music.Blocks');
-goog.require('Music.soy');
+goog.require('Music.html');
 goog.require('Slider');
 
 
@@ -100,14 +101,14 @@ Music.REST = -1;
  * Initialize Blockly and the music.  Called on page load.
  */
 Music.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Music.soy.start({}, null,
+  // Render the HTML.
+  document.body.innerHTML = Music.html.start(
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init();
+  BlocklyInterface.init(BlocklyGames.Msg['Games.music']);
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
@@ -369,7 +370,7 @@ Music.showHelp = function() {
             '</next>' +
           '</block>' +
         '</xml>';
-    var firstPart = BlocklyGames.getMsg('Music_firstPart');
+    var firstPart = BlocklyGames.Msg['Music.firstPart'];
     firstPart = firstPart.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;').replace(/>/g, '&gt;');
     xml = xml.replace(/%1/g, firstPart);
@@ -1056,7 +1057,7 @@ Music.transform10 = function(xml) {
  */
 Music.submitToGallery = function() {
   if (!Music.canSubmit || !Music.startCount) {
-    alert(BlocklyGames.getMsg('Music_submitDisabled'));
+    alert(BlocklyGames.Msg['Music.submitDisabled']);
     return;
   }
   // Encode the thumbnail.

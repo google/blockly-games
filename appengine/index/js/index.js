@@ -14,7 +14,8 @@ goog.provide('Index');
 
 goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
-goog.require('Index.soy');
+goog.require('BlocklyGames.Msg');
+goog.require('Index.html');
 
 
 /**
@@ -27,13 +28,13 @@ Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
  * Initialize Blockly and the maze.  Called on page load.
  */
 Index.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Index.soy.start({}, null,
+  // Render the HTML.
+  document.body.innerHTML = Index.html.start(
     {lang: BlocklyGames.LANG,
      html: BlocklyGames.IS_HTML,
      rtl: BlocklyGames.isRtl()});
 
-  BlocklyGames.init();
+  BlocklyGames.init(BlocklyGames.Msg['Games.name']);
 
   var languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
@@ -120,7 +121,7 @@ Index.drawGauge = function(app, angle) {
  * @private
  */
 Index.clearData_ = function() {
-  if (!confirm(BlocklyGames.getMsg('Index_clear'))) {
+  if (!confirm(BlocklyGames.Msg['Index.clear'])) {
     return;
   }
   for (var i = 0; i < Index.APPS.length; i++) {

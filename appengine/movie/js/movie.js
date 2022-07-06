@@ -24,10 +24,11 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Movie.Answers');
 goog.require('Movie.Blocks');
-goog.require('Movie.soy');
+goog.require('Movie.html');
 goog.require('Scrubber');
 
 
@@ -62,14 +63,14 @@ Movie.frameNumber = 0;
  * Initialize Blockly and the movie.  Called on page load.
  */
 Movie.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Movie.soy.start({}, null,
+  // Render the HTML.
+  document.body.innerHTML = Movie.html.start(
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init();
+  BlocklyInterface.init(BlocklyGames.Msg['Games.movie']);
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
@@ -591,7 +592,7 @@ Movie.submitToGallery = function() {
   var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   var code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || code.indexOf('time()') == -1) {
-    alert(BlocklyGames.getMsg('Movie_submitDisabled'));
+    alert(BlocklyGames.Msg['Movie.submitDisabled']);
     return;
   }
   // Draw and copy the user layer.

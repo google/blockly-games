@@ -17,6 +17,7 @@ goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.VerticalFlyout');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
 
@@ -29,9 +30,10 @@ Pond.endBattle = null;
 
 /**
  * Initialize the pond.  Called on page load.
+ * @param {string} title Text for the page title.
  */
-Pond.init = function() {
-  BlocklyInterface.init();
+Pond.init = function(title) {
+  BlocklyInterface.init(title);
   Pond.Visualization.init();
 
   BlocklyGames.bindClick('runButton', Pond.runButtonClick);

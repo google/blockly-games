@@ -16,11 +16,12 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
 goog.require('Pond.Blocks');
-goog.require('Pond.Tutor.soy');
+goog.require('Pond.Tutor.html');
 goog.require('Pond.Visualization');
 
 
@@ -30,14 +31,14 @@ BlocklyGames.NAME = 'pond-tutor';
  * Initialize Blockly xor Ace, and the pond.  Called on page load.
  */
 Pond.Tutor.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Pond.Tutor.soy.start({}, null,
+  // Render the HTML.
+  document.body.innerHTML = Pond.Tutor.html.start(
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  Pond.init();
+  Pond.init(BlocklyGames.Msg['Games.pondTutor']);
 
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
   if (location.hash.length < 2 &&
@@ -136,7 +137,7 @@ Pond.Tutor.init = function() {
   onresize(null);
 
   for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
-    var name = BlocklyGames.getMsg(avatarData.name);
+    var name = BlocklyGames.Msg[avatarData.name];
     var avatar = new Pond.Avatar(name, avatarData.start, avatarData.damage,
         !code, Pond.Battle);
     if (avatarData.code) {

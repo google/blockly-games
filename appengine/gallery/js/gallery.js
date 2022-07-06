@@ -13,8 +13,9 @@
 goog.provide('Gallery');
 
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyStorage');
-goog.require('Gallery.soy');
+goog.require('Gallery.html');
 
 
 BlocklyGames.NAME = 'gallery';
@@ -31,20 +32,16 @@ Gallery.init = function() {
   if (isAdmin) {
     document.body.className = 'admin';
   }
-  // Render the Soy template.
-  // First, render the messages so we can access the app name.
-  document.body.innerHTML = Gallery.soy.messages({}, null, {});
-  // Second, look up the app name message.
+  // Render the HTML.
   var appName = isAdmin ?
-      '' : (BlocklyGames.getMsg('Games_' + Gallery.app) + ' : ');
-  // Third, render the rest of the page, using the app name.
-  document.body.innerHTML += Gallery.soy.start({}, null,
+      '' : (BlocklyGames.Msg['Games.' + Gallery.app] + ' : ');
+  document.body.innerHTML += Gallery.html.start(
       {lang: BlocklyGames.LANG,
        appName: appName,
        html: BlocklyGames.IS_HTML});
 
   Gallery.loadMore();
-  BlocklyGames.init();
+  BlocklyGames.init(BlocklyGames.Msg['Gallery']);
 
   var languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
@@ -125,7 +122,7 @@ Gallery.display = function(record) {
     key: record['key']
   };
   var block = document.createElement('div');
-  block.innerHTML = Gallery.soy.record(safeRecord);
+  block.innerHTML = Gallery.html.record(safeRecord);
   document.getElementById('gallery').appendChild(block);
 };
 

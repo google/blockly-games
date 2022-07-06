@@ -15,23 +15,82 @@ goog.provide('Puzzle');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
-goog.require('Puzzle.soy');
+goog.require('Puzzle.html');
 goog.require('Puzzle.Blocks');
 
 
 BlocklyGames.NAME = 'puzzle';
 
 /**
+ * Initialize the Puzzle's data.
+ * Can't be run at the top level since the messages haven't loaded yet.
+ */
+Puzzle.initData = function() {
+  Puzzle.data = [
+    {
+      name: BlocklyGames.Msg['Puzzle.animal1'],
+      pic: 'duck.jpg',
+      picHeight: 70,
+      picWidth: 100,
+      legs: 2,
+      traits: [
+        BlocklyGames.Msg['Puzzle.animal1Trait1'],
+        BlocklyGames.Msg['Puzzle.animal1Trait2']
+      ],
+      helpUrl: BlocklyGames.Msg['Puzzle.animal1HelpUrl']
+    },
+    {
+      name: BlocklyGames.Msg['Puzzle.animal2'],
+      pic: 'cat.jpg',
+      picHeight: 70,
+      picWidth: 100,
+      legs: 4,
+      traits: [
+        BlocklyGames.Msg['Puzzle.animal2Trait1'],
+        BlocklyGames.Msg['Puzzle.animal2Trait2']
+      ],
+      helpUrl: BlocklyGames.Msg['Puzzle.animal2HelpUrl']
+    },
+    {
+      name: BlocklyGames.Msg['Puzzle.animal3'],
+      pic: 'bee.jpg',
+      picHeight: 70,
+      picWidth: 100,
+      legs: 6,
+      traits: [
+        BlocklyGames.Msg['Puzzle.animal3Trait1'],
+        BlocklyGames.Msg['Puzzle.animal3Trait2']
+      ],
+      helpUrl: BlocklyGames.Msg['Puzzle.animal3HelpUrl']
+    },
+    {
+      name: BlocklyGames.Msg['Puzzle.animal4'],
+      pic: 'snail.jpg',
+      picHeight: 70,
+      picWidth: 100,
+      legs: 0,
+      traits: [
+        BlocklyGames.Msg['Puzzle.animal4Trait1'],
+        BlocklyGames.Msg['Puzzle.animal4Trait2']
+      ],
+      helpUrl: BlocklyGames.Msg['Puzzle.animal4HelpUrl']
+    },
+  ];
+};
+
+/**
  * Initialize Blockly and the puzzle.  Called on page load.
  */
 Puzzle.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Puzzle.soy.start({}, null,
+  Puzzle.initData();
+  // Render the HTML.
+  document.body.innerHTML = Puzzle.html.start(
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init();
+  BlocklyInterface.init(BlocklyGames.Msg['Games.puzzle']);
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
@@ -70,23 +129,19 @@ Puzzle.init = function() {
     var blocksAnimals = [];
     var blocksPictures = [];
     var blocksTraits = [];
-    var i = 1;
     var block;
-    while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
+    for (var i = 0; i < Puzzle.data.length; i++) {
       block = BlocklyInterface.workspace.newBlock('animal');
-      block.populate(i);
+      block.populate(i + 1);
       blocksAnimals.push(block);
       block = BlocklyInterface.workspace.newBlock('picture');
-      block.populate(i);
+      block.populate(i + 1);
       blocksPictures.push(block);
-      var j = 1;
-      while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
+      for (var j = 0; j < Puzzle.data[i].traits.length; j++) {
         block = BlocklyInterface.workspace.newBlock('trait');
-        block.populate(i, j);
+        block.populate(i + 1, j + 1);
         blocksTraits.push(block);
-        j++;
       }
-      i++;
     }
     Puzzle.shuffle(blocksAnimals);
     Puzzle.shuffle(blocksPictures);
@@ -175,12 +230,10 @@ Puzzle.shuffle = function(arr) {
  *   language-neutral tuples.
  */
 Puzzle.legs = function() {
-  var list = [[BlocklyGames.getMsg('Puzzle_legsChoose'), '0']];
-  var i = 1;
-  var legs;
-  while (legs = BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Legs')) {
-    list[i] = [legs, String(i)];
-    i++;
+  var padding = '\xa0\xa0';
+  var list = [[BlocklyGames.Msg['Puzzle.legsChoose'], '0']];
+  for (var i = 0; i < Puzzle.data.length; i++) {
+    list[i + 1] = [padding + Puzzle.data[i].legs + padding, String(i + 1)];
   }
   // Sort numerically.
   list.sort(function(a, b) {return a[0] - b[0];});
@@ -211,13 +264,13 @@ Puzzle.checkAnswers = function() {
 
   var messages;
   if (errors == 1) {
-    messages = [BlocklyGames.getMsg('Puzzle_error1'),
-                BlocklyGames.getMsg('Puzzle_tryAgain')];
+    messages = [BlocklyGames.Msg['Puzzle.error1'],
+                BlocklyGames.Msg['Puzzle.tryAgain']];
   } else if (errors) {
-    messages = [BlocklyGames.getMsg('Puzzle_error2').replace('%1', errors),
-                BlocklyGames.getMsg('Puzzle_tryAgain')];
+    messages = [BlocklyGames.Msg['Puzzle.error2'].replace('%1', errors),
+                BlocklyGames.Msg['Puzzle.tryAgain']];
   } else {
-    messages = [BlocklyGames.getMsg('Puzzle_error0').replace(
+    messages = [BlocklyGames.Msg['Puzzle.error0'].replace(
         '%1', blocks.length)];
     BlocklyInterface.executedCode = BlocklyInterface.getCode();
     BlocklyInterface.saveToLocalStorage();

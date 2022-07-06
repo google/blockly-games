@@ -220,10 +220,10 @@ BlocklyGames.LEVEL =
 
 /**
  * Common startup tasks for all apps.
+ * @param {string} title Text for the page title.
  */
-BlocklyGames.init = function() {
-  // Set the page title with the content of the H1 title.
-  document.title = document.getElementById('title').textContent;
+BlocklyGames.init = function(title) {
+  document.title = title;
 
   // Set the HTML's language and direction.
   var rtl = BlocklyGames.isRtl();
@@ -318,35 +318,6 @@ BlocklyGames.loadFromLocalStorage = function(name, level) {
     // Restarting Firefox fixes this, so it looks like a bug.
   }
   return xml;
-};
-
-/**
- * Gets the message with the given key from the document.
- * @param {string} key The key of the document element.
- * @return {string} The textContent of the specified element,
- *     or an error message if the element was not found.
- */
-BlocklyGames.getMsg = function(key) {
-  var msg = BlocklyGames.getMsgOrNull(key);
-  return msg === null ? '[Unknown message: ' + key + ']' : msg;
-};
-
-/**
- * Gets the message with the given key from the document.
- * @param {string} key The key of the document element.
- * @return {?string} The textContent of the specified element,
- *     or null if the element was not found.
- */
-BlocklyGames.getMsgOrNull = function(key) {
-  var element = document.getElementById(key);
-  if (element) {
-    var text = element.textContent;
-    // Convert newline sequences.
-    text = text.replace(/\\n/g, '\n');
-    return text;
-  } else {
-    return null;
-  }
 };
 
 /**

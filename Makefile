@@ -2,15 +2,9 @@
 # Definitions
 ##############################
 
-USER_APPS = {index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond/tutor,pond/duck,gallery}
-ALL_JSON = {./,index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond,pond/tutor,pond/duck,gallery}
-ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/music/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy,appengine/gallery/template.soy
-
 APP_ENGINE_THIRD_PARTY = appengine/third-party
-SOY_COMPILER = java -jar third-party-downloads/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
-SOY_EXTRACTOR = java -jar third-party-downloads/SoyMsgExtractor.jar
 
-REQUIRED_BINS = svn unzip wget java python sed
+REQUIRED_BINS = svn wget java python sed
 
 ##############################
 # Rules
@@ -18,119 +12,47 @@ REQUIRED_BINS = svn unzip wget java python sed
 
 all: deps languages
 
-index-en:
-	mkdir -p appengine/generated/en/
-	$(SOY_COMPILER) --outputPathFormat appengine/index/generated/en/soy.js --srcs appengine/index/template.soy
-	python build-app.py index en
+index: common
+	python build-app.py index
 
-puzzle-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/puzzle/generated/en/soy.js --srcs appengine/puzzle/template.soy
-	python build-app.py puzzle en
+puzzle: common
+	python build-app.py puzzle
 
-maze-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/maze/generated/en/soy.js --srcs appengine/maze/template.soy
-	python build-app.py maze en
+maze: common
+	python build-app.py maze
 
-bird-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/bird/generated/en/soy.js --srcs appengine/bird/template.soy
-	python build-app.py bird en
+bird: common
+	python build-app.py bird
 
-turtle-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/turtle/generated/en/soy.js --srcs appengine/turtle/template.soy
-	python build-app.py turtle en
+turtle: common
+	python build-app.py turtle
 
-movie-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/movie/generated/en/soy.js --srcs appengine/movie/template.soy
-	python build-app.py movie en
+movie: common
+	python build-app.py movie
 
-music-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/music/generated/en/soy.js --srcs appengine/music/template.soy
-	python build-app.py music en
+music: common
+	python build-app.py music
 
-pond-docs-en:
-	mkdir -p appengine/pond/generated/en/
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/docs/generated/en/soy.js --srcs appengine/pond/docs/template.soy
-	python build-app.py pond/docs en
-
-pond-tutor-en: pond-common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/tutor/generated/en/soy.js --srcs appengine/pond/tutor/template.soy
-	python build-app.py pond/tutor en
-
-pond-duck-en: pond-common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/duck/generated/en/soy.js --srcs appengine/pond/duck/template.soy
-	python build-app.py pond/duck en
-
-gallery-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/gallery/generated/en/soy.js --srcs appengine/gallery/template.soy
-	python build-app.py gallery en
-
-pond-common-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/pond/generated/en/soy.js --srcs appengine/pond/template.soy
-
-common-en:
-	$(SOY_COMPILER) --outputPathFormat appengine/generated/en/soy.js --srcs appengine/template.soy
-
-en: index-en puzzle-en maze-en bird-en turtle-en movie-en music-en pond-docs-en pond-tutor-en pond-duck-en gallery-en
-
-index puzzle maze bird turtle movie music gallery: common
-	@echo "Generating JS from appengine/$@/template.soy"
-	mkdir -p appengine/$@/generated;
-	python i18n/json_to_js.py --output_dir appengine/$@/generated --template appengine/$@/template.soy json/*.json;
-	python build-app.py $@
-	@echo
-
-pond-docs: pond-common
-	@echo "Generating JS from appengine/pond/docs/template.soy"
-	mkdir -p appengine/pond/docs/generated;
-	python i18n/json_to_js.py --output_dir appengine/pond/docs/generated --template appengine/pond/docs/template.soy json/*.json;
+pond-docs: common
 	python build-app.py pond/docs
-	@echo
 
-pond-tutor: pond-common
-	@echo "Generating JS from appengine/pond/tutor/template.soy"
-	mkdir -p appengine/pond/tutor/generated;
-	python i18n/json_to_js.py --output_dir appengine/pond/tutor/generated --template appengine/pond/tutor/template.soy json/*.json;
+pond-tutor: common
 	python build-app.py pond/tutor
-	@echo
 
-pond-duck: pond-common
-	@echo "Generating JS from appengine/pond/duck/template.soy"
-	mkdir -p appengine/pond/duck/generated;
-	python i18n/json_to_js.py --output_dir appengine/pond/duck/generated --template appengine/pond/duck/template.soy json/*.json;
+pond-duck: common
 	python build-app.py pond/duck
-	@echo
 
-pond-common: common
-	@echo "Generating JS from appengine/pond/template.soy"
-	mkdir -p appengine/pond/generated;
-	python i18n/json_to_js.py --output_dir appengine/pond/generated --template appengine/pond/template.soy json/*.json;
-	@echo
+gallery: common
+	python build-app.py gallery
 
-common: soy-to-json
-	@echo "Generating JS from appengine/template.soy"
-	mkdir -p appengine/generated;
-	python i18n/json_to_js.py --output_dir appengine/generated --template appengine/template.soy json/*.json;
-	@echo
+languages: index puzzle maze bird turtle movie music pond-docs pond-tutor pond-duck gallery
 
-soy-to-json:
-	@echo "Converting Soy files to JSON for Translatewiki."
-	@# Create extracted_msgs.xlf with all messages from all soy files.
-	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)
-	@# Creates json/en.json, json/qqq.json, json/keys.json.
-	@# Deletes extracted_msgs.xlf
-	python i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
+common:
+	@echo "Converting messages.js to JSON for Translatewiki."
+	python i18n/js_to_json.py
+	@echo "Converting JSON from Translatewiki to message files."
+	python i18n/json_to_js.py
 	@echo
-
-languages: soy-to-json
-	@for app in $(ALL_JSON); do \
-	  echo "Generating JS from appengine/$$app/template.soy"; \
-	  mkdir -p appengine/$$app/generated; \
-	  python i18n/json_to_js.py --output_dir appengine/$$app/generated --template appengine/$$app/template.soy json/*.json; \
-	  echo; \
-	done
-	@for app in $(USER_APPS); do \
-	  python build-app.py $$app; \
-	done
 
 deps:
 	$(foreach bin,$(REQUIRED_BINS),\
@@ -138,10 +60,6 @@ deps:
 	mkdir -p third-party-downloads
 	@# All following commands are in third-party-downloads, use backslashes to keep them on the same line as the cd command.
 	cd third-party-downloads; \
-	wget -N https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip; \
-	unzip -o closure-templates-for-javascript-latest.zip SoyToJsSrcCompiler.jar; \
-	wget -N https://dl.google.com/closure-templates/closure-templates-msg-extractor-latest.zip; \
-	unzip -o closure-templates-msg-extractor-latest.zip SoyMsgExtractor.jar; \
 	wget -N https://unpkg.com/google-closure-compiler-java/compiler.jar; \
 	mv -f compiler.jar closure-compiler.jar; \
 
@@ -151,18 +69,18 @@ deps:
 	@# GitHub doesn't support git archive, so download files using svn.
 	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
-	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
-	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
-	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
-	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
-	svn export https://github.com/NeilFraser/blockly-for-BG/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
-	svn export https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
+	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
 	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
 	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
 	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
 
-	svn export https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
+	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
 	@# Remove @license tag so compiler will strip Google's license.
 	sed 's/@license//' $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter.js > $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
@@ -176,7 +94,7 @@ deps:
 clean: clean-languages clean-deps
 
 clean-languages:
-	rm -rf appengine/$(ALL_JSON)/generated
+	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond,pond/tutor,pond/duck,gallery}/generated
 	rm -f json/keys.json
 
 clean-deps:

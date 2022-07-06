@@ -16,6 +16,7 @@ goog.require('Blockly');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -44,17 +45,18 @@ Blockly.Blocks['animal'] = {
         .appendField('', 'NAME');
     this.appendValueInput('PIC')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Puzzle_picture'));
+        .appendField(BlocklyGames.Msg['Puzzle.picture']);
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Puzzle_legs'))
+        .appendField(BlocklyGames.Msg['Puzzle.legs'])
         .appendField(new Blockly.FieldDropdown(Puzzle.legs), 'LEGS');
     this.appendStatementInput('TRAITS')
-        .appendField(BlocklyGames.getMsg('Puzzle_traits'));
+        .appendField(BlocklyGames.Msg['Puzzle.traits']);
     this.setInputsInline(false);
   },
   /**
    * Save the animal number.
+   * @return {!Element} XML storage element.
    * @this {Blockly.Block}
    */
   mutationToDom: function() {
@@ -64,6 +66,7 @@ Blockly.Blocks['animal'] = {
   },
   /**
    * Restore the animal number.
+   * @param {!Element} xmlElement XML storage element.
    * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
@@ -72,12 +75,13 @@ Blockly.Blocks['animal'] = {
   animal: 0,
   /**
    * Set the animal.
+   * @param {number} n Animal number.
    * @this {Blockly.Block}
    */
   populate: function(n) {
     this.animal = n;
-    this.setFieldValue(BlocklyGames.getMsg('Puzzle_animal' + n), 'NAME');
-    this.helpUrl = BlocklyGames.getMsg('Puzzle_animal' + n + 'HelpUrl');
+    this.setFieldValue(Puzzle.data[n - 1].name, 'NAME');
+    this.helpUrl = Puzzle.data[n - 1].helpUrl;
   },
   /**
    * Evaluate the correctness of this block.
@@ -104,13 +108,14 @@ Blockly.Blocks['picture'] = {
   animal: 0,
   /**
    * Set the animal and picture.
+   * @param {number} n Animal number.
    * @this {Blockly.Block}
    */
   populate: function(n) {
     this.animal = n;
-    var pic = 'puzzle/' + BlocklyGames.getMsg('Puzzle_animal' + n + 'Pic');
-    var picHeight = BlocklyGames.getMsg('Puzzle_animal' + n + 'PicHeight');
-    var picWidth = BlocklyGames.getMsg('Puzzle_animal' + n + 'PicWidth');
+    var pic = 'puzzle/' + Puzzle.data[n - 1].pic;
+    var picHeight = Puzzle.data[n - 1].picHeight;
+    var picWidth = Puzzle.data[n - 1].picWidth;
     this.getInput('PIC')
         .appendField(new Blockly.FieldImage(pic, picWidth, picHeight));
   },
@@ -137,6 +142,7 @@ Blockly.Blocks['trait'] = {
   },
   /**
    * Save the animal and trait numbers.
+   * @return {!Element} XML storage element.
    * @this {Blockly.Block}
    */
   mutationToDom: function() {
@@ -147,6 +153,7 @@ Blockly.Blocks['trait'] = {
   },
   /**
    * Restore the animal and trait numbers.
+   * @param {!Element} xmlElement XML storage element.
    * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
@@ -157,14 +164,15 @@ Blockly.Blocks['trait'] = {
   trait: 0,
   /**
    * Set the animal and trait.
+   * @param {number} n Animal number.
+   * @param {string} m Trait number.
    * @this {Blockly.Block}
    */
   populate: function(n, m) {
     this.animal = n;
     this.trait = m;
     // Set the trait name.
-    this.setFieldValue(BlocklyGames.getMsg(
-        'Puzzle_animal' + n + 'Trait' + m), 'NAME');
+    this.setFieldValue(Puzzle.data[n - 1].traits[m - 1], 'NAME');
   },
   /**
    * Evaluate the correctness of this block.

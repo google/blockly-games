@@ -23,11 +23,12 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Slider');
 goog.require('Turtle.Answers');
 goog.require('Turtle.Blocks');
-goog.require('Turtle.soy');
+goog.require('Turtle.html');
 
 
 BlocklyGames.NAME = 'turtle';
@@ -69,14 +70,14 @@ Turtle.canSubmit = false;
  * Initialize Blockly and the turtle.  Called on page load.
  */
 Turtle.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Turtle.soy.start({}, null,
+  // Render the HTML.
+  document.body.innerHTML = Turtle.html.start(
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init();
+       BlocklyGames.Msg['Games.turtle']);
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
@@ -846,7 +847,7 @@ Turtle.checkAnswer = function() {
  */
 Turtle.submitToGallery = function() {
   if (!Turtle.canSubmit) {
-    alert(BlocklyGames.getMsg('Turtle_submitDisabled'));
+    alert(BlocklyGames.Msg['Turtle.submitDisabled']);
     return;
   }
   // Encode the thumbnail.

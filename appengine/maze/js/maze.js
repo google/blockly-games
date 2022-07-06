@@ -20,9 +20,10 @@ goog.require('Blockly.utils.string');
 goog.require('Blockly.VerticalFlyout');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Maze.Blocks');
-goog.require('Maze.soy');
+goog.require('Maze.html');
 
 
 BlocklyGames.NAME = 'maze';
@@ -415,15 +416,15 @@ Maze.drawMap = function() {
  * Initialize Blockly and the maze.  Called on page load.
  */
 Maze.init = function() {
-  // Render the Soy template.
-  document.body.innerHTML = Maze.soy.start({}, null,
+  // Render the HTML.
+  document.body.innerHTML = Maze.html.start(
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
        skin: Maze.SKIN_ID,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init();
+  BlocklyInterface.init(BlocklyGames.Msg['Games.maze']);
 
   // Setup the Pegman menu.
   var pegmanImg = document.querySelector('#pegmanButton>img');
@@ -686,9 +687,9 @@ Maze.levelHelp = function(opt_event) {
       var span = document.createElement('span');
       span.className = 'helpMenuFake';
       var options =
-          [BlocklyGames.getMsg('Maze_pathAhead'),
-           BlocklyGames.getMsg('Maze_pathLeft'),
-           BlocklyGames.getMsg('Maze_pathRight')];
+          [BlocklyGames.Msg['Maze.pathAhead'],
+           BlocklyGames.Msg['Maze.pathLeft'],
+           BlocklyGames.Msg['Maze.pathRight']];
       var prefix = Blockly.utils.string.commonWordPrefix(options);
       var suffix = Blockly.utils.string.commonWordSuffix(options);
       if (suffix) {
@@ -890,11 +891,11 @@ Maze.updateCapacity = function() {
     capSpan.className = 'capacityNumber';
     capSpan.appendChild(document.createTextNode(cap));
     if (cap == 0) {
-      var msg = BlocklyGames.getMsg('Maze_capacity0');
+      var msg = BlocklyGames.Msg['Maze.capacity0'];
     } else if (cap == 1) {
-      var msg = BlocklyGames.getMsg('Maze_capacity1');
+      var msg = BlocklyGames.Msg['Maze.capacity1'];
     } else {
-      var msg = BlocklyGames.getMsg('Maze_capacity2');
+      var msg = BlocklyGames.Msg['Maze.capacity2'];
     }
     var parts = msg.split(/%\d/);
     for (var i = 0; i < parts.length; i++) {

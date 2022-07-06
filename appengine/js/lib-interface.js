@@ -54,9 +54,10 @@ BlocklyInterface.executedJsCode = '';
 
 /**
  * Common startup tasks for all apps.
+ * @param {string} title Text for the page title.
  */
-BlocklyInterface.init = function() {
-  BlocklyGames.init();
+BlocklyInterface.init = function(title) {
+  BlocklyGames.init(title);
 
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
