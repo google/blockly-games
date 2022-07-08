@@ -263,6 +263,7 @@ Puzzle.checkAnswers = function() {
   }, 500);
 
   var messages;
+  // Safe from HTML injection due to createTextNode below.
   if (errors == 1) {
     messages = [BlocklyGames.Msg['Puzzle.error1'],
                 BlocklyGames.Msg['Puzzle.tryAgain']];

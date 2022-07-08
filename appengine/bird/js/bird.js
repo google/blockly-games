@@ -446,40 +446,36 @@ Bird.levelHelp = function() {
   var userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
   var toolbar = BlocklyInterface.workspace.flyout_.workspace_.getTopBlocks(true);
-  var content = document.getElementById('dialogHelp');
+  var content = document.getElementById('dialogHelp' + BlocklyGames.LEVEL);
   var origin = null;
   var style = null;
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     if ((userBlocks.indexOf('>90<') != -1 ||
-        userBlocks.indexOf('bird_heading') == -1) &&
+        userBlocks.indexOf('bird_heading') === -1) &&
         !Blockly.WidgetDiv.isVisible()) {
       style = {'width': '370px', 'top': '140px'};
       style[rtl ? 'right' : 'left'] = '215px';
       var blocks = BlocklyInterface.workspace.getTopBlocks(true);
-      if (blocks.length) {
-        origin = blocks[0].getSvgRoot();
-      } else {
-        origin = toolbar[0].getSvgRoot();
-      }
+      origin = (blocks.length ? blocks : toolbar)[0].getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 2) {
-    if (userBlocks.indexOf('bird_noWorm') == -1) {
+  } else if (BlocklyGames.LEVEL === 2) {
+    if (userBlocks.indexOf('bird_noWorm') === -1) {
       style = {'width': '350px', 'top': '170px'};
       style[rtl ? 'right' : 'left'] = '180px';
       origin = toolbar[1].getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 4) {
-    if (userBlocks.indexOf('bird_compare') == -1) {
+  } else if (BlocklyGames.LEVEL === 4) {
+    if (userBlocks.indexOf('bird_compare') === -1) {
       style = {'width': '350px', 'top': '230px'};
       style[rtl ? 'right' : 'left'] = '180px';
       origin = toolbar[2].getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 5) {
+  } else if (BlocklyGames.LEVEL === 5) {
     if (!Bird.mutatorHelpPid_) {
       // Keep polling the mutator's state.
       Bird.mutatorHelpPid_ = setInterval(Bird.levelHelp, 100);
     }
-    if (userBlocks.indexOf('mutation else') == -1) {
+    if (userBlocks.indexOf('mutation else') === -1) {
       var blocks = BlocklyInterface.workspace.getTopBlocks(false);
       for (var i = 0, block; (block = blocks[i]); i++) {
         if (block.type == 'controls_if') {
@@ -501,8 +497,8 @@ Bird.levelHelp = function() {
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
       }
     }
-  } else if (BlocklyGames.LEVEL == 6) {
-    if (userBlocks.indexOf('mutation') == -1) {
+  } else if (BlocklyGames.LEVEL === 6) {
+    if (userBlocks.indexOf('mutation') === -1) {
       var blocks = BlocklyInterface.workspace.getTopBlocks(false);
       for (var i = 0, block; (block = blocks[i]); i++) {
         if (block.type == 'controls_if') {
@@ -514,15 +510,15 @@ Bird.levelHelp = function() {
       style.left = (xy.x - (rtl ? 350 : 0)) + 'px';
       origin = block.getSvgRoot();
     }
-  } else if (BlocklyGames.LEVEL == 8) {
-    if (userBlocks.indexOf('bird_and') == -1) {
+  } else if (BlocklyGames.LEVEL === 8) {
+    if (userBlocks.indexOf('bird_and') === -1) {
       style = {'width': '350px', 'top': '360px'};
       style[rtl ? 'right' : 'left'] = '450px';
       origin = toolbar[4].getSvgRoot();
     }
   }
-  if (style) {
-    if (content.parentNode != document.getElementById('dialog')) {
+  if (content && style) {
+    if (content.parentNode !== document.getElementById('dialog')) {
       BlocklyDialogs.showDialog(content, origin, true, false, style, null);
     }
   } else {

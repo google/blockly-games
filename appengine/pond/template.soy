@@ -11,30 +11,12 @@
  */
 
 /**
- * Translated messages for use in JavaScript.
- */
-{template .messages}
-  {call BlocklyGames.soy.messages /}
-  <div style="display: none">
-    <span id="Pond_scanTooltip">{msg meaning="Pond.scanTooltip" desc="Tooltip for the block that allows players to scan for enemies."}Scan for enemies. Specify a direction (0-360). Returns the distance to the closest enemy in that direction. Returns Infinity if no enemy found.{/msg}</span>
-    <span id="Pond_cannonTooltip">{msg meaning="Pond.cannonTooltip" desc="Tooltip for the block that allows players to shoot at other players."}Fire the cannon. Specify a direction (0-360) and a range (0-70).{/msg}</span>
-    <span id="Pond_swimTooltip">{msg meaning="Pond.swimTooltip" desc="Tooltip for the block that allows players to move."}Swim forward. Specify a direction (0-360).{/msg}</span>
-    <span id="Pond_stopTooltip">{msg meaning="Pond.stopTooltip" desc="Tooltip for the block that allows players to stop."}Stop swimming. Player will slow to a stop.{/msg}</span>
-    <span id="Pond_healthTooltip">{msg meaning="Pond.healthTooltip" desc="Tooltip for the block that reports the player's health."}Returns the player's current health (0 is dead, 100 is healthy).{/msg}</span>
-    <span id="Pond_speedTooltip">{msg meaning="Pond.speedTooltip" desc="Tooltip for the block that reports the player's speed."}Returns the current speed of the player (0 is stopped, 100 is full speed).{/msg}</span>
-    <span id="Pond_locXTooltip">{msg meaning="Pond.locXTooltip" desc="Tooltip for the block that reports the player's horizontal location."}Returns the X coordinate of the player (0 is the left edge, 100 is the right edge).{/msg}</span>
-    <span id="Pond_locYTooltip">{msg meaning="Pond.locYTooltip" desc="Tooltip for the block that reports the player's vertical location."}Returns the Y coordinate of the player (0 is the bottom edge, 100 is the top edge).{/msg}</span>
-    <span id="Pond_logTooltip">{msg meaning="Pond.logTooltip" desc="Tooltip for the block that prints debugging information."}Prints a number to your browser's console.{/msg}</span>
-  </div>
-{/template}
-
-/**
  * Canvas, health bars, and buttons.
  */
 {template .visualization}
   <div id="visualization">
-    <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-    <canvas id="display" width="400" height="400"></canvas>
+    <canvas id="scratch" width=400 height=400 style="display: none"></canvas>
+    <canvas id="display" width=400 height=400></canvas>
   </div>
 
   <table id="avatarStatTable">
@@ -44,19 +26,19 @@
     </tbody>
   </table>
 
-  <table width="400">
+  <table width=400>
     <tr>
       <td style="width: 190px; text-align: center; vertical-align: top;">
-        <button id="docsButton" title="{msg meaning="Pond.docsTooltip" desc="Tooltip for the button that opens the language reference documentation."}Display the language documentation.{/msg}">
-          {{msg meaning="Pond.documentation" desc="Text on the button that opens the language reference documentation.\n{lb}{lb}Identical|Documentation{rb}{rb}"}}Documentation{{/msg}}
+        <button id="docsButton" title="${BlocklyGames.esc(BlocklyGames.Msg['Pond.docsTooltip'])}">
+          ${BlocklyGames.esc(BlocklyGames.Msg['Pond.documentation'])}
         </button>
       </td>
       <td>
-        <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
-          <img src="common/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+        <button id="runButton" class="primary" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.runTooltip'])}">
+          <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Games.runProgram'])}
         </button>
-        <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
-          <img src="common/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+        <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.resetTooltip'])}">
+          <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Games.resetProgram'])}
         </button>
       </td>
     </tr>

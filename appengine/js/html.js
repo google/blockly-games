@@ -13,12 +13,13 @@
 goog.provide('BlocklyGames.html');
 
 goog.require('Blockly.Msg');
+goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 
 
 /**
  * Top toolbar for page
- * @param {string} appName Name of application.
+ * @param {string} appName Name of application (unsafe text).
  * @param {string} levelLinkSuffix Any extra parameters for links.
  * @param {boolean} hasLinkButton Whether the page has a link button.
  * @param {boolean} hasHelpButton Whether the page has a help button.
@@ -31,17 +32,17 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
   if (hasLinkButton) {
     linkButton = `
 &nbsp;
-<button id="linkButton" title="${BlocklyGames.Msg['Games.linkTooltip']}">
+<button id="linkButton" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.linkTooltip'])}">
   <img src="common/1x1.gif" class="link icon21">
 </button>
-    `;
+`;
   }
   let helpButton = '';
   if (hasHelpButton) {
     helpButton = `
 &nbsp;
-<button id="helpButton">${BlocklyGames.Msg['Games.help']}</button>
-    `;
+<button id="helpButton">${BlocklyGames.esc(BlocklyGames.Msg['Games.help'])}</button>
+`;
   }
   if (farLeftHtml) {
     farLeftHtml = ' &nbsp; ' + farLeftHtml;
@@ -63,21 +64,21 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
     </td>
   </tr>
 </table>
-  `;
+`;
 };
 
 /**
  * Print the title span (Blockly Games : AppName).
  * @param {!Object} ij Injected options.
- * @param {string} appName Name of application.
+ * @param {string} appName Name of application (unsafe text).
  * @return {string} HTML.
  */
 BlocklyGames.html.titleSpan = function(ij, appName) {
   return `
 <span id="title">
-  <a href="${ij.html ? `index.html` : `./`}?lang=${ij.lang}">${BlocklyGames.Msg['Games.name']}</a> : ${appName}
+  <a href="${ij.html ? `index.html` : `./`}?lang=${ij.lang}">${BlocklyGames.esc(BlocklyGames.Msg['Games.name'])}</a> : ${BlocklyGames.esc(appName)}
 </span>
-  `;
+`;
 };
 
 /**
@@ -114,7 +115,7 @@ BlocklyGames.html.dialog = function() {
 <div id="dialogShadow" class="dialogAnimate"></div>
 <div id="dialogBorder"></div>
 <div id="dialog"></div>
-  `;
+`;
 };
 
 /**
@@ -124,16 +125,16 @@ BlocklyGames.html.dialog = function() {
 BlocklyGames.html.doneDialog = function() {
   return `
 <div id="dialogDone" class="dialogHiddenContent">
-  <div style="font-size: large; margin: 1em;">${BlocklyGames.Msg['Games.congratulations']}</div>
+  <div style="font-size: large; margin: 1em;">${BlocklyGames.esc(BlocklyGames.Msg['Games.congratulations'])}</div>
   <div id="dialogLinesText" style="font-size: large; margin: 1em;"></div>
   <pre id="containerCode"></pre>
   <div id="dialogDoneText" style="font-size: large; margin: 1em;"></div>
   <div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0">
-    <button id="doneCancel">${Blockly.Msg['DIALOG_CANCEL']}</button>
-    <button id="doneOk" class="secondary">${Blockly.Msg['DIALOG_OK']}</button>
+    <button id="doneCancel">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
+    <button id="doneOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
   </div>
 </div>
-  `;
+`;
 };
 
 /**
@@ -143,13 +144,13 @@ BlocklyGames.html.doneDialog = function() {
 BlocklyGames.html.abortDialog = function() {
   return `
 <div id="dialogAbort" class="dialogHiddenContent">
-  ${BlocklyGames['Games.helpAbort']}
+  ${BlocklyGames.esc(BlocklyGames.Msg['Games.helpAbort'])}
   <div class="farSide" style="padding: 1ex 3ex 0">
-    <button id="abortCancel">${Blockly.Msg['DIALOG_CANCEL']}</button>
-    <button id="abortOk" class="secondary">${Blockly.Msg['DIALOG_OK']}</button>
+    <button id="abortCancel">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
+    <button id="abortOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
   </div>
 </div>
-  `;
+`;
 };
 
 /**
@@ -162,7 +163,7 @@ BlocklyGames.html.storageDialog = function() {
   <div id="containerStorage"></div>
   ${BlocklyGames.html.ok()}
 </div>
-  `;
+`;
 };
 
 /**
@@ -172,7 +173,7 @@ BlocklyGames.html.storageDialog = function() {
 BlocklyGames.html.ok = function() {
   return `
 <div class="farSide" style="padding: 1ex 3ex 0">
-  <button class="secondary" onclick="BlocklyDialogs.hideDialog(true)">${Blockly.Msg['DIALOG_OK']}</button>
+  <button class="secondary" onclick="BlocklyDialogs.hideDialog(true)">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
 </div>
-  `;
+`;
 };

@@ -11,24 +11,13 @@
  */
 
 /**
- * Translated messages for use in JavaScript.
- */
-{template .messages}
-  <div style="display: none">
-    <span id="Games_turtle">{msg meaning="Games.turtle" desc="IBID"}Turtle{/msg}</span>
-    <span id="Games_movie">{msg meaning="Games.movie" desc="IBID"}Movie{/msg}</span>
-    <span id="Games_music">{msg meaning="Games.music" desc="IBID"}Music{/msg}</span>
-  </div>
-{/template}
-
-/**
  * Web page structure.
  */
 {template .start}
   {call BlocklyGames.soy.headerBar}
     {param appName}
       {$ij.appName}
-      {{msg meaning="Gallery" desc="Display of art created by user's programs.\n{lb}{lb}Identical|Gallery{rb}{rb}"}}Gallery{{/msg}}
+      ${BlocklyGames.esc(BlocklyGames.Msg['Gallery'])}
     {/param}
     {param levelLinkSuffix}{/param}
     {param hasLinkButton: false /}

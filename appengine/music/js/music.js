@@ -371,9 +371,7 @@ Music.showHelp = function() {
           '</block>' +
         '</xml>';
     var firstPart = BlocklyGames.Msg['Music.firstPart'];
-    firstPart = firstPart.replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    xml = xml.replace(/%1/g, firstPart);
+    xml = xml.replace(/%1/g, BlocklyGames.esc(firstPart));
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL == 6) {
     var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';

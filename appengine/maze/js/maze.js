@@ -686,6 +686,7 @@ Maze.levelHelp = function(opt_event) {
       // Create fake dropdown.
       var span = document.createElement('span');
       span.className = 'helpMenuFake';
+      // Safe from HTML injection due to createTextNode below.
       var options =
           [BlocklyGames.Msg['Maze.pathAhead'],
            BlocklyGames.Msg['Maze.pathLeft'],
@@ -890,6 +891,7 @@ Maze.updateCapacity = function() {
     var capSpan = document.createElement('span');
     capSpan.className = 'capacityNumber';
     capSpan.appendChild(document.createTextNode(cap));
+    // Safe from HTML injection due to createTextNode below.
     if (cap == 0) {
       var msg = BlocklyGames.Msg['Maze.capacity0'];
     } else if (cap == 1) {

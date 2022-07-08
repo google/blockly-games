@@ -12,6 +12,7 @@
 
 goog.provide('Puzzle.html');
 
+goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
 goog.require('BlocklyGames.Msg');
 
@@ -23,13 +24,13 @@ goog.require('BlocklyGames.Msg');
 Puzzle.html.start = function(ij) {
   return `
 ${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Games.puzzle'], '', false, true,
-    `<button id="checkButton" class="primary">${BlocklyGames.Msg['Puzzle.checkAnswers']}</button>`)}
+    `<button id="checkButton" class="primary">${BlocklyGames.esc(BlocklyGames.Msg['Puzzle.checkAnswers'])}</button>`)}
 
 <div id="blockly"></div>
 
 ${BlocklyGames.html.dialog()}
 <div id="help" class="dialogHiddenContent">
-  <div style="padding-bottom: 0.7ex">${BlocklyGames.Msg['Puzzle.helpText']}</div>
+  <div style="padding-bottom: 0.7ex">${BlocklyGames.esc(BlocklyGames.Msg['Puzzle.helpText'])}</div>
   <div id="sample" class="readonly"></div>
   ${BlocklyGames.html.ok()}
 </div>
@@ -39,5 +40,5 @@ ${BlocklyGames.html.dialog()}
   <div id="graph"><div id="graphValue"></div></div>
   ${BlocklyGames.html.ok()}
 </div>
-  `;
+`;
 };

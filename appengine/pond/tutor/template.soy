@@ -11,26 +11,12 @@
  */
 
 /**
- * Translated messages for use in JavaScript.
- */
-{template .messages}
-  {call Pond.soy.messages /}
-  <div style="display: none">
-    <span id="Pond_playerName">{{msg meaning="Pond.playerName" desc="Generic name for the player of this video game.\n{lb}{lb}Identical|Player{rb}{rb}"}}Player{{/msg}}</span>
-    <span id="Pond_targetName">{{msg meaning="Pond.targetName" desc="Name for a player that does nothing.\n{lb}{lb}Identical|Target{rb}{rb}"}}Target{{/msg}}</span>
-    <span id="Pond_pendulumName">{{msg meaning="Pond.pendulumName" desc="Name for a player that moves back and forth.\n{lb}{lb}Identical|Pendulum{rb}{rb}"}}Pendulum{{/msg}}</span>
-    <span id="Pond_scaredName">{{msg meaning="Pond.scaredName" desc="Name for a player that is scared.\n{lb}{lb}Identical|Scared{rb}{rb}"}}Scared{{/msg}}</span>
-  </div>
-{/template}
-
-/**
  * Web page structure.
  */
 {template .start}
-  {call .messages /}
   {call BlocklyGames.soy.headerBar}
     {param appName}
-      {msg meaning="Games.pondTutor" desc="IBID"}Pond Tutor{/msg}
+      ${BlocklyGames.esc(BlocklyGames.Msg['Games.pondTutor'])}
     {/param}
     {param levelLinkSuffix}{/param}
     {param hasLinkButton: true /}
@@ -52,9 +38,9 @@
   {call .playerPendulum /}
   {call .playerScared /}
 
-  {call BlocklyGames.soy.dialog /}
-  {call BlocklyGames.soy.doneDialog /}
-  {call BlocklyGames.soy.storageDialog /}
+  ${BlocklyGames.html.dialog()}
+  ${BlocklyGames.html.doneDialog()}
+  ${BlocklyGames.html.storageDialog()}
 
   {if $ij.level == 5 or $ij.level == 6}
   /**
@@ -62,26 +48,19 @@
    */
     <div id="helpUseScan" class="dialogHiddenContent">
       <div style="padding-bottom: 0.7ex">
-        {msg meaning="Pond.helpUseScan" desc="Dialog telling user to seek a better answer.  Do not translate the word 'scan'."}
-          Your solution works, but you can do better. Use 'scan' to tell the cannon how far to shoot.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpUseScan'])}
       </div>
-      {call BlocklyGames.soy.ok /}
+      ${BlocklyGames.html.ok()}
     </div>
   {/if}
 
   <div id="help" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex">
       {if $ij.level == 1 or $ij.level == 2}
-        {msg meaning="Pond.helpText1"
-             desc="Instructions. Do not translate the word 'cannon'."}
-          Use the 'cannon' command to hit the target. The first parameter
-          is the angle, the second parameter is the range. Find the right
-          combination.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText1'])}
         {if $ij.level == 1}
           <br><br>
-          <svg height="41" width="250" class="geras-renderer classic-theme">
+          <svg height=41 width=250 class="geras-renderer classic-theme">
             <g>
               <path transform="translate(1,1)" fill="#7a4984" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 40 H 222.36 v 36 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z M 125.01,5 h -36.02 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 36.02 z M 193.4,5 h -38.31 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 38.31 z"></path>
               <path fill="#995ba5" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 40 H 222.36 v 36 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z M 125.01,5 h -36.02 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 36.02 z M 193.4,5 h -38.31 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 38.31 z"></path>
@@ -115,14 +94,10 @@
           <pre>cannon(0, 70);</pre>
         {/if}
       {elseif $ij.level == 3 or $ij.level == 4}
-        {msg meaning="Pond.helpText2"
-             desc="Instructions.  Do not translate 'while (true)'."}
-          This target needs to be hit many times. Use a 'while (true)' loop
-          to do something indefinitely.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText2'])}
         {if $ij.level == 3}
           <br><br>
-          <svg height="92" width="250" class="geras-renderer classic-theme">
+          <svg height=92 width=250 class="geras-renderer classic-theme">
             <g>
               <path transform="translate(1,1)" fill="#498449" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 50 H 162.94 v 36 H 50 l -6,4 -3,0 -6,-4 h -7 a 8,8 0 0,0 -8,8 v 9 a 8,8 0 0,0 8,8 H 50 H 50 v 25 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z M 129.08,5 h -60.71 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 60.71 z"></path>
               <path fill="#5ba55b" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 50 H 162.94 v 36 H 50 l -6,4 -3,0 -6,-4 h -7 a 8,8 0 0,0 -8,8 v 9 a 8,8 0 0,0 8,8 H 50 H 50 v 25 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z M 129.08,5 h -60.71 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 60.71 z"></path>
@@ -148,15 +123,10 @@
 {rb}</pre>
         {/if}
       {elseif $ij.level == 5 or $ij.level == 6}
-        {msg meaning="Pond.helpText3a"
-             desc="Instructions.  Do not translate 'scan'."}
-          This opponent moves back and forth, making it hard to hit.
-          The 'scan' expression returns the exact range to the opponent
-          in the specified direction.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3a'])}
         {if $ij.level == 5}
           <br><br>
-          <svg height="37" width="250" class="geras-renderer classic-theme">
+          <svg height=37 width=250 class="geras-renderer classic-theme">
             <g transform="translate(8,0)">
               <path transform="translate(1,1)" fill="#7a4984" d="m 0,0 H 20 H 132.76 v 36 H 0 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z M 107.88,5 h -36.02 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 36.02 z"></path>
               <path fill="#995ba5" d="m 0,0 H 20 H 132.76 v 36 H 0 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z M 107.88,5 h -36.02 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 36.02 z"></path>
@@ -180,21 +150,12 @@
         {elseif $ij.level == 6}
           <pre>scan(0)</pre>
         {/if}
-        {msg meaning="Pond.helpText3b"
-             desc="Instructions.  Do not translate 'cannon'."}
-          This range is exactly what the 'cannon' command needs to fire
-          accurately.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3b'])}
       {elseif $ij.level == 7 or $ij.level == 8}
-        {msg meaning="Pond.helpText4"
-             desc="Instructions.  Do not translate the word 'swim'."}
-          This opponent is too far away to use the cannon (which has a limit of
-          70 meters). Instead, use the 'swim' command to start swimming
-          towards the opponent and crash into it.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText4'])}
         {if $ij.level == 7}
           <br><br>
-          <svg height="41" width="250" class="geras-renderer classic-theme">
+          <svg height=41 width=250 class="geras-renderer classic-theme">
             <g>
               <path transform="translate(1,1)" fill="#7a4984" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 40 H 139.25 v 36 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z M 110.3,5 h -36.02 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 36.02 z"></path>
               <path fill="#995ba5" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 40 H 139.25 v 36 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z M 110.3,5 h -36.02 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 36.02 z"></path>
@@ -218,16 +179,10 @@
           <pre>swim(0);</pre>
         {/if}
       {elseif $ij.level == 9}
-        {msg meaning="Pond.helpText5"
-             desc="Instructions.  Do not translate the word 'stop'."}
-          This opponent is also too far away to use the cannon. But you are
-          too weak to survive a collision. Swim towards the opponent while
-          your horizontal location is less than than 50. Then 'stop' and use
-          the cannon.
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText5'])}
         {if $ij.level == 9}
           <br><br>
-          <svg height="37" width="250" class="geras-renderer classic-theme">
+          <svg height=37 width=250 class="geras-renderer classic-theme">
             <g transform="translate(8,0)">
               <path transform="translate(1,1)" fill="#496684" d="m 0,0 H 20 H 194.25 v 36 H 0 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z M 97.93,5 h -81.93 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 6 h 81.93 z M 184.25,5 h -38.31 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 38.31 z"></path>
               <path fill="#5b80a5" d="m 0,0 H 20 H 194.25 v 36 H 0 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z M 97.93,5 h -81.93 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 6 h 81.93 z M 184.25,5 h -38.31 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 v 7 h 38.31 z"></path>
@@ -257,7 +212,7 @@
             </g>
           </svg>
           <br><br>
-            <svg height="31" width="250" class="geras-renderer classic-theme">
+            <svg height=31 width=250 class="geras-renderer classic-theme">
               <g>
                 <path transform="translate(1,1)" fill="#7a4984" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 81.56 v 24 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z"></path>
                 <path fill="#995ba5" d="m 0,8 A 8,8 0 0,1 8,0 H 15 l 6,4 3,0 6,-4 H 81.56 v 24 H 29.5 l -6,4 -3,0 -6,-4 H 8 a 8,8 0 0,1 -8,-8 z"></path>
@@ -272,14 +227,10 @@
           <pre>stop();</pre>
         {/if}
       {elseif $ij.level == 10}
-        {msg meaning="Pond.helpText6"
-             desc="Instructions."}
-          This opponent will move away when it is hit. Swim towards it if it
-          is out of range (70 meters).
-        {/msg}
+        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText6'])}
       {/if}
     </div>
-    {call BlocklyGames.soy.ok /}
+    ${BlocklyGames.html.ok()}
   </div>
 {/template}
 
@@ -288,7 +239,7 @@
  */
 {template .toolbox}
   <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
-    <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.pond'])}">
       <block type="pond_cannon">
         <value name="DEGREE">
           <shadow type="pond_math_number">
@@ -332,18 +283,18 @@
   {/if}
     </category>
 {if $ij.level >= 3}
-    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLogic'])}">
   {if $ij.level >= 9}
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
   {/if}
       <block type="logic_boolean"></block>
     </category>
-    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLoops'])}">
       <block type="controls_whileUntil"></block>
     </category>
 {/if}
-    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catMath'])}">
       <block type="pond_math_number">
         <mutation angle_field="false"></mutation>
       </block>

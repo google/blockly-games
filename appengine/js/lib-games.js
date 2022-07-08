@@ -357,6 +357,19 @@ BlocklyGames.normalizeAngle = function(angle) {
 };
 
 /**
+ * Escape HTML to make the text safe.
+ * @param {string} text Unsafe text, possibly with HTML tags.
+ * @return {string} Safe text, with <>&'" escaped.
+ */
+BlocklyGames.esc = function(text) {
+  return text.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+};
+
+/**
  * Load the Google Analytics.
  * @private
  */

@@ -12,6 +12,7 @@
 
 goog.provide('Index.html');
 
+goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 
 
@@ -23,9 +24,9 @@ goog.require('BlocklyGames.Msg');
 Index.html.start = function(ij) {
   return `
 <div id="header">
-  <img id="banner" src="index/title-beta.png" height="51" width="244" alt="Blockly Games">
-  <div id="subtitle">${BlocklyGames.Msg['Index.subTitle']}&nbsp;
-    <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.Msg['Index.moreInfo']}</a>
+  <img id="banner" src="index/title-beta.png" height=51 width=244 alt="Blockly Games">
+  <div id="subtitle">${BlocklyGames.esc(BlocklyGames.Msg['Index.subTitle'])}&nbsp;
+    <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.esc(BlocklyGames.Msg['Index.moreInfo'])}</a>
   </div>
 </div>
 <svg height="100%" width="100%" version="1.1"
@@ -36,7 +37,7 @@ Index.html.start = function(ij) {
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 100 100" preserveAspectRatio="none"
-        x="150" y="60">
+        x=150 y=60>
       <path id="path" d="M 10,15 C 15,60 35,100 50,70 S 80,20 90,85"
         ${ij.rtl ? 'transform="translate(100) scale(-1, 1)' : ''}
       />
@@ -53,10 +54,10 @@ Index.html.start = function(ij) {
 </svg>
 <select id="languageMenu"></select>
 <p id="clearDataPara" style="visibility: hidden">
-  ${BlocklyGames.Msg['Index.startOver']}
-  <button class="secondary" id="clearData">${BlocklyGames.Msg['Index.clearData']}</button>
+  ${BlocklyGames.esc(BlocklyGames.Msg['Index.startOver'])}
+  <button class="secondary" id="clearData">${BlocklyGames.esc(BlocklyGames.Msg['Index.clearData'])}</button>
 </p>
-  `;
+`;
 };
 
 /**
@@ -65,27 +66,26 @@ Index.html.start = function(ij) {
  * @param {string} app Name of application.
  * @param {number} x Horizontal position of link as percentage.
  * @param {number} y Vertical position of link as percentage.
- * @param {string} contentText Text content to place in link (safely escaped).
+ * @param {string} contentText Text content to place in link (unsafe text).
  * @return {string} HTML.
  * @private
  */
 Index.html.appLink_ = function(ij, app, x, y, contentText) {
   return `
-<svg height="150" width="300" version="1.1"
+<svg height=150 width=300 version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="${ij.rtl ? 100 - x : x}%"
-    y="${y}%">
+    x=${ij.rtl ? 100 - x : x}% y=${y}%>
   <path d="M 111.11,98.89 A 55 55 0 1 1 188.89,98.89" class="gaugeBack" id="back-${app}" />
   <g class="icon" id="icon-${app}">
-    <circle cx="150" cy="60" r="50" class="iconBack" />
-    <image xlink:href="index/${app}.png" height="100" width="100" x="100" y="10" />
+    <circle cx=150 cy=60 r=50 class="iconBack" />
+    <image xlink:href="index/${app}.png" height=100 width=100 x=100 y=10 />
     <a xlink:href="${app}${ij.html ? '.html' : ''}?lang=${ij.lang}">
-      <circle cx="150" cy="60" r="50" class="iconBorder" />
+      <circle cx=150 cy=60 r=50 class="iconBorder" />
       <path class="gaugeFront" id="gauge-${app}" />
-      <text x="150" y="135">${contentText}</text>
+      <text x=150 y=135>${BlocklyGames.esc(contentText)}</text>
     </a>
   </g>
 </svg>
-  `;
+`;
 };

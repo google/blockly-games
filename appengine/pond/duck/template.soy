@@ -11,23 +11,12 @@
  */
 
 /**
- * Translated messages for use in JavaScript.
- */
-{template .messages}
-  {call Pond.soy.messages /}
-  <div style="display: none">
-    <span id="Pond_myName">{{msg meaning="Pond.playerName" desc="IBID"}}Player{{/msg}}</span>
-  </div>
-{/template}
-
-/**
  * Web page structure.
  */
 {template .start}
-  {call .messages /}
   {call BlocklyGames.soy.headerBar}
     {param appName}
-      {msg meaning="Games.pond" desc="IBID"}Pond{/msg}
+      ${BlocklyGames.esc(BlocklyGames.Msg['Games.pond'])}
     {/param}
     {param levelLinkSuffix}{/param}
     {param hasLinkButton: false /}
@@ -40,7 +29,7 @@
   <div id="tabarea">
     <div id="editorBar" class="tab-bar">
       <div><select id="avatar-select"></select></div>
-      <div class="tab tab-selected">{{msg meaning="Games.blocks" desc="IBID"}}Blocks{{/msg}}</div>
+      <div class="tab tab-selected">${BlocklyGames.esc(BlocklyGames.Msg['Games.blocks'])}</div>
       <div class="tab">JavaScript</div>
     </div>
     <div class="tab-bar-clear"></div>
@@ -50,7 +39,7 @@
 
   {call .toolbox /}
 
-  {call BlocklyGames.soy.dialog /}
+  ${BlocklyGames.html.dialog()}
 
 {/template}
 /**
@@ -58,7 +47,7 @@
  */
 {template .toolbox}
   <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
-    <category name="{msg meaning="Games.pond" desc="IBID"}Pond{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.pond'])}">
       <block type="pond_cannon">
         <value name="DEGREE">
           <shadow type="pond_math_number">
@@ -103,16 +92,16 @@
         </value>
       </block>
     </category>
-    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLogic'])}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_boolean"></block>
     </category>
-    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLoops'])}">
       <block type="controls_whileUntil"></block>
     </category>
-    <category name="{msg meaning="Games.catMath" desc="IBID"}Math{/msg}">
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catMath'])}">
       <block type="pond_math_number">
         <mutation angle_field="false"></mutation>
       </block>
@@ -138,7 +127,7 @@
       <block type="math_random_float"></block>
     </category>
     <sep></sep>
-    <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
-    <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catVariables'])}" custom="VARIABLE"></category>
+    <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catProcedures'])}" custom="PROCEDURE"></category>
   </xml>
 {/template}
