@@ -539,7 +539,7 @@ BlocklyGames.Msg['Movie.rectDraw'] = 'rectangle';
 /// tooltip
 BlocklyGames.Msg['Movie.lineTooltip'] = 'Draws a line from one point to another with the specified width.';
 
-/// Command to draw a rectangle.\n{{Identical|Line}}
+/// Command to draw a line.\n{{Identical|Line}}
 BlocklyGames.Msg['Movie.lineDraw'] = 'line';
 
 /// tooltip

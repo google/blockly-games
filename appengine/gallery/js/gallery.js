@@ -25,8 +25,8 @@ BlocklyGames.NAME = 'gallery';
  */
 Gallery.init = function() {
   Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
-  var isAdmin = (Gallery.app == 'admin');
-  if (!isAdmin && ['turtle', 'movie', 'music'].indexOf(Gallery.app) == -1) {
+  var isAdmin = (Gallery.app === 'admin');
+  if (!isAdmin && ['turtle', 'movie', 'music'].indexOf(Gallery.app) === -1) {
     throw Error('Unknown app: ' + Gallery.app);
   }
   if (isAdmin) {
@@ -112,17 +112,9 @@ Gallery.receiveMore = function() {
  * @param {!Object} record One art record.
  */
 Gallery.display = function(record) {
-  // Rebuild the record object since the Closure Compiler renames properties.
-  var safeRecord = {
-    app: record['app'],
-    uuid: record['uuid'],
-    thumb: record['thumb'],
-    title: record['title'],
-    published: record['public'],
-    key: record['key']
-  };
   var block = document.createElement('div');
-  block.innerHTML = Gallery.html.record(safeRecord);
+  block.innerHTML = Gallery.html.record(record['app'], record['uuid'],
+      record['thumb'], record['title'], record['public'], record['key']);
   document.getElementById('gallery').appendChild(block);
 };
 
