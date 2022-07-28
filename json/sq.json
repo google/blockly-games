@@ -138,7 +138,6 @@
 	"Turtle.printHelpUrl": "https://sq.wikipedia.org/wiki/Shtypi",
 	"Turtle.printTooltip": "Vizaton tekst në drejtimin e breshkës në vendndodhjen e saj.",
 	"Turtle.print": "shtyp",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "Vendosë fontin e përdorur nga blloku i shtypur.",
 	"Turtle.font": "fonti",
 	"Turtle.fontSize": "madhësia e shkronjave",

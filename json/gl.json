@@ -113,7 +113,6 @@
 	"Turtle.printHelpUrl": "https://gl.wikipedia.org/wiki/Impresi%C3%B3n",
 	"Turtle.printTooltip": "Escribe un texto na dirección da tartaruga e desde a súa posición.",
 	"Turtle.print": "escribir",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "Define o tipo de letra empregado polo bloque de escritura.",
 	"Turtle.font": "tipo de letra",
 	"Turtle.fontSize": "tamaño da letra",

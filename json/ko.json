@@ -148,7 +148,6 @@
 	"Turtle.printHelpUrl": "https://ko.wikipedia.org/wiki/인쇄",
 	"Turtle.printTooltip": "터틀의 방향과 위치를 텍스트로 그립니다.",
 	"Turtle.print": "인쇄",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "인쇄 블록에서 사용되는 글꼴을 설정합니다.",
 	"Turtle.font": "글꼴",
 	"Turtle.fontSize": "글자 크기",
