@@ -144,7 +144,6 @@
 	"Turtle.printHelpUrl": "https://th.wikipedia.org/wiki/การพิมพ์",
 	"Turtle.printTooltip": "แสดงข้อความในทิศทางที่เต่าหันหน้าตรงตำแหน่งนั้น",
 	"Turtle.print": "พิมพ์",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "ตั้งค่าแบบอักษรที่ใช้ในบล็อกพิมพ์",
 	"Turtle.font": "แบบอักษร",
 	"Turtle.fontSize": "ขนาดอักษร",

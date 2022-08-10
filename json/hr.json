@@ -140,7 +140,6 @@
 	"Turtle.printHelpUrl": "https://hr.wikipedia.org/wiki/Tiskarstvo",
 	"Turtle.printTooltip": "Crta tekst u smjeru kornjače na njezinoj lokaciji.",
 	"Turtle.print": "ispiši",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "Postavlja font koji koristi blok za ispis.",
 	"Turtle.font": "font",
 	"Turtle.fontSize": "veličina fonta",

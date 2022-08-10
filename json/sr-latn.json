@@ -136,7 +136,6 @@
 	"Turtle.printHelpUrl": "https://sr.wikipedia.org/wiki/Štamparstvo",
 	"Turtle.printTooltip": "Iscrtava tekst u pravcu kornjače na njenom mestu.",
 	"Turtle.print": "napiši",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "Postavlja font koji koristi blok za pisanje.",
 	"Turtle.font": "font",
 	"Turtle.fontSize": "veličina fonta",

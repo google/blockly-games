@@ -140,7 +140,6 @@
 	"Turtle.printHelpUrl": "https://lv.wikipedia.org/wiki/Drukāšāna",
 	"Turtle.printTooltip": "Zīmē tekstu bruņurupuča virzienā no tā atrašanās vietas.",
 	"Turtle.print": "drukāt",
-	"Turtle.fontHelpUrl": "https://en.wikipedia.org/wiki/Font",
 	"Turtle.fontTooltip": "Iestata fontu, ko izmantos drukāšanas bloks.",
 	"Turtle.font": "fonts",
 	"Turtle.fontSize": "fonta lielums",
