@@ -71,7 +71,7 @@ Pond.Tutor.init = function() {
         'damage,health,loc_x,getX,loc_y,getY,');
 
     var defaultXml;
-    if (BlocklyGames.LEVEL == 7) {
+    if (BlocklyGames.LEVEL === 7) {
       defaultXml =
         '<xml>' +
           '<block type="pond_swim" x="70" y="70">' +
@@ -136,12 +136,12 @@ Pond.Tutor.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  for (var avatarData, i = 0; (avatarData = Pond.Tutor.PLAYERS[i]); i++) {
-    var name = BlocklyGames.Msg[avatarData.name];
-    var avatar = new Pond.Avatar(name, avatarData.start, avatarData.damage,
-        !code, Pond.Battle);
-    if (avatarData.code) {
-      var div = document.getElementById(avatarData.code);
+  var avatarData = Pond.Tutor.getAvatarData();
+  for (var avatarDatum, i = 0; (avatarDatum = avatarData[i]); i++) {
+    var avatar = new Pond.Avatar(avatarDatum.name, avatarDatum.start,
+        avatarDatum.damage, !code, Pond.Battle);
+    if (avatarDatum.code) {
+      var div = document.getElementById(avatarDatum.code);
       var code = div.textContent;
       avatar.setCode(undefined, code, code);
     } else {
@@ -164,160 +164,171 @@ Pond.Tutor.runButtonClick = function(e) {
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
 };
 
-Pond.Tutor.PLAYERS = [
-  // Level 0.
-  undefined,
-  // Level 1.
-  [
-    {
-      start: new Blockly.utils.Coordinate(50, 30),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 70),
-      damage: 99,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 2.
-  [
-    {
-      start: new Blockly.utils.Coordinate(70, 50),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(20, 50),
-      damage: 99,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 3.
-  [
-    {
-      start: new Blockly.utils.Coordinate(20, 20),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(20 + 42.4264, 20 + 42.4264),
-      damage: 0,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 4.
-  [
-    {
-      start: new Blockly.utils.Coordinate(50, 80),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 20),
-      damage: 0,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 5.
-  [
-    {
-      start: new Blockly.utils.Coordinate(90, 50),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 50),
-      damage: 0,
-      name: 'Pond_pendulumName',
-      code: 'playerPendulum'
-    }
-  ],
-  // Level 6.
-  [
-    {
-      start: new Blockly.utils.Coordinate(10, 50),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 50),
-      damage: 0,
-      name: 'Pond_pendulumName',
-      code: 'playerPendulum'
-    }
-  ],
-  // Level 7.
-  [
-    {
-      start: new Blockly.utils.Coordinate(20, 80),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(80, 20),
-      damage: 99,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 8.
-  [
-    {
-      start: new Blockly.utils.Coordinate(50, 90),
-      damage: 0,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(50, 10),
-      damage: 99,
-      name: 'Pond_pendulumName',
-      code: 'playerPendulum'
-    }
-  ],
-  // Level 9.
-  [
-    {
-      start: new Blockly.utils.Coordinate(5, 50),
-      damage: 99,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(95, 50),
-      damage: 0,
-      name: 'Pond_targetName',
-      code: 'playerTarget'
-    }
-  ],
-  // Level 10.
-  [
-    {
-      start: new Blockly.utils.Coordinate(10, 10),
-      damage: 50,
-      name: 'Pond_playerName',
-      code: null
-    },
-    {
-      start: new Blockly.utils.Coordinate(40, 40),
-      damage: 0,
-      name: 'Pond_scaredName',
-      code: 'playerScared'
-    }
-  ]
-][BlocklyGames.LEVEL];
+/**
+ * Get the data for the avatars to be loaded into the current level.
+ * @param {!Array<!Object>}
+ */
+Pond.Tutor.getAvatarData = function() {
+  var playerName = BlocklyGames.Msg['Pond.playerName'];
+  var targetName = BlocklyGames.Msg['Pond.targetName'];
+  var pendulumName = BlocklyGames.Msg['Pond.pendulumName'];
+  var scaredName = BlocklyGames.Msg['Pond.scaredName'];
+
+  return [
+    // Level 0.
+    undefined,
+    // Level 1.
+    [
+      {
+        start: new Blockly.utils.Coordinate(50, 30),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(50, 70),
+        damage: 99,
+        name: targetName,
+        code: 'playerTarget'
+      }
+    ],
+    // Level 2.
+    [
+      {
+        start: new Blockly.utils.Coordinate(70, 50),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(20, 50),
+        damage: 99,
+        name: targetName,
+        code: 'playerTarget'
+      }
+    ],
+    // Level 3.
+    [
+      {
+        start: new Blockly.utils.Coordinate(20, 20),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(20 + 42.4264, 20 + 42.4264),
+        damage: 0,
+        name: targetName,
+        code: 'playerTarget'
+      }
+    ],
+    // Level 4.
+    [
+      {
+        start: new Blockly.utils.Coordinate(50, 80),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(50, 20),
+        damage: 0,
+        name: targetName,
+        code: 'playerTarget'
+      }
+    ],
+    // Level 5.
+    [
+      {
+        start: new Blockly.utils.Coordinate(90, 50),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(50, 50),
+        damage: 0,
+        name: pendulumName,
+        code: 'playerPendulum'
+      }
+    ],
+    // Level 6.
+    [
+      {
+        start: new Blockly.utils.Coordinate(10, 50),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(50, 50),
+        damage: 0,
+        name: pendulumName,
+        code: 'playerPendulum'
+      }
+    ],
+    // Level 7.
+    [
+      {
+        start: new Blockly.utils.Coordinate(20, 80),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(80, 20),
+        damage: 99,
+        name: targetName,
+        code: 'playerTarget'
+      }
+    ],
+    // Level 8.
+    [
+      {
+        start: new Blockly.utils.Coordinate(50, 90),
+        damage: 0,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(50, 10),
+        damage: 99,
+        name: pendulumName,
+        code: 'playerPendulum'
+      }
+    ],
+    // Level 9.
+    [
+      {
+        start: new Blockly.utils.Coordinate(5, 50),
+        damage: 99,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(95, 50),
+        damage: 0,
+        name: targetName,
+        code: 'playerTarget'
+      }
+    ],
+    // Level 10.
+    [
+      {
+        start: new Blockly.utils.Coordinate(10, 10),
+        damage: 50,
+        name: playerName,
+        code: null
+      },
+      {
+        start: new Blockly.utils.Coordinate(40, 40),
+        damage: 0,
+        name: scaredName,
+        code: 'playerScared'
+      }
+    ]
+  ][BlocklyGames.LEVEL];
+};
 
 /**
  * Callback function for when a game ends.

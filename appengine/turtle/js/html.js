@@ -84,7 +84,7 @@ ${Turtle.html.helpDialogs(ij.level, ij.html)}
 };
 
 /**
- * Toolboxes for each level.
+ * Gallery view button and submission form.
  * @param {string} lang ISO language code.
  * @return {string} HTML.
  */

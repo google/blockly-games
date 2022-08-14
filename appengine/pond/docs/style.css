@@ -129,3 +129,41 @@ pre, code {
 .blocklyIconSymbol {
   fill: #fff;
 }
+
+body.hideBlocks .blocks {
+  display: none;
+}
+body.hideJs .js {
+  display: none;
+}
+
+body.hideLevel2 .level2 {
+  display: none;
+}
+body.hideLevel3 .level3 {
+  display: none;
+}
+body.hideLevel4 .level4 {
+  display: none;
+}
+body.hideLevel5 .level5 {
+  display: none;
+}
+body.hideLevel6 .level6 {
+  display: none;
+}
+body.hideLevel7 .level7 {
+  display: none;
+}
+body.hideLevel8 .level8 {
+  display: none;
+}
+body.hideLevel9 .level9 {
+  display: none;
+}
+body.hideLevel10 .level10 {
+  display: none;
+}
+body.hideLevel11 .level11 {
+  display: none;
+}

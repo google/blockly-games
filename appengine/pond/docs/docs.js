@@ -10,24 +10,10 @@
  */
 'use strict';
 
-goog.provide('Pond.Docs');
-
-goog.require('BlocklyGames');
-goog.require('Pond.Docs.html');
-
-
 /**
- * Print the page.  Called on page load.
+ * Turn all h2 tags into zippies.  Called on page load.
  */
-Pond.Docs.init = function() {
-  var param = window.location.search.match(/[?&]mode=([^&]+)/);
-  var level = param ? Number(param[1]) : Infinity;
-  var pond = level % 2 ? 'blocks' : 'js';
-  document.body.innerHTML = Pond.Docs.html.start(
-      {level: level,
-       pond: pond});
-
-  // Turn all h2 tags into zippies.
+function init() {
   var headers = document.getElementsByTagName('h2');
   for (var i = 0, header; (header = headers[i]); i++) {
     var img = document.createElement('img');
@@ -36,15 +22,31 @@ Pond.Docs.init = function() {
     header.className = 'zippy-header-collapsed';
     var content = document.getElementById(header.id + '-content');
     content.className = 'zippy-content-collapsed';
-    BlocklyGames.bindClick(header, Pond.Docs.toggle);
+    bindClick(header, toggle);
   }
-};
+}
+
+/**
+ * Bind a function to a button's click event.
+ * On touch-enabled browsers, ontouchend is treated as equivalent to onclick.
+ * @param {Element} el Button element.
+ * @param {!Function} func Event handler to bind.
+ */
+function bindClick(el, func) {
+  el.addEventListener('click', func, true);
+  function touchFunc(e) {
+    // Prevent code from being executed twice on touchscreens.
+    e.preventDefault();
+    func(e);
+  }
+  el.addEventListener('touchend', touchFunc, true);
+}
 
 /**
  * Toggle one section open or closed.
  * @param {!Event} e The click or touch event.
  */
-Pond.Docs.toggle = function(e) {
+function toggle(e) {
   var header = e.currentTarget;
   var content = document.getElementById(header.id + '-content');
   var isOpen = content.className == 'zippy-content-expanded';
@@ -53,6 +55,16 @@ Pond.Docs.toggle = function(e) {
   content.className =
       'zippy-content-' + (isOpen ? 'collapsed' : 'expanded');
   content.style.maxHeight = isOpen ? 0 : (content.scrollHeight + 'px');
-};
+}
 
-window.addEventListener('load', Pond.Docs.init);
+(function() {
+  window.addEventListener('load', init);
+  var param = window.location.search.match(/[?&]mode=([^&]+)/);
+  var level = param ? Number(param[1]) : 11;
+  var hide = level % 2 ? 'hideJs' : 'hideBlocks';
+  var classes = [hide];
+  for (var i = level + 1; i <= 11; i++) {
+    classes.push('hideLevel' + i);
+  }
+  document.body.className = classes.join(' ');
+})();

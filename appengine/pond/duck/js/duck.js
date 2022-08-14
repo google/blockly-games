@@ -137,7 +137,7 @@ Pond.Duck.init = function() {
   var avatarSelect = document.getElementById('avatar-select');
   for (var duckData, i = 0; (duckData = Pond.Duck.duckData[i]); i++) {
     if (duckData['name'] === null) {
-      duckData['name'] = BlocklyGames.Msg['Pond.myName'];
+      duckData['name'] = BlocklyGames.Msg['Pond.playerName'];
     }
     var option = new Option(duckData['name'], duckData['id']);
     avatarSelect.add(option);
@@ -153,11 +153,6 @@ Pond.Duck.init = function() {
   Pond.reset();
   if (avatarSelect) {
     Pond.Duck.changeAvatar();
-    // BUG: Setting the background colour of a select element causes the arrow
-    // to disappear in Firefox:
-    // https://bugzilla.mozilla.org/show_bug.cgi?id=1298510
-    avatarSelect.style.width = '0';
-    setTimeout(function() {avatarSelect.style.width = 'auto';}, 0);
   }
 };
 

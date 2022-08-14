@@ -160,8 +160,12 @@ class Gen_uncompressed(threading.Thread):
         '--output_mode=list']
     directory = self.name
     while directory:
-      cmd.append('--root=appengine/%s/generated/' % directory)
-      cmd.append('--root=appengine/%s/js/' % directory)
+      subdir = 'appengine/%s/generated/' % directory
+      if os.path.isdir(subdir):
+        cmd.append('--root=%s' % subdir)
+      subdir = 'appengine/%s/js/' % directory
+      if os.path.isdir(subdir):
+        cmd.append('--root=%s' % subdir)
       (directory, sep, fragment) = directory.rpartition(os.path.sep)
     try:
       proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
