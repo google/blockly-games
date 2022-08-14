@@ -108,7 +108,7 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   var inherited = inherit &&
       BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                         BlocklyGames.LEVEL - 1);
-  if (inherited && typeof inherit == 'function') {
+  if (inherited && typeof inherit === 'function') {
     inherited = inherit(inherited);
   }
 
@@ -149,7 +149,7 @@ BlocklyInterface.getCode = function() {
     var xml = Blockly.Xml.workspaceToDom(BlocklyInterface.workspace, true);
     // Remove x/y coordinates from XML if there's only one block stack.
     // There's no reason to store this, removing it helps with anonymity.
-    if (BlocklyInterface.workspace.getTopBlocks(false).length == 1 &&
+    if (BlocklyInterface.workspace.getTopBlocks(false).length === 1 &&
         xml.querySelector) {
       var block = xml.querySelector('block');
       if (block) {
@@ -180,8 +180,8 @@ BlocklyInterface.getJsCode = function() {
  * clear the key from the URL.
  */
 BlocklyInterface.codeChanged = function() {
-  if (typeof BlocklyStorage == 'object' && BlocklyStorage.startCode !== null) {
-    if (BlocklyStorage.startCode != BlocklyInterface.getCode()) {
+  if (typeof BlocklyStorage === 'object' && BlocklyStorage.startCode !== null) {
+    if (BlocklyStorage.startCode !== BlocklyInterface.getCode()) {
       window.location.hash = '';
       BlocklyStorage.startCode = null;
     }
@@ -208,7 +208,7 @@ BlocklyInterface.injectBlockly = function(options) {
  */
 BlocklyInterface.saveToLocalStorage = function() {
   // MSIE 11 does not support localStorage on file:// URLs.
-  if (typeof Blockly == undefined || !window.localStorage) {
+  if (typeof Blockly === undefined || !window.localStorage) {
     return;
   }
   var name = BlocklyGames.NAME + BlocklyGames.LEVEL;
@@ -282,7 +282,7 @@ BlocklyInterface.injectReadonly = function(id, xml) {
   if (!div.firstChild) {
     var rtl = BlocklyGames.isRtl();
     var workspace = Blockly.inject(div, {'rtl': rtl, 'readOnly': true});
-    if (typeof xml != 'string') {
+    if (typeof xml !== 'string') {
       xml = xml.join('');
     }
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
@@ -311,8 +311,8 @@ BlocklyInterface.eventSpam = function(e) {
   // Some devices have both mice and touch, but assume the two won't occur
   // within two seconds of each other.
   var touchMouseTime = 2000;
-  if (e.type == 'click' &&
-      BlocklyInterface.eventSpam.previousType_ == 'touchend' &&
+  if (e.type === 'click' &&
+      BlocklyInterface.eventSpam.previousType_ === 'touchend' &&
       BlocklyInterface.eventSpam.previousDate_ + touchMouseTime > Date.now()) {
     e.preventDefault();
     e.stopPropagation();
@@ -320,7 +320,7 @@ BlocklyInterface.eventSpam = function(e) {
   }
   // Users double-click or double-tap accidentally.
   var doubleClickTime = 400;
-  if (BlocklyInterface.eventSpam.previousType_ == e.type &&
+  if (BlocklyInterface.eventSpam.previousType_ === e.type &&
       BlocklyInterface.eventSpam.previousDate_ + doubleClickTime > Date.now()) {
     e.preventDefault();
     e.stopPropagation();

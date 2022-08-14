@@ -10,7 +10,7 @@ REQUIRED_BINS = svn wget java python sed
 # Rules
 ##############################
 
-all: deps languages
+all: deps games
 
 index: common
 	python build-app.py index
@@ -33,9 +33,6 @@ movie: common
 music: common
 	python build-app.py music
 
-pond-docs: common
-	python build-app.py pond/docs
-
 pond-tutor: common
 	python build-app.py pond/tutor
 
@@ -45,7 +42,7 @@ pond-duck: common
 gallery: common
 	python build-app.py gallery
 
-languages: index puzzle maze bird turtle movie music pond-docs pond-tutor pond-duck gallery
+games: index puzzle maze bird turtle movie music pond-tutor pond-duck gallery
 
 common:
 	@echo "Converting messages.js to JSON for Translatewiki."
@@ -77,7 +74,6 @@ deps:
 	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
 	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
 	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
-	cp third-party/soyutils.js $(APP_ENGINE_THIRD_PARTY)/
 	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
 
 	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
@@ -91,10 +87,10 @@ deps:
 	  --js_output_file $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/compressed.js
 	rm $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 
-clean: clean-languages clean-deps
+clean: clean-games clean-deps
 
-clean-languages:
-	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond/docs,pond,pond/tutor,pond/duck,gallery}/generated
+clean-games:
+	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond,pond/tutor,pond/duck,gallery}/generated
 	rm -f json/keys.json
 
 clean-deps:

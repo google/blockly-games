@@ -11,8 +11,311 @@
 'use strict';
 
 var DUCKS = [
-  {name: null, id: "default", editable: true, blockly: '<xml><block type="pond_cannon" x="70" y="70"><value name="DEGREE"><shadow type="pond_math_number"><mutation angle_field="true"></mutation><field name="NUM">0</field></shadow></value><value name="RANGE"><shadow type="pond_math_number"><mutation angle_field="false"></mutation><field name="NUM">70</field></shadow></value></block></xml>', compiled: "cannon(0, 70);", competent: false},
-  {name: "Rook", id: "rook", editable: false, compiled: "/* rook.r  -  scans the battlefield like a rook, i.e., only 0,90,180,270 */\n/* move horizontally only, but looks horz and vertically */\n\n/* move to center of board */\nif (getY() < 50) {\n  while (getY() < 40)        /* stop near center */\n    drive(90, 100);           /* start moving */\n} else {\n  while (getY() > 60)        /* stop near center */\n    drive(270, 100);          /* start moving */\n}\ndrive(0, 0);\nwhile (speed() > 0)\n  ;\n\n/* initialize starting parameters */\nvar d = damage();\nvar course = 0;\nvar boundary = 99;\ndrive(course, 30);\n\n/* main loop */\nwhile(true) {\n  /* look all directions */\n  look(0);\n  look(90);\n  look(180);\n  look(270);\n\n  /* if near end of battlefield, change directions */\n  if (course == 0) {\n    if (getX() > boundary || speed() == 0)\n      change();\n  }\n  else {\n    if (getX() < boundary || speed() == 0)\n      change();\n  }\n}\n\n/* look somewhere, and fire cannon repeatedly at in-range target */\nfunction look(deg) {\n  var range;\n  while ((range = scan(deg, 4)) <= 70)  {\n    drive(course, 0);\n    cannon(deg, range);\n    if (d + 20 != damage()) {\n      d = damage();\n      change();\n    }\n  }\n}\n\nfunction change() {\n  if (course == 0) {\n    boundary = 1;\n    course = 180;\n  } else {\n    boundary = 99;\n    course = 0;\n  }\n  drive(course, 30);\n}"},
-  {name: "Counter", id: "counter", editable: false, compiled: "/* counter */\n/* scan in a counter-clockwise direction (increasing degrees) */\n/* moves when hit */\n\nvar range;\nvar last_dir = 0;\n\nvar res = 2;\nvar d = damage();\nvar angle = Math.random() * 360;\nwhile (true) {\n  while ((range = scan(angle, res)) != Infinity) {\n    if (range > 70) { /* out of range, head toward it */\n      drive(angle, 50);\n      var i = 1;\n      while (i++ < 50) /* use a counter to limit move time */\n        ;\n      drive (angle, 0);\n      if (d != damage()) {\n        d = damage();\n        run();\n      }\n      angle -= 3;\n    } else {\n      while (!cannon(angle, range))\n        ;\n      if (d != damage()) {\n        d = damage();\n        run();\n      }\n      angle -= 15;\n    }\n  }\n  if (d != damage()) {\n    d = damage();\n    run();\n  }\n  angle += res;\n  angle %= 360;\n}\n\n/* run moves around the center of the field */\nfunction run() {\n  var i = 0;\n  var x = getX();\n  var y = getY();\n\n  if (last_dir == 0) {\n    last_dir = 1;\n    if (y > 51) {\n      drive(270, 100);\n      while (y - 10 < getY() && i++ < 50)\n        ;\n      drive(270, 0);\n    } else {\n      drive(90, 100);\n      while (y + 10 > getY() && i++ < 50)\n        ;\n      drive(90, 0);\n    }\n  } else {\n    last_dir = 0;\n    if (x > 51) {\n      drive(180, 100);\n      while (x - 10 < getX() && i++ < 50)\n        ;\n      drive(180, 0);\n    } else {\n      drive(0, 100);\n      while (x + 10 > getX() && i++ < 50)\n        ;\n      drive(0, 0);\n    }\n  }\n}"},
-  {name: 'Sniper', id: 'sniper', editable: false, compiled: "/* sniper */\n/* strategy: since a scan of the entire battlefield can be done in 90 */\n/* degrees from a corner, sniper can scan the field quickly. */\n\n/* external variables, that can be used by any function */\nvar corner = 0;           /* current corner 0, 1, 2, or 2 */\nvar sc = 0;               /* current scan start */\n\nvar range;          /* range to target */\n\n/* initialize the corner info */\n/* x and y location of a corner, and starting scan degree */\nvar c1x = 2,  c1y = 2,  s1 = 0;\nvar c2x = 2,  c2y = 98, s2 = 270;\nvar c3x = 98, c3y = 98, s3 = 180;\nvar c4x = 98, c4y = 2,  s4 = 90;\nvar closest = Infinity;\nnew_corner();       /* start at a random corner */\nvar d = damage();       /* get current damage */\nvar dir = sc;           /* starting scan direction */\n\nwhile (true) {         /* loop is executed forever */\n  while (dir < sc + 90) {  /* scan through 90 degree range */\n    range = scan(dir, 2);   /* look at a direction */\n    if (range <= 70) {\n      while (range > 0) {    /* keep firing while in range */\n        closest = range;     /* set closest flag */\n        cannon(dir, range);   /* fire! */\n        range = scan(dir, 1); /* check target again */\n        if (d + 15 > damage())  /* sustained several hits, */\n          range = 0;            /* goto new corner */\n      }\n      dir -= 10;             /* back up scan, in case */\n    }\n\n    dir += 2;                /* increment scan */\n    if (d != damage()) {     /* check for damage incurred */\n      new_corner();          /* we're hit, move now */\n      d = damage();\n      dir = sc;\n    }\n  }\n\n  if (closest == Infinity) {       /* check for any targets in range */\n    new_corner();             /* nothing, move to new corner */\n    d = damage();\n    dir = sc;\n  } else {                     /* targets in range, resume */\n    dir = sc;\n  }\n  closest = Infinity;\n}\n\n/* new corner function to move to a different corner */\nfunction new_corner() {\n  var x, y;\n\n  var rand = Math.floor(Math.random() * 4);           /* pick a random corner */\n  if (rand == corner)       /* but make it different than the */\n    corner = (rand + 1) % 4;/* current corner */\n  else\n    corner = rand;\n  if (corner == 0) {       /* set new x,y and scan start */\n    x = c1x;\n    y = c1y;\n    sc = s1;\n  }\n  if (corner == 1) {\n    x = c2x;\n    y = c2y;\n    sc = s2;\n  }\n  if (corner == 2) {\n    x = c3x;\n    y = c3y;\n    sc = s3;\n  }\n  if (corner == 3) {\n    x = c4x;\n    y = c4y;\n    sc = s4;\n  }\n\n  /* find the heading we need to get to the desired corner */\n  var angle = plot_course(x,y);\n\n  /* start drive train, full speed */\n\n  /* keep traveling until we are within 15 meters */\n  /* speed is checked in case we run into wall, other robot */\n  /* not terribly great, since were are doing nothing while moving */\n\n  while (distance(getX(), getY(), x, y) > 15)\n    drive(angle, 100);\n\n  /* cut speed, and creep the rest of the way */\n\n  while (distance(getX(), getY(), x, y) > 1)\n    drive(angle, 20);\n\n  /* stop drive, should coast in the rest of the way */\n  drive(angle, 0);\n}  /* end of new_corner */\n\n/* classical pythagorean distance formula */\nfunction distance(x1, y1, x2, y2) {\n  var x = x1 - x2;\n  var y = y1 - y2;\n  return Math.sqrt((x * x) + (y * y));\n}\n\n/* plot course function, return degree heading to */\n/* reach destination x, y; uses atan() trig function */\nfunction plot_course(xx, yy) {\n  var d;\n  var x,y;\n  var curx, cury;\n\n  curx = getX();  /* get current location */\n  cury = getY();\n  x = curx - xx;\n  y = cury - yy;\n\n  /* atan only returns -90 to +90, so figure out how to use */\n  /* the atan() value */\n\n  if (x == 0) {      /* x is zero, we either move due north or south */\n    if (yy > cury)\n      d = 90;        /* north */\n    else\n      d = 270;       /* south */\n  } else {\n    if (yy < cury) {\n      if (xx > curx)\n        d = 360 + Math.atan_deg(y / x);  /* south-east, quadrant 4 */\n      else\n        d = 180 + Math.atan_deg(y / x);  /* south-west, quadrant 3 */\n    } else {\n      if (xx > curx)\n        d = Math.atan_deg(y / x);        /* north-east, quadrant 1 */\n      else\n        d = 180 + Math.atan_deg(y / x);  /* north-west, quadrant 2 */\n    }\n  }\n  return d;\n}"}
+  {name: null, id: "default", editable: true, blockly: `
+<xml>
+  <block type="pond_cannon" x="70" y="70">
+    <value name="DEGREE">
+      <shadow type="pond_math_number">
+        <mutation angle_field="true" />
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="RANGE">
+      <shadow type="pond_math_number">
+        <mutation angle_field="false" />
+        <field name="NUM">70</field>
+      </shadow>
+    </value>
+  </block>
+</xml>`, compiled: "cannon(0, 70);", competent: false},
+  {name: "Rook", id: "rook", editable: false, compiled: `
+/* rook.r  -  scans the battlefield like a rook, i.e., only 0,90,180,270 */
+/* move horizontally only, but looks horz and vertically */
+
+/* move to center of board */
+if (getY() < 50) {
+  while (getY() < 40)        /* stop near center */
+    drive(90, 100);           /* start moving */
+} else {
+  while (getY() > 60)        /* stop near center */
+    drive(270, 100);          /* start moving */
+}
+drive(0, 0);
+while (speed() > 0)
+  ;
+
+/* initialize starting parameters */
+var d = damage();
+var course = 0;
+var boundary = 99;
+drive(course, 30);
+
+/* main loop */
+while(true) {
+  /* look all directions */
+  look(0);
+  look(90);
+  look(180);
+  look(270);
+
+  /* if near end of battlefield, change directions */
+  if (course == 0) {
+    if (getX() > boundary || speed() == 0)
+      change();
+  }
+  else {
+    if (getX() < boundary || speed() == 0)
+      change();
+  }
+}
+
+/* look somewhere, and fire cannon repeatedly at in-range target */
+function look(deg) {
+  var range;
+  while ((range = scan(deg, 4)) <= 70)  {
+    drive(course, 0);
+    cannon(deg, range);
+    if (d + 20 != damage()) {
+      d = damage();
+      change();
+    }
+  }
+}
+
+function change() {
+  if (course == 0) {
+    boundary = 1;
+    course = 180;
+  } else {
+    boundary = 99;
+    course = 0;
+  }
+  drive(course, 30);
+}
+`},
+  {name: "Counter", id: "counter", editable: false, compiled: `
+/* counter */
+/* scan in a counter-clockwise direction (increasing degrees) */
+/* moves when hit */
+
+var range;
+var last_dir = 0;
+
+var res = 2;
+var d = damage();
+var angle = Math.random() * 360;
+while (true) {
+  while ((range = scan(angle, res)) != Infinity) {
+    if (range > 70) { /* out of range, head toward it */
+      drive(angle, 50);
+      var i = 1;
+      while (i++ < 50) /* use a counter to limit move time */
+        ;
+      drive (angle, 0);
+      if (d != damage()) {
+        d = damage();
+        run();
+      }
+      angle -= 3;
+    } else {
+      while (!cannon(angle, range))
+        ;
+      if (d != damage()) {
+        d = damage();
+        run();
+      }
+      angle -= 15;
+    }
+  }
+  if (d != damage()) {
+    d = damage();
+    run();
+  }
+  angle += res;
+  angle %= 360;
+}
+
+/* run moves around the center of the field */
+function run() {
+  var i = 0;
+  var x = getX();
+  var y = getY();
+
+  if (last_dir == 0) {
+    last_dir = 1;
+    if (y > 51) {
+      drive(270, 100);
+      while (y - 10 < getY() && i++ < 50)
+        ;
+      drive(270, 0);
+    } else {
+      drive(90, 100);
+      while (y + 10 > getY() && i++ < 50)
+        ;
+      drive(90, 0);
+    }
+  } else {
+    last_dir = 0;
+    if (x > 51) {
+      drive(180, 100);
+      while (x - 10 < getX() && i++ < 50)
+        ;
+      drive(180, 0);
+    } else {
+      drive(0, 100);
+      while (x + 10 > getX() && i++ < 50)
+        ;
+      drive(0, 0);
+    }
+  }
+}`
+},
+  {name: 'Sniper', id: 'sniper', editable: false, compiled: `
+/* sniper */
+/* strategy: since a scan of the entire battlefield can be done in 90 */
+/* degrees from a corner, sniper can scan the field quickly. */
+
+/* external variables, that can be used by any function */
+var corner = 0;           /* current corner 0, 1, 2, or 2 */
+var sc = 0;               /* current scan start */
+
+var range;          /* range to target */
+
+/* initialize the corner info */
+/* x and y location of a corner, and starting scan degree */
+var c1x = 2,  c1y = 2,  s1 = 0;
+var c2x = 2,  c2y = 98, s2 = 270;
+var c3x = 98, c3y = 98, s3 = 180;
+var c4x = 98, c4y = 2,  s4 = 90;
+var closest = Infinity;
+new_corner();       /* start at a random corner */
+var d = damage();       /* get current damage */
+var dir = sc;           /* starting scan direction */
+
+while (true) {         /* loop is executed forever */
+  while (dir < sc + 90) {  /* scan through 90 degree range */
+    range = scan(dir, 2);   /* look at a direction */
+    if (range <= 70) {
+      while (range > 0) {    /* keep firing while in range */
+        closest = range;     /* set closest flag */
+        cannon(dir, range);   /* fire! */
+        range = scan(dir, 1); /* check target again */
+        if (d + 15 > damage())  /* sustained several hits, */
+          range = 0;            /* goto new corner */
+      }
+      dir -= 10;             /* back up scan, in case */
+    }
+
+    dir += 2;                /* increment scan */
+    if (d != damage()) {     /* check for damage incurred */
+      new_corner();          /* we're hit, move now */
+      d = damage();
+      dir = sc;
+    }
+  }
+
+  if (closest == Infinity) {       /* check for any targets in range */
+    new_corner();             /* nothing, move to new corner */
+    d = damage();
+    dir = sc;
+  } else {                     /* targets in range, resume */
+    dir = sc;
+  }
+  closest = Infinity;
+}
+
+/* new corner function to move to a different corner */
+function new_corner() {
+  var x, y;
+
+  var rand = Math.floor(Math.random() * 4);           /* pick a random corner */
+  if (rand == corner)       /* but make it different than the */
+    corner = (rand + 1) % 4;/* current corner */
+  else
+    corner = rand;
+  if (corner == 0) {       /* set new x,y and scan start */
+    x = c1x;
+    y = c1y;
+    sc = s1;
+  }
+  if (corner == 1) {
+    x = c2x;
+    y = c2y;
+    sc = s2;
+  }
+  if (corner == 2) {
+    x = c3x;
+    y = c3y;
+    sc = s3;
+  }
+  if (corner == 3) {
+    x = c4x;
+    y = c4y;
+    sc = s4;
+  }
+
+  /* find the heading we need to get to the desired corner */
+  var angle = plot_course(x,y);
+
+  /* start drive train, full speed */
+
+  /* keep traveling until we are within 15 meters */
+  /* speed is checked in case we run into wall, other robot */
+  /* not terribly great, since were are doing nothing while moving */
+
+  while (distance(getX(), getY(), x, y) > 15)
+    drive(angle, 100);
+
+  /* cut speed, and creep the rest of the way */
+
+  while (distance(getX(), getY(), x, y) > 1)
+    drive(angle, 20);
+
+  /* stop drive, should coast in the rest of the way */
+  drive(angle, 0);
+}  /* end of new_corner */
+
+/* classical pythagorean distance formula */
+function distance(x1, y1, x2, y2) {
+  var x = x1 - x2;
+  var y = y1 - y2;
+  return Math.sqrt((x * x) + (y * y));
+}
+
+/* plot course function, return degree heading to */
+/* reach destination x, y; uses atan() trig function */
+function plot_course(xx, yy) {
+  var d;
+  var x,y;
+  var curx, cury;
+
+  curx = getX();  /* get current location */
+  cury = getY();
+  x = curx - xx;
+  y = cury - yy;
+
+  /* atan only returns -90 to +90, so figure out how to use */
+  /* the atan() value */
+
+  if (x == 0) {      /* x is zero, we either move due north or south */
+    if (yy > cury)
+      d = 90;        /* north */
+    else
+      d = 270;       /* south */
+  } else {
+    if (yy < cury) {
+      if (xx > curx)
+        d = 360 + Math.atan_deg(y / x);  /* south-east, quadrant 4 */
+      else
+        d = 180 + Math.atan_deg(y / x);  /* south-west, quadrant 3 */
+    } else {
+      if (xx > curx)
+        d = Math.atan_deg(y / x);        /* north-east, quadrant 1 */
+      else
+        d = 180 + Math.atan_deg(y / x);  /* north-west, quadrant 2 */
+    }
+  }
+  return d;
+}
+`}
 ];

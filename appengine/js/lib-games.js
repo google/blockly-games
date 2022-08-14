@@ -142,7 +142,7 @@ BlocklyGames.errorReporter = function(event) {
   try {
     //if (Math.random() > 0.5) return;
     // 3rd party script errors (likely plugins) have no useful info.
-    if (event.lineno == 0 && event.colno == 0) return;
+    if (!event.lineno && !event.colno) return;
     // Rate-limit the reports to once every 10 seconds.
     var now = Date.now();
     if (BlocklyGames.errorReporter.lastHit_ + 10 * 1000 > now) return;
@@ -198,7 +198,7 @@ BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
  * @return {boolean} True if RTL, false if LTR.
  */
 BlocklyGames.isRtl = function() {
-  return BlocklyGames.LANGUAGE_RTL.indexOf(BlocklyGames.LANG) != -1;
+  return BlocklyGames.LANGUAGE_RTL.includes(BlocklyGames.LANG);
 };
 
 /**
@@ -251,7 +251,7 @@ BlocklyGames.init = function(title) {
       var tuple = languages[i];
       var lang = tuple[1];
       var option = new Option(tuple[0], lang);
-      if (lang == BlocklyGames.LANG) {
+      if (lang === BlocklyGames.LANG) {
         option.selected = true;
       }
       languageMenu.options.add(option);
@@ -330,7 +330,7 @@ BlocklyGames.bindClick = function(el, func) {
   if (!el) {
     throw TypeError('Element not found: ' + el);
   }
-  if (typeof el == 'string') {
+  if (typeof el === 'string') {
     el = document.getElementById(el);
   }
   el.addEventListener('click', func, true);

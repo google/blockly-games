@@ -161,7 +161,7 @@ Music.init = function() {
           (BlocklyGames.LEVEL > 6) + '" x="180" y="50"></block>' +
       '</xml>';
   BlocklyInterface.loadBlocks(defaultXml,
-      BlocklyGames.LEVEL != BlocklyGames.MAX_LEVEL || Music.transform10);
+      BlocklyGames.LEVEL !== BlocklyGames.MAX_LEVEL || Music.transform10);
   // After level 6 the user can create new start blocks.
   // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
@@ -301,7 +301,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     duration -= 1;
   }
   var top = Music.staveTop_(i, Music.staveCount);
-  if (pitch == Music.REST) {
+  if (pitch === Music.REST) {
     top += 21;
     top = Math.round(top);
   } else {
@@ -314,12 +314,12 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   var left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
   var musicContainer = document.getElementById('musicContainer');
   var img = document.createElement('img');
-  var name = (pitch == Music.REST ? 'rest' : 'note');
+  var name = (pitch === Music.REST ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
   img.className = className + ' ' + name;
   img.style.top = top + 'px';
   img.style.left = left + 'px';
-  if (pitch != Music.REST) {
+  if (pitch !== Music.REST) {
     img.title = CustomFields.FieldPitch.NOTES[pitch];
   }
   musicContainer.appendChild(img);
@@ -332,11 +332,11 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     // Garbage collect the now-invisible note.
     setTimeout(function() {Blockly.utils.dom.removeNode(splash);}, 1000);
   }
-  if (pitch == '0' || pitch == '12') {
+  if (pitch === '0' || pitch === '12') {
     var line = document.createElement('img');
     line.src = 'music/black1x1.gif';
     line.className = className +
-        (duration == 1 ? ' ledgerLineWide' : ' ledgerLine');
+        (duration === 1 ? ' ledgerLineWide' : ' ledgerLine');
     line.style.top = (top + 32) + 'px';
     line.style.left = (left - 5) + 'px';
     musicContainer.appendChild(line);
@@ -355,7 +355,7 @@ Music.showHelp = function() {
     top: '5em'
   };
 
-  if (BlocklyGames.LEVEL == 2) {
+  if (BlocklyGames.LEVEL === 2) {
     var xml =
         '<xml>' +
           '<block type="procedures_defnoreturn" x="5" y="10">' +
@@ -373,10 +373,10 @@ Music.showHelp = function() {
     var firstPart = BlocklyGames.Msg['Music.firstPart'];
     xml = xml.replace(/%1/g, BlocklyGames.esc(firstPart));
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
-  } else if (BlocklyGames.LEVEL == 6) {
+  } else if (BlocklyGames.LEVEL === 6) {
     var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp6', xml);
-  } else if (BlocklyGames.LEVEL == 7) {
+  } else if (BlocklyGames.LEVEL === 7) {
     var xml = '<xml><block type="music_rest_whole" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp7', xml);
   }
@@ -463,7 +463,7 @@ Music.disableExtraStarts = function(e) {
     var startBlocks = [];
     var blocks = BlocklyInterface.workspace.getTopBlocks(false);
     for (var i = 0, block; (block = blocks[i]); i++) {
-      if (block.type == 'music_start' && !block.isInsertionMarker()) {
+      if (block.type === 'music_start' && !block.isInsertionMarker()) {
         startBlocks.push(block);
       }
     }
@@ -471,7 +471,7 @@ Music.disableExtraStarts = function(e) {
       // Too many start blocks.  Disable any new ones.
       for (var i = 0, id; (id = e.ids[i]); i++) {
         for (var j = 0, startBlock; (startBlock = startBlocks[j]); j++) {
-          if (startBlock.id == id) {
+          if (startBlock.id === id) {
             startBlock.setEnabled(false);
           }
         }
@@ -490,7 +490,7 @@ Music.disableExtraStarts = function(e) {
     var startBlocksDisabled = [];
     var blocks = BlocklyInterface.workspace.getTopBlocks(true);
     for (var i = 0, block; (block = blocks[i]); i++) {
-      if (block.type == 'music_start') {
+      if (block.type === 'music_start') {
         (block.isEnabled() ? startBlocksEnabled : startBlocksDisabled)
             .push(block);
       }
@@ -509,7 +509,7 @@ Music.disableExtraStarts = function(e) {
     }
     Music.startCount = startBlocksEnabled.length;
   }
-  if (Music.startCount != oldStartCount) {
+  if (Music.startCount !== oldStartCount) {
     Music.resetButtonClick();
   }
 };
@@ -633,7 +633,7 @@ Music.execute = function() {
   var code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
-  if (Music.startCount == 0) {  // Blank workspace.
+  if (Music.startCount === 0) {  // Blank workspace.
     Music.resetButtonClick();
   }
 
@@ -710,7 +710,7 @@ Music.executeChunk_ = function(thread) {
       alert(e);
       go = false;
     }
-    if (ticks-- == 0) {
+    if (ticks-- === 0) {
       console.warn('Thread ' + thread.stave + ' is running slowly.');
       return;
     }
@@ -811,7 +811,7 @@ Music.play = function(duration, pitch, id) {
     }
     // Swap this thread and the min-thread's staves.
     for (var i = 0, thread; (thread = Music.threads[i]); i++) {
-      if (minResting == thread.stave) {
+      if (minResting === thread.stave) {
         var swapStave = Music.activeThread.stave;
         Music.activeThread.stave = minResting;
         thread.stave = swapStave;
@@ -830,7 +830,7 @@ Music.play = function(duration, pitch, id) {
     var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
     var actual = Music.activeThread.transcript;
     var i = actual.length - 2;
-    if (expected[i] != actual[i] || expected[i + 1] != actual[i + 1]) {
+    if (expected[i] !== actual[i] || expected[i + 1] !== actual[i + 1]) {
       wrong = true;
     }
   }
@@ -850,7 +850,7 @@ Music.rest = function(duration, id) {
   // Make a record of this rest.
   if (Music.activeThread.transcript.length > 1 &&
       Music.activeThread.transcript
-          [Music.activeThread.transcript.length - 2] == Music.REST) {
+          [Music.activeThread.transcript.length - 2] === Music.REST) {
     // Concatenate this rest with previous one.
     Music.activeThread.transcript
         [Music.activeThread.transcript.length - 1] += duration;
@@ -862,7 +862,7 @@ Music.rest = function(duration, id) {
     var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
     var actual = Music.activeThread.transcript;
     var i = actual.length - 2;
-    if (expected[i] != actual[i] || expected[i + 1] < actual[i + 1]) {
+    if (expected[i] !== actual[i] || expected[i + 1] < actual[i + 1]) {
       wrong = true;
     }
   }
@@ -944,7 +944,7 @@ Music.checkAnswer = function() {
   }
 
   // Incorrect number of staves?
-  if (Music.expectedAnswer.length != Music.threads.length) {
+  if (Music.expectedAnswer.length !== Music.threads.length) {
     console.log('Expected ' + Music.expectedAnswer.length + ' voices, found ' +
                 Music.threads.length);
     return false;
@@ -952,7 +952,7 @@ Music.checkAnswer = function() {
 
   // Notes match expected answer?
   for (var i = 0; i < Music.expectedAnswer.length; i++) {
-    if (Music.threads[i].stave == i + 1) {
+    if (Music.threads[i].stave === i + 1) {
       if (String(Music.expectedAnswer[i]) !=
           String(Music.threads[i].transcript)) {
         return false;
@@ -977,15 +977,15 @@ Music.checkAnswer = function() {
 
     // Level 6 requires a "set instrument" block.
     // Fail silently since that's the entire point of the level.
-    if (BlocklyGames.LEVEL == 6 && instruments < 1) {
+    if (BlocklyGames.LEVEL === 6 && instruments < 1) {
       return false;
     }
 
     // Level 7+8 require at least one "set instrument" block.
     // Level 9 requires at least three "set instrument" blocks.
     // Fail with a warning.
-    if (((BlocklyGames.LEVEL == 7 || BlocklyGames.LEVEL == 8) &&
-         instruments < 1) || (BlocklyGames.LEVEL == 9 && instruments < 3)) {
+    if (((BlocklyGames.LEVEL === 7 || BlocklyGames.LEVEL === 8) &&
+         instruments < 1) || (BlocklyGames.LEVEL === 9 && instruments < 3)) {
       console.log('Not enough instruments.  Found: ' + instruments);
       var content = document.getElementById('helpUseInstruments');
       var style = {
@@ -1017,7 +1017,7 @@ Music.checkAnswer = function() {
   var blockCount = 0;
   var blocks = BlocklyInterface.workspace.getAllBlocks();
   for (var i = 0, block; (block = blocks[i]); i++) {
-    if (block.type != 'music_instrument' &&
+    if (block.type !== 'music_instrument' &&
         block.isEnabled() && !block.getInheritedDisabled()) {
       blockCount++;
     }

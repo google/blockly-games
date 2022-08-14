@@ -63,7 +63,7 @@ Index.init = function() {
   }
   for (var i = 0; i < levelsDone.length; i++) {
     var app = Index.APPS[i];
-    var denominator = i == 0 ? 1 : BlocklyGames.MAX_LEVEL;
+    var denominator = (i === 0) ? 1 : BlocklyGames.MAX_LEVEL;
     var angle = levelsDone[i] / denominator * 270;
     if (angle) {
       setTimeout(animateFactory(app, angle), 1500);

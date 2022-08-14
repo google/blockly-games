@@ -293,7 +293,7 @@ Blockly.Blocks['pond_math_number'] = {
   mutationToDom: function() {
     var container = document.createElement('mutation');
     var field = this.getField('NUM');
-    var isAngle = field.constructor == Blockly.FieldAngle;
+    var isAngle = field.constructor === Blockly.FieldAngle;
     container.setAttribute('angle_field', isAngle);
     return container;
   },
@@ -303,7 +303,7 @@ Blockly.Blocks['pond_math_number'] = {
    * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
-    var isAngle = (xmlElement.getAttribute('angle_field') == 'true');
+    var isAngle = (xmlElement.getAttribute('angle_field') === 'true');
     this.updateField_(isAngle);
   },
   /**
@@ -320,15 +320,14 @@ Blockly.Blocks['pond_math_number'] = {
         this.outputConnection.targetConnection.check_) {
       // Plugged in to parent.
       var field = this.getField('NUM');
-      if (this.outputConnection.targetConnection.check_.indexOf('Angle') !=
-          -1) {
+      if (this.outputConnection.targetConnection.check_.includes('Angle')) {
         // Parent wants an angle.
-        if (field.constructor != Blockly.FieldAngle) {
+        if (field.constructor !== Blockly.FieldAngle) {
           this.updateField_(true);
         }
       } else {
         // Parent wants a number.
-        if (field.constructor != Blockly.FieldNumber) {
+        if (field.constructor !== Blockly.FieldNumber) {
           this.updateField_(false);
         }
       }

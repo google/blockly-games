@@ -320,7 +320,7 @@ Pond.Visualization.display_ = function() {
   for (var i = 0; i < Pond.Battle.EVENTS.length; i++) {
     var event = Pond.Battle.EVENTS[i];
     var avatar = event['avatar'];
-    if (event['type'] == 'CRASH') {
+    if (event['type'] === 'CRASH') {
       // Impact between two avatars, or a avatar and the wall.
       // Only play the crash sound if this avatar hasn't crashed recently.
       var lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
@@ -329,7 +329,7 @@ Pond.Visualization.display_ = function() {
                           Pond.Battle.COLLISION_DAMAGE);
         Pond.Visualization.CRASH_LOG[avatar.id] = Date.now();
       }
-    } else if (event['type'] == 'SCAN') {
+    } else if (event['type'] === 'SCAN') {
       // Show a sensor scan beam.
       var halfResolution = Math.max(event['resolution'] / 2, 0.5);
       var angle1 = -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
@@ -348,16 +348,16 @@ Pond.Visualization.display_ = function() {
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       ctx.fillStyle = gradient;
       ctx.fill();
-    } else if (event['type'] == 'BANG') {
+    } else if (event['type'] === 'BANG') {
       // No visualization for firing a cannon currently exists.
-    } else if (event['type'] == 'BOOM') {
+    } else if (event['type'] === 'BOOM') {
       // A missile has landed.
       if (event['damage']) {
         // A avatar has taken damage.
         Pond.Visualization.playAudio_('boom', event['damage'] / 10);
       }
       Pond.Visualization.EXPLOSIONS.push({x: event['x'], y: event['y'], t: 0});
-    } else if (event['type'] == 'DIE') {
+    } else if (event['type'] === 'DIE') {
       // A avatar just sustained fatal damage.
       Pond.Visualization.playAudio_('splash');
     }

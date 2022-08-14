@@ -112,7 +112,7 @@ Pond.Tutor.init = function() {
     containerCode.parentNode.removeChild(containerCode);
 
     var defaultCode;
-    if (BlocklyGames.LEVEL == 8) {
+    if (BlocklyGames.LEVEL === 8) {
       defaultCode = 'swim(0);';
     } else {
       defaultCode = 'cannon(0, 70);';
@@ -337,12 +337,12 @@ Pond.Tutor.getAvatarData = function() {
  */
 Pond.endBattle = function(survivors) {
   Pond.Visualization.stop();
-  if (survivors == 0) {
+  if (survivors === 0) {
     // Everyone died.
-  } else if (survivors == 1) {
+  } else if (survivors === 1) {
     // Winner.
-    if (Pond.Battle.RANK[0].visualizationIndex == 0) {
-      if ((BlocklyGames.LEVEL == 5 || BlocklyGames.LEVEL == 6) &&
+    if (Pond.Battle.RANK[0].visualizationIndex === 0) {
+      if ((BlocklyGames.LEVEL === 5 || BlocklyGames.LEVEL === 6) &&
           Pond.Battle.ticks > 200000) {
         // Avatar just pinged Pendulum to death with fixed range.
         // Use 'scan', dummy.

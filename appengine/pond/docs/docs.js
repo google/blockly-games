@@ -49,7 +49,7 @@ function bindClick(el, func) {
 function toggle(e) {
   var header = e.currentTarget;
   var content = document.getElementById(header.id + '-content');
-  var isOpen = content.className == 'zippy-content-expanded';
+  var isOpen = content.className === 'zippy-content-expanded';
   header.className =
       'zippy-header-' + (isOpen ? 'collapsed' : 'expanded');
   content.className =

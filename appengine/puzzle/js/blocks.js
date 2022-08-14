@@ -88,7 +88,7 @@ Blockly.Blocks['animal'] = {
    * @this {Blockly.Block}
    */
   isCorrect: function() {
-    return this.getFieldValue('LEGS') == this.animal;
+    return this.getFieldValue('LEGS') === this.animal;
   }
 };
 
@@ -125,7 +125,7 @@ Blockly.Blocks['picture'] = {
    */
   isCorrect: function() {
     var parent = this.getParent();
-    return parent && (parent.animal == this.animal);
+    return parent && (parent.animal === this.animal);
   }
 };
 
@@ -180,6 +180,6 @@ Blockly.Blocks['trait'] = {
    */
   isCorrect: function() {
     var parent = this.getSurroundParent();
-    return parent && (parent.animal == this.animal);
+    return parent && (parent.animal === this.animal);
   }
 };

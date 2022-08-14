@@ -42,7 +42,7 @@ Movie.WIDTH = 400;
  * First level has only one frame (#0).  The rest have 101 (#0-#100).
  * @type number
  */
-Movie.FRAMES = BlocklyGames.LEVEL == 1 ? 0 : 100;
+Movie.FRAMES = BlocklyGames.LEVEL === 1 ? 0 : 100;
 
 /**
  * Array of pixel errors, one per frame.
@@ -99,7 +99,7 @@ Movie.init = function() {
   BlocklyInterface.injectBlockly(
       {'rtl': rtl,
        'trashcan': true,
-       'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
+       'zoom': BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL ?
            {'controls': true, 'wheel': true} : null});
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
@@ -132,7 +132,7 @@ Movie.init = function() {
   // Initialize the scrubber.
   var scrubberSvg = document.getElementById('scrubber');
   Movie.frameScrubber = new Scrubber(scrubberSvg, Movie.display);
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     scrubberSvg.style.display = 'none';
   }
 
@@ -199,7 +199,7 @@ Movie.updateCoordinates = function(e) {
   if (rtl) {
     x += 100;
   }
-  if (BlocklyGames.LEVEL == 10) {
+  if (BlocklyGames.LEVEL === 10) {
     // Round to the nearest integer.
     x = Math.round(x);
     y = Math.round(y);
@@ -228,7 +228,7 @@ Movie.showHelp = function() {
     top: '5em'
   };
 
-  if (BlocklyGames.LEVEL == 2) {
+  if (BlocklyGames.LEVEL === 2) {
     var xml = '<xml><block type="movie_time" x="15" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   }
@@ -312,11 +312,11 @@ Movie.renderAxies_ = function() {
     ctx.moveTo(0, i * Movie.HEIGHT);
     ctx.lineTo(TICK_LENGTH * major, i * Movie.HEIGHT);
     ctx.stroke();
-    if (major == 2) {
+    if (major === 2) {
       ctx.fillText(Math.round(i * 100), i * Movie.WIDTH + 2, Movie.HEIGHT - 4);
       ctx.fillText(Math.round(100 - i * 100), 3, i * Movie.HEIGHT - 2);
     }
-    major = major == 1 ? 2 : 1;
+    major = (major === 1) ? 2 : 1;
   }
 };
 
@@ -333,7 +333,7 @@ Movie.drawFrame_ = function(interpreter) {
   // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
   // Level 10 should be opaque so that the movie is clean.
   Movie.ctxScratch.globalAlpha =
-      (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) ? 1 : 0.9;
+      (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) ? 1 : 0.9;
 
   var go = true;
   for (var tick = 0; go && tick < 10000; tick++) {
@@ -360,7 +360,7 @@ Movie.codeChange = function(opt_e) {
     return;
   }
   var code = BlocklyInterface.getJsCode();
-  if (BlocklyInterface.executedJsCode == code) {
+  if (BlocklyInterface.executedJsCode === code) {
     return;
   }
   // Code has changed, clear all recorded frame info.
@@ -381,7 +381,7 @@ Movie.display = function(opt_frameNumber) {
     setTimeout(function() {Movie.display(opt_frameNumber);}, 250);
     return;
   }
-  if (typeof opt_frameNumber == 'number') {
+  if (typeof opt_frameNumber === 'number') {
     Movie.frameNumber = opt_frameNumber;
   }
   var frameNumber = Movie.frameNumber;
@@ -424,7 +424,7 @@ Movie.display = function(opt_frameNumber) {
   // Copy the axies.
   Movie.ctxDisplay.drawImage(document.getElementById('axies'), 0, 0);
   Movie.checkFrameAnswer();
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL === 1) {
     setTimeout(Movie.checkAnswers, 1000);
   }
 };
@@ -570,7 +570,7 @@ Movie.checkFrameAnswer = function() {
  * If so, move on to next level.
  */
 Movie.checkAnswers = function() {
-  if (BlocklyGames.LEVEL > 1 && Movie.frameNumber != Movie.FRAMES) {
+  if (BlocklyGames.LEVEL > 1 && Movie.frameNumber !== Movie.FRAMES) {
     // Only check answers at the end of the run.
     return;
   }
@@ -591,7 +591,7 @@ Movie.checkAnswers = function() {
 Movie.submitToGallery = function() {
   var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   var code = BlocklyInterface.getJsCode();
-  if (blockCount < 4 || code.indexOf('time()') == -1) {
+  if (blockCount < 4 || !code.includes('time()')) {
     alert(BlocklyGames.Msg['Movie.submitDisabled']);
     return;
   }

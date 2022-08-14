@@ -71,7 +71,7 @@ Pond.docsButtonClick = function() {
   var frame = document.getElementById('frameDocs');
   var src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
         '&mode=' + BlocklyGames.LEVEL;
-  if (frame.src != src) {
+  if (frame.src !== src) {
     frame.src = src;
   }
 

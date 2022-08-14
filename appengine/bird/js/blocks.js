@@ -136,7 +136,7 @@ Blockly.Blocks['bird_compare'] = {
 
 Blockly.JavaScript['bird_compare'] = function(block) {
   // Generate JavaScript for comparing bird's x or y position with a number.
-  var operator = (block.getFieldValue('OP') == 'LT') ? '<' : '>';
+  var operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
   var order = Blockly.JavaScript.ORDER_RELATIONAL;
   var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
   var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
