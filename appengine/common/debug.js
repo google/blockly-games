@@ -21,6 +21,6 @@ function setDebug(debug) {
 }
 
 (function() {
-  const debug = !!sessionStorage.getItem('debug');
+  var debug = !!sessionStorage.getItem('debug');
   document.getElementById(debug ? 'debug1' : 'debug0').checked = true;
 })();

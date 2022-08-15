@@ -260,8 +260,7 @@ Pond.Battle.updateAvatars_ = function() {
             {'type': 'CRASH', 'avatar': avatar, 'damage': damage});
       } else {
         const tuple = Pond.Battle.closestNeighbour(avatar);
-        const neighbour = tuple[0];
-        const closestAfter = tuple[1];
+        const [neighbour, closestAfter] = tuple;
         if (closestAfter < Pond.Battle.COLLISION_RADIUS &&
              closestBefore > closestAfter) {
           // Collision with another avatar.

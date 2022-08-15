@@ -735,9 +735,7 @@ Bird.animate = function() {
   BlocklyInterface.highlight(action.pop());
 
   if (action[0] === 'move' || action[0] === 'goto') {
-    Bird.pos.x = action[1];
-    Bird.pos.y = action[2];
-    Bird.angle = action[3];
+    [, Bird.pos.x, Bird.pos.y, Bird.angle] = action;
     Bird.displayBird(action[0] === 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR);
   } else if (action[0] === 'worm') {
     const worm = document.getElementById('worm');
