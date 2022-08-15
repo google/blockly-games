@@ -123,7 +123,7 @@ Pond.Battle.reset = function() {
   Pond.Battle.MISSILES.length = 0;
   Pond.Battle.RANK.length = 0;
   Pond.Battle.ticks = 0;
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+  for (const avatar of Pond.Battle.AVATARS) {
     avatar.reset();
   }
 };
@@ -137,7 +137,7 @@ Pond.Battle.start = function(doneCallback) {
   Pond.Battle.endTime_ = Date.now() + Pond.Battle.TIME_LIMIT;
   console.log('Starting battle with ' + Pond.Battle.AVATARS.length +
               ' avatars.');
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+  for (const avatar of Pond.Battle.AVATARS) {
     try {
       avatar.initInterpreter();
     } catch (e) {
@@ -175,13 +175,13 @@ Pond.Battle.update = function() {
 
 Pond.Battle.stop = function() {
   // Add the survivors to the ranks based on their damage.
-  var survivors = [];
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+  const survivors = [];
+  for (const avatar of Pond.Battle.AVATARS) {
     if (!avatar.dead) {
       survivors.push(avatar);
     }
   }
-  var survivorCount = survivors.length;
+  const survivorCount = survivors.length;
   survivors.sort(function(a, b) {return a.damage - b.damage;});
   while (survivors.length) {
     Pond.Battle.RANK.unshift(survivors.pop());
@@ -195,20 +195,20 @@ Pond.Battle.stop = function() {
  * @private
  */
 Pond.Battle.updateMissiles_ = function() {
-  for (var i = Pond.Battle.MISSILES.length - 1; i >= 0; i--) {
-    var missile = Pond.Battle.MISSILES[i];
+  for (let i = Pond.Battle.MISSILES.length - 1; i >= 0; i--) {
+    const missile = Pond.Battle.MISSILES[i];
     missile.progress += Pond.Battle.MISSILE_SPEED;
-    var maxDamage = 0;
+    let maxDamage = 0;
     if (missile.range - missile.progress < Pond.Battle.MISSILE_SPEED / 2) {
       // Boom.
       Pond.Battle.MISSILES.splice(i, 1);
       // Damage any avatar in range.
-      for (var j = 0, avatar; (avatar = Pond.Battle.AVATARS[j]); j++) {
+      for (const avatar of Pond.Battle.AVATARS) {
         if (avatar.dead) {
           continue;
         }
-        var range = Blockly.utils.Coordinate.distance(avatar.loc, missile.endLoc);
-        var damage = (1 - range / 4) * 10;
+        const range = Blockly.utils.Coordinate.distance(avatar.loc, missile.endLoc);
+        const damage = (1 - range / 4) * 10;
         if (damage > 0) {
           avatar.addDamage(damage);
           maxDamage = Math.max(maxDamage, damage);
@@ -225,7 +225,7 @@ Pond.Battle.updateMissiles_ = function() {
  * @private
  */
 Pond.Battle.updateAvatars_ = function() {
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+  for (const avatar of Pond.Battle.AVATARS) {
     if (avatar.dead) {
       continue;
     }
@@ -239,12 +239,12 @@ Pond.Battle.updateAvatars_ = function() {
     }
     // Move.
     if (avatar.speed > 0) {
-      var tuple = Pond.Battle.closestNeighbour(avatar);
-      var closestBefore = tuple[1];
-      var angleRadians = Blockly.utils.math.toRadians(avatar.degree);
-      var speed = avatar.speed / 100 * Pond.Battle.AVATAR_SPEED;
-      var dx = Math.cos(angleRadians) * speed;
-      var dy = Math.sin(angleRadians) * speed;
+      const tuple = Pond.Battle.closestNeighbour(avatar);
+      const closestBefore = tuple[1];
+      const angleRadians = Blockly.utils.math.toRadians(avatar.degree);
+      const speed = avatar.speed / 100 * Pond.Battle.AVATAR_SPEED;
+      const dx = Math.cos(angleRadians) * speed;
+      const dy = Math.sin(angleRadians) * speed;
       avatar.loc.x += dx;
       avatar.loc.y += dy;
       if (avatar.loc.x < 0 || avatar.loc.x > 100 ||
@@ -252,22 +252,22 @@ Pond.Battle.updateAvatars_ = function() {
         // Collision with wall.
         avatar.loc.x = Blockly.utils.math.clamp(avatar.loc.x, 0, 100);
         avatar.loc.y = Blockly.utils.math.clamp(avatar.loc.y, 0, 100);
-        var damage = avatar.speed / 100 * Pond.Battle.COLLISION_DAMAGE;
+        const damage = avatar.speed / 100 * Pond.Battle.COLLISION_DAMAGE;
         avatar.addDamage(damage);
         avatar.speed = 0;
         avatar.desiredSpeed = 0;
         Pond.Battle.EVENTS.push(
             {'type': 'CRASH', 'avatar': avatar, 'damage': damage});
       } else {
-        var tuple = Pond.Battle.closestNeighbour(avatar);
-        var neighbour = tuple[0];
-        var closestAfter = tuple[1];
+        const tuple = Pond.Battle.closestNeighbour(avatar);
+        const neighbour = tuple[0];
+        const closestAfter = tuple[1];
         if (closestAfter < Pond.Battle.COLLISION_RADIUS &&
              closestBefore > closestAfter) {
           // Collision with another avatar.
           avatar.loc.x -= dx;
           avatar.loc.y -= dy;
-          var damage = Math.max(avatar.speed, neighbour.speed) / 100 *
+          const damage = Math.max(avatar.speed, neighbour.speed) / 100 *
               Pond.Battle.COLLISION_DAMAGE;
           avatar.addDamage(damage);
           avatar.speed = 0;
@@ -289,9 +289,9 @@ Pond.Battle.updateAvatars_ = function() {
  * @private
  */
 Pond.Battle.updateInterpreters_ = function() {
-  for (var j = 0; j < Pond.Battle.STATEMENTS_PER_FRAME; j++) {
+  for (let i = 0; i < Pond.Battle.STATEMENTS_PER_FRAME; i++) {
     Pond.Battle.ticks++;
-    for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+    for (const avatar of Pond.Battle.AVATARS) {
       if (avatar.dead) {
         continue;
       }
@@ -314,7 +314,7 @@ Pond.Battle.updateInterpreters_ = function() {
  */
 Pond.Battle.initInterpreter = function(interpreter, globalObject) {
   // API
-  var wrapper;
+  let wrapper;
   wrapper = function(value) {
     // Restrict logging to just numbers so that the console doesn't fill up
     // with 'problematic' messages when running 3rd party ducks.
@@ -375,7 +375,7 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
         interpreter.createNativeFunction(wrapper));
   }
 
-  var myMath = interpreter.getProperty(globalObject, 'Math');
+  const myMath = interpreter.getProperty(globalObject, 'Math');
   if (myMath) {
     wrapper = function(number) {
       return Math.sin(Blockly.utils.math.toRadians(number));
@@ -420,11 +420,11 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
  * @return {!Array} Tuple of closest avatar and distance to that avatar.
  */
 Pond.Battle.closestNeighbour = function(avatar) {
-  var closest = null;
-  var distance = Infinity;
-  for (var i = 0, neighbour; (neighbour = Pond.Battle.AVATARS[i]); i++) {
+  let closest = null;
+  let distance = Infinity;
+  for (const neighbour of Pond.Battle.AVATARS) {
     if (!neighbour.dead && avatar !== neighbour) {
-      var thisDistance = Math.min(distance,
+      const thisDistance = Math.min(distance,
           Blockly.utils.Coordinate.distance(avatar.loc, neighbour.loc));
       if (thisDistance < distance) {
         distance = thisDistance;

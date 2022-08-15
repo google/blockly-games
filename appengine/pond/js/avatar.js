@@ -164,7 +164,7 @@ Pond.Avatar.prototype.die = function() {
  * @return {number} Distance (0 - ~141), or Infinity if no avatar detected.
  */
 Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
-  var resolution;
+  let resolution;
   if (opt_resolution === undefined || opt_resolution === null) {
     resolution = 5;
   } else {
@@ -181,29 +181,29 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
                             'degree': degree, 'resolution': resolution});
 
   // Compute both edges of the scan.
-  var scan1 = BlocklyGames.normalizeAngle(degree - resolution / 2);
-  var scan2 = BlocklyGames.normalizeAngle(degree + resolution / 2);
+  const scan1 = BlocklyGames.normalizeAngle(degree - resolution / 2);
+  let scan2 = BlocklyGames.normalizeAngle(degree + resolution / 2);
   if (scan1 > scan2) {
     scan2 += 360;
   }
-  var locX = this.loc.x;
-  var locY = this.loc.y;
+  const locX = this.loc.x;
+  const locY = this.loc.y;
   // Check every enemy for existence in the scan beam.
-  var closest = Infinity;
-  for (var i = 0, enemy; (enemy = this.battle_.AVATARS[i]); i++) {
+  let closest = Infinity;
+  for (const enemy of this.battle_.AVATARS) {
     if (enemy === this || enemy.dead) {
       continue;
     }
-    var ex = enemy.loc.x;
-    var ey = enemy.loc.y;
+    const ex = enemy.loc.x;
+    const ey = enemy.loc.y;
     // Pythagorean theorem to find range to enemy's centre.
-    var range = Math.sqrt((ey - locY) * (ey - locY) +
+    const range = Math.sqrt((ey - locY) * (ey - locY) +
                           (ex - locX) * (ex - locX));
     if (range >= closest) {
       continue;
     }
     // Compute angle between avatar and enemy's centre.
-    var angle = Math.atan2(ey - locY, ex - locX);
+    let angle = Math.atan2(ey - locY, ex - locX);
     angle = BlocklyGames.normalizeAngle(Blockly.utils.math.toDegrees(angle));
     // Raise angle by 360 if needed (handles wrapping).
     if (angle < scan1) {
@@ -223,7 +223,7 @@ Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
  * @param {number} opt_speed Desired speed (0-100).  Defaults to 50.
  */
 Pond.Avatar.prototype.drive = function(degree, opt_speed) {
-  var speed;
+  let speed;
   if (opt_speed === undefined || opt_speed === null) {
     speed = 50;
   } else {
@@ -233,7 +233,7 @@ Pond.Avatar.prototype.drive = function(degree, opt_speed) {
       (typeof speed !== 'number') || isNaN(speed)) {
     throw TypeError;
   }
-  var desiredDegree = BlocklyGames.normalizeAngle(degree);
+  const desiredDegree = BlocklyGames.normalizeAngle(degree);
   if (this.degree !== desiredDegree) {
     if (this.speed <= 50) {
       // Changes in direction can be negotiated at speeds of less than 50%.
@@ -270,19 +270,19 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
       (typeof range !== 'number') || isNaN(range)) {
     throw TypeError;
   }
-  var now = Date.now();
+  const now = Date.now();
   if (this.lastMissile + this.battle_.RELOAD_TIME * 1000 > now) {
     return false;
   }
   this.lastMissile = now;
-  var startLoc = new Blockly.utils.Coordinate(this.loc.x, this.loc.y);
+  const startLoc = new Blockly.utils.Coordinate(this.loc.x, this.loc.y);
   degree = BlocklyGames.normalizeAngle(degree);
   this.facing = degree;
   range = Blockly.utils.math.clamp(range, 0, 70);
-  var endLoc = new Blockly.utils.Coordinate(
+  const endLoc = new Blockly.utils.Coordinate(
       startLoc.x + Pond.Avatar.angleDx(degree, range),
       startLoc.y + Pond.Avatar.angleDy(degree, range));
-  var missile = {
+  const missile = {
     avatar: this,
     startLoc: startLoc,
     degree: degree,
@@ -332,6 +332,6 @@ Pond.Avatar.angleDy = function(degrees, radius) {
  *     x1,y1 to x2,y2.
  */
 Pond.Avatar.pointsToAngle = function(x1, y1, x2, y2) {
-  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  const angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
   return BlocklyGames.normalizeAngle(angle);
 };

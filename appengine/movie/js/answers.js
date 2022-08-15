@@ -176,7 +176,7 @@ Movie.isCorrect = function() {
     return BlocklyInterface.workspace.getAllBlocks().length > 1;
   }
   // Check the already recorded pixel errors on every frame.
-  for (var f = 0; f <= Movie.FRAMES; f++) {
+  for (let f = 0; f <= Movie.FRAMES; f++) {
     if (f === 50) {
       // Don't check the middle frame.  Makes pesky off-by-one errors go away.
       // E.g. if (time < 50) vs if (time <= 50)
@@ -192,14 +192,14 @@ Movie.isCorrect = function() {
   }
   if (BlocklyGames.LEVEL === 9) {
     // Ensure that the background is behind the figure, not in front.
-    var blocks = BlocklyInterface.workspace.getAllBlocks(true);
-    for (var i = 0, block; (block = blocks[i]); i++) {
+    const blocks = BlocklyInterface.workspace.getAllBlocks(true);
+    for (let i = 0, block; (block = blocks[i]); i++) {
       if (block.type === 'movie_circle') {
         // Check that the radius on the first circle block is connected to a
         // division block.
         if (block.getInputTargetBlock('RADIUS').type !== 'math_arithmetic') {
-          var content = document.getElementById('helpLayer');
-          var style = {
+          const content = document.getElementById('helpLayer');
+          const style = {
             'width': '30%',
             'left': '35%',
             'top': '12em'

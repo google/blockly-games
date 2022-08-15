@@ -64,7 +64,7 @@ Blockly.Blocks['music_note'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var options = [
+    const options = [
       [{"src": "music/note1.png",
         "width": 9, "height": 19, "alt": "whole"}, "1"],
       [{"src": "music/note0.5.png",
@@ -105,7 +105,7 @@ Blockly.Blocks['music_note'] = {
 };
 
 Blockly.JavaScript['music_note'] = function(block) {
-  var pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
+  const pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
       Blockly.JavaScript.ORDER_COMMA) || '7';
   return 'play(' + Number(block.getFieldValue('DURATION')) + ', ' + pitch +
       ', \'block_id_' + block.id + '\');\n';
@@ -215,7 +215,7 @@ Blockly.Blocks['music_instrument'] = {
 };
 
 Blockly.JavaScript['music_instrument'] = function(block) {
-  var instrument = Blockly.JavaScript.quote_(block.getFieldValue('INSTRUMENT'));
+  const instrument = Blockly.JavaScript.quote_(block.getFieldValue('INSTRUMENT'));
   return 'setInstrument(' + instrument + ', \'block_id_' + block.id + '\');\n';
 };
 
@@ -251,8 +251,8 @@ Blockly.Blocks['music_start'] = {
 
 Blockly.JavaScript['music_start'] = function(block) {
   Music.startCount++;
-  var statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
-  var code = 'function start' + Music.startCount + '() {\n' +
+  const statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
+  const code = 'function start' + Music.startCount + '() {\n' +
       statements_stack + '}\n';
   // Add % so as not to collide with helper functions in definitions list.
   Blockly.JavaScript.definitions_['%start' + Music.startCount] = code;
@@ -266,7 +266,7 @@ if (BlocklyGames.LEVEL < 10) {
    * @this {Blockly.Block}
    */
   Blockly.Blocks['procedures_defnoreturn'].init = function() {
-    var nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);
+    const nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField(Blockly.Msg['PROCEDURES_DEFNORETURN_TITLE'])

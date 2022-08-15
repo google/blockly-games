@@ -88,9 +88,9 @@ BlocklyGames.html.titleSpan = function(ij, appName) {
  * @return {string} HTML.
  */
 BlocklyGames.html.levelLinks = function(ij, suffix) {
-  var html = ' &nbsp ';
-  for (var i = 1; i <= ij.maxLevel; i++) {
-    var url = `?lang=${ij.lang}&level=${i}`;
+  let html = ' &nbsp ';
+  for (let i = 1; i <= ij.maxLevel; i++) {
+    let url = `?lang=${ij.lang}&level=${i}`;
     if (suffix) {
       url += '&' + suffix;
     }

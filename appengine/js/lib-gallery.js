@@ -25,24 +25,24 @@ BlocklyGallery.showGalleryForm = function() {
   // Encode the XML.
   document.getElementById('galleryXml').value = BlocklyInterface.getCode();
 
-  var content = document.getElementById('galleryDialog');
-  var style = {
+  const content = document.getElementById('galleryDialog');
+  const style = {
     width: '40%',
     left: '30%',
     top: '3em'
   };
 
   if (!BlocklyGallery.showGalleryForm.runOnce_) {
-    var cancel = document.getElementById('galleryCancel');
+    const cancel = document.getElementById('galleryCancel');
     cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
     cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-    var ok = document.getElementById('galleryOk');
+    const ok = document.getElementById('galleryOk');
     ok.addEventListener('click', BlocklyGallery.gallerySubmit_, true);
     ok.addEventListener('touchend', BlocklyGallery.gallerySubmit_, true);
     // Only bind the buttons once.
     BlocklyGallery.showGalleryForm.runOnce_ = true;
   }
-  var origin = document.getElementById('submitButton');
+  const origin = document.getElementById('submitButton');
   BlocklyDialogs.showDialog(content, origin, true, true, style,
       function() {
         document.body.removeEventListener('keydown',
@@ -81,8 +81,8 @@ BlocklyGallery.galleryKeyDown_ = function(e) {
  */
 BlocklyGallery.makeFormRequest_ =
     function(form, opt_onSuccess, opt_onFailure, opt_method) {
-  var data = [];
-  for (var i = 0, element; (element = form.elements[i]); i++) {
+  const data = [];
+  for (let i = 0, element; (element = form.elements[i]); i++) {
     if (element.name) {
       data.push(encodeURIComponent(element.name) + '=' +
           encodeURIComponent(element.value));
@@ -98,15 +98,15 @@ BlocklyGallery.makeFormRequest_ =
  */
 BlocklyGallery.gallerySubmit_ = function() {
   // Check that there is a title.
-  var title = document.getElementById('galleryTitle');
+  const title = document.getElementById('galleryTitle');
   if (!title.value.trim()) {
     title.value = '';
     title.focus();
     return;
   }
 
-  var form = document.getElementById('galleryForm');
-  var onSuccess = function() {
+  const form = document.getElementById('galleryForm');
+  const onSuccess = function() {
     BlocklyDialogs.storageAlert(null, BlocklyGames.Msg['Games.submitted']);
   };
   BlocklyGallery.makeFormRequest_(form, onSuccess);

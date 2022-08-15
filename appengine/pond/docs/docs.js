@@ -14,13 +14,13 @@
  * Turn all h2 tags into zippies.  Called on page load.
  */
 function init() {
-  var headers = document.getElementsByTagName('h2');
-  for (var i = 0, header; (header = headers[i]); i++) {
-    var img = document.createElement('img');
+  const headers = document.getElementsByTagName('h2');
+  for (let i = 0, header; (header = headers[i]); i++) {
+    const img = document.createElement('img');
     img.src = '../common/1x1.gif';
     header.insertBefore(img, header.firstChild);
     header.className = 'zippy-header-collapsed';
-    var content = document.getElementById(header.id + '-content');
+    const content = document.getElementById(header.id + '-content');
     content.className = 'zippy-content-collapsed';
     bindClick(header, toggle);
   }
@@ -47,9 +47,9 @@ function bindClick(el, func) {
  * @param {!Event} e The click or touch event.
  */
 function toggle(e) {
-  var header = e.currentTarget;
-  var content = document.getElementById(header.id + '-content');
-  var isOpen = content.className === 'zippy-content-expanded';
+  const header = e.currentTarget;
+  const content = document.getElementById(header.id + '-content');
+  const isOpen = content.className === 'zippy-content-expanded';
   header.className =
       'zippy-header-' + (isOpen ? 'collapsed' : 'expanded');
   content.className =
@@ -59,11 +59,11 @@ function toggle(e) {
 
 (function() {
   window.addEventListener('load', init);
-  var param = window.location.search.match(/[?&]mode=([^&]+)/);
-  var level = param ? Number(param[1]) : 11;
-  var hide = level % 2 ? 'hideJs' : 'hideBlocks';
-  var classes = [hide];
-  for (var i = level + 1; i <= 11; i++) {
+  const param = window.location.search.match(/[?&]mode=([^&]+)/);
+  const level = param ? Number(param[1]) : 11;
+  const hide = level % 2 ? 'hideJs' : 'hideBlocks';
+  const classes = [hide];
+  for (let i = level + 1; i <= 11; i++) {
     classes.push('hideLevel' + i);
   }
   document.body.className = classes.join(' ');

@@ -60,7 +60,7 @@ BlocklyInterface.init = function(title) {
   BlocklyGames.init(title);
 
   // Disable the link button if page isn't backed by App Engine storage.
-  var linkButton = document.getElementById('linkButton');
+  const linkButton = document.getElementById('linkButton');
   if (linkButton) {
     if (!BlocklyGames.IS_HTML) {
       BlocklyStorage.getCode = BlocklyInterface.getCode;
@@ -71,7 +71,7 @@ BlocklyInterface.init = function(title) {
     }
   }
 
-  var languageMenu = document.getElementById('languageMenu');
+  const languageMenu = document.getElementById('languageMenu');
   if (languageMenu) {
     languageMenu.addEventListener('change',
         BlocklyInterface.changeLanguage, true);
@@ -92,7 +92,7 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   }
 
   // Language switching stores the blocks during the reload.
-  var loadOnce = null;
+  let loadOnce;
   try {
     loadOnce = window.sessionStorage.loadOnceBlocks;
   } catch (e) {
@@ -103,16 +103,16 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
     delete window.sessionStorage.loadOnceBlocks;
   }
 
-  var savedLevel =
+  const savedLevel =
       BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
-  var inherited = inherit &&
+  let inherited = inherit &&
       BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                         BlocklyGames.LEVEL - 1);
   if (inherited && typeof inherit === 'function') {
     inherited = inherit(inherited);
   }
 
-  var restore = loadOnce || savedLevel || inherited || defaultXml;
+  const restore = loadOnce || savedLevel || inherited || defaultXml;
   if (restore) {
     BlocklyInterface.setCode(restore);
   }
@@ -128,7 +128,7 @@ BlocklyInterface.setCode = function(code) {
     BlocklyInterface.editor['setValue'](code, -1);
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.textToDom(code);
+    const xml = Blockly.Xml.textToDom(code);
     // Clear the workspace to avoid merge.
     BlocklyInterface.workspace.clear();
     Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
@@ -141,23 +141,24 @@ BlocklyInterface.setCode = function(code) {
  * @return {string} XML or JS code.
  */
 BlocklyInterface.getCode = function() {
+  let text;
   if (BlocklyInterface.blocksDisabled) {
     // Text editor.
-    var text = BlocklyInterface.editor['getValue']();
+    text = BlocklyInterface.editor['getValue']();
   } else {
     // Blockly editor.
-    var xml = Blockly.Xml.workspaceToDom(BlocklyInterface.workspace, true);
+    const xml = Blockly.Xml.workspaceToDom(BlocklyInterface.workspace, true);
     // Remove x/y coordinates from XML if there's only one block stack.
     // There's no reason to store this, removing it helps with anonymity.
     if (BlocklyInterface.workspace.getTopBlocks(false).length === 1 &&
         xml.querySelector) {
-      var block = xml.querySelector('block');
+      const block = xml.querySelector('block');
       if (block) {
         block.removeAttribute('x');
         block.removeAttribute('y');
       }
     }
-    var text = Blockly.Xml.domToText(xml);
+    text = Blockly.Xml.domToText(xml);
   }
   return text;
 };
@@ -193,7 +194,7 @@ BlocklyInterface.codeChanged = function() {
  * @param {!Object} options Dictionary of Blockly options.
  */
 BlocklyInterface.injectBlockly = function(options) {
-  var toolbox = document.getElementById('toolbox');
+  const toolbox = document.getElementById('toolbox');
   if (toolbox) {
     options['toolbox'] = toolbox;
   }
@@ -211,7 +212,7 @@ BlocklyInterface.saveToLocalStorage = function() {
   if (typeof Blockly === undefined || !window.localStorage) {
     return;
   }
-  var name = BlocklyGames.NAME + BlocklyGames.LEVEL;
+  const name = BlocklyGames.NAME + BlocklyGames.LEVEL;
   window.localStorage[name] = BlocklyInterface.executedCode;
 };
 
@@ -264,7 +265,7 @@ BlocklyInterface.nextLevel = function() {
  */
 BlocklyInterface.highlight = function(id, opt_state) {
   if (id) {
-    var m = id.match(/^block_id_([^']+)$/);
+    const m = id.match(/^block_id_([^']+)$/);
     if (m) {
       id = m[1];
     }
@@ -278,10 +279,10 @@ BlocklyInterface.highlight = function(id, opt_state) {
  * @param {string|!Array.<string>} xml XML string(s) describing blocks.
  */
 BlocklyInterface.injectReadonly = function(id, xml) {
-  var div = document.getElementById(id);
+  const div = document.getElementById(id);
   if (!div.firstChild) {
-    var rtl = BlocklyGames.isRtl();
-    var workspace = Blockly.inject(div, {'rtl': rtl, 'readOnly': true});
+    const workspace =
+        Blockly.inject(div, {'rtl': BlocklyGames.IS_RTL, 'readOnly': true});
     if (typeof xml !== 'string') {
       xml = xml.join('');
     }
@@ -310,7 +311,7 @@ BlocklyInterface.eventSpam = function(e) {
   // 'click'.  For now, just look for this very specific combination.
   // Some devices have both mice and touch, but assume the two won't occur
   // within two seconds of each other.
-  var touchMouseTime = 2000;
+  const touchMouseTime = 2000;
   if (e.type === 'click' &&
       BlocklyInterface.eventSpam.previousType_ === 'touchend' &&
       BlocklyInterface.eventSpam.previousDate_ + touchMouseTime > Date.now()) {
@@ -319,7 +320,7 @@ BlocklyInterface.eventSpam = function(e) {
     return true;
   }
   // Users double-click or double-tap accidentally.
-  var doubleClickTime = 400;
+  const doubleClickTime = 400;
   if (BlocklyInterface.eventSpam.previousType_ === e.type &&
       BlocklyInterface.eventSpam.previousDate_ + doubleClickTime > Date.now()) {
     e.preventDefault();
@@ -342,7 +343,7 @@ BlocklyInterface.importInterpreter = function() {
   function load() {
     //<script type="text/javascript"
     //  src="third-party/JS-Interpreter/compressed.js"></script>
-    var script = document.createElement('script');
+    const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'third-party/JS-Interpreter/compressed.js';
     document.head.appendChild(script);
@@ -358,12 +359,12 @@ BlocklyInterface.importPrettify = function() {
   function load() {
     //<link rel="stylesheet" type="text/css" href="common/prettify.css">
     //<script type="text/javascript" src="common/prettify.js"></script>
-    var link = document.createElement('link');
+    const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
     link.href = 'common/prettify.css';
     document.head.appendChild(link);
-    var script = document.createElement('script');
+    const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'common/prettify.js';
     document.head.appendChild(script);

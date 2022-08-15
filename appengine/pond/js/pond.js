@@ -66,18 +66,18 @@ Pond.docsButtonClick = function() {
   if (Pond.isDocsVisible_) {
     return;
   }
-  var origin = document.getElementById('docsButton');
-  var dialog = document.getElementById('dialogDocs');
-  var frame = document.getElementById('frameDocs');
-  var src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-        '&mode=' + BlocklyGames.LEVEL;
+  const origin = document.getElementById('docsButton');
+  const dialog = document.getElementById('dialogDocs');
+  const frame = document.getElementById('frameDocs');
+  const src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
+      '&mode=' + BlocklyGames.LEVEL;
   if (frame.src !== src) {
     frame.src = src;
   }
 
   function endResult() {
     dialog.style.visibility = 'visible';
-    var border = document.getElementById('dialogBorder');
+    const border = document.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   Pond.isDocsVisible_ = true;
@@ -94,11 +94,11 @@ Pond.docsCloseClick = function() {
   if (!Pond.isDocsVisible_) {
     return;
   }
-  var origin = document.getElementById('docsButton');
-  var dialog = document.getElementById('dialogDocs');
+  const origin = document.getElementById('docsButton');
+  const dialog = document.getElementById('dialogDocs');
 
   function endResult() {
-    var border = document.getElementById('dialogBorder');
+    const border = document.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   Pond.isDocsVisible_ = false;
@@ -113,10 +113,10 @@ Pond.docsCloseClick = function() {
  * Save changes to the editor back to the current avatar.
  */
 Pond.saveAvatar = function() {
-  var avatar = Pond.currentAvatar;
+  const avatar = Pond.currentAvatar;
   if (!avatar) return;
-  var code = BlocklyInterface.getCode();
-  var compiled = BlocklyInterface.getJsCode();
+  const code = BlocklyInterface.getCode();
+  let compiled = BlocklyInterface.getJsCode();
   if (BlocklyInterface.blocksDisabled) {
     try {
       compiled = BlocklyAce.transpileToEs5(compiled) || compiled;
@@ -139,8 +139,8 @@ Pond.runButtonClick = function(e) {
     return;
   }
   Pond.saveAvatar();
-  var runButton = document.getElementById('runButton');
-  var resetButton = document.getElementById('resetButton');
+  const runButton = document.getElementById('runButton');
+  const resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
@@ -159,7 +159,7 @@ Pond.resetButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  var runButton = document.getElementById('runButton');
+  const runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   Pond.reset();
@@ -192,9 +192,9 @@ Pond.reset = function() {
  * Show the help pop-up.
  */
 Pond.showHelp = function() {
-  var help = document.getElementById('help');
-  var button = document.getElementById('helpButton');
-  var style = {
+  const help = document.getElementById('help');
+  const button = document.getElementById('helpButton');
+  const style = {
     width: '50%',
     left: '25%',
     top: '5em'

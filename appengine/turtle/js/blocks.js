@@ -59,7 +59,7 @@ Blockly.Blocks['turtle_move'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Turtle.moveForward'], 'moveForward'],
          [BlocklyGames.Msg['Turtle.moveBackward'], 'moveBackward']];
     this.setColour(Turtle.Blocks.HUE);
@@ -74,7 +74,7 @@ Blockly.Blocks['turtle_move'] = {
 
 Blockly.JavaScript['turtle_move'] = function(block) {
   // Generate JavaScript for moving forward or backwards.
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE',
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
@@ -86,10 +86,10 @@ Blockly.Blocks['turtle_move_internal'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Turtle.moveForward'], 'moveForward'],
          [BlocklyGames.Msg['Turtle.moveBackward'], 'moveBackward']];
-    var VALUES =
+    const VALUES =
         [['20', '20'],
          ['50', '50'],
          ['100', '100'],
@@ -106,7 +106,7 @@ Blockly.Blocks['turtle_move_internal'] = {
 
 Blockly.JavaScript['turtle_move_internal'] = function(block) {
   // Generate JavaScript for moving forward or backwards.
-  var value = Number(block.getFieldValue('VALUE'));
+  const value = Number(block.getFieldValue('VALUE'));
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -117,7 +117,7 @@ Blockly.Blocks['turtle_turn'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Turtle.turnRight'], 'turnRight'],
          [BlocklyGames.Msg['Turtle.turnLeft'], 'turnLeft']];
     // Append arrows to direction messages.
@@ -135,7 +135,7 @@ Blockly.Blocks['turtle_turn'] = {
 
 Blockly.JavaScript['turtle_turn'] = function(block) {
   // Generate JavaScript for turning left or right.
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE',
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
@@ -147,10 +147,10 @@ Blockly.Blocks['turtle_turn_internal'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Turtle.turnRight'], 'turnRight'],
          [BlocklyGames.Msg['Turtle.turnLeft'], 'turnLeft']];
-    var VALUES =
+    const VALUES =
         [['1\u00B0', '1'],
          ['45\u00B0', '45'],
          ['72\u00B0', '72'],
@@ -172,7 +172,7 @@ Blockly.Blocks['turtle_turn_internal'] = {
 
 Blockly.JavaScript['turtle_turn_internal'] = function(block) {
   // Generate JavaScript for turning left or right.
-  var value = Number(block.getFieldValue('VALUE'));
+  const value = Number(block.getFieldValue('VALUE'));
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
@@ -195,7 +195,7 @@ Blockly.Blocks['turtle_width'] = {
 
 Blockly.JavaScript['turtle_width'] = function(block) {
   // Generate JavaScript for setting the width.
-  var width = Blockly.JavaScript.valueToCode(block, 'WIDTH',
+  const width = Blockly.JavaScript.valueToCode(block, 'WIDTH',
       Blockly.JavaScript.ORDER_COMMA) || '1';
   return 'penWidth(' + width + ', \'block_id_' + block.id + '\');\n';
 };
@@ -249,7 +249,7 @@ Blockly.Blocks['turtle_colour'] = {
 
 Blockly.JavaScript['turtle_colour'] = function(block) {
   // Generate JavaScript for setting the colour.
-  var colour = Blockly.JavaScript.valueToCode(block, 'COLOUR',
+  const colour = Blockly.JavaScript.valueToCode(block, 'COLOUR',
       Blockly.JavaScript.ORDER_COMMA) || '\'#000000\'';
   return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
 };
@@ -272,7 +272,7 @@ Blockly.Blocks['turtle_colour_internal'] = {
 
 Blockly.JavaScript['turtle_colour_internal'] = function(block) {
   // Generate JavaScript for setting the colour.
-  var colour = Blockly.JavaScript.quote_(block.getFieldValue('COLOUR'));
+  const colour = Blockly.JavaScript.quote_(block.getFieldValue('COLOUR'));
   return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
 };
 
@@ -326,7 +326,7 @@ Blockly.Blocks['turtle_print'] = {
 
 Blockly.JavaScript['turtle_print'] = function(block) {
   // Generate JavaScript for printing text.
-  var argument0 = String(Blockly.JavaScript.valueToCode(block, 'TEXT',
+  const argument0 = String(Blockly.JavaScript.valueToCode(block, 'TEXT',
       Blockly.JavaScript.ORDER_COMMA) || '\'\'');
   return 'print(' + argument0 + ', \'block_id_' + block.id + '\');\n';
 };
@@ -337,12 +337,12 @@ Blockly.Blocks['turtle_font'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var FONTLIST =
+    const FONTLIST =
         // Common font names (intentionally not localized)
         [['Arial', 'Arial'], ['Courier New', 'Courier New'], ['Georgia', 'Georgia'],
          ['Impact', 'Impact'], ['Times New Roman', 'Times New Roman'],
          ['Trebuchet MS', 'Trebuchet MS'], ['Verdana', 'Verdana']];
-    var STYLE =
+    const STYLE =
         [[BlocklyGames.Msg['Turtle.fontNormal'], 'normal'],
          [BlocklyGames.Msg['Turtle.fontItalic'], 'italic'],
          [BlocklyGames.Msg['Turtle.fontBold'], 'bold']];
@@ -364,9 +364,9 @@ Blockly.Blocks['turtle_font'] = {
 
 Blockly.JavaScript['turtle_font'] = function(block) {
   // Generate JavaScript for setting the font.
-  var font = Blockly.JavaScript.quote_(block.getFieldValue('FONT'));
-  var fontSize = Number(block.getFieldValue('FONTSIZE'));
-  var fontStyle = Blockly.JavaScript.quote_(block.getFieldValue('FONTSTYLE'));
+  const font = Blockly.JavaScript.quote_(block.getFieldValue('FONT'));
+  const fontSize = Number(block.getFieldValue('FONTSIZE'));
+  const fontStyle = Blockly.JavaScript.quote_(block.getFieldValue('FONTSTYLE'));
   return 'font(' + font + ',' + fontSize + ',' + fontStyle +
       ', \'block_id_' + block.id + '\');\n';
 };

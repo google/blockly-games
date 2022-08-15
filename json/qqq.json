@@ -1,17 +1,4 @@
 {
-	"@metadata": {
-		"authors": [
-			"BaRaN6161 TURK",
-			"Liuxinyu970226",
-			"McDutchie",
-			"MuratTheTurkish",
-			"Nike",
-			"Robby",
-			"Siebrand",
-			"Verdy p",
-			"Zauzolkov"
-		]
-	},
 	"Games.name": "The project name.",
 	"Games.puzzle": "title - Specifies that this is Blockly's '''Puzzle''' game.  Use the word for a jigsaw puzzle.\n{{Identical|Puzzle}}",
 	"Games.maze": "title - Specifies that this is Blockly's '''Maze''' game.\n{{Identical|Maze}}",

@@ -92,9 +92,9 @@ Puzzle.init = function() {
 
   BlocklyInterface.init(BlocklyGames.Msg['Games.puzzle']);
 
-  var rtl = BlocklyGames.isRtl();
-  var blocklyDiv = document.getElementById('blockly');
-  var onresize = function(e) {
+  const rtl = BlocklyGames.IS_RTL;
+  const blocklyDiv = document.getElementById('blockly');
+  const onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
         (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
@@ -107,84 +107,85 @@ Puzzle.init = function() {
        'scrollbars': false,
        'trashcan': false});
 
-  var savedBlocks =
+  const savedBlocks =
       BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
   // Add the blocks.
+  let loadOnce;
   try {
-    var loadOnce = window.sessionStorage.loadOnceBlocks;
+    loadOnce = window.sessionStorage.loadOnceBlocks;
   } catch (e) {
     // Firefox sometimes throws a SecurityError when accessing sessionStorage.
     // Restarting Firefox fixes this, so it looks like a bug.
-    var loadOnce = null;
+    loadOnce = null;
   }
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
-    var xml = Blockly.Xml.textToDom(loadOnce);
+    const xml = Blockly.Xml.textToDom(loadOnce);
     Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   } else if (savedBlocks) {
-    var xml = Blockly.Xml.textToDom(savedBlocks);
+    const xml = Blockly.Xml.textToDom(savedBlocks);
     Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
   } else {
     // Create one of every block.
-    var blocksAnimals = [];
-    var blocksPictures = [];
-    var blocksTraits = [];
-    var block;
-    for (var i = 0; i < Puzzle.data.length; i++) {
-      block = BlocklyInterface.workspace.newBlock('animal');
-      block.populate(i + 1);
-      blocksAnimals.push(block);
-      block = BlocklyInterface.workspace.newBlock('picture');
-      block.populate(i + 1);
-      blocksPictures.push(block);
-      for (var j = 0; j < Puzzle.data[i].traits.length; j++) {
-        block = BlocklyInterface.workspace.newBlock('trait');
-        block.populate(i + 1, j + 1);
-        blocksTraits.push(block);
+    const blocksAnimals = [];
+    const blocksPictures = [];
+    const blocksTraits = [];
+    for (let i = 0; i < Puzzle.data.length; i++) {
+      const animalBlock = BlocklyInterface.workspace.newBlock('animal');
+      animalBlock.populate(i + 1);
+      blocksAnimals.push(animalBlock);
+      const pictureBlock = BlocklyInterface.workspace.newBlock('picture');
+      pictureBlock.populate(i + 1);
+      blocksPictures.push(pictureBlock);
+      for (let j = 0; j < Puzzle.data[i].traits.length; j++) {
+        const traitBlock = BlocklyInterface.workspace.newBlock('trait');
+        traitBlock.populate(i + 1, j + 1);
+        blocksTraits.push(traitBlock);
       }
     }
     Puzzle.shuffle(blocksAnimals);
     Puzzle.shuffle(blocksPictures);
     Puzzle.shuffle(blocksTraits);
-    var blocks = [].concat(blocksAnimals, blocksPictures, blocksTraits);
+    const blocks = [].concat(blocksAnimals, blocksPictures, blocksTraits);
     if (rtl) {
       blocks.reverse();
     }
     // Initialize all the blocks.
-    for (var i = 0, block; (block = blocks[i]); i++) {
+    for (const block of blocks) {
       block.setDeletable(false);
       block.initSvg();
       block.render();
     }
-    var totalArea = 0;
+    let totalArea = 0;
     // Measure the surface area of each block.
-    for (var i = 0, block; (block = blocks[i]); i++) {
-      var blockBox = block.getSvgRoot().getBBox();
+    for (const block of blocks) {
+      const blockBox = block.getSvgRoot().getBBox();
       block.cached_width_ = blockBox.width;
       block.cached_height_ = blockBox.height;
       block.cached_area_ = blockBox.width * blockBox.height;
       totalArea += block.cached_area_;
     }
     // Position the blocks randomly.
-    var MARGIN = 50;
+    const MARGIN = 50;
     Blockly.svgResize(BlocklyInterface.workspace);
-    var workspaceBox = BlocklyInterface.workspace.getCachedParentSvgSize();
+    const workspaceBox = BlocklyInterface.workspace.getCachedParentSvgSize();
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
-    var countedArea = 0;
-    for (var i = 0, block; (block = blocks[i]); i++) {
-      var blockBox = block.getSvgRoot().getBBox();
+    let countedArea = 0;
+    for (const block of blocks) {
+      const blockBox = block.getSvgRoot().getBBox();
       // Spread the blocks horizontally, grouped by type.
       // Spacing is proportional to block's area.
+      let dx;
       if (rtl) {
-        var dx = blockBox.width +
+        dx = blockBox.width +
                  (countedArea / totalArea) * workspaceBox.width;
       } else {
-        var dx = (countedArea / totalArea) *
+        dx = (countedArea / totalArea) *
                  (workspaceBox.width - blockBox.width);
       }
       dx = Math.round(dx + Math.random() * MARGIN);
-      var dy = Math.round(Math.random() *
+      const dy = Math.round(Math.random() *
                           (workspaceBox.height - blockBox.height));
       block.moveBy(dx, dy);
       countedArea += block.cached_area_;
@@ -215,10 +216,10 @@ Puzzle.init = function() {
  * @param {!Array} arr The array to be shuffled.
  */
 Puzzle.shuffle = function(arr) {
-  for (var i = arr.length - 1; i > 0; i--) {
+  for (let i = arr.length - 1; i > 0; i--) {
     // Choose a random array index in [0, i] (inclusive with i).
-    var j = Math.floor(Math.random() * (i + 1));
-    var tmp = arr[i];
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = arr[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -230,9 +231,9 @@ Puzzle.shuffle = function(arr) {
  *   language-neutral tuples.
  */
 Puzzle.legs = function() {
-  var padding = '\xa0\xa0';
-  var list = [[BlocklyGames.Msg['Puzzle.legsChoose'], '0']];
-  for (var i = 0; i < Puzzle.data.length; i++) {
+  const padding = '\xa0\xa0';
+  const list = [[BlocklyGames.Msg['Puzzle.legsChoose'], '0']];
+  for (let i = 0; i < Puzzle.data.length; i++) {
     list[i + 1] = [padding + Puzzle.data[i].legs + padding, String(i + 1)];
   }
   // Sort numerically.
@@ -244,10 +245,10 @@ Puzzle.legs = function() {
  * Count and highlight the errors.
  */
 Puzzle.checkAnswers = function() {
-  var blocks = BlocklyInterface.workspace.getAllBlocks();
-  var errors = 0;
-  var badBlocks = [];
-  for (var b = 0, block; (block = blocks[b]); b++) {
+  const blocks = BlocklyInterface.workspace.getAllBlocks();
+  let errors = 0;
+  const badBlocks = [];
+  for (const block of blocks) {
     if (!block.isCorrect()) {
       errors++;
       // Bring the offending blocks to the front.
@@ -256,13 +257,13 @@ Puzzle.checkAnswers = function() {
     }
   }
 
-  var graphValue = document.getElementById('graphValue');
+  const graphValue = document.getElementById('graphValue');
   setTimeout(function() {
       graphValue.style.width =
           (100 * (blocks.length - errors) / blocks.length) + 'px';
   }, 500);
 
-  var messages;
+  let messages;
   // Safe from HTML injection due to createTextNode below.
   if (errors === 1) {
     messages = [BlocklyGames.Msg['Puzzle.error1'],
@@ -276,23 +277,22 @@ Puzzle.checkAnswers = function() {
     BlocklyInterface.executedCode = BlocklyInterface.getCode();
     BlocklyInterface.saveToLocalStorage();
   }
-  var textDiv = document.getElementById('answerMessage');
+  const textDiv = document.getElementById('answerMessage');
   textDiv.textContent = '';
-  for (var i = 0; i < messages.length; i++) {
-    var line = document.createElement('div');
+  for (let i = 0; i < messages.length; i++) {
+    const line = document.createElement('div');
     line.appendChild(document.createTextNode(messages[i]));
     textDiv.appendChild(line);
   }
 
-  var content = document.getElementById('answers');
-  var button = document.getElementById('checkButton');
-  var rtl = BlocklyGames.isRtl();
-  var style = {
+  const content = document.getElementById('answers');
+  const button = document.getElementById('checkButton');
+  const style = {
     width: '25%',
-    left: rtl ? '5%' : '70%',
+    left: BlocklyGames.IS_RTL ? '5%' : '70%',
     top: '5em'
   };
-  var action = errors ? BlocklyDialogs.stopDialogKeyDown :
+  const action = errors ? BlocklyDialogs.stopDialogKeyDown :
       BlocklyInterface.indexPage;
   BlocklyDialogs.showDialog(content, button, true, true, style, action);
   BlocklyDialogs.startDialogKeyDown();
@@ -300,8 +300,8 @@ Puzzle.checkAnswers = function() {
   if (badBlocks.length) {
     // Pick a random bad block and blink it until the dialog closes.
     Puzzle.shuffle(badBlocks);
-    var badBlock = badBlocks[0];
-    var blink = function() {
+    const badBlock = badBlocks[0];
+    const blink = function() {
       badBlock.select();
       if (BlocklyDialogs.isDialogVisible_) {
         setTimeout(function() {badBlock.unselect();}, 150);
@@ -327,10 +327,10 @@ Puzzle.endDance = function() {
   // This has no UI change, since the workspace is now permanently
   // non-interactive due to the modal winning dialog.
   BlocklyInterface.workspace.options.moveOptions.drag = true;
-  var blocks = BlocklyInterface.workspace.getTopBlocks(false);
-  for (var i = 0, block; (block = blocks[i]); i++) {
-    var angle = 360 * (i / blocks.length);
-    Puzzle.animate(block, angle);
+  const blocks = BlocklyInterface.workspace.getTopBlocks(false);
+  for (let i = 0; i < blocks.length; i++) {
+    const angle = 360 * (i / blocks.length);
+    Puzzle.animate(blocks[i], angle);
   }
 };
 
@@ -346,37 +346,38 @@ Puzzle.animate = function(block, angleOffset) {
     return;
   }
   // Collect all the metrics.
-  var workspaceMetrics = BlocklyInterface.workspace.getMetrics();
-  var halfHeight = workspaceMetrics.viewHeight / 2;
-  var halfWidth = workspaceMetrics.viewWidth / 2;
-  var blockHW = block.getHeightWidth();
-  var blockXY = block.getRelativeToSurfaceXY();
-  if (BlocklyGames.isRtl()) {
+  const workspaceMetrics = BlocklyInterface.workspace.getMetrics();
+  const halfHeight = workspaceMetrics.viewHeight / 2;
+  const halfWidth = workspaceMetrics.viewWidth / 2;
+  const blockHW = block.getHeightWidth();
+  const blockXY = block.getRelativeToSurfaceXY();
+  if (BlocklyGames.IS_RTL) {
     blockXY.x -= blockHW.width;
   }
-  var radius = Math.max(175, Math.min(halfHeight, halfWidth) -
+  let radius = Math.max(175, Math.min(halfHeight, halfWidth) -
       Math.max(blockHW.height, blockHW.width) / 2);
 
-  var ms = Date.now();
+  const ms = Date.now();
   // Rotate the blocks around the centre.
-  var angle = angleOffset + (ms / 50 % 360);
+  const angle = angleOffset + (ms / 50 % 360);
   // Vary the radius sinusoidally.
   radius *= Math.sin(((ms % 5000) / 5000) * (Math.PI * 2)) / 8 + 7 / 8;
-  var targetX = Puzzle.angleDx(angle, radius) + halfWidth -
+  const targetX = Puzzle.angleDx(angle, radius) + halfWidth -
       blockHW.width / 2;
-  var targetY = Puzzle.angleDy(angle, radius) + halfHeight -
+  const targetY = Puzzle.angleDy(angle, radius) + halfHeight -
       blockHW.height / 2;
-  var speed = 5;
+  const speed = 5;
 
-  var distance = Math.sqrt(Math.pow(targetX - blockXY.x, 2) +
-                           Math.pow(targetY - blockXY.y, 2));
+  const distance = Math.sqrt(Math.pow(targetX - blockXY.x, 2) +
+                             Math.pow(targetY - blockXY.y, 2));
+  let dx, dy;
   if (distance < speed) {
-    var dx = targetX - blockXY.x;
-    var dy = targetY - blockXY.y;
+    dx = targetX - blockXY.x;
+    dy = targetY - blockXY.y;
   } else {
-    var heading = Puzzle.pointsToAngle(blockXY.x, blockXY.y, targetX, targetY);
-    var dx = Math.round(Puzzle.angleDx(heading, speed));
-    var dy = Math.round(Puzzle.angleDy(heading, speed));
+    const heading = Puzzle.pointsToAngle(blockXY.x, blockXY.y, targetX, targetY);
+    dx = Math.round(Puzzle.angleDx(heading, speed));
+    dy = Math.round(Puzzle.angleDy(heading, speed));
   }
   block.moveBy(dx, dy);
   setTimeout(Puzzle.animate.bind(null, block, angleOffset), 50);
@@ -417,7 +418,7 @@ Puzzle.angleDy = function(degrees, radius) {
  *     x1,y1 to x2,y2.
  */
 Puzzle.pointsToAngle = function(x1, y1, x2, y2) {
-  var angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  const angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
   return BlocklyGames.normalizeAngle(angle);
 };
 
@@ -426,7 +427,7 @@ Puzzle.pointsToAngle = function(x1, y1, x2, y2) {
  * @param {boolean} animate Animate the pop-up opening.
  */
 Puzzle.showHelp = function(animate) {
-  var xml = [
+  const xml = [
       '<xml>',
         '<block type="animal" x="5" y="5">',
           '<mutation animal="1"></mutation>',
@@ -450,9 +451,9 @@ Puzzle.showHelp = function(animate) {
       '</xml>'];
   BlocklyInterface.injectReadonly('sample', xml);
 
-  var help = document.getElementById('help');
-  var button = document.getElementById('helpButton');
-  var style = {
+  const help = document.getElementById('help');
+  const button = document.getElementById('helpButton');
+  const style = {
     width: '50%',
     left: '25%',
     top: '5em'

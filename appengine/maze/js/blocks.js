@@ -74,7 +74,7 @@ Blockly.Blocks['maze_turn'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Maze.turnLeft'], 'turnLeft'],
          [BlocklyGames.Msg['Maze.turnRight'], 'turnRight']];
     // Append arrows to direction messages.
@@ -91,7 +91,7 @@ Blockly.Blocks['maze_turn'] = {
 
 Blockly.JavaScript['maze_turn'] = function(block) {
   // Generate JavaScript for turning left or right.
-  var dir = block.getFieldValue('DIR');
+  const dir = block.getFieldValue('DIR');
   return dir + '(\'block_id_' + block.id + '\');\n';
 };
 
@@ -101,7 +101,7 @@ Blockly.Blocks['maze_if'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Maze.pathAhead'], 'isPathForward'],
          [BlocklyGames.Msg['Maze.pathLeft'], 'isPathLeft'],
          [BlocklyGames.Msg['Maze.pathRight'], 'isPathRight']];
@@ -121,10 +121,10 @@ Blockly.Blocks['maze_if'] = {
 
 Blockly.JavaScript['maze_if'] = function(block) {
   // Generate JavaScript for 'if' conditional if there is a path.
-  var argument = block.getFieldValue('DIR') +
+  const argument = block.getFieldValue('DIR') +
       '(\'block_id_' + block.id + '\')';
-  var branch = Blockly.JavaScript.statementToCode(block, 'DO');
-  var code = 'if (' + argument + ') {\n' + branch + '}\n';
+  const branch = Blockly.JavaScript.statementToCode(block, 'DO');
+  const code = 'if (' + argument + ') {\n' + branch + '}\n';
   return code;
 };
 
@@ -134,7 +134,7 @@ Blockly.Blocks['maze_ifElse'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    var DIRECTIONS =
+    const DIRECTIONS =
         [[BlocklyGames.Msg['Maze.pathAhead'], 'isPathForward'],
          [BlocklyGames.Msg['Maze.pathLeft'], 'isPathLeft'],
          [BlocklyGames.Msg['Maze.pathRight'], 'isPathRight']];
@@ -156,11 +156,11 @@ Blockly.Blocks['maze_ifElse'] = {
 
 Blockly.JavaScript['maze_ifElse'] = function(block) {
   // Generate JavaScript for 'if/else' conditional if there is a path.
-  var argument = block.getFieldValue('DIR') +
+  const argument = block.getFieldValue('DIR') +
       '(\'block_id_' + block.id + '\')';
-  var branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
-  var branch1 = Blockly.JavaScript.statementToCode(block, 'ELSE');
-  var code = 'if (' + argument + ') {\n' + branch0 +
+  const branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
+  const branch1 = Blockly.JavaScript.statementToCode(block, 'ELSE');
+  const code = 'if (' + argument + ') {\n' + branch0 +
              '} else {\n' + branch1 + '}\n';
   return code;
 };
@@ -184,7 +184,7 @@ Blockly.Blocks['maze_forever'] = {
 
 Blockly.JavaScript['maze_forever'] = function(block) {
   // Generate JavaScript for repeat loop.
-  var branch = Blockly.JavaScript.statementToCode(block, 'DO');
+  let branch = Blockly.JavaScript.statementToCode(block, 'DO');
   if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
     branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
         '\'block_id_' + block.id + '\'') + branch;

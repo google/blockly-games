@@ -83,29 +83,29 @@ Pond.Duck.init = function() {
       Pond.Duck.changeTab(selectedIndex);
     };
   }
-  var tabs = Array.prototype.slice.call(
+  const tabs = Array.prototype.slice.call(
       document.querySelectorAll('#editorBar>.tab'));
   Pond.Duck.editorTabs = tabs;
-  for (var i = 0; i < tabs.length; i++) {
+  for (let i = 0; i < tabs.length; i++) {
     BlocklyGames.bindClick(tabs[i], tabHandler(i));
   }
 
-  var rtl = BlocklyGames.isRtl();
-  var visualization = document.getElementById('visualization');
-  var tabDiv = document.getElementById('tabarea');
-  var blocklyDiv = document.getElementById('blockly');
-  var editorDiv = document.getElementById('editor');
-  var divs = [blocklyDiv, editorDiv];
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
+  const rtl = BlocklyGames.IS_RTL;
+  const visualization = document.getElementById('visualization');
+  const tabDiv = document.getElementById('tabarea');
+  const blocklyDiv = document.getElementById('blockly');
+  const editorDiv = document.getElementById('editor');
+  const divs = [blocklyDiv, editorDiv];
+  const onresize = function(e) {
+    const top = visualization.offsetTop;
     tabDiv.style.top = (top - window.pageYOffset) + 'px';
     tabDiv.style.left = rtl ? '10px' : '420px';
     tabDiv.style.width = (window.innerWidth - 440) + 'px';
-    var divTop =
+    const divTop =
         Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
-    var divLeft = rtl ? '10px' : '420px';
-    var divWidth = (window.innerWidth - 440) + 'px';
-    for (var i = 0, div; (div = divs[i]); i++) {
+    const divLeft = rtl ? '10px' : '420px';
+    const divWidth = (window.innerWidth - 440) + 'px';
+    for (let i = 0, div; (div = divs[i]); i++) {
       div.style.top = divTop;
       div.style.left = divLeft;
       div.style.width = divWidth;
@@ -119,7 +119,7 @@ Pond.Duck.init = function() {
   onresize(null);
 
   // Inject JS editor.
-  var session = BlocklyAce.makeAceSession();
+  const session = BlocklyAce.makeAceSession();
   session['on']('change', Pond.Duck.editorChanged);
 
   // Lazy-load the ESx-ES5 transpiler.
@@ -128,24 +128,29 @@ Pond.Duck.init = function() {
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,getX,loc_y,getY,log');
 
-  var coordinates = [
+  const coordinates = [
     new Blockly.utils.Coordinate(20, 80),
     new Blockly.utils.Coordinate(80, 80),
     new Blockly.utils.Coordinate(20, 20),
     new Blockly.utils.Coordinate(80, 20)
   ];
-  var avatarSelect = document.getElementById('avatar-select');
-  for (var duckData, i = 0; (duckData = Pond.Duck.duckData[i]); i++) {
+  const avatarSelect = document.getElementById('avatar-select');
+  for (let i = 0; i < Pond.Duck.duckData.length; i++) {
+    const duckData = Pond.Duck.duckData[i];
     if (duckData['name'] === null) {
       duckData['name'] = BlocklyGames.Msg['Pond.playerName'];
     }
-    var option = new Option(duckData['name'], duckData['id']);
+    const option = new Option(duckData['name'], duckData['id']);
     avatarSelect.add(option);
 
-    var avatar = new Pond.Avatar(duckData['name'], coordinates[i], 0,
+    const avatar = new Pond.Avatar(duckData['name'], coordinates[i], 0,
         duckData['editable'], Pond.Battle);
     if (duckData['blockly'] === undefined && duckData['js'] === undefined) {
       duckData['js'] = duckData['compiled'];
+    }
+    if (duckData['js']) {
+      // Strip off any leading blank lines, and any trailing whitespace.
+      duckData['js'] = duckData['js'].replace(/^\s*\n/, '').trimRight();
     }
     avatar.setCode(duckData['blockly'], duckData['js'], duckData['compiled']);
   }
@@ -162,8 +167,8 @@ Pond.Duck.init = function() {
 Pond.Duck.changeAvatar = function() {
   Pond.Duck.ignoreEditorChanges_ = true;
 
-  var avatarSelect = document.getElementById('avatar-select');
-  var i = avatarSelect.selectedIndex;
+  const avatarSelect = document.getElementById('avatar-select');
+  const i = avatarSelect.selectedIndex;
   if (Pond.currentAvatar === Pond.Battle.AVATARS[i]) {
     return;
   }
@@ -181,7 +186,7 @@ Pond.Duck.changeAvatar = function() {
          'trashcan': true,
          'readOnly': !Pond.currentAvatar.editable,
          'zoom': {'controls': true, 'wheel': true}});
-    var xml = Blockly.Xml.textToDom(Pond.currentAvatar.blockly);
+    const xml = Blockly.Xml.textToDom(Pond.currentAvatar.blockly);
     Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
     BlocklyInterface.workspace.clearUndo();
     Pond.Duck.setBlocksDisabled(false);
@@ -203,7 +208,7 @@ Pond.Duck.changeAvatar = function() {
  */
 Pond.Duck.changeTab = function(index) {
   // Change highlighting.
-  for (var i = 0; i < Pond.Duck.editorTabs.length; i++) {
+  for (let i = 0; i < Pond.Duck.editorTabs.length; i++) {
     if (index === i) {
       Blockly.utils.dom.addClass(Pond.Duck.editorTabs[i], 'tab-selected');
     } else {
@@ -211,9 +216,9 @@ Pond.Duck.changeTab = function(index) {
     }
   }
   // Show the correct tab contents.
-  var names = ['blockly', 'editor'];
-  for (var i = 0, name; (name = names[i]); i++) {
-    var div = document.getElementById(name);
+  const names = ['blockly', 'editor'];
+  for (let i = 0, name; (name = names[i]); i++) {
+    const div = document.getElementById(name);
     div.style.visibility = (i === index) ? 'visible' : 'hidden';
   }
   Blockly.hideChaff(false);
@@ -221,14 +226,14 @@ Pond.Duck.changeTab = function(index) {
   document.getElementById('docsButton').disabled = false;
   BlocklyGames.LEVEL = (index === Pond.Duck.tabIndex.BLOCKS) ? 11 : 12;
   if (Pond.isDocsVisible_) {
-    var frame = document.getElementById('frameDocs');
+    const frame = document.getElementById('frameDocs');
     frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
         '&mode=' + BlocklyGames.LEVEL;
   }
   // Synchronize the JS editor.
   if (!Pond.Duck.ignoreEditorChanges_ && !BlocklyInterface.blocksDisabled &&
       index === Pond.Duck.tabIndex.JAVASCRIPT) {
-    var code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
+    const code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
     Pond.Duck.ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
     Pond.Duck.ignoreEditorChanges_ = false;
@@ -243,7 +248,7 @@ Pond.Duck.editorChanged = function() {
   if (Pond.Duck.ignoreEditorChanges_) {
     return;
   }
-  var code = BlocklyInterface.getJsCode();
+  const code = BlocklyInterface.getJsCode();
   if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
@@ -272,7 +277,7 @@ Pond.Duck.editorChanged = function() {
  */
 Pond.Duck.setBlocksDisabled = function(disabled) {
   BlocklyInterface.blocksDisabled = disabled;
-  var tab = Pond.Duck.editorTabs[Pond.Duck.tabIndex.BLOCKS];
+  const tab = Pond.Duck.editorTabs[Pond.Duck.tabIndex.BLOCKS];
   if (disabled) {
     Blockly.utils.dom.addClass(tab, 'tab-disabled');
   } else {
@@ -283,7 +288,7 @@ Pond.Duck.setBlocksDisabled = function(disabled) {
 
 (function() {
   //<script type="text/javascript" src="pond/duck/default-ducks.js"></script>
-  var script = document.createElement('script');
+  const script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'pond/duck/default-ducks.js';
   document.head.appendChild(script);

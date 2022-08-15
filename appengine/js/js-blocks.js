@@ -36,7 +36,7 @@ goog.require('BlocklyGames');
 
 (function () {
   // Enclose mixin in an immediately executed function to hide the 'prop' var.
-  for (var prop in Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN) {
+  for (const prop in Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN) {
     Blockly.Blocks['controls_if'][prop] =
         Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN[prop];
   }
@@ -76,7 +76,7 @@ Blockly.Blocks['controls_if'].updateShape_ = function() {
     this.removeInput('ELSEMSG');
     this.removeInput('ELSE');
   }
-  var i = 1;
+  let i = 1;
   while (this.getInput('IF' + i)) {
     this.removeInput('IF' + i);
     this.removeInput('TAIL' + i);
@@ -84,7 +84,7 @@ Blockly.Blocks['controls_if'].updateShape_ = function() {
     i++;
   }
   // Rebuild block.
-  for (var i = 1; i <= this.elseifCount_; i++) {
+  for (let i = 1; i <= this.elseifCount_; i++) {
     this.appendValueInput('IF' + i)
         .setCheck('Boolean')
         .appendField('} else if (');
@@ -106,7 +106,7 @@ Blockly.Blocks['controls_if'].updateShape_ = function() {
  * @this {Blockly.Block}
  */
 Blockly.Blocks['logic_compare'].init = function() {
-  var OPERATORS = [
+  const OPERATORS = [
     ['==', 'EQ'],
     ['!=', 'NEQ'],
     ['<', 'LT'],
@@ -122,10 +122,10 @@ Blockly.Blocks['logic_compare'].init = function() {
       .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
   this.setInputsInline(true);
   // Assign 'this' to a variable for use in the tooltip closure below.
-  var thisBlock = this;
+  const thisBlock = this;
   this.setTooltip(function() {
-    var op = thisBlock.getFieldValue('OP');
-    var TOOLTIPS = {
+    const op = thisBlock.getFieldValue('OP');
+    const TOOLTIPS = {
       'EQ': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_EQ'],
       'NEQ': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_NEQ'],
       'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
@@ -182,7 +182,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
-    "message0": "for (var %1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
+    "message0": "for (let %1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
     "args0": [
       {
         "type": "field_variable",
@@ -227,7 +227,7 @@ Blockly.Blocks['controls_for'].init = function() {
     "helpUrl": Blockly.Msg['CONTROLS_FOR_HELPURL']
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
-  var thisBlock = this;
+  const thisBlock = this;
   // TODO(kozbial) Fix tooltip text.
   this.setTooltip(function() {
     return Blockly.Msg['CONTROLS_FOR_TOOLTIP'].replace('%1',
@@ -240,23 +240,23 @@ Blockly.Blocks['controls_for'].init = function() {
  * @this {Blockly.Block}
  */
 Blockly.Blocks['controls_for'].onchange = function(e) {
-  var varName = this.getField('VAR').getText();
+  const varName = this.getField('VAR').getText();
   this.setFieldValue(varName, 'VAR1');
   this.setFieldValue(varName, 'VAR2');
 };
 
 Blockly.JavaScript['controls_for'] = function(block) {
   // For loop.
-  var variable = Blockly.JavaScript.nameDB_.getName(
+  const variable = Blockly.JavaScript.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  var from = Blockly.JavaScript.valueToCode(block, 'FROM',
+  const from = Blockly.JavaScript.valueToCode(block, 'FROM',
       Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-  var to = Blockly.JavaScript.valueToCode(block, 'TO',
+  const to = Blockly.JavaScript.valueToCode(block, 'TO',
       Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-  var branch = Blockly.JavaScript.statementToCode(block, 'DO');
+  let branch = Blockly.JavaScript.statementToCode(block, 'DO');
 
   branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
-  var code = 'for (var ' + variable + ' = ' + from + '; ' +
+  const code = 'for (const ' + variable + ' = ' + from + '; ' +
       variable + ' < ' + to + '; ' +
       variable + ' += 1) {\n' +
       branch + '}\n';
@@ -301,10 +301,10 @@ Blockly.Blocks['math_arithmetic'].init = function() {
     "helpUrl": Blockly.Msg['MATH_ARITHMETIC_HELPURL']
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
-  var thisBlock = this;
+  const thisBlock = this;
   this.setTooltip(function() {
-    var mode = thisBlock.getFieldValue('OP');
-    var TOOLTIPS = {
+    const mode = thisBlock.getFieldValue('OP');
+    const TOOLTIPS = {
       'ADD': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_ADD'],
       'MINUS': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MINUS'],
       'MULTIPLY': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MULTIPLY'],
@@ -340,7 +340,7 @@ Blockly.Blocks['math_change'].init = function() {
     "helpUrl": Blockly.Msg['MATH_CHANGE_HELPURL']
   });
   // Assign 'this' to a variable for use in the tooltip closure below.
-  var thisBlock = this;
+  const thisBlock = this;
   this.setTooltip(function() {
     return Blockly.Msg['MATH_CHANGE_TOOLTIP'].replace('%1',
         thisBlock.getField('VAR').getVariable().name);
@@ -356,9 +356,9 @@ Blockly.Blocks['math_change'].init = function() {
  */
 Blockly.JavaScript['math_change'] = function(block) {
   // Add to a variable in place.
-  var delta = Blockly.JavaScript.valueToCode(block, 'DELTA',
+  const delta = Blockly.JavaScript.valueToCode(block, 'DELTA',
       Blockly.JavaScript.ORDER_ADDITION) || '0';
-  var varName = Blockly.JavaScript.nameDB_.getName(
+  const varName = Blockly.JavaScript.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' += ' + delta + ';\n';
 };
@@ -412,9 +412,10 @@ Blockly.Blocks['lists_create_with'].updateShape_ = function() {
         .appendField(Blockly.Msg['LISTS_CREATE_EMPTY_TITLE']);
   }
   // Add new inputs.
-  for (var i = 0; i < this.itemCount_; i++) {
+  let i;
+  for (i = 0; i < this.itemCount_; i++) {
     if (!this.getInput('ADD' + i)) {
-      var input = this.appendValueInput('ADD' + i);
+      const input = this.appendValueInput('ADD' + i);
       if (i == 0) {
         input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
       } else {
@@ -541,7 +542,7 @@ Blockly.Blocks['variables_set'].init = function() {
  * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_defnoreturn'].init = function() {
-  var nameField = new Blockly.FieldTextInput('',
+  const nameField = new Blockly.FieldTextInput('',
       Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
@@ -571,7 +572,7 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
  * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_defreturn'].init = function() {
-  var nameField = new Blockly.FieldTextInput('',
+  const nameField = new Blockly.FieldTextInput('',
       Blockly.Procedures.rename);
   this.appendDummyInput()
       .appendField('function')
@@ -626,11 +627,12 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
  * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
-  for (var i = 0; i < this.arguments_.length; i++) {
+  let i;
+  for (i = 0; i < this.arguments_.length; i++) {
     if (!this.getInput('ARG' + i)) {
       // Add new input.
-      var field = new Blockly.FieldLabel(this.arguments_[i]);
-      var input = this.appendValueInput('ARG' + i);
+      const field = new Blockly.FieldLabel(this.arguments_[i]);
+      const input = this.appendValueInput('ARG' + i);
       if (i > 0) {
         input.appendField(',');
       }

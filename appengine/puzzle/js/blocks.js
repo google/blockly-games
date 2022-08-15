@@ -60,7 +60,7 @@ Blockly.Blocks['animal'] = {
    * @this {Blockly.Block}
    */
   mutationToDom: function() {
-    var container = document.createElement('mutation');
+    const container = document.createElement('mutation');
     container.setAttribute('animal', this.animal);
     return container;
   },
@@ -113,9 +113,9 @@ Blockly.Blocks['picture'] = {
    */
   populate: function(n) {
     this.animal = n;
-    var pic = 'puzzle/' + Puzzle.data[n - 1].pic;
-    var picHeight = Puzzle.data[n - 1].picHeight;
-    var picWidth = Puzzle.data[n - 1].picWidth;
+    const pic = 'puzzle/' + Puzzle.data[n - 1].pic;
+    const picHeight = Puzzle.data[n - 1].picHeight;
+    const picWidth = Puzzle.data[n - 1].picWidth;
     this.getInput('PIC')
         .appendField(new Blockly.FieldImage(pic, picWidth, picHeight));
   },
@@ -124,7 +124,7 @@ Blockly.Blocks['picture'] = {
    * @this {Blockly.Block}
    */
   isCorrect: function() {
-    var parent = this.getParent();
+    const parent = this.getParent();
     return parent && (parent.animal === this.animal);
   }
 };
@@ -146,7 +146,7 @@ Blockly.Blocks['trait'] = {
    * @this {Blockly.Block}
    */
   mutationToDom: function() {
-    var container = document.createElement('mutation');
+    const container = document.createElement('mutation');
     container.setAttribute('animal', this.animal);
     container.setAttribute('trait', this.trait);
     return container;
@@ -179,7 +179,7 @@ Blockly.Blocks['trait'] = {
    * @this {Blockly.Block}
    */
   isCorrect: function() {
-    var parent = this.getSurroundParent();
+    const parent = this.getSurroundParent();
     return parent && (parent.animal === this.animal);
   }
 };

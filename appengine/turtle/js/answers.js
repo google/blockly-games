@@ -22,7 +22,7 @@ goog.provide('Turtle.Answers');
 Turtle.answer = function() {
   // Helper functions.
   function drawStar(length) {
-    for (var count = 0; count < 5; count++) {
+    for (let count = 0; count < 5; count++) {
       Turtle.move(length);
       Turtle.turn(144);
     }
@@ -31,14 +31,14 @@ Turtle.answer = function() {
   switch (BlocklyGames.LEVEL) {
     case 1:
       // Square.
-      for (var count = 0; count < 4; count++) {
+      for (let count = 0; count < 4; count++) {
         Turtle.move(100);
         Turtle.turn(90);
       }
       break;
     case 2:
       // Pentagon.
-      for (var count = 0; count < 5; count++) {
+      for (let count = 0; count < 5; count++) {
         Turtle.move(100);
         Turtle.turn(72);
       }
@@ -60,7 +60,7 @@ Turtle.answer = function() {
     case 5:
       // Four stars.
       Turtle.penColour('#ffff00');
-      for (var count = 0; count < 4; count++) {
+      for (let count = 0; count < 4; count++) {
         Turtle.penDown(false);
         Turtle.move(150);
         Turtle.turn(90);
@@ -71,7 +71,7 @@ Turtle.answer = function() {
     case 6:
       // Three stars and a line.
       Turtle.penColour('#ffff00');
-      for (var count = 0; count < 3; count++) {
+      for (let count = 0; count < 3; count++) {
         Turtle.penDown(false);
         Turtle.move(150);
         Turtle.turn(120);
@@ -88,7 +88,7 @@ Turtle.answer = function() {
     case 7:
       // Three stars and 4 lines.
       Turtle.penColour('#ffff00');
-      for (var count = 0; count < 3; count++) {
+      for (let count = 0; count < 3; count++) {
         Turtle.penDown(false);
         Turtle.move(150);
         Turtle.turn(120);
@@ -100,7 +100,7 @@ Turtle.answer = function() {
       Turtle.move(100);
       Turtle.penDown(true);
       Turtle.penColour('#ffffff');
-      for (var count = 0; count < 4; count++) {
+      for (let count = 0; count < 4; count++) {
         Turtle.move(50);
         Turtle.move(-50);
         Turtle.turn(45);
@@ -109,7 +109,7 @@ Turtle.answer = function() {
     case 8:
       // Three stars and a circle.
       Turtle.penColour('#ffff00');
-      for (var count = 0; count < 3; count++) {
+      for (let count = 0; count < 3; count++) {
         Turtle.penDown(false);
         Turtle.move(150);
         Turtle.turn(120);
@@ -121,7 +121,7 @@ Turtle.answer = function() {
       Turtle.move(100);
       Turtle.penDown(true);
       Turtle.penColour('#ffffff');
-      for (var count = 0; count < 360; count++) {
+      for (let count = 0; count < 360; count++) {
         Turtle.move(50);
         Turtle.move(-50);
         Turtle.turn(1);
@@ -130,7 +130,7 @@ Turtle.answer = function() {
     case 9:
       // Three stars and a crescent.
       Turtle.penColour('#ffff00');
-      for (var count = 0; count < 3; count++) {
+      for (let count = 0; count < 3; count++) {
         Turtle.penDown(false);
         Turtle.move(150);
         Turtle.turn(120);
@@ -142,7 +142,7 @@ Turtle.answer = function() {
       Turtle.move(100);
       Turtle.penDown(true);
       Turtle.penColour('#ffffff');
-      for (var count = 0; count < 360; count++) {
+      for (let count = 0; count < 360; count++) {
         Turtle.move(50);
         Turtle.move(-50);
         Turtle.turn(1);
@@ -150,7 +150,7 @@ Turtle.answer = function() {
       Turtle.turn(120);
       Turtle.move(20);
       Turtle.penColour('#000000');
-      for (var count = 0; count < 360; count++) {
+      for (let count = 0; count < 360; count++) {
         Turtle.move(50);
         Turtle.move(-50);
         Turtle.turn(1);
@@ -181,13 +181,13 @@ Turtle.isCorrect = function(pixelErrors) {
     // Too many errors.
     return false;
   }
-  var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
+  const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
       (BlocklyGames.LEVEL === 3 && blockCount > 4) ||
       (BlocklyGames.LEVEL === 5 && blockCount > 10)) {
     // Use a loop, dummy.
-    var content = document.getElementById('helpUseLoop');
-    var style = {
+    const content = document.getElementById('helpUseLoop');
+    const style = {
       'width': '30%',
       'left': '35%',
       'top': '12em'

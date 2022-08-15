@@ -65,19 +65,19 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
   BlocklyDialogs.isDialogVisible_ = true;
   BlocklyDialogs.dialogOrigin_ = origin;
   BlocklyDialogs.dialogDispose_ = disposeFunc;
-  var dialog = document.getElementById('dialog');
-  var shadow = document.getElementById('dialogShadow');
-  var border = document.getElementById('dialogBorder');
+  const dialog = document.getElementById('dialog');
+  const shadow = document.getElementById('dialogShadow');
+  const border = document.getElementById('dialogBorder');
 
   // Copy all the specified styles to the dialog.
-  for (var name in style) {
+  for (const name in style) {
     dialog.style[name] = style[name];
   }
   if (modal) {
     shadow.style.visibility = 'visible';
     shadow.style.opacity = 0.3;
     shadow.style.zIndex = 9;
-    var header = document.createElement('div');
+    const header = document.createElement('div');
     header.id = 'dialogHeader';
     dialog.appendChild(header);
     BlocklyDialogs.dialogMouseDownWrapper_ =
@@ -97,7 +97,7 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     border.style.visibility = 'hidden';
 
     // Focus on the dialog's most important button.
-    var buttons = content.getElementsByClassName('primary');
+    let buttons = content.getElementsByClassName('primary');
     if (!buttons.length) {
       buttons = content.getElementsByClassName('secondary');
       if (!buttons.length) {
@@ -147,7 +147,7 @@ BlocklyDialogs.dialogMouseDown_ = function(e) {
   }
   // Left click (or middle click).
   // Record the starting offset between the current location and the mouse.
-  var dialog = document.getElementById('dialog');
+  const dialog = document.getElementById('dialog');
   BlocklyDialogs.dialogStartX_ = dialog.offsetLeft - e.clientX;
   BlocklyDialogs.dialogStartY_ = dialog.offsetTop - e.clientY;
 
@@ -165,9 +165,9 @@ BlocklyDialogs.dialogMouseDown_ = function(e) {
  * @private
  */
 BlocklyDialogs.dialogMouseMove_ = function(e) {
-  var dialog = document.getElementById('dialog');
-  var dialogLeft = BlocklyDialogs.dialogStartX_ + e.clientX;
-  var dialogTop = BlocklyDialogs.dialogStartY_ + e.clientY;
+  const dialog = document.getElementById('dialog');
+  let dialogLeft = BlocklyDialogs.dialogStartX_ + e.clientX;
+  let dialogTop = BlocklyDialogs.dialogStartY_ + e.clientY;
   dialogTop = Math.max(dialogTop, 0);
   dialogTop = Math.min(dialogTop, window.innerHeight - dialog.offsetHeight);
   dialogLeft = Math.max(dialogLeft, 0);
@@ -209,16 +209,16 @@ BlocklyDialogs.hideDialog = function(opt_animate) {
   BlocklyDialogs.isDialogVisible_ = false;
   BlocklyDialogs.dialogDispose_ && BlocklyDialogs.dialogDispose_();
   BlocklyDialogs.dialogDispose_ = null;
-  var origin = (opt_animate === false) ? null : BlocklyDialogs.dialogOrigin_;
-  var dialog = document.getElementById('dialog');
-  var shadow = document.getElementById('dialogShadow');
+  const origin = (opt_animate === false) ? null : BlocklyDialogs.dialogOrigin_;
+  const dialog = document.getElementById('dialog');
+  const shadow = document.getElementById('dialogShadow');
 
   shadow.style.opacity = 0;
 
   function endResult() {
     shadow.style.zIndex = -1;
     shadow.style.visibility = 'hidden';
-    var border = document.getElementById('dialogBorder');
+    const border = document.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   if (origin && dialog) {
@@ -232,12 +232,12 @@ BlocklyDialogs.hideDialog = function(opt_animate) {
   }
   dialog.style.visibility = 'hidden';
   dialog.style.zIndex = -1;
-  var header = document.getElementById('dialogHeader');
+  const header = document.getElementById('dialogHeader');
   if (header) {
     header.parentNode.removeChild(header);
   }
   while (dialog.firstChild) {
-    var content = dialog.firstChild;
+    const content = dialog.firstChild;
     content.className += ' dialogHiddenContent';
     document.body.appendChild(content);
   }
@@ -254,8 +254,8 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
   if (!element) {
     return;
   }
-  var border = document.getElementById('dialogBorder');
-  var bBox = BlocklyDialogs.getBBox_(element);
+  const border = document.getElementById('dialogBorder');
+  const bBox = BlocklyDialogs.getBBox_(element);
   function change() {
     border.style.width = bBox.width + 'px';
     border.style.height = bBox.height + 'px';
@@ -280,14 +280,14 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
  * @private
  */
 BlocklyDialogs.getBBox_ = function(element) {
-  var xy = Blockly.utils.style.getPageOffset(element);
-  var box = {
+  const xy = Blockly.utils.style.getPageOffset(element);
+  const box = {
     x: xy.x,
     y: xy.y
   };
   if (element.getBBox) {
     // SVG element.
-    var bBox = element.getBBox();
+    const bBox = element.getBBox();
     box.height = bBox.height;
     box.width = bBox.width;
   } else {
@@ -304,17 +304,17 @@ BlocklyDialogs.getBBox_ = function(element) {
  * @param {string} message Text to alert.
  */
 BlocklyDialogs.storageAlert = function(origin, message) {
-  var container = document.getElementById('containerStorage');
+  const container = document.getElementById('containerStorage');
   container.textContent = '';
-  var lines = message.split('\n');
-  for (var i = 0; i < lines.length; i++) {
-    var p = document.createElement('p');
+  const lines = message.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const p = document.createElement('p');
     p.appendChild(document.createTextNode(lines[i]));
     container.appendChild(p);
   }
 
-  var content = document.getElementById('dialogStorage');
-  var style = {
+  const content = document.getElementById('dialogStorage');
+  const style = {
     width: '50%',
     left: '25%',
     top: '5em'
@@ -339,17 +339,17 @@ BlocklyDialogs.abortOffer = function() {
     return;
   }
 
-  var content = document.getElementById('dialogAbort');
-  var style = {
+  const content = document.getElementById('dialogAbort');
+  const style = {
     width: '40%',
     left: '30%',
     top: '3em'
   };
 
-  var cancel = document.getElementById('abortCancel');
+  const cancel = document.getElementById('abortCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-  var ok = document.getElementById('abortOk');
+  const ok = document.getElementById('abortOk');
   ok.addEventListener('click', BlocklyInterface.indexPage, true);
   ok.addEventListener('touchend', BlocklyInterface.indexPage, true);
 
@@ -366,8 +366,8 @@ BlocklyDialogs.abortOffer = function() {
  * direct them to the next level, if available.
  */
 BlocklyDialogs.congratulations = function() {
-  var content = document.getElementById('dialogDone');
-  var style = {
+  const content = document.getElementById('dialogDone');
+  const style = {
     width: '40%',
     left: '30%',
     top: '3em'
@@ -375,43 +375,45 @@ BlocklyDialogs.congratulations = function() {
 
   // Add the user's code.
   if (BlocklyInterface.workspace) {
-    var linesText = document.getElementById('dialogLinesText');
+    const linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
-    var code = BlocklyInterface.executedJsCode;
+    let code = BlocklyInterface.executedJsCode;
     code = BlocklyInterface.stripCode(code);
-    var noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
+    let noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
     noComments = noComments.replace(/\/\*.*\*\//g, '');  /* Block comments. */
     noComments = noComments.replace(/[ \t]+\n/g, '\n');  // Trailing spaces.
     noComments = noComments.replace(/\n+/g, '\n');  // Blank lines.
     noComments = noComments.trim();
-    var lineCount = noComments.split('\n').length;
-    var pre = document.getElementById('containerCode');
+    const lineCount = noComments.split('\n').length;
+    const pre = document.getElementById('containerCode');
     pre.textContent = code;
     if (typeof prettyPrintOne === 'function') {
       code = pre.innerHTML;
       code = prettyPrintOne(code, 'js');
       pre.innerHTML = code;
     }
+    let locMsg;
     if (lineCount === 1) {
-      var text = BlocklyGames.Msg['Games.linesOfCode1'];
+      locMsg = BlocklyGames.Msg['Games.linesOfCode1'];
     } else {
-      var text = BlocklyGames.Msg['Games.linesOfCode2']
+      locMsg = BlocklyGames.Msg['Games.linesOfCode2']
           .replace('%1', String(lineCount));
     }
-    linesText.appendChild(document.createTextNode(text));
+    linesText.appendChild(document.createTextNode(locMsg));
   }
 
+  let levelMsg;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    var text = BlocklyGames.Msg['Games.nextLevel']
+    levelMsg = BlocklyGames.Msg['Games.nextLevel']
         .replace('%1', String(BlocklyGames.LEVEL + 1));
   } else {
-    var text = BlocklyGames.Msg['Games.finalLevel'];
+    levelMsg = BlocklyGames.Msg['Games.finalLevel'];
   }
 
-  var cancel = document.getElementById('doneCancel');
+  const cancel = document.getElementById('doneCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-  var ok = document.getElementById('doneOk');
+  const ok = document.getElementById('doneOk');
   ok.addEventListener('click', BlocklyInterface.nextLevel, true);
   ok.addEventListener('touchend', BlocklyInterface.nextLevel, true);
 
@@ -423,7 +425,7 @@ BlocklyDialogs.congratulations = function() {
   document.body.addEventListener('keydown',
       BlocklyDialogs.congratulationsKeyDown, true);
 
-  document.getElementById('dialogDoneText').textContent = text;
+  document.getElementById('dialogDoneText').textContent = levelMsg;
 };
 
 /**

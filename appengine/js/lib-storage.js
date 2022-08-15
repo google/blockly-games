@@ -38,7 +38,7 @@ BlocklyStorage.startCode = null;
  * Save blocks or JavaScript to database and return a link containing the key.
  */
 BlocklyStorage.link = function() {
-  var code = BlocklyStorage.getCode();
+  const code = BlocklyStorage.getCode();
   BlocklyStorage.makeRequest('/storage', 'xml=' + encodeURIComponent(code),
       BlocklyStorage.handleLinkResponse_);
 };
@@ -86,7 +86,7 @@ BlocklyStorage.makeRequest =
     }
     BlocklyStorage.xhrs_[url] = null;
   };
-  var method = opt_method || 'POST';
+  const method = opt_method || 'POST';
   BlocklyStorage.xhrs_[url].open(method, url);
   if (method === 'POST') {
     BlocklyStorage.xhrs_[url].setRequestHeader('Content-Type',
@@ -101,7 +101,7 @@ BlocklyStorage.makeRequest =
  * @private
  */
 BlocklyStorage.handleLinkResponse_ = function() {
-  var data = this.responseText.trim();
+  const data = this.responseText.trim();
   window.location.hash = data;
   BlocklyStorage.alert_(BlocklyGames.Msg['Games.linkAlert'].replace('%1',
       window.location.href));
@@ -114,7 +114,7 @@ BlocklyStorage.handleLinkResponse_ = function() {
  * @private
  */
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
-  var data = this.responseText.trim();
+  const data = this.responseText.trim();
   if (!data.length) {
     BlocklyStorage.alert_(BlocklyGames.Msg['Games.hashError'].replace('%1',
         window.location.hash));
@@ -133,7 +133,7 @@ BlocklyStorage.alert_ = function(message) {
   // Try to use a nice dialog.
   // Fall back to browser's alert() if BlocklyDialogs is not part of build.
   if (typeof BlocklyDialogs === 'object') {
-    var linkButton = document.getElementById('linkButton');
+    const linkButton = document.getElementById('linkButton');
     BlocklyDialogs.storageAlert(linkButton, message);
   } else {
     alert(message);

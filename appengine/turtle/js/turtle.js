@@ -79,11 +79,11 @@ Turtle.init = function() {
 
   BlocklyInterface.init(BlocklyGames.Msg['Games.turtle']);
 
-  var rtl = BlocklyGames.isRtl();
-  var blocklyDiv = document.getElementById('blockly');
-  var visualization = document.getElementById('visualization');
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
+  const rtl = BlocklyGames.IS_RTL;
+  const blocklyDiv = document.getElementById('blockly');
+  const visualization = document.getElementById('visualization');
+  const onresize = function(e) {
+    const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
@@ -118,11 +118,12 @@ Turtle.init = function() {
   }
 
   // Initialize the slider.
-  var sliderSvg = document.getElementById('slider');
+  const sliderSvg = document.getElementById('slider');
   Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
 
+  let defaultXml;
   if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
-    var defaultXml =
+    defaultXml =
         '<xml>' +
           '<block type="turtle_move" x="70" y="70">' +
             '<value name="VALUE">' +
@@ -133,7 +134,7 @@ Turtle.init = function() {
           '</block>' +
         '</xml>';
   } else {
-    var defaultXml =
+    defaultXml =
         '<xml>' +
           '<block type="turtle_move_internal" x="70" y="70">' +
             '<field name="VALUE">100</field>' +
@@ -185,17 +186,17 @@ window.addEventListener('load', Turtle.init);
  * @return {string} Level 10 blocks in XML as text.
  */
 Turtle.transform10 = function(xml) {
-  var tree = Blockly.Xml.textToDom(xml);
-  var node = tree;
+  const tree = Blockly.Xml.textToDom(xml);
+  let node = tree;
   while (node) {
     if (node.nodeName.toLowerCase() === 'block') {
-      var type = node.getAttribute('type');
+      const type = node.getAttribute('type');
       // Find the last child that's a 'field'.
-      var child = node.lastChild;
+      let child = node.lastChild;
       while (child && child.nodeName.toLowerCase() !== 'field') {
         child = child.previousSibling;
       }
-      var childName = child && child.getAttribute('name');
+      const childName = child && child.getAttribute('name');
 
       if (type === 'turtle_colour_internal' && childName === 'COLOUR') {
         /*
@@ -216,10 +217,10 @@ Turtle.transform10 = function(xml) {
         */
         node.setAttribute('type', 'turtle_colour');
         node.removeChild(child);
-        var value = document.createElement('value');
+        const value = document.createElement('value');
         value.setAttribute('name', 'COLOUR');
         node.appendChild(value);
-        var shadow = document.createElement('shadow');
+        const shadow = document.createElement('shadow');
         shadow.setAttribute('type', 'colour_picker');
         value.appendChild(shadow);
         shadow.appendChild(child);
@@ -246,10 +247,10 @@ Turtle.transform10 = function(xml) {
         */
         node.setAttribute('type', 'controls_repeat_ext');
         node.removeChild(child);
-        var value = document.createElement('value');
+        const value = document.createElement('value');
         value.setAttribute('name', 'TIMES');
         node.appendChild(value);
-        var shadow = document.createElement('shadow');
+        const shadow = document.createElement('shadow');
         shadow.setAttribute('type', 'math_number');
         value.appendChild(shadow);
         child.setAttribute('name', 'NUM');
@@ -277,10 +278,10 @@ Turtle.transform10 = function(xml) {
         */
         node.setAttribute('type', 'turtle_move');
         node.removeChild(child);
-        var value = document.createElement('value');
+        const value = document.createElement('value');
         value.setAttribute('name', 'VALUE');
         node.appendChild(value);
-        var shadow = document.createElement('shadow');
+        const shadow = document.createElement('shadow');
         shadow.setAttribute('type', 'math_number');
         value.appendChild(shadow);
         child.setAttribute('name', 'NUM');
@@ -308,10 +309,10 @@ Turtle.transform10 = function(xml) {
         */
         node.setAttribute('type', 'turtle_turn');
         node.removeChild(child);
-        var value = document.createElement('value');
+        const value = document.createElement('value');
         value.setAttribute('name', 'VALUE');
         node.appendChild(value);
-        var shadow = document.createElement('shadow');
+        const shadow = document.createElement('shadow');
         shadow.setAttribute('type', 'math_number');
         value.appendChild(shadow);
         child.setAttribute('name', 'NUM');
@@ -344,20 +345,20 @@ Turtle.nextNode = function(node) {
  * Show the help pop-up.
  */
 Turtle.showHelp = function() {
-  var help = document.getElementById('help');
-  var button = document.getElementById('helpButton');
-  var style = {
+  const help = document.getElementById('help');
+  const button = document.getElementById('helpButton');
+  const style = {
     width: '50%',
     left: '25%',
     top: '5em'
   };
 
   if (BlocklyGames.LEVEL === 3) {
-    var xml = '<xml><block type="turtle_colour_internal" x="5" y="10">' +
+    const xml = '<xml><block type="turtle_colour_internal" x="5" y="10">' +
         '<field name="COLOUR">#ffff00</field></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp3', xml);
   } else if (BlocklyGames.LEVEL === 4) {
-    var xml = '<xml><block type="turtle_pen" x="5" y="10"></block></xml>';
+    const xml = '<xml><block type="turtle_pen" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp4', xml);
   }
 
@@ -384,17 +385,17 @@ Turtle.showCategoryHelp = function() {
   if (Turtle.categoryClicked_ || BlocklyDialogs.isDialogVisible_) {
     return;
   }
-  var help = document.getElementById('helpToolbox');
-  var style = {
+  const help = document.getElementById('helpToolbox');
+  const style = {
     width: '25%',
     top: '3.3em'
   };
-  if (BlocklyGames.isRtl()) {
+  if (BlocklyGames.IS_RTL) {
     style.right = '525px';
   } else {
     style.left = '525px';
   }
-  var origin = document.getElementById(':0');  // Toolbox's tree root.
+  const origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
 };
 
@@ -452,7 +453,7 @@ Turtle.reset = function() {
   Turtle.display();
 
   // Kill all tasks.
-  for (var i = 0; i < Turtle.pidList.length; i++) {
+  for (let i = 0; i < Turtle.pidList.length; i++) {
     clearTimeout(Turtle.pidList[i]);
   }
   Turtle.pidList.length = 0;
@@ -487,32 +488,32 @@ Turtle.display = function() {
     Turtle.ctxDisplay.fillStyle = Turtle.ctxScratch.fillStyle;
 
     // Draw the turtle body.
-    var radius = Turtle.ctxScratch.lineWidth / 2 + 10;
+    const radius = Turtle.ctxScratch.lineWidth / 2 + 10;
     Turtle.ctxDisplay.beginPath();
     Turtle.ctxDisplay.arc(Turtle.x, Turtle.y, radius, 0, 2 * Math.PI, false);
     Turtle.ctxDisplay.lineWidth = 3;
     Turtle.ctxDisplay.stroke();
 
     // Draw the turtle head.
-    var WIDTH = 0.3;
-    var HEAD_TIP = 10;
-    var ARROW_TIP = 4;
-    var BEND = 6;
-    var radians = Blockly.utils.math.toRadians(Turtle.heading);
-    var tipX = Turtle.x + (radius + HEAD_TIP) * Math.sin(radians);
-    var tipY = Turtle.y - (radius + HEAD_TIP) * Math.cos(radians);
+    const WIDTH = 0.3;
+    const HEAD_TIP = 10;
+    const ARROW_TIP = 4;
+    const BEND = 6;
+    let radians = Blockly.utils.math.toRadians(Turtle.heading);
+    const tipX = Turtle.x + (radius + HEAD_TIP) * Math.sin(radians);
+    const tipY = Turtle.y - (radius + HEAD_TIP) * Math.cos(radians);
     radians -= WIDTH;
-    var leftX = Turtle.x + (radius + ARROW_TIP) * Math.sin(radians);
-    var leftY = Turtle.y - (radius + ARROW_TIP) * Math.cos(radians);
+    const leftX = Turtle.x + (radius + ARROW_TIP) * Math.sin(radians);
+    const leftY = Turtle.y - (radius + ARROW_TIP) * Math.cos(radians);
     radians += WIDTH / 2;
-    var leftControlX = Turtle.x + (radius + BEND) * Math.sin(radians);
-    var leftControlY = Turtle.y - (radius + BEND) * Math.cos(radians);
+    const leftControlX = Turtle.x + (radius + BEND) * Math.sin(radians);
+    const leftControlY = Turtle.y - (radius + BEND) * Math.cos(radians);
     radians += WIDTH;
-    var rightControlX = Turtle.x + (radius + BEND) * Math.sin(radians);
-    var rightControlY = Turtle.y - (radius + BEND) * Math.cos(radians);
+    const rightControlX = Turtle.x + (radius + BEND) * Math.sin(radians);
+    const rightControlY = Turtle.y - (radius + BEND) * Math.cos(radians);
     radians += WIDTH / 2;
-    var rightX = Turtle.x + (radius + ARROW_TIP) * Math.sin(radians);
-    var rightY = Turtle.y - (radius + ARROW_TIP) * Math.cos(radians);
+    const rightX = Turtle.x + (radius + ARROW_TIP) * Math.sin(radians);
+    const rightY = Turtle.y - (radius + ARROW_TIP) * Math.cos(radians);
     Turtle.ctxDisplay.beginPath();
     Turtle.ctxDisplay.moveTo(tipX, tipY);
     Turtle.ctxDisplay.lineTo(leftX, leftY);
@@ -532,8 +533,8 @@ Turtle.runButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  var runButton = document.getElementById('runButton');
-  var resetButton = document.getElementById('resetButton');
+  const runButton = document.getElementById('runButton');
+  const resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
@@ -553,7 +554,7 @@ Turtle.resetButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  var runButton = document.getElementById('runButton');
+  const runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
@@ -571,7 +572,7 @@ Turtle.resetButtonClick = function(e) {
  */
 Turtle.initInterpreter = function(interpreter, globalObject) {
   // API
-  var wrapper;
+  let wrapper;
   wrapper = function(distance, id) {
     Turtle.move(distance, id);
   };
@@ -650,7 +651,7 @@ Turtle.execute = function() {
 
   Turtle.reset();
   Blockly.selected && Blockly.selected.unselect();
-  var code = BlocklyInterface.getJsCode();
+  const code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
@@ -665,7 +666,7 @@ Turtle.executeChunk_ = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Turtle.pidList.length = 0;
   Turtle.pause = 0;
-  var go;
+  let go;
   do {
     try {
       go = Turtle.interpreter.step();
@@ -702,7 +703,7 @@ Turtle.animate = function(id) {
     Turtle.display();
     BlocklyInterface.highlight(id);
     // Scale the speed non-linearly, to give better precision at the fast end.
-    var stepSpeed = 1000 * Math.pow(1 - Turtle.speedSlider.getValue(), 2);
+    const stepSpeed = 1000 * Math.pow(1 - Turtle.speedSlider.getValue(), 2);
     Turtle.pause = Math.max(1, stepSpeed);
   }
 };
@@ -717,14 +718,14 @@ Turtle.move = function(distance, opt_id) {
     Turtle.ctxScratch.beginPath();
     Turtle.ctxScratch.moveTo(Turtle.x, Turtle.y);
   }
+  let bump = 0;
   if (distance) {
-    var radians = Blockly.utils.math.toRadians(Turtle.heading);
+    const radians = Blockly.utils.math.toRadians(Turtle.heading);
     Turtle.x += distance * Math.sin(radians);
     Turtle.y -= distance * Math.cos(radians);
-    var bump = 0;
   } else {
     // WebKit (unlike Gecko) draws nothing for a zero-length line.
-    var bump = 0.1;
+    bump = 0.1;
   }
   if (Turtle.penDownValue) {
     Turtle.ctxScratch.lineTo(Turtle.x, Turtle.y + bump);
@@ -817,14 +818,14 @@ Turtle.drawFont = function(font, size, style, opt_id) {
 Turtle.checkAnswer = function() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
-  var userImage =
+  const userImage =
       Turtle.ctxScratch.getImageData(0, 0, Turtle.WIDTH, Turtle.HEIGHT);
-  var answerImage =
+  const answerImage =
       Turtle.ctxAnswer.getImageData(0, 0, Turtle.WIDTH, Turtle.HEIGHT);
-  var len = Math.min(userImage.data.length, answerImage.data.length);
-  var delta = 0;
+  const len = Math.min(userImage.data.length, answerImage.data.length);
+  let delta = 0;
   // Pixels are in RGBA format.  Only check the Alpha bytes.
-  for (var i = 3; i < len; i += 4) {
+  for (let i = 3; i < len; i += 4) {
     // Check the Alpha byte.
     if (Math.abs(userImage.data[i] - answerImage.data[i]) > 64) {
       delta++;
@@ -851,11 +852,11 @@ Turtle.submitToGallery = function() {
     return;
   }
   // Encode the thumbnail.
-  var thumbnail = document.getElementById('thumbnail');
-  var ctxThumb = thumbnail.getContext('2d');
+  const thumbnail = document.getElementById('thumbnail');
+  const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
   ctxThumb.drawImage(Turtle.ctxDisplay.canvas, 0, 0, 200, 200);
-  var thumbData = thumbnail.toDataURL('image/png');
+  const thumbData = thumbnail.toDataURL('image/png');
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.

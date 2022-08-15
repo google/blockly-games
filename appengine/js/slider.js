@@ -34,7 +34,7 @@ Slider = function(x, y, width, svgParent, opt_changeFunc) {
   this.value_ = 0.5;
   this.changeFunc_ = opt_changeFunc;
   this.animationTasks_ = [];
-  var SVG_NS = Blockly.utils.dom.SVG_NS;
+  const SVG_NS = Blockly.utils.dom.SVG_NS;
 
   // Draw the slider.
   /*
@@ -109,9 +109,9 @@ Slider.prototype.knobMouseDown_ = function(e) {
   Slider.activeSlider_ = this;
   Slider.startMouseX_ = this.mouseToSvg_(e).x;
   Slider.startKnobX_ = 0;
-  var transform = this.knob_.getAttribute('transform');
+  const transform = this.knob_.getAttribute('transform');
   if (transform) {
-    var r = transform.match(/translate\(\s*([-\d.]+)/);
+    const r = transform.match(/translate\(\s*([-\d.]+)/);
     if (r) {
       Slider.startKnobX_ = Number(r[1]);
     }
@@ -139,7 +139,7 @@ Slider.mouseOver_ = function(e) {
   if (!Slider.activeSlider_) {
     return;
   }
-  var node = e.target;
+  let node = e.target;
   // Find the root SVG object.
   do {
     if (node === Slider.activeSlider_.SVG_) {
@@ -155,7 +155,7 @@ Slider.mouseOver_ = function(e) {
  * @private
  */
 Slider.knobMouseMove_ = function(e) {
-  var thisSlider = Slider.activeSlider_;
+  const thisSlider = Slider.activeSlider_;
   if (!thisSlider) {
     return;
   }
@@ -165,7 +165,7 @@ Slider.knobMouseMove_ = function(e) {
     }
     Slider.touchToMouse_(e);
   }
-  var x = thisSlider.mouseToSvg_(e).x - Slider.startMouseX_ +
+  const x = thisSlider.mouseToSvg_(e).x - Slider.startMouseX_ +
       Slider.startKnobX_;
   thisSlider.setValue((x - thisSlider.KNOB_MIN_X_) /
       (thisSlider.KNOB_MAX_X_ - thisSlider.KNOB_MIN_X_));
@@ -183,7 +183,7 @@ Slider.prototype.rectMouseDown_ = function(e) {
     }
     Slider.touchToMouse_(e);
   }
-  var x = this.mouseToSvg_(e).x;
+  const x = this.mouseToSvg_(e).x;
   this.animateValue((x - this.KNOB_MIN_X_) /
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_));
 };
@@ -205,17 +205,17 @@ Slider.prototype.animateValue = function(value) {
   while (this.animationTasks_.length) {
     clearTimeout(this.animationTasks_.pop());
   }
-  var duration = 200; // Milliseconds to animate for.
-  var steps = 10; // Number of steps to animate.
-  var oldValue = this.getValue();
-  var thisSlider = this;
-  var stepFunc = function(i) {
+  const duration = 200; // Milliseconds to animate for.
+  const steps = 10; // Number of steps to animate.
+  const oldValue = this.getValue();
+  const thisSlider = this;
+  const stepFunc = function(i) {
     return function() {
-      var newVal = i * (value - oldValue) / (steps - 1) + oldValue;
+      const newVal = i * (value - oldValue) / (steps - 1) + oldValue;
       thisSlider.setValue(newVal);
     };
   };
-  for (var i = 0; i < steps; i++) {
+  for (let i = 0; i < steps; i++) {
     this.animationTasks_.push(setTimeout(stepFunc(i), i * duration / steps));
   }
 };
@@ -226,7 +226,7 @@ Slider.prototype.animateValue = function(value) {
  */
 Slider.prototype.setValue = function(value) {
   this.value_ = Blockly.utils.math.clamp(value, 0, 1);
-  var x = this.KNOB_MIN_X_ +
+  const x = this.KNOB_MIN_X_ +
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_) * this.value_;
   this.knob_.setAttribute('transform',
       'translate(' + x + ',' + this.KNOB_Y_ + ')');
@@ -241,10 +241,10 @@ Slider.prototype.setValue = function(value) {
  * @private
  */
 Slider.prototype.mouseToSvg_ = function(e) {
-  var svgPoint = this.SVG_.createSVGPoint();
+  const svgPoint = this.SVG_.createSVGPoint();
   svgPoint.x = e.clientX;
   svgPoint.y = e.clientY;
-  var matrix = this.SVG_.getScreenCTM().inverse();
+  const matrix = this.SVG_.getScreenCTM().inverse();
   return svgPoint.matrixTransform(matrix);
 };
 
@@ -257,7 +257,7 @@ Slider.prototype.mouseToSvg_ = function(e) {
  * @private
  */
 Slider.bindEvent_ = function(node, name, thisObject, func) {
-  var wrapFunc = function(e) {
+  const wrapFunc = function(e) {
     func.apply(thisObject, arguments);
   };
   node.addEventListener(name, wrapFunc, false);
@@ -268,7 +268,7 @@ Slider.bindEvent_ = function(node, name, thisObject, func) {
  * @param {TouchEvent} e Event to modify.
  */
 Slider.touchToMouse_ = function(e) {
-  var touchPoint = e.changedTouches[0];
+  const touchPoint = e.changedTouches[0];
   e.clientX = touchPoint.clientX;
   e.clientY = touchPoint.clientY;
 };

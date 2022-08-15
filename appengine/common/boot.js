@@ -18,7 +18,7 @@ if (location.host === 'blockly-games.appspot.com') {
 
 (function() {
   // Application path.
-  var appName = location.pathname.match(/\/([-\w]+)(\.html)?$/);
+  let appName = location.pathname.match(/\/([-\w]+)(\.html)?$/);
   appName = appName ? appName[1].replace('-', '/') : 'index';
 
   // Supported languages (consistent across all apps).
@@ -33,15 +33,15 @@ if (location.host === 'blockly-games.appspot.com') {
 
   // Use a series of heuristics that determine the likely language of this user.
   // First choice: The URL specified language.
-  var param = location.search.match(/[?&]lang=([^&]+)/);
-  var lang = param ? param[1].replace(/\+/g, '%20') : null;
+  const param = location.search.match(/[?&]lang=([^&]+)/);
+  let lang = param ? param[1].replace(/\+/g, '%20') : null;
   if (window['BlocklyGamesLanguages'].includes(lang)) {
     // Save this explicit choice as cookie.
-    var exp = (new Date(Date.now() + 2 * 31536000000)).toUTCString();
+    const exp = (new Date(Date.now() + 2 * 31536000000)).toUTCString();
     document.cookie = 'lang=' + escape(lang) + '; expires=' + exp + 'path=/';
   } else {
     // Second choice: Language cookie.
-    var cookie = document.cookie.match(/(^|;)\s*lang=([\w\-]+)/);
+    const cookie = document.cookie.match(/(^|;)\s*lang=([\w\-]+)/);
     lang = cookie ? unescape(cookie[2]) : null;
     if (!window['BlocklyGamesLanguages'].includes(lang)) {
       // Third choice: The browser's language.
@@ -54,7 +54,7 @@ if (location.host === 'blockly-games.appspot.com') {
   }
   window['BlocklyGamesLang'] = lang;
 
-  var debug = false;
+  let debug = false;
   try {
     debug = !!sessionStorage.getItem('debug');
     if (debug) {
@@ -65,7 +65,7 @@ if (location.host === 'blockly-games.appspot.com') {
   }
 
   // Load the chosen game.
-  var script = document.createElement('script');
+  const script = document.createElement('script');
   script.src = appName + '/generated/' +
       (debug ? 'uncompressed.js' : 'compressed.js');
   script.type = 'text/javascript';

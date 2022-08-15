@@ -23,7 +23,7 @@ BlocklyAce.importBabel = function() {
   function load() {
     //<script type="text/javascript"
     //  src="third-party/babel.min.js"></script>
-    var script = document.createElement('script');
+    const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'third-party/babel.min.js';
     document.head.appendChild(script);
@@ -41,10 +41,10 @@ BlocklyAce.transpileToEs5 = function(code) {
   if (typeof Babel !== 'object') {
     return undefined;
   }
-  var options = {
+  const options = {
     'presets': ['es2015']
   };
-  var fish = Babel.transform(code, options);
+  const fish = Babel.transform(code, options);
   return fish.code;
 };
 
@@ -53,9 +53,9 @@ BlocklyAce.transpileToEs5 = function(code) {
  * @return {!Object} ACE session object
  */
 BlocklyAce.makeAceSession = function() {
-  var ace = window['ace'];
+  const ace = window['ace'];
   ace['require']('ace/ext/language_tools');
-  var editor = ace['edit']('editor');
+  const editor = ace['edit']('editor');
   BlocklyInterface.editor = editor;
   editor['setTheme']('ace/theme/chrome');
   editor['setShowPrintMargin'](false);
@@ -63,7 +63,7 @@ BlocklyAce.makeAceSession = function() {
     'enableBasicAutocompletion': true,
     'enableLiveAutocompletion': true
   });
-  var session = editor['getSession']();
+  const session = editor['getSession']();
   session['setMode']('ace/mode/javascript');
   session['setTabSize'](2);
   session['setUseSoftTabs'](true);
@@ -78,7 +78,7 @@ BlocklyAce.makeAceSession = function() {
  * @private
  */
 BlocklyAce.removeUnsupportedKeywords_ = function() {
-  var keywords = BlocklyInterface.editor['getSession']()['getMode']()['$highlightRules']['$keywordList'];
+  const keywords = BlocklyInterface.editor['getSession']()['getMode']()['$highlightRules']['$keywordList'];
   if (keywords) {
     keywords.splice(0, Infinity, 'arguments', 'this', 'NaN', 'Math', 'JSON',
         'parseInt', 'parseFloat', 'isNaN', 'isFinite', 'eval', 'String',

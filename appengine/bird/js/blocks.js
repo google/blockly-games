@@ -73,8 +73,8 @@ Blockly.Blocks['bird_heading'] = {
 
 Blockly.JavaScript['bird_heading'] = function(block) {
   // Generate JavaScript for moving bird in a direction.
-  var dir = Number(block.getFieldValue('ANGLE'));
-  return 'heading(' + dir + ', \'block_id_' + block.id + '\');\n';
+  const dir = Number(block.getFieldValue('ANGLE'));
+  return `heading(${dir}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['bird_position'] = {
@@ -101,7 +101,7 @@ Blockly.Blocks['bird_position'] = {
 
 Blockly.JavaScript['bird_position'] = function(block) {
   // Generate JavaScript for getting bird's x or y position.
-  var code = 'get' + block.getFieldValue('XY').charAt(0) + '()';
+  const code = 'get' + block.getFieldValue('XY').charAt(0) + '()';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -112,7 +112,7 @@ Blockly.Blocks['bird_compare'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
-    var OPERATORS = [['\u200F<', 'LT'], ['\u200F>', 'GT']];
+    const OPERATORS = [['\u200F<', 'LT'], ['\u200F>', 'GT']];
     this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
@@ -122,10 +122,10 @@ Blockly.Blocks['bird_compare'] = {
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
+    const thisBlock = this;
     this.setTooltip(function() {
-      var op = thisBlock.getFieldValue('OP');
-      var TOOLTIPS = {
+      const op = thisBlock.getFieldValue('OP');
+      const TOOLTIPS = {
         'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
         'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT']
       };
@@ -136,11 +136,11 @@ Blockly.Blocks['bird_compare'] = {
 
 Blockly.JavaScript['bird_compare'] = function(block) {
   // Generate JavaScript for comparing bird's x or y position with a number.
-  var operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
-  var order = Blockly.JavaScript.ORDER_RELATIONAL;
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
-  var code = argument0 + ' ' + operator + ' ' + argument1;
+  const operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
+  const order = Blockly.JavaScript.ORDER_RELATIONAL;
+  const argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
+  const argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
+  const code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
 
@@ -165,9 +165,9 @@ Blockly.Blocks['bird_and'] = {
 
 Blockly.JavaScript['bird_and'] = function(block) {
   // Generate JavaScript for logical operator 'and'.
-  var order = Blockly.JavaScript.ORDER_LOGICAL_AND;
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order);
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order);
+  const order = Blockly.JavaScript.ORDER_LOGICAL_AND;
+  let argument0 = Blockly.JavaScript.valueToCode(block, 'A', order);
+  let argument1 = Blockly.JavaScript.valueToCode(block, 'B', order);
   if (!argument0 && !argument1) {
     // If there are no arguments, then the return value is false.
     argument0 = 'false';
@@ -181,7 +181,7 @@ Blockly.JavaScript['bird_and'] = function(block) {
       argument1 = 'true';
     }
   }
-  var code = argument0 + ' && ' + argument1;
+  const code = argument0 + ' && ' + argument1;
   return [code, order];
 };
 
@@ -207,13 +207,11 @@ Blockly.Blocks['bird_ifElse'] = {
 
 Blockly.JavaScript['bird_ifElse'] = function(block) {
   // Generate JavaScript for 'if/else' conditional.
-  var argument = Blockly.JavaScript.valueToCode(block, 'CONDITION',
-                 Blockly.JavaScript.ORDER_NONE) || 'false';
-  var branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
-  var branch1 = Blockly.JavaScript.statementToCode(block, 'ELSE');
-  var code = 'if (' + argument + ') {\n' + branch0 +
-             '} else {\n' + branch1 + '}\n';
-  return code;
+  const argument = Blockly.JavaScript.valueToCode(block, 'CONDITION',
+                   Blockly.JavaScript.ORDER_NONE) || 'false';
+  const branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
+  const branch1 = Blockly.JavaScript.statementToCode(block, 'ELSE');
+  return `if (${argument}) {\n${branch0}} else {\n${branch1}}\n`;
 };
 
 // Backup the initialization function on the stock 'if' block.

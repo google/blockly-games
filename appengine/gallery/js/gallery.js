@@ -25,7 +25,7 @@ BlocklyGames.NAME = 'gallery';
  */
 Gallery.init = function() {
   Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
-  var isAdmin = (Gallery.app === 'admin');
+  const isAdmin = (Gallery.app === 'admin');
   if (!isAdmin && !['turtle', 'movie', 'music'].includes(Gallery.app)) {
     throw Error('Unknown app: ' + Gallery.app);
   }
@@ -33,7 +33,7 @@ Gallery.init = function() {
     document.body.className = 'admin';
   }
   // Render the HTML.
-  var appName = isAdmin ?
+  const appName = isAdmin ?
       '' : (BlocklyGames.Msg['Games.' + Gallery.app] + ' : ');
   document.body.innerHTML += Gallery.html.start(
       {lang: BlocklyGames.LANG,
@@ -43,7 +43,7 @@ Gallery.init = function() {
   Gallery.loadMore();
   BlocklyGames.init(BlocklyGames.Msg['Gallery']);
 
-  var languageMenu = document.getElementById('languageMenu');
+  const languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
   // Poll for needing more records.
   setInterval(Gallery.needMore, 200);
@@ -73,11 +73,11 @@ Gallery.loadMore = function() {
   }
 
   document.getElementById('loading').style.visibility = 'visible';
-  var url = '/gallery-api/view?app=' + encodeURIComponent(Gallery.app);
+  let url = '/gallery-api/view?app=' + encodeURIComponent(Gallery.app);
   if (Gallery.cursor) {
     url += '&cursor=' + encodeURIComponent(Gallery.cursor);
   }
-  var onFailure = function() {
+  const onFailure = function() {
     console.warn('Load returned status ' + this.status);
     Gallery.loadRequested_ = false;
     Gallery.hasMore = false;
@@ -96,13 +96,13 @@ Gallery.loadMore = function() {
 Gallery.receiveMore = function() {
   Gallery.loadRequested_ = false;
   document.getElementById('loading').style.visibility = 'hidden';
-  var meta = JSON.parse(this.responseText);
+  const meta = JSON.parse(this.responseText);
   if (!meta['more']) {
     Gallery.hasMore = false;
   }
   Gallery.cursor = meta['cursor'];
 
-  for (var i = 0; i < meta['data'].length; i++) {
+  for (let i = 0; i < meta['data'].length; i++) {
     Gallery.display(meta['data'][i]);
   }
 };
@@ -112,7 +112,7 @@ Gallery.receiveMore = function() {
  * @param {!Object} record One art record.
  */
 Gallery.display = function(record) {
-  var block = document.createElement('div');
+  const block = document.createElement('div');
   block.innerHTML = Gallery.html.record(record['app'], record['uuid'],
       record['thumb'], record['title'], record['public'], record['key']);
   document.getElementById('gallery').appendChild(block);
@@ -123,10 +123,10 @@ Gallery.display = function(record) {
  * @param {!Element} element Checkbox element.
  */
 Gallery.publish = function(element) {
-  var key = element.id.substring(8);
-  var publish = Number(element.checked);
-  var url = '/gallery-api/admin';
-  var data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
+  const key = element.id.substring(8);
+  const publish = Number(element.checked);
+  const url = '/gallery-api/admin';
+  const data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
   BlocklyStorage.makeRequest(url, data);
 };
 
@@ -134,7 +134,7 @@ Gallery.publish = function(element) {
  * Automatically load more records if the screen is scrolled to the bottom.
  */
 Gallery.needMore = function() {
-  var rect = document.getElementById('loading').getBoundingClientRect();
+  const rect = document.getElementById('loading').getBoundingClientRect();
   if (rect.top <=
       (window.innerHeight || document.documentElement.clientHeight)) {
     Gallery.loadMore();

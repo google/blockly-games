@@ -72,11 +72,11 @@ Movie.init = function() {
 
   BlocklyInterface.init(BlocklyGames.Msg['Games.movie']);
 
-  var rtl = BlocklyGames.isRtl();
-  var blocklyDiv = document.getElementById('blockly');
-  var visualization = document.getElementById('visualization');
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
+  const rtl = BlocklyGames.IS_RTL;
+  const blocklyDiv = document.getElementById('blockly');
+  const visualization = document.getElementById('visualization');
+  const onresize = function(e) {
+    const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
@@ -108,7 +108,7 @@ Movie.init = function() {
     BlocklyGames.bindClick('submitButton', Movie.submitToGallery);
   }
 
-  var defaultXml = '<xml></xml>';
+  const defaultXml = '<xml></xml>';
   BlocklyInterface.loadBlocks(defaultXml, true);
 
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
@@ -119,7 +119,7 @@ Movie.init = function() {
   Movie.renderAnswer_(0);
   // Remaining answers may be computed later without slowing down page load.
   function renderRemainingAnswers() {
-    for (var f = 1; f <= Movie.FRAMES; f++) {
+    for (let f = 1; f <= Movie.FRAMES; f++) {
       Movie.renderAnswer_(f);
     }
   }
@@ -130,7 +130,7 @@ Movie.init = function() {
   Movie.display();
 
   // Initialize the scrubber.
-  var scrubberSvg = document.getElementById('scrubber');
+  const scrubberSvg = document.getElementById('scrubber');
   Movie.frameScrubber = new Scrubber(scrubberSvg, Movie.display);
   if (BlocklyGames.LEVEL === 1) {
     scrubberSvg.style.display = 'none';
@@ -178,17 +178,17 @@ Movie.hideCoordinates = function(e) {
  */
 Movie.updateCoordinates = function(e) {
   // Get the coordinates of the mouse.
-  var rtl = BlocklyGames.isRtl();
-  var x = e.clientX;
-  var y = e.clientY;
+  const rtl = BlocklyGames.IS_RTL;
+  let x = e.clientX;
+  let y = e.clientY;
   if (rtl) {
     x -= window.innerWidth;
   }
   // Compensate for the location of the visualization.
-  var viz = document.getElementById('visualization');
-  var position = Blockly.utils.style.getPageOffset(viz);
-  var scroll = Blockly.utils.style.getViewportPageOffset();
-  var offset = Blockly.utils.Coordinate.difference(position, scroll);
+  const viz = document.getElementById('visualization');
+  const position = Blockly.utils.style.getPageOffset(viz);
+  const scroll = Blockly.utils.style.getViewportPageOffset();
+  const offset = Blockly.utils.Coordinate.difference(position, scroll);
   x += rtl ? offset.x : -offset.x;
   y -= offset.y;
   // The visualization is 400x400, but the coordinates are 100x100.
@@ -220,16 +220,16 @@ Movie.updateCoordinates = function(e) {
  * Show the help pop-up.
  */
 Movie.showHelp = function() {
-  var help = document.getElementById('help');
-  var button = document.getElementById('helpButton');
-  var style = {
+  const help = document.getElementById('help');
+  const button = document.getElementById('helpButton');
+  const style = {
     width: '50%',
     left: '25%',
     top: '5em'
   };
 
   if (BlocklyGames.LEVEL === 2) {
-    var xml = '<xml><block type="movie_time" x="15" y="10"></block></xml>';
+    const xml = '<xml><block type="movie_time" x="15" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   }
 
@@ -250,13 +250,13 @@ Movie.hideHelp = function() {
  * @private
  */
 Movie.renderAnswer_ = function(f) {
-  var div = document.getElementById('visualization');
+  const div = document.getElementById('visualization');
   Movie.ctxScratch.strokeStyle = '#000';
   Movie.ctxScratch.fillStyle = '#000';
   // Create a new canvas object for each answer.
   // <canvas id="answer1" width="400" height="400" style="display: none">
   // </canvas>
-  var canvas = document.createElement('canvas');
+  const canvas = document.createElement('canvas');
   canvas.id = 'answer' + f;
   canvas.width = Movie.WIDTH;
   canvas.height = Movie.HEIGHT;
@@ -268,7 +268,7 @@ Movie.renderAnswer_ = function(f) {
   // Render the answer.
   Movie.answer(f);
   // Copy the scratch canvas to the answer canvas.
-  var ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   ctx.globalCompositeOperation = 'copy';
   ctx.drawImage(Movie.ctxScratch.canvas, 0, 0);
 };
@@ -278,10 +278,10 @@ Movie.renderAnswer_ = function(f) {
  * @private
  */
 Movie.renderHatching_ = function() {
-  var ctx = document.getElementById('hatching').getContext('2d');
+  const ctx = document.getElementById('hatching').getContext('2d');
   ctx.strokeStyle = '#fff';
   ctx.lineWidth = 1;
-  for (var i = -Movie.HEIGHT; i < Movie.HEIGHT; i += 4) {
+  for (let i = -Movie.HEIGHT; i < Movie.HEIGHT; i += 4) {
     ctx.beginPath();
     ctx.moveTo(i, -i);
     ctx.lineTo(i + Movie.HEIGHT, -i + Movie.WIDTH);
@@ -294,14 +294,14 @@ Movie.renderHatching_ = function() {
  * @private
  */
 Movie.renderAxies_ = function() {
-  var ctx = document.getElementById('axies').getContext('2d');
+  const ctx = document.getElementById('axies').getContext('2d');
   ctx.lineWidth = 1;
   ctx.strokeStyle = '#bba';
   ctx.fillStyle = '#bba';
   ctx.font = 'normal 14px sans-serif';
-  var TICK_LENGTH = 9;
-  var major = 1;
-  for (var i = 0.1; i < 0.9; i += 0.1) {
+  const TICK_LENGTH = 9;
+  let major = 1;
+  for (let i = 0.1; i < 0.9; i += 0.1) {
     // Bottom edge.
     ctx.beginPath();
     ctx.moveTo(i * Movie.WIDTH, Movie.HEIGHT);
@@ -335,8 +335,8 @@ Movie.drawFrame_ = function(interpreter) {
   Movie.ctxScratch.globalAlpha =
       (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) ? 1 : 0.9;
 
-  var go = true;
-  for (var tick = 0; go && tick < 10000; tick++) {
+  let go = true;
+  for (let tick = 0; go && tick < 10000; tick++) {
     try {
       go = interpreter.step();
     } catch (e) {
@@ -359,7 +359,7 @@ Movie.codeChange = function(opt_e) {
     // Don't update code during a drag (insertion markers mess everything up).
     return;
   }
-  var code = BlocklyInterface.getJsCode();
+  const code = BlocklyInterface.getJsCode();
   if (BlocklyInterface.executedJsCode === code) {
     return;
   }
@@ -384,7 +384,7 @@ Movie.display = function(opt_frameNumber) {
   if (typeof opt_frameNumber === 'number') {
     Movie.frameNumber = opt_frameNumber;
   }
-  var frameNumber = Movie.frameNumber;
+  const frameNumber = Movie.frameNumber;
 
   // Clear the display with white.
   Movie.ctxDisplay.beginPath();
@@ -394,7 +394,7 @@ Movie.display = function(opt_frameNumber) {
   Movie.ctxDisplay.fill();
 
   // Copy the answer.
-  var answer = document.getElementById('answer' + frameNumber);
+  const answer = document.getElementById('answer' + frameNumber);
   if (answer) {
     Movie.ctxDisplay.globalAlpha = 0.2;
     Movie.ctxDisplay.drawImage(answer, 0, 0);
@@ -402,13 +402,14 @@ Movie.display = function(opt_frameNumber) {
   }
 
   // Copy the hatching.
-  var hatching = document.getElementById('hatching');
+  const hatching = document.getElementById('hatching');
   Movie.ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  var code = BlocklyInterface.executedJsCode;
+  const code = BlocklyInterface.executedJsCode;
+  let interpreter;
   try {
-    var interpreter = new Interpreter(code, Movie.initInterpreter);
+    interpreter = new Interpreter(code, Movie.initInterpreter);
   } catch (e) {
     // Trap syntax errors: break outside a loop, or return outside a function.
     console.error(e);
@@ -436,7 +437,7 @@ Movie.display = function(opt_frameNumber) {
  */
 Movie.initInterpreter = function(interpreter, globalObject) {
   // API
-  var wrapper;
+  let wrapper;
   wrapper = function(x, y, radius) {
     Movie.circle(x, y, radius);
   };
@@ -545,18 +546,18 @@ Movie.penColour = function(colour) {
 Movie.checkFrameAnswer = function() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
-  var answer = document.getElementById('answer' + Movie.frameNumber);
+  const answer = document.getElementById('answer' + Movie.frameNumber);
   if (!answer) {
     return;
   }
-  var ctxAnswer = answer.getContext('2d');
-  var answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
-  var userImage =
+  const ctxAnswer = answer.getContext('2d');
+  const answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
+  const userImage =
       Movie.ctxScratch.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
-  var len = Math.min(userImage.data.length, answerImage.data.length);
-  var delta = 0;
+  const len = Math.min(userImage.data.length, answerImage.data.length);
+  let delta = 0;
   // Pixels are in RGBA format.  Only check the Alpha bytes.
-  for (var i = 3; i < len; i += 4) {
+  for (let i = 3; i < len; i += 4) {
     // Check the Alpha byte.
     if (Math.abs(userImage.data[i] - answerImage.data[i]) > 96) {
       delta++;
@@ -589,15 +590,15 @@ Movie.checkAnswers = function() {
  * Send an image of the canvas to gallery.
  */
 Movie.submitToGallery = function() {
-  var blockCount = BlocklyInterface.workspace.getAllBlocks().length;
-  var code = BlocklyInterface.getJsCode();
+  const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
+  const code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || !code.includes('time()')) {
     alert(BlocklyGames.Msg['Movie.submitDisabled']);
     return;
   }
   // Draw and copy the user layer.
-  var interpreter = new Interpreter(code, Movie.initInterpreter);
-  var frameNumber = Movie.frameNumber;
+  const interpreter = new Interpreter(code, Movie.initInterpreter);
+  const frameNumber = Movie.frameNumber;
   try {
     Movie.frameNumber = Math.round(Movie.FRAMES / 2);
     Movie.drawFrame_(interpreter);
@@ -605,11 +606,11 @@ Movie.submitToGallery = function() {
     Movie.frameNumber = frameNumber;
   }
   // Encode the thumbnail.
-  var thumbnail = document.getElementById('thumbnail');
-  var ctxThumb = thumbnail.getContext('2d');
+  const thumbnail = document.getElementById('thumbnail');
+  const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
   ctxThumb.drawImage(Movie.ctxScratch.canvas, 0, 0, 200, 200);
-  var thumbData = thumbnail.toDataURL('image/png');
+  const thumbData = thumbnail.toDataURL('image/png');
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.

@@ -57,9 +57,9 @@ Blockly.Blocks['pond_scan'] = {
 
 Blockly.JavaScript['pond_scan'] = function(block) {
   // Generate JavaScript for scanning the pond.
-  var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
+  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
       Blockly.JavaScript.ORDER_NONE) || 0;
-  var code = 'scan(' + value_degree + ')';
+  const code = 'scan(' + value_degree + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -95,9 +95,9 @@ Blockly.Blocks['pond_cannon'] = {
 
 Blockly.JavaScript['pond_cannon'] = function(block) {
   // Generate JavaScript for shooting.
-  var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
+  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
       Blockly.JavaScript.ORDER_COMMA) || 0;
-  var value_range = Blockly.JavaScript.valueToCode(block, 'RANGE',
+  const value_range = Blockly.JavaScript.valueToCode(block, 'RANGE',
       Blockly.JavaScript.ORDER_COMMA) || 0;
   return 'cannon(' + value_degree + ', ' + value_range + ');\n';
 };
@@ -129,7 +129,7 @@ Blockly.Blocks['pond_swim'] = {
 
 Blockly.JavaScript['pond_swim'] = function(block) {
   // Generate JavaScript for swimming.
-  var value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
+  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
       Blockly.JavaScript.ORDER_NONE) || 0;
   return 'swim(' + value_degree + ');\n';
 };
@@ -266,7 +266,7 @@ Blockly.Blocks['pond_log'] = {
 
 Blockly.JavaScript['pond_log'] = function(block) {
   // Generate JavaScript for logging.
-  var value_text = Blockly.JavaScript.valueToCode(block, 'VALUE',
+  const value_text = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_NONE) || '\'\'';
   return 'log(' + value_text + ');\n';
 };
@@ -291,9 +291,9 @@ Blockly.Blocks['pond_math_number'] = {
    * @this {Blockly.Block}
    */
   mutationToDom: function() {
-    var container = document.createElement('mutation');
-    var field = this.getField('NUM');
-    var isAngle = field.constructor === Blockly.FieldAngle;
+    const container = document.createElement('mutation');
+    const field = this.getField('NUM');
+    const isAngle = field.constructor === Blockly.FieldAngle;
     container.setAttribute('angle_field', isAngle);
     return container;
   },
@@ -303,7 +303,7 @@ Blockly.Blocks['pond_math_number'] = {
    * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
-    var isAngle = (xmlElement.getAttribute('angle_field') === 'true');
+    const isAngle = (xmlElement.getAttribute('angle_field') === 'true');
     this.updateField_(isAngle);
   },
   /**
@@ -319,7 +319,7 @@ Blockly.Blocks['pond_math_number'] = {
     if (this.outputConnection.targetConnection &&
         this.outputConnection.targetConnection.check_) {
       // Plugged in to parent.
-      var field = this.getField('NUM');
+      const field = this.getField('NUM');
       if (this.outputConnection.targetConnection.check_.includes('Angle')) {
         // Parent wants an angle.
         if (field.constructor !== Blockly.FieldAngle) {
@@ -340,9 +340,9 @@ Blockly.Blocks['pond_math_number'] = {
    */
   updateField_: function(isAngle) {
     Blockly.Events.disable();
-    var input = this.getInput('DUMMY');
-    var field = this.getField('NUM');
-    var value = field.getValue();
+    const input = this.getInput('DUMMY');
+    let field = this.getField('NUM');
+    const value = field.getValue();
     if (isAngle) {
       input.removeField('NUM');
       field = new Blockly.FieldAngle('');
@@ -394,10 +394,10 @@ Blockly.Blocks['pond_math_single'] = {
       "helpUrl": Blockly.Msg['MATH_SINGLE_HELPURL']
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
+    const thisBlock = this;
     this.setTooltip(function() {
-      var mode = thisBlock.getFieldValue('OP');
-      var TOOLTIPS = {
+      const mode = thisBlock.getFieldValue('OP');
+      const TOOLTIPS = {
         'ROOT': Blockly.Msg['MATH_SINGLE_TOOLTIP_ROOT'],
         'ABS': Blockly.Msg['MATH_SINGLE_TOOLTIP_ABS'],
         'SIN': Blockly.Msg['MATH_TRIG_TOOLTIP_SIN'],
@@ -414,9 +414,9 @@ Blockly.Blocks['pond_math_single'] = {
 
 Blockly.JavaScript['pond_math_single'] = function(block) {
   // Advanced math operators with single operand.
-  var operator = block.getFieldValue('OP');
-  var code;
-  var arg = Blockly.JavaScript.valueToCode(block, 'NUM',
+  const operator = block.getFieldValue('OP');
+  let code;
+  const arg = Blockly.JavaScript.valueToCode(block, 'NUM',
       Blockly.JavaScript.ORDER_NONE) || '0';
   // First, handle cases which generate values that don't need parentheses
   // wrapping the code.

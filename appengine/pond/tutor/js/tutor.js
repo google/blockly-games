@@ -47,14 +47,15 @@ Pond.Tutor.init = function() {
     setTimeout(Pond.showHelp, 1000);
   }
 
-  var rtl = BlocklyGames.isRtl();
-  var blocklyDiv = document.getElementById('blockly');
-  var editorDiv = document.getElementById('editor');
-  var visualization = document.getElementById('visualization');
+  const rtl = BlocklyGames.IS_RTL;
+  const blocklyDiv = document.getElementById('blockly');
+  const editorDiv = document.getElementById('editor');
+  const visualization = document.getElementById('visualization');
+  let onresize;
 
   if (blocklyDiv) {
-    var onresize = function(e) {
-      var top = visualization.offsetTop;
+    onresize = function(e) {
+      const top = visualization.offsetTop;
       blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
       blocklyDiv.style.left = rtl ? '10px' : '420px';
       blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
@@ -70,7 +71,7 @@ Pond.Tutor.init = function() {
     Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
         'damage,health,loc_x,getX,loc_y,getY,');
 
-    var defaultXml;
+    let defaultXml;
     if (BlocklyGames.LEVEL === 7) {
       defaultXml =
         '<xml>' +
@@ -108,10 +109,10 @@ Pond.Tutor.init = function() {
   if (editorDiv) {
     BlocklyInterface.blocksDisabled = true;
     // Remove the container for source code in the 'done' dialog.
-    var containerCode = document.getElementById('containerCode');
+    const containerCode = document.getElementById('containerCode');
     containerCode.parentNode.removeChild(containerCode);
 
-    var defaultCode;
+    let defaultCode;
     if (BlocklyGames.LEVEL === 8) {
       defaultCode = 'swim(0);';
     } else {
@@ -120,8 +121,8 @@ Pond.Tutor.init = function() {
     BlocklyAce.makeAceSession();
     BlocklyInterface.loadBlocks(defaultCode + '\n');
 
-    var onresize = function(e) {
-      var top = visualization.offsetTop;
+    onresize = function(e) {
+      const top = visualization.offsetTop;
       editorDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
       editorDiv.style.left = rtl ? '10px' : '420px';
       editorDiv.style.width = (window.innerWidth - 440) + 'px';
@@ -136,13 +137,13 @@ Pond.Tutor.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  var avatarData = Pond.Tutor.getAvatarData();
-  for (var avatarDatum, i = 0; (avatarDatum = avatarData[i]); i++) {
-    var avatar = new Pond.Avatar(avatarDatum.name, avatarDatum.start,
-        avatarDatum.damage, !code, Pond.Battle);
+  const avatarData = Pond.Tutor.getAvatarData();
+  for (const avatarDatum of avatarData) {
+    const avatar = new Pond.Avatar(avatarDatum.name, avatarDatum.start,
+        avatarDatum.damage, !avatarDatum.code, Pond.Battle);
     if (avatarDatum.code) {
-      var div = document.getElementById(avatarDatum.code);
-      var code = div.textContent;
+      const div = document.getElementById(avatarDatum.code);
+      const code = div.textContent;
       avatar.setCode(undefined, code, code);
     } else {
       Pond.currentAvatar = avatar;
@@ -169,10 +170,10 @@ Pond.Tutor.runButtonClick = function(e) {
  * @param {!Array<!Object>}
  */
 Pond.Tutor.getAvatarData = function() {
-  var playerName = BlocklyGames.Msg['Pond.playerName'];
-  var targetName = BlocklyGames.Msg['Pond.targetName'];
-  var pendulumName = BlocklyGames.Msg['Pond.pendulumName'];
-  var scaredName = BlocklyGames.Msg['Pond.scaredName'];
+  const playerName = BlocklyGames.Msg['Pond.playerName'];
+  const targetName = BlocklyGames.Msg['Pond.targetName'];
+  const pendulumName = BlocklyGames.Msg['Pond.pendulumName'];
+  const scaredName = BlocklyGames.Msg['Pond.scaredName'];
 
   return [
     // Level 0.
@@ -346,8 +347,8 @@ Pond.endBattle = function(survivors) {
           Pond.Battle.ticks > 200000) {
         // Avatar just pinged Pendulum to death with fixed range.
         // Use 'scan', dummy.
-        var content = document.getElementById('helpUseScan');
-        var style = {
+        const content = document.getElementById('helpUseScan');
+        const style = {
           'width': '30%',
           'left': '35%',
           'top': '12em'

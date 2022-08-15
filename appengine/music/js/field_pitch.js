@@ -67,13 +67,13 @@ CustomFields.FieldPitch.NOTES = 'C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4'.split(/
 CustomFields.FieldPitch.prototype.showEditor_ = function() {
   CustomFields.FieldPitch.superClass_.showEditor_.call(this);
 
-  var div = Blockly.WidgetDiv.DIV;
+  const div = Blockly.WidgetDiv.DIV;
   if (!div.firstChild) {
     // Mobile interface uses Blockly.prompt.
     return;
   }
   // Build the DOM.
-  var editor = this.dropdownCreate_();
+  const editor = this.dropdownCreate_();
   Blockly.DropDownDiv.getContentDiv().appendChild(editor);
 
   Blockly.DropDownDiv.setColour(this.sourceBlock_.style.colourPrimary,
@@ -136,9 +136,9 @@ CustomFields.FieldPitch.prototype.hide_ = function() {
  * @param {!Event} e Mouse move event.
  */
 CustomFields.FieldPitch.prototype.onMouseMove = function(e) {
-  var bBox = this.imageElement_.getBoundingClientRect();
-  var dy = e.clientY - bBox.top;
-  var note = Blockly.utils.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
+  const bBox = this.imageElement_.getBoundingClientRect();
+  const dy = e.clientY - bBox.top;
+  const note = Blockly.utils.math.clamp(Math.round(13.5 - dy / 7.5), 0, 12);
   this.imageElement_.style.backgroundPosition = (-note * 37) + 'px 0';
   this.setEditorValue_(note);
 };
@@ -158,8 +158,8 @@ CustomFields.FieldPitch.prototype.valueToNote = function(value) {
  * @return {number|undefined} The respective value, or undefined if invalid.
  */
 CustomFields.FieldPitch.prototype.noteToValue = function(text) {
-  var normalizedText = text.trim().toUpperCase();
-  var i = CustomFields.FieldPitch.NOTES.indexOf(normalizedText);
+  const normalizedText = text.trim().toUpperCase();
+  const i = CustomFields.FieldPitch.NOTES.indexOf(normalizedText);
   return i > -1 ? i : undefined;
 };
 
@@ -213,7 +213,7 @@ CustomFields.FieldPitch.prototype.updateGraph_ = function() {
   if (!this.imageElement_) {
     return;
   }
-  var i = this.getValue();
+  const i = this.getValue();
   this.imageElement_.style.backgroundPosition = (-i * 37) + 'px 0';
 };
 
@@ -226,7 +226,7 @@ CustomFields.FieldPitch.prototype.doClassValidation_ = function(opt_newValue) {
   if (opt_newValue === null || opt_newValue === undefined) {
     return null;
   }
-  var note = this.valueToNote(opt_newValue);
+  const note = this.valueToNote(opt_newValue);
   if (note) {
     return opt_newValue;
   }

@@ -129,6 +129,12 @@ BlocklyGames.LANG = window['BlocklyGamesLang'];
 BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
 
 /**
+ * Is the current language (BlocklyGames.LANG) an RTL language?
+ * @type boolean
+ */
+BlocklyGames.IS_RTL = BlocklyGames.LANGUAGE_RTL.includes(BlocklyGames.LANG);
+
+/**
  * Is the site being served as raw HTML files, as opposed to on App Engine.
  * @type boolean
  */
@@ -144,11 +150,11 @@ BlocklyGames.errorReporter = function(event) {
     // 3rd party script errors (likely plugins) have no useful info.
     if (!event.lineno && !event.colno) return;
     // Rate-limit the reports to once every 10 seconds.
-    var now = Date.now();
+    const now = Date.now();
     if (BlocklyGames.errorReporter.lastHit_ + 10 * 1000 > now) return;
     BlocklyGames.errorReporter.lastHit_ = now;
-    var req = new XMLHttpRequest();
-    var params = "error=" + encodeURIComponent(event.message + ' ' +
+    const req = new XMLHttpRequest();
+    const params = "error=" + encodeURIComponent(event.message + ' ' +
         event.filename + ' ' + event.lineno + ':' + event.colno) +
         '&amp;url=' + encodeURIComponent(window.location);
     req.open("POST", "/errorReporter");
@@ -173,7 +179,7 @@ if (!BlocklyGames.IS_HTML) {
  * @return {string} The parameter value or the default value if not found.
  */
 BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
-  var val =
+  const val =
       window.location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
   return val ? decodeURIComponent(val[1].replace(/\+/g, '%20')) : defaultValue;
 };
@@ -188,17 +194,9 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  * @return {number} A number in the range [min_value, max_value].
  */
 BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
-  var val = Math.floor(Number(BlocklyGames.getStringParamFromUrl(name, 'NaN')));
+  const val = Math.floor(Number(BlocklyGames.getStringParamFromUrl(name, 'NaN')));
   return isNaN(val) ? minValue :
       Blockly.utils.math.clamp(minValue, val, maxValue);
-};
-
-/**
- * Is the current language (BlocklyGames.LANG) an RTL language?
- * @return {boolean} True if RTL, false if LTR.
- */
-BlocklyGames.isRtl = function() {
-  return BlocklyGames.LANGUAGE_RTL.includes(BlocklyGames.LANG);
 };
 
 /**
@@ -226,20 +224,19 @@ BlocklyGames.init = function(title) {
   document.title = title;
 
   // Set the HTML's language and direction.
-  var rtl = BlocklyGames.isRtl();
-  document.dir = rtl ? 'rtl' : 'ltr';
+  document.dir = BlocklyGames.IS_RTL ? 'rtl' : 'ltr';
   document.head.parentElement.setAttribute('lang', BlocklyGames.LANG);
 
   // Populate the language selection menu.
-  var languageMenu = document.getElementById('languageMenu');
+  const languageMenu = document.getElementById('languageMenu');
   if (languageMenu) {
     // Sort languages alphabetically.
-    var languages = [];
-    for (var i = 0; i < BlocklyGames.LANGUAGES.length; i++) {
-      var lang = BlocklyGames.LANGUAGES[i];
+    const languages = [];
+    for (let i = 0; i < BlocklyGames.LANGUAGES.length; i++) {
+      const lang = BlocklyGames.LANGUAGES[i];
       languages.push([BlocklyGames.LANGUAGE_NAME[lang], lang]);
     }
-    var comp = function(a, b) {
+    const comp = function(a, b) {
       // Sort based on first argument ('English', 'Русский', '简体字', etc).
       if (a[0] > b[0]) return 1;
       if (a[0] < b[0]) return -1;
@@ -247,10 +244,10 @@ BlocklyGames.init = function(title) {
     };
     languages.sort(comp);
     languageMenu.options.length = 0;
-    for (var i = 0; i < languages.length; i++) {
-      var tuple = languages[i];
-      var lang = tuple[1];
-      var option = new Option(tuple[0], lang);
+    for (let i = 0; i < languages.length; i++) {
+      const tuple = languages[i];
+      const lang = tuple[1];
+      const option = new Option(tuple[0], lang);
       if (lang === BlocklyGames.LANG) {
         option.selected = true;
       }
@@ -263,16 +260,16 @@ BlocklyGames.init = function(title) {
   }
 
   // Highlight levels that have been completed.
-  for (var i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
-    var link = document.getElementById('level' + i);
-    var done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, i);
+  for (let i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
+    const link = document.getElementById('level' + i);
+    const done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, i);
     if (link && done) {
       link.className += ' level_done';
     }
   }
 
   // Fixes viewport for small screens.
-  var viewport = document.querySelector('meta[name="viewport"]');
+  const viewport = document.querySelector('meta[name="viewport"]');
   if (viewport && screen.availWidth < 725) {
     viewport.setAttribute('content',
         'width=725, initial-scale=.35, user-scalable=no');
@@ -286,10 +283,10 @@ BlocklyGames.init = function(title) {
  * Reload with a different language.
  */
 BlocklyGames.changeLanguage = function() {
-  var languageMenu = document.getElementById('languageMenu');
-  var newLang = encodeURIComponent(
+  const languageMenu = document.getElementById('languageMenu');
+  const newLang = encodeURIComponent(
       languageMenu.options[languageMenu.selectedIndex].value);
-  var search = window.location.search;
+  let search = window.location.search;
   if (search.length <= 1) {
     search = '?lang=' + newLang;
   } else if (/[?&]lang=[^&]*/.test(search)) {
@@ -310,7 +307,7 @@ BlocklyGames.changeLanguage = function() {
  * @return {string|undefined} Serialized XML, or undefined.
  */
 BlocklyGames.loadFromLocalStorage = function(name, level) {
-  var xml;
+  let xml;
   try {
     xml = window.localStorage[name + level];
   } catch (e) {
@@ -377,18 +374,18 @@ BlocklyGames.importAnalytics_ = function() {
   if (BlocklyGames.IS_HTML) {
     return;
   }
-  var gaName = 'GoogleAnalyticsFunction';
+  const gaName = 'GoogleAnalyticsFunction';
   window['GoogleAnalyticsObject'] = gaName;
   /**
    * Load command onto Google Analytics queue.
    * @param {...string} var_args Commands.
    */
-  var gaObject = function(var_args) {
+  const gaObject = function(var_args) {
     (gaObject['q'] = gaObject['q'] || []).push(arguments);
   };
   window[gaName] = gaObject;
   gaObject['l'] = 1 * new Date();
-  var script = document.createElement('script');
+  const script = document.createElement('script');
   script.async = 1;
   script.src = '//www.google-analytics.com/analytics.js';
   document.head.appendChild(script);

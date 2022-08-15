@@ -49,9 +49,9 @@ Pond.Visualization.SOUNDS_ = Object.create(null);
  */
 Pond.Visualization.init = function() {
   // Configure the canvas elements.
-  var ctxScratch = document.getElementById('scratch').getContext('2d');
+  const ctxScratch = document.getElementById('scratch').getContext('2d');
   Pond.Visualization.ctxScratch_ = ctxScratch;
-  var ctxDisplay = document.getElementById('display').getContext('2d');
+  const ctxDisplay = document.getElementById('display').getContext('2d');
   Pond.Visualization.ctxDisplay_ = ctxDisplay;
   Pond.Visualization.CANVAS_SIZE = ctxDisplay.canvas.width;
   ctxDisplay.globalCompositeOperation = 'copy';
@@ -90,59 +90,58 @@ Pond.Visualization.reset = function() {
   Pond.Visualization.stop();
   Pond.Visualization.EXPLOSIONS.length = 0;
   // Clear out the avatar status row.
-  var row1 = document.getElementById('avatarStatRow1');
+  const row1 = document.getElementById('avatarStatRow1');
   row1.innerHTML = '';
-  var row2 = document.getElementById('avatarStatRow2');
+  const row2 = document.getElementById('avatarStatRow2');
   row2.innerHTML = '';
-  var nameDivs = [];
-  var healthDivs = [];
-  var avatarSelect = document.getElementById('avatar-select');
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+  const nameDivs = [];
+  const healthDivs = [];
+  const avatarSelect = document.getElementById('avatar-select');
+  for (let i = 0; i < Pond.Battle.AVATARS.length; i++) {
+    const avatar = Pond.Battle.AVATARS[i];
     // Players 0+1 on first row, 2+3 on second, 4+5 on first, etc.
-    var row = (Math.floor(i / 2) % 2) ? row2 : row1;
+    const row = (Math.floor(i / 2) % 2) ? row2 : row1;
     // Assign a colour to each avatar.
-    var hexColour = Pond.Visualization.getColour(avatar);
+    const hexColour = Pond.Visualization.getColour(avatar);
     // Add a cell to the avatar status row.
     // <td>
     //   <div class="avatarStatHealth"></div>
     //   <div class="avatarStatName">Rabbit</div>
     //   <div>&nbsp;</div>
     // </td>
-    var td = document.createElement('td');
+    const td = document.createElement('td');
     if (avatarSelect) {
       td.className = 'asButton';
       td.setAttribute('role', 'button');
-      var handler = (function(n) {return function() {
+      const handler = (function(n) {return function() {
         avatarSelect.selectedIndex = n;
-        var evt = document.createEvent('HTMLEvents');
+        const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         avatarSelect.dispatchEvent(evt);
       }})(i);
       td.addEventListener('click', handler);
     }
     td.style.borderColor = hexColour;
-    var div = document.createElement('div');
-    div.className = 'avatarStatHealth';
-    div.style.background = hexColour;
-    avatar.visualizationHealth = div;
-    healthDivs[i] = div;
-    td.appendChild(div);
-    var div = document.createElement('div');
-    div.className = 'avatarStatName';
-    var text = document.createTextNode(avatar.name);
-    div.appendChild(text);
-    nameDivs[i] = div;
-    td.appendChild(div);
-    var div = document.createElement('div');
-    var text = document.createTextNode('\u00a0');
-    div.appendChild(text);
-    td.appendChild(div);
+    const div1 = document.createElement('div');
+    div1.className = 'avatarStatHealth';
+    div1.style.background = hexColour;
+    avatar.visualizationHealth = div1;
+    healthDivs[i] = div1;
+    td.appendChild(div1);
+    const div2 = document.createElement('div');
+    div2.className = 'avatarStatName';
+    div2.appendChild(document.createTextNode(avatar.name));
+    nameDivs[i] = div2;
+    td.appendChild(div2);
+    const div3 = document.createElement('div');
+    div3.appendChild(document.createTextNode('\u00a0'));
+    td.appendChild(div3);
     row.appendChild(td);
   }
-  for (var i = 0, div; (div = nameDivs[i]); i++) {
+  for (const div of nameDivs) {
     div.style.width = (div.parentNode.offsetWidth - 2) + 'px';
   }
-  for (var i = 0, div; (div = healthDivs[i]); i++) {
+  for (const div of healthDivs) {
     div.style.height = (div.parentNode.offsetHeight - 2) + 'px';
   }
   // Render a single frame.
@@ -165,10 +164,10 @@ Pond.Visualization.lastDelay = 0;
 Pond.Visualization.start = function() {
   Pond.Visualization.display_();
   // Frame done.  Calculate the actual elapsed time and schedule the next frame.
-  var now = Date.now();
-  var workTime = now - Pond.Visualization.lastFrame -
+  const now = Date.now();
+  const workTime = now - Pond.Visualization.lastFrame -
       Pond.Visualization.lastDelay;
-  var delay = Math.max(1, (1000 / Pond.Visualization.FPS) - workTime);
+  const delay = Math.max(1, (1000 / Pond.Visualization.FPS) - workTime);
   Pond.Visualization.pid = setTimeout(Pond.Visualization.start, delay);
   Pond.Visualization.lastFrame = now;
   Pond.Visualization.lastDelay = delay;
@@ -190,30 +189,27 @@ Pond.Visualization.canvasCoordinate = function(pondValue) {
  * @private
  */
 Pond.Visualization.display_ = function() {
-  var ctx = Pond.Visualization.ctxScratch_;
+  const ctx = Pond.Visualization.ctxScratch_;
   // Clear the display with blue.
   ctx.beginPath();
   ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.fillStyle = '#527dbf';
   ctx.fill();
   // Draw the avatars, dead ones first.
-  var avatars = [];
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
+  const avatars = [];
+  for (const avatar of Pond.Battle.AVATARS) {
     if (avatar.dead) {
       avatars.push(avatar);
+    } else {
+      avatars.unshift(avatar);
     }
   }
-  for (var i = 0, avatar; (avatar = Pond.Battle.AVATARS[i]); i++) {
-    if (!avatar.dead) {
-      avatars.push(avatar);
-    }
-  }
-  for (var i = 0, avatar; (avatar = avatars[i]); i++) {
+  for (const avatar of avatars) {
     ctx.save();
-    var x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
-    var y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
+    const x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
+    const y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
     ctx.translate(x, y);
-    var colour = (avatar.visualizationIndex %
+    const colour = (avatar.visualizationIndex %
         Pond.Visualization.COLOURS.length) * Pond.Visualization.AVATAR_SIZE;
     if (avatar.dead) {
       ctx.globalAlpha = 0.25;
@@ -221,12 +217,13 @@ Pond.Visualization.display_ = function() {
     if (avatar.speed > 0) {
       // Draw wake bubbles.
       ctx.save();
+      let speed;
       if (avatar.speed > 50) {
-        var speed = 0;
+        speed = 0;
       } else if (avatar.speed > 25) {
-        var speed = Pond.Visualization.AVATAR_SIZE;
+        speed = Pond.Visualization.AVATAR_SIZE;
       } else {
-        var speed = Pond.Visualization.AVATAR_SIZE * 2;
+        speed = Pond.Visualization.AVATAR_SIZE * 2;
       }
       ctx.rotate(Blockly.utils.math.toRadians(-avatar.degree));
       ctx.drawImage(Pond.Visualization.SPRITES,
@@ -252,16 +249,16 @@ Pond.Visualization.display_ = function() {
 
     // Draw avatar head.
     // Offset the head from the middle.
-    var headRadialOffset = 12;
-    var headVerticalOffset = 2;
-    var radians = Blockly.utils.math.toRadians(avatar.facing);
-    var hx = Math.cos(radians) * headRadialOffset;
-    var hy = -Math.sin(radians) * headRadialOffset - headVerticalOffset;
+    const headRadialOffset = 12;
+    const headVerticalOffset = 2;
+    const radians = Blockly.utils.math.toRadians(avatar.facing);
+    const hx = Math.cos(radians) * headRadialOffset;
+    const hy = -Math.sin(radians) * headRadialOffset - headVerticalOffset;
     ctx.translate(hx, hy);
     // Divide into 12 quads.
-    var quad = (14 - Math.round(avatar.facing / 360 * 12)) % 12 + 1;
-    var quadAngle = 360 / 12;  // 30.
-    var remainder = avatar.facing % quadAngle;
+    const quad = (14 - Math.round(avatar.facing / 360 * 12)) % 12 + 1;
+    const quadAngle = 360 / 12;  // 30.
+    let remainder = avatar.facing % quadAngle;
     if (remainder >= quadAngle / 2) {
       remainder -= quadAngle;
     }
@@ -281,23 +278,23 @@ Pond.Visualization.display_ = function() {
   }
 
   // Draw the missiles.
-  for (var i = 0, missile; (missile = Pond.Battle.MISSILES[i]); i++) {
+  for (const missile of Pond.Battle.MISSILES) {
     ctx.save();
-    var progress = missile.progress / missile.range;
-    var dx = (missile.endLoc.x - missile.startLoc.x) * progress;
-    var dy = (missile.endLoc.y - missile.startLoc.y) * -progress;
+    const progress = missile.progress / missile.range;
+    const dx = (missile.endLoc.x - missile.startLoc.x) * progress;
+    const dy = (missile.endLoc.y - missile.startLoc.y) * -progress;
     // Calculate parabolic arc.
-    var halfRange = missile.range / 2;
-    var height = missile.range * 0.15;  // Change to set height of arc.
-    var xAxis = missile.progress - halfRange;
-    var parabola = height -
+    const halfRange = missile.range / 2;
+    const height = missile.range * 0.15;  // Change to set height of arc.
+    const xAxis = missile.progress - halfRange;
+    const parabola = height -
         Math.pow(xAxis / Math.sqrt(height) * height / halfRange, 2);
     // Calculate the on-canvas coordinates.
-    var missileX = Pond.Visualization.canvasCoordinate(
+    const missileX = Pond.Visualization.canvasCoordinate(
         missile.startLoc.x + dx);
-    var missileY = Pond.Visualization.canvasCoordinate(
+    const missileY = Pond.Visualization.canvasCoordinate(
         100 - missile.startLoc.y + dy - parabola);
-    var shadowY =
+    const shadowY =
         Pond.Visualization.canvasCoordinate(100 - missile.startLoc.y + dy);
     // Draw missile and shadow.
     ctx.beginPath();
@@ -317,13 +314,12 @@ Pond.Visualization.display_ = function() {
   }
 
   // Handle any queued events.
-  for (var i = 0; i < Pond.Battle.EVENTS.length; i++) {
-    var event = Pond.Battle.EVENTS[i];
-    var avatar = event['avatar'];
+  for (const event of Pond.Battle.EVENTS) {
+    const avatar = event['avatar'];
     if (event['type'] === 'CRASH') {
       // Impact between two avatars, or a avatar and the wall.
       // Only play the crash sound if this avatar hasn't crashed recently.
-      var lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
+      const lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
       if (!lastCrash || lastCrash + 1000 < Date.now()) {
         Pond.Visualization.playAudio_('whack', event['damage'] /
                           Pond.Battle.COLLISION_DAMAGE);
@@ -331,18 +327,18 @@ Pond.Visualization.display_ = function() {
       }
     } else if (event['type'] === 'SCAN') {
       // Show a sensor scan beam.
-      var halfResolution = Math.max(event['resolution'] / 2, 0.5);
-      var angle1 = -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
-      var angle2 = -Blockly.utils.math.toRadians(event['degree'] - halfResolution);
+      const halfResolution = Math.max(event['resolution'] / 2, 0.5);
+      const angle1 = -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
+      const angle2 = -Blockly.utils.math.toRadians(event['degree'] - halfResolution);
       ctx.beginPath();
-      var x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
-      var y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
-      var r = 200;
+      const x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
+      const y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);
+      const r = 200;
       ctx.moveTo(x, y);
       ctx.lineTo(x + Math.cos(angle1) * r, y + Math.sin(angle1) * r);
       ctx.arc(x, y, r, angle1, angle2);
       ctx.lineTo(x, y);
-      var gradient = ctx.createRadialGradient(x, y,
+      const gradient = ctx.createRadialGradient(x, y,
           Pond.Visualization.AVATAR_HALF_SIZE, x, y, r);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -365,10 +361,10 @@ Pond.Visualization.display_ = function() {
   Pond.Battle.EVENTS.length = 0;
 
   // Draw all the explosions.
-  for (var i = Pond.Visualization.EXPLOSIONS.length - 1; i >= 0; i--) {
-    var explosion = Pond.Visualization.EXPLOSIONS[i];
-    var x = Pond.Visualization.canvasCoordinate(explosion.x);
-    var y = Pond.Visualization.canvasCoordinate(100 - explosion.y);
+  for (let i = Pond.Visualization.EXPLOSIONS.length - 1; i >= 0; i--) {
+    const explosion = Pond.Visualization.EXPLOSIONS[i];
+    const x = Pond.Visualization.canvasCoordinate(explosion.x);
+    const y = Pond.Visualization.canvasCoordinate(100 - explosion.y);
     ctx.beginPath();
     ctx.arc(x, y, explosion.t + 1, 0, Math.PI * 2, true);
     ctx.closePath();
@@ -385,11 +381,11 @@ Pond.Visualization.display_ = function() {
   Pond.Visualization.ctxDisplay_.drawImage(ctx.canvas, 0, 0);
 
   // Update the health bars.
-  for (var i = 0, avatar; (avatar = avatars[i]); i++) {
-    var div = avatar.visualizationHealth;
+  for (const avatar of avatars) {
+    const div = avatar.visualizationHealth;
     div.parentNode.title = avatar.name + ': ' +
         Math.round(100 - avatar.damage) + '%';
-    var width = div.parentNode.offsetWidth * (1 - avatar.damage / 100) - 2;
+    const width = div.parentNode.offsetWidth * (1 - avatar.damage / 100) - 2;
     div.style.width = Math.max(0, width) + 'px';
   }
 };
@@ -407,11 +403,11 @@ Pond.Visualization.loadAudio_ = function(filenames, name) {
     // No browser support for Audio.
     return;
   }
-  var sound;
-  var audioTest = new window['Audio']();
-  for (var i = 0; i < filenames.length; i++) {
-    var filename = filenames[i];
-    var ext = filename.match(/\.(\w+)$/);
+  let sound;
+  const audioTest = new window['Audio']();
+  for (let i = 0; i < filenames.length; i++) {
+    const filename = filenames[i];
+    const ext = filename.match(/\.(\w+)$/);
     if (ext && audioTest.canPlayType('audio/' + ext[1])) {
       // Found an audio format we can play.
       sound = new window['Audio'](filename);
@@ -428,8 +424,8 @@ Pond.Visualization.loadAudio_ = function(filenames, name) {
  * @private
  */
 Pond.Visualization.preloadAudio_ = function() {
-  for (var name in Pond.Visualization.SOUNDS_) {
-    var sound = Pond.Visualization.SOUNDS_[name];
+  for (const name in Pond.Visualization.SOUNDS_) {
+    const sound = Pond.Visualization.SOUNDS_[name];
     sound.volume = 0.01;
     try {
       sound.play();
@@ -448,8 +444,8 @@ Pond.Visualization.preloadAudio_ = function() {
  * @private
  */
 Pond.Visualization.playAudio_ = function(name, opt_volume) {
-  var sound = Pond.Visualization.SOUNDS_[name];
-  var mySound;
+  const sound = Pond.Visualization.SOUNDS_[name];
+  let mySound;
   if (Blockly.utils.userAgent.IPAD || Blockly.utils.userAgent.ANDROID) {
     // Creating a new audio node causes lag in IE9, Android and iPad. Android
     // and IE9 refetch the file from the server, iPad uses a singleton audio

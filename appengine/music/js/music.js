@@ -110,13 +110,13 @@ Music.init = function() {
 
   BlocklyInterface.init(BlocklyGames.Msg['Games.music']);
 
-  var rtl = BlocklyGames.isRtl();
-  var blocklyDiv = document.getElementById('blockly');
-  var paddingBox = document.getElementById('paddingBox');
-  var staveBox = document.getElementById('staveBox');
-  var musicBox = document.getElementById('musicBox');
-  var onresize = function(e) {
-    var top = paddingBox.offsetTop;
+  const rtl = BlocklyGames.IS_RTL;
+  const blocklyDiv = document.getElementById('blockly');
+  const paddingBox = document.getElementById('paddingBox');
+  const staveBox = document.getElementById('staveBox');
+  const musicBox = document.getElementById('musicBox');
+  const onresize = function(e) {
+    const top = paddingBox.offsetTop;
     staveBox.style.top = top + 'px';
     musicBox.style.top = top + 'px';
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
@@ -130,7 +130,7 @@ Music.init = function() {
   window.addEventListener('resize', onresize);
   onresize(null);
   // Scale the workspace so level 1 = 1.0, and level 10 = 0.7.
-  var scale = 1.03333 - 0.0333333 * BlocklyGames.LEVEL;
+  const scale = 1.03333 - 0.0333333 * BlocklyGames.LEVEL;
   BlocklyInterface.injectBlockly(
       {'disable': false,
        'rtl': rtl,
@@ -152,10 +152,10 @@ Music.init = function() {
   }
 
   // Initialize the slider.
-  var sliderSvg = document.getElementById('slider');
+  const sliderSvg = document.getElementById('slider');
   Music.speedSlider = new Slider(10, 35, 130, sliderSvg, Music.sliderChange);
 
-  var defaultXml =
+  const defaultXml =
       '<xml>' +
         '<block type="music_start" deletable="' +
           (BlocklyGames.LEVEL > 6) + '" x="180" y="50"></block>' +
@@ -165,8 +165,8 @@ Music.init = function() {
   // After level 6 the user can create new start blocks.
   // Ensure that start blocks inherited from previous levels are deletable.
   if (BlocklyGames.LEVEL > 6) {
-    var blocks = BlocklyInterface.workspace.getTopBlocks(false);
-    for(var i = 0, block; (block = blocks[i]); i++) {
+    const blocks = BlocklyInterface.workspace.getTopBlocks(false);
+    for(const block of blocks) {
       block.setDeletable(true);
     }
   }
@@ -200,7 +200,7 @@ window.addEventListener('load', Music.init);
 Music.importSounds = function() {
   //<script type="text/javascript"
   //  src="third-party/SoundJS/soundjs.min.js"></script>
-  var script = document.createElement('script');
+  const script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'third-party/SoundJS/soundjs.min.js';
   script.onload = Music.registerSounds;
@@ -230,13 +230,13 @@ Music.registerSounds = function() {
     this['_soundInstances'][src] = null;
   };
 
-  var assetsPath = 'third-party/soundfonts/';
-  var instruments = ['piano', 'trumpet', 'violin', 'drum',
+  const assetsPath = 'third-party/soundfonts/';
+  const instruments = ['piano', 'trumpet', 'violin', 'drum',
                      'flute', 'banjo', 'guitar', 'choir'];
 
-  var sounds = [];
-  for (var i = 0; i < instruments.length; i++) {
-    for (var j = 0; j < CustomFields.FieldPitch.NOTES.length; j++) {
+  const sounds = [];
+  for (let i = 0; i < instruments.length; i++) {
+    for (let j = 0; j < CustomFields.FieldPitch.NOTES.length; j++) {
       sounds.push({'src': instruments[i] + '/' +
                        CustomFields.FieldPitch.NOTES[j] + '.mp3',
                    id: instruments[i] + j});
@@ -258,11 +258,11 @@ Music.sliderChange = function() {
  */
 Music.drawStave = function(n) {
   Music.staveCount = n;
-  var staveBox = document.getElementById('staveBox');
+  const staveBox = document.getElementById('staveBox');
   // <img src="music/stave.png" class="stave" style="top: 100px">
-  for (var i = 1; i <= n; i++) {
-    var top = Music.staveTop_(i, n);
-    var img = document.createElement('img');
+  for (let i = 1; i <= n; i++) {
+    const top = Music.staveTop_(i, n);
+    const img = document.createElement('img');
     img.src = 'music/stave.png';
     img.className = 'stave';
     img.style.top = Math.round(top) + 'px';
@@ -278,9 +278,9 @@ Music.drawStave = function(n) {
  * @private
  */
 Music.staveTop_ = function(i, n) {
-  var staveHeight = 69;
-  var boxHeight = 400 - 15;  // Subtract the scrollbar.
-  var top = (2 * i - 1) / (2 * n) * boxHeight;
+  const staveHeight = 69;
+  const boxHeight = 400 - 15;  // Subtract the scrollbar.
+  let top = (2 * i - 1) / (2 * n) * boxHeight;
   top -= staveHeight / 2;  // Center the stave on the desired spot.
   top += 5;  // Notes stick up a bit.
   return top;
@@ -300,7 +300,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     time += 1;
     duration -= 1;
   }
-  var top = Music.staveTop_(i, Music.staveCount);
+  let top = Music.staveTop_(i, Music.staveCount);
   if (pitch === Music.REST) {
     top += 21;
     top = Math.round(top);
@@ -309,12 +309,12 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     top = Math.floor(top);  // I have no idea why floor is better than round.
   }
 
-  var LEFT_PADDING = 10;
-  var WHOLE_WIDTH = 256;
-  var left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
-  var musicContainer = document.getElementById('musicContainer');
-  var img = document.createElement('img');
-  var name = (pitch === Music.REST ? 'rest' : 'note');
+  const LEFT_PADDING = 10;
+  const WHOLE_WIDTH = 256;
+  const left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
+  const musicContainer = document.getElementById('musicContainer');
+  const img = document.createElement('img');
+  const name = (pitch === Music.REST ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
   img.className = className + ' ' + name;
   img.style.top = top + 'px';
@@ -325,7 +325,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
   musicContainer.appendChild(img);
   if (!className) {
     // Add a splash effect when playing a note.
-    var splash = img.cloneNode();
+    const splash = img.cloneNode();
     musicContainer.appendChild(splash);
     // Wait 0 ms to trigger the CSS Transition.
     setTimeout(function() {splash.className = 'splash ' + name;}, 0);
@@ -333,7 +333,7 @@ Music.drawNote = function(i, time, pitch, duration, className) {
     setTimeout(function() {Blockly.utils.dom.removeNode(splash);}, 1000);
   }
   if (pitch === '0' || pitch === '12') {
-    var line = document.createElement('img');
+    const line = document.createElement('img');
     line.src = 'music/black1x1.gif';
     line.className = className +
         (duration === 1 ? ' ledgerLineWide' : ' ledgerLine');
@@ -347,16 +347,16 @@ Music.drawNote = function(i, time, pitch, duration, className) {
  * Show the help pop-up.
  */
 Music.showHelp = function() {
-  var help = document.getElementById('help');
-  var button = document.getElementById('helpButton');
-  var style = {
+  const help = document.getElementById('help');
+  const button = document.getElementById('helpButton');
+  const style = {
     width: '50%',
     left: '25%',
     top: '5em'
   };
 
   if (BlocklyGames.LEVEL === 2) {
-    var xml =
+    let xml =
         '<xml>' +
           '<block type="procedures_defnoreturn" x="5" y="10">' +
             '<field name="NAME">%1</field>' +
@@ -370,14 +370,14 @@ Music.showHelp = function() {
             '</next>' +
           '</block>' +
         '</xml>';
-    var firstPart = BlocklyGames.Msg['Music.firstPart'];
+    const firstPart = BlocklyGames.Msg['Music.firstPart'];
     xml = xml.replace(/%1/g, BlocklyGames.esc(firstPart));
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL === 6) {
-    var xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
+    const xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp6', xml);
   } else if (BlocklyGames.LEVEL === 7) {
-    var xml = '<xml><block type="music_rest_whole" x="5" y="10"></block></xml>';
+    const xml = '<xml><block type="music_rest_whole" x="5" y="10"></block></xml>';
     BlocklyInterface.injectReadonly('sampleHelp7', xml);
   }
 
@@ -399,13 +399,13 @@ Music.showCategoryHelp = function() {
   if (Music.categoryClicked_ || BlocklyDialogs.isDialogVisible_) {
     return;
   }
-  var help = document.getElementById('helpToolbox');
-  var style = {
+  const help = document.getElementById('helpToolbox');
+  const style = {
     width: '25%',
     left: '525px',
     top: '3.3em'
   };
-  var origin = document.getElementById(':0');  // Toolbox's tree root.
+  const origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
 };
 
@@ -415,12 +415,12 @@ Music.showCategoryHelp = function() {
 Music.drawAnswer = function() {
   // Clear all content.
   document.getElementById('staveBox').innerHTML = '';
-  var musicContainer = document.getElementById('musicContainer');
+  const musicContainer = document.getElementById('musicContainer');
   musicContainer.innerHTML = '';
   Music.barCount = 0;
   // Add spacer to allow scrollbar to scroll past last note/rest.
   // <img id="musicContainerWidth" src="common/1x1.gif">
-  var img = document.createElement('img');
+  const img = document.createElement('img');
   img.id = 'musicContainerWidth';
   img.src = 'common/1x1.gif';
   musicContainer.appendChild(img);
@@ -430,12 +430,12 @@ Music.drawAnswer = function() {
     Music.drawStave(Music.startCount || 1);
   } else {
     Music.drawStave(Music.expectedAnswer.length);
-    for (var i = 0; i < Music.expectedAnswer.length; i++) {
-      var chanel = Music.expectedAnswer[i];
-      var time = 0;
-      for (var j = 0; j < chanel.length; j += 2) {
-        var pitch = String(chanel[j]);
-        var duration = chanel[j + 1];
+    for (let i = 0; i < Music.expectedAnswer.length; i++) {
+      const chanel = Music.expectedAnswer[i];
+      let time = 0;
+      for (let j = 0; j < chanel.length; j += 2) {
+        const pitch = String(chanel[j]);
+        const duration = chanel[j + 1];
         Music.drawNote(i + 1, time, pitch, duration, 'goal');
         time += duration;
       }
@@ -451,26 +451,26 @@ Music.drawAnswer = function() {
  * @param {!Blockly.Events.Abstract} e Change event.
  */
 Music.disableExtraStarts = function(e) {
-  var toolbox = document.getElementById('toolbox');
-  var toolboxStart = document.getElementById('music_start');
+  const toolbox = document.getElementById('toolbox');
+  const toolboxStart = document.getElementById('music_start');
   if (!toolboxStart) {
     return;
   }
-  var maxStarts = Music.expectedAnswer ? Music.expectedAnswer.length : 4;
-  var oldStartCount = Music.startCount;
+  const maxStarts = Music.expectedAnswer ? Music.expectedAnswer.length : 4;
+  const oldStartCount = Music.startCount;
 
   if (e instanceof Blockly.Events.Create) {
-    var startBlocks = [];
-    var blocks = BlocklyInterface.workspace.getTopBlocks(false);
-    for (var i = 0, block; (block = blocks[i]); i++) {
+    const startBlocks = [];
+    const blocks = BlocklyInterface.workspace.getTopBlocks(false);
+    for (const block of blocks) {
       if (block.type === 'music_start' && !block.isInsertionMarker()) {
         startBlocks.push(block);
       }
     }
     if (maxStarts < startBlocks.length) {
       // Too many start blocks.  Disable any new ones.
-      for (var i = 0, id; (id = e.ids[i]); i++) {
-        for (var j = 0, startBlock; (startBlock = startBlocks[j]); j++) {
+      for (const id of e.ids) {
+        for (const startBlock of startBlocks) {
           if (startBlock.id === id) {
             startBlock.setEnabled(false);
           }
@@ -486,10 +486,10 @@ Music.disableExtraStarts = function(e) {
       Music.startCount = startBlocks.length;
     }
   } else if (e instanceof Blockly.Events.Delete) {
-    var startBlocksEnabled = [];
-    var startBlocksDisabled = [];
-    var blocks = BlocklyInterface.workspace.getTopBlocks(true);
-    for (var i = 0, block; (block = blocks[i]); i++) {
+    const startBlocksEnabled = [];
+    const startBlocksDisabled = [];
+    const blocks = BlocklyInterface.workspace.getTopBlocks(true);
+    for (const block of blocks) {
       if (block.type === 'music_start') {
         (block.isEnabled() ? startBlocksEnabled : startBlocksDisabled)
             .push(block);
@@ -498,7 +498,7 @@ Music.disableExtraStarts = function(e) {
     while (maxStarts > startBlocksEnabled.length &&
            startBlocksDisabled.length) {
       // Enable a disabled start block.
-      var block = startBlocksDisabled.shift();
+      const block = startBlocksDisabled.shift();
       block.setEnabled(true);
       startBlocksEnabled.push(block);
     }
@@ -531,9 +531,7 @@ Music.disableSubmit = function(e) {
 Music.reset = function() {
   // Kill any task.
   clearTimeout(Music.pid);
-  for (var i = 0, thread; (thread = Music.threads[i]); i++) {
-    Music.stopSound(thread);
-  }
+  Music.threads.forEach(Music.stopSound);
   Music.interpreter = null;
   Music.activeThread = null;
   Music.threads.length = 0;
@@ -553,8 +551,8 @@ Music.runButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  var runButton = document.getElementById('runButton');
-  var resetButton = document.getElementById('resetButton');
+  const runButton = document.getElementById('runButton');
+  const resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
@@ -574,7 +572,7 @@ Music.resetButtonClick = function(opt_e) {
   if (opt_e && BlocklyInterface.eventSpam(opt_e)) {
     return;
   }
-  var runButton = document.getElementById('runButton');
+  const runButton = document.getElementById('runButton');
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
@@ -589,7 +587,7 @@ Music.resetButtonClick = function(opt_e) {
  */
 Music.initInterpreter = function(interpreter, globalObject) {
   // API
-  var wrapper;
+  let wrapper;
   wrapper = function(duration, pitch, id) {
     Music.play(duration, pitch, id);
   };
@@ -630,7 +628,7 @@ Music.execute = function() {
   // For safety, recompute startCount in the generator.
   Music.startCount = 0;
   // Create an interpreter whose global scope will be the cross-thread global.
-  var code = BlocklyInterface.getJsCode();
+  const code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   if (Music.startCount === 0) {  // Blank workspace.
@@ -638,8 +636,8 @@ Music.execute = function() {
   }
 
   Music.interpreter = new Interpreter(code, Music.initInterpreter);
-  for (var i = 1; i <= Music.startCount; i++) {
-    var interpreter = new Interpreter('');
+  for (let i = 1; i <= Music.startCount; i++) {
+    const interpreter = new Interpreter('');
     // Replace this thread's global scope with the cross-thread global.
     interpreter.stateStack[0].scope = Music.interpreter.globalScope;
     interpreter.appendCode('start' + i + '();\n');
@@ -653,13 +651,13 @@ Music.execute = function() {
  */
 Music.tick = function() {
   // Delay between start of each beat (1/64ths of a whole note).
-  var scaleDuration = 1000 * (2.5 - 2 * Music.speedSlider.getValue()) / 64;
+  const scaleDuration = 1000 * (2.5 - 2 * Music.speedSlider.getValue()) / 64;
   if (!Music.startTime) {
     // Either the first tick, or first tick after slider was adjusted.
     Music.startTime = Date.now() - Music.clock64ths * scaleDuration;
   }
-  var done = true;
-  for (var i = 0, thread; (thread = Music.threads[i]); i++) {
+  let done = true;
+  for (const thread of Music.threads) {
     if (!thread.done) {
       done = false;
       if (thread.pauseUntil64ths <= Music.clock64ths) {
@@ -685,7 +683,7 @@ Music.tick = function() {
   } else {
     Music.autoScroll();
     Music.clock64ths++;
-    var ms = (Music.startTime + Music.clock64ths * scaleDuration) - Date.now();
+    const ms = (Music.startTime + Music.clock64ths * scaleDuration) - Date.now();
     Music.pid = setTimeout(Music.tick, ms);
   }
 };
@@ -700,8 +698,8 @@ Music.executeChunk_ = function(thread) {
   Music.interpreter.stateStack = thread.stateStack;
   // Switch the interpreter to run the provided thread.
   Music.interpreter.stateStack = thread.stateStack;
-  var ticks = 10000;
-  var go;
+  let ticks = 10000;
+  let go;
   do {
     try {
       go = Music.interpreter.step();
@@ -733,7 +731,7 @@ Music.executeChunk_ = function(thread) {
  * @param {!Music.Thread} thread Thread object.
  */
 Music.stopSound = function(thread) {
-  var sound = thread.sound;
+  const sound = thread.sound;
   if (sound) {
     // Firefox requires 100ms to start a note playing, so delaying the end
     // eliminates the staccato.  Adds a nice smoothness to Chrome.
@@ -746,27 +744,28 @@ Music.stopSound = function(thread) {
  * Scroll the music display horizontally to the current time.
  */
 Music.autoScroll = function() {
-  var musicBox = document.getElementById('musicBox');
-  var musicContainer = document.getElementById('musicContainer');
-  var musicContainerWidth = document.getElementById('musicContainerWidth');
+  const musicBox = document.getElementById('musicBox');
+  const musicContainer = document.getElementById('musicContainer');
+  const musicContainerWidth = document.getElementById('musicContainerWidth');
 
   // Ensure a half-screenfull of blank music to the right of last note.
-  var LEFT_PADDING = 10;
-  var WHOLE_WIDTH = 256;
-  var RIGHT_PADDING = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL ? 200 : 100;
+  const LEFT_PADDING = 10;
+  const WHOLE_WIDTH = 256;
+  const RIGHT_PADDING = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL ? 200 : 100;
+  let newWidth;
   if (Music.clock64ths) {
-    var newWidth = Math.round(Music.clock64ths / 64 * WHOLE_WIDTH +
-                              LEFT_PADDING + RIGHT_PADDING);
+    newWidth = Math.round(Music.clock64ths / 64 * WHOLE_WIDTH +
+                          LEFT_PADDING + RIGHT_PADDING);
   } else {
-    var newWidth = musicBox.scrollWidth + RIGHT_PADDING;
+    newWidth = musicBox.scrollWidth + RIGHT_PADDING;
   }
   musicContainerWidth.width = newWidth;
   // Draw a bar at one whole note intervals on all staves.
   while (Music.barCount < Math.floor(newWidth / WHOLE_WIDTH)) {
     Music.barCount++;
-    for (var j = 1; j <= Music.staveCount; j++) {
-      var top = Music.staveTop_(j, Music.staveCount);
-      var img = document.createElement('img');
+    for (let j = 1; j <= Music.staveCount; j++) {
+      const top = Music.staveTop_(j, Music.staveCount);
+      const img = document.createElement('img');
       img.src = 'music/black1x1.gif';
       img.className = 'barLine';
       img.style.top = (top + 18) + 'px';
@@ -775,7 +774,7 @@ Music.autoScroll = function() {
     }
   }
 
-  var musicBoxMid = (400 - 36) / 2;  // There's a 36px margin for the clef.
+  const musicBoxMid = (400 - 36) / 2;  // There's a 36px margin for the clef.
   musicBox.scrollLeft = Music.clock64ths * (WHOLE_WIDTH / 64) - musicBoxMid;
 };
 
@@ -803,16 +802,16 @@ Music.play = function(duration, pitch, id) {
   if (Music.activeThread.resting) {
     // Reorder this thread to the top of the resting threads.
     // Find the min resting thread stave.
-    var minResting = Infinity;
-    for (var i = 0, thread; (thread = Music.threads[i]); i++) {
+    let minResting = Infinity;
+    for (const thread of Music.threads) {
       if (thread.resting && thread.stave < minResting) {
         minResting = thread.stave;
       }
     }
     // Swap this thread and the min-thread's staves.
-    for (var i = 0, thread; (thread = Music.threads[i]); i++) {
+    for (const thread of Music.threads) {
       if (minResting === thread.stave) {
-        var swapStave = Music.activeThread.stave;
+        const swapStave = Music.activeThread.stave;
         Music.activeThread.stave = minResting;
         thread.stave = swapStave;
         break;
@@ -825,11 +824,11 @@ Music.play = function(duration, pitch, id) {
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
   // Make a record of this note.
   Music.activeThread.transcript.push(pitch, duration);
-  var wrong = false;
+  let wrong = false;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
-    var actual = Music.activeThread.transcript;
-    var i = actual.length - 2;
+    const expected = Music.expectedAnswer[Music.activeThread.stave - 1];
+    const actual = Music.activeThread.transcript;
+    const i = actual.length - 2;
     if (expected[i] !== actual[i] || expected[i + 1] !== actual[i + 1]) {
       wrong = true;
     }
@@ -857,11 +856,11 @@ Music.rest = function(duration, id) {
   } else {
     Music.activeThread.transcript.push(Music.REST, duration);
   }
-  var wrong = false;
+  let wrong = false;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    var expected = Music.expectedAnswer[Music.activeThread.stave - 1];
-    var actual = Music.activeThread.transcript;
-    var i = actual.length - 2;
+    const expected = Music.expectedAnswer[Music.activeThread.stave - 1];
+    const actual = Music.activeThread.transcript;
+    const i = actual.length - 2;
     if (expected[i] !== actual[i] || expected[i + 1] < actual[i + 1]) {
       wrong = true;
     }
@@ -890,7 +889,7 @@ Music.expectedAnswer = undefined;
  * Compute the expected answer for this level.
  */
 Music.initExpectedAnswer = function() {
-  var levelNotes = [];
+  let levelNotes = [];
   function doubleReplica(a) {
     levelNotes = levelNotes.concat(a).concat(a);
     return levelNotes;
@@ -951,7 +950,7 @@ Music.checkAnswer = function() {
   }
 
   // Notes match expected answer?
-  for (var i = 0; i < Music.expectedAnswer.length; i++) {
+  for (let i = 0; i < Music.expectedAnswer.length; i++) {
     if (Music.threads[i].stave === i + 1) {
       if (String(Music.expectedAnswer[i]) !=
           String(Music.threads[i].transcript)) {
@@ -963,17 +962,17 @@ Music.checkAnswer = function() {
 
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
-    var code = BlocklyInterface.executedJsCode;
-    var instrumentList = code.match(/setInstrument\('\w+'/g) || [];
+    const code = BlocklyInterface.executedJsCode;
+    const instrumentList = code.match(/setInstrument\('\w+'/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.
-    var instrumentHash = {};
-    for (var i = 0; i < instrumentList.length; i++) {
+    const instrumentHash = {};
+    for (let i = 0; i < instrumentList.length; i++) {
       instrumentHash[instrumentList[i]] = true;
     }
     // But not the piano.
     delete instrumentHash['setInstrument(\'piano\''];
-    var instruments = Object.keys(instrumentHash).length;
+    const instruments = Object.keys(instrumentHash).length;
 
     // Level 6 requires a "set instrument" block.
     // Fail silently since that's the entire point of the level.
@@ -987,8 +986,8 @@ Music.checkAnswer = function() {
     if (((BlocklyGames.LEVEL === 7 || BlocklyGames.LEVEL === 8) &&
          instruments < 1) || (BlocklyGames.LEVEL === 9 && instruments < 3)) {
       console.log('Not enough instruments.  Found: ' + instruments);
-      var content = document.getElementById('helpUseInstruments');
-      var style = {
+      const content = document.getElementById('helpUseInstruments');
+      const style = {
         'width': '30%',
         'left': '35%',
         'top': '12em'
@@ -1001,7 +1000,7 @@ Music.checkAnswer = function() {
   }
 
   // Functions should be used to reduce note count.
-  var maxCount = [
+  const maxCount = [
     undefined,  // Level 0.
     undefined,  // Level 1.
     16,  // Level 2.
@@ -1014,9 +1013,9 @@ Music.checkAnswer = function() {
     71,  // Level 9.
     undefined  // Level 10.
   ][BlocklyGames.LEVEL];
-  var blockCount = 0;
-  var blocks = BlocklyInterface.workspace.getAllBlocks();
-  for (var i = 0, block; (block = blocks[i]); i++) {
+  let blockCount = 0;
+  const blocks = BlocklyInterface.workspace.getAllBlocks();
+  for (const block of blocks) {
     if (block.type !== 'music_instrument' &&
         block.isEnabled() && !block.getInheritedDisabled()) {
       blockCount++;
@@ -1025,8 +1024,8 @@ Music.checkAnswer = function() {
   if (maxCount && (blockCount > maxCount)) {
     console.log('Too many blocks.  Found: ' + blockCount + ' Max: ' + maxCount);
     // Use a function, dummy.
-    var content = document.getElementById('helpUseFunctions');
-    var style = {
+    const content = document.getElementById('helpUseFunctions');
+    const style = {
       'width': '30%',
       'left': '35%',
       'top': '12em'
@@ -1059,16 +1058,16 @@ Music.submitToGallery = function() {
     return;
   }
   // Encode the thumbnail.
-  var thumb = 'data:image/png;base64,' + [undefined,
+  const thumb = 'data:image/png;base64,' + [undefined,
     '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'
   ][Music.startCount];
-  var thumbnail = document.getElementById('thumbnail');
-  var ctxThumb = thumbnail.getContext('2d');
+  const thumbnail = document.getElementById('thumbnail');
+  const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
-  var image = new Image();
+  const image = new Image();
   image.onload = function() {
     ctxThumb.drawImage(image, 0, 0, 200, 200);
   };

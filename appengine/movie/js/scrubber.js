@@ -33,7 +33,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   this.changeFunc_ = opt_changeFunc;
   this.animationTasks_ = [];
   this.progressRects_ = [];
-  var SVG_NS = Blockly.utils.dom.SVG_NS;
+  const SVG_NS = Blockly.utils.dom.SVG_NS;
 
   // Draw the frame text.
   this.text_ = Blockly.utils.dom.createSvgElement('text', {
@@ -41,14 +41,14 @@ Scrubber = function(svgParent, opt_changeFunc) {
       'x': this.KNOB_MAX_X_ + 9,
       'y': 16
     }, svgParent);
-  if (BlocklyGames.isRtl()) {
+  if (BlocklyGames.IS_RTL) {
     this.text_.setAttribute('text-anchor', 'end');
   }
 
   // Draw the progress bar.
-  var colours = ['#ff3333', '#f72f2f', '#ef2a2a', '#e72727',
+  const colours = ['#ff3333', '#f72f2f', '#ef2a2a', '#e72727',
                  '#df2222', '#d71f1f', '#cf1a1a'];
-  for (var i = 0; i < colours.length; i++) {
+  for (let i = 0; i < colours.length; i++) {
     this.progressRects_[i] = Blockly.utils.dom.createSvgElement('rect', {
         'style': 'fill: ' + colours[i],
         'x': this.KNOB_MIN_X_,
@@ -67,7 +67,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
       clip-path="url(#knobClipPath)" />
   <circle style="opacity: 0" r="20" cy="35" cx="75"></circle>
   */
-  var trackTarget = Blockly.utils.dom.createSvgElement('rect', {
+  const trackTarget = Blockly.utils.dom.createSvgElement('rect', {
       'style': 'opacity: 0',
       'x': this.KNOB_MIN_X_ - this.TARGET_OVERHANG_,
       'y': this.HEIGHT_ - this.TARGET_OVERHANG_,
@@ -76,7 +76,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
       'rx': this.TARGET_OVERHANG_,
       'ry': this.TARGET_OVERHANG_
     }, svgParent);
-  var knobClip = Blockly.utils.dom.createSvgElement('clipPath', {
+  const knobClip = Blockly.utils.dom.createSvgElement('clipPath', {
       'id': 'knobClipPath'
     }, svgParent);
   this.knobClipRect_ = Blockly.utils.dom.createSvgElement('rect', {
@@ -108,7 +108,7 @@ Scrubber = function(svgParent, opt_changeFunc) {
   <image xlink:href="common/icons.png" width="84" height="63" x="-16" y="-41"
       clip-path="url(#playClipPath)" />
   */
-  var playClip = Blockly.utils.dom.createSvgElement('clipPath', {
+  const playClip = Blockly.utils.dom.createSvgElement('clipPath', {
       'id': 'playClipPath'
     }, svgParent);
   Blockly.utils.dom.createSvgElement('rect', {
@@ -192,7 +192,7 @@ Scrubber.mouseOver_ = function(e) {
   if (!Scrubber.activeScrubber_) {
     return;
   }
-  var node = e.target;
+  let node = e.target;
   // Find the root SVG object.
   do {
     if (node === Scrubber.activeScrubber_.SVG_) {
@@ -208,7 +208,7 @@ Scrubber.mouseOver_ = function(e) {
  * @private
  */
 Scrubber.knobMouseMove_ = function(e) {
-  var thisScrubber = Scrubber.activeScrubber_;
+  const thisScrubber = Scrubber.activeScrubber_;
   if (!thisScrubber) {
     return;
   }
@@ -218,7 +218,7 @@ Scrubber.knobMouseMove_ = function(e) {
     }
     Scrubber.touchToMouse_(e);
   }
-  var x = thisScrubber.mouseToSvg_(e).x - Scrubber.startMouseX_ +
+  const x = thisScrubber.mouseToSvg_(e).x - Scrubber.startMouseX_ +
       Scrubber.startKnobX_;
   thisScrubber.setValue((x - thisScrubber.KNOB_MIN_X_) /
       (thisScrubber.KNOB_MAX_X_ - thisScrubber.KNOB_MIN_X_));
@@ -239,7 +239,7 @@ Scrubber.prototype.rectMouseDown_ = function(e) {
     }
     Scrubber.touchToMouse_(e);
   }
-  var x = this.mouseToSvg_(e).x;
+  const x = this.mouseToSvg_(e).x;
   this.animateValue((x - this.KNOB_MIN_X_) /
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_));
 };
@@ -298,17 +298,17 @@ Scrubber.prototype.FPS = 100 / 4;
  * Start the visualization running.
  */
 Scrubber.prototype.nextFrame = function() {
-  var value = this.getValue();
+  const value = this.getValue();
   if (value >= 1) {
     this.playPause_();
     return;
   }
   this.setValue(value + 0.01);
   // Frame done.  Calculate the actual elapsed time and schedule the next frame.
-  var now = Date.now();
-  var workTime = now - this.lastFrame_ - this.lastDelay_;
-  var delay = Math.max(1, (1000 / this.FPS) - workTime);
-  var thisScrubber = this;
+  const now = Date.now();
+  const workTime = now - this.lastFrame_ - this.lastDelay_;
+  const delay = Math.max(1, (1000 / this.FPS) - workTime);
+  const thisScrubber = this;
   this.playPid_ = setTimeout(function() {thisScrubber.nextFrame();}, delay);
   this.lastFrame_ = now;
   this.lastDelay_ = delay;
@@ -331,17 +331,17 @@ Scrubber.prototype.animateValue = function(value) {
   while (this.animationTasks_.length) {
     clearTimeout(this.animationTasks_.pop());
   }
-  var duration = 200; // Milliseconds to animate for.
-  var steps = 10; // Number of steps to animate.
-  var oldValue = this.getValue();
-  var thisScrubber = this;
-  var stepFunc = function(i) {
+  const duration = 200; // Milliseconds to animate for.
+  const steps = 10; // Number of steps to animate.
+  const oldValue = this.getValue();
+  const thisScrubber = this;
+  const stepFunc = function(i) {
     return function() {
-      var newVal = i * (value - oldValue) / (steps - 1) + oldValue;
+      const newVal = i * (value - oldValue) / (steps - 1) + oldValue;
       thisScrubber.setValue(newVal);
     };
   };
-  for (var i = 0; i < steps; i++) {
+  for (let i = 0; i < steps; i++) {
     this.animationTasks_.push(setTimeout(stepFunc(i), i * duration / steps));
   }
 };
@@ -352,21 +352,21 @@ Scrubber.prototype.animateValue = function(value) {
  */
 Scrubber.prototype.setValue = function(value) {
   this.value_ = Blockly.utils.math.clamp(value, 0, 1);
-  var x = this.KNOB_MIN_X_ +
+  const x = this.KNOB_MIN_X_ +
       (this.KNOB_MAX_X_ - this.KNOB_MIN_X_) * this.value_;
   this.knobClipRect_.setAttribute('x', x - 8);
   this.knob_.setAttribute('x', x - 63 - 8);
   this.knobTarget_.setAttribute('x', x - this.TARGET_OVERHANG_);
 
-  for (var i = 0, rect; (rect = this.progressRects_[i]); i++) {
+  for (let i = 0, rect; (rect = this.progressRects_[i]); i++) {
     rect.setAttribute('width', x - this.KNOB_MIN_X_);
   }
 
   while (this.text_.firstChild) {
     this.text_.removeChild(this.text_.firstChild);
   }
-  var frame = Math.round(this.value_ * 100);
-  var textNode = document.createTextNode('time = ' + frame);
+  const frame = Math.round(this.value_ * 100);
+  const textNode = document.createTextNode('time = ' + frame);
   this.text_.appendChild(textNode);
 
   this.changeFunc_ && this.changeFunc_(frame);
@@ -379,10 +379,10 @@ Scrubber.prototype.setValue = function(value) {
  * @private
  */
 Scrubber.prototype.mouseToSvg_ = function(e) {
-  var svgPoint = this.SVG_.createSVGPoint();
+  const svgPoint = this.SVG_.createSVGPoint();
   svgPoint.x = e.clientX;
   svgPoint.y = e.clientY;
-  var matrix = this.SVG_.getScreenCTM().inverse();
+  const matrix = this.SVG_.getScreenCTM().inverse();
   return svgPoint.matrixTransform(matrix);
 };
 
@@ -395,7 +395,7 @@ Scrubber.prototype.mouseToSvg_ = function(e) {
  * @private
  */
 Scrubber.bindEvent_ = function(node, name, thisObject, func) {
-  var wrapFunc = function(e) {
+  const wrapFunc = function(e) {
     func.apply(thisObject, arguments);
   };
   node.addEventListener(name, wrapFunc, false);
@@ -406,7 +406,7 @@ Scrubber.bindEvent_ = function(node, name, thisObject, func) {
  * @param {TouchEvent} e Event to modify.
  */
 Scrubber.touchToMouse_ = function(e) {
-  var touchPoint = e.changedTouches[0];
+  const touchPoint = e.changedTouches[0];
   e.clientX = touchPoint.clientX;
   e.clientY = touchPoint.clientY;
 };
