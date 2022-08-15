@@ -217,7 +217,7 @@ Bird.pidList = [];
 Bird.Pose = {
   SOAR: 1,
   FLAP: 2,
-  SIT: 3
+  SIT: 3,
 };
 
 /**
@@ -244,7 +244,7 @@ Bird.drawMap = function() {
         'y2': (1 - wall.y1 / 100) * Bird.MAP_SIZE,
         'stroke': '#CCB',
         'stroke-width': Bird.WALL_THICKNESS,
-        'stroke-linecap': 'round'
+        'stroke-linecap': 'round',
       }, svg);
   }
 
@@ -252,7 +252,7 @@ Bird.drawMap = function() {
   const nestImage = Blockly.utils.dom.createSvgElement('image', {
       'id': 'nest',
       'height': Bird.NEST_ICON_SIZE,
-      'width': Bird.NEST_ICON_SIZE
+      'width': Bird.NEST_ICON_SIZE,
     }, svg);
   nestImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/nest.png');
@@ -262,7 +262,7 @@ Bird.drawMap = function() {
     const wormImage = Blockly.utils.dom.createSvgElement('image', {
         'id': 'worm',
         'height': Bird.WORM_ICON_SIZE,
-        'width': Bird.WORM_ICON_SIZE
+        'width': Bird.WORM_ICON_SIZE,
       }, svg);
     wormImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         'bird/worm.png');
@@ -275,7 +275,7 @@ Bird.drawMap = function() {
   Blockly.utils.dom.createSvgElement('rect', {
       'id': 'clipRect',
       'height': Bird.BIRD_ICON_SIZE,
-      'width': Bird.BIRD_ICON_SIZE
+      'width': Bird.BIRD_ICON_SIZE,
     }, birdClip);
 
   // Add bird.
@@ -283,7 +283,7 @@ Bird.drawMap = function() {
       'id': 'bird',
       'height': Bird.BIRD_ICON_SIZE * 4,  // 120 * 4 = 480
       'width': Bird.BIRD_ICON_SIZE * 12,  // 120 * 12 = 1440
-      'clip-path': 'url(#birdClipPath)'
+      'clip-path': 'url(#birdClipPath)',
     }, svg);
   birdIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/birds-120.png');
@@ -292,7 +292,7 @@ Bird.drawMap = function() {
   Blockly.utils.dom.createSvgElement('rect', {
       'class': 'edges',
       'height': Bird.MAP_SIZE,
-      'width': Bird.MAP_SIZE
+      'width': Bird.MAP_SIZE,
     }, svg);
 
   const xAxis = BlocklyGames.LEVEL > 3;
@@ -308,7 +308,7 @@ Bird.drawMap = function() {
           'x1': i * Bird.MAP_SIZE,
           'y1': Bird.MAP_SIZE,
           'x2': i * Bird.MAP_SIZE,
-          'y2': Bird.MAP_SIZE - TICK_LENGTH * major
+          'y2': Bird.MAP_SIZE - TICK_LENGTH * major,
         }, svg);
     }
     if (yAxis) {
@@ -318,7 +318,7 @@ Bird.drawMap = function() {
           'x1': 0,
           'y1': i * Bird.MAP_SIZE,
           'x2': i * TICK_LENGTH * major,
-          'y2': i * Bird.MAP_SIZE
+          'y2': i * Bird.MAP_SIZE,
         }, svg);
     }
     if (major === 2) {
@@ -327,7 +327,7 @@ Bird.drawMap = function() {
         const number = Blockly.utils.dom.createSvgElement('text', {
             'class': 'edgeX',
             'x': i * Bird.MAP_SIZE + 2,
-            'y': Bird.MAP_SIZE - 4
+            'y': Bird.MAP_SIZE - 4,
           }, svg);
         number.appendChild(document.createTextNode(Math.round(i * 100)));
       }
@@ -336,7 +336,7 @@ Bird.drawMap = function() {
         const number = Blockly.utils.dom.createSvgElement('text', {
             'class': 'edgeY',
             'x': 3,
-            'y': i * Bird.MAP_SIZE - 2
+            'y': i * Bird.MAP_SIZE - 2,
           }, svg);
         number.appendChild(document.createTextNode(Math.round(100 - i * 100)));
       }
@@ -391,15 +391,16 @@ Bird.init = function() {
 
   Bird.drawMap();
 
-  let defaultXml;
+  let blockType;
   if (BlocklyGames.LEVEL === 1) {
-    defaultXml = '<xml><block type="bird_heading" x="70" y="70"></block></xml>';
+    blockType = 'bird_heading';
   } else if (BlocklyGames.LEVEL < 5) {
-    defaultXml = '<xml><block type="bird_ifElse" x="70" y="70"></block></xml>';
+    blockType = 'bird_ifElse';
   } else {
-    defaultXml = '<xml><block type="controls_if" x="70" y="70"></block></xml>';
+    blockType = 'controls_if';
   }
-  BlocklyInterface.loadBlocks(defaultXml, false);
+  BlocklyInterface.loadBlocks(
+      `<xml><block type="${blockType}" x="70" y="70"></block></xml>`, false);
 
   Bird.reset(true);
 
@@ -618,7 +619,7 @@ Bird.ResultType = {
   SUCCESS: 1,
   FAILURE: -1,
   TIMEOUT: 2,
-  ERROR: -2
+  ERROR: -2,
 };
 
 /**

@@ -283,7 +283,7 @@ BlocklyDialogs.getBBox_ = function(element) {
   const xy = Blockly.utils.style.getPageOffset(element);
   const box = {
     x: xy.x,
-    y: xy.y
+    y: xy.y,
   };
   if (element.getBBox) {
     // SVG element.
@@ -317,7 +317,7 @@ BlocklyDialogs.storageAlert = function(origin, message) {
   const style = {
     width: '50%',
     left: '25%',
-    top: '5em'
+    top: '5em',
   };
   BlocklyDialogs.showDialog(content, origin, true, true, style,
       BlocklyDialogs.stopDialogKeyDown);
@@ -343,7 +343,7 @@ BlocklyDialogs.abortOffer = function() {
   const style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    top: '3em',
   };
 
   const cancel = document.getElementById('abortCancel');
@@ -370,7 +370,7 @@ BlocklyDialogs.congratulations = function() {
   const style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    top: '3em',
   };
 
   // Add the user's code.

@@ -131,7 +131,7 @@ Blockly.Blocks['logic_compare'].init = function() {
       'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
       'LTE': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LTE'],
       'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],
-      'GTE': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GTE']
+      'GTE': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GTE'],
     };
     return TOOLTIPS[op];
   });
@@ -308,7 +308,7 @@ Blockly.Blocks['math_arithmetic'].init = function() {
       'ADD': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_ADD'],
       'MINUS': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MINUS'],
       'MULTIPLY': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MULTIPLY'],
-      'DIVIDE': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_DIVIDE']
+      'DIVIDE': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_DIVIDE'],
     };
     return TOOLTIPS[mode];
   });

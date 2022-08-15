@@ -12,9 +12,9 @@
 
 
 // Stub for Closure's base.
-let goog = goog || {};
+var goog = goog || {};
 goog.provide = goog.provide || function(name) {
-  const obj = window;
+  let obj = window;
   const parts = name.split('.');
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i];
@@ -26,7 +26,7 @@ goog.require = goog.require || function() {};
 
 
 // Stub for BlocklyGames library.
-let BlocklyGames = BlocklyGames || {};
+var BlocklyGames = BlocklyGames || {};
 /**
  * Normalizes an angle to be in range [0-360]. Angles outside this range will
  * be normalized to be the equivalent angle with that range.
@@ -49,11 +49,11 @@ function load() {
     new Blockly.utils.Coordinate(20, 80),
     new Blockly.utils.Coordinate(80, 80),
     new Blockly.utils.Coordinate(20, 20),
-    new Blockly.utils.Coordinate(80, 20)
+    new Blockly.utils.Coordinate(80, 20),
   ];
 
   Pond.Battle.reset();
-  for (const duck, i = 0; (duck = DUCKS[i]); i++) {
+  for (const duck of DUCKS) {
     let start = coordinates.splice(Math.floor(Math.random() * coordinates.length), 1);
     start = start[0] || new Blockly.utils.Coordinate(50, 50);
     const avatar = new Pond.Avatar(duck.id, start, 0, false, Pond.Battle);

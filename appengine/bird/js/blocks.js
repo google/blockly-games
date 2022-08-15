@@ -127,7 +127,7 @@ Blockly.Blocks['bird_compare'] = {
       const op = thisBlock.getFieldValue('OP');
       const TOOLTIPS = {
         'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
-        'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT']
+        'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],
       };
       return TOOLTIPS[op];
     });

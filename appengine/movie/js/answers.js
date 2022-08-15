@@ -193,7 +193,7 @@ Movie.isCorrect = function() {
   if (BlocklyGames.LEVEL === 9) {
     // Ensure that the background is behind the figure, not in front.
     const blocks = BlocklyInterface.workspace.getAllBlocks(true);
-    for (let i = 0, block; (block = blocks[i]); i++) {
+    for (const block of blocks) {
       if (block.type === 'movie_circle') {
         // Check that the radius on the first circle block is connected to a
         // division block.
@@ -202,7 +202,7 @@ Movie.isCorrect = function() {
           const style = {
             'width': '30%',
             'left': '35%',
-            'top': '12em'
+            'top': '12em',
           };
           BlocklyDialogs.showDialog(content, null, false, true, style,
               BlocklyDialogs.stopDialogKeyDown);

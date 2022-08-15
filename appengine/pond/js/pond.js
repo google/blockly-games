@@ -197,7 +197,7 @@ Pond.showHelp = function() {
   const style = {
     width: '50%',
     left: '25%',
-    top: '5em'
+    top: '5em',
   };
   BlocklyDialogs.showDialog(help, button, true, true, style,
       BlocklyDialogs.stopDialogKeyDown);

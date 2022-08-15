@@ -66,7 +66,21 @@ def main():
     if not os.path.isfile(os.path.join(args.blockly_msg_dir, blockly_language + '.js')):
       blockly_language = args.default_lang
     blockly_msg_file = codecs.open(os.path.join(args.blockly_msg_dir, blockly_language + '.js'), 'r', 'utf-8')
-    output_file.write(blockly_msg_file.read())
+    msgs = blockly_msg_file.readlines()
+    blockly_msg_dict = {}
+    for msg in msgs:
+      # Resolve references.
+      m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = (".*");\s*', msg)
+      if m:
+        blockly_msg_dict[m.group(1)] = m.group(2)
+        output_file.write(msg)
+        continue
+      m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = Blockly\.Msg\["([A-Z0-9_]+)"\]', msg)
+      if m:
+        blockly_msg_dict[m.group(1)] = blockly_msg_dict[m.group(2)]
+        output_file.write('Blockly.Msg["%s"] = %s;\n' % (m.group(1), blockly_msg_dict[m.group(2)]))
+        continue
+      output_file.write(msg)
     blockly_msg_file.close()
     output_file.write('\n\n')
 

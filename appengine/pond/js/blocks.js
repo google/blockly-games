@@ -405,7 +405,7 @@ Blockly.Blocks['pond_math_single'] = {
         'TAN': Blockly.Msg['MATH_TRIG_TOOLTIP_TAN'],
         'ASIN': Blockly.Msg['MATH_TRIG_TOOLTIP_ASIN'],
         'ACOS': Blockly.Msg['MATH_TRIG_TOOLTIP_ACOS'],
-        'ATAN': Blockly.Msg['MATH_TRIG_TOOLTIP_ATAN']
+        'ATAN': Blockly.Msg['MATH_TRIG_TOOLTIP_ATAN'],
       };
       return TOOLTIPS[mode];
     });

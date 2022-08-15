@@ -288,7 +288,7 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
     degree: degree,
     range: range,
     endLoc: endLoc,
-    progress: 0
+    progress: 0,
   };
   this.battle_.MISSILES.push(missile);
   this.battle_.EVENTS.push({'type': 'BANG', 'avatar': this,

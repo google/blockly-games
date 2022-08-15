@@ -76,14 +76,6 @@ def filterMessages(name):
     msgs1 = re.findall('\W' + blocklyMsg + '.([A-Z0-9_]+)', js)
     msgs2 = re.findall('\WBKY_([A-Z0-9_]+)', js)
     blocklyMessageNames = list(set(msgs1 + msgs2))
-    # Resolve references.
-    # Blockly.Msg["TEXT_APPEND_VAR"] = Blockly.Msg["VAR_DEFAULT_NAME"];
-    # Does not handle long chains of references.
-    msgs = getMessages('en')
-    for msg in msgs:
-      m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = Blockly\.Msg\["([A-Z0-9_]+)"\]', msg)
-      if m and m.group(1) in blocklyMessageNames:
-        blocklyMessageNames.append(m.group(2))
     print("Found %d Blockly messages." % len(blocklyMessageNames))
   else:
     print("Unable to find any Blockly messages.")
@@ -120,15 +112,25 @@ def language(name, lang):
     os.mkdir('appengine/%s/generated/msg' % name)
   f = open('appengine/%s/generated/msg/%s.js' % (name, lang), 'w')
   f.write(WARNING)
-  f.write("'use strict';\n")
+  bMsgs = []
   for msg in msgs:
     # Only write out messages that are used (as detected in filterMessages).
-    m = re.search('Blockly\.Msg\["([\w.]+)"\] = ', msg)
+    m = re.search('Blockly\.Msg\["([^"]+)"\] = (.*);\s*', msg)
     if m and m.group(1) in blocklyMessageNames:
-      f.write(msg)
-    m = re.search('BlocklyGames\.Msg\["([\w.]+)"\] = ', msg)
+      bMsgs.append('"%s",%s' % (m.group(1), m.group(2)))
+  bgMsgs = []
+  for msg in msgs:
+    # Only write out messages that are used (as detected in filterMessages).
+    m = re.search('BlocklyGames\.Msg\["([^"]+)"\] = (.*);\s*', msg)
     if m and m.group(1) in blocklyGamesMessageNames:
-      f.write(msg)
+      bgMsgs.append('"%s",%s' % (m.group(1), m.group(2)))
+  f.write("(function(){\n")
+  f.write("function f(){var a=arguments,o=a[0];for(var i=1;i<a.length;++i)o[a[i]]=a[++i]}\n")
+  if bMsgs:
+    f.write("f(Blockly.Msg,%s)\n" % ','.join(bMsgs))
+  if bgMsgs:
+    f.write("f(BlocklyGames.Msg,%s)\n" % ','.join(bgMsgs))
+  f.write("})()")
   f.close()
 
 
@@ -230,8 +232,8 @@ class Gen_compressed(threading.Thread):
       '--externs', 'externs/soundJS-externs.js',
       '--externs', 'externs/storage-externs.js',
       '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
-      #'--language_in', 'ECMASCRIPT5_STRICT',
-      '--language_out', 'ECMASCRIPT5_STRICT',
+      #'--language_in', 'STABLE',
+      '--language_out', 'ECMASCRIPT5',
       '--entry_point=%s' % self.name.replace('/', '.').title(),
       "--js='appengine/third-party/**.js'",
       #"--js='!appengine/third-party/base.js'",

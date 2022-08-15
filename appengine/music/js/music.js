@@ -352,7 +352,7 @@ Music.showHelp = function() {
   const style = {
     width: '50%',
     left: '25%',
-    top: '5em'
+    top: '5em',
   };
 
   if (BlocklyGames.LEVEL === 2) {
@@ -403,7 +403,7 @@ Music.showCategoryHelp = function() {
   const style = {
     width: '25%',
     left: '525px',
-    top: '3.3em'
+    top: '3.3em',
   };
   const origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
@@ -990,7 +990,7 @@ Music.checkAnswer = function() {
       const style = {
         'width': '30%',
         'left': '35%',
-        'top': '12em'
+        'top': '12em',
       };
       BlocklyDialogs.showDialog(content, null, false, true, style,
           BlocklyDialogs.stopDialogKeyDown);
@@ -1028,7 +1028,7 @@ Music.checkAnswer = function() {
     const style = {
       'width': '30%',
       'left': '35%',
-      'top': '12em'
+      'top': '12em',
     };
     BlocklyDialogs.showDialog(content, null, false, true, style,
         BlocklyDialogs.stopDialogKeyDown);

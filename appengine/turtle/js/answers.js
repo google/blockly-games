@@ -190,7 +190,7 @@ Turtle.isCorrect = function(pixelErrors) {
     const style = {
       'width': '30%',
       'left': '35%',
-      'top': '12em'
+      'top': '12em',
     };
     BlocklyDialogs.showDialog(content, null, false, true, style,
         BlocklyDialogs.stopDialogKeyDown);

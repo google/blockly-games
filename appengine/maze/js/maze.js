@@ -111,7 +111,7 @@ Maze.SquareType = {
   WALL: 0,
   OPEN: 1,
   START: 2,
-  FINISH: 3
+  FINISH: 3,
 };
 
 // The maze square constants defined above are inlined here
@@ -241,7 +241,7 @@ Maze.DirectionType = {
   NORTH: 0,
   EAST: 1,
   SOUTH: 2,
-  WEST: 3
+  WEST: 3,
 };
 
 /**
@@ -252,7 +252,7 @@ Maze.ResultType = {
   SUCCESS: 1,
   FAILURE: -1,
   TIMEOUT: 2,
-  ERROR: -2
+  ERROR: -2,
 };
 
 /**
@@ -293,7 +293,7 @@ Maze.tile_SHAPES = {
   'null1': [3, 0],
   'null2': [3, 1],
   'null3': [0, 3],
-  'null4': [1, 3]
+  'null4': [1, 3],
 };
 
 /**
@@ -525,7 +525,7 @@ Maze.init = function() {
       const style = {
         'width': '30%',
         'left': '35%',
-        'top': '12em'
+        'top': '12em',
       };
       BlocklyDialogs.showDialog(content, null, false, true, style,
           BlocklyDialogs.stopDialogKeyDown);

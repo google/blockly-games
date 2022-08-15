@@ -29,7 +29,7 @@ BlocklyGallery.showGalleryForm = function() {
   const style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    top: '3em',
   };
 
   if (!BlocklyGallery.showGalleryForm.runOnce_) {
@@ -82,7 +82,7 @@ BlocklyGallery.galleryKeyDown_ = function(e) {
 BlocklyGallery.makeFormRequest_ =
     function(form, opt_onSuccess, opt_onFailure, opt_method) {
   const data = [];
-  for (let i = 0, element; (element = form.elements[i]); i++) {
+  for (const element of form.elements) {
     if (element.name) {
       data.push(encodeURIComponent(element.name) + '=' +
           encodeURIComponent(element.value));

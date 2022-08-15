@@ -225,7 +225,7 @@ Movie.showHelp = function() {
   const style = {
     width: '50%',
     left: '25%',
-    top: '5em'
+    top: '5em',
   };
 
   if (BlocklyGames.LEVEL === 2) {

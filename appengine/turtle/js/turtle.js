@@ -350,7 +350,7 @@ Turtle.showHelp = function() {
   const style = {
     width: '50%',
     left: '25%',
-    top: '5em'
+    top: '5em',
   };
 
   if (BlocklyGames.LEVEL === 3) {
@@ -388,7 +388,7 @@ Turtle.showCategoryHelp = function() {
   const help = document.getElementById('helpToolbox');
   const style = {
     width: '25%',
-    top: '3.3em'
+    top: '3.3em',
   };
   if (BlocklyGames.IS_RTL) {
     style.right = '525px';

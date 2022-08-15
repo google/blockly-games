@@ -59,7 +59,7 @@ Pond.Duck.duckData = null;
  */
 Pond.Duck.tabIndex = {
   BLOCKS: 0,
-  JAVASCRIPT: 1
+  JAVASCRIPT: 1,
 };
 
 /**
@@ -105,7 +105,7 @@ Pond.Duck.init = function() {
         Math.max(0, top + tabDiv.offsetHeight - window.pageYOffset) + 'px';
     const divLeft = rtl ? '10px' : '420px';
     const divWidth = (window.innerWidth - 440) + 'px';
-    for (let i = 0, div; (div = divs[i]); i++) {
+    for (const div of divs) {
       div.style.top = divTop;
       div.style.left = divLeft;
       div.style.width = divWidth;
@@ -132,7 +132,7 @@ Pond.Duck.init = function() {
     new Blockly.utils.Coordinate(20, 80),
     new Blockly.utils.Coordinate(80, 80),
     new Blockly.utils.Coordinate(20, 20),
-    new Blockly.utils.Coordinate(80, 20)
+    new Blockly.utils.Coordinate(80, 20),
   ];
   const avatarSelect = document.getElementById('avatar-select');
   for (let i = 0; i < Pond.Duck.duckData.length; i++) {
@@ -217,8 +217,8 @@ Pond.Duck.changeTab = function(index) {
   }
   // Show the correct tab contents.
   const names = ['blockly', 'editor'];
-  for (let i = 0, name; (name = names[i]); i++) {
-    const div = document.getElementById(name);
+  for (let i = 0; i < names.length; i++) {
+    const div = document.getElementById(names[i]);
     div.style.visibility = (i === index) ? 'visible' : 'hidden';
   }
   Blockly.hideChaff(false);
@@ -226,9 +226,8 @@ Pond.Duck.changeTab = function(index) {
   document.getElementById('docsButton').disabled = false;
   BlocklyGames.LEVEL = (index === Pond.Duck.tabIndex.BLOCKS) ? 11 : 12;
   if (Pond.isDocsVisible_) {
-    const frame = document.getElementById('frameDocs');
-    frame.src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
-        '&mode=' + BlocklyGames.LEVEL;
+    document.getElementById('frameDocs').src =
+        `pond/docs.html?lang=${BlocklyGames.LANG}&mode=${BlocklyGames.LEVEL}`;
   }
   // Synchronize the JS editor.
   if (!Pond.Duck.ignoreEditorChanges_ && !BlocklyInterface.blocksDisabled &&
