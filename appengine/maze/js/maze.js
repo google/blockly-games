@@ -1151,8 +1151,8 @@ Maze.updatePegSpin_ = function(e) {
 
 /**
  * Schedule the animations for a move or turn.
- * @param {!Array.<number>} startPos X, Y and direction starting points.
- * @param {!Array.<number>} endPos X, Y and direction ending points.
+ * @param {!Array<number>} startPos X, Y and direction starting points.
+ * @param {!Array<number>} endPos X, Y and direction ending points.
  */
 Maze.schedule = function(startPos, endPos) {
   const deltas = [(endPos[0] - startPos[0]) / 4,

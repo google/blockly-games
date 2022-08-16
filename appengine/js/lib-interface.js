@@ -276,7 +276,7 @@ BlocklyInterface.highlight = function(id, opt_state) {
 /**
  * Inject readonly Blockly.  Only inserts once.
  * @param {string} id ID of div to be injected into.
- * @param {string|!Array.<string>} xml XML string(s) describing blocks.
+ * @param {string|!Array<string>} xml XML string(s) describing blocks.
  */
 BlocklyInterface.injectReadonly = function(id, xml) {
   const div = document.getElementById(id);

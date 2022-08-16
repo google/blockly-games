@@ -124,7 +124,7 @@ BlocklyGames.LANG = window['BlocklyGamesLang'];
 
 /**
  * List of languages supported by this app.  Values should be in ISO 639 format.
- * @type !Array.<string>
+ * @type !Array<string>
  */
 BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
 

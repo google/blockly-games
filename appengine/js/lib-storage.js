@@ -54,7 +54,7 @@ BlocklyStorage.retrieveXml = function(key) {
 
 /**
  * Global reference to current AJAX requests.
- * @type Object.<string, XMLHttpRequest>
+ * @type Object<string, XMLHttpRequest>
  */
 BlocklyStorage.xhrs_ = {};
 

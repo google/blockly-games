@@ -27,7 +27,7 @@ Pond.Visualization.AVATAR_SIZE = 35;
 Pond.Visualization.AVATAR_HALF_SIZE = Pond.Visualization.AVATAR_SIZE / 2;
 Pond.Visualization.MISSILE_RADIUS = 5;
 
-Pond.Visualization.CRASH_LOG = {};
+Pond.Visualization.CRASH_LOG = new Map();
 Pond.Visualization.EXPLOSIONS = [];
 
 Pond.Visualization.SPRITES = new Image();
@@ -319,11 +319,11 @@ Pond.Visualization.display_ = function() {
     if (event['type'] === 'CRASH') {
       // Impact between two avatars, or a avatar and the wall.
       // Only play the crash sound if this avatar hasn't crashed recently.
-      const lastCrash = Pond.Visualization.CRASH_LOG[avatar.id];
+      const lastCrash = Pond.Visualization.CRASH_LOG.get(avatar.id);
       if (!lastCrash || lastCrash + 1000 < Date.now()) {
         Pond.Visualization.playAudio_('whack', event['damage'] /
                           Pond.Battle.COLLISION_DAMAGE);
-        Pond.Visualization.CRASH_LOG[avatar.id] = Date.now();
+        Pond.Visualization.CRASH_LOG.set(avatar.id, Date.now());
       }
     } else if (event['type'] === 'SCAN') {
       // Show a sensor scan beam.
@@ -392,7 +392,7 @@ Pond.Visualization.display_ = function() {
 
 /**
  * Load an audio file.  Cache it, ready for instantaneous playing.
- * @param {!Array.<string>} filenames List of file types in decreasing order of
+ * @param {!Array<string>} filenames List of file types in decreasing order of
  *   preference (i.e. increasing size).  E.g. ['media/go.mp3', 'media/go.wav']
  *   Filenames include path from Blockly's root.  File extensions matter.
  * @param {string} name Name of sound.

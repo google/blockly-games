@@ -19,25 +19,25 @@ goog.require('Pond.Avatar');
 
 /**
  * List of avatars in this battle.
- * @type !Array.<!Pond.Avatar>
+ * @type !Array<!Pond.Avatar>
  */
 Pond.Battle.AVATARS = [];
 
 /**
  * Ordered list of avatar with the best avatar first.
- * @type !Array.<!Pond.Avatar>
+ * @type !Array<!Pond.Avatar>
  */
 Pond.Battle.RANK = [];
 
 /**
  * List of events to be visualized.
- * @type !Array.<!Object>
+ * @type !Array<!Object>
  */
 Pond.Battle.EVENTS = [];
 
 /**
  * List of missiles in flight.
- * @type !Array.<!Object>
+ * @type !Array<!Object>
  */
 Pond.Battle.MISSILES = [];
 

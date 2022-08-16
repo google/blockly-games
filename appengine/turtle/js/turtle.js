@@ -38,7 +38,7 @@ Turtle.WIDTH = 400;
 
 /**
  * PID of animation task currently executing.
- * @type !Array.<number>
+ * @type !Array<number>
  */
 Turtle.pidList = [];
 

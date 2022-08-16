@@ -64,7 +64,7 @@ Music.interpreter = null;
 
 /**
  * All executing threads.
- * @type !Array.<!Music.Thread>
+ * @type !Array<!Music.Thread>
  */
 Music.threads = [];
 
@@ -881,7 +881,7 @@ Music.setInstrument = function(instrument, id) {
 
 /**
  * Array containing all notes expected to be played for this level.
- * @type !Array.<!Array.<number>>|undefined
+ * @type !Array<!Array<number>>|undefined
  */
 Music.expectedAnswer = undefined;
 
@@ -966,13 +966,10 @@ Music.checkAnswer = function() {
     const instrumentList = code.match(/setInstrument\('\w+'/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.
-    const instrumentHash = {};
-    for (let i = 0; i < instrumentList.length; i++) {
-      instrumentHash[instrumentList[i]] = true;
-    }
-    // But not the piano.
-    delete instrumentHash['setInstrument(\'piano\''];
-    const instruments = Object.keys(instrumentHash).length;
+    const instrumentHash = new Set(instrumentList);
+    // The piano does not count as a new instrument.
+    instrumentHash.delete("setInstrument('piano'");
+    const instruments = instrumentHash.size;
 
     // Level 6 requires a "set instrument" block.
     // Fail silently since that's the entire point of the level.
@@ -1081,7 +1078,7 @@ Music.submitToGallery = function() {
 /**
  * One execution thread.
  * @param {number} i Number of this thread (1-4).
- * @param {!Array.<!Interpreter.State>} stateStack JS-Interpreter state stack.
+ * @param {!Array<!Interpreter.State>} stateStack JS-Interpreter state stack.
  * @constructor
  */
 Music.Thread = function(i, stateStack) {

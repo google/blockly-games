@@ -32,7 +32,7 @@ BlocklyGames.NAME = 'pond-duck';
 
 /**
  * Array of editor tabs (Blockly and ACE).
- * @type Array.<!Element>
+ * @type Array<!Element>
  */
 Pond.Duck.editorTabs = null;
 
@@ -50,7 +50,7 @@ Pond.currentAvatar = null;
 
 /**
  * Array of duck data that was loaded separately.
- * @type Array.<!Object>
+ * @type Array<!Object>
  */
 Pond.Duck.duckData = null;
 
