@@ -81,17 +81,62 @@ deps:
 	sed 's/@license//' $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter.js > $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar third-party-downloads/closure-compiler.jar\
-	  --language_out ECMASCRIPT5_STRICT\
+	  --language_out ECMASCRIPT5\
+	  --language_in ECMASCRIPT5\
 	  --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/acorn.js\
 	  --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js\
 	  --js_output_file $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/compressed.js
 	rm $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
 
-clean: clean-games clean-deps
+offline: clean-offline
+	mkdir offline
+	cp -R appengine offline/blockly-games
+	rm -f offline/blockly-games/*.{yaml,py,sh}
+	rm -f offline/blockly-games/{admin.html,apple-touch-icon.png,favicon.ico,robots.txt}
+	rm -rf offline/blockly-games/gallery*
+	rm -rf offline/blockly-games/generated/
+	rm -rf offline/blockly-games/{./,*,*/*}/js
+	rm -rf offline/blockly-games/{./,*,*/*}/sources
+	rm -f offline/blockly-games/{./,*,*/*}/generated/uncompressed.js
+	rm -f offline/blockly-games/index/title.png
+	rm -f offline/blockly-games/pond/crobots.txt
+	rm -rf offline/blockly-games/pond/battle
+	rm -f offline/blockly-games/common/{debug.js,stripes.gif}
+	rm -f offline/blockly-games/third-party/base.js
+	rm -f offline/blockly-games/third-party/soundfonts/README.txt
+	rm -f offline/blockly-games/third-party/soundfonts/*/B4.mp3
+
+	mv offline/blockly-games/third-party/ace/{ace.js,mode-javascript.js,theme-chrome.js,worker-javascript.js} offline/
+	rm -rf offline/blockly-games/third-party/ace/*
+	mv offline/{ace.js,mode-javascript.js,theme-chrome.js,worker-javascript.js} offline/blockly-games/third-party/ace/
+
+	mv offline/blockly-games/third-party/SoundJS/soundjs.min.js offline/
+	rm -rf offline/blockly-games/third-party/SoundJS/*
+	mv offline/soundjs.min.js offline/blockly-games/third-party/SoundJS/
+
+	mv offline/blockly-games/third-party/blockly/media/ offline/
+	rm -f offline/media/{pilcrow.png,sprites.svg}
+	rm -rf offline/blockly-games/third-party/blockly/*
+	mv offline/media/ offline/blockly-games/third-party/blockly/
+
+	mv offline/blockly-games/third-party/JS-Interpreter/compressed.js offline/
+	rm -rf offline/blockly-games/third-party/JS-Interpreter/{*,.gitignore}
+	mv offline/compressed.js offline/blockly-games/third-party/JS-Interpreter/
+
+	echo '<html><head><meta http-equiv=refresh content="0; url=blockly-games/index.html"/></head></html>' > offline/blockly-games.html
+	find offline -name '.DS_Store' -delete
+
+	cd offline; \
+	zip -r9 blockly-games.zip blockly-games/ blockly-games.html
+
+clean: clean-games clean-offline clean-deps
 
 clean-games:
 	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond,pond/tutor,pond/duck,gallery}/generated
 	rm -f json/keys.json
+
+clean-offline:
+	rm -rf offline/
 
 clean-deps:
 	rm -rf $(APP_ENGINE_THIRD_PARTY)
