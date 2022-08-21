@@ -88,7 +88,7 @@ Blockly.Blocks['animal'] = {
    * @this {Blockly.Block}
    */
   isCorrect: function() {
-    return this.getFieldValue('LEGS') === this.animal;
+    return Number(this.getFieldValue('LEGS')) === this.animal;
   }
 };
 
