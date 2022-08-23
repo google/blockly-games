@@ -40,7 +40,7 @@ blocklyMessageNames = []
 blocklyGamesMessageNames = []
 
 def main(gameName):
-  print('Compiling %s' % gameName.title())
+  print('Compressing %s' % gameName.title())
   if not os.path.exists('appengine/%s/generated' % gameName):
     os.mkdir('appengine/%s/generated' % gameName)
   generate_uncompressed(gameName)

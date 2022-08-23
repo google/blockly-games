@@ -13,42 +13,42 @@ REQUIRED_BINS = svn wget java python sed
 all: deps games
 
 index: common
-	python build-app.py index
+	python build/compress.py index
 
 puzzle: common
-	python build-app.py puzzle
+	python build/compress.py puzzle
 
 maze: common
-	python build-app.py maze
+	python build/compress.py maze
 
 bird: common
-	python build-app.py bird
+	python build/compress.py bird
 
 turtle: common
-	python build-app.py turtle
+	python build/compress.py turtle
 
 movie: common
-	python build-app.py movie
+	python build/compress.py movie
 
 music: common
-	python build-app.py music
+	python build/compress.py music
 
 pond-tutor: common
-	python build-app.py pond/tutor
+	python build/compress.py pond/tutor
 
 pond-duck: common
-	python build-app.py pond/duck
+	python build/compress.py pond/duck
 
 gallery: common
-	python build-app.py gallery
+	python build/compress.py gallery
 
 games: index puzzle maze bird turtle movie music pond-tutor pond-duck gallery
 
 common:
 	@echo "Converting messages.js to JSON for Translatewiki."
-	python i18n/js_to_json.py
+	python build/js_to_json.py
 	@echo "Converting JSON from Translatewiki to message files."
-	python i18n/json_to_js.py
+	python build/json_to_js.py
 	@echo
 
 deps:

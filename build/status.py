@@ -18,7 +18,7 @@
 
 """Produce a table showing the translation status of each app by language.
 From the /json directory, run:
-python ../i18n/status.py --key_file keys.json --output html *.json > status.html
+python ../i18n/status.py --key_file qqq.json --output html *.json > status.html
 
 @author Ellen Spertus (ellen.spertus@gmail.com)
 """
@@ -99,13 +99,13 @@ def output_as_html(prefix_counts):
       color = 'gray'
     return ('<font color="{!s}">{:.0f} ({:.0%})</font>'.format(color, num, num / total))
 
-  apps = prefix_counts[TOTAL].keys()
+  apps = list(prefix_counts[TOTAL])
   apps.remove('ALL')
   apps.sort()
   apps.append('ALL')
   print('<html><body>')
-  print('<SCRIPT SRC="https://neil.fraser.name/'
-        'software/tablesort/tablesort-min.js"></SCRIPT>')
+  print('<script src="https://neil.fraser.name/'
+        'software/tablesort/tablesort-min.js"></script>')
   print('<table cellspacing=5><thead><tr>')
   print('<th class=nocase>Language</th><th class=num>' +
         '</th><th class=num>'.join(apps) + '</th></tr></thead><tbody>')
@@ -118,9 +118,7 @@ def output_as_html(prefix_counts):
                                       prefix_counts[TOTAL][app]))
         print('</td>')
       print('</tr>')
-  print('</tbody><tfoot><tr><td>ALL</td><td>')
-  print('</td><td>'.join([str(prefix_counts[TOTAL][app]) for app in apps]))
-  print('</td></tr></tfoot></table>')
+  print('</tbody></table>')
   print('</body></html>')
 
 
@@ -138,7 +136,7 @@ def output_as_text(prefix_counts):
     return ('{:.0f} ({:.0%})'.format(num, num / total))
   MAX_WIDTH = len('999 (100%)') + 1
   FIELD_STRING = '{0: <' + str(MAX_WIDTH) + '}'
-  apps = prefix_counts[TOTAL].keys()
+  apps = list(prefix_counts[TOTAL])
   apps.remove('ALL')
   apps.sort()
   apps.append('ALL')
@@ -151,10 +149,6 @@ def output_as_text(prefix_counts):
             ''.join([FIELD_STRING.format(generate_number_as_percent(
                 prefix_counts[lang].get(app, 0),
                 prefix_counts[TOTAL][app])) for app in apps]))
-  print(FIELD_STRING.format('ALL') +
-        ''.join(
-            [FIELD_STRING.format(prefix_counts[TOTAL][app])
-             for app in apps]))
 
 
 def main():
@@ -163,7 +157,7 @@ def main():
   # Argument parsing.
   parser = argparse.ArgumentParser(description=
       'Produce a table showing the translation status of each app by language.')
-  parser.add_argument('--key_file', default='keys.json',
+  parser.add_argument('--key_file', default='qqq.json',
                       help='file with complete list of keys.')
   parser.add_argument('--output', default='text', choices=['text', 'html'],
                       help='output format')

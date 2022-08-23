@@ -63,7 +63,7 @@ handlers:
 - url: /movie/
   static_dir: movie
   secure: always
-  
+
 # Music app.
 - url: /music
   static_files: music.html
@@ -102,15 +102,6 @@ handlers:
   secure: always
 - url: /pond/
   static_dir: pond
-  secure: always
-
-# Genetics app.
-- url: /genetics
-  static_files: genetics.html
-  upload: genetics\.html
-  secure: always
-- url: /genetics/
-  static_dir: genetics
   secure: always
 
 # Gallery.
@@ -181,19 +172,10 @@ skip_files:
 - ^(.*/)?.*/RCS/.*$
 - ^(.*/)?\..*$
 # Custom skip patterns.
-- ^genetics/.*$
-- ^\w+/sources/.*$
 - ^third-party/ace/snippets/.*$
 - ^third-party/blockly/\.github/.*$
 - ^third-party/blockly/externs/.*$
-- ^third-party/blockly/generators/dart.*$
-- ^third-party/blockly/generators/lua.*$
-- ^third-party/blockly/generators/php.*$
-- ^third-party/blockly/generators/python.*$
 - ^third-party/blockly/msg/json/.*$
-- ^third-party/blockly/\w*\.\w+$
 - ^third-party/JS-Interpreter/demos.*$
-- ^third-party/third_party_goog/.*$
 - ^third-party/JS-Interpreter/[^c].*$  # Only serve compressed.js.
-- ^.+\.soy$
 - ^.+\.md$
