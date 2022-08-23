@@ -39,7 +39,7 @@ Index.html.start = function(ij) {
         viewBox="0 0 100 100" preserveAspectRatio="none"
         x=150 y=60>
       <path id="path" d="M 10,15 C 15,60 35,100 50,70 S 80,20 90,85"
-        ${ij.rtl ? 'transform="translate(100) scale(-1, 1)' : ''}
+        ${ij.rtl ? 'transform="translate(100) scale(-1, 1)"' : ''}
       />
     </svg>
     ${Index.html.appLink_(ij, 'puzzle', 10, 15, BlocklyGames.Msg['Games.puzzle'])}
