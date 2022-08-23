@@ -34,7 +34,7 @@ Index.init = function() {
      html: BlocklyGames.IS_HTML,
      rtl: BlocklyGames.IS_RTL});
 
-  BlocklyGames.init(BlocklyGames.Msg['Games.name']);
+  BlocklyGames.init('');
 
   const languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);

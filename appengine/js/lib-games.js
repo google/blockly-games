@@ -13,6 +13,7 @@
 goog.provide('BlocklyGames');
 
 goog.require('Blockly.utils.math');
+goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -221,7 +222,8 @@ BlocklyGames.LEVEL =
  * @param {string} title Text for the page title.
  */
 BlocklyGames.init = function(title) {
-  document.title = title;
+  document.title = BlocklyGames.esc(BlocklyGames.Msg['Games.name']) +
+      (title && ' : ') + title;
 
   // Set the HTML's language and direction.
   document.dir = BlocklyGames.IS_RTL ? 'rtl' : 'ltr';
