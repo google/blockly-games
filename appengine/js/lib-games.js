@@ -402,10 +402,10 @@ BlocklyGames.importAnalytics3_ = function() {
 BlocklyGames.importAnalytics4_ = function() {
   const script = document.createElement('script');
   script.async = 1;
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-50448074-1';
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-TBYKRK7JYW';
   document.head.appendChild(script);
   window['dataLayer'] = window['dataLayer'] || [];
   function gtag(){window['dataLayer'].push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'UA-50448074-1');
+  gtag('config', 'G-TBYKRK7JYW');
 };

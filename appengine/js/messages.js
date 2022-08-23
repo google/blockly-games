@@ -353,7 +353,7 @@ BlocklyGames.Msg['Bird.helpAnd'] = 'The \'and\' block is true only if both its i
 /// callout - This is shown to demonstrate how to drag a block.\n\nTranslate consistently with:\n* {{msg-blockly|CONTROLS IF MSG ELSE}}\n* {{msg-blockly|CONTROLS IF MSG IF}}
 BlocklyGames.Msg['Bird.helpMutator'] = 'Drag an \'else\' block into the \'if\' block.';
 
-/// tooltip - In this and subsequent messages, 'turtle' refers to a stylized turtle on the screen to represent a position and direction.  This imaginary turtle is carrying a pen in its tail, so moving the turtle draws a line (or curve, etc.).  You are encouraged to play with the [https://blockly-demo.appspot.com/static/apps/turtle/index.html Turtle application] before doing this translation.
+/// tooltip - In this and subsequent messages, 'turtle' refers to a stylized turtle on the screen to represent a position and direction.  This imaginary turtle is carrying a pen in its tail, so moving the turtle draws a line (or curve, etc.).  You are encouraged to play with the [https://blockly.games/turtle Turtle application] before doing this translation.
 BlocklyGames.Msg['Turtle.moveTooltip'] = 'Moves the turtle forward or backward by the specified amount.';
 
 /// [[Translating:Blockly#Drop-Down_Menus dropdown]] - Infinitive or imperative of a verb telling a turtle to move (walk) in the direction he/she is facing.  This is followed by a number indicating how far (how many pixels) to go.  Prefer a translation that has text in common with the translation of 'move backward'.  See [[Translating:Blockly#Drop-Down_Menus]].

@@ -132,7 +132,6 @@ clean: clean-games clean-offline clean-deps
 
 clean-games:
 	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond,pond/tutor,pond/duck,gallery}/generated
-	rm -f json/keys.json
 
 clean-offline:
 	rm -rf offline/
