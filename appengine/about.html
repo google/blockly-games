@@ -54,7 +54,7 @@ footer {
 <section>
 <h1><a id="back" href="/">Blockly Games</a> : About</h1>
 
-<p>Blockly Games is a series of educational games that teach programming.  It is
+<p>Blockly Games is a series of educational games that teach programming. It is
 designed for children who have not had prior experience with computer programming.
 By the end of these games, one is ready to use conventional text-based languages.</p>
 
@@ -120,7 +120,7 @@ increasingly complex conditions.</p>
       <img src="index/pond-tutor.png" height=100 width=100>
     </td>
     <td>
-<p>Pond Tutor introduces text-based programming.  Levels switch back and forth
+<p>Pond Tutor introduces text-based programming. Levels switch back and forth
 between blocks and actual JavaScript in a text editor.</p>
     </td>
   </tr>
@@ -188,7 +188,8 @@ student unlock their potential with code.</p>
 
 <script src="common/back.js"></script>
 
-<!-- Google Analytics -->
+<!-- Google Analytics 3 -->
+<!-- Delete this in July 1, 2023. -->
 <script>
 if (window.location.pathname.substr(-5) != '.html'){
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -200,6 +201,17 @@ if (window.location.pathname.substr(-5) != '.html'){
   ga('send', 'pageview');
 }
 </script>
-<!-- End Google Analytics -->
+<!-- End Google Analytics 3 -->
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-50448074-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-50448074-1');
+</script>
+<!-- End Google Analytics 4 -->
+
 </body>
 </html>

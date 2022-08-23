@@ -108,7 +108,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'vi': 'Tiếng Việt',
   'yo': 'Èdè Yorùbá',
   'zh-hans': '简体中文',
-  'zh-hant': '正體中文'
+  'zh-hant': '正體中文',
 };
 
 /**
@@ -275,8 +275,11 @@ BlocklyGames.init = function(title) {
         'width=725, initial-scale=.35, user-scalable=no');
   }
 
-  // Lazy-load Google analytics.
-  setTimeout(BlocklyGames.importAnalytics_, 1);
+  // Lazy-load Google Analytics.
+  if (!BlocklyGames.IS_HTML) {
+    setTimeout(BlocklyGames.importAnalytics3_, 1);
+    setTimeout(BlocklyGames.importAnalytics4_, 1);
+  }
 };
 
 /**
@@ -367,13 +370,11 @@ BlocklyGames.esc = function(text) {
 };
 
 /**
- * Load the Google Analytics.
+ * Load the Google Analytics 3.
+ * Delete this in July 1, 2023.
  * @private
  */
-BlocklyGames.importAnalytics_ = function() {
-  if (BlocklyGames.IS_HTML) {
-    return;
-  }
+BlocklyGames.importAnalytics3_ = function() {
   const gaName = 'GoogleAnalyticsFunction';
   window['GoogleAnalyticsObject'] = gaName;
   /**
@@ -392,4 +393,19 @@ BlocklyGames.importAnalytics_ = function() {
 
   gaObject('create', 'UA-50448074-1', 'auto');
   gaObject('send', 'pageview');
+};
+
+/**
+ * Load the Google Analytics 4.
+ * @private
+ */
+BlocklyGames.importAnalytics4_ = function() {
+  const script = document.createElement('script');
+  script.async = 1;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-50448074-1';
+  document.head.appendChild(script);
+  window['dataLayer'] = window['dataLayer'] || [];
+  function gtag(){window['dataLayer'].push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-50448074-1');
 };
