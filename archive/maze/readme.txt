@@ -1,5 +1,5 @@
 This directory contains sources for the images and sounds used in the Maze
-app.  These files are not required to run the maze.
+game.  These files are not required to run the maze.
 
 Pegman:
 * tiles_pegman.xcf -- A Gimp file containing layers for the road, buildings,
