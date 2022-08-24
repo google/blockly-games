@@ -136,7 +136,11 @@ Pond.Visualization.reset = function() {
     const div3 = document.createElement('div');
     div3.appendChild(document.createTextNode('\u00a0'));
     td.appendChild(div3);
-    row.appendChild(td);
+    if (BlocklyGames.IS_RTL) {
+      row.insertBefore(td, row.firstChild);
+    } else {
+      row.appendChild(td);
+    }
   }
   for (const div of nameDivs) {
     div.style.width = (div.parentNode.offsetWidth - 2) + 'px';
