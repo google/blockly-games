@@ -100,7 +100,7 @@ offline: clean-offline
 	rm -f offline/blockly-games/index/title.png
 	rm -f offline/blockly-games/pond/crobots.txt
 	rm -rf offline/blockly-games/pond/battle
-	rm -f offline/blockly-games/common/stripes.gif
+	rm -f offline/blockly-games/common/stripes.svg
 	rm -f offline/blockly-games/third-party/base.js
 	rm -f offline/blockly-games/third-party/soundfonts/README.txt
 	rm -f offline/blockly-games/third-party/soundfonts/*/B4.mp3
