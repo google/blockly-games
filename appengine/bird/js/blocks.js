@@ -121,10 +121,8 @@ Blockly.Blocks['bird_compare'] = {
         .setCheck('Number')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    const thisBlock = this;
-    this.setTooltip(function() {
-      const op = thisBlock.getFieldValue('OP');
+    this.setTooltip(() => {
+      const op = this.getFieldValue('OP');
       const TOOLTIPS = {
         'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
         'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],

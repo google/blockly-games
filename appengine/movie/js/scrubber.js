@@ -308,8 +308,7 @@ Scrubber.prototype.nextFrame = function() {
   const now = Date.now();
   const workTime = now - this.lastFrame_ - this.lastDelay_;
   const delay = Math.max(1, (1000 / this.FPS) - workTime);
-  const thisScrubber = this;
-  this.playPid_ = setTimeout(function() {thisScrubber.nextFrame();}, delay);
+  this.playPid_ = setTimeout(() => this.nextFrame(), delay);
   this.lastFrame_ = now;
   this.lastDelay_ = delay;
 };

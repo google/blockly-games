@@ -44,13 +44,13 @@ Blockly.Blocks['pond_scan'] = {
         {
           "type": "input_value",
           "name": "DEGREE",
-          "check": ["Number", "Angle"]
+          "check": ["Number", "Angle"],
         }
       ],
       "inputsInline": true,
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.scanTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.scanTooltip'],
     });
   }
 };
@@ -81,14 +81,14 @@ Blockly.Blocks['pond_cannon'] = {
         {
           "type": "input_value",
           "name": "RANGE",
-          "check": "Number"
+          "check": "Number",
         }
       ],
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.cannonTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.cannonTooltip'],
     });
   }
 };
@@ -115,14 +115,14 @@ Blockly.Blocks['pond_swim'] = {
         {
           "type": "input_value",
           "name": "DEGREE",
-          "check": ["Number", "Angle"]
+          "check": ["Number", "Angle"],
         }
       ],
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.swimTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.swimTooltip'],
     });
   }
 };
@@ -146,7 +146,7 @@ Blockly.Blocks['pond_stop'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.stopTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.stopTooltip'],
     });
   }
 };
@@ -167,7 +167,7 @@ Blockly.Blocks['pond_health'] = {
       "args0": ["health", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.healthTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.healthTooltip'],
     });
   }
 };
@@ -188,7 +188,7 @@ Blockly.Blocks['pond_speed'] = {
       "args0": ["speed", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.speedTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.speedTooltip'],
     });
   }
 };
@@ -209,7 +209,7 @@ Blockly.Blocks['pond_getX'] = {
       "args0": ["getX", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.locXTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.locXTooltip'],
     });
   }
 };
@@ -230,7 +230,7 @@ Blockly.Blocks['pond_getY'] = {
       "args0": ["getY", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.locYTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.locYTooltip'],
     });
   }
 };
@@ -252,14 +252,14 @@ Blockly.Blocks['pond_log'] = {
         "log",
         {
           "type": "input_value",
-          "name": "VALUE"
+          "name": "VALUE",
         }
       ],
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.logTooltip']
+      "tooltip": BlocklyGames.Msg['Pond.logTooltip'],
     });
   }
 };
@@ -379,24 +379,22 @@ Blockly.Blocks['pond_math_single'] = {
             ["Math.tan_deg", "TAN"],
             ["Math.asin_deg", "ASIN"],
             ["Math.acos_deg", "ACOS"],
-            ["Math.atan_deg", "ATAN"]
+            ["Math.atan_deg", "ATAN"],
           ]
         },
         {
           "type": "input_value",
           "name": "NUM",
-          "check": "Number"
+          "check": "Number",
         }
       ],
       "inputsInline": true,
       "output": "Number",
       "colour": Blockly.Msg['MATH_HUE'],
-      "helpUrl": Blockly.Msg['MATH_SINGLE_HELPURL']
+      "helpUrl": Blockly.Msg['MATH_SINGLE_HELPURL'],
     });
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    const thisBlock = this;
-    this.setTooltip(function() {
-      const mode = thisBlock.getFieldValue('OP');
+    this.setTooltip(() => {
+      const mode = this.getFieldValue('OP');
       const TOOLTIPS = {
         'ROOT': Blockly.Msg['MATH_SINGLE_TOOLTIP_ROOT'],
         'ABS': Blockly.Msg['MATH_SINGLE_TOOLTIP_ABS'],

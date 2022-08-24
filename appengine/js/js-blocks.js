@@ -121,10 +121,8 @@ Blockly.Blocks['logic_compare'].init = function() {
   this.appendValueInput('B')
       .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
   this.setInputsInline(true);
-  // Assign 'this' to a variable for use in the tooltip closure below.
-  const thisBlock = this;
-  this.setTooltip(function() {
-    const op = thisBlock.getFieldValue('OP');
+  this.setTooltip(() => {
+    const op = this.getFieldValue('OP');
     const TOOLTIPS = {
       'EQ': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_EQ'],
       'NEQ': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_NEQ'],
@@ -226,12 +224,10 @@ Blockly.Blocks['controls_for'].init = function() {
     "colour": Blockly.Msg['LOOPS_HUE'],
     "helpUrl": Blockly.Msg['CONTROLS_FOR_HELPURL']
   });
-  // Assign 'this' to a variable for use in the tooltip closure below.
-  const thisBlock = this;
   // TODO(kozbial) Fix tooltip text.
-  this.setTooltip(function() {
+  this.setTooltip(() => {
     return Blockly.Msg['CONTROLS_FOR_TOOLTIP'].replace('%1',
-        thisBlock.getFieldValue('VAR'));
+        this.getFieldValue('VAR'));
   });
 };
 
@@ -300,10 +296,8 @@ Blockly.Blocks['math_arithmetic'].init = function() {
     "colour": Blockly.Msg['MATH_HUE'],
     "helpUrl": Blockly.Msg['MATH_ARITHMETIC_HELPURL']
   });
-  // Assign 'this' to a variable for use in the tooltip closure below.
-  const thisBlock = this;
-  this.setTooltip(function() {
-    const mode = thisBlock.getFieldValue('OP');
+  this.setTooltip(() => {
+    const mode = this.getFieldValue('OP');
     const TOOLTIPS = {
       'ADD': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_ADD'],
       'MINUS': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MINUS'],
@@ -339,11 +333,9 @@ Blockly.Blocks['math_change'].init = function() {
     "colour": Blockly.Msg['VARIABLES_HUE'],
     "helpUrl": Blockly.Msg['MATH_CHANGE_HELPURL']
   });
-  // Assign 'this' to a variable for use in the tooltip closure below.
-  const thisBlock = this;
-  this.setTooltip(function() {
+  this.setTooltip(() => {
     return Blockly.Msg['MATH_CHANGE_TOOLTIP'].replace('%1',
-        thisBlock.getField('VAR').getVariable().name);
+        this.getField('VAR').getVariable().name);
   });
 };
 
