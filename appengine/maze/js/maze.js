@@ -1271,10 +1271,10 @@ Maze.scheduleFinish = function(sound) {
   }
   Maze.stepSpeed = 150;  // Slow down victory animation a bit.
   Maze.pidList.push(setTimeout(function() {
-    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 18);
+      Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 18);
     }, Maze.stepSpeed));
   Maze.pidList.push(setTimeout(function() {
-    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
+      Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
     }, Maze.stepSpeed * 2));
   Maze.pidList.push(setTimeout(function() {
       Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);

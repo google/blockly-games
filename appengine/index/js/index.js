@@ -56,17 +56,12 @@ Index.init = function() {
     BlocklyGames.bindClick('clearData', Index.clearData_);
   }
 
-  function animateFactory(app, angle) {
-    return function() {
-      Index.animateGauge(app, 0, angle);
-    };
-  }
   for (let i = 0; i < levelsDone.length; i++) {
     const app = Index.APPS[i];
     const denominator = (i === 0) ? 1 : BlocklyGames.MAX_LEVEL;
     const angle = levelsDone[i] / denominator * 270;
     if (angle) {
-      setTimeout(animateFactory(app, angle), 1500);
+      setTimeout(Index.animateGauge, 1500, app, 0, angle);
     } else {
       // Remove gauge if zero, since IE renders a stub.
       const path = document.getElementById('gauge-' + app);
@@ -88,9 +83,7 @@ Index.animateGauge = function(app, cur, max) {
   cur += step;
   Index.drawGauge(app, Math.min(cur, max));
   if (cur < max) {
-    setTimeout(function() {
-      Index.animateGauge(app, cur, max);
-    }, 10);
+    setTimeout(Index.animateGauge, 10, app, cur, max);
   }
 };
 

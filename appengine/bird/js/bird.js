@@ -410,7 +410,7 @@ Bird.init = function() {
   // Open interactive help.  But wait 5 seconds for the
   // user to think a bit before they are told what to do.
   setTimeout(function() {
-    BlocklyInterface.workspace.addChangeListener(function() {Bird.levelHelp();});
+    BlocklyInterface.workspace.addChangeListener(Bird.levelHelp);
     Bird.levelHelp();
   }, 5000);
   if (BlocklyGames.LEVEL > 8) {

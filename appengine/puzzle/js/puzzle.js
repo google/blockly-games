@@ -380,7 +380,7 @@ Puzzle.animate = function(block, angleOffset) {
     dy = Math.round(Puzzle.angleDy(heading, speed));
   }
   block.moveBy(dx, dy);
-  setTimeout(Puzzle.animate.bind(null, block, angleOffset), 50);
+  setTimeout(Puzzle.animate, 50, block, angleOffset);
 };
 
 /**

@@ -8,6 +8,6 @@
   </defs>
   <rect x="-1" y="-1" width="52" height="52"/>
   <rect transform="rotate(45)" x="-.71" y="0" width="75" height="18" fill="#ffff00"/>
-  <rect transform="rotate(45)" y="-35" width="70" height="18" fill="#ffff00"/>
+  <rect transform="rotate(45)" y="-35.3" width="75" height="18" fill="#ffff00"/>
   <rect x="-1" y="-1" width="52" height="52" fill="url(#fade)"/>
 </svg>

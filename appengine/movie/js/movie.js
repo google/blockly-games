@@ -378,7 +378,7 @@ Movie.codeChange = function(opt_e) {
 Movie.display = function(opt_frameNumber) {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(function() {Movie.display(opt_frameNumber);}, 250);
+    setTimeout(Movie.display, 250, opt_frameNumber);
     return;
   }
   if (typeof opt_frameNumber === 'number') {
