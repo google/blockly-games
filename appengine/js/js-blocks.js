@@ -180,7 +180,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
  */
 Blockly.Blocks['controls_for'].init = function() {
   this.jsonInit({
-    "message0": "for (let %1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
+    "message0": "for (var %1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
     "args0": [
       {
         "type": "field_variable",
@@ -252,7 +252,7 @@ Blockly.JavaScript['controls_for'] = function(block) {
   let branch = Blockly.JavaScript.statementToCode(block, 'DO');
 
   branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
-  const code = 'for (const ' + variable + ' = ' + from + '; ' +
+  const code = 'for (var ' + variable + ' = ' + from + '; ' +
       variable + ' < ' + to + '; ' +
       variable + ' += 1) {\n' +
       branch + '}\n';

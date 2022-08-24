@@ -16,8 +16,7 @@ var goog = goog || {};
 goog.provide = goog.provide || function(name) {
   let obj = window;
   const parts = name.split('.');
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i];
+  for (const part of parts) {
     obj[part] = obj[part] || {};
     obj = obj[part];
   }

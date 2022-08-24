@@ -504,7 +504,7 @@ Maze.init = function() {
   }
 
   Maze.reset(true);
-  BlocklyInterface.workspace.addChangeListener(function() {Maze.updateCapacity();});
+  BlocklyInterface.workspace.addChangeListener(Maze.updateCapacity);
 
   document.body.addEventListener('mousemove', Maze.updatePegSpin_, true);
 
@@ -802,9 +802,7 @@ Maze.hidePegmanMenu = function(e) {
  */
 Maze.reset = function(first) {
   // Kill all tasks.
-  for (let i = 0; i < Maze.pidList.length; i++) {
-    clearTimeout(Maze.pidList[i]);
-  }
+  Maze.pidList.forEach(clearTimeout);
   Maze.pidList = [];
 
   // Move Pegman into position.

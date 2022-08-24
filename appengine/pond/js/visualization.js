@@ -41,8 +41,9 @@ Pond.Visualization.pid = 0;
  * Database of pre-loaded sounds.
  * @private
  * @const
+ * @type Map<string, !Object>
  */
-Pond.Visualization.SOUNDS_ = Object.create(null);
+Pond.Visualization.SOUNDS_ = new Map();
 
 /**
  * Setup the visualization (run once).
@@ -325,8 +326,8 @@ Pond.Visualization.display_ = function() {
       // Only play the crash sound if this avatar hasn't crashed recently.
       const lastCrash = Pond.Visualization.CRASH_LOG.get(avatar.id);
       if (!lastCrash || lastCrash + 1000 < Date.now()) {
-        Pond.Visualization.playAudio_('whack', event['damage'] /
-                          Pond.Battle.COLLISION_DAMAGE);
+        Pond.Visualization.playAudio_('whack',
+            event['damage'] / Pond.Battle.COLLISION_DAMAGE);
         Pond.Visualization.CRASH_LOG.set(avatar.id, Date.now());
       }
     } else if (event['type'] === 'SCAN') {
@@ -359,7 +360,7 @@ Pond.Visualization.display_ = function() {
       Pond.Visualization.EXPLOSIONS.push({x: event['x'], y: event['y'], t: 0});
     } else if (event['type'] === 'DIE') {
       // A avatar just sustained fatal damage.
-      Pond.Visualization.playAudio_('splash');
+      Pond.Visualization.playAudio_('splash', 1);
     }
   }
   Pond.Battle.EVENTS.length = 0;
@@ -409,8 +410,7 @@ Pond.Visualization.loadAudio_ = function(filenames, name) {
   }
   let sound;
   const audioTest = new window['Audio']();
-  for (let i = 0; i < filenames.length; i++) {
-    const filename = filenames[i];
+  for (const filename of filenames) {
     const ext = filename.match(/\.(\w+)$/);
     if (ext && audioTest.canPlayType('audio/' + ext[1])) {
       // Found an audio format we can play.
@@ -419,7 +419,7 @@ Pond.Visualization.loadAudio_ = function(filenames, name) {
     }
   }
   if (sound && sound.play) {
-    Pond.Visualization.SOUNDS_[name] = sound;
+    Pond.Visualization.SOUNDS_.set(name, sound);
   }
 };
 
@@ -428,8 +428,7 @@ Pond.Visualization.loadAudio_ = function(filenames, name) {
  * @private
  */
 Pond.Visualization.preloadAudio_ = function() {
-  for (const name in Pond.Visualization.SOUNDS_) {
-    const sound = Pond.Visualization.SOUNDS_[name];
+  for (const sound of Pond.Visualization.SOUNDS_.values()) {
     sound.volume = 0.01;
     try {
       sound.play();
@@ -441,14 +440,13 @@ Pond.Visualization.preloadAudio_ = function() {
 };
 
 /**
- * Play an audio file at specified value.  If volume is not specified,
- * use full volume (1).
+ * Play an audio file at specified volume.
  * @param {string} name Name of sound.
- * @param {?number} opt_volume Volume of sound (0-1).
+ * @param {number} volume Volume of sound (0-1).
  * @private
  */
-Pond.Visualization.playAudio_ = function(name, opt_volume) {
-  const sound = Pond.Visualization.SOUNDS_[name];
+Pond.Visualization.playAudio_ = function(name, volume) {
+  const sound = Pond.Visualization.SOUNDS_.get(name);
   let mySound;
   if (Blockly.utils.userAgent.IPAD || Blockly.utils.userAgent.ANDROID) {
     // Creating a new audio node causes lag in IE9, Android and iPad. Android
@@ -458,6 +456,6 @@ Pond.Visualization.playAudio_ = function(name, opt_volume) {
   } else {
     mySound = sound.cloneNode();
   }
-  mySound.volume = (opt_volume === undefined ? 1 : opt_volume);
+  mySound.volume = volume;
   mySound.play();
 };

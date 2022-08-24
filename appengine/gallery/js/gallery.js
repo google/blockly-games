@@ -102,9 +102,7 @@ Gallery.receiveMore = function() {
   }
   Gallery.cursor = meta['cursor'];
 
-  for (let i = 0; i < meta['data'].length; i++) {
-    Gallery.display(meta['data'][i]);
-  }
+  meta['data'].forEach(Gallery.display);
 };
 
 /**

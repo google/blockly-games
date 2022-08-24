@@ -279,9 +279,9 @@ Puzzle.checkAnswers = function() {
   }
   const textDiv = document.getElementById('answerMessage');
   textDiv.textContent = '';
-  for (let i = 0; i < messages.length; i++) {
+  for (const message of messages) {
     const line = document.createElement('div');
-    line.appendChild(document.createTextNode(messages[i]));
+    line.appendChild(document.createTextNode(message));
     textDiv.appendChild(line);
   }
 

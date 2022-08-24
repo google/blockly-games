@@ -202,9 +202,8 @@ Slider.prototype.getValue = function() {
  */
 Slider.prototype.animateValue = function(value) {
   // Clear any ongoing animations.
-  while (this.animationTasks_.length) {
-    clearTimeout(this.animationTasks_.pop());
-  }
+  this.animationTasks_.forEach(clearTimeout);
+  this.animationTasks_ = [];
   const duration = 200; // Milliseconds to animate for.
   const steps = 10; // Number of steps to animate.
   const oldValue = this.getValue();

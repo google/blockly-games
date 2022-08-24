@@ -77,7 +77,7 @@ BlocklyGallery.galleryKeyDown_ = function(e) {
  *    successfully.
  * @param {?Function=} opt_onFailure Function to call after request completes
  *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
- * @param {string=} [opt_method='POST'] The HTTP request method to use.
+ * @param {string=} opt_method The HTTP request method to use.  Default to POST.
  */
 BlocklyGallery.makeFormRequest_ =
     function(form, opt_onSuccess, opt_onFailure, opt_method) {

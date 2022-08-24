@@ -234,8 +234,7 @@ BlocklyGames.init = function(title) {
   if (languageMenu) {
     // Sort languages alphabetically.
     const languages = [];
-    for (let i = 0; i < BlocklyGames.LANGUAGES.length; i++) {
-      const lang = BlocklyGames.LANGUAGES[i];
+    for (const lang of BlocklyGames.LANGUAGES) {
       languages.push([BlocklyGames.LANGUAGE_NAME[lang], lang]);
     }
     const comp = function(a, b) {
@@ -246,11 +245,9 @@ BlocklyGames.init = function(title) {
     };
     languages.sort(comp);
     languageMenu.options.length = 0;
-    for (let i = 0; i < languages.length; i++) {
-      const tuple = languages[i];
-      const lang = tuple[1];
-      const option = new Option(tuple[0], lang);
-      if (lang === BlocklyGames.LANG) {
+    for (const [name, iso639] of languages) {
+      const option = new Option(name, iso639);
+      if (iso639 === BlocklyGames.LANG) {
         option.selected = true;
       }
       languageMenu.options.add(option);

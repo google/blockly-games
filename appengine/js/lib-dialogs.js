@@ -196,7 +196,7 @@ BlocklyDialogs.dialogUnbindDragEvents_ = function() {
  * @param {boolean} opt_animate Animate the dialog closing.  Defaults to true.
  *     Requires that origin was not null when dialog was opened.
  */
-BlocklyDialogs.hideDialog = function(opt_animate) {
+BlocklyDialogs.hideDialog = function(opt_animate = true) {
   if (!BlocklyDialogs.isDialogVisible_) {
     return;
   }
@@ -209,7 +209,7 @@ BlocklyDialogs.hideDialog = function(opt_animate) {
   BlocklyDialogs.isDialogVisible_ = false;
   BlocklyDialogs.dialogDispose_ && BlocklyDialogs.dialogDispose_();
   BlocklyDialogs.dialogDispose_ = null;
-  const origin = (opt_animate === false) ? null : BlocklyDialogs.dialogOrigin_;
+  const origin = opt_animate ? BlocklyDialogs.dialogOrigin_ : null;
   const dialog = document.getElementById('dialog');
   const shadow = document.getElementById('dialogShadow');
 
@@ -307,9 +307,9 @@ BlocklyDialogs.storageAlert = function(origin, message) {
   const container = document.getElementById('containerStorage');
   container.textContent = '';
   const lines = message.split('\n');
-  for (let i = 0; i < lines.length; i++) {
+  for (const line of lines) {
     const p = document.createElement('p');
-    p.appendChild(document.createTextNode(lines[i]));
+    p.appendChild(document.createTextNode(line));
     container.appendChild(p);
   }
 
@@ -334,7 +334,8 @@ BlocklyDialogs.abortOffer = function() {
     return;
   }
   // Don't override an existing dialog, or interrupt a drag.
-  if (BlocklyDialogs.isDialogVisible_ || BlocklyInterface.workspace.isDragging()) {
+  if (BlocklyDialogs.isDialogVisible_ ||
+      BlocklyInterface.workspace.isDragging()) {
     setTimeout(BlocklyDialogs.abortOffer, 15 * 1000);
     return;
   }
