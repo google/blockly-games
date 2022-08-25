@@ -19,7 +19,7 @@ goog.require('BlocklyGames.Msg');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Movie.html.start = function(ij) {
   return `
@@ -62,7 +62,7 @@ ${Movie.html.helpDialogs(ij.level, ij.html)}
 /**
  * Gallery view button and submission form.
  * @param {string} lang ISO language code.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Movie.html.gallery = function(lang) {
   return `
@@ -108,7 +108,7 @@ Movie.html.gallery = function(lang) {
 /**
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Movie.html.toolbox = function(level) {
   let xml = `
@@ -419,7 +419,7 @@ Movie.html.toolbox = function(level) {
  * Help dialogs for each level.
  * @param {number} level Level 1-10.
  * @param {boolean} isHtml True if served as raw HTML files.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Movie.html.helpDialogs = function(level, isHtml) {
   let content = '';

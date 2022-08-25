@@ -1361,7 +1361,7 @@ Maze.scheduleLookStep = function(path, delay) {
 /**
  * Keep the direction within 0-3, wrapping at both ends.
  * @param {number} d Potentially out-of-bounds direction value.
- * @return {number} Legal direction value.
+ * @returns {number} Legal direction value.
  */
 Maze.constrainDirection4 = function(d) {
   d = Math.round(d) % 4;
@@ -1374,7 +1374,7 @@ Maze.constrainDirection4 = function(d) {
 /**
  * Keep the direction within 0-15, wrapping at both ends.
  * @param {number} d Potentially out-of-bounds direction value.
- * @return {number} Legal direction value.
+ * @returns {number} Legal direction value.
  */
 Maze.constrainDirection16 = function(d) {
   d = Math.round(d) % 16;
@@ -1446,7 +1446,7 @@ Maze.turn = function(direction, id) {
  *     (0 = forward, 1 = right, 2 = backward, 3 = left).
  * @param {?string} id ID of block that triggered this action.
  *     Null if called as a helper function in Maze.move().
- * @return {boolean} True if there is a path.
+ * @returns {boolean} True if there is a path.
  */
 Maze.isPath = function(direction, id) {
   const effectiveDirection = Maze.pegmanD + direction;
@@ -1479,7 +1479,7 @@ Maze.isPath = function(direction, id) {
 
 /**
  * Is the player at the finish marker?
- * @return {boolean} True if not done, false if done.
+ * @returns {boolean} True if not done, false if done.
  */
 Maze.notDone = function() {
   return Maze.pegmanX !== Maze.finish_.x || Maze.pegmanY !== Maze.finish_.y;

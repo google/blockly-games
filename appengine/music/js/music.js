@@ -274,7 +274,7 @@ Music.drawStave = function(n) {
  * Return the height of a stave bar.
  * @param {number} i Which stave bar to compute (base 1).
  * @param {number} n Number of stave bars.
- * @return {number} Top edge of stave bar.
+ * @returns {number} Top edge of stave bar.
  * @private
  */
 Music.staveTop_ = function(i, n) {
@@ -1039,7 +1039,7 @@ Music.checkAnswer = function() {
  * Transform a program written in level 9 blocks into one written in the more
  * advanced level 10 blocks.
  * @param {string} xml Level 9 blocks in XML as text.
- * @return {string} Level 10 blocks in XML as text.
+ * @returns {string} Level 10 blocks in XML as text.
  */
 Music.transform10 = function(xml) {
   // The level 7/8/9 rest block is non-configurable whole-note duration.

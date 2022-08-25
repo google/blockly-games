@@ -276,7 +276,7 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
 /**
  * Compute the absolute coordinates and dimensions of an HTML or SVG element.
  * @param {!Element} element Element to match.
- * @return {!Object} Contains height, width, x, and y properties.
+ * @returns {!Object} Contains height, width, x, and y properties.
  * @private
  */
 BlocklyDialogs.getBBox_ = function(element) {

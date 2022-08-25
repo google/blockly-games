@@ -416,7 +416,7 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
 /**
  * Finds the distance between the given avatar and its nearest neighbour.
  * @param {!Pond.Avatar} avatar The avatar to find distances from.
- * @return {!Array} Tuple of closest avatar and distance to that avatar.
+ * @returns {!Array} Tuple of closest avatar and distance to that avatar.
  */
 Pond.Battle.closestNeighbour = function(avatar) {
   let closest = null;

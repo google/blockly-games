@@ -227,7 +227,7 @@ Puzzle.shuffle = function(arr) {
 
 /**
  * Return a list of all legs.
- * @return {!Array<!Array<string>>} Array of human-readable and
+ * @returns {!Array<!Array<string>>} Array of human-readable and
  *   language-neutral tuples.
  */
 Puzzle.legs = function() {
@@ -388,7 +388,7 @@ Puzzle.animate = function(block, angleOffset) {
  * Copied from Closure's goog.math.angleDx.
  * @param {number} degrees Angle in degrees (zero points in +X direction).
  * @param {number} radius Radius.
- * @return {number} The x-distance for the angle and radius.
+ * @returns {number} The x-distance for the angle and radius.
  */
 Puzzle.angleDx = function(degrees, radius) {
   return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
@@ -399,7 +399,7 @@ Puzzle.angleDx = function(degrees, radius) {
  * Copied from Closure's goog.math.angleDy.
  * @param {number} degrees Angle in degrees (zero points in +X direction).
  * @param {number} radius Radius.
- * @return {number} The y-distance for the angle and radius.
+ * @returns {number} The y-distance for the angle and radius.
  */
 Puzzle.angleDy = function(degrees, radius) {
   return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
@@ -414,7 +414,7 @@ Puzzle.angleDy = function(degrees, radius) {
  * @param {number} y1 y of first point.
  * @param {number} x2 x of second point.
  * @param {number} y2 y of second point.
- * @return {number} Standardized angle in degrees of the vector from
+ * @returns {number} Standardized angle in degrees of the vector from
  *     x1,y1 to x2,y2.
  */
 Puzzle.pointsToAngle = function(x1, y1, x2, y2) {

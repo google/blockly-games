@@ -287,7 +287,7 @@ Blockly.Blocks['pond_math_number'] = {
   },
   /**
    * Create XML to represent whether the 'NUM' field is an angle.
-   * @return {!Element} XML storage element.
+   * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
   mutationToDom: function() {

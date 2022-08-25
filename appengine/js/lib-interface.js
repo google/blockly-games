@@ -138,7 +138,7 @@ BlocklyInterface.setCode = function(code) {
 
 /**
  * Get the user's code (XML or JS) from the editor (Blockly or ACE).
- * @return {string} XML or JS code.
+ * @returns {string} XML or JS code.
  */
 BlocklyInterface.getCode = function() {
   let text;
@@ -165,7 +165,7 @@ BlocklyInterface.getCode = function() {
 
 /**
  * Get the user's executable code as JS from the editor (Blockly or ACE).
- * @return {string} JS code.
+ * @returns {string} JS code.
  */
 BlocklyInterface.getJsCode = function() {
   if (BlocklyInterface.blocksDisabled) {
@@ -293,7 +293,7 @@ BlocklyInterface.injectReadonly = function(id, xml) {
 /**
  * Convert the user's code to raw JavaScript.
  * @param {string} code Generated code.
- * @return {string} The code without serial numbers.
+ * @returns {string} The code without serial numbers.
  */
 BlocklyInterface.stripCode = function(code) {
   // Strip out serial numbers.
@@ -304,7 +304,7 @@ BlocklyInterface.stripCode = function(code) {
 /**
  * Determine if this event is unwanted.
  * @param {!Event} e Mouse or touch event.
- * @return {boolean} True if spam.
+ * @returns {boolean} True if spam.
  */
 BlocklyInterface.eventSpam = function(e) {
   // Touch screens can generate 'touchend' followed shortly thereafter by

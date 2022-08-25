@@ -19,7 +19,7 @@ goog.require('BlocklyGames.Msg');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Index.html.start = function(ij) {
   return `
@@ -67,7 +67,7 @@ Index.html.start = function(ij) {
  * @param {number} x Horizontal position of link as percentage.
  * @param {number} y Vertical position of link as percentage.
  * @param {string} contentText Text content to place in link (unsafe text).
- * @return {string} HTML.
+ * @returns {string} HTML.
  * @private
  */
 Index.html.appLink_ = function(ij, app, x, y, contentText) {

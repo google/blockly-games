@@ -77,7 +77,7 @@ Pond.Visualization.stop = function() {
 /**
  * Get the colour for an avatar.
  * @param {!Pond.Avatar} avatar An avatar.
- * @return {string} Hex code string.
+ * @returns {string} Hex code string.
  */
 Pond.Visualization.getColour = function(avatar) {
   return Pond.Visualization.COLOURS
@@ -181,7 +181,7 @@ Pond.Visualization.start = function() {
 /**
  * Convert an pond coordinate (0-100) to a canvas coordinate.
  * @param {number} pondValue X or Y coordinate in the pond.
- * @return {number} X or Y coordinate on the canvas.
+ * @returns {number} X or Y coordinate on the canvas.
  */
 Pond.Visualization.canvasCoordinate = function(pondValue) {
   return pondValue / 100 *

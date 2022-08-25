@@ -17,7 +17,7 @@ goog.require('BlocklyGames.Msg');
 
 /**
  * Canvas, health bars, and buttons.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.html.visualization = function() {
   return `

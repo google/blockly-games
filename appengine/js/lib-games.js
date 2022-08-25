@@ -177,7 +177,7 @@ if (!BlocklyGames.IS_HTML) {
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.
  * @param {string} defaultValue Value to return if parameter not found.
- * @return {string} The parameter value or the default value if not found.
+ * @returns {string} The parameter value or the default value if not found.
  */
 BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
   const val =
@@ -192,7 +192,7 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  * @param {string} name The name of the parameter.
  * @param {number} minValue The minimum legal value.
  * @param {number} maxValue The maximum legal value.
- * @return {number} A number in the range [min_value, max_value].
+ * @returns {number} A number in the range [min_value, max_value].
  */
 BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
   const val = Math.floor(Number(BlocklyGames.getStringParamFromUrl(name, 'NaN')));
@@ -306,7 +306,7 @@ BlocklyGames.changeLanguage = function() {
  * May be used to simply determine if a level is complete.
  * @param {string} name Name of app (maze, bird, ...).
  * @param {number} level Level (1-10).
- * @return {string|undefined} Serialized XML, or undefined.
+ * @returns {string|undefined} Serialized XML, or undefined.
  */
 BlocklyGames.loadFromLocalStorage = function(name, level) {
   let xml;
@@ -345,7 +345,7 @@ BlocklyGames.bindClick = function(el, func) {
  * Normalizes an angle to be in range [0-360]. Angles outside this range will
  * be normalized to be the equivalent angle with that range.
  * @param {number} angle Angle in degrees.
- * @return {number} Standardized angle.
+ * @returns {number} Standardized angle.
  */
 BlocklyGames.normalizeAngle = function(angle) {
   angle %= 360;
@@ -358,7 +358,7 @@ BlocklyGames.normalizeAngle = function(angle) {
 /**
  * Escape HTML to make the text safe.
  * @param {string} text Unsafe text, possibly with HTML tags.
- * @return {string} Safe text, with <>&'" escaped.
+ * @returns {string} Safe text, with <>&'" escaped.
  */
 BlocklyGames.esc = function(text) {
   return text.replace(/&/g, '&amp;')

@@ -183,7 +183,7 @@ window.addEventListener('load', Turtle.init);
  * Transform a program written in level 9 blocks into one written in the more
  * advanced level 10 blocks.
  * @param {string} xml Level 9 blocks in XML as text.
- * @return {string} Level 10 blocks in XML as text.
+ * @returns {string} Level 10 blocks in XML as text.
  */
 Turtle.transform10 = function(xml) {
   const tree = Blockly.Xml.textToDom(xml);
@@ -327,7 +327,7 @@ Turtle.transform10 = function(xml) {
 /**
  * Walk from one node to the next in a tree.
  * @param {!Node} node Current node.
- * @return {Node} Next node, or null if ran off bottom of tree.
+ * @returns {Node} Next node, or null if ran off bottom of tree.
  */
 Turtle.nextNode = function(node) {
   if (node.firstChild) {

@@ -315,7 +315,7 @@ Scrubber.prototype.nextFrame = function() {
 
 /**
  * Returns the slider's value (0.0 - 1.0).
- * @return {number} Current value.
+ * @returns {number} Current value.
  */
 Scrubber.prototype.getValue = function() {
   return this.value_;
@@ -374,7 +374,7 @@ Scrubber.prototype.setValue = function(value) {
 /**
  * Convert the mouse coordinates into SVG coordinates.
  * @param {!Object} e Object with x and y mouse coordinates.
- * @return {!Object} Object with x and y properties in SVG coordinates.
+ * @returns {!Object} Object with x and y properties in SVG coordinates.
  * @private
  */
 Scrubber.prototype.mouseToSvg_ = function(e) {

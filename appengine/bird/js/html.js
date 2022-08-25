@@ -20,7 +20,7 @@ goog.require('BlocklyGames.Msg');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Bird.html.start = function(ij) {
   return `
@@ -61,7 +61,7 @@ ${Bird.html.helpDialogs()}
 /**
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Bird.html.toolbox = function(level) {
   let xml = '<block type="bird_heading"></block>\n';
@@ -110,7 +110,7 @@ Bird.html.toolbox = function(level) {
 
 /**
  * Help dialogs for each level.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Bird.html.helpDialogs = function() {
     return `

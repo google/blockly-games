@@ -56,7 +56,7 @@ Blockly.Blocks['animal'] = {
   },
   /**
    * Save the animal number.
-   * @return {!Element} XML storage element.
+   * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
   mutationToDom: function() {
@@ -142,7 +142,7 @@ Blockly.Blocks['trait'] = {
   },
   /**
    * Save the animal and trait numbers.
-   * @return {!Element} XML storage element.
+   * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
   mutationToDom: function() {

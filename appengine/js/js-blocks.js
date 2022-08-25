@@ -344,7 +344,7 @@ Blockly.Blocks['math_change'].init = function() {
  * whether the variable is a number because users of games that use JsBlocks
  * are advanced and this reduces complexity in generated code.
  * @param {Blockly.Block} block
- * @return {string}
+ * @returns {string}
  */
 Blockly.JavaScript['math_change'] = function(block) {
   // Add to a variable in place.

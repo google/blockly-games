@@ -20,7 +20,7 @@ goog.require('Pond.html');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Tutor.html.start = function(ij) {
   return `
@@ -47,7 +47,7 @@ ${Pond.Tutor.html.helpDialogs(ij.level)}
 /**
  * Toolbox.
  * @param {number} level Level 1-10.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Tutor.html.toolbox = function(level) {
   let xml;
@@ -122,7 +122,7 @@ Pond.Tutor.html.toolbox = function(level) {
 /**
  * Help dialogs for each level.
  * @param {number} level Level 1-10.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Tutor.html.helpDialogs = function(level) {
   let content = '';
@@ -343,7 +343,7 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText6'])}
 
 /**
  * Target.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Tutor.html.playerTarget = function() {
   return `
@@ -354,7 +354,7 @@ Pond.Tutor.html.playerTarget = function() {
 
 /**
  * Pendulum.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Tutor.html.playerPendulum = function() {
   return `
@@ -385,7 +385,7 @@ while (true) {
 
 /**
  * Scared.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Tutor.html.playerScared = function() {
   return `

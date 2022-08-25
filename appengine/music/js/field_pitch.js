@@ -47,7 +47,7 @@ Blockly.utils.object.inherits(CustomFields.FieldPitch, Blockly.FieldTextInput);
 /**
  * Construct a FieldPitch from a JSON arg object.
  * @param {!Object} options A JSON object with options (pitch).
- * @return {!CustomFields.FieldPitch} The new field instance.
+ * @returns {!CustomFields.FieldPitch} The new field instance.
  * @package
  * @nocollapse
  */
@@ -96,7 +96,7 @@ CustomFields.FieldPitch.prototype.showEditor_ = function() {
 
 /**
  * Create the pitch editor.
- * @return {!Element} The newly created pitch picker.
+ * @returns {!Element} The newly created pitch picker.
  * @private
  */
 CustomFields.FieldPitch.prototype.dropdownCreate_ = function() {
@@ -146,7 +146,7 @@ CustomFields.FieldPitch.prototype.onMouseMove = function(e) {
 /**
  * Convert the machine-readable value (0-12) to human-readable text (C3-A4).
  * @param {number|string} value The provided value.
- * @return {string|undefined} The respective note, or undefined if invalid.
+ * @returns {string|undefined} The respective note, or undefined if invalid.
  */
 CustomFields.FieldPitch.prototype.valueToNote = function(value) {
   return CustomFields.FieldPitch.NOTES[Number(value)];
@@ -155,7 +155,7 @@ CustomFields.FieldPitch.prototype.valueToNote = function(value) {
 /**
  * Convert the human-readable text (C3-A4) to machine-readable value (0-12).
  * @param {string} text The provided note.
- * @return {number|undefined} The respective value, or undefined if invalid.
+ * @returns {number|undefined} The respective value, or undefined if invalid.
  */
 CustomFields.FieldPitch.prototype.noteToValue = function(text) {
   const normalizedText = text.trim().toUpperCase();
@@ -165,7 +165,7 @@ CustomFields.FieldPitch.prototype.noteToValue = function(text) {
 
 /**
  * Get the text to be displayed on the field node.
- * @return {?string} The HTML value if we're editing, otherwise null. Null means
+ * @returns {?string} The HTML value if we're editing, otherwise null. Null means
  *   the super class will handle it, likely a string cast of value.
  * @protected
  */
@@ -179,7 +179,7 @@ CustomFields.FieldPitch.prototype.getText_ = function() {
 /**
  * Transform the provided value into a text to show in the HTML input.
  * @param {*} value The value stored in this field.
- * @return {string} The text to show on the HTML input.
+ * @returns {string} The text to show on the HTML input.
  */
 CustomFields.FieldPitch.prototype.getEditorText_ = function(value) {
   return this.valueToNote(value);
@@ -189,7 +189,7 @@ CustomFields.FieldPitch.prototype.getEditorText_ = function(value) {
  * Transform the text received from the HTML input (note) into a value
  * to store in this field.
  * @param {string} text Text received from the HTML input.
- * @return {*} The value to store.
+ * @returns {*} The value to store.
  */
 CustomFields.FieldPitch.prototype.getValueFromEditorText_ = function(text) {
   return this.noteToValue(text);
@@ -220,7 +220,7 @@ CustomFields.FieldPitch.prototype.updateGraph_ = function() {
 /**
  * Ensure that only a valid value may be entered.
  * @param {*} opt_newValue The input value.
- * @return {*} A valid value, or null if invalid.
+ * @returns {*} A valid value, or null if invalid.
  */
 CustomFields.FieldPitch.prototype.doClassValidation_ = function(opt_newValue) {
   if (opt_newValue === null || opt_newValue === undefined) {

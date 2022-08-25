@@ -82,13 +82,13 @@ Interpreter.prototype.appendCode = function(code) {};
 
 /**
  * Execute one step of the interpreter.
- * @return {boolean} True if a step was executed, false if no more instructions.
+ * @returns {boolean} True if a step was executed, false if no more instructions.
  */
 Interpreter.prototype.step = function() {};
 
 /**
  * Execute the interpreter to program completion.  Vulnerable to infinite loops.
- * @return {boolean} True if a execution is asynchronously blocked,
+ * @returns {boolean} True if a execution is asynchronously blocked,
  *     false if no more instructions.
  */
 Interpreter.prototype.run = function() {};
@@ -97,7 +97,7 @@ Interpreter.prototype.run = function() {};
  * Create a new data object based on a constructor's prototype.
  * @param {Interpreter.Object} constructor Parent constructor function,
  *     or null if scope object.
- * @return {!Interpreter.Object} New data object.
+ * @returns {!Interpreter.Object} New data object.
  */
 Interpreter.prototype.createObject = function(constructor) {};
 
@@ -105,7 +105,7 @@ Interpreter.prototype.createObject = function(constructor) {};
  * Create a new interpreted function.
  * @param {!Object} node AST node defining the function.
  * @param {!Interpreter.Scope} scope Parent scope.
- * @return {!Interpreter.Object} New function.
+ * @returns {!Interpreter.Object} New function.
  */
 Interpreter.prototype.createFunction = function(node, scope) {};
 
@@ -113,7 +113,7 @@ Interpreter.prototype.createFunction = function(node, scope) {};
  * Create a new native function.
  * @param {!Function} nativeFunc JavaScript function.
  * @param {boolean} isConstructor True if function can be used with 'new'.
- * @return {!Interpreter.Object} New function.
+ * @returns {!Interpreter.Object} New function.
  */
 Interpreter.prototype.createNativeFunction =
     function(nativeFunc, opt_constructor) {};
@@ -121,7 +121,7 @@ Interpreter.prototype.createNativeFunction =
 /**
  * Create a new native asynchronous function.
  * @param {!Function} asyncFunc JavaScript function.
- * @return {!Interpreter.Object} New function.
+ * @returns {!Interpreter.Object} New function.
  */
 Interpreter.prototype.createAsyncFunction = function(asyncFunc) {};
 
@@ -130,7 +130,7 @@ Interpreter.prototype.createAsyncFunction = function(asyncFunc) {};
  * Can handle JSON-style values, regular expressions, dates and functions.
  * Does NOT handle cycles.
  * @param {*} nativeObj The native JavaScript object to be converted.
- * @return {Interpreter.Value} The equivalent JS-Interpreter object.
+ * @returns {Interpreter.Value} The equivalent JS-Interpreter object.
  */
 Interpreter.prototype.nativeToPseudo = function(nativeObj) {};
 
@@ -141,7 +141,7 @@ Interpreter.prototype.nativeToPseudo = function(nativeObj) {};
  * @param {Interpreter.Value} pseudoObj The JS-Interpreter object to be
  * converted.
  * @param {Object=} opt_cycles Cycle detection (used in recursive calls).
- * @return {*} The equivalent native JavaScript object or value.
+ * @returns {*} The equivalent native JavaScript object or value.
  */
 Interpreter.prototype.pseudoToNative = function(pseudoObj, opt_cycles) {};
 
@@ -149,7 +149,7 @@ Interpreter.prototype.pseudoToNative = function(pseudoObj, opt_cycles) {};
  * Fetch a property value from a data object.
  * @param {Interpreter.Value} obj Data object.
  * @param {Interpreter.Value} name Name of property.
- * @return {Interpreter.Value} Property value (may be undefined).
+ * @returns {Interpreter.Value} Property value (may be undefined).
  */
 Interpreter.prototype.getProperty = function(obj, name) {};
 
@@ -160,7 +160,7 @@ Interpreter.prototype.getProperty = function(obj, name) {};
  * @param {Interpreter.Value|ReferenceError} value New property value.
  *   Use ReferenceError if value is handled by descriptor instead.
  * @param {Object=} opt_descriptor Optional descriptor object.
- * @return {!Interpreter.Object|undefined} Returns a setter function if one
+ * @returns {!Interpreter.Object|undefined} Returns a setter function if one
  *     needs to be called, otherwise undefined.
  */
 Interpreter.prototype.setProperty = function(obj, name, value, opt_descriptor) {};

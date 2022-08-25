@@ -30,7 +30,7 @@ var BlocklyGames = BlocklyGames || {};
  * Normalizes an angle to be in range [0-360]. Angles outside this range will
  * be normalized to be the equivalent angle with that range.
  * @param {number} angle Angle in degrees.
- * @return {number} Standardized angle.
+ * @returns {number} Standardized angle.
  */
 BlocklyGames.normalizeAngle = function(angle) {
   angle %= 360;

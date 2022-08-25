@@ -168,7 +168,7 @@ Movie.answer = function(f) {
 
 /**
  * Validate whether the user's answer is correct.
- * @return {boolean} True if the level is solved, false otherwise.
+ * @returns {boolean} True if the level is solved, false otherwise.
  */
 Movie.isCorrect = function() {
   if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {

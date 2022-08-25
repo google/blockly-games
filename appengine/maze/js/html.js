@@ -20,7 +20,7 @@ goog.require('BlocklyGames.Msg');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Maze.html.start = function(ij) {
   return `
@@ -71,7 +71,7 @@ ${Maze.html.helpDialogs()}
 /**
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Maze.html.toolbox = function(level) {
   let xml = `
@@ -95,7 +95,7 @@ Maze.html.toolbox = function(level) {
 
 /**
  * Help dialogs for each level.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
  Maze.html.helpDialogs = function() {
    return `

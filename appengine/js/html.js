@@ -24,7 +24,7 @@ goog.require('BlocklyGames.Msg');
  * @param {boolean} hasLinkButton Whether the page has a link button.
  * @param {boolean} hasHelpButton Whether the page has a help button.
  * @param {string} farLeftHtml Additional content to add to farLeft toolbar.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
     hasLinkButton, hasHelpButton, farLeftHtml) {
@@ -71,7 +71,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
  * Print the title span (Blockly Games : AppName).
  * @param {!Object} ij Injected options.
  * @param {string} appName Name of application (unsafe text).
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.titleSpan = function(ij, appName) {
   return `
@@ -85,7 +85,7 @@ BlocklyGames.html.titleSpan = function(ij, appName) {
  * List of links to other levels.
  * @param {!Object} ij Injected options.
  * @param {string} suffix Any extra parameters for links.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.levelLinks = function(ij, suffix) {
   let html = ' &nbsp ';
@@ -108,7 +108,7 @@ BlocklyGames.html.levelLinks = function(ij, suffix) {
 
 /**
  * Dialogs.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.dialog = function() {
   return `
@@ -120,7 +120,7 @@ BlocklyGames.html.dialog = function() {
 
 /**
  * Done dialog.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.doneDialog = function() {
   return `
@@ -139,7 +139,7 @@ BlocklyGames.html.doneDialog = function() {
 
 /**
  * Abort dialog.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.abortDialog = function() {
   return `
@@ -155,7 +155,7 @@ BlocklyGames.html.abortDialog = function() {
 
 /**
  * Storage dialog.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.storageDialog = function() {
   return `
@@ -168,7 +168,7 @@ BlocklyGames.html.storageDialog = function() {
 
 /**
  * OK button for dialogs.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 BlocklyGames.html.ok = function() {
   return `

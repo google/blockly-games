@@ -162,7 +162,7 @@ Turtle.answer = function() {
 /**
  * Validate whether the user's answer is correct.
  * @param {number} pixelErrors Number of pixels that are wrong.
- * @return {boolean} True if the level is solved, false otherwise.
+ * @returns {boolean} True if the level is solved, false otherwise.
  */
 Turtle.isCorrect = function(pixelErrors) {
   if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {

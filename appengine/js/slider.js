@@ -190,7 +190,7 @@ Slider.prototype.rectMouseDown_ = function(e) {
 
 /**
  * Returns the slider's value (0.0 - 1.0).
- * @return {number} Current value.
+ * @returns {number} Current value.
  */
 Slider.prototype.getValue = function() {
   return this.value_;
@@ -236,7 +236,7 @@ Slider.prototype.setValue = function(value) {
 /**
  * Convert the mouse coordinates into SVG coordinates.
  * @param {!Object} e Object with x and y mouse coordinates.
- * @return {!Object} Object with x and y properties in SVG coordinates.
+ * @returns {!Object} Object with x and y properties in SVG coordinates.
  * @private
  */
 Slider.prototype.mouseToSvg_ = function(e) {

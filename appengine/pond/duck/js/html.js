@@ -20,7 +20,7 @@ goog.require('Pond.html');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Duck.html.start = function(ij) {
   return `
@@ -48,7 +48,7 @@ ${BlocklyGames.html.dialog()}
 
 /**
  * Toolbox.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Pond.Duck.html.toolbox = function() {
   return `

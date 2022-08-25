@@ -28,6 +28,6 @@ createjs.Sound.play = function(src) {};
 
 /**
  * Have the sounds loaded?
- * @return {boolean} True if loaded and ready to play.
+ * @returns {boolean} True if loaded and ready to play.
  */
 createjs.Sound.isReady = function() {};

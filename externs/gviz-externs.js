@@ -72,7 +72,7 @@ google.visualization.DataTable.prototype.removeRow = function(rowIndex) {};
 google.visualization.DataTable.prototype.removeColumns = function(fromColIndex, numCols) {};
 google.visualization.DataTable.prototype.removeColumn = function(colIndex) {};
 
-/** @return {string} JSON representation. */
+/** @returns {string} JSON representation. */
 google.visualization.DataTable.prototype.toJSON = function() {};
 
 /** @constructor */
@@ -152,7 +152,7 @@ google.visualization.DataView.prototype.getSortedRows = function(sortColumns) {}
 google.visualization.DataView.prototype.getFilteredRows = function(columnFilters) {};
 google.visualization.DataView.prototype.toDataTable = function() {};
 
-/** @return {string} JSON representation. */
+/** @returns {string} JSON representation. */
 google.visualization.DataView.prototype.toJSON = function() {};
 
 /** @constructor */

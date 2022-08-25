@@ -80,7 +80,7 @@ Bird.Line = function(x0, y0, x1, y1) {
 /**
  * Compute the distance between this line segment and the given coordinate.
  * @param {!Blockly.utils.Coordinate} xy Point to measure from.
- * @return {number} Distance from point to closest point on line segment.
+ * @returns {number} Distance from point to closest point on line segment.
  */
 Bird.Line.prototype.distance = function(xy) {
   const a = xy.x - this.x0;
@@ -804,7 +804,7 @@ Bird.displayBird = function(pose) {
 
 /**
  * Has the bird intersected the nest?
- * @return {boolean} True if the bird found the nest, false otherwise.
+ * @returns {boolean} True if the bird found the nest, false otherwise.
  */
 Bird.intersectNest = function() {
   const accuracy = 0.5 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
@@ -813,7 +813,7 @@ Bird.intersectNest = function() {
 
 /**
  * Has the bird intersected the worm?
- * @return {boolean} True if the bird found the worm, false otherwise.
+ * @returns {boolean} True if the bird found the worm, false otherwise.
  */
 Bird.intersectWorm = function() {
   if (Bird.MAP.worm) {
@@ -825,7 +825,7 @@ Bird.intersectWorm = function() {
 
 /**
  * Has the bird intersected a wall?
- * @return {boolean} True if the bird hit a wall, false otherwise.
+ * @returns {boolean} True if the bird hit a wall, false otherwise.
  */
 Bird.intersectWall = function() {
   const accuracy = 0.2 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
@@ -861,7 +861,7 @@ Bird.gotoPoint = function(p) {
  * @param {number} y1 y of first point.
  * @param {number} x2 x of second point.
  * @param {number} y2 y of second point.
- * @return {number} Standardized angle in degrees of the vector from
+ * @returns {number} Standardized angle in degrees of the vector from
  *     x1,y1 to x2,y2.
  */
 Bird.pointsToAngle = function(x1, y1, x2, y2) {

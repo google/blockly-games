@@ -34,7 +34,7 @@ BlocklyAce.importBabel = function() {
 /**
  * Attempt to transpile user code to ES5.
  * @param {string} code User code that may contain ES6+ syntax.
- * @return {string|undefined} ES5 code, or undefined if Babel not loaded.
+ * @returns {string|undefined} ES5 code, or undefined if Babel not loaded.
  * @throws SyntaxError if code is unparsable.
  */
 BlocklyAce.transpileToEs5 = function(code) {
@@ -50,7 +50,7 @@ BlocklyAce.transpileToEs5 = function(code) {
 
 /**
  * Create an ACE editor, and return the session object.
- * @return {!Object} ACE session object
+ * @returns {!Object} ACE session object
  */
 BlocklyAce.makeAceSession = function() {
   const ace = window['ace'];

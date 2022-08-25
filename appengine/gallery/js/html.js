@@ -19,7 +19,7 @@ goog.require('BlocklyGames.Msg');
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Gallery.html.start = function(ij) {
   return `
@@ -40,7 +40,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Gallery'], '', false, false,
  * @param {string} title User-provided title.
  * @param {boolean} published Is the record published?
  * @param {string} key Unique datastore key for this record.
- * @return {string} HTML.
+ * @returns {string} HTML.
  */
 Gallery.html.record = function(app, uuid, thumb, title, published, key) {
   const checkbox = key ?

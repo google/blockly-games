@@ -87,7 +87,7 @@ Pond.Avatar.prototype.lastMissile = 0;
 
 /**
  * A text representation of this avatar for debugging purposes.
- * @return {string} String representation.
+ * @returns {string} String representation.
  */
 Pond.Avatar.prototype.toString = function() {
   return '[' + this.name + ']';
@@ -161,7 +161,7 @@ Pond.Avatar.prototype.die = function() {
  * @param {number} degree Scan in this direction (wrapped to 0-360).
  * @param {number} opt_resolution Sensing resolution, 1 to 20 degrees.
  *   Defaults to 5.
- * @return {number} Distance (0 - ~141), or Infinity if no avatar detected.
+ * @returns {number} Distance (0 - ~141), or Infinity if no avatar detected.
  */
 Pond.Avatar.prototype.scan = function(degree, opt_resolution) {
   let resolution;
@@ -262,7 +262,7 @@ Pond.Avatar.prototype.stop = function() {
  * Commands the avatar to shoot in the specified heading at the specified range.
  * @param {number} degree Heading (0-360).
  * @param {number} range Distance to impact (0-70).
- * @return {boolean} True if cannon fired, false if still reloading from a
+ * @returns {boolean} True if cannon fired, false if still reloading from a
  *     previous shot.
  */
 Pond.Avatar.prototype.cannon = function(degree, range) {
@@ -302,7 +302,7 @@ Pond.Avatar.prototype.cannon = function(degree, range) {
  * Copied from Closure's goog.math.angleDx.
  * @param {number} degrees Angle in degrees (zero points in +X direction).
  * @param {number} radius Radius.
- * @return {number} The x-distance for the angle and radius.
+ * @returns {number} The x-distance for the angle and radius.
  */
 Pond.Avatar.angleDx = function(degrees, radius) {
   return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
@@ -313,7 +313,7 @@ Pond.Avatar.angleDx = function(degrees, radius) {
  * Copied from Closure's goog.math.angleDy.
  * @param {number} degrees Angle in degrees (zero points in +X direction).
  * @param {number} radius Radius.
- * @return {number} The y-distance for the angle and radius.
+ * @returns {number} The y-distance for the angle and radius.
  */
 Pond.Avatar.angleDy = function(degrees, radius) {
   return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
@@ -328,7 +328,7 @@ Pond.Avatar.angleDy = function(degrees, radius) {
  * @param {number} y1 y of first point.
  * @param {number} x2 x of second point.
  * @param {number} y2 y of second point.
- * @return {number} Standardized angle in degrees of the vector from
+ * @returns {number} Standardized angle in degrees of the vector from
  *     x1,y1 to x2,y2.
  */
 Pond.Avatar.pointsToAngle = function(x1, y1, x2, y2) {
