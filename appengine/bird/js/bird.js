@@ -102,7 +102,7 @@ Bird.Line = class {
     }
     return Blockly.utils.Coordinate.distance(xy, closestPoint);
   }
-}
+};
 
 Bird.MAP = [
   // Level 0.

@@ -217,14 +217,14 @@ Music.registerSounds = function() {
   //   https://github.com/CreateJS/SoundJS/issues/269
   // Monkey-patch the fix.
   createjs['AbstractPlugin'].prototype['_handlePreloadComplete'] = function(e) {
-    var src = e.target.getItem().src;
-    var result = e.result;
-    var instances = this['_soundInstances'][src];
+    const src = e.target.getItem().src;
+    const result = e.result;
+    const instances = this['_soundInstances'][src];
     this['_audioSources'][src] = result;
 
-    if (instances != null && instances.length > 0) {
-      for (var i=0, l=instances.length; i<l; i++) {
-        instances[i]['playbackResource'] = result;
+    if (instances && instances.length > 0) {
+      for (const instance of instances) {
+        instance['playbackResource'] = result;
       }
     }
     this['_soundInstances'][src] = null;
@@ -232,7 +232,7 @@ Music.registerSounds = function() {
 
   const assetsPath = 'third-party/soundfonts/';
   const instruments = ['piano', 'trumpet', 'violin', 'drum',
-                     'flute', 'banjo', 'guitar', 'choir'];
+                       'flute', 'banjo', 'guitar', 'choir'];
 
   const sounds = [];
   for (let i = 0; i < instruments.length; i++) {
@@ -290,7 +290,7 @@ Music.staveTop_ = function(i, n) {
  * Draw and position the specified note or rest.
  * @param {number} i Which stave bar to draw on (base 1).
  * @param {number} time Distance down the stave (on the scale of whole notes).
- * @param {string} pitch Value of note (0-12), or rest (Music.REST).
+ * @param {number} pitch Value of note (0-12), or rest (Music.REST).
  * @param {number} duration Duration of note or rest (1, 0.5, 0.25...).
  * @param {string} className Name of CSS class for image.
  */
@@ -434,7 +434,7 @@ Music.drawAnswer = function() {
       const chanel = Music.expectedAnswer[i];
       let time = 0;
       for (let j = 0; j < chanel.length; j += 2) {
-        const pitch = String(chanel[j]);
+        const pitch = chanel[j];
         const duration = chanel[j + 1];
         Music.drawNote(i + 1, time, pitch, duration, 'goal');
         time += duration;
@@ -598,8 +598,8 @@ Music.initInterpreter = function(interpreter, globalObject) {
   };
   wrap('rest');
 
-  wrapper = function(instrument, id) {
-    Music.setInstrument(instrument, id);
+  wrapper = function(instrument) {
+    Music.setInstrument(instrument);
   };
   wrap('setInstrument');
 
@@ -819,6 +819,12 @@ Music.play = function(duration, pitch, id) {
     }
     Music.activeThread.resting = false;
   }
+  pitch = Math.round(pitch);
+  if (pitch < 0 || pitch > 12) {
+    console.warn('Note out of range (0-12): ' + pitch);
+    Music.rest(duration, id);
+    return;
+  }
   Music.stopSound(Music.activeThread);
   Music.activeThread.sound = createjs.Sound.play(Music.activeThread.instrument + pitch);
   Music.activeThread.pauseUntil64ths = duration * 64 + Music.clock64ths;
@@ -834,7 +840,7 @@ Music.play = function(duration, pitch, id) {
     }
   }
   Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64,
-                 String(pitch), duration, wrong ? 'wrong' : '');
+                 pitch, duration, wrong ? 'wrong' : '');
   Music.animate(id);
 };
 
@@ -866,16 +872,15 @@ Music.rest = function(duration, id) {
     }
   }
   Music.drawNote(Music.activeThread.stave, Music.clock64ths / 64,
-                 String(Music.REST), duration, wrong ? 'wrong' : '');
+                 Music.REST, duration, wrong ? 'wrong' : '');
   Music.animate(id);
 };
 
 /**
  * Switch to a new instrument.
  * @param {string} instrument Name of new instrument.
- * @param {?string} id ID of block.
  */
-Music.setInstrument = function(instrument, id) {
+Music.setInstrument = function(instrument) {
   Music.activeThread.instrument = instrument;
 };
 
@@ -952,8 +957,10 @@ Music.checkAnswer = function() {
   // Notes match expected answer?
   for (let i = 0; i < Music.expectedAnswer.length; i++) {
     if (Music.threads[i].stave === i + 1) {
-      if (String(Music.expectedAnswer[i]) !=
+      if (String(Music.expectedAnswer[i]) !==
           String(Music.threads[i].transcript)) {
+        console.log('Expected "' + Music.expectedAnswer[i] +
+            '" notes,\n found "' + Music.threads[i].transcript + '"');
         return false;
       }
       continue;
@@ -963,12 +970,12 @@ Music.checkAnswer = function() {
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
     const code = BlocklyInterface.executedJsCode;
-    const instrumentList = code.match(/setInstrument\('\w+'/g) || [];
+    const instrumentList = code.match(/setInstrument\('\w+'\)/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.
     const instrumentHash = new Set(instrumentList);
     // The piano does not count as a new instrument.
-    instrumentHash.delete("setInstrument('piano'");
+    instrumentHash.delete("setInstrument('piano')");
     const instruments = instrumentHash.size;
 
     // Level 6 requires a "set instrument" block.
@@ -1008,7 +1015,7 @@ Music.checkAnswer = function() {
     53,  // Level 7.
     55,  // Level 8.
     71,  // Level 9.
-    undefined  // Level 10.
+    undefined,  // Level 10.
   ][BlocklyGames.LEVEL];
   let blockCount = 0;
   const blocks = BlocklyInterface.workspace.getAllBlocks();
@@ -1095,4 +1102,4 @@ Music.Thread = class {
     this.resting = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL;
     this.done = false;
   }
-}
+};

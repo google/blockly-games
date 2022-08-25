@@ -216,7 +216,7 @@ Blockly.Blocks['music_instrument'] = {
 
 Blockly.JavaScript['music_instrument'] = function(block) {
   const instrument = Blockly.JavaScript.quote_(block.getFieldValue('INSTRUMENT'));
-  return 'setInstrument(' + instrument + ', \'block_id_' + block.id + '\');\n';
+  return 'setInstrument(' + instrument + ');\n';
 };
 
 Blockly.Blocks['music_start'] = {

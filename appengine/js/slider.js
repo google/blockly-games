@@ -266,7 +266,7 @@ Slider = class {
     e.clientX = touchPoint.clientX;
     e.clientY = touchPoint.clientY;
   }
-}
+};
 
 /**
  * Slider which is currently being dragged.

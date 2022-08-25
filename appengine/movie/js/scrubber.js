@@ -380,7 +380,7 @@ Scrubber = class {
     e.clientX = touchPoint.clientX;
     e.clientY = touchPoint.clientY;
   }
-}
+};
 
 /**
  * Scrubber which is currently being dragged.
