@@ -32,8 +32,11 @@ Pond.Avatar = class {
     this.startDamage_ = startDamage || 0;
     this.editable = editable;
     this.battle_ = battle;
+    /**
+     * X/Y location of the avatar (0 - 100).
+     * @type Blockly.utils.Coordinate
+     */
     this.loc = new Blockly.utils.Coordinate();
-
     /**
      * Has this avatar fully loaded and started playing?
      */
@@ -62,11 +65,6 @@ Pond.Avatar = class {
      * Speed the avatar is aiming to move at (0 - 100).
      */
     this.desiredSpeed = 0;
-    /**
-     * X/Y location of the avatar (0 - 100).
-     * @type Blockly.utils.Coordinate
-     */
-    this.loc = null;
     /**
      * Date of last missile.
      */
@@ -102,11 +100,11 @@ Pond.Avatar = class {
    * Reset this avatar to a starting state.
    */
   reset() {
-    delete this.started;
-    delete this.dead;
-    delete this.speed;
-    delete this.desiredSpeed;
-    delete this.lastMissile;
+    this.started = false;
+    this.dead = false;
+    this.speed = 0;
+    this.desiredSpeed = 0;
+    this.lastMissile = 0;
 
     this.damage = this.startDamage_;
     this.loc.x = this.startLoc_.x;
@@ -296,7 +294,7 @@ Pond.Avatar = class {
    * @param {number} radius Radius.
    * @returns {number} The x-distance for the angle and radius.
    */
-  angleDx(degrees, radius) {
+  static angleDx(degrees, radius) {
     return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
   };
 
@@ -307,7 +305,7 @@ Pond.Avatar = class {
    * @param {number} radius Radius.
    * @returns {number} The y-distance for the angle and radius.
    */
-  angleDy(degrees, radius) {
+  static angleDy(degrees, radius) {
     return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
   }
 
@@ -323,7 +321,7 @@ Pond.Avatar = class {
    * @returns {number} Standardized angle in degrees of the vector from
    *     x1,y1 to x2,y2.
    */
-  pointsToAngle(x1, y1, x2, y2) {
+  static pointsToAngle(x1, y1, x2, y2) {
     const angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     return BlocklyGames.normalizeAngle(angle);
   }
