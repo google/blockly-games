@@ -17,7 +17,7 @@ goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
 
 
-Avatar = class {
+Pond.Avatar = class {
   /**
    * Class for a avatar.
    * @param {string} name Avatar's name.
@@ -33,57 +33,50 @@ Avatar = class {
     this.editable = editable;
     this.battle_ = battle;
     this.loc = new Blockly.utils.Coordinate();
+
+    /**
+     * Has this avatar fully loaded and started playing?
+     */
+    this.started = false;
+    /**
+     * Has the avatar been killed?
+     */
+    this.dead = false;
+    /**
+     * Damage of this avatar (0 = perfect, 100 = dead).
+     */
+    this.damage = 0;
+    /**
+     * Heading the avatar is moving in (0 - 360).
+     */
+    this.degree = 0;
+    /**
+     * Direction the avatar's head is facing (0 - 360).
+     */
+    this.facing = 0;
+    /**
+     * Speed the avatar is actually moving (0 - 100).
+     */
+    this.speed = 0;
+    /**
+     * Speed the avatar is aiming to move at (0 - 100).
+     */
+    this.desiredSpeed = 0;
+    /**
+     * X/Y location of the avatar (0 - 100).
+     * @type Blockly.utils.Coordinate
+     */
+    this.loc = null;
+    /**
+     * Date of last missile.
+     */
+    this.lastMissile = 0;
+
     this.reset();
     this.visualizationIndex = battle.AVATARS.length;
     battle.AVATARS.push(this);
     console.log(this + ' loaded.');
   }
-
-  /**
-   * Has this avatar fully loaded and started playing?
-   */
-  started = false;
-
-  /**
-   * Has the avatar been killed?
-   */
-  dead = false;
-
-  /**
-   * Damage of this avatar (0 = perfect, 100 = dead).
-   */
-  damage = 0;
-
-  /**
-   * Heading the avatar is moving in (0 - 360).
-   */
-  degree = 0;
-
-  /**
-   * Direction the avatar's head is facing (0 - 360).
-   */
-  facing = 0;
-
-  /**
-   * Speed the avatar is actually moving (0 - 100).
-   */
-  speed = 0;
-
-  /**
-   * Speed the avatar is aiming to move at (0 - 100).
-   */
-  desiredSpeed = 0;
-
-  /**
-   * X/Y location of the avatar (0 - 100).
-   * @type Blockly.utils.Coordinate
-   */
-  loc = null;
-
-  /**
-   * Date of last missile.
-   */
-  lastMissile = 0;
 
   /**
    * A text representation of this avatar for debugging purposes.
