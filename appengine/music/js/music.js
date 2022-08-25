@@ -70,13 +70,13 @@ Music.threads = [];
 
 /**
  * Time of start of execution.
- * @type {number}
+ * @type number
  */
 Music.startTime = 0;
 
 /**
  * Number of 1/64ths notes since the start.
- * @type {number}
+ * @type number
  */
 Music.clock64ths = 0;
 
@@ -1075,23 +1075,24 @@ Music.submitToGallery = function() {
   BlocklyGallery.showGalleryForm();
 };
 
-/**
- * One execution thread.
- * @param {number} i Number of this thread (1-4).
- * @param {!Array<!Interpreter.State>} stateStack JS-Interpreter state stack.
- * @constructor
- */
-Music.Thread = function(i, stateStack) {
-  this.stave = i;  // 1-4
-  this.stateStack = stateStack;
-  this.transcript = [];
-  this.instrument = 'piano';
-  this.pauseUntil64ths = 0;
-  this.highlighedBlock = null;
-  // Currently playing sound object.
-  this.sound = null;
-  // Has not played a note yet.  Level 1-9 the threads need to reorder
-  // as the first note is played.  Level 10 is by start block height.
-  this.resting = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL;
-  this.done = false;
-};
+Music.Thread = class {
+  /**
+   * One execution thread.
+   * @param {number} i Number of this thread (1-4).
+   * @param {!Array<!Interpreter.State>} stateStack JS-Interpreter state stack.
+   */
+  constructor(i, stateStack) {
+    this.stave = i;  // 1-4
+    this.stateStack = stateStack;
+    this.transcript = [];
+    this.instrument = 'piano';
+    this.pauseUntil64ths = 0;
+    this.highlighedBlock = null;
+    // Currently playing sound object.
+    this.sound = null;
+    // Has not played a note yet.  Level 1-9 the threads need to reorder
+    // as the first note is played.  Level 10 is by start block height.
+    this.resting = BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL;
+    this.done = false;
+  }
+}

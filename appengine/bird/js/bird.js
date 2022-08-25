@@ -40,69 +40,69 @@ Bird.MAP_SIZE = 400;
 Bird.WALL_THICKNESS = 10;
 Bird.FLAP_SPEED = 100; // ms.
 
-/**
- * Object representing a line.
- * Copied from goog.math.Line
- * @param {number} x0 X coordinate of the start point.
- * @param {number} y0 Y coordinate of the start point.
- * @param {number} x1 X coordinate of the end point.
- * @param {number} y1 Y coordinate of the end point.
- * @struct
- * @final
- * @constructor
- */
-Bird.Line = function(x0, y0, x1, y1) {
+Bird.Line = class {
   /**
-   * X coordinate of the first point.
-   * @type {number}
+   * Object representing a line.
+   * Copied from goog.math.Line
+   * @param {number} x0 X coordinate of the start point.
+   * @param {number} y0 Y coordinate of the start point.
+   * @param {number} x1 X coordinate of the end point.
+   * @param {number} y1 Y coordinate of the end point.
+   * @struct
    */
-  this.x0 = x0;
+  constructor(x0, y0, x1, y1) {
+    /**
+     * X coordinate of the first point.
+     * @type number
+     */
+    this.x0 = x0;
 
-  /**
-   * Y coordinate of the first point.
-   * @type {number}
-   */
-  this.y0 = y0;
+    /**
+     * Y coordinate of the first point.
+     * @type number
+     */
+    this.y0 = y0;
 
-  /**
-   * X coordinate of the first control point.
-   * @type {number}
-   */
-  this.x1 = x1;
+    /**
+     * X coordinate of the first control point.
+     * @type number
+     */
+    this.x1 = x1;
 
-  /**
-   * Y coordinate of the first control point.
-   * @type {number}
-   */
-  this.y1 = y1;
-};
-
-/**
- * Compute the distance between this line segment and the given coordinate.
- * @param {!Blockly.utils.Coordinate} xy Point to measure from.
- * @returns {number} Distance from point to closest point on line segment.
- */
-Bird.Line.prototype.distance = function(xy) {
-  const a = xy.x - this.x0;
-  const b = xy.y - this.y0;
-  const c = this.x1 - this.x0;
-  const d = this.y1 - this.y0;
-
-  const dot = a * c + b * d;
-  const lenSq = c * c + d * d;
-  const param = lenSq ? dot / lenSq : -1;
-
-  let closestPoint;
-  if (param < 0) {
-    closestPoint = new Blockly.utils.Coordinate(this.x0, this.y0);
-  } else if (param > 1) {
-    closestPoint = new Blockly.utils.Coordinate(this.x1, this.y1);
-  } else {
-    closestPoint =
-        new Blockly.utils.Coordinate(this.x0 + param * c, this.y0 + param * d);
+    /**
+     * Y coordinate of the first control point.
+     * @type number
+     */
+    this.y1 = y1;
   }
-  return Blockly.utils.Coordinate.distance(xy, closestPoint);
-};
+
+  /**
+   * Compute the distance between this line segment and the given coordinate.
+   * @param {!Blockly.utils.Coordinate} xy Point to measure from.
+   * @returns {number} Distance from point to closest point on line segment.
+   */
+  distance(xy) {
+    const a = xy.x - this.x0;
+    const b = xy.y - this.y0;
+    const c = this.x1 - this.x0;
+    const d = this.y1 - this.y0;
+
+    const dot = a * c + b * d;
+    const lenSq = c * c + d * d;
+    const param = lenSq ? dot / lenSq : -1;
+
+    let closestPoint;
+    if (param < 0) {
+      closestPoint = new Blockly.utils.Coordinate(this.x0, this.y0);
+    } else if (param > 1) {
+      closestPoint = new Blockly.utils.Coordinate(this.x1, this.y1);
+    } else {
+      closestPoint =
+          new Blockly.utils.Coordinate(this.x0 + param * c, this.y0 + param * d);
+    }
+    return Blockly.utils.Coordinate.distance(xy, closestPoint);
+  }
+}
 
 Bird.MAP = [
   // Level 0.

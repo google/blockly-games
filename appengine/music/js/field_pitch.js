@@ -30,14 +30,14 @@ CustomFields.FieldPitch = function(text) {
 
   /**
    * Click event data.
-   * @type {?Blockly.browserEvents.Data}
+   * @type Blockly.browserEvents.Data
    * @private
    */
   this.clickWrapper_ = null;
 
   /**
    * Move event data.
-   * @type {?Blockly.browserEvents.Data}
+   * @type Blockly.browserEvents.Data
    * @private
    */
   this.moveWrapper_ = null;
