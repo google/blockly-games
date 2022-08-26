@@ -214,9 +214,7 @@ def generate_compressed(gameName):
     '--language_out', 'ECMASCRIPT5',
     '--entry_point=%s' % gameName.replace('/', '.').title(),
     "--js='appengine/third-party/**.js'",
-    #"--js='!appengine/third-party/base.js'",
     "--js='!appengine/third-party/blockly/externs/**.js'",
-    "--js='appengine/generated/*.js'",
     "--js='appengine/src/*.js'",
     '--warning_level', 'QUIET',
   ]
