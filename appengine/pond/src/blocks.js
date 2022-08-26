@@ -458,7 +458,7 @@ Blockly.JavaScript['pond_loc_x'] = Blockly.JavaScript['pond_getX'];
 Blockly.Blocks['pond_loc_y'] = Blockly.Blocks['pond_getY'];
 Blockly.JavaScript['pond_loc_y'] = Blockly.JavaScript['pond_getY'];
 
-// Pond blocks moved to appengine/js/blocks.js and renamed on 6 June 2016.
+// Pond blocks moved to appengine/src/js-blocks.js and renamed on 6 June 2016.
 // Aliases defined to support XML generated before change.
 Blockly.Blocks['pond_controls_if'] = Blockly.Blocks['controls_if'];
 Blockly.JavaScript['pond_controls_if'] = Blockly.JavaScript['controls_if'];

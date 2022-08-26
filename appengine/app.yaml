@@ -130,8 +130,8 @@ handlers:
 - url: /common
   static_dir: common
   secure: always
-- url: /js
-  static_dir: js
+- url: /src
+  static_dir: src
   secure: always
 - url: /generated
   static_dir: generated

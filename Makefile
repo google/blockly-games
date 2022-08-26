@@ -95,7 +95,7 @@ offline: clean-offline
 	rm -f offline/blockly-games/{admin.html,apple-touch-icon.png,favicon.ico,robots.txt}
 	rm -rf offline/blockly-games/gallery*
 	rm -rf offline/blockly-games/generated/
-	rm -rf offline/blockly-games/{./,*,*/*}/js
+	rm -rf offline/blockly-games/{./,*,*/*}/src
 	rm -f offline/blockly-games/{./,*,*/*}/generated/uncompressed.js
 	rm -f offline/blockly-games/index/title.png
 	rm -f offline/blockly-games/pond/crobots.txt

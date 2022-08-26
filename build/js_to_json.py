@@ -56,7 +56,7 @@ def main():
                       default='json/',
                       help='Relative directory for output files.')
   parser.add_argument('--input_file',
-                      default='appengine/js/messages.js',
+                      default='appengine/src/messages.js',
                       help='Input message.js file.')
   args = parser.parse_args()
   if (not args.output_dir.endswith(os.path.sep)):

@@ -139,7 +139,7 @@ def generate_uncompressed(gameName):
   cmd = ['third-party/closurebuilder/closurebuilder.py',
       '--root=appengine/third-party/',
       '--root=appengine/generated/',
-      '--root=appengine/js/',
+      '--root=appengine/src/',
       '--exclude=',
       '--namespace=%s' % gameName.replace('/', '.').title(),
       '--output_mode=list']
@@ -148,7 +148,7 @@ def generate_uncompressed(gameName):
     subdir = 'appengine/%s/generated/' % directory
     if os.path.isdir(subdir):
       cmd.append('--root=%s' % subdir)
-    subdir = 'appengine/%s/js/' % directory
+    subdir = 'appengine/%s/src/' % directory
     if os.path.isdir(subdir):
       cmd.append('--root=%s' % subdir)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
@@ -217,13 +217,12 @@ def generate_compressed(gameName):
     #"--js='!appengine/third-party/base.js'",
     "--js='!appengine/third-party/blockly/externs/**.js'",
     "--js='appengine/generated/*.js'",
-    "--js='appengine/js/*.js'",
+    "--js='appengine/src/*.js'",
     '--warning_level', 'QUIET',
   ]
   directory = gameName
   while directory:
-    cmd.append("--js='appengine/%s/generated/*.js'" % directory)
-    cmd.append("--js='appengine/%s/js/*.js'" % directory)
+    cmd.append("--js='appengine/%s/src/*.js'" % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
   try:
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
