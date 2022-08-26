@@ -15,14 +15,12 @@
 goog.provide('BlocklyGames.JsBlocks');
 
 goog.require('Blockly');
-goog.require('Blockly.Constants.Lists');
 goog.require('Blockly.Constants.Logic');
 goog.require('Blockly.Constants.Loops');
 goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Constants.Variables');
 goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.lists');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
@@ -112,7 +110,7 @@ Blockly.Blocks['logic_compare'].init = function() {
     ['<', 'LT'],
     ['<=', 'LTE'],
     ['>', 'GT'],
-    ['>=', 'GTE']
+    ['>=', 'GTE'],
   ];
   this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
   this.setColour(Blockly.Msg['LOGIC_HUE']);
@@ -136,13 +134,56 @@ Blockly.Blocks['logic_compare'].init = function() {
   this.prevBlocks_ = [null, null];
 };
 
-Blockly.Msg['LOGIC_OPERATION_AND'] = '&&';
-Blockly.Msg['LOGIC_OPERATION_OR'] = '||';
+Blockly.Blocks['logic_boolean'].init = function() {
+  this.jsonInit({
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BOOL",
+        "options": [
+          ["true", "TRUE"],
+          ["false", "FALSE"],
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "tooltip": "%{BKY_LOGIC_BOOLEAN_TOOLTIP}",
+    "helpUrl": "%{BKY_LOGIC_BOOLEAN_HELPURL}",
+  });
+};
 
-Blockly.Msg['LOGIC_NEGATE_TITLE'] = '! %1';
-
-Blockly.Msg['LOGIC_BOOLEAN_TRUE'] = 'true';
-Blockly.Msg['LOGIC_BOOLEAN_FALSE'] = 'false';
+Blockly.Blocks['logic_operation'].init = function() {
+  this.jsonInit({
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Boolean",
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["&&", "AND"],
+          ["||", "OR"],
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "helpUrl": "%{BKY_LOGIC_OPERATION_HELPURL}",
+    "extensions": ["logic_op_tooltip"],
+  });
+};
 
 /**
  * Block for 'while' loop.
@@ -170,97 +211,9 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
     "nextStatement": null,
     "colour": Blockly.Msg['LOOPS_HUE'],
     "tooltip": Blockly.Msg['CONTROLS_WHILEUNTIL_TOOLTIP_WHILE'],
-    "helpUrl": Blockly.Msg['CONTROLS_WHILEUNTIL_HELPURL']
+    "helpUrl": Blockly.Msg['CONTROLS_WHILEUNTIL_HELPURL'],
   });
 };
-
-/**
- * Initialization for 'for' loop Block.
- * @this {Blockly.Block}
- */
-Blockly.Blocks['controls_for'].init = function() {
-  this.jsonInit({
-    "message0": "for (var %1 = %2;  %3 < %4;  %5 += 1) { %6 %7 }",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": null
-      },
-      {
-        "type": "input_value",
-        "name": "FROM",
-        "check": "Number",
-        "align": "RIGHT"
-      },
-      {
-        "type": "field_label",
-        "name": "VAR1",
-        "text": '?'
-      },
-      {
-        "type": "input_value",
-        "name": "TO",
-        "check": "Number",
-        "align": "RIGHT"
-      },
-      {
-        "type": "field_label",
-        "name": "VAR2",
-        "text": "?"
-      },
-      {
-        "type": "input_dummy"
-      },
-      {
-        "type": "input_statement",
-        "name": "DO"
-      }
-
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": Blockly.Msg['LOOPS_HUE'],
-    "helpUrl": Blockly.Msg['CONTROLS_FOR_HELPURL']
-  });
-  // TODO(kozbial) Fix tooltip text.
-  this.setTooltip(() => {
-    return Blockly.Msg['CONTROLS_FOR_TOOLTIP'].replace('%1',
-        this.getFieldValue('VAR'));
-  });
-};
-
-/**
- * E for 'for' loop.
- * @this {Blockly.Block}
- */
-Blockly.Blocks['controls_for'].onchange = function(e) {
-  const varName = this.getField('VAR').getText();
-  this.setFieldValue(varName, 'VAR1');
-  this.setFieldValue(varName, 'VAR2');
-};
-
-Blockly.JavaScript['controls_for'] = function(block) {
-  // For loop.
-  const variable = Blockly.JavaScript.nameDB_.getName(
-      block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  const from = Blockly.JavaScript.valueToCode(block, 'FROM',
-      Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-  const to = Blockly.JavaScript.valueToCode(block, 'TO',
-      Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-  let branch = Blockly.JavaScript.statementToCode(block, 'DO');
-
-  branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
-  const code = 'for (var ' + variable + ' = ' + from + '; ' +
-      variable + ' < ' + to + '; ' +
-      variable + ' += 1) {\n' +
-      branch + '}\n';
-  return code;
-};
-
-Blockly.Msg['CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK'] = 'break ;';
-Blockly.Msg['CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE'] = 'continue ;';
 
 /**
  * Block for basic arithmetic operator.
@@ -355,143 +308,15 @@ Blockly.JavaScript['math_change'] = function(block) {
   return varName + ' += ' + delta + ';\n';
 };
 
-/**
- * Block for random integer between [X] and [Y].
- * @this {Blockly.Block}
- */
-Blockly.Blocks['math_random_int'].init = function() {
+Blockly.Blocks['math_random_float'].init = function() {
   this.jsonInit({
-    "message0": "%1(%2,%3)",
-    "args0": [
-      "Math.randomInt",
-      {
-        "type": "input_value",
-        "name": "FROM",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "TO",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": true,
+    "message0": "Math.random  (  )",
     "output": "Number",
-    "colour": Blockly.Msg['MATH_HUE'],
-    "tooltip": Blockly.Msg['MATH_RANDOM_INT_TOOLTIP'],
-    "helpUrl": Blockly.Msg['MATH_RANDOM_INT_HELPURL']
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_RANDOM_FLOAT_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_RANDOM_FLOAT_HELPURL}",
   });
 };
-
-Blockly.Msg['MATH_RANDOM_FLOAT_TITLE_RANDOM'] = 'Math.random  (  )';
-
-Blockly.Msg['LISTS_CREATE_EMPTY_TITLE'] = '[ ]';
-Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH'] = '[';
-
-/**
- * Modify create list with elements block to have the correct number of inputs.
- * @private
- * @this {Blockly.Block}
- */
-Blockly.Blocks['lists_create_with'].updateShape_ = function() {
-  if (this.getInput('TAIL')) {
-    this.removeInput('TAIL');
-  }
-  if (this.itemCount_ && this.getInput('EMPTY')) {
-    this.removeInput('EMPTY');
-  } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
-    this.appendDummyInput('EMPTY')
-        .appendField(Blockly.Msg['LISTS_CREATE_EMPTY_TITLE']);
-  }
-  // Add new inputs.
-  let i;
-  for (i = 0; i < this.itemCount_; i++) {
-    if (!this.getInput('ADD' + i)) {
-      const input = this.appendValueInput('ADD' + i);
-      if (i == 0) {
-        input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
-      } else {
-        input.appendField(',');
-      }
-    }
-  }
-  // Remove deleted inputs.
-  while (this.getInput('ADD' + i)) {
-    this.removeInput('ADD' + i);
-    i++;
-  }
-  if (this.itemCount_) {
-    this.appendDummyInput('TAIL')
-        .appendField(']');
-  }
-};
-
-Blockly.Blocks['lists_getIndex'] = {
-  /**
-   * Block for getting element at index.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "%1[%2]",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "VALUE",
-          "check": "Array"
-        },
-        {
-          "type": "input_value",
-          "name": "AT",
-          "check": "Number"
-        }
-      ],
-      "inputsInline": true,
-      "output": null,
-      "colour": Blockly.Msg['LISTS_HUE'],
-      "tooltip": Blockly.Msg['LISTS_GET_INDEX_TOOLTIP_GET_FROM'] +
-          Blockly.Msg['LISTS_INDEX_FROM_START_TOOLTIP'].replace('%1', '#0'),
-      "helpUrl": Blockly.Msg['LISTS_GET_INDEX_HELPURL']
-    });
-  }
-};
-
-Blockly.Blocks['lists_setIndex'] = {
-  /**
-   * Block for setting element at index.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": "%1[%2] = %3;",
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "LIST",
-          "check": "Array"
-        },
-        {
-          "type": "input_value",
-          "name": "AT",
-          "check": "Number"
-        },
-        {
-          "type": "input_value",
-          "name": "TO"
-        }
-      ],
-      "inputsInline": true,
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Blockly.Msg['LISTS_HUE'],
-      "tooltip": Blockly.Msg['LISTS_SET_INDEX_TOOLTIP_SET_FROM'] +
-          Blockly.Msg['LISTS_INDEX_FROM_START_TOOLTIP'].replace('%1', '#0'),
-      "helpUrl": Blockly.Msg['LISTS_SET_INDEX_HELPURL']
-    });
-  }
-};
-
-Blockly.Msg['LISTS_LENGTH_TITLE'] = '%1 . length';
 
 /**
  * Variable getter.

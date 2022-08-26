@@ -59,7 +59,7 @@ Blockly.JavaScript['pond_scan'] = function(block) {
   // Generate JavaScript for scanning the pond.
   const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
       Blockly.JavaScript.ORDER_NONE) || 0;
-  const code = 'scan(' + value_degree + ')';
+  const code = `scan(${value_degree})`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -99,7 +99,7 @@ Blockly.JavaScript['pond_cannon'] = function(block) {
       Blockly.JavaScript.ORDER_COMMA) || 0;
   const value_range = Blockly.JavaScript.valueToCode(block, 'RANGE',
       Blockly.JavaScript.ORDER_COMMA) || 0;
-  return 'cannon(' + value_degree + ', ' + value_range + ');\n';
+  return `cannon(${value_degree}, ${value_range});\n`;
 };
 
 Blockly.Blocks['pond_swim'] = {
@@ -131,7 +131,7 @@ Blockly.JavaScript['pond_swim'] = function(block) {
   // Generate JavaScript for swimming.
   const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
       Blockly.JavaScript.ORDER_NONE) || 0;
-  return 'swim(' + value_degree + ');\n';
+  return `swim(${value_degree});\n`;
 };
 
 Blockly.Blocks['pond_stop'] = {
@@ -268,7 +268,7 @@ Blockly.JavaScript['pond_log'] = function(block) {
   // Generate JavaScript for logging.
   const value_text = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_NONE) || '\'\'';
-  return 'log(' + value_text + ');\n';
+  return `log(${value_text});\n`;
 };
 
 
@@ -394,59 +394,35 @@ Blockly.Blocks['pond_math_single'] = {
       "helpUrl": Blockly.Msg['MATH_SINGLE_HELPURL'],
     });
     this.setTooltip(() => {
-      const mode = this.getFieldValue('OP');
-      const TOOLTIPS = {
+      return {
         'ROOT': Blockly.Msg['MATH_SINGLE_TOOLTIP_ROOT'],
-        'ABS': Blockly.Msg['MATH_SINGLE_TOOLTIP_ABS'],
-        'SIN': Blockly.Msg['MATH_TRIG_TOOLTIP_SIN'],
-        'COS': Blockly.Msg['MATH_TRIG_TOOLTIP_COS'],
-        'TAN': Blockly.Msg['MATH_TRIG_TOOLTIP_TAN'],
+        'ABS':  Blockly.Msg['MATH_SINGLE_TOOLTIP_ABS'],
+        'SIN':  Blockly.Msg['MATH_TRIG_TOOLTIP_SIN'],
+        'COS':  Blockly.Msg['MATH_TRIG_TOOLTIP_COS'],
+        'TAN':  Blockly.Msg['MATH_TRIG_TOOLTIP_TAN'],
         'ASIN': Blockly.Msg['MATH_TRIG_TOOLTIP_ASIN'],
         'ACOS': Blockly.Msg['MATH_TRIG_TOOLTIP_ACOS'],
         'ATAN': Blockly.Msg['MATH_TRIG_TOOLTIP_ATAN'],
-      };
-      return TOOLTIPS[mode];
+      }[this.getFieldValue('OP')];
     });
   }
 };
 
 Blockly.JavaScript['pond_math_single'] = function(block) {
   // Advanced math operators with single operand.
-  const operator = block.getFieldValue('OP');
-  let code;
   const arg = Blockly.JavaScript.valueToCode(block, 'NUM',
       Blockly.JavaScript.ORDER_NONE) || '0';
-  // First, handle cases which generate values that don't need parentheses
-  // wrapping the code.
-  switch (operator) {
-    case 'ABS':
-      code = 'Math.abs(' + arg + ')';
-      break;
-    case 'ROOT':
-      code = 'Math.sqrt(' + arg + ')';
-      break;
-    case 'SIN':
-      code = 'Math.sin_deg(' + arg + ')';
-      break;
-    case 'COS':
-      code = 'Math.cos_deg(' + arg + ')';
-      break;
-    case 'TAN':
-      code = 'Math.tan_deg(' + arg + ')';
-      break;
-    case 'ASIN':
-      code = 'Math.asin_deg(' + arg + ')';
-      break;
-    case 'ACOS':
-      code = 'Math.acos_deg(' + arg + ')';
-      break;
-    case 'ATAN':
-      code = 'Math.atan_deg(' + arg + ')';
-      break;
-    default:
-      throw Error('Unknown math operator: ' + operator);
-  }
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  const func = {
+    'ROOT': 'sqrt',
+    'ABS':  'abs',
+    'SIN':  'sin_deg',
+    'COS':  'cos_deg',
+    'TAN':  'tan_deg',
+    'ASIN': 'asin_deg',
+    'ACOS': 'acos_deg',
+    'ATAN': 'atan_deg',
+  }[block.getFieldValue('OP')];
+  return [`Math.${func}(${arg})`, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];

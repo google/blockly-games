@@ -65,7 +65,7 @@ Blockly.Blocks['maze_moveForward'] = {
 
 Blockly.JavaScript['maze_moveForward'] = function(block) {
   // Generate JavaScript for moving forward.
-  return 'moveForward(\'block_id_' + block.id + '\');\n';
+  return `moveForward('block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['maze_turn'] = {
@@ -91,13 +91,12 @@ Blockly.Blocks['maze_turn'] = {
 
 Blockly.JavaScript['maze_turn'] = function(block) {
   // Generate JavaScript for turning left or right.
-  const dir = block.getFieldValue('DIR');
-  return dir + '(\'block_id_' + block.id + '\');\n';
+  return `${block.getFieldValue('DIR')}('block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['maze_if'] = {
   /**
-   * Block for 'if' conditional if there is a path.
+   * Block for conditional "if there is a path".
    * @this {Blockly.Block}
    */
   init: function() {
@@ -120,12 +119,10 @@ Blockly.Blocks['maze_if'] = {
 };
 
 Blockly.JavaScript['maze_if'] = function(block) {
-  // Generate JavaScript for 'if' conditional if there is a path.
-  const argument = block.getFieldValue('DIR') +
-      '(\'block_id_' + block.id + '\')';
+  // Generate JavaScript for conditional "if there is a path".
+  const argument = `${block.getFieldValue('DIR')}('block_id_${block.id}')`;
   const branch = Blockly.JavaScript.statementToCode(block, 'DO');
-  const code = 'if (' + argument + ') {\n' + branch + '}\n';
-  return code;
+  return `if (${argument}) {\n${branch}}\n`;
 };
 
 Blockly.Blocks['maze_ifElse'] = {
@@ -155,14 +152,11 @@ Blockly.Blocks['maze_ifElse'] = {
 };
 
 Blockly.JavaScript['maze_ifElse'] = function(block) {
-  // Generate JavaScript for 'if/else' conditional if there is a path.
-  const argument = block.getFieldValue('DIR') +
-      '(\'block_id_' + block.id + '\')';
+  // Generate JavaScript for conditional "if there is a path, else".
+  const argument = `${block.getFieldValue('DIR')}('block_id_${block.id}')`;
   const branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
   const branch1 = Blockly.JavaScript.statementToCode(block, 'ELSE');
-  const code = 'if (' + argument + ') {\n' + branch0 +
-             '} else {\n' + branch1 + '}\n';
-  return code;
+  return `if (${argument}) {\n${branch0}} else {\n${branch1}}\n`;
 };
 
 Blockly.Blocks['maze_forever'] = {
@@ -187,7 +181,7 @@ Blockly.JavaScript['maze_forever'] = function(block) {
   let branch = Blockly.JavaScript.statementToCode(block, 'DO');
   if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
     branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
-        '\'block_id_' + block.id + '\'') + branch;
+        `'block_id_${block.id}'`) + branch;
   }
-  return 'while (notDone()) {\n' + branch + '}\n';
+  return `while (notDone()) {\n${branch}}\n`;
 };

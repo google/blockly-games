@@ -137,8 +137,7 @@ Blockly.JavaScript['turtle_turn'] = function(block) {
   // Generate JavaScript for turning left or right.
   const value = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_COMMA) || '0';
-  return block.getFieldValue('DIR') +
-      '(' + value + ', \'block_id_' + block.id + '\');\n';
+  return `${block.getFieldValue('DIR')}(${value}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_turn_internal'] = {
@@ -151,12 +150,12 @@ Blockly.Blocks['turtle_turn_internal'] = {
         [[BlocklyGames.Msg['Turtle.turnRight'], 'turnRight'],
          [BlocklyGames.Msg['Turtle.turnLeft'], 'turnLeft']];
     const VALUES =
-        [['1\u00B0', '1'],
-         ['45\u00B0', '45'],
-         ['72\u00B0', '72'],
-         ['90\u00B0', '90'],
-         ['120\u00B0', '120'],
-         ['144\u00B0', '144']];
+        [['1°', '1'],
+         ['45°', '45'],
+         ['72°', '72'],
+         ['90°', '90'],
+         ['120°', '120'],
+         ['144°', '144']];
     // Append arrows to direction messages.
     DIRECTIONS[0][0] += Turtle.Blocks.RIGHT_TURN;
     DIRECTIONS[1][0] += Turtle.Blocks.LEFT_TURN;
@@ -173,8 +172,7 @@ Blockly.Blocks['turtle_turn_internal'] = {
 Blockly.JavaScript['turtle_turn_internal'] = function(block) {
   // Generate JavaScript for turning left or right.
   const value = Number(block.getFieldValue('VALUE'));
-  return block.getFieldValue('DIR') +
-      '(' + value + ', \'block_id_' + block.id + '\');\n';
+  return `${block.getFieldValue('DIR')}(${value}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_width'] = {
@@ -197,7 +195,7 @@ Blockly.JavaScript['turtle_width'] = function(block) {
   // Generate JavaScript for setting the width.
   const width = Blockly.JavaScript.valueToCode(block, 'WIDTH',
       Blockly.JavaScript.ORDER_COMMA) || '1';
-  return 'penWidth(' + width + ', \'block_id_' + block.id + '\');\n';
+  return `penWidth(${width}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_pen'] = {
@@ -214,21 +212,21 @@ Blockly.Blocks['turtle_pen'] = {
           "name": "PEN",
           "options": [
             [BlocklyGames.Msg['Turtle.penUp'], "penUp"],
-            [BlocklyGames.Msg['Turtle.penDown'], "penDown"]
+            [BlocklyGames.Msg['Turtle.penDown'], "penDown"],
           ]
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": Turtle.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Turtle.penTooltip']
+      "tooltip": BlocklyGames.Msg['Turtle.penTooltip'],
     });
   }
 };
 
 Blockly.JavaScript['turtle_pen'] = function(block) {
   // Generate JavaScript for pen up/down.
-  return block.getFieldValue('PEN') + '(\'block_id_' + block.id + '\');\n';
+  return `${block.getFieldValue('PEN')}('block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_colour'] = {
@@ -251,7 +249,7 @@ Blockly.JavaScript['turtle_colour'] = function(block) {
   // Generate JavaScript for setting the colour.
   const colour = Blockly.JavaScript.valueToCode(block, 'COLOUR',
       Blockly.JavaScript.ORDER_COMMA) || '\'#000000\'';
-  return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
+  return `penColour(${colour}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_colour_internal'] = {
@@ -273,7 +271,7 @@ Blockly.Blocks['turtle_colour_internal'] = {
 Blockly.JavaScript['turtle_colour_internal'] = function(block) {
   // Generate JavaScript for setting the colour.
   const colour = Blockly.JavaScript.quote_(block.getFieldValue('COLOUR'));
-  return 'penColour(' + colour + ', \'block_id_' + block.id + '\');\n';
+  return `penColour(${colour}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_visibility'] = {
@@ -290,22 +288,21 @@ Blockly.Blocks['turtle_visibility'] = {
           "name": "VISIBILITY",
           "options": [
             [BlocklyGames.Msg['Turtle.hideTurtle'], "hideTurtle"],
-            [BlocklyGames.Msg['Turtle.showTurtle'], "showTurtle"]
+            [BlocklyGames.Msg['Turtle.showTurtle'], "showTurtle"],
           ]
         }
       ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": Turtle.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Turtle.turtleVisibilityTooltip']
+      "tooltip": BlocklyGames.Msg['Turtle.turtleVisibilityTooltip'],
     });
   }
 };
 
 Blockly.JavaScript['turtle_visibility'] = function(block) {
   // Generate JavaScript for changing turtle visibility.
-  return block.getFieldValue('VISIBILITY') +
-      '(\'block_id_' + block.id + '\');\n';
+  return `${block.getFieldValue('VISIBILITY')}('block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_print'] = {
@@ -328,7 +325,7 @@ Blockly.JavaScript['turtle_print'] = function(block) {
   // Generate JavaScript for printing text.
   const argument0 = String(Blockly.JavaScript.valueToCode(block, 'TEXT',
       Blockly.JavaScript.ORDER_COMMA) || '\'\'');
-  return 'print(' + argument0 + ', \'block_id_' + block.id + '\');\n';
+  return `print(${argument0}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_font'] = {
@@ -367,8 +364,7 @@ Blockly.JavaScript['turtle_font'] = function(block) {
   const font = Blockly.JavaScript.quote_(block.getFieldValue('FONT'));
   const fontSize = Number(block.getFieldValue('FONTSIZE'));
   const fontStyle = Blockly.JavaScript.quote_(block.getFieldValue('FONTSTYLE'));
-  return 'font(' + font + ',' + fontSize + ',' + fontStyle +
-      ', \'block_id_' + block.id + '\');\n';
+  return `font(${font}, ${fontSize}, ${fontStyle}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['turtle_repeat_internal'] = {
@@ -387,7 +383,7 @@ Blockly.Blocks['turtle_repeat_internal'] = {
             ["3", "3"],
             ["4", "4"],
             ["5", "5"],
-            ["360", "360"]
+            ["360", "360"],
           ]
         }
       ],
@@ -395,7 +391,7 @@ Blockly.Blocks['turtle_repeat_internal'] = {
       "nextStatement": null,
       "colour": Blockly.Msg['LOOPS_HUE'],
       "tooltip": Blockly.Msg['CONTROLS_REPEAT_TOOLTIP'],
-      "helpUrl": Blockly.Msg['CONTROLS_REPEAT_HELPURL']
+      "helpUrl": Blockly.Msg['CONTROLS_REPEAT_HELPURL'],
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg['CONTROLS_REPEAT_INPUT_DO']);

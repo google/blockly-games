@@ -46,7 +46,7 @@ Blockly.Blocks['bird_noWorm'] = {
       "message0": BlocklyGames.Msg['Bird.noWorm'],
       "output": "Boolean",
       "colour": Bird.Blocks.VARIABLES_HUE,
-      "tooltip": BlocklyGames.Msg['Bird.noWormTooltip']
+      "tooltip": BlocklyGames.Msg['Bird.noWormTooltip'],
     });
   }
 };
@@ -89,19 +89,19 @@ Blockly.Blocks['bird_position'] = {
         {
           "type": "field_dropdown",
           "name": "XY",
-          "options": [["x", "X"], ["y", "Y"]]
+          "options": [["x", "X"], ["y", "Y"]],
         }
       ],
       "output": "Number",
       "colour": Bird.Blocks.VARIABLES_HUE,
-      "tooltip": BlocklyGames.Msg['Bird.positionTooltip']
+      "tooltip": BlocklyGames.Msg['Bird.positionTooltip'],
     });
   }
 };
 
 Blockly.JavaScript['bird_position'] = function(block) {
   // Generate JavaScript for getting bird's x or y position.
-  const code = 'get' + block.getFieldValue('XY').charAt(0) + '()';
+  const code = `get${block.getFieldValue('XY').charAt(0)}()`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 

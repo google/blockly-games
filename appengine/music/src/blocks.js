@@ -74,7 +74,7 @@ Blockly.Blocks['music_note'] = {
       [{"src": "music/note0.125.png",
         "width": 9, "height": 19, "alt": "eighth"}, "0.125"],
       [{"src": "music/note0.0625.png",
-        "width": 9, "height": 19, "alt": "sixteenth"}, "0.0625"]
+        "width": 9, "height": 19, "alt": "sixteenth"}, "0.0625"],
     ];
     // Trim off whole and sixteenth notes for levels 1-9.
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -87,28 +87,28 @@ Blockly.Blocks['music_note'] = {
         {
           "type": "field_dropdown",
           "name": "DURATION",
-          "options": options
+          "options": options,
         },
         {
           "type": "input_value",
           "name": "PITCH",
-          "check": "Number"
+          "check": "Number",
         }
       ],
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.playNoteTooltip']
+      "tooltip": BlocklyGames.Msg['Music.playNoteTooltip'],
     });
   }
 };
 
 Blockly.JavaScript['music_note'] = function(block) {
+  const duration = Number(block.getFieldValue('DURATION'));
   const pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
       Blockly.JavaScript.ORDER_COMMA) || '7';
-  return 'play(' + Number(block.getFieldValue('DURATION')) + ', ' + pitch +
-      ', \'block_id_' + block.id + '\');\n';
+  return `play(${duration}, ${pitch}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['music_rest_whole'] = {
@@ -125,20 +125,20 @@ Blockly.Blocks['music_rest_whole'] = {
           "src": "music/rest1.png",
           "width": 10,
           "height": 20,
-          "alt": "-"
+          "alt": "-",
         }
       ],
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.restWholeTooltip']
+      "tooltip": BlocklyGames.Msg['Music.restWholeTooltip'],
    });
   }
 };
 
 Blockly.JavaScript['music_rest_whole'] = function(block) {
-  return 'rest(1, \'block_id_' + block.id + '\');\n';
+  return `rest(1, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['music_rest'] = {
@@ -163,7 +163,7 @@ Blockly.Blocks['music_rest'] = {
             [{"src": "music/rest0.125.png",
               "width": 10, "height": 20, "alt": "eighth"}, "0.125"],
             [{"src": "music/rest0.0625.png",
-              "width": 10, "height": 20, "alt": "sixteenth"}, "0.0625"]
+              "width": 10, "height": 20, "alt": "sixteenth"}, "0.0625"],
           ]
         }
       ],
@@ -171,14 +171,14 @@ Blockly.Blocks['music_rest'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.restTooltip']
+      "tooltip": BlocklyGames.Msg['Music.restTooltip'],
    });
   }
 };
 
 Blockly.JavaScript['music_rest'] = function(block) {
-  return 'rest(' + Number(block.getFieldValue('DURATION')) +
-      ', \'block_id_' + block.id + '\');\n';
+  const duration = Number(block.getFieldValue('DURATION'));
+  return `rest(${duration}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.Blocks['music_instrument'] = {
@@ -201,7 +201,7 @@ Blockly.Blocks['music_instrument'] = {
             [BlocklyGames.Msg['Music.guitar'], "guitar"],
             [BlocklyGames.Msg['Music.flute'], "flute"],
             [BlocklyGames.Msg['Music.drum'], "drum"],
-            [BlocklyGames.Msg['Music.choir'], "choir"]
+            [BlocklyGames.Msg['Music.choir'], "choir"],
           ]
         }
       ],
@@ -209,14 +209,14 @@ Blockly.Blocks['music_instrument'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.setInstrumentTooltip']
+      "tooltip": BlocklyGames.Msg['Music.setInstrumentTooltip'],
     });
   }
 };
 
 Blockly.JavaScript['music_instrument'] = function(block) {
-  const instrument = Blockly.JavaScript.quote_(block.getFieldValue('INSTRUMENT'));
-  return 'setInstrument(' + instrument + ');\n';
+  const instrument = block.getFieldValue('INSTRUMENT');
+  return `setInstrument(${Blockly.JavaScript.quote_(instrument)});\n`;
 };
 
 Blockly.Blocks['music_start'] = {
@@ -233,18 +233,18 @@ Blockly.Blocks['music_start'] = {
           "src": "music/play.png",
           "width": 17,
           "height": 17,
-          "alt": "▶"
+          "alt": "▶",
         }
       ],
       "message1": "%1",
       "args1": [
         {
           "type": "input_statement",
-          "name": "STACK"
+          "name": "STACK",
         }
       ],
       "colour": 0,
-      "tooltip": BlocklyGames.Msg['Music.startTooltip']
+      "tooltip": BlocklyGames.Msg['Music.startTooltip'],
     });
   }
 };
@@ -252,8 +252,7 @@ Blockly.Blocks['music_start'] = {
 Blockly.JavaScript['music_start'] = function(block) {
   Music.startCount++;
   const statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
-  const code = 'function start' + Music.startCount + '() {\n' +
-      statements_stack + '}\n';
+  const code = `function start${Music.startCount}() {\n${statements_stack}}\n`;
   // Add % so as not to collide with helper functions in definitions list.
   Blockly.JavaScript.definitions_['%start' + Music.startCount] = code;
   return null;
