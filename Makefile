@@ -103,7 +103,6 @@ offline: clean-offline
 	rm -f offline/blockly-games/common/stripes.svg
 	rm -f offline/blockly-games/third-party/base.js
 	rm -f offline/blockly-games/third-party/soundfonts/README.txt
-	rm -f offline/blockly-games/third-party/soundfonts/*/B4.mp3
 
 	mv offline/blockly-games/third-party/ace/{ace.js,mode-javascript.js,theme-chrome.js,worker-javascript.js} offline/
 	rm -rf offline/blockly-games/third-party/ace/*
