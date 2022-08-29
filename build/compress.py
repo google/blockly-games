@@ -74,7 +74,7 @@ def filterMessages(gameName):
   if m:
     blocklyMsg = m.group(1)
     blocklyMsg = blocklyMsg.replace('.', '\\.').replace('$', '\\$')
-    msgs1 = re.findall('\W' + blocklyMsg + '.([A-Z0-9_]+)', js)
+    msgs1 = re.findall('\W' + blocklyMsg + '\.([A-Z0-9_]+)', js)
     msgs2 = re.findall('\WBKY_([A-Z0-9_]+)', js)
     blocklyMessageNames = list(set(msgs1 + msgs2))
     print("Found %d Blockly messages." % len(blocklyMessageNames))
