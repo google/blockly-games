@@ -234,14 +234,15 @@ def generate_compressed(gameName):
 
   f = open('appengine/%s/generated/compressed.js' % gameName, 'w')
   f.write(WARNING)
-  f.write(script)
   # Load the chosen language pack.
   f.write("""
 (function(){var s=document.createElement('script');
 s.src='%s/generated/msg/'+window['BlocklyGamesLang']+'.js';
 s.type='text/javascript';
 document.head.appendChild(s);})();
+
 """ % gameName)
+  f.write(script)
   f.close()
 
 def trim_licence(code):

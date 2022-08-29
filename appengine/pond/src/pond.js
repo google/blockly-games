@@ -171,7 +171,7 @@ Pond.resetButtonClick = function(e) {
 Pond.execute = function() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Pond.execute, 250);
+    setTimeout(Pond.execute, 99);
     return;
   }
   Pond.reset();

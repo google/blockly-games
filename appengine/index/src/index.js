@@ -28,6 +28,12 @@ Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
  * Initialize Blockly and the maze.  Called on page load.
  */
 Index.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Index.init, 99);
+    return;
+  }
+
   // Render the HTML.
   document.body.innerHTML = Index.html.start(
     {lang: BlocklyGames.LANG,

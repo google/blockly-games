@@ -66,6 +66,12 @@ Pond.Duck.tabIndex = {
  * Initialize Ace and the pond.  Called on page load.
  */
 Pond.Duck.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Pond.Duck.init, 99);
+    return;
+  }
+
   Pond.Duck.duckData = window['DUCKS'];
   // Render the HTML.
   document.body.innerHTML = Pond.Duck.html.start(

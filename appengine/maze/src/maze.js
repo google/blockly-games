@@ -416,6 +416,12 @@ Maze.drawMap = function() {
  * Initialize Blockly and the maze.  Called on page load.
  */
 Maze.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Maze.init, 99);
+    return;
+  }
+
   // Render the HTML.
   document.body.innerHTML = Maze.html.start(
       {lang: BlocklyGames.LANG,
@@ -989,7 +995,7 @@ Maze.initInterpreter = function(interpreter, globalObject) {
 Maze.execute = function() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Maze.execute, 250);
+    setTimeout(Maze.execute, 99);
     return;
   }
 

@@ -63,6 +63,12 @@ Movie.frameNumber = 0;
  * Initialize Blockly and the movie.  Called on page load.
  */
 Movie.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Movie.init, 99);
+    return;
+  }
+
   // Render the HTML.
   document.body.innerHTML = Movie.html.start(
       {lang: BlocklyGames.LANG,
@@ -378,7 +384,7 @@ Movie.codeChange = function(opt_e) {
 Movie.display = function(opt_frameNumber) {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Movie.display, 250, opt_frameNumber);
+    setTimeout(Movie.display, 99, opt_frameNumber);
     return;
   }
   if (typeof opt_frameNumber === 'number') {

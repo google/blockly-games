@@ -349,6 +349,12 @@ Bird.drawMap = function() {
  * Initialize Blockly and the bird.  Called on page load.
  */
 Bird.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Bird.init, 99);
+    return;
+  }
+
   // Render the HTML.
   document.body.innerHTML = Bird.html.start(
       {lang: BlocklyGames.LANG,
@@ -662,7 +668,7 @@ Bird.initInterpreter = function(interpreter, globalObject) {
 Bird.execute = function() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Bird.execute, 250);
+    setTimeout(Bird.execute, 99);
     return;
   }
 

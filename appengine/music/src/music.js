@@ -101,6 +101,12 @@ Music.REST = -1;
  * Initialize Blockly and the music.  Called on page load.
  */
 Music.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Music.init, 99);
+    return;
+  }
+
   // Render the HTML.
   document.body.innerHTML = Music.html.start(
       {lang: BlocklyGames.LANG,
@@ -615,12 +621,12 @@ Music.initInterpreter = function(interpreter, globalObject) {
 Music.execute = function() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Music.execute, 250);
+    setTimeout(Music.execute, 99);
     return;
   }
   if (!('createjs' in window) || !createjs.Sound.isReady()) {
     // SoundJS lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Music.execute, 250);
+    setTimeout(Music.execute, 99);
     return;
   }
   Music.reset();

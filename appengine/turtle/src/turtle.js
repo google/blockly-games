@@ -70,6 +70,12 @@ Turtle.canSubmit = false;
  * Initialize Blockly and the turtle.  Called on page load.
  */
 Turtle.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Turtle.init, 99);
+    return;
+  }
+
   // Render the HTML.
   document.body.innerHTML = Turtle.html.start(
       {lang: BlocklyGames.LANG,
@@ -643,7 +649,7 @@ Turtle.initInterpreter = function(interpreter, globalObject) {
 Turtle.execute = function() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Turtle.execute, 250);
+    setTimeout(Turtle.execute, 99);
     return;
   }
 

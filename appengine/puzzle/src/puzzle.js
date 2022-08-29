@@ -84,6 +84,12 @@ Puzzle.initData = function() {
  * Initialize Blockly and the puzzle.  Called on page load.
  */
 Puzzle.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Puzzle.init, 99);
+    return;
+  }
+
   Puzzle.initData();
   // Render the HTML.
   document.body.innerHTML = Puzzle.html.start(

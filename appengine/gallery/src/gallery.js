@@ -24,6 +24,12 @@ BlocklyGames.NAME = 'gallery';
  * Initialize gallery.  Called on page load.
  */
 Gallery.init = function() {
+  if (!Object.keys(BlocklyGames.Msg).length) {
+    // Messages haven't arrived yet.  Try again later.
+    setTimeout(Gallery.init, 99);
+    return;
+  }
+
   Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
   const isAdmin = (Gallery.app === 'admin');
   if (!isAdmin && !['turtle', 'movie', 'music'].includes(Gallery.app)) {
