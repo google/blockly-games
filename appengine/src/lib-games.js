@@ -155,8 +155,11 @@ BlocklyGames.errorReporter = function(event) {
     if (BlocklyGames.errorReporter.lastHit_ + 10 * 1000 > now) return;
     BlocklyGames.errorReporter.lastHit_ = now;
     const req = new XMLHttpRequest();
-    const params = "error=" + encodeURIComponent(event.message + ' ' +
-        event.filename + ' ' + event.lineno + ':' + event.colno) +
+    // Try to use the experimental 'event.error.stack',
+    // otherwise, use standard properties.
+    const report = (event.error && event.error.stack) ||
+        `${event.message} ${event.filename} ${event.lineno}:${event.colno}`;
+    const params = "error=" + encodeURIComponent(report) +
         '&amp;url=' + encodeURIComponent(window.location);
     req.open("POST", "/errorReporter");
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
