@@ -204,4 +204,4 @@ Maze.html.toolbox = function(level) {
   </td></tr></table>
 </div>
 `;
-}
+};
