@@ -32,7 +32,7 @@
 	"Games.nextLevel": "Êtes-vous prêt(e) pour le niveau %1 ?",
 	"Games.finalLevel": "Êtes-vous prêt(e) pour le prochain défi ?",
 	"Games.submitTitle": "Titre :",
-	"Games.linkTooltip": "Sauvegarder et lier aux blocs.",
+	"Games.linkTooltip": "Enregistrer et lier aux blocs.",
 	"Games.runTooltip": "Lancer le programme que vous avez écrit.",
 	"Games.runProgram": "Exécuter le programme",
 	"Games.resetTooltip": "Arrêter le programme et réinitialiser le niveau.",
