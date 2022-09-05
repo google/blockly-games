@@ -76,7 +76,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
 BlocklyGames.html.titleSpan = function(ij, appName) {
   return `
 <span id="title">
-  <a href="${ij.html ? `index.html` : `./`}?lang=${ij.lang}">${BlocklyGames.esc(BlocklyGames.Msg['Games.name'])}</a> : ${BlocklyGames.esc(appName)}
+  <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}">${BlocklyGames.esc(BlocklyGames.Msg['Games.name'])}</a> : ${BlocklyGames.esc(appName)}
 </span>
 `;
 };
