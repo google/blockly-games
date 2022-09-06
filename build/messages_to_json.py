@@ -81,30 +81,28 @@ def main():
     qqq[key] = datum['desc']
     lang[key] = datum['msg']
 
-
   # Create qqq.json.
-  qqq_json = json.dumps(qqq, indent=4, ensure_ascii=False)
-  qqq_json = re.sub('    ', '\t', qqq_json)
-  qqq_file_name = os.path.join(os.curdir, args.output_dir, 'qqq.json')
-  qqq_file = codecs.open(qqq_file_name, 'w', 'utf-8')
-  print('Created file: ' + qqq_file_name)
-  qqq_file.write(qqq_json + '\n')
-  qqq_file.close()
+  saveJson(args.output_dir, 'qqq', qqq)
 
   # Create <lang_file>.json.
-  lang_json = json.dumps(lang, indent=4, ensure_ascii=False)
-  lang_json = re.sub('    ', '\t', lang_json)
-  lang_file_name = os.path.join(os.curdir, args.output_dir, args.lang + '.json')
-  lang_file = codecs.open(lang_file_name, 'w', 'utf-8')
-  print('Created file: ' + lang_file_name)
-  lang_file.write(lang_json + '\n')
-  lang_file.close()
+  saveJson(args.output_dir, args.lang, lang)
+
 
 def loadJson(filename):
   json_file = codecs.open(filename, 'r', 'utf-8')
   data = json.load(json_file)
   json_file.close()
   return data
+
+
+def saveJson(output_dir, lang_name, json_data):
+  data = json.dumps(json_data, indent=4, ensure_ascii=False)
+  data = re.sub('    ', '\t', data)
+  filename = os.path.join(os.curdir, output_dir, lang_name + '.json')
+  file = codecs.open(filename, 'w', 'utf-8')
+  print('Created file: ' + filename)
+  file.write(data + '\n')
+  file.close()
 
 
 if __name__ == '__main__':
