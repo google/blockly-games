@@ -46,7 +46,7 @@ games: index puzzle maze bird turtle movie music pond-tutor pond-duck gallery
 
 common:
 	@echo "Converting messages.js to JSON for Translatewiki."
-	python build/js_to_json.py
+	python build/messages_to_json.py
 	@echo "Converting JSON from Translatewiki to message files."
 	python build/json_to_js.py
 	@echo

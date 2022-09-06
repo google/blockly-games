@@ -1,0 +1,1050 @@
+{
+  "Games.name": {
+    "desc": "The project name.",
+    "msg": "Blockly Games"
+  },
+  "Games.puzzle": {
+    "desc": "title - Specifies that this is Blockly's '''Puzzle''' game.  Use the word for a jigsaw puzzle.\n{{Identical|Puzzle}}",
+    "msg": "Puzzle"
+  },
+  "Games.maze": {
+    "desc": "title - Specifies that this is Blockly's '''Maze''' game.\n{{Identical|Maze}}",
+    "msg": "Maze"
+  },
+  "Games.bird": {
+    "desc": "title - Specifies that this is Blockly's '''Bird''' game.\n{{Identical|Bird}}",
+    "msg": "Bird"
+  },
+  "Games.turtle": {
+    "desc": "title - Specifies that this is Blockly's '''Turtle''' game.\n{{Identical|Turtle}}",
+    "msg": "Turtle"
+  },
+  "Games.movie": {
+    "desc": "title - Specifies that this is Blockly's '''Movie''' game.\n{{Identical|Movie}}",
+    "msg": "Movie"
+  },
+  "Games.music": {
+    "desc": "title - Specifies that this is Blockly's '''Music''' game.\n{{Identical|Music}}",
+    "msg": "Music"
+  },
+  "Games.pondTutor": {
+    "desc": "title - Specifies that this is Blockly's '''Pond Tutor''' game.  It is a series of lessons or practice levels to allow users to play the more advanced '''Pond''' game (in your language: '''{{:Blockly:Games.pond/{{RelevantLanguage}}}}''').",
+    "msg": "Pond Tutor"
+  },
+  "Games.pond": {
+    "desc": "title - Specifies that this is Blockly's '''Pond''' game.",
+    "msg": "Pond"
+  },
+  "Games.genetics": {
+    "desc": "title - Specifies that this is Blockly's '''Genetics''' game.\n{{Identical|Genetics}}",
+    "msg": "Genetics"
+  },
+  "Games.linesOfCode1": {
+    "desc": "alert - Displayed when a level is complete.",
+    "msg": "You solved this level with 1 line of JavaScript:"
+  },
+  "Games.linesOfCode2": {
+    "desc": "alert - Displayed when a level is complete.  %1 is an integer greater than 1.",
+    "msg": "You solved this level with %1 lines of JavaScript:"
+  },
+  "Games.nextLevel": {
+    "desc": "alert - This is displayed when the user solves the level, inviting them to procede to the next level of difficulty.  %1 is an integer greater than 1.",
+    "msg": "Are you ready for level %1?"
+  },
+  "Games.finalLevel": {
+    "desc": "alert - This is displayed when the user solves the most difficult level and is going to go to the next game.",
+    "msg": "Are you ready for the next challenge?"
+  },
+ "Games.submitTitle": {
+    "desc": "Label in front of a field where the user is requested to type a title for their work.\n{{Identical|Title}}",
+     "msg": "Title:"
+  },
+  "Games.linkTooltip": {
+    "desc": "tooltip - Pressing this button will cause the current program to be saved and for a URL to be shown to later retrieve it.",
+    "msg": "Save and link to blocks."
+  },
+ "Games.runTooltip": {
+    "desc": "tooltip - Pressing this button runs the computer program the user has written.",
+     "msg": "Run the program you wrote."
+  },
+  "Games.runProgram": {
+    "desc": "button label - Pressing this button runs the computer program the user has written.",
+    "msg": "Run Program"
+  },
+  "Games.resetTooltip": {
+    "desc": "tooltip - Pressing this button restores the player to the start position and enables the user's program to be run again.",
+    "msg": "Stop the program and reset the level."
+  },
+  "Games.resetProgram": {
+    "desc": "button label - Pressing this button causes the output of the program to be erased but does not delete the user's program).\n{{Identical|Reset}}",
+    "msg": "Reset"
+  },
+  "Games.help": {
+    "desc": "button label - Pressing this button shows help information.\n{{Identical|Help}}",
+    "msg": "Help"
+  },
+  "Games.catLogic": {
+    "desc": "category - Blocks related to [https://github.com/google/blockly/wiki/Logic logic].\n{{Identical|Logic}}",
+    "msg": "Logic"
+  },
+  "Games.catLoops": {
+    "desc": "category - Blocks related to [https://en.wikipedia.org/wiki/Control_flow#Loops loops].\n{{Identical|Loops}}",
+    "msg": "Loops"
+  },
+  "Games.catMath": {
+    "desc": "category - Blocks related to mathematics.\n{{Identical|Math}}",
+    "msg": "Math"
+  },
+  "Games.catText": {
+    "desc": "category - Blocks related to [https://github.com/google/blockly/wiki/Text text processing].\n{{Identical|Text}}",
+    "msg": "Text"
+  },
+  "Games.catLists": {
+    "desc": "category - Blocks related to [https://github.com/google/blockly/wiki/Lists lists].\n{{Identical|List}}",
+    "msg": "Lists"
+  },
+  "Games.catColour": {
+    "desc": "category - Blocks related to [https://github.com/google/blockly/wiki/Colour colour].\n{{Identical|Color}}",
+    "msg": "Colour"
+  },
+  "Games.catVariables": {
+    "desc": "category - Blocks related to [https://github.com/google/blockly/wiki/Variables variables].\n{{Identical|Variables}}",
+    "msg": "Variables"
+  },
+  "Games.catProcedures": {
+    "desc": "category - Blocks related to [https://en.wikipedia.org/wiki/Subroutine defining or using procedures/functions].\n{{Identical|Functions}}",
+    "msg": "Functions"
+  },
+  "Games.httpRequestError": {
+    "desc": "alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem.",
+    "msg": "There was a problem with the request."
+  },
+  "Games.linkAlert": {
+    "desc": "alert - After the user has pressed a button to save his/her program, this provides the URL (%1) to retrieve the program.  The characters '\n\n' indicate that a blank line will be displayed before the URL (in English).  Leave those in unless you move %1 to the beginning or middle of the text, in which case you should use your judgment about where blank lines would be most useful.\n\nParameters:\n* %1 - URL of saved program.",
+    "msg": "Share your blocks with this link:\n\n%1"
+  },
+  "Games.hashError": {
+    "desc": "alert - A request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL.",
+    "msg": "Sorry, '%1' doesn't correspond with any saved program."
+  },
+  "Games.xmlError": {
+    "desc": "alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be followed by technical information useful to engineers trying to understand the problem.",
+    "msg": "Could not load your saved file. Perhaps it was created with a different version of Blockly?"
+  },
+  "Games.submitted": {
+    "desc": "alert - After the user has submitted his/her program to the gallery, it must wait for approval.  Please make this message funny!",
+    "msg": "Thank you for this program!  If our staff of trained monkeys like it, they will publish it to the gallery within a couple of days."
+  },
+  "Games.listVariable": {
+    "desc": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Lists list].  This should be a single word, preferably short.\n{{Identical|List}}",
+    "msg": "list"
+  },
+  "Games.textVariable": {
+    "desc": "variable name - Default [https://github.com/google/blockly/wiki/Variables variable] representing a [https://github.com/google/blockly/wiki/Text piece of text].  This should be a single word, preferably short.\n{{Identical|Text}}",
+    "msg": "text"
+  },
+  "Games.breakLink": {
+    "desc": "Warning dialog. Options are 'OK' and 'Cancel'.",
+    "msg": "Once you start editing JavaScript, you can't go back to editing blocks. Is this OK?"
+  },
+  "Games.blocks": {
+    "desc": "Label on a tab that contains blocks editor.\n{{Identical|Block}}",
+    "msg": "Blocks"
+  },
+  "Games.congratulations": {
+    "desc": "alert - This is displayed when the user solves the level.\n{{Identical|Congratulation}}",
+    "msg": "Congratulations!"
+  },
+  "Games.helpAbort": {
+    "desc": "callout - This dialog gives the user the option to skip this level.",
+    "msg": "This level is extremely difficult. Would you like to skip it and go onto the next game? You can always come back later."
+  },
+  "Index.clear": {
+    "desc": "Confirmation prompt for deleting all the user's data.",
+    "msg": "Delete all your solutions?"
+  },
+  "Index.subTitle": {
+    "desc": "Brief description of Blockly Games.",
+    "msg": "Games for tomorrow's programmers."
+  },
+  "Index.moreInfo": {
+    "desc": "Link to a description of Blockly Games, intended for parents and teachers.",
+    "msg": "Info for educators..."
+  },
+  "Index.startOver": {
+    "desc": "Label next to button for deleting all the user's data.",
+    "msg": "Want to start over?"
+  },
+  "Index.clearData": {
+    "desc": "Text on button for deleting all the user's data.",
+    "msg": "Clear data"
+  },
+  "Puzzle.animal1": {
+    "desc": "Duck: The bird.\n{{Identical|Duck}}",
+    "msg": "Duck"
+  },
+  "Puzzle.animal1Trait1": {
+    "desc": "Feathers: A trait that ducks have.\n{{Identical|Feather}}",
+    "msg": "Feathers"
+  },
+  "Puzzle.animal1Trait2": {
+    "desc": "Beak: A trait that ducks have.\n{{Identical|Beak}}",
+    "msg": "Beak"
+  },
+  "Puzzle.animal1HelpUrl": {
+    "desc": "The URL of a page with basic information about '''ducks''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
+    "msg": "https://en.wikipedia.org/wiki/Duck"
+  },
+  "Puzzle.animal2": {
+    "desc": "Cat: The animal.",
+    "msg": "Cat"
+  },
+  "Puzzle.animal2Trait1": {
+    "desc": "Whiskers: A trait that cats have.\n{{Identical|Whisker}}",
+    "msg": "Whiskers"
+  },
+  "Puzzle.animal2Trait2": {
+    "desc": "Fur: A trait that cats have.\n{{Identical|Fur}}",
+    "msg": "Fur"
+  },
+  "Puzzle.animal2HelpUrl": {
+    "desc": "The URL of a page with basic information about '''cats''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
+    "msg": "https://en.wikipedia.org/wiki/Cat"
+  },
+  "Puzzle.animal3": {
+    "desc": "Bee: The insect.",
+    "msg": "Bee"
+  },
+  "Puzzle.animal3Trait1": {
+    "desc": "Honey: A trait that bees have.\n{{Identical|Honey}}",
+    "msg": "Honey"
+  },
+  "Puzzle.animal3Trait2": {
+    "desc": "Stinger: A trait that bees have.\n{{Identical|Stinger}}",
+    "msg": "Stinger"
+  },
+  "Puzzle.animal3HelpUrl": {
+    "desc": "The URL of a page with basic information about '''bees''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
+    "msg": "https://en.wikipedia.org/wiki/Bee"
+  },
+  "Puzzle.animal4": {
+    "desc": "Snail: The animal.\n{{Identical|Snail}}",
+    "msg": "Snail"
+  },
+  "Puzzle.animal4Trait1": {
+    "desc": "Shell: A trait that snails have.\n{{Identical|Shell}}",
+    "msg": "Shell"
+  },
+  "Puzzle.animal4Trait2": {
+    "desc": "Slime: A trait that snails have.\n{{Identical|Slime}}",
+    "msg": "Slime"
+  },
+  "Puzzle.animal4HelpUrl": {
+    "desc": "The URL of a page with basic information about '''snails''', on the most appropriate linguistic edition of Wikipedia for the target language.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
+    "msg": "https://en.wikipedia.org/wiki/Snail"
+  },
+  "Puzzle.picture": {
+    "desc": "Prompt for a picture of an animal.\n{{Identical|Picture}}",
+    "msg": "picture:"
+  },
+  "Puzzle.legs": {
+    "desc": "Prompt for the number of legs that an animal has.\n{{Identical|Leg}}",
+    "msg": "legs:"
+  },
+  "Puzzle.legsChoose": {
+    "desc": "Initial text displayed in a dropdown menu from which the user should choose an option.\n{{Identical|Choose}}",
+    "msg": "choose..."
+  },
+  "Puzzle.traits": {
+    "desc": "Prompt for a couple of traits of an animal (e.g. Duck: feathers, beak).\n{{Identical|Trait}}",
+    "msg": "traits:"
+  },
+  "Puzzle.error0": {
+    "desc": "A congratulatory message displayed if the user placed all of the blocks correctly.\n\nParameters:\n* %1 - number of blocks correctly placed.  It is always an integer greater than 1.\n\nThe use of a new line character is optional.",
+    "msg": "Perfect!\nAll %1 blocks are correct."
+  },
+  "Puzzle.error1": {
+    "desc": "An encouraging error message displayed if the user placed all blocks except 1 correctly.\n\nIf the number of incorrect blocks is 2 or more, Puzzle.error2 is used instead.",
+    "msg": "Almost! One block is incorrect."
+  },
+  "Puzzle.error2": {
+    "desc": "An error message displayed if the user misplaced multiple blocks.\n\nParameters:\n* %1 - number of blocks incorrectly placed, which is always greater than 1 (or the message Puzzle.error1 would be used).",
+    "msg": "%1 blocks are incorrect."
+  },
+  "Puzzle.tryAgain": {
+    "desc": "A message indicating that a visually distinguished block is incorrect and that the user should try to fix it.\n\nThe use of a new line character is optional.",
+    "msg": "The highlighted block is not correct.\nKeep trying."
+  },
+  "Puzzle.checkAnswers": {
+    "desc": "A label on a button the user can press to check his/her answers.",
+    "msg": "Check Answers"
+  },
+  "Puzzle.helpText": {
+    "desc": "Instructions for the puzzle.  For context, see [https://blockly.games/puzzle Blockly Puzzle].",
+    "msg": "For each animal (green), attach its picture, choose its number of legs, and make a stack of its traits."
+  },
+  "Maze.moveForward": {
+    "desc": "block text - Imperative or infinitive of a verb for a person moving (walking) in the direction he/she is facing.",
+    "msg": "move forward"
+  },
+  "Maze.turnLeft": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Imperative or infinitive of a verb for a person turning his head and body one quarter rotation counter-clockwise.  Prefer a translation that has text in common with the translation of 'turn right'.  See [[Translating:Blockly#Drop-Down_Menus]].",
+    "msg": "turn left"
+  },
+  "Maze.turnRight": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Imperative or infinitive of a verb for a person turning his head and body one quarter rotation clockwise.  Prefer a translation that has text in common with the translation of 'turn left'.  See [[Translating:Blockly#Drop-Down_Menus]].",
+    "msg": "turn right"
+  },
+  "Maze.doCode": {
+    "desc": "block text - Imperative or infinitive of a verb preceding one or more commands to a person.  This is part of [https://github.com/google/blockly/wiki/Loops#repeat repeat] and [https://github.com/google/blockly/wiki/IfElse#If_blocks if] blocks.\n{{Identical|Do}}",
+    "msg": "do"
+  },
+  "Maze.elseCode": {
+    "desc": "block text - Conjunction meaning 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'.  See [https://github.com/google/blockly/wiki/IfElse#If-Else_blocks].\n{{Identical|Else}}",
+    "msg": "else"
+  },
+  "Maze.helpIfElse": {
+    "desc": "callout - This is shown when the 'if-else' block is introduced.  For 'if-else' concatenate the words for 'if' and 'else/otherwise'.",
+    "msg": "If-else blocks will do one thing or the other."
+  },
+  "Maze.pathAhead": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'.  Prefer translation that has text in common with 'if path to the left' and 'if path to the right'.",
+    "msg": "if path ahead"
+  },
+  "Maze.pathLeft": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path to the left', as in: 'if path to the left, turn left'.",
+    "msg": "if path to the left"
+  },
+  "Maze.pathRight": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Condensed form of 'if there is a path to the right', as in: 'if path to the right, turn right'.",
+    "msg": "if path to the right"
+  },
+  "Maze.repeatUntil": {
+    "desc": "block text - Imperative or infinitive of a verb to repeat the following commands.  The phrase is followed by the symbol denoting the end of the maze.",
+    "msg": "repeat until"
+  },
+  "Maze.moveForwardTooltip": {
+    "desc": "tooltip - Moves the icon on the screen representing the player forward one square on the maze board.",
+    "msg": "Moves the player forward one space."
+  },
+  "Maze.turnTooltip": {
+    "desc": "tooltip - Turns the icon on the screen representing the player 90 degrees counter-clockwise (left) or clockwise (right).",
+    "msg": "Turns the player left or right by 90 degrees."
+  },
+  "Maze.ifTooltip": {
+    "desc": "tooltip - 'path' refers to a path through a maze.",
+    "msg": "If there is a path in the specified direction, then do some actions."
+  },
+  "Maze.ifelseTooltip": {
+    "desc": "tooltip - 'path' refers to a path through a maze.",
+    "msg": "If there is a path in the specified direction, then do the first block of actions. Otherwise, do the second block of actions."
+  },
+  "Maze.whileTooltip": {
+    "desc": "tooltip - Repeat the enclosed commands until the maze has been successfully completed (the end point reached).",
+    "msg": "Repeat the enclosed actions until finish point is reached."
+  },
+  "Maze.capacity0": {
+    "desc": "warning - No more blocks may be added until some are removed.  Please include '%0' in the translated string.  It will be replaced with '0' and made bold.",
+    "msg": "You have %0 blocks left."
+  },
+  "Maze.capacity1": {
+    "desc": "warning - Only one more block may be added. Please include '%1' in the translated string. It will be replaced with '1' and made bold.\n\nSee also:\n* {{msg-blockly|Maze.capacity2}}",
+    "msg": "You have %1 block left."
+  },
+  "Maze.capacity2": {
+    "desc": "warning - Only %2 more blocks may be used, where %2 is an integer greater than 1.\n\nSee also:\n* {{msg-blockly|Maze.capacity1}}",
+    "msg": "You have %2 blocks left."
+  },
+  "Maze.runTooltip": {
+    "desc": "tooltip - Pressing this button runs the computer program the user has written to move the player through the maze.",
+    "msg": "Makes the player do what the blocks say."
+  },
+  "Maze.resetTooltip": {
+    "desc": "tooltip - Pressing this button restores the player to the start position and enables the user's program to be run again.",
+    "msg": "Put the player back at the start of the maze."
+  },
+  "Maze.helpStack": {
+    "desc": "callout - The word words for 'stack' and 'blocks' should be the same as for stacking children's blocks. Use the imperative verb form appropriate for speaking to a child, gender unspecified.  If no gender-neutral singular/familiar form exists but a gender-neutral plural/formal form exists, use that instead.  Be sure to use the same translation of 'move forward' as above.",
+    "msg": "Stack a couple of 'move forward' blocks together to help me reach the goal."
+  },
+  "Maze.helpOneTopBlock": {
+    "desc": "callout - This is displayed if a user attempts to run a program composed of multiple stacks of blocks, letting them know they need to create a single stack.",
+    "msg": "On this level, you need to stack together all of the blocks in the white workspace."
+  },
+  "Maze.helpRun": {
+    "desc": "callout - This is shown after the user has created a program on the first level.",
+    "msg": "Run your program to see what happens."
+  },
+  "Maze.helpReset": {
+    "desc": "callout - This is shown after the user has run a program that does not solve the maze.",
+    "msg": "Your program didn't solve the maze. Press 'Reset' and try again."
+  },
+  "Maze.helpRepeat": {
+    "desc": "callout - This is shown when the 'repeat' block is introduced.  The word 'path' refers to a path through a maze, and 'block' refers to a child's building block.",
+    "msg": "Reach the end of this path using only two blocks. Use 'repeat' to run a block more than once."
+  },
+  "Maze.helpCapacity": {
+    "desc": "callout - This is shown after the user has used all the blocks permitted on this level.",
+    "msg": "You have used up all the blocks for this level. To create a new block, you first need to delete an existing block."
+  },
+  "Maze.helpRepeatMany": {
+    "desc": "callout - This is a hint that the user should place a second block inside of a a 'repeat' block.",
+    "msg": "You can fit more than one block inside a 'repeat' block."
+  },
+  "Maze.helpSkins": {
+    "desc": "callout - This is a hint that the user can change the appearance of the player that moves within the maze.",
+    "msg": "Choose your favourite player from this menu."
+  },
+  "Maze.helpIf": {
+    "desc": "callout - This is shown when the 'if' block is introduced.  An example of an 'if' block is: 'if there is a path to the left, turn left'.",
+    "msg": "An 'if' block will do something only if the condition is true. Try turning left if there is a path to the left."
+  },
+  "Maze.helpMenu": {
+    "desc": "callout - %1 will be replaced with an image of the dropdown menu that the user needs to click.",
+    "msg": "Click on %1 in the 'if' block to change its condition."
+  },
+  "Maze.helpWallFollow": {
+    "desc": "callout - This advises the user to solve a maze by keeping his/her left hand in contact with the wall while proceeding through it.  The final sentence is a warning that only advanced programmers should attempt this problem, as beginners tend to get frustrated.",
+    "msg": "Can you solve this complicated maze? Try following the left-hand wall. Advanced programmers only!"
+  },
+  "Bird.noWorm": {
+    "desc": "block text - Bird is not in possession of a worm.  This phrase is prefixed with 'if'.",
+    "msg": "does not have worm"
+  },
+  "Bird.heading": {
+    "desc": "block text - the compass direction toward which a traveler or vehicle is or should be moving; course.\n{{Identical|Heading}}",
+    "msg": "heading"
+  },
+  "Bird.noWormTooltip": {
+    "desc": "tooltip - The bird wants to get the worm.",
+    "msg": "The condition when the bird has not gotten the worm."
+  },
+  "Bird.headingTooltip": {
+    "desc": "tooltip - Move in the direction of the given angle, where 0 means going horizontally to the right, and 90 straight up and 270 straight down.",
+    "msg": "Move in the direction of the given angle: 0 is to the right, 90 is straight up, etc."
+  },
+  "Bird.positionTooltip": {
+    "desc": "tooltip - (x, y) marks the coordinate of bird, (0, 0) is the bottom left corner and (100, 100) top right.",
+    "msg": "x and y mark the bird's position. When x = 0 the bird is near the left edge, when x = 100 it's near the right edge. When y = 0 the bird is at the bottom, when y = 100 it's at the top."
+  },
+  "Bird.helpHeading": {
+    "desc": "callout - This is shown as instruction for the first level.",
+    "msg": "Change the heading angle to make the bird get the worm and land in her nest."
+  },
+  "Bird.helpHasWorm": {
+    "desc": "callout - This is shown when the 'does not have worm' block is introduced.",
+    "msg": "Use this block to go in one heading if you have the worm, or a different heading if you don't have the worm."
+  },
+  "Bird.helpX": {
+    "desc": "callout - This is shown when the 'x smaller than 50' block is introduced.",
+    "msg": "'x' is your current horizontal position. Use this block to go in one heading if 'x' is less than a number, or a different heading otherwise."
+  },
+  "Bird.helpElse": {
+    "desc": "callout - This is shown when the user first needs to modify an 'if' block.",
+    "msg": "Click the icon to modify the 'if' block."
+  },
+  "Bird.helpElseIf": {
+    "desc": "callout - This is shown when the user first needs to modify an 'if' block to have an 'else if' and an 'else'.\n\nMake sure to translate consistently with:\n* {{msg-blockly|CONTROLS IF MSG ELSEIF}}\n* {{msg-blockly|CONTROLS IF MSG ELSE}}",
+    "msg": "This level needs both an 'else if' and an 'else' block."
+  },
+  "Bird.helpAnd": {
+    "desc": "callout - This is shown to introduce the user to the logical 'and' block.\n\nMake sure to translate consistently with:\n* {{msg-blockly|LOGIC OPERATION AND}}",
+    "msg": "The 'and' block is true only if both its inputs are true."
+  },
+  "Bird.helpMutator": {
+    "desc": "callout - This is shown to demonstrate how to drag a block.\n\nTranslate consistently with:\n* {{msg-blockly|CONTROLS IF MSG ELSE}}\n* {{msg-blockly|CONTROLS IF MSG IF}}",
+    "msg": "Drag an 'else' block into the 'if' block."
+  },
+  "Turtle.moveTooltip": {
+    "desc": "tooltip - In this and subsequent messages, 'turtle' refers to a stylized turtle on the screen to represent a position and direction.  This imaginary turtle is carrying a pen in its tail, so moving the turtle draws a line (or curve, etc.).  You are encouraged to play with the [https://blockly.games/turtle Turtle application] before doing this translation.",
+    "msg": "Moves the turtle forward or backward by the specified amount."
+  },
+  "Turtle.moveForward": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Infinitive or imperative of a verb telling a turtle to move (walk) in the direction he/she is facing.  This is followed by a number indicating how far (how many pixels) to go.  Prefer a translation that has text in common with the translation of 'move backward'.  See [[Translating:Blockly#Drop-Down_Menus]].",
+    "msg": "move forward by"
+  },
+  "Turtle.moveBackward": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Infinitive or imperative of a verb telling a turtle to move (walk) in the direction opposite to where he/she is facing.  This is followed by a number indicating how far (how many pixels) to go.  Prefer a translation that has text in common with the translation of 'move forward'.",
+    "msg": "move backward by"
+  },
+  "Turtle.turnTooltip": {
+    "desc": "'Left' means counter-clockwise/anti-clockwise, and 'right' means clockwise.",
+    "msg": "Turns the turtle left or right by the specified number of degrees."
+  },
+  "Turtle.turnRight": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Infinitive or imperative of verb telling a turtle to rotate clockwise.  This is followed by a number indicating how far (how many degrees) to turn.  Prefer a translation that has text in common with the translation of 'turn left by'.",
+    "msg": "turn right by"
+  },
+  "Turtle.turnLeft": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Infinitive or imperative of verb telling a turtle to rotate counter-clockwise (anti-clockwise).  This is followed by a number indicating how far (how many degrees) to turn.  Prefer a translation that has text in common with the translation of 'turn right by'.",
+    "msg": "turn left by"
+  },
+  "Turtle.widthTooltip": {
+    "desc": "tooltip",
+    "msg": "Changes the width of the pen."
+  },
+  "Turtle.setWidth": {
+    "desc": "block text - Infinitive or imperative of a verb to set the width of the lines that should be drawn in the future by an imaginary pen.  This is followed by a number indicating the width in pixels (1 or greater).",
+    "msg": "set width to"
+  },
+  "Turtle.colourTooltip": {
+    "desc": "tooltip - Changes the colour of ink in the pen carried by the turtle.",
+    "msg": "Changes the colour of the pen."
+  },
+  "Turtle.setColour": {
+    "desc": "block text - Infinitive or imperative of a verb to specify the colour of the lines that should be drawn in the future by an imaginary pen.  This is followed by a block showing the colour.",
+    "msg": "set colour to"
+  },
+  "Turtle.penTooltip": {
+    "desc": "tooltip - Lifting the pen off the writing surface prevents anything from being drawn.  Lowering it (after it has been lifted) enables it to draw again.",
+    "msg": "Lifts or lowers the pen, to stop or start drawing."
+  },
+  "Turtle.penUp": {
+    "desc": "block text - Infinitive or imperative of a verb to lift up a pen so that moving it leaves no mark on the writing surface.",
+    "msg": "pen up"
+  },
+  "Turtle.penDown": {
+    "desc": "block text - Infinitive or imperative of a verb to lower a raised pen so that moving it leaves a mark on the writing surface.",
+    "msg": "pen down"
+  },
+  "Turtle.turtleVisibilityTooltip": {
+    "desc": "tooltip",
+    "msg": "Makes the turtle (circle and arrow) visible or invisible."
+  },
+  "Turtle.hideTurtle": {
+    "desc": "block text - Infinitive or imperative of a verb telling a turtle to hide itself (become invisible).",
+    "msg": "hide turtle"
+  },
+  "Turtle.showTurtle": {
+    "desc": "block text - Infinitive or imperative of a verb telling a turtle to show itself (become visible after having been invisible).",
+    "msg": "show turtle"
+  },
+  "Turtle.printHelpUrl": {
+    "desc": "{{Optional}} The URL of a page with basic information about '''printing''' or '''typography'''.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
+    "msg": "https://en.wikipedia.org/wiki/Printing"
+  },
+  "Turtle.printTooltip": {
+    "desc": "tooltip - Note that 'print' refers to displaying text on the screen, not on an external printer.",
+    "msg": "Draws text in the turtle's direction at its location."
+  },
+  "Turtle.print": {
+    "desc": "block text - Infinitive or imperative of a verb telling a turtle to display text on the screen.  This is always followed by a block indicating what should be printed.\n{{Identical|Print}}",
+    "msg": "print"
+  },
+  "Turtle.fontHelpUrl": {
+    "desc": "{{Optional}} The URL of a page with basic information about '''typographic fonts'''.\nMake sure you use secure HTTPS links, to avoid generating mixed contents and security alerts in browsers when viewing the current page in a secure HTTPS session. If not using Wikipedia, make sure the target is non intrusive, but if in doubt, link to a page in another suitable language supported by a Wikimedia project.",
+    "msg": "https://en.wikipedia.org/wiki/Font"
+  },
+  "Turtle.fontTooltip": {
+    "desc": "tooltip - This is shown on the block that lets the user specify the font [family], size, and style that should be used for subsequent displays of text.",
+    "msg": "Sets the font used by the print block."
+  },
+  "Turtle.font": {
+    "desc": "block text - This precedes a dropdown menu specifying the typographic font [family] that should be used when displaying text.\n{{Identical|Font}}",
+    "msg": "font"
+  },
+  "Turtle.fontSize": {
+    "desc": "block text - This precedes a number specifying the size of the typographic font that should be used when displaying text.  This appears in the same block as 'font', so that word should not be repeated.\n{{Identical|Font size}}",
+    "msg": "font size"
+  },
+  "Turtle.fontNormal": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Specifies that a typographic font should be normal (neither in italics or bold).",
+    "msg": "normal"
+  },
+  "Turtle.fontBold": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Specifies that a typographic font should be [https://en.wikipedia.org/wiki/Emphasis_(typography) bold].",
+    "msg": "bold"
+  },
+  "Turtle.fontItalic": {
+    "desc": "[[Translating:Blockly#Drop-Down_Menus dropdown]] - Specifies that a typographic font should be [https://en.wikipedia.org/wiki/Italics italic].",
+    "msg": "italic"
+  },
+  "Turtle.submitDisabled": {
+    "desc": "Error message.",
+    "msg": "Run your program until it stops. Then you may submit your drawing to the gallery."
+  },
+  "Turtle.galleryTooltip": {
+    "desc": "tooltip - Pressing this button opens a gallery of drawings made by other users.",
+    "msg": "Open the gallery of drawings."
+  },
+  "Turtle.galleryMsg": {
+    "desc": "Label on a button that opens a gallery of drawings made by other users.",
+    "msg": "See Gallery"
+  },
+  "Turtle.submitTooltip": {
+    "desc": "tooltip - Pressing this button causes the drawing created by the user's program to be submitted to a gallery for other people to see.",
+    "msg": "Submit your drawing to the gallery."
+  },
+  "Turtle.submitMsg": {
+    "desc": "Label on a button that submits the user's art to a public gallery.",
+    "msg": "Submit to Gallery"
+  },
+  "Turtle.helpUseLoop": {
+    "desc": "Dialog telling user to seek a better answer.",
+    "msg": "Your solution works, but you can do better."
+  },
+  "Turtle.helpUseLoop3": {
+    "desc": "Dialog telling user to seek a simpler answer.",
+    "msg": "Draw the shape with just three blocks."
+  },
+  "Turtle.helpUseLoop4": {
+    "desc": "Dialog telling user to seek a simpler answer.",
+    "msg": "Draw the star with just four blocks."
+  },
+  "Turtle.helpText1": {
+    "desc": "Instructions.",
+    "msg": "Create a program that draws a square."
+  },
+  "Turtle.helpText2": {
+    "desc": "Instructions.",
+    "msg": "Change your program to draw a pentagon instead of a square."
+  },
+  "Turtle.helpText3a": {
+    "desc": "Introducing a new block.",
+    "msg": "There's a new block that allows you to change the colour:"
+  },
+  "Turtle.helpText3b": {
+    "desc": "Instructions.",
+    "msg": "Draw a yellow star."
+  },
+  "Turtle.helpText4a": {
+    "desc": "Introducing a new block.\n\nCross-reference to ensure consistent terminology:\n* {{msg-blockly|Turtle.penTooltip}}",
+    "msg": "There's a new block that allows you to lift your pen off the paper when you move:"
+  },
+  "Turtle.helpText4b": {
+    "desc": "Instructions.",
+    "msg": "Draw a small yellow star, then draw a line above it."
+  },
+  "Turtle.helpText5": {
+    "desc": "Instructions.",
+    "msg": "Instead of one star, can you draw four stars arranged in a square?"
+  },
+  "Turtle.helpText6": {
+    "desc": "Instructions.",
+    "msg": "Draw three yellow stars, and one white line."
+  },
+  "Turtle.helpText7": {
+    "desc": "Instructions.",
+    "msg": "Draw the stars, then draw four white lines."
+  },
+  "Turtle.helpText8": {
+    "desc": "Instructions.",
+    "msg": "Drawing 360 white lines will look like the full moon."
+  },
+  "Turtle.helpText9": {
+    "desc": "Instructions.",
+    "msg": "Can you add a black circle so that the moon becomes a crescent?"
+  },
+  "Turtle.helpText10": {
+    "desc": "Instructions.",
+    "msg": "Draw anything you want. You've got a huge number of new blocks you can explore. Have fun!"
+  },
+  "Turtle.helpText10Reddit": {
+    "desc": "Instructions on publishing your drawing.",
+    "msg": "Use the 'See Gallery' button to see what other people have drawn. If you draw something interesting, use the 'Submit to Gallery' button to publish it."
+  },
+  "Turtle.helpToolbox": {
+    "desc": "Instructions for accessing blocks that are hidden inside categories.",
+    "msg": "Choose a category to see the blocks."
+  },
+  "Movie.x": {
+    "desc": "Label for an x-coordinate (horizontal) input.",
+    "msg": "x"
+  },
+  "Movie.y": {
+    "desc": "Label for a y-coordinate (vertical) input.",
+    "msg": "y"
+  },
+  "Movie.x1": {
+    "desc": "Label for the x-coordinate of the start of a line.",
+    "msg": "start x"
+  },
+  "Movie.y1": {
+    "desc": "Label for the y-coordinate of the start of a line.",
+    "msg": "start y"
+  },
+  "Movie.x2": {
+    "desc": "Label for the x-coordinate of the end of a line.",
+    "msg": "end x"
+  },
+  "Movie.y2": {
+    "desc": "Label for the y-coordinate of the end of a line.",
+    "msg": "end y"
+  },
+  "Movie.radius": {
+    "desc": "Label for a circle's radius input.\n{{Identical|Radius}}",
+    "msg": "radius"
+  },
+  "Movie.width": {
+    "desc": "Label for a rectangle or line's width input.\n{{Identical|Width}}",
+    "msg": "width"
+  },
+  "Movie.height": {
+    "desc": "Label for a rectangle's height input.\n{{Identical|Height}}",
+    "msg": "height"
+  },
+  "Movie.circleTooltip": {
+    "desc": "tooltip",
+    "msg": "Draws a circle at the specified location and with the specified radius."
+  },
+  "Movie.circleDraw": {
+    "desc": "Command to draw a circle.",
+    "msg": "circle"
+  },
+ "Movie.rectTooltip": {
+    "desc": "tooltip",
+     "msg": "Draws a rectangle at the specified location and with the specified width and height."
+  },
+  "Movie.rectDraw": {
+    "desc": "Command to draw a rectangle.\n{{Identical|Rectangle}}",
+    "msg": "rectangle"
+  },
+  "Movie.lineTooltip": {
+    "desc": "tooltip",
+    "msg": "Draws a line from one point to another with the specified width."
+  },
+  "Movie.lineDraw": {
+    "desc": "Command to draw a line.\n{{Identical|Line}}",
+    "msg": "line"
+  },
+  "Movie.timeTooltip": {
+    "desc": "tooltip",
+    "msg": "Returns the current time in the animation (0-100)."
+  },
+  "Movie.colourTooltip": {
+    "desc": "tooltip - Changes the colour of ink in the pen carried by the turtle.",
+    "msg": "Changes the colour of the pen."
+  },
+  "Movie.setColour": {
+    "desc": "block text - Infinitive or imperative of a verb to specify the colour of the lines that should be drawn in the future by an imaginary pen.  This is followed by a block showing the colour.",
+    "msg": "set colour to"
+  },
+  "Movie.submitDisabled": {
+    "desc": "Error message.",
+    "msg": "Your movie doesn't move. Use blocks to make something interesting. Then you may submit your movie to the gallery."
+  },
+  "Movie.galleryTooltip": {
+    "desc": "tooltip - Pressing this button opens a gallery of movies made by other users.",
+    "msg": "Open the gallery of movies."
+  },
+  "Movie.galleryMsg": {
+    "desc": "Label on a button that opens a gallery of movies made by other users.",
+    "msg": "See Gallery"
+  },
+  "Movie.submitTooltip": {
+    "desc": "tooltip - Pressing this button causes the movie created by the user's program to be submitted to a gallery for other people to see.",
+    "msg": "Submit your movie to the gallery."
+  },
+  "Movie.submitMsg": {
+    "desc": "Label on a button that submits the user's movie to a public gallery.",
+    "msg": "Submit to Gallery"
+  },
+  "Movie.helpLayer": {
+    "desc": "Dialog telling user to change the order of their program.",
+    "msg": "Move the background circle to the top of your program.  Then it will appear behind the person."
+  },
+  "Movie.helpText1": {
+    "desc": "Instructions.",
+    "msg": "Use simple shapes to draw this person."
+  },
+  "Movie.helpText2a": {
+    "desc": "Instructions.  The play button looks like the video play button on YouTube.",
+    "msg": "This level is a movie. You want the person's arm to move across the screen. Press the play button to see a preview."
+  },
+  "Movie.helpText2b": {
+    "desc": "Instructions.  Do not translate the word 'time' or the name 'y'.",
+    "msg": "As the movie plays, the value of the 'time' block counts from 0 to 100. Since you want the 'y' position of the arm to start at 0 and go to 100 this should be easy."
+  },
+  "Movie.helpText3": {
+    "desc": "Instructions.  Do not translate the word 'time' or the name 'y'.",
+    "msg": "The 'time' block counts from 0 to 100. But now you want the 'y' position of the other arm to start at 100 and go to 0. Can you figure out a simple mathematical formula that flips the direction?"
+  },
+  "Movie.helpText4": {
+    "desc": "Instructions.",
+    "msg": "Use what you learned in the previous level to make legs that cross."
+  },
+  "Movie.helpText5": {
+    "desc": "Instructions.",
+    "msg": "The mathematical formula for the arm is complicated. Here's the answer:"
+  },
+  "Movie.helpText6": {
+    "desc": "Instructions.  Drawing hands on a picture of a person.",
+    "msg": "Give the person a couple of hands."
+  },
+  "Movie.helpText7": {
+    "desc": "Instructions.  Do translate the word 'if'.",
+    "msg": "Use the 'if' block to draw a small head for the first half of the movie. Then draw a big head for the second half of the movie."
+  },
+  "Movie.helpText8": {
+    "desc": "Instructions.",
+    "msg": "Make the legs reverse direction half way through the movie."
+  },
+  "Movie.helpText9": {
+    "desc": "Instructions.",
+    "msg": "Draw an expanding circle behind the person."
+  },
+  "Movie.helpText10": {
+    "desc": "Instructions.",
+    "msg": "Make a movie of anything you want. You've got a huge number of new blocks you can explore. Have fun!"
+  },
+  "Movie.helpText10Reddit": {
+    "desc": "Instructions on publishing your movie.",
+    "msg": "Use the 'See Gallery' button to see movies that other people have made. If you make an interesting movie, use the 'Submit to Gallery' button to publish it."
+  },
+  "Music.playNoteTooltip": {
+    "desc": "tooltip",
+    "msg": "Plays one musical note of the specified duration and pitch."
+  },
+  "Music.playNote": {
+    "desc": "Plays one musical note.  %1 is duration of the note (icon for whole, quarter, ...), %2 is the pitch of the note (A3, B3, C4, ...).",
+    "msg": "play %1 note %2"
+  },
+  "Music.restTooltip": {
+    "desc": "tooltip",
+    "msg": "Waits for the specified duration."
+  },
+  "Music.restWholeTooltip": {
+    "desc": "tooltip",
+    "msg": "Waits for one whole note."
+  },
+  "Music.rest": {
+    "desc": "Plays no music for a duration specified.  %1 is the duration (icon for whole, quarter, ...).",
+    "msg": "rest %1"
+  },
+  "Music.setInstrumentTooltip": {
+    "desc": "tooltip",
+    "msg": "Switches to the specified instrument when playing subsequent musical notes."
+  },
+  "Music.setInstrument": {
+    "desc": "Sets to an instrument to play music.  %1 is type of the instrument (guitar, piano, ...).",
+    "msg": "set instrument to %1"
+  },
+  "Music.startTooltip": {
+    "desc": "tooltip",
+    "msg": "Executes the blocks inside when the 'Run Program' button is clicked."
+  },
+  "Music.start": {
+    "desc": "The program associated with this label is executed when a button is clicked.  %1 is image of the play icon on the button.",
+    "msg": "when %1 clicked"
+  },
+  "Music.pitchTooltip": {
+    "desc": "tooltip - Describes a musical note selector.  'C4' (also known as 'DO') is the note in the center of a piano keyboard and is represented as the number 7.",
+    "msg": "One note (C4 is 7)."
+  },
+  "Music.firstPart": {
+    "desc": "Example name of a function that plays the first part of some music.",
+    "msg": "first part"
+  },
+  "Music.piano": {
+    "desc": "Name of musical instrument.\n{{Identical|piano}}",
+    "msg": "piano"
+  },
+  "Music.trumpet": {
+    "desc": "Name of musical instrument.\n{{Identical|trumpet}}",
+    "msg": "trumpet"
+  },
+  "Music.banjo": {
+    "desc": "Name of musical instrument.\n{{Identical|banjo}}",
+    "msg": "banjo"
+  },
+  "Music.violin": {
+    "desc": "Name of musical instrument.\n{{Identical|violin}}",
+    "msg": "violin"
+  },
+  "Music.guitar": {
+    "desc": "Name of musical instrument.\n{{Identical|guitar}}",
+    "msg": "guitar"
+  },
+  "Music.flute": {
+    "desc": "Name of musical instrument.\n{{Identical|flute}}",
+    "msg": "flute"
+  },
+  "Music.drum": {
+    "desc": "Name of musical instrument.\n{{Identical|drum}}",
+    "msg": "drum"
+  },
+  "Music.choir": {
+    "desc": "Name of musical instrument.\n{{Identical|choir}}",
+    "msg": "choir"
+  },
+  "Music.submitDisabled": {
+    "desc": "Error message.",
+    "msg": "Run your program until it stops. Then you may submit your music to the gallery."
+  },
+  "Music.galleryTooltip": {
+    "desc": "tooltip - Pressing this button opens a gallery of music made by other users.",
+    "msg": "Open the gallery of music."
+  },
+  "Music.galleryMsg": {
+    "desc": "Label on a button that opens a gallery of music made by other users.",
+    "msg": "See Gallery"
+  },
+  "Music.submitTooltip": {
+    "desc": "tooltip - Pressing this button causes the music created by the user's program to be submitted to a gallery for other people to see.",
+    "msg": "Submit your music to the gallery."
+  },
+  "Music.submitMsg": {
+    "desc": "Label on a button that submits the user's art to a public gallery.",
+    "msg": "Submit to Gallery"
+  },
+  "Music.helpUseFunctions": {
+    "desc": "Dialog telling user to seek a better answer.",
+    "msg": "Your solution works, but you can do better.  Use functions to reduce the amount of repeated code."
+  },
+  "Music.helpUseInstruments": {
+    "desc": "Dialog telling user not to use only one musical instrument (piano, flute, etc).",
+    "msg": "The music will sound better if you use a different instrument in each start block."
+  },
+  "Music.helpText1": {
+    "desc": "Instructions.  If your country has a song to the tune of 'Frère Jacques' use its name.  E.g. Bruder Jakob (German) or Kìa con bướm (Vietnamese).",
+    "msg": "Compose the first four notes of 'Frère Jacques'."
+  },
+  "Music.helpText2a": {
+    "desc": "Introducing a new block: function or subroutines",
+    "msg": "A 'function' allows you to group blocks together, then run them more than once."
+  },
+  "Music.helpText2b": {
+    "desc": "Instructions.",
+    "msg": "Create a function to play the first four notes of 'Frère Jacques'. Run that function twice.  Don't add any new note blocks."
+  },
+  "Music.helpText3": {
+    "desc": "Instructions.",
+    "msg": "Create a second function for the next part of 'Frère Jacques'. The last note is longer."
+  },
+  "Music.helpText4": {
+    "desc": "Instructions.",
+    "msg": "Create a third function for the next part of 'Frère Jacques'. The first four notes are shorter."
+  },
+  "Music.helpText5": {
+    "desc": "Instructions.",
+    "msg": "Complete the full tune of 'Frère Jacques'."
+  },
+  "Music.helpText6a": {
+    "desc": "Introducing a new block that changes musical instruments.",
+    "msg": "This new block lets you change to another instrument."
+  },
+  "Music.helpText6b": {
+    "desc": "Instructions.",
+    "msg": "Play your tune with a violin."
+  },
+  "Music.helpText7a": {
+    "desc": "Introducing a new block: a musical rest.",
+    "msg": "This new block adds a silent delay."
+  },
+  "Music.helpText7b": {
+    "desc": "Instructions.",
+    "msg": "Create a second start block that has two delay blocks, then also plays 'Frère Jacques'."
+  },
+  "Music.helpText8": {
+    "desc": "Instructions.",
+    "msg": "Each start block should play 'Frère Jacques' twice."
+  },
+  "Music.helpText9": {
+    "desc": "Instructions.",
+    "msg": "Create four start blocks that each play 'Frère Jacques' twice. Add the correct number of delay blocks."
+  },
+  "Music.helpText10": {
+    "desc": "Instructions.",
+    "msg": "Compose anything you want. You've got a huge number of new blocks you can explore. Have fun!"
+  },
+  "Music.helpText10Reddit": {
+    "desc": "Instructions on publishing your music.",
+    "msg": "Use the 'See Gallery' button to see what other people have composed. If you compose something interesting, use the 'Submit to Gallery' button to publish it."
+  },
+  "Pond.scanTooltip": {
+    "desc": "Tooltip for the block that allows players to scan for enemies.",
+    "msg": "Scan for enemies. Specify a direction (0-360). Returns the distance to the closest enemy in that direction. Returns Infinity if no enemy found."
+  },
+  "Pond.cannonTooltip": {
+    "desc": "Tooltip for the block that allows players to shoot at other players.",
+    "msg": "Fire the cannon. Specify a direction (0-360) and a range (0-70)."
+  },
+  "Pond.swimTooltip": {
+    "desc": "Tooltip for the block that allows players to move.",
+    "msg": "Swim forward. Specify a direction (0-360)."
+  },
+  "Pond.stopTooltip": {
+    "desc": "Tooltip for the block that allows players to stop.",
+    "msg": "Stop swimming. Player will slow to a stop."
+  },
+  "Pond.healthTooltip": {
+    "desc": "Tooltip for the block that reports the player's health.",
+    "msg": "Returns the player's current health (0 is dead, 100 is healthy)."
+  },
+  "Pond.speedTooltip": {
+    "desc": "Tooltip for the block that reports the player's speed.",
+    "msg": "Returns the current speed of the player (0 is stopped, 100 is full speed)."
+  },
+  "Pond.locXTooltip": {
+    "desc": "Tooltip for the block that reports the player's horizontal location.",
+    "msg": "Returns the X coordinate of the player (0 is the left edge, 100 is the right edge)."
+  },
+  "Pond.locYTooltip": {
+    "desc": "Tooltip for the block that reports the player's vertical location.",
+    "msg": "Returns the Y coordinate of the player (0 is the bottom edge, 100 is the top edge)."
+  },
+  "Pond.logTooltip": {
+    "desc": "Tooltip for the block that prints debugging information.",
+    "msg": "Prints a number to your browser's console."
+  },
+  "Pond.docsTooltip": {
+    "desc": "Tooltip for the button that opens the language reference documentation.",
+    "msg": "Display the language documentation."
+  },
+  "Pond.documentation": {
+    "desc": "Text on the button that opens the language reference documentation.\n{{Identical|Documentation}}",
+    "msg": "Documentation"
+  },
+  "Pond.playerName": {
+    "desc": "Generic name for the player of this video game.\n{{Identical|Player}}",
+    "msg": "Player"
+  },
+  "Pond.targetName": {
+    "desc": "Name for a player that does nothing.\n{{Identical|Target}}",
+    "msg": "Target"
+  },
+  "Pond.pendulumName": {
+    "desc": "Name for a player that moves back and forth.\n{{Identical|Pendulum}}",
+    "msg": "Pendulum"
+  },
+  "Pond.scaredName": {
+    "desc": "Name for a player that is scared.\n{{Identical|Scared}}",
+    "msg": "Scared"
+  },
+  "Pond.helpUseScan": {
+    "desc": "Dialog telling user to seek a better answer.  Do not translate the word 'scan'.",
+    "msg": "Your solution works, but you can do better. Use 'scan' to tell the cannon how far to shoot."
+  },
+  "Pond.helpText1": {
+    "desc": "Instructions. Do not translate the word 'cannon'.",
+    "msg": "Use the 'cannon' command to hit the target. The first parameter is the angle, the second parameter is the range. Find the right combination."
+  },
+  "Pond.helpText2": {
+    "desc": "Instructions.  Do not translate 'while (true)'.",
+    "msg": "This target needs to be hit many times. Use a 'while (true)' loop to do something indefinitely."
+  },
+  "Pond.helpText3a": {
+    "desc": "Instructions.  Do not translate 'scan'.",
+    "msg": "This opponent moves back and forth, making it hard to hit. The 'scan' expression returns the exact range to the opponent in the specified direction."
+  },
+  "Pond.helpText3b": {
+    "desc": "Instructions.  Do not translate 'cannon'.",
+    "msg": "This range is exactly what the 'cannon' command needs to fire accurately."
+  },
+  "Pond.helpText4": {
+    "desc": "Instructions.  Do not translate the word 'swim'.",
+    "msg": "This opponent is too far away to use the cannon (which has a limit of 70 meters). Instead, use the 'swim' command to start swimming towards the opponent and crash into it."
+  },
+  "Pond.helpText5": {
+    "desc": "Instructions.  Do not translate the word 'stop'.",
+    "msg": "This opponent is also too far away to use the cannon. But you are too weak to survive a collision. Swim towards the opponent while your horizontal location is less than than 50. Then 'stop' and use the cannon."
+  },
+  "Pond.helpText6": {
+    "desc": "Instructions.",
+    "msg": "This opponent will move away when it is hit. Swim towards it if it is out of range (70 meters)."
+  },
+  "Gallery": {
+    "desc": "Display of art created by user's programs.\n{{Identical|Gallery}}",
+    "msg": "Gallery"
+  }
+}
