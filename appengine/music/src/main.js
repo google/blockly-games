@@ -103,12 +103,6 @@ let speedSlider;
  * Initialize Blockly and the music.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   // Render the HTML.
   document.body.innerHTML = Music.html.start(
       {lang: BlocklyGames.LANG,
@@ -1093,4 +1087,4 @@ class Thread {
   }
 }
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);

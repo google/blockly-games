@@ -30,12 +30,6 @@ let app;
  * Initialize gallery.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   app = BlocklyGames.getStringParamFromUrl('app', '');
   const isAdmin = (app === 'admin');
   if (!isAdmin && !['turtle', 'movie', 'music'].includes(app)) {
@@ -150,7 +144,7 @@ function needMore() {
   }
 }
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);
 
 // Export symbols that would otherwise be renamed by Closure compiler.
 window['publish'] = publish;

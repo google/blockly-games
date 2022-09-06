@@ -78,12 +78,6 @@ let isPenDown;
  * Initialize Blockly and the turtle.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   // Render the HTML.
   document.body.innerHTML = Turtle.html.start(
       {lang: BlocklyGames.LANG,
@@ -1056,4 +1050,4 @@ function isCorrect(pixelErrors) {
   return true;
 }
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);

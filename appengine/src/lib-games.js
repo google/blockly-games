@@ -285,6 +285,28 @@ BlocklyGames.init = function(title) {
 };
 
 /**
+ * Once the page is fully loaded, move the messages to their expected locations,
+ * then call the game's init function.
+ * @param {!Function} init Initialization function to call.
+ */
+BlocklyGames.callWhenLoaded = function(init) {
+  function go() {
+    if (!window["BlocklyGamesMsg"]) {
+      // Messages haven't arrived yet.  Try again later.
+      setTimeout(go, 99);
+      return;
+    }
+    BlocklyGames.Msg = window["BlocklyGamesMsg"];
+    if (window["BlocklyMsg"]) {
+      Blockly.Msg = window["BlocklyMsg"];
+    }
+    init();
+  }
+
+  window.addEventListener('load', go);
+};
+
+/**
  * Reload with a different language.
  */
 BlocklyGames.changeLanguage = function() {

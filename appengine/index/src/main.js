@@ -27,12 +27,6 @@ const APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
  * Initialize Blockly and the maze.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   // Render the HTML.
   document.body.innerHTML = Index.html.start(
     {lang: BlocklyGames.LANG,
@@ -127,4 +121,4 @@ function clearData() {
   location.reload();
 }
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);

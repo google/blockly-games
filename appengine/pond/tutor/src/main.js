@@ -31,12 +31,6 @@ BlocklyGames.NAME = 'pond-tutor';
  * Initialize Blockly xor Ace, and the pond.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   // Render the HTML.
   document.body.innerHTML = Pond.Tutor.html.start(
       {lang: BlocklyGames.LANG,
@@ -369,4 +363,4 @@ Pond.endBattle = function(survivors) {
   }
 };
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);

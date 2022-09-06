@@ -28,12 +28,6 @@ BlocklyGames.NAME = 'puzzle';
  * Initialize Blockly and the puzzle.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   // Render the HTML.
   document.body.innerHTML = Puzzle.html.start(
       {lang: BlocklyGames.LANG,
@@ -397,4 +391,4 @@ function showHelp(animate) {
   BlocklyDialogs.startDialogKeyDown();
 }
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);

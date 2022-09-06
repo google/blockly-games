@@ -66,12 +66,6 @@ const tabIndex = {
  * Initialize Ace and the pond.  Called on page load.
  */
 function init() {
-  if (!Object.keys(BlocklyGames.Msg).length) {
-    // Messages haven't arrived yet.  Try again later.
-    setTimeout(init, 99);
-    return;
-  }
-
   duckData = window['DUCKS'];
   // Render the HTML.
   document.body.innerHTML = Pond.Duck.html.start(
@@ -299,4 +293,4 @@ function setBlocksDisabled(disabled) {
   document.head.appendChild(script);
 })();
 
-window.addEventListener('load', init);
+BlocklyGames.callWhenLoaded(init);

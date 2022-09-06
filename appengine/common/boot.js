@@ -64,10 +64,22 @@ if (location.host === 'blockly-games.appspot.com') {
     // Don't even think of throwing an error.
   }
 
+  // Load the chosen language pack.
+  var script = document.createElement('script');
+  if (debug) {
+    script.src = 'generated/msg/' + lang + '.js';
+  } else {
+    script.src = appName + '/generated/msg/' + lang + '.js';
+  }
+  script.type = 'text/javascript';
+  document.head.appendChild(script);
   // Load the chosen game.
   var script = document.createElement('script');
-  script.src = appName + '/generated/' +
-      (debug ? 'uncompressed.js' : 'compressed.js');
+  if (debug) {
+    script.src = appName + '/src/main.js';
+  } else {
+    script.src = appName + '/generated/compressed.js';
+  }
   script.type = 'text/javascript';
   document.head.appendChild(script);
 })();

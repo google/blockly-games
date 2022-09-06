@@ -112,11 +112,11 @@ def language(gameName, lang):
   bMsgs = []
   bgMsgs = []
   for msg in msgs:
-    m = re.search('Blockly\.Msg\["([^"]+)"\] = (.*);\s*', msg)
+    m = re.search('window\["BlocklyMsg"\]\["([^"]+)"\] = (.*);\s*', msg)
     if m and m.group(1) in blocklyMessageNames:
       # Blockly message names are all alphabetic, no need to quote.
       bMsgs.append('%s:%s' % (m.group(1), m.group(2)))
-    m = re.search('BlocklyGames\.Msg\["([^"]+)"\] = (.*);\s*', msg)
+    m = re.search('window\["BlocklyGamesMsg"\]\["([^"]+)"\] = (.*);\s*', msg)
     if m and m.group(1) in blocklyGamesMessageNames:
       # Blockly Games message names contain dots, quotes required.
       bgMsgs.append('"%s":%s' % (m.group(1), m.group(2)))
@@ -125,13 +125,10 @@ def language(gameName, lang):
     os.mkdir('appengine/%s/generated/msg' % gameName)
   f = open('appengine/%s/generated/msg/%s.js' % (gameName, lang), 'w')
   f.write(WARNING)
-  f.write("(function(){\n")
-  f.write("function f(o,a){for(var p in a)o[p]=a[p]}\n")
   if bMsgs:
-    f.write("f(Blockly.Msg,{%s})\n" % ','.join(bMsgs))
+    f.write('window["BlocklyMsg"]={%s}\n' % ','.join(bMsgs))
   if bgMsgs:
-    f.write("f(BlocklyGames.Msg,{%s})\n" % ','.join(bgMsgs))
-  f.write("})()")
+    f.write('window["BlocklyGamesMsg"]={%s}\n' % ','.join(bgMsgs))
   f.close()
 
 
@@ -171,7 +168,6 @@ def generate_uncompressed(gameName):
     else:
       raise Exception('"%s" is not in "%s".' % (file, prefix))
     srcs.append('"%s%s"' % (path, file))
-  srcs.append('"generated/msg/" + window[\'BlocklyGamesLang\'] + ".js"')
   f = open('appengine/%s/generated/uncompressed.js' % gameName, 'w')
   f.write("""%s
 window.CLOSURE_NO_DEPS = true;
@@ -234,14 +230,6 @@ def generate_compressed(gameName):
 
   f = open('appengine/%s/generated/compressed.js' % gameName, 'w')
   f.write(WARNING)
-  # Load the chosen language pack.
-  f.write("""
-(function(){var s=document.createElement('script');
-s.src='%s/generated/msg/'+window['BlocklyGamesLang']+'.js';
-s.type='text/javascript';
-document.head.appendChild(s);})();
-
-""" % gameName)
   f.write(script)
   f.close()
 

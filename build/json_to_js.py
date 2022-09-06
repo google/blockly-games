@@ -73,14 +73,18 @@ def main():
       m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = (".*");\s*', msg)
       if m:
         blockly_msg_dict[m.group(1)] = m.group(2)
-        output_file.write(msg)
+        output_file.write('window["BlocklyMsg"]["%s"] = %s;\n' % (m.group(1), m.group(2)))
         continue
       m = re.search('Blockly\.Msg\["([A-Z0-9_]+)"\] = Blockly\.Msg\["([A-Z0-9_]+)"\]', msg)
       if m:
         blockly_msg_dict[m.group(1)] = blockly_msg_dict[m.group(2)]
-        output_file.write('Blockly.Msg["%s"] = %s;\n' % (m.group(1), blockly_msg_dict[m.group(2)]))
+        output_file.write('window["BlocklyMsg"]["%s"] = %s;\n' % (m.group(1), blockly_msg_dict[m.group(2)]))
         continue
       output_file.write(msg)
+      if (msg == "'use strict';\n"):
+        output_file.write('window["BlocklyMsg"] = {};\n')
+        output_file.write('window["BlocklyGamesMsg"] = {};\n')
+
     blockly_msg_file.close()
     output_file.write('\n\n')
 
@@ -96,7 +100,7 @@ def main():
       message_str = message_str.replace('\\', '\\\\')
       message_str = message_str.replace('\n', '\\n')
       message_str = message_str.replace('"', '\\"')
-      output_file.write('BlocklyGames.Msg["%s"] = "%s";%s\n' % (name, message_str, comment))
+      output_file.write('window["BlocklyGamesMsg"]["%s"] = "%s";%s\n' % (name, message_str, comment))
     output_file.close()
 
   print('Generated message js files for: ' + str(languages))
