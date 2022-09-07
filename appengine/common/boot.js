@@ -5,7 +5,7 @@
  */
 
 /**
- * @fileoverview Load the correct language pack for the current application.
+ * @fileoverview Load the correct language pack and code bundle.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -73,7 +73,7 @@ if (location.host === 'blockly-games.appspot.com') {
   }
   script.type = 'text/javascript';
   document.head.appendChild(script);
-  // Load the chosen game.
+  // Load the code bundle for the chosen game.
   var script = document.createElement('script');
   if (debug) {
     script.src = appName + '/generated/uncompressed.js';
