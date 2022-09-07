@@ -202,9 +202,10 @@ BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
 };
 
 /**
- * Name of app (maze, bird, ...).
+ * Name of app ('maze', 'bird', ...) for use in local storage.
+ * @type string
  */
-BlocklyGames.NAME;
+BlocklyGames.storageName;
 
 /**
  * Maximum number of levels.  Common to all apps.
@@ -262,7 +263,7 @@ BlocklyGames.init = function(title) {
   // Highlight levels that have been completed.
   for (let i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
     const link = document.getElementById('level' + i);
-    const done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, i);
+    const done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, i);
     if (link && done) {
       link.className += ' level_done';
     }

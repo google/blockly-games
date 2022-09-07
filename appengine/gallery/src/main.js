@@ -17,7 +17,7 @@ goog.require('BlocklyStorage');
 goog.require('Gallery.html');
 
 
-BlocklyGames.NAME = 'gallery';
+BlocklyGames.storageName = 'gallery';
 
 /**
  * One of 'turtle', 'movie', 'music', or 'admin'.

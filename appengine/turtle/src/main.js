@@ -29,7 +29,7 @@ goog.require('Turtle.Blocks');
 goog.require('Turtle.html');
 
 
-BlocklyGames.NAME = 'turtle';
+BlocklyGames.storageName = 'turtle';
 
 const HEIGHT = 400;
 const WIDTH = 400;
@@ -170,7 +170,7 @@ function init() {
 
   BlocklyGames.bindClick('helpButton', showHelp);
   if (location.hash.length < 2 &&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+      !BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                          BlocklyGames.LEVEL)) {
     setTimeout(showHelp, 1000);
     if (BlocklyGames.LEVEL === 9) {

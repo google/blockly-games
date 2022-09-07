@@ -21,7 +21,7 @@ goog.require('Puzzle.html');
 goog.require('Puzzle.Blocks');
 
 
-BlocklyGames.NAME = 'puzzle';
+BlocklyGames.storageName = 'puzzle';
 
 /**
  * Initialize Blockly and the puzzle.  Called on page load.
@@ -50,7 +50,7 @@ function init() {
        'trashcan': false});
 
   const savedBlocks =
-      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, BlocklyGames.LEVEL);
   // Add the blocks.
   let loadOnce;
   try {

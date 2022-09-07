@@ -30,7 +30,7 @@ goog.require('Music.startCount');
 goog.require('Slider');
 
 
-BlocklyGames.NAME = 'music';
+BlocklyGames.storageName = 'music';
 
 const HEIGHT = 400;
 const WIDTH = 400;
@@ -183,7 +183,7 @@ function init() {
 
   BlocklyGames.bindClick('helpButton', showHelp);
   if (location.hash.length < 2 &&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+      !BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                          BlocklyGames.LEVEL)) {
     setTimeout(showHelp, 1000);
   }

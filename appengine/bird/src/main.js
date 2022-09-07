@@ -25,7 +25,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
 
-BlocklyGames.NAME = 'bird';
+BlocklyGames.storageName = 'bird';
 
 const BIRD_ICON_SIZE = 120;
 const NEST_ICON_SIZE = 100;
@@ -446,7 +446,7 @@ function levelHelp() {
   if (BlocklyInterface.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
-  } else if (BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+  } else if (BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                                BlocklyGames.LEVEL)) {
     // The user has already won.  They are just playing around.
     return;

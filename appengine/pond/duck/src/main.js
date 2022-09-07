@@ -27,7 +27,7 @@ goog.require('Pond.Duck.html');
 goog.require('Pond.Visualization');
 
 
-BlocklyGames.NAME = 'pond-duck';
+BlocklyGames.storageName = 'pond-duck';
 
 /**
  * Array of editor tabs (Blockly and ACE).

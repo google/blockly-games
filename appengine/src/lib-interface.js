@@ -103,9 +103,9 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   }
 
   const savedLevel =
-      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, BlocklyGames.LEVEL);
   let inherited = inherit &&
-      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                         BlocklyGames.LEVEL - 1);
   if (inherited && typeof inherit === 'function') {
     inherited = inherit(inherited);
@@ -208,10 +208,10 @@ BlocklyInterface.injectBlockly = function(options) {
  */
 BlocklyInterface.saveToLocalStorage = function() {
   // MSIE 11 does not support localStorage on file:// URLs.
-  if (typeof Blockly === undefined || !window.localStorage) {
+  if (!window.localStorage) {
     return;
   }
-  const name = BlocklyGames.NAME + BlocklyGames.LEVEL;
+  const name = BlocklyGames.storageName + BlocklyGames.LEVEL;
   window.localStorage[name] = BlocklyInterface.executedCode;
 };
 

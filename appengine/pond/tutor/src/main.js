@@ -24,7 +24,7 @@ goog.require('Pond.Tutor.html');
 goog.require('Pond.Visualization');
 
 
-BlocklyGames.NAME = 'pond-tutor';
+BlocklyGames.storageName = 'pond-tutor';
 
 /**
  * Initialize Blockly xor Ace, and the pond.  Called on page load.
@@ -41,7 +41,7 @@ function init() {
 
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
   if (location.hash.length < 2 &&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+      !BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                          BlocklyGames.LEVEL)) {
     setTimeout(Pond.showHelp, 1000);
   }

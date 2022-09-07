@@ -25,7 +25,7 @@ goog.require('Maze.Blocks');
 goog.require('Maze.html');
 
 
-BlocklyGames.NAME = 'maze';
+BlocklyGames.storageName = 'maze';
 
 /**
  * Go to the next level.  Add skin parameter.
@@ -525,7 +525,7 @@ function init() {
     Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   }
   if (BlocklyGames.LEVEL === 10) {
-    if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+    if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                            BlocklyGames.LEVEL)) {
       // Level 10 gets an introductory modal dialog.
       // Skip the dialog if the user has already won.
@@ -576,7 +576,7 @@ function levelHelp(opt_event) {
     // Don't change helps during drags.
     return;
   } else if (result === ResultType.SUCCESS ||
-             BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+             BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                                BlocklyGames.LEVEL)) {
     // The user has already won.  They are just playing around.
     return;
@@ -865,7 +865,7 @@ function runButtonClick(e) {
   if (BlocklyGames.LEVEL === 1 &&
       BlocklyInterface.workspace.getTopBlocks(false).length > 1 &&
       result !== ResultType.SUCCESS &&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+      !BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                          BlocklyGames.LEVEL)) {
     levelHelp();
     return;
