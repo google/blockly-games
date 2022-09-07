@@ -26,6 +26,7 @@ goog.require('BlocklyInterface');
 goog.require('CustomFields.FieldPitch');
 goog.require('Music.Blocks');
 goog.require('Music.html');
+goog.require('Music.startCount');
 goog.require('Slider');
 
 
@@ -39,11 +40,6 @@ const WIDTH = 400;
  * @type number
  */
 let pid = 0;
-
-/**
- * Number of start blocks on the page (and thus the number of threads).
- */
-let startCount = 0;
 
 /**
  * Number of staves in the visualization.
@@ -408,7 +404,7 @@ function drawAnswer() {
 
   if (!expectedAnswer) {
     // Level 10 has no expected answer.
-    drawStave(startCount || 1);
+    drawStave(Music.startCount.get() || 1);
   } else {
     drawStave(expectedAnswer.length);
     for (let i = 0; i < expectedAnswer.length; i++) {
@@ -438,7 +434,7 @@ function disableExtraStarts(e) {
     return;
   }
   const maxStarts = expectedAnswer ? expectedAnswer.length : 4;
-  const oldStartCount = startCount;
+  const oldStartCount = Music.startCount.get();
 
   if (e instanceof Blockly.Events.Create) {
     const startBlocks = [];
@@ -462,9 +458,9 @@ function disableExtraStarts(e) {
       // Disable start block in toolbox.
       toolboxStart.setAttribute('disabled', 'true');
       BlocklyInterface.workspace.updateToolbox(toolbox);
-      startCount = maxStarts;
+      Music.startCount.set(maxStarts);
     } else {
-      startCount = startBlocks.length;
+      Music.startCount.set(startBlocks.length);
     }
   } else if (e instanceof Blockly.Events.Delete) {
     const startBlocksEnabled = [];
@@ -488,9 +484,9 @@ function disableExtraStarts(e) {
       toolboxStart.setAttribute('disabled', 'false');
       BlocklyInterface.workspace.updateToolbox(toolbox);
     }
-    startCount = startBlocksEnabled.length;
+    Music.startCount.set(startBlocksEnabled.length);
   }
-  if (startCount !== oldStartCount) {
+  if (Music.startCount.get() !== oldStartCount) {
     resetButtonClick();
   }
 }
@@ -607,22 +603,23 @@ function execute() {
   reset();
   Blockly.selected && Blockly.selected.unselect();
   // For safety, recompute startCount in the generator.
-  startCount = 0;
+  Music.startCount.set(0);
   // Create an interpreter whose global scope will be the cross-thread global.
   const code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  const startCount = Music.startCount.get();
   if (startCount === 0) {  // Blank workspace.
     resetButtonClick();
   }
 
   interpreter = new Interpreter(code, initInterpreter);
   for (let i = 1; i <= startCount; i++) {
-    const interpreter = new Interpreter('');
+    const tempInterpreter = new Interpreter('');
     // Replace this thread's global scope with the cross-thread global.
-    interpreter.stateStack[0].scope = interpreter.globalScope;
-    interpreter.appendCode('start' + i + '();\n');
-    threads.push(new Thread(i, interpreter.stateStack));
+    tempInterpreter.stateStack[0].scope = interpreter.globalScope;
+    tempInterpreter.appendCode(`start${i}();\n`);
+    threads.push(new Thread(i, tempInterpreter.stateStack));
   }
   setTimeout(tick, 100);
 }
@@ -653,7 +650,7 @@ function tick() {
       BlocklyInterface.saveToLocalStorage();
       if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
         // No congrats for last level, it is open ended.
-        startCount = 0;
+        Music.startCount.set(0);
         BlocklyDialogs.congratulations();
       }
     }
@@ -1038,7 +1035,8 @@ function transform10(xml) {
  * Send an image of the canvas to gallery.
  */
 function submitToGallery() {
-  if (!canSubmit || !startCount) {
+  const startCount = Music.startCount.get();
+  if (!canSubmit || startCount < 1) {
     alert(BlocklyGames.getMsg('submitDisabled', false));
     return;
   }

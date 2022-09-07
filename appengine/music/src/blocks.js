@@ -32,6 +32,7 @@ goog.require('Blockly.JavaScript.variables');
 goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 goog.require('CustomFields.FieldPitch');
+goog.require('Music.startCount');
 
 
 /**
@@ -250,11 +251,12 @@ Blockly.Blocks['music_start'] = {
 };
 
 Blockly.JavaScript['music_start'] = function(block) {
-  Music.startCount++;
+  const startCount = Music.startCount.get() + 1;
+  Music.startCount.set(startCount);
   const statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
-  const code = `function start${Music.startCount}() {\n${statements_stack}}\n`;
+  const code = `function start${startCount}() {\n${statements_stack}}\n`;
   // Add % so as not to collide with helper functions in definitions list.
-  Blockly.JavaScript.definitions_['%start' + Music.startCount] = code;
+  Blockly.JavaScript.definitions_['%start' + startCount] = code;
   return null;
 };
 
