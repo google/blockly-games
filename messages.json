@@ -35,10 +35,6 @@
     "desc": "title - Specifies that this is Blockly's '''Pond''' game.",
     "msg": "Pond"
   },
-  "Games.genetics": {
-    "desc": "title - Specifies that this is Blockly's '''Genetics''' game.\n{{Identical|Genetics}}",
-    "msg": "Genetics"
-  },
   "Games.linesOfCode1": {
     "desc": "alert - Displayed when a level is complete.",
     "msg": "You solved this level with 1 line of JavaScript:"

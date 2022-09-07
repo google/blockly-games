@@ -20,7 +20,6 @@
 	"Games.music": "title - Specifies that this is Blockly's '''Music''' game.\n{{Identical|Music}}",
 	"Games.pondTutor": "title - Specifies that this is Blockly's '''Pond Tutor''' game.  It is a series of lessons or practice levels to allow users to play the more advanced '''Pond''' game (in your language: '''{{:Blockly:Games.pond/{{RelevantLanguage}}}}''').",
 	"Games.pond": "title - Specifies that this is Blockly's '''Pond''' game.",
-	"Games.genetics": "title - Specifies that this is Blockly's '''Genetics''' game.\n{{Identical|Genetics}}",
 	"Games.linesOfCode1": "alert - Displayed when a level is complete.",
 	"Games.linesOfCode2": "alert - Displayed when a level is complete.  %1 is an integer greater than 1.",
 	"Games.nextLevel": "alert - This is displayed when the user solves the level, inviting them to procede to the next level of difficulty.  %1 is an integer greater than 1.",
