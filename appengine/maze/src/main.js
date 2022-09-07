@@ -37,24 +37,23 @@ BlocklyInterface.nextLevel = function() {
     window.location = window.location.protocol + '//' +
         window.location.host + window.location.pathname +
         '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1) +
-        '&skin=' + Maze.SKIN_ID;
+        '&skin=' + SKIN_ID;
   } else {
     BlocklyInterface.indexPage();
   }
 };
 
-Maze.MAX_BLOCKS = [undefined, // Level 0.
+const MAX_BLOCKS = [undefined, // Level 0.
     Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
 
 // Crash type constants.
-Maze.CRASH_STOP = 1;
-Maze.CRASH_SPIN = 2;
-Maze.CRASH_FALL = 3;
+const CRASH_STOP = 1;
+const CRASH_SPIN = 2;
+const CRASH_FALL = 3;
 
-Maze.SKINS = [
+const SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
   // tiles: A 250x200 set of 20 map images.
-  // marker: A 20x34 goal image.
   // background: An optional 400x450 background image, or false.
   // look: Colour of sonar-like look icon.
   // winSound: List of sounds (in various formats) to play when the player wins.
@@ -63,51 +62,43 @@ Maze.SKINS = [
   {
     sprite: 'maze/pegman.png',
     tiles: 'maze/tiles_pegman.png',
-    marker: 'maze/marker.png',
     background: false,
     look: '#000',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_pegman.mp3', 'maze/fail_pegman.ogg'],
-    crashType: Maze.CRASH_STOP
+    crashType: CRASH_STOP
   },
   {
     sprite: 'maze/astro.png',
     tiles: 'maze/tiles_astro.png',
-    marker: 'maze/marker.png',
     background: 'maze/bg_astro.jpg',
     // Coma star cluster, photo by George Hatfield, used with permission.
     look: '#fff',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_astro.mp3', 'maze/fail_astro.ogg'],
-    crashType: Maze.CRASH_SPIN
+    crashType: CRASH_SPIN
   },
   {
     sprite: 'maze/panda.png',
     tiles: 'maze/tiles_panda.png',
-    marker: 'maze/marker.png',
     background: 'maze/bg_panda.jpg',
     // Spring canopy, photo by Rupert Fleetingly, CC licensed for reuse.
     look: '#000',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_panda.mp3', 'maze/fail_panda.ogg'],
-    crashType: Maze.CRASH_FALL
+    crashType: CRASH_FALL
   }
 ];
-Maze.SKIN_ID =
-    BlocklyGames.getIntegerParamFromUrl('skin', 0, Maze.SKINS.length - 1);
-Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
-
-/**
- * Milliseconds between each animation frame.
- */
-Maze.stepSpeed;
+const SKIN_ID =
+    BlocklyGames.getIntegerParamFromUrl('skin', 0, SKINS.length - 1);
+const SKIN = SKINS[SKIN_ID];
 
 /**
  * The types of squares in the maze, which is represented
  * as a 2D array of SquareType values.
  * @enum {number}
  */
-Maze.SquareType = {
+const SquareType = {
   WALL: 0,
   OPEN: 1,
   START: 2,
@@ -116,7 +107,7 @@ Maze.SquareType = {
 
 // The maze square constants defined above are inlined here
 // for ease of reading and writing the static mazes.
-Maze.map = [
+const map = [
 // Level 0.
  undefined,
 // Level 1.
@@ -222,22 +213,22 @@ Maze.map = [
  * COLS: Number of tiles across.
  * SQUARE_SIZE: Pixel height and width of each maze square (i.e. tile).
  */
-Maze.ROWS = Maze.map.length;
-Maze.COLS = Maze.map[0].length;
-Maze.SQUARE_SIZE = 50;
-Maze.PEGMAN_HEIGHT = 52;
-Maze.PEGMAN_WIDTH = 49;
+const ROWS = map.length;
+const COLS = map[0].length;
+const SQUARE_SIZE = 50;
+const PEGMAN_HEIGHT = 52;
+const PEGMAN_WIDTH = 49;
 
-Maze.MAZE_WIDTH = Maze.SQUARE_SIZE * Maze.COLS;
-Maze.MAZE_HEIGHT = Maze.SQUARE_SIZE * Maze.ROWS;
-Maze.PATH_WIDTH = Maze.SQUARE_SIZE / 3;
+const MAZE_WIDTH = SQUARE_SIZE * COLS;
+const MAZE_HEIGHT = SQUARE_SIZE * ROWS;
+const PATH_WIDTH = SQUARE_SIZE / 3;
 
 /**
  * Constants for cardinal directions.  Subsequent code assumes these are
  * in the range 0..3 and that opposites have an absolute difference of 2.
  * @enum {number}
  */
-Maze.DirectionType = {
+const DirectionType = {
   NORTH: 0,
   EAST: 1,
   SOUTH: 2,
@@ -247,7 +238,7 @@ Maze.DirectionType = {
 /**
  * Outcomes of running the user program.
  */
-Maze.ResultType = {
+const ResultType = {
   UNSET: 0,
   SUCCESS: 1,
   FAILURE: -1,
@@ -258,22 +249,23 @@ Maze.ResultType = {
 /**
  * Result of last execution.
  */
-Maze.result = Maze.ResultType.UNSET;
+let result = ResultType.UNSET;
 
 /**
  * Starting direction.
  */
-Maze.startDirection = Maze.DirectionType.EAST;
+let startDirection = DirectionType.EAST;
 
 /**
  * PIDs of animation tasks currently executing.
+ * @type !Array<number>
  */
-Maze.pidList = [];
+const pidList = [];
 
 // Map each possible shape to a sprite.
 // Input: Binary string representing Centre/North/West/South/East squares.
 // Output: [x, y] coordinates of each tile's sprite in tiles.png.
-Maze.tile_SHAPES = {
+const tile_SHAPES = {
   '10010': [4, 0],  // Dead ends
   '10001': [3, 3],
   '11000': [0, 1],
@@ -297,31 +289,48 @@ Maze.tile_SHAPES = {
 };
 
 /**
+ * Milliseconds between each animation frame.
+ */
+let stepSpeed;
+
+let start_;
+let finish_;
+let pegmanX;
+let pegmanY;
+let pegmanD;
+
+/**
+ * Log of Pegman's moves.  Recorded during execution, played back for animation.
+ * @type !Array<!Array<string>>
+ */
+const log = [];
+
+/**
  * Create and layout all the nodes for the path, scenery, Pegman, and goal.
  */
-Maze.drawMap = function() {
+function drawMap() {
   const svg = document.getElementById('svgMaze');
-  const scale = Math.max(Maze.ROWS, Maze.COLS) * Maze.SQUARE_SIZE;
+  const scale = Math.max(ROWS, COLS) * SQUARE_SIZE;
   svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
 
   // Draw the outer square.
   Blockly.utils.dom.createSvgElement('rect', {
-      'height': Maze.MAZE_HEIGHT,
-      'width': Maze.MAZE_WIDTH,
+      'height': MAZE_HEIGHT,
+      'width': MAZE_WIDTH,
       'fill': '#F1EEE7',
       'stroke-width': 1,
       'stroke': '#CCB'
     }, svg);
 
-  if (Maze.SKIN.background) {
+  if (SKIN.background) {
     const tile = Blockly.utils.dom.createSvgElement('image', {
-        'height': Maze.MAZE_HEIGHT,
-        'width': Maze.MAZE_WIDTH,
+        'height': MAZE_HEIGHT,
+        'width': MAZE_WIDTH,
         'x': 0,
         'y': 0
       }, svg);
     tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-        Maze.SKIN.background);
+        SKIN.background);
   }
 
   // Draw the tiles making up the maze map.
@@ -329,16 +338,16 @@ Maze.drawMap = function() {
   // Return a value of '0' if the specified square is wall or out of bounds,
   // '1' otherwise (empty, start, finish).
   const normalize = function(x, y) {
-    if (x < 0 || x >= Maze.COLS || y < 0 || y >= Maze.ROWS) {
+    if (x < 0 || x >= COLS || y < 0 || y >= ROWS) {
       return '0';
     }
-    return (Maze.map[y][x] === Maze.SquareType.WALL) ? '0' : '1';
+    return (map[y][x] === SquareType.WALL) ? '0' : '1';
   };
 
   // Compute and draw the tile for each square.
   let tileId = 0;
-  for (let y = 0; y < Maze.ROWS; y++) {
-    for (let x = 0; x < Maze.COLS; x++) {
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
       // Compute the tile shape.
       let tileShape = normalize(x, y) +
           normalize(x, y - 1) +  // North.
@@ -347,7 +356,7 @@ Maze.drawMap = function() {
           normalize(x - 1, y);   // East.
 
       // Draw the tile.
-      if (!Maze.tile_SHAPES[tileShape]) {
+      if (!tile_SHAPES[tileShape]) {
         // Empty square.  Use null0 for large areas, with null1-4 for borders.
         // Add some randomness to avoid large empty spaces.
         if (tileShape === '00000' && Math.random() > 0.3) {
@@ -356,28 +365,28 @@ Maze.drawMap = function() {
           tileShape = 'null' + Math.floor(1 + Math.random() * 4);
         }
       }
-      const left = Maze.tile_SHAPES[tileShape][0];
-      const top = Maze.tile_SHAPES[tileShape][1];
+      const left = tile_SHAPES[tileShape][0];
+      const top = tile_SHAPES[tileShape][1];
       // Tile's clipPath element.
       const tileClip = Blockly.utils.dom.createSvgElement('clipPath', {
           'id': 'tileClipPath' + tileId
         }, svg);
       Blockly.utils.dom.createSvgElement('rect', {
-          'height': Maze.SQUARE_SIZE,
-          'width': Maze.SQUARE_SIZE,
-          'x': x * Maze.SQUARE_SIZE,
-          'y': y * Maze.SQUARE_SIZE
+          'height': SQUARE_SIZE,
+          'width': SQUARE_SIZE,
+          'x': x * SQUARE_SIZE,
+          'y': y * SQUARE_SIZE
         }, tileClip);
       // Tile sprite.
       const tile = Blockly.utils.dom.createSvgElement('image', {
-          'height': Maze.SQUARE_SIZE * 4,
-          'width': Maze.SQUARE_SIZE * 5,
+          'height': SQUARE_SIZE * 4,
+          'width': SQUARE_SIZE * 5,
           'clip-path': 'url(#tileClipPath' + tileId + ')',
-          'x': (x - left) * Maze.SQUARE_SIZE,
-          'y': (y - top) * Maze.SQUARE_SIZE
+          'x': (x - left) * SQUARE_SIZE,
+          'y': (y - top) * SQUARE_SIZE
         }, svg);
       tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-          Maze.SKIN.tiles);
+          SKIN.tiles);
       tileId++;
     }
   }
@@ -389,36 +398,36 @@ Maze.drawMap = function() {
       'width': 20
     }, svg);
   finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-      Maze.SKIN.marker);
+      'maze/marker.png');
 
-  // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
+  // Pegman's clipPath element, whose (x, y) is reset by displayPegman
   const pegmanClip = Blockly.utils.dom.createSvgElement('clipPath', {
       'id': 'pegmanClipPath'
     }, svg);
   Blockly.utils.dom.createSvgElement('rect', {
       'id': 'clipRect',
-      'height': Maze.PEGMAN_HEIGHT,
-      'width': Maze.PEGMAN_WIDTH
+      'height': PEGMAN_HEIGHT,
+      'width': PEGMAN_WIDTH,
     }, pegmanClip);
 
   // Add Pegman.
   const pegmanIcon = Blockly.utils.dom.createSvgElement('image', {
       'id': 'pegman',
-      'height': Maze.PEGMAN_HEIGHT,
-      'width': Maze.PEGMAN_WIDTH * 21, // 49 * 21 = 1029
-      'clip-path': 'url(#pegmanClipPath)'
+      'height': PEGMAN_HEIGHT,
+      'width': PEGMAN_WIDTH * 21, // 49 * 21 = 1029
+      'clip-path': 'url(#pegmanClipPath)',
     }, svg);
   pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-      Maze.SKIN.sprite);
-};
+      SKIN.sprite);
+}
 
 /**
  * Initialize Blockly and the maze.  Called on page load.
  */
-Maze.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Maze.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
@@ -427,35 +436,35 @@ Maze.init = function() {
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
-       skin: Maze.SKIN_ID,
+       skin: SKIN_ID,
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init(BlocklyGames.Msg['Games.maze']);
 
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');
-  pegmanImg.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
+  pegmanImg.style.backgroundImage = 'url(' + SKIN.sprite + ')';
   const pegmanMenu = document.getElementById('pegmanMenu');
   const handlerFactory = function(n) {
     return function() {
-      Maze.changePegman(n);
+      changePegman(n);
     };
   };
-  for (let i = 0; i < Maze.SKINS.length; i++) {
-    if (i === Maze.SKIN_ID) {
+  for (let i = 0; i < SKINS.length; i++) {
+    if (i === SKIN_ID) {
       continue;
     }
     const div = document.createElement('div');
     const img = document.createElement('img');
     img.src = 'common/1x1.gif';
-    img.style.backgroundImage = 'url(' + Maze.SKINS[i].sprite + ')';
+    img.style.backgroundImage = 'url(' + SKINS[i].sprite + ')';
     div.appendChild(img);
     pegmanMenu.appendChild(div);
     Blockly.bindEvent_(div, 'mousedown', null, handlerFactory(i));
   }
-  Blockly.bindEvent_(window, 'resize', null, Maze.hidePegmanMenu);
+  Blockly.bindEvent_(window, 'resize', null, hidePegmanMenu);
   const pegmanButton = document.getElementById('pegmanButton');
-  Blockly.bindEvent_(pegmanButton, 'mousedown', null, Maze.showPegmanMenu);
+  Blockly.bindEvent_(pegmanButton, 'mousedown', null, showPegmanMenu);
   const pegmanButtonArrow = document.getElementById('pegmanButtonArrow');
   const arrow = document.createTextNode(Blockly.FieldDropdown.ARROW_CHAR);
   pegmanButtonArrow.appendChild(arrow);
@@ -479,17 +488,17 @@ Maze.init = function() {
   // Scale the workspace so level 1 = 1.3, and level 10 = 1.0.
   const scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
   BlocklyInterface.injectBlockly(
-      {'maxBlocks': Maze.MAX_BLOCKS,
+      {'maxBlocks': MAX_BLOCKS,
        'rtl': rtl,
        'trashcan': true,
        'zoom': {'startScale': scale}});
-  BlocklyInterface.workspace.getAudioManager().load(Maze.SKIN.winSound, 'win');
-  BlocklyInterface.workspace.getAudioManager().load(Maze.SKIN.crashSound, 'fail');
+  BlocklyInterface.workspace.getAudioManager().load(SKIN.winSound, 'win');
+  BlocklyInterface.workspace.getAudioManager().load(SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
 
-  Maze.drawMap();
+  drawMap();
 
   const defaultXml =
       '<xml>' +
@@ -499,23 +508,23 @@ Maze.init = function() {
   BlocklyInterface.loadBlocks(defaultXml, false);
 
   // Locate the start and finish squares.
-  for (let y = 0; y < Maze.ROWS; y++) {
-    for (let x = 0; x < Maze.COLS; x++) {
-      if (Maze.map[y][x] === Maze.SquareType.START) {
-        Maze.start_ = {x, y};
-      } else if (Maze.map[y][x] === Maze.SquareType.FINISH) {
-        Maze.finish_ = {x, y};
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      if (map[y][x] === SquareType.START) {
+        start_ = {x, y};
+      } else if (map[y][x] === SquareType.FINISH) {
+        finish_ = {x, y};
       }
     }
   }
 
-  Maze.reset(true);
-  BlocklyInterface.workspace.addChangeListener(Maze.updateCapacity);
+  reset(true);
+  BlocklyInterface.workspace.addChangeListener(updateCapacity);
 
-  document.body.addEventListener('mousemove', Maze.updatePegSpin_, true);
+  document.body.addEventListener('mousemove', updatePegSpin_, true);
 
-  BlocklyGames.bindClick('runButton', Maze.runButtonClick);
-  BlocklyGames.bindClick('resetButton', Maze.resetButtonClick);
+  BlocklyGames.bindClick('runButton', runButtonClick);
+  BlocklyGames.bindClick('resetButton', resetButtonClick);
 
   if (BlocklyGames.LEVEL === 1) {
     // Make connecting blocks easier for beginners.
@@ -542,8 +551,8 @@ Maze.init = function() {
     // All other levels get interactive help.  But wait 5 seconds for the
     // user to think a bit before they are told what to do.
     setTimeout(function() {
-      BlocklyInterface.workspace.addChangeListener(Maze.levelHelp);
-      Maze.levelHelp();
+      BlocklyInterface.workspace.addChangeListener(levelHelp);
+      levelHelp();
     }, 5000);
   }
 
@@ -553,27 +562,27 @@ Maze.init = function() {
   const pegSpin = document.createElement('img');
   pegSpin.id = 'pegSpin';
   pegSpin.src = 'common/1x1.gif';
-  pegSpin.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
+  pegSpin.style.backgroundImage = 'url(' + SKIN.sprite + ')';
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
 
   // Lazy-load the JavaScript interpreter.
   BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
   BlocklyInterface.importPrettify();
-};
+}
 
 /**
  * When the workspace changes, update the help as needed.
  * @param {Blockly.Events.Abstract=} opt_event Custom data for event.
  */
-Maze.levelHelp = function(opt_event) {
+function levelHelp(opt_event) {
   if (opt_event && opt_event.isUiEvent) {
     // Just a change to highlighting or somesuch.
     return;
   } else if (BlocklyInterface.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
-  } else if (Maze.result === Maze.ResultType.SUCCESS ||
+  } else if (result === ResultType.SUCCESS ||
              BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                                BlocklyGames.LEVEL)) {
     // The user has already won.  They are just playing around.
@@ -608,7 +617,7 @@ Maze.levelHelp = function(opt_event) {
         style = {'width': '360px', 'top': '120px'};
         style[rtl ? 'right' : 'left'] = '225px';
         origin = topBlocks[0].getSvgRoot();
-      } else if (Maze.result === Maze.ResultType.UNSET) {
+      } else if (result === ResultType.UNSET) {
         // Show run help dialog.
         content = document.getElementById('dialogHelpRun');
         style = {'width': '360px', 'top': '410px'};
@@ -617,7 +626,7 @@ Maze.levelHelp = function(opt_event) {
       }
     }
   } else if (BlocklyGames.LEVEL === 2) {
-    if (Maze.result !== Maze.ResultType.UNSET &&
+    if (result !== ResultType.UNSET &&
         document.getElementById('runButton').style.display === 'none') {
       content = document.getElementById('dialogHelpReset');
       style = {'width': '360px', 'top': '410px'};
@@ -673,7 +682,7 @@ Maze.levelHelp = function(opt_event) {
       }
     }
   } else if (BlocklyGames.LEVEL === 5) {
-    if (Maze.SKIN_ID === 0 && !Maze.showPegmanMenu.activatedOnce) {
+    if (SKIN_ID === 0 && !showPegmanMenu.activatedOnce) {
       content = document.getElementById('dialogHelpSkins');
       style = {'width': '360px', 'top': '60px'};
       style[rtl ? 'left' : 'right'] = '20px';
@@ -687,7 +696,7 @@ Maze.levelHelp = function(opt_event) {
       origin = toolbar[4].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL === 7) {
-    if (!Maze.levelHelp.initialized7_) {
+    if (!levelHelp.initialized7_) {
       // Create fake dropdown.
       const span = document.createElement('span');
       span.className = 'helpMenuFake';
@@ -717,7 +726,7 @@ Maze.levelHelp = function(opt_event) {
           container.appendChild(span.cloneNode(true));
         }
       }
-      Maze.levelHelp.initialized7_ = true;
+      levelHelp.initialized7_ = true;
     }
     // The hint says to change from 'ahead', but keep the hint visible
     // until the user chooses 'right'.
@@ -742,28 +751,30 @@ Maze.levelHelp = function(opt_event) {
   } else {
     BlocklyDialogs.hideDialog(false);
   }
-};
+}
 
 /**
  * Reload with a different Pegman skin.
  * @param {number} newSkin ID of new skin.
  */
-Maze.changePegman = function(newSkin) {
+function changePegman(newSkin) {
   BlocklyInterface.saveToSessionStorage();
   location = location.protocol + '//' + location.host + location.pathname +
       '?lang=' + BlocklyGames.LANG + '&level=' + BlocklyGames.LEVEL +
       '&skin=' + newSkin;
-};
+}
+
+let pegmanMenuMouse_;
 
 /**
  * Display the Pegman skin-change menu.
  * @param {!Event} e Mouse, touch, or resize event.
  */
-Maze.showPegmanMenu = function(e) {
+function showPegmanMenu(e) {
   const menu = document.getElementById('pegmanMenu');
   if (menu.style.display === 'block') {
     // Menu is already open.  Close it.
-    Maze.hidePegmanMenu(e);
+    hidePegmanMenu(e);
     return;
   }
   // Prevent double-clicks or double-taps.
@@ -775,66 +786,66 @@ Maze.showPegmanMenu = function(e) {
   menu.style.top = (button.offsetTop + button.offsetHeight) + 'px';
   menu.style.left = button.offsetLeft + 'px';
   menu.style.display = 'block';
-  Maze.pegmanMenuMouse_ =
-      Blockly.bindEvent_(document.body, 'mousedown', null, Maze.hidePegmanMenu);
+  pegmanMenuMouse_ =
+      Blockly.bindEvent_(document.body, 'mousedown', null, hidePegmanMenu);
   // Close the skin-changing hint if open.
   const hint = document.getElementById('dialogHelpSkins');
   if (hint && hint.className !== 'dialogHiddenContent') {
     BlocklyDialogs.hideDialog(false);
   }
-  Maze.showPegmanMenu.activatedOnce = true;
-};
+  showPegmanMenu.activatedOnce = true;
+}
 
 /**
  * Hide the Pegman skin-change menu.
  * @param {!Event} e Mouse, touch, or resize event.
  */
-Maze.hidePegmanMenu = function(e) {
+function hidePegmanMenu(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
   document.getElementById('pegmanMenu').style.display = 'none';
   document.getElementById('pegmanButton').classList.remove('buttonHover');
-  if (Maze.pegmanMenuMouse_) {
-    Blockly.unbindEvent_(Maze.pegmanMenuMouse_);
-    delete Maze.pegmanMenuMouse_;
+  if (pegmanMenuMouse_) {
+    Blockly.unbindEvent_(pegmanMenuMouse_);
+    pegmanMenuMouse_ = undefined;
   }
-};
+}
 
 /**
  * Reset the maze to the start position and kill any pending animation tasks.
  * @param {boolean} first True if an opening animation is to be played.
  */
-Maze.reset = function(first) {
+function reset(first) {
   // Kill all tasks.
-  Maze.pidList.forEach(clearTimeout);
-  Maze.pidList = [];
+  pidList.forEach(clearTimeout);
+  pidList.length = 0;
 
   // Move Pegman into position.
-  Maze.pegmanX = Maze.start_.x;
-  Maze.pegmanY = Maze.start_.y;
+  pegmanX = start_.x;
+  pegmanY = start_.y;
 
   if (first) {
     // Opening animation.
-    Maze.pegmanD = Maze.startDirection + 1;
-    Maze.scheduleFinish(false);
-    Maze.pidList.push(setTimeout(function() {
-      Maze.stepSpeed = 100;
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4 - 4]);
-      Maze.pegmanD++;
-    }, Maze.stepSpeed * 5));
+    pegmanD = startDirection + 1;
+    scheduleFinish(false);
+    pidList.push(setTimeout(function() {
+      stepSpeed = 100;
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+                    [pegmanX, pegmanY, pegmanD * 4 - 4]);
+      pegmanD++;
+    }, stepSpeed * 5));
   } else {
-    Maze.pegmanD = Maze.startDirection;
-    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4);
+    pegmanD = startDirection;
+    displayPegman(pegmanX, pegmanY, pegmanD * 4);
   }
 
   // Move the finish icon into position.
   const finishIcon = document.getElementById('finish');
-  finishIcon.setAttribute('x', Maze.SQUARE_SIZE * (Maze.finish_.x + 0.5) -
+  finishIcon.setAttribute('x', SQUARE_SIZE * (finish_.x + 0.5) -
       finishIcon.getAttribute('width') / 2);
-  finishIcon.setAttribute('y', Maze.SQUARE_SIZE * (Maze.finish_.y + 0.6) -
+  finishIcon.setAttribute('y', SQUARE_SIZE * (finish_.y + 0.6) -
       finishIcon.getAttribute('height'));
 
   // Make 'look' icon invisible and promote to top.
@@ -843,15 +854,15 @@ Maze.reset = function(first) {
   lookIcon.parentNode.appendChild(lookIcon);
   const paths = lookIcon.getElementsByTagName('path');
   for (const path of paths) {
-    path.setAttribute('stroke', Maze.SKIN.look);
+    path.setAttribute('stroke', SKIN.look);
   }
-};
+}
 
 /**
  * Click the run button.  Start the program.
  * @param {!Event} e Mouse or touch event.
  */
-Maze.runButtonClick = function(e) {
+function runButtonClick(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -860,10 +871,10 @@ Maze.runButtonClick = function(e) {
   // Only allow a single top block on level 1.
   if (BlocklyGames.LEVEL === 1 &&
       BlocklyInterface.workspace.getTopBlocks(false).length > 1 &&
-      Maze.result !== Maze.ResultType.SUCCESS &&
+      result !== ResultType.SUCCESS &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
-    Maze.levelHelp();
+    levelHelp();
     return;
   }
   const runButton = document.getElementById('runButton');
@@ -874,16 +885,16 @@ Maze.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  Maze.reset(false);
-  Maze.execute();
-};
+  reset(false);
+  execute();
+}
 
 /**
  * Updates the document's 'capacity' element with a message
  * indicating how many more blocks are permitted.  The capacity
  * is retrieved from BlocklyInterface.workspace.remainingCapacity().
  */
-Maze.updateCapacity = function() {
+function updateCapacity() {
   const cap = BlocklyInterface.workspace.remainingCapacity();
   const p = document.getElementById('capacity');
   if (cap === Infinity) {
@@ -911,13 +922,13 @@ Maze.updateCapacity = function() {
       }
     }
   }
-};
+}
 
 /**
  * Click the reset button.  Reset the maze.
  * @param {!Event} e Mouse or touch event.
  */
-Maze.resetButtonClick = function(e) {
+function resetButtonClick(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -926,60 +937,60 @@ Maze.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   BlocklyInterface.workspace.highlightBlock(null);
-  Maze.reset(false);
-  Maze.levelHelp();
-};
+  reset(false);
+  levelHelp();
+}
 
 /**
  * Inject the Maze API into a JavaScript interpreter.
  * @param {!Interpreter} interpreter The JS-Interpreter.
  * @param {!Interpreter.Object} globalObject Global object.
  */
-Maze.initInterpreter = function(interpreter, globalObject) {
+function initInterpreter(interpreter, globalObject) {
   // API
   let wrapper;
   wrapper = function(id) {
-    Maze.move(0, id);
+    move(0, id);
   };
   wrap('moveForward');
 
   wrapper = function(id) {
-    Maze.move(2, id);
+    move(2, id);
   };
   wrap('moveBackward');
 
   wrapper = function(id) {
-    Maze.turn(0, id);
+    turn(0, id);
   };
   wrap('turnLeft');
 
   wrapper = function(id) {
-    Maze.turn(1, id);
+    turn(1, id);
   };
   wrap('turnRight');
 
   wrapper = function(id) {
-    return Maze.isPath(0, id);
+    return isPath(0, id);
   };
   wrap('isPathForward');
 
   wrapper = function(id) {
-    return Maze.isPath(1, id);
+    return isPath(1, id);
   };
   wrap('isPathRight');
 
   wrapper = function(id) {
-    return Maze.isPath(2, id);
+    return isPath(2, id);
   };
   wrap('isPathBackward');
 
   wrapper = function(id) {
-    return Maze.isPath(3, id);
+    return isPath(3, id);
   };
   wrap('isPathLeft');
 
   wrapper = function() {
-    return Maze.notDone();
+    return notDone();
   };
   wrap('notDone');
 
@@ -987,25 +998,25 @@ Maze.initInterpreter = function(interpreter, globalObject) {
     interpreter.setProperty(globalObject, name,
         interpreter.createNativeFunction(wrapper));
   }
-};
+}
 
 /**
  * Execute the user's code.  Heaven help us...
  */
-Maze.execute = function() {
+function execute() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Maze.execute, 99);
+    setTimeout(execute, 99);
     return;
   }
 
-  Maze.log = [];
+  log.length = 0;
   Blockly.selected && Blockly.selected.unselect();
   const code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
-  Maze.result = Maze.ResultType.UNSET;
-  const interpreter = new Interpreter(code, Maze.initInterpreter);
+  result = ResultType.UNSET;
+  const interpreter = new Interpreter(code, initInterpreter);
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
@@ -1021,112 +1032,112 @@ Maze.execute = function() {
         throw Infinity;
       }
     }
-    Maze.result = Maze.notDone() ?
-        Maze.ResultType.FAILURE : Maze.ResultType.SUCCESS;
+    result = notDone() ?
+        ResultType.FAILURE : ResultType.SUCCESS;
   } catch (e) {
     // A boolean is thrown for normal termination.
     // Abnormal termination is a user error.
     if (e === Infinity) {
-      Maze.result = Maze.ResultType.TIMEOUT;
+      result = ResultType.TIMEOUT;
     } else if (e === false) {
-      Maze.result = Maze.ResultType.ERROR;
+      result = ResultType.ERROR;
     } else {
       // Syntax error, can't happen.
-      Maze.result = Maze.ResultType.ERROR;
+      result = ResultType.ERROR;
       alert(e);
     }
   }
 
   // Fast animation if execution is successful.  Slow otherwise.
-  if (Maze.result === Maze.ResultType.SUCCESS) {
-    Maze.stepSpeed = 100;
-    Maze.log.push(['finish', null]);
+  if (result === ResultType.SUCCESS) {
+    stepSpeed = 100;
+    log.push(['finish', null]);
   } else {
-    Maze.stepSpeed = 150;
+    stepSpeed = 150;
   }
 
-  // Maze.log now contains a transcript of all the user's actions.
+  // log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
-  Maze.reset(false);
-  Maze.pidList.push(setTimeout(Maze.animate, 100));
-};
+  reset(false);
+  pidList.push(setTimeout(animate, 100));
+}
 
 /**
  * Iterate through the recorded path and animate pegman's actions.
  */
-Maze.animate = function() {
-  const action = Maze.log.shift();
+function animate() {
+  const action = log.shift();
   if (!action) {
     BlocklyInterface.highlight(null);
-    Maze.levelHelp();
+    levelHelp();
     return;
   }
   BlocklyInterface.highlight(action[1]);
 
   switch (action[0]) {
     case 'north':
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX, Maze.pegmanY - 1, Maze.pegmanD * 4]);
-      Maze.pegmanY--;
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+               [pegmanX, pegmanY - 1, pegmanD * 4]);
+      pegmanY--;
       break;
     case 'east':
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX + 1, Maze.pegmanY, Maze.pegmanD * 4]);
-      Maze.pegmanX++;
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+               [pegmanX + 1, pegmanY, pegmanD * 4]);
+      pegmanX++;
       break;
     case 'south':
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX, Maze.pegmanY + 1, Maze.pegmanD * 4]);
-      Maze.pegmanY++;
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+               [pegmanX, pegmanY + 1, pegmanD * 4]);
+      pegmanY++;
       break;
     case 'west':
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX - 1, Maze.pegmanY, Maze.pegmanD * 4]);
-      Maze.pegmanX--;
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+               [pegmanX - 1, pegmanY, pegmanD * 4]);
+      pegmanX--;
       break;
     case 'look_north':
-      Maze.scheduleLook(Maze.DirectionType.NORTH);
+      scheduleLook(DirectionType.NORTH);
       break;
     case 'look_east':
-      Maze.scheduleLook(Maze.DirectionType.EAST);
+      scheduleLook(DirectionType.EAST);
       break;
     case 'look_south':
-      Maze.scheduleLook(Maze.DirectionType.SOUTH);
+      scheduleLook(DirectionType.SOUTH);
       break;
     case 'look_west':
-      Maze.scheduleLook(Maze.DirectionType.WEST);
+      scheduleLook(DirectionType.WEST);
       break;
     case 'fail_forward':
-      Maze.scheduleFail(true);
+      scheduleFail(true);
       break;
     case 'fail_backward':
-      Maze.scheduleFail(false);
+      scheduleFail(false);
       break;
     case 'left':
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4 - 4]);
-      Maze.pegmanD = Maze.constrainDirection4(Maze.pegmanD - 1);
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+               [pegmanX, pegmanY, pegmanD * 4 - 4]);
+      pegmanD = constrainDirection4(pegmanD - 1);
       break;
     case 'right':
-      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
-                    [Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4 + 4]);
-      Maze.pegmanD = Maze.constrainDirection4(Maze.pegmanD + 1);
+      schedule([pegmanX, pegmanY, pegmanD * 4],
+               [pegmanX, pegmanY, pegmanD * 4 + 4]);
+      pegmanD = constrainDirection4(pegmanD + 1);
       break;
     case 'finish':
-      Maze.scheduleFinish(true);
+      scheduleFinish(true);
       BlocklyInterface.saveToLocalStorage();
       setTimeout(BlocklyDialogs.congratulations, 1000);
   }
 
-  Maze.pidList.push(setTimeout(Maze.animate, Maze.stepSpeed * 5));
-};
+  pidList.push(setTimeout(animate, stepSpeed * 5));
+}
 
 /**
  * Point the congratulations Pegman to face the mouse.
  * @param {Event} e Mouse move event.
  * @private
  */
-Maze.updatePegSpin_ = function(e) {
+function updatePegSpin_(e) {
   if (document.getElementById('dialogDone').className ===
       'dialogHiddenContent') {
     return;
@@ -1150,55 +1161,55 @@ Maze.updatePegSpin_ = function(e) {
     quad = 15;
   }
   // Display correct Pegman sprite.
-  pegSpin.style.backgroundPosition = (-quad * Maze.PEGMAN_WIDTH) + 'px 0px';
-};
+  pegSpin.style.backgroundPosition = (-quad * PEGMAN_WIDTH) + 'px 0px';
+}
 
 /**
  * Schedule the animations for a move or turn.
  * @param {!Array<number>} startPos X, Y and direction starting points.
  * @param {!Array<number>} endPos X, Y and direction ending points.
  */
-Maze.schedule = function(startPos, endPos) {
+function schedule(startPos, endPos) {
   const deltas = [(endPos[0] - startPos[0]) / 4,
                 (endPos[1] - startPos[1]) / 4,
                 (endPos[2] - startPos[2]) / 4];
-  Maze.displayPegman(startPos[0] + deltas[0],
-                     startPos[1] + deltas[1],
-                     Maze.constrainDirection16(startPos[2] + deltas[2]));
-  Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(startPos[0] + deltas[0] * 2,
+  displayPegman(startPos[0] + deltas[0],
+                startPos[1] + deltas[1],
+                constrainDirection16(startPos[2] + deltas[2]));
+  pidList.push(setTimeout(function() {
+      displayPegman(startPos[0] + deltas[0] * 2,
           startPos[1] + deltas[1] * 2,
-          Maze.constrainDirection16(startPos[2] + deltas[2] * 2));
-    }, Maze.stepSpeed));
-  Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(startPos[0] + deltas[0] * 3,
+          constrainDirection16(startPos[2] + deltas[2] * 2));
+    }, stepSpeed));
+  pidList.push(setTimeout(function() {
+      displayPegman(startPos[0] + deltas[0] * 3,
           startPos[1] + deltas[1] * 3,
-          Maze.constrainDirection16(startPos[2] + deltas[2] * 3));
-    }, Maze.stepSpeed * 2));
-  Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(endPos[0], endPos[1],
-          Maze.constrainDirection16(endPos[2]));
-    }, Maze.stepSpeed * 3));
-};
+          constrainDirection16(startPos[2] + deltas[2] * 3));
+    }, stepSpeed * 2));
+  pidList.push(setTimeout(function() {
+      displayPegman(endPos[0], endPos[1],
+          constrainDirection16(endPos[2]));
+    }, stepSpeed * 3));
+}
 
 /**
  * Schedule the animations and sounds for a failed move.
  * @param {boolean} forward True if forward, false if backward.
  */
-Maze.scheduleFail = function(forward) {
+function scheduleFail(forward) {
   let deltaX = 0;
   let deltaY = 0;
-  switch (Maze.pegmanD) {
-    case Maze.DirectionType.NORTH:
+  switch (pegmanD) {
+    case DirectionType.NORTH:
       deltaY = -1;
       break;
-    case Maze.DirectionType.EAST:
+    case DirectionType.EAST:
       deltaX = 1;
       break;
-    case Maze.DirectionType.SOUTH:
+    case DirectionType.SOUTH:
       deltaY = 1;
       break;
-    case Maze.DirectionType.WEST:
+    case DirectionType.WEST:
       deltaX = -1;
       break;
   }
@@ -1206,29 +1217,23 @@ Maze.scheduleFail = function(forward) {
     deltaX = -deltaX;
     deltaY = -deltaY;
   }
-  if (Maze.SKIN.crashType === Maze.CRASH_STOP) {
+  if (SKIN.crashType === CRASH_STOP) {
     // Bounce bounce.
     deltaX /= 4;
     deltaY /= 4;
-    const direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
-    Maze.displayPegman(Maze.pegmanX + deltaX,
-                       Maze.pegmanY + deltaY,
-                       direction16);
+    const direction16 = constrainDirection16(pegmanD * 4);
+    displayPegman(pegmanX + deltaX, pegmanY + deltaY, direction16);
     BlocklyInterface.workspace.getAudioManager().play('fail', 0.5);
-    Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(Maze.pegmanX,
-                         Maze.pegmanY,
-                         direction16);
-      }, Maze.stepSpeed));
-    Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(Maze.pegmanX + deltaX,
-                         Maze.pegmanY + deltaY,
-                         direction16);
+    pidList.push(setTimeout(function() {
+      displayPegman(pegmanX, pegmanY, direction16);
+    }, stepSpeed));
+    pidList.push(setTimeout(function() {
+      displayPegman(pegmanX + deltaX, pegmanY + deltaY, direction16);
       BlocklyInterface.workspace.getAudioManager().play('fail', 0.5);
-    }, Maze.stepSpeed * 2));
-    Maze.pidList.push(setTimeout(function() {
-        Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
-      }, Maze.stepSpeed * 3));
+    }, stepSpeed * 2));
+    pidList.push(setTimeout(function() {
+        displayPegman(pegmanX, pegmanY, direction16);
+      }, stepSpeed * 3));
   } else {
     // Add a small random delta away from the grid.
     const deltaZ = (Math.random() - 0.5) * 10;
@@ -1238,52 +1243,49 @@ Maze.scheduleFail = function(forward) {
     deltaX /= 8;
     deltaY /= 8;
     let acceleration = 0;
-    if (Maze.SKIN.crashType === Maze.CRASH_FALL) {
+    if (SKIN.crashType === CRASH_FALL) {
       acceleration = 0.01;
     }
-    Maze.pidList.push(setTimeout(function() {
+    pidList.push(setTimeout(function() {
       BlocklyInterface.workspace.getAudioManager().play('fail', 0.5);
-    }, Maze.stepSpeed * 2));
+    }, stepSpeed * 2));
     const setPosition = function(n) {
       return function() {
-        const direction16 = Maze.constrainDirection16(Maze.pegmanD * 4 +
-                                                    deltaD * n);
-        Maze.displayPegman(Maze.pegmanX + deltaX * n,
-                           Maze.pegmanY + deltaY * n,
-                           direction16,
-                           deltaZ * n);
+        const direction16 = constrainDirection16(pegmanD * 4 + deltaD * n);
+        displayPegman(pegmanX + deltaX * n, pegmanY + deltaY * n,
+                      direction16, deltaZ * n);
         deltaY += acceleration;
       };
     };
     // 100 frames should get Pegman offscreen.
     for (let i = 1; i < 100; i++) {
-      Maze.pidList.push(setTimeout(setPosition(i),
-          Maze.stepSpeed * i / 2));
+      pidList.push(setTimeout(setPosition(i),
+          stepSpeed * i / 2));
     }
   }
-};
+}
 
 /**
  * Schedule the animations and sound for a victory dance.
  * @param {boolean} sound Play the victory sound.
  */
-Maze.scheduleFinish = function(sound) {
-  const direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
-  Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
+function scheduleFinish(sound) {
+  const direction16 = constrainDirection16(pegmanD * 4);
+  displayPegman(pegmanX, pegmanY, 16);
   if (sound) {
     BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
   }
-  Maze.stepSpeed = 150;  // Slow down victory animation a bit.
-  Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 18);
-    }, Maze.stepSpeed));
-  Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
-    }, Maze.stepSpeed * 2));
-  Maze.pidList.push(setTimeout(function() {
-      Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
-    }, Maze.stepSpeed * 3));
-};
+  stepSpeed = 150;  // Slow down victory animation a bit.
+  pidList.push(setTimeout(function() {
+      displayPegman(pegmanX, pegmanY, 18);
+    }, stepSpeed));
+  pidList.push(setTimeout(function() {
+      displayPegman(pegmanX, pegmanY, 16);
+    }, stepSpeed * 2));
+  pidList.push(setTimeout(function() {
+      displayPegman(pegmanX, pegmanY, direction16);
+    }, stepSpeed * 3));
+}
 
 /**
  * Display Pegman at the specified location, facing the specified direction.
@@ -1292,51 +1294,49 @@ Maze.scheduleFinish = function(sound) {
  * @param {number} d Direction (0 - 15) or dance (16 - 17).
  * @param {number=} opt_angle Optional angle (in degrees) to rotate Pegman.
  */
-Maze.displayPegman = function(x, y, d, opt_angle) {
+function displayPegman(x, y, d, opt_angle) {
   const pegmanIcon = document.getElementById('pegman');
-  pegmanIcon.setAttribute('x',
-      x * Maze.SQUARE_SIZE - d * Maze.PEGMAN_WIDTH + 1);
-  pegmanIcon.setAttribute('y',
-      Maze.SQUARE_SIZE * (y + 0.5) - Maze.PEGMAN_HEIGHT / 2 - 8);
+  pegmanIcon.setAttribute('x', x * SQUARE_SIZE - d * PEGMAN_WIDTH + 1);
+  pegmanIcon.setAttribute('y', SQUARE_SIZE * (y + 0.5) - PEGMAN_HEIGHT / 2 - 8);
   if (opt_angle) {
     pegmanIcon.setAttribute('transform', 'rotate(' + opt_angle + ', ' +
-        (x * Maze.SQUARE_SIZE + Maze.SQUARE_SIZE / 2) + ', ' +
-        (y * Maze.SQUARE_SIZE + Maze.SQUARE_SIZE / 2) + ')');
+        (x * SQUARE_SIZE + SQUARE_SIZE / 2) + ', ' +
+        (y * SQUARE_SIZE + SQUARE_SIZE / 2) + ')');
   } else {
     pegmanIcon.setAttribute('transform', 'rotate(0, 0, 0)');
   }
 
   const clipRect = document.getElementById('clipRect');
-  clipRect.setAttribute('x', x * Maze.SQUARE_SIZE + 1);
+  clipRect.setAttribute('x', x * SQUARE_SIZE + 1);
   clipRect.setAttribute('y', pegmanIcon.getAttribute('y'));
-};
+}
 
 /**
  * Display the look icon at Pegman's current location,
  * in the specified direction.
- * @param {!Maze.DirectionType} d Direction (0 - 3).
+ * @param {!DirectionType} d Direction (0 - 3).
  */
-Maze.scheduleLook = function(d) {
-  let x = Maze.pegmanX;
-  let y = Maze.pegmanY;
+function scheduleLook(d) {
+  let x = pegmanX;
+  let y = pegmanY;
   switch (d) {
-    case Maze.DirectionType.NORTH:
+    case DirectionType.NORTH:
       x += 0.5;
       break;
-    case Maze.DirectionType.EAST:
+    case DirectionType.EAST:
       x += 1;
       y += 0.5;
       break;
-    case Maze.DirectionType.SOUTH:
+    case DirectionType.SOUTH:
       x += 0.5;
       y += 1;
       break;
-    case Maze.DirectionType.WEST:
+    case DirectionType.WEST:
       y += 0.5;
       break;
   }
-  x *= Maze.SQUARE_SIZE;
-  y *= Maze.SQUARE_SIZE;
+  x *= SQUARE_SIZE;
+  y *= SQUARE_SIZE;
   const deg = d * 90 - 45;
 
   const lookIcon = document.getElementById('look');
@@ -1346,49 +1346,49 @@ Maze.scheduleLook = function(d) {
   const paths = lookIcon.getElementsByTagName('path');
   lookIcon.style.display = 'inline';
   for (let i = 0; i < paths.length; i++) {
-    Maze.scheduleLookStep(paths[i], Maze.stepSpeed * i);
+    scheduleLookStep(paths[i], stepSpeed * i);
   }
-};
+}
 
 /**
  * Schedule one of the 'look' icon's waves to appear, then disappear.
  * @param {!Element} path Element to make appear.
  * @param {number} delay Milliseconds to wait before making wave appear.
  */
-Maze.scheduleLookStep = function(path, delay) {
-  Maze.pidList.push(setTimeout(function() {
+function scheduleLookStep(path, delay) {
+  pidList.push(setTimeout(function() {
     path.style.display = 'inline';
     setTimeout(function() {
       path.style.display = 'none';
-    }, Maze.stepSpeed * 2);
+    }, stepSpeed * 2);
   }, delay));
-};
+}
 
 /**
  * Keep the direction within 0-3, wrapping at both ends.
  * @param {number} d Potentially out-of-bounds direction value.
  * @returns {number} Legal direction value.
  */
-Maze.constrainDirection4 = function(d) {
+function constrainDirection4(d) {
   d = Math.round(d) % 4;
   if (d < 0) {
     d += 4;
   }
   return d;
-};
+}
 
 /**
  * Keep the direction within 0-15, wrapping at both ends.
  * @param {number} d Potentially out-of-bounds direction value.
  * @returns {number} Legal direction value.
  */
-Maze.constrainDirection16 = function(d) {
+function constrainDirection16(d) {
   d = Math.round(d) % 16;
   if (d < 0) {
     d += 16;
   }
   return d;
-};
+}
 
 // Core functions.
 
@@ -1399,96 +1399,94 @@ Maze.constrainDirection16 = function(d) {
  * @throws {true} If the end of the maze is reached.
  * @throws {false} If Pegman collides with a wall.
  */
-Maze.move = function(direction, id) {
-  if (!Maze.isPath(direction, null)) {
-    Maze.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
+function move(direction, id) {
+  if (!isPath(direction, null)) {
+    log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
     throw false;
   }
   // If moving backward, flip the effective direction.
-  const effectiveDirection = Maze.pegmanD + direction;
+  const effectiveDirection = pegmanD + direction;
   let command;
-  switch (Maze.constrainDirection4(effectiveDirection)) {
-    case Maze.DirectionType.NORTH:
-      Maze.pegmanY--;
+  switch (constrainDirection4(effectiveDirection)) {
+    case DirectionType.NORTH:
+      pegmanY--;
       command = 'north';
       break;
-    case Maze.DirectionType.EAST:
-      Maze.pegmanX++;
+    case DirectionType.EAST:
+      pegmanX++;
       command = 'east';
       break;
-    case Maze.DirectionType.SOUTH:
-      Maze.pegmanY++;
+    case DirectionType.SOUTH:
+      pegmanY++;
       command = 'south';
       break;
-    case Maze.DirectionType.WEST:
-      Maze.pegmanX--;
+    case DirectionType.WEST:
+      pegmanX--;
       command = 'west';
       break;
   }
-  Maze.log.push([command, id]);
-};
+  log.push([command, id]);
+}
 
 /**
  * Turn pegman left or right.
  * @param {number} direction Direction to turn (0 = left, 1 = right).
  * @param {string} id ID of block that triggered this action.
  */
-Maze.turn = function(direction, id) {
+function turn(direction, id) {
   if (direction) {
     // Right turn (clockwise).
-    Maze.pegmanD++;
-    Maze.log.push(['right', id]);
+    pegmanD++;
+    log.push(['right', id]);
   } else {
     // Left turn (counterclockwise).
-    Maze.pegmanD--;
-    Maze.log.push(['left', id]);
+    pegmanD--;
+    log.push(['left', id]);
   }
-  Maze.pegmanD = Maze.constrainDirection4(Maze.pegmanD);
-};
+  pegmanD = constrainDirection4(pegmanD);
+}
 
 /**
  * Is there a path next to pegman?
  * @param {number} direction Direction to look
  *     (0 = forward, 1 = right, 2 = backward, 3 = left).
  * @param {?string} id ID of block that triggered this action.
- *     Null if called as a helper function in Maze.move().
+ *     Null if called as a helper function in move().
  * @returns {boolean} True if there is a path.
  */
-Maze.isPath = function(direction, id) {
-  const effectiveDirection = Maze.pegmanD + direction;
+function isPath(direction, id) {
+  const effectiveDirection = pegmanD + direction;
   let square, command;
-  switch (Maze.constrainDirection4(effectiveDirection)) {
-    case Maze.DirectionType.NORTH:
-      square = Maze.map[Maze.pegmanY - 1] &&
-          Maze.map[Maze.pegmanY - 1][Maze.pegmanX];
+  switch (constrainDirection4(effectiveDirection)) {
+    case DirectionType.NORTH:
+      square = map[pegmanY - 1] && map[pegmanY - 1][pegmanX];
       command = 'look_north';
       break;
-    case Maze.DirectionType.EAST:
-      square = Maze.map[Maze.pegmanY][Maze.pegmanX + 1];
+    case DirectionType.EAST:
+      square = map[pegmanY][pegmanX + 1];
       command = 'look_east';
       break;
-    case Maze.DirectionType.SOUTH:
-      square = Maze.map[Maze.pegmanY + 1] &&
-          Maze.map[Maze.pegmanY + 1][Maze.pegmanX];
+    case DirectionType.SOUTH:
+      square = map[pegmanY + 1] && map[pegmanY + 1][pegmanX];
       command = 'look_south';
       break;
-    case Maze.DirectionType.WEST:
-      square = Maze.map[Maze.pegmanY][Maze.pegmanX - 1];
+    case DirectionType.WEST:
+      square = map[pegmanY][pegmanX - 1];
       command = 'look_west';
       break;
   }
   if (id) {
-    Maze.log.push([command, id]);
+    log.push([command, id]);
   }
-  return square !== Maze.SquareType.WALL && square !== undefined;
-};
+  return square !== SquareType.WALL && square !== undefined;
+}
 
 /**
  * Is the player at the finish marker?
  * @returns {boolean} True if not done, false if done.
  */
-Maze.notDone = function() {
-  return Maze.pegmanX !== Maze.finish_.x || Maze.pegmanY !== Maze.finish_.y;
-};
+function notDone() {
+  return pegmanX !== finish_.x || pegmanY !== finish_.y;
+}
 
-window.addEventListener('load', Maze.init);
+window.addEventListener('load', init);

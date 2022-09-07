@@ -34,13 +34,13 @@ BlocklyGames.NAME = 'pond-duck';
  * Array of editor tabs (Blockly and ACE).
  * @type Array<!Element>
  */
-Pond.Duck.editorTabs = null;
+let editorTabs = null;
 
 /**
  * ACE editor fires change events even on programmatically caused changes.
  * This property is used to signal times when a programmatic change is made.
  */
-Pond.Duck.ignoreEditorChanges_ = true;
+let ignoreEditorChanges_ = true;
 
 /**
  * Currently selected avatar.
@@ -52,12 +52,12 @@ Pond.currentAvatar = null;
  * Array of duck data that was loaded separately.
  * @type Array<!Object>
  */
-Pond.Duck.duckData = null;
+let duckData = null;
 
 /**
  * Indices of tabs.
  */
-Pond.Duck.tabIndex = {
+const tabIndex = {
   BLOCKS: 0,
   JAVASCRIPT: 1,
 };
@@ -65,14 +65,14 @@ Pond.Duck.tabIndex = {
 /**
  * Initialize Ace and the pond.  Called on page load.
  */
-Pond.Duck.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Pond.Duck.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
-  Pond.Duck.duckData = window['DUCKS'];
+  duckData = window['DUCKS'];
   // Render the HTML.
   document.body.innerHTML = Pond.Duck.html.start(
       {lang: BlocklyGames.LANG,
@@ -86,12 +86,12 @@ Pond.Duck.init = function() {
       if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
         return;
       }
-      Pond.Duck.changeTab(selectedIndex);
+      changeTab(selectedIndex);
     };
   }
   const tabs = Array.prototype.slice.call(
       document.querySelectorAll('#editorBar>.tab'));
-  Pond.Duck.editorTabs = tabs;
+  editorTabs = tabs;
   for (let i = 0; i < tabs.length; i++) {
     BlocklyGames.bindClick(tabs[i], tabHandler(i));
   }
@@ -126,7 +126,7 @@ Pond.Duck.init = function() {
 
   // Inject JS editor.
   const session = BlocklyAce.makeAceSession();
-  session['on']('change', Pond.Duck.editorChanged);
+  session['on']('change', editorChanged);
 
   // Lazy-load the ESx-ES5 transpiler.
   BlocklyAce.importBabel();
@@ -141,37 +141,37 @@ Pond.Duck.init = function() {
     new Blockly.utils.Coordinate(80, 20),
   ];
   const avatarSelect = document.getElementById('avatar-select');
-  for (let i = 0; i < Pond.Duck.duckData.length; i++) {
-    const duckData = Pond.Duck.duckData[i];
-    if (duckData['name'] === null) {
-      duckData['name'] = BlocklyGames.Msg['Pond.playerName'];
+  for (let i = 0; i < duckData.length; i++) {
+    const duckDatum = duckData[i];
+    if (duckDatum['name'] === null) {
+      duckDatum['name'] = BlocklyGames.Msg['Pond.playerName'];
     }
-    const option = new Option(duckData['name'], duckData['id']);
+    const option = new Option(duckDatum['name'], duckDatum['id']);
     avatarSelect.add(option);
 
-    const avatar = new Pond.Avatar(duckData['name'], coordinates[i], 0,
-        duckData['editable'], Pond.Battle);
-    if (duckData['blockly'] === undefined && duckData['js'] === undefined) {
-      duckData['js'] = duckData['compiled'];
+    const avatar = new Pond.Avatar(duckDatum['name'], coordinates[i], 0,
+        duckDatum['editable'], Pond.Battle);
+    if (duckDatum['blockly'] === undefined && duckDatum['js'] === undefined) {
+      duckDatum['js'] = duckDatum['compiled'];
     }
-    if (duckData['js']) {
+    if (duckDatum['js']) {
       // Strip off any leading blank lines, and any trailing whitespace.
-      duckData['js'] = duckData['js'].replace(/^\s*\n/, '').trimRight();
+      duckDatum['js'] = duckDatum['js'].replace(/^\s*\n/, '').trimRight();
     }
-    avatar.setCode(duckData['blockly'], duckData['js'], duckData['compiled']);
+    avatar.setCode(duckDatum['blockly'], duckDatum['js'], duckDatum['compiled']);
   }
-  avatarSelect.addEventListener('change', Pond.Duck.changeAvatar);
+  avatarSelect.addEventListener('change', changeAvatar);
   Pond.reset();
   if (avatarSelect) {
-    Pond.Duck.changeAvatar();
+    changeAvatar();
   }
-};
+}
 
 /**
  * Called by the avatar selector when changed.
  */
-Pond.Duck.changeAvatar = function() {
-  Pond.Duck.ignoreEditorChanges_ = true;
+function changeAvatar() {
+  ignoreEditorChanges_ = true;
 
   const avatarSelect = document.getElementById('avatar-select');
   const i = avatarSelect.selectedIndex;
@@ -195,30 +195,30 @@ Pond.Duck.changeAvatar = function() {
     const xml = Blockly.Xml.textToDom(Pond.currentAvatar.blockly);
     Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
     BlocklyInterface.workspace.clearUndo();
-    Pond.Duck.setBlocksDisabled(false);
-    Pond.Duck.changeTab(Pond.Duck.tabIndex.BLOCKS);
+    setBlocksDisabled(false);
+    changeTab(tabIndex.BLOCKS);
   }
 
   if (Pond.currentAvatar.js !== undefined) {
     BlocklyInterface.editor['setValue'](Pond.currentAvatar.js, -1);
-    Pond.Duck.setBlocksDisabled(true);
-    Pond.Duck.changeTab(Pond.Duck.tabIndex.JAVASCRIPT);
+    setBlocksDisabled(true);
+    changeTab(tabIndex.JAVASCRIPT);
   }
   BlocklyInterface.editor['setReadOnly'](!Pond.currentAvatar.editable);
-  Pond.Duck.ignoreEditorChanges_ = false;
-};
+  ignoreEditorChanges_ = false;
+}
 
 /**
  * Called by the tab bar when a tab is selected.
  * @param {number} index Which tab is now active (0-1).
  */
-Pond.Duck.changeTab = function(index) {
+function changeTab(index) {
   // Change highlighting.
-  for (let i = 0; i < Pond.Duck.editorTabs.length; i++) {
+  for (let i = 0; i < editorTabs.length; i++) {
     if (index === i) {
-      Blockly.utils.dom.addClass(Pond.Duck.editorTabs[i], 'tab-selected');
+      Blockly.utils.dom.addClass(editorTabs[i], 'tab-selected');
     } else {
-      Blockly.utils.dom.removeClass(Pond.Duck.editorTabs[i], 'tab-selected');
+      Blockly.utils.dom.removeClass(editorTabs[i], 'tab-selected');
     }
   }
   // Show the correct tab contents.
@@ -230,27 +230,27 @@ Pond.Duck.changeTab = function(index) {
   Blockly.hideChaff(false);
   // Synchronize the documentation popup.
   document.getElementById('docsButton').disabled = false;
-  BlocklyGames.LEVEL = (index === Pond.Duck.tabIndex.BLOCKS) ? 11 : 12;
+  BlocklyGames.LEVEL = (index === tabIndex.BLOCKS) ? 11 : 12;
   if (Pond.isDocsVisible_) {
     document.getElementById('frameDocs').src =
         `pond/docs.html?lang=${BlocklyGames.LANG}&mode=${BlocklyGames.LEVEL}`;
   }
   // Synchronize the JS editor.
-  if (!Pond.Duck.ignoreEditorChanges_ && !BlocklyInterface.blocksDisabled &&
-      index === Pond.Duck.tabIndex.JAVASCRIPT) {
+  if (!ignoreEditorChanges_ && !BlocklyInterface.blocksDisabled &&
+      index === tabIndex.JAVASCRIPT) {
     const code = Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
-    Pond.Duck.ignoreEditorChanges_ = true;
+    ignoreEditorChanges_ = true;
     BlocklyInterface.editor['setValue'](code, -1);
-    Pond.Duck.ignoreEditorChanges_ = false;
+    ignoreEditorChanges_ = false;
   }
-};
+}
 
 /**
  * Change event for JS editor.  Warn the user, then disconnect the link from
  * blocks to JavaScript.
  */
-Pond.Duck.editorChanged = function() {
-  if (Pond.Duck.ignoreEditorChanges_) {
+function editorChanged() {
+  if (ignoreEditorChanges_) {
     return;
   }
   const code = BlocklyInterface.getJsCode();
@@ -258,37 +258,37 @@ Pond.Duck.editorChanged = function() {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.
       BlocklyInterface.workspace.clear();
-      Pond.Duck.setBlocksDisabled(false);
+      setBlocksDisabled(false);
     }
   } else {
     if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
         confirm(BlocklyGames.Msg['Games.breakLink'])) {
       // Break link between blocks and JS.
-      Pond.Duck.setBlocksDisabled(true);
+      setBlocksDisabled(true);
     } else {
       // Abort change, preserve link.
-      Pond.Duck.ignoreEditorChanges_ = true;
+      ignoreEditorChanges_ = true;
       setTimeout(function() {
         BlocklyInterface.editor['setValue'](code, -1);
-        Pond.Duck.ignoreEditorChanges_ = false;
+        ignoreEditorChanges_ = false;
       }, 0);
     }
   }
-};
+}
 
 /**
  * Enable or disable the ability to use Blockly.
  * @param {boolean} disabled True if Blockly is disabled and JS is to be used.
  */
-Pond.Duck.setBlocksDisabled = function(disabled) {
+function setBlocksDisabled(disabled) {
   BlocklyInterface.blocksDisabled = disabled;
-  const tab = Pond.Duck.editorTabs[Pond.Duck.tabIndex.BLOCKS];
+  const tab = editorTabs[tabIndex.BLOCKS];
   if (disabled) {
     Blockly.utils.dom.addClass(tab, 'tab-disabled');
   } else {
     Blockly.utils.dom.removeClass(tab, 'tab-disabled');
   }
-};
+}
 
 
 (function() {
@@ -298,4 +298,5 @@ Pond.Duck.setBlocksDisabled = function(disabled) {
   script.src = 'pond/duck/default-ducks.js';
   document.head.appendChild(script);
 })();
-window.addEventListener('load', Pond.Duck.init);
+
+window.addEventListener('load', init);

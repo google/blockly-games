@@ -212,7 +212,7 @@ def generate_compressed(gameName):
     '--externs', 'appengine/third-party/blockly/externs/svg-externs.js',
     #'--language_in', 'STABLE',
     '--language_out', 'ECMASCRIPT5',
-    '--entry_point=%s' % gameName.replace('/', '.').title(),
+    '--entry_point=appengine/%s/src/main' % gameName,
     "--js='appengine/third-party/**.js'",
     "--js='!appengine/third-party/blockly/externs/**.js'",
     "--js='appengine/src/*.js'",

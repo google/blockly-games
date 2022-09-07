@@ -26,53 +26,61 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Slider');
-goog.require('Turtle.Answers');
 goog.require('Turtle.Blocks');
 goog.require('Turtle.html');
 
 
 BlocklyGames.NAME = 'turtle';
 
-Turtle.HEIGHT = 400;
-Turtle.WIDTH = 400;
+const HEIGHT = 400;
+const WIDTH = 400;
 
 /**
  * PID of animation task currently executing.
  * @type !Array<number>
  */
-Turtle.pidList = [];
+const pidList = [];
 
 /**
  * Number of milliseconds that execution should delay.
  * @type number
  */
-Turtle.pause = 0;
+let pause = 0;
 
 /**
  * JavaScript interpreter for executing program.
  * @type Interpreter
  */
-Turtle.interpreter = null;
+let interpreter = null;
 
 /**
  * Should the turtle be drawn?
  * @type boolean
  */
-Turtle.visible = true;
+let visible = true;
 
 /**
  * Is the drawing ready to be submitted to gallery?
  * @type boolean
  */
-Turtle.canSubmit = false;
+let canSubmit = false;
+
+let speedSlider;
+let ctxDisplay;
+let ctxAnswer;
+let ctxScratch;
+let turtleX;
+let turtleY;
+let turtleHeading;
+let isPenDown;
 
 /**
  * Initialize Blockly and the turtle.  Called on page load.
  */
-Turtle.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Turtle.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
@@ -120,12 +128,12 @@ Turtle.init = function() {
       'hideTurtle,showTurtle,print,font');
 
   if (document.getElementById('submitButton')) {
-    BlocklyGames.bindClick('submitButton', Turtle.submitToGallery);
+    BlocklyGames.bindClick('submitButton', submitToGallery);
   }
 
   // Initialize the slider.
   const sliderSvg = document.getElementById('slider');
-  Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
+  speedSlider = new Slider(10, 35, 130, sliderSvg);
 
   let defaultXml;
   if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
@@ -148,16 +156,16 @@ Turtle.init = function() {
         '</xml>';
   }
   BlocklyInterface.loadBlocks(defaultXml,
-      BlocklyGames.LEVEL !== BlocklyGames.MAX_LEVEL || Turtle.transform10);
+      BlocklyGames.LEVEL !== BlocklyGames.MAX_LEVEL || transform10);
 
-  Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
-  Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
-  Turtle.ctxScratch = document.getElementById('scratch').getContext('2d');
-  Turtle.drawAnswer();
-  Turtle.reset();
+  ctxDisplay = document.getElementById('display').getContext('2d');
+  ctxAnswer = document.getElementById('answer').getContext('2d');
+  ctxScratch = document.getElementById('scratch').getContext('2d');
+  drawAnswer();
+  reset();
 
-  BlocklyGames.bindClick('runButton', Turtle.runButtonClick);
-  BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
+  BlocklyGames.bindClick('runButton', runButtonClick);
+  BlocklyGames.bindClick('resetButton', resetButtonClick);
 
   // Preload the win sound.
   BlocklyInterface.workspace.getAudioManager().load(
@@ -167,11 +175,11 @@ Turtle.init = function() {
   // Lazy-load the syntax-highlighting.
   BlocklyInterface.importPrettify();
 
-  BlocklyGames.bindClick('helpButton', Turtle.showHelp);
+  BlocklyGames.bindClick('helpButton', showHelp);
   if (location.hash.length < 2 &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
-    setTimeout(Turtle.showHelp, 1000);
+    setTimeout(showHelp, 1000);
     if (BlocklyGames.LEVEL === 9) {
       setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
     }
@@ -179,11 +187,9 @@ Turtle.init = function() {
   if (BlocklyGames.LEVEL === 1) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
-    BlocklyInterface.workspace.addChangeListener(Turtle.watchCategories_);
+    BlocklyInterface.workspace.addChangeListener(watchCategories_);
   }
-};
-
-window.addEventListener('load', Turtle.init);
+}
 
 /**
  * Transform a program written in level 9 blocks into one written in the more
@@ -191,7 +197,7 @@ window.addEventListener('load', Turtle.init);
  * @param {string} xml Level 9 blocks in XML as text.
  * @returns {string} Level 10 blocks in XML as text.
  */
-Turtle.transform10 = function(xml) {
+function transform10(xml) {
   const tree = Blockly.Xml.textToDom(xml);
   let node = tree;
   while (node) {
@@ -325,17 +331,17 @@ Turtle.transform10 = function(xml) {
         shadow.appendChild(child);
       }
     }
-    node = Turtle.nextNode(node);
+    node = nextNode(node);
   }
   return Blockly.Xml.domToText(tree);
-};
+}
 
 /**
  * Walk from one node to the next in a tree.
  * @param {!Node} node Current node.
  * @returns {Node} Next node, or null if ran off bottom of tree.
  */
-Turtle.nextNode = function(node) {
+function nextNode(node) {
   if (node.firstChild) {
     return node.firstChild;
   }
@@ -345,12 +351,12 @@ Turtle.nextNode = function(node) {
     }
   } while ((node = node.parentNode));
   return node;
-};
+}
 
 /**
  * Show the help pop-up.
  */
-Turtle.showHelp = function() {
+function showHelp() {
   const help = document.getElementById('help');
   const button = document.getElementById('helpButton');
   const style = {
@@ -368,27 +374,27 @@ Turtle.showHelp = function() {
     BlocklyInterface.injectReadonly('sampleHelp4', xml);
   }
 
-  BlocklyDialogs.showDialog(help, button, true, true, style, Turtle.hideHelp);
+  BlocklyDialogs.showDialog(help, button, true, true, style, hideHelp);
   BlocklyDialogs.startDialogKeyDown();
-};
+}
 
 /**
  * Hide the help pop-up.
  */
-Turtle.hideHelp = function() {
+function hideHelp() {
   BlocklyDialogs.stopDialogKeyDown();
   if (BlocklyGames.LEVEL === 1) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
-    setTimeout(Turtle.showCategoryHelp, 5000);
+    setTimeout(showCategoryHelp, 5000);
   }
-};
+}
 
 /**
  * Show the help pop-up to encourage clicking on the toolbox categories.
  */
-Turtle.showCategoryHelp = function() {
-  if (Turtle.categoryClicked_ || BlocklyDialogs.isDialogVisible_) {
+function showCategoryHelp() {
+  if (categoryClicked_ || BlocklyDialogs.isDialogVisible_) {
     return;
   }
   const help = document.getElementById('helpToolbox');
@@ -403,7 +409,7 @@ Turtle.showCategoryHelp = function() {
   }
   const origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
-};
+}
 
 
 /**
@@ -411,128 +417,127 @@ Turtle.showCategoryHelp = function() {
  * Level one only.
  * @private
  */
-Turtle.categoryClicked_ = false;
+let categoryClicked_ = false;
 
 /**
  * Monitor to see if the user finds the categories in level one.
  * @param {!Blockly.Events.Abstract} event Custom data for event.
  * @private
  */
-Turtle.watchCategories_ = function(event) {
+function watchCategories_(event) {
   if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
-    Turtle.categoryClicked_ = true;
+    categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
-    BlocklyInterface.workspace.removeChangeListener(Turtle.watchCategories_);
+    BlocklyInterface.workspace.removeChangeListener(watchCategories_);
   }
-};
+}
 
 /**
  * On startup draw the expected answer and save it to the answer canvas.
  */
-Turtle.drawAnswer = function() {
-  Turtle.reset();
-  Turtle.answer();
-  Turtle.ctxAnswer.globalCompositeOperation = 'copy';
-  Turtle.ctxAnswer.drawImage(Turtle.ctxScratch.canvas, 0, 0);
-  Turtle.ctxAnswer.globalCompositeOperation = 'source-over';
-};
+function drawAnswer() {
+  reset();
+  answer();
+  ctxAnswer.globalCompositeOperation = 'copy';
+  ctxAnswer.drawImage(ctxScratch.canvas, 0, 0);
+  ctxAnswer.globalCompositeOperation = 'source-over';
+}
 
 /**
  * Reset the turtle to the start position, clear the display, and kill any
  * pending tasks.
  */
-Turtle.reset = function() {
+function reset() {
   // Starting location and heading of the turtle.
-  Turtle.x = Turtle.HEIGHT / 2;
-  Turtle.y = Turtle.WIDTH / 2;
-  Turtle.heading = 0;
-  Turtle.penDownValue = true;
-  Turtle.visible = true;
+  turtleX = HEIGHT / 2;
+  turtleY = WIDTH / 2;
+  turtleHeading = 0;
+  isPenDown = true;
+  visible = true;
 
   // Clear the canvas.
-  Turtle.ctxScratch.canvas.width = Turtle.ctxScratch.canvas.width;
-  Turtle.ctxScratch.strokeStyle = '#fff';
-  Turtle.ctxScratch.fillStyle = '#fff';
-  Turtle.ctxScratch.lineWidth = 5;
-  Turtle.ctxScratch.lineCap = 'round';
-  Turtle.ctxScratch.font = 'normal 18pt Arial';
-  Turtle.display();
+  ctxScratch.canvas.width = ctxScratch.canvas.width;
+  ctxScratch.strokeStyle = '#fff';
+  ctxScratch.fillStyle = '#fff';
+  ctxScratch.lineWidth = 5;
+  ctxScratch.lineCap = 'round';
+  ctxScratch.font = 'normal 18pt Arial';
+  display();
 
   // Kill all tasks.
-  Turtle.pidList.forEach(clearTimeout);
-  Turtle.pidList = [];
-  Turtle.interpreter = null;
-};
+  pidList.forEach(clearTimeout);
+  pidList.length = 0;
+  interpreter = null;
+}
 
 /**
  * Copy the scratch canvas to the display canvas. Add a turtle marker.
  */
-Turtle.display = function() {
+function display() {
   // Clear the display with black.
-  Turtle.ctxDisplay.beginPath();
-  Turtle.ctxDisplay.rect(0, 0,
-      Turtle.ctxDisplay.canvas.width, Turtle.ctxDisplay.canvas.height);
-  Turtle.ctxDisplay.fillStyle = '#000';
-  Turtle.ctxDisplay.fill();
+  ctxDisplay.beginPath();
+  ctxDisplay.rect(0, 0, ctxDisplay.canvas.width, ctxDisplay.canvas.height);
+  ctxDisplay.fillStyle = '#000';
+  ctxDisplay.fill();
 
   // Draw the answer layer.
-  Turtle.ctxDisplay.globalCompositeOperation = 'source-over';
-  Turtle.ctxDisplay.globalAlpha = 0.2;
-  Turtle.ctxDisplay.drawImage(Turtle.ctxAnswer.canvas, 0, 0);
-  Turtle.ctxDisplay.globalAlpha = 1;
+  ctxDisplay.globalCompositeOperation = 'source-over';
+  ctxDisplay.globalAlpha = 0.2;
+  ctxDisplay.drawImage(ctxAnswer.canvas, 0, 0);
+  ctxDisplay.globalAlpha = 1;
 
   // Draw the user layer.
-  Turtle.ctxDisplay.globalCompositeOperation = 'source-over';
-  Turtle.ctxDisplay.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+  ctxDisplay.globalCompositeOperation = 'source-over';
+  ctxDisplay.drawImage(ctxScratch.canvas, 0, 0);
 
   // Draw the turtle.
-  if (Turtle.visible) {
+  if (visible) {
     // Make the turtle the colour of the pen.
-    Turtle.ctxDisplay.strokeStyle = Turtle.ctxScratch.strokeStyle;
-    Turtle.ctxDisplay.fillStyle = Turtle.ctxScratch.fillStyle;
+    ctxDisplay.strokeStyle = ctxScratch.strokeStyle;
+    ctxDisplay.fillStyle = ctxScratch.fillStyle;
 
     // Draw the turtle body.
-    const radius = Turtle.ctxScratch.lineWidth / 2 + 10;
-    Turtle.ctxDisplay.beginPath();
-    Turtle.ctxDisplay.arc(Turtle.x, Turtle.y, radius, 0, 2 * Math.PI, false);
-    Turtle.ctxDisplay.lineWidth = 3;
-    Turtle.ctxDisplay.stroke();
+    const radius = ctxScratch.lineWidth / 2 + 10;
+    ctxDisplay.beginPath();
+    ctxDisplay.arc(turtleX, turtleY, radius, 0, 2 * Math.PI, false);
+    ctxDisplay.lineWidth = 3;
+    ctxDisplay.stroke();
 
     // Draw the turtle head.
     const WIDTH = 0.3;
     const HEAD_TIP = 10;
     const ARROW_TIP = 4;
     const BEND = 6;
-    let radians = Blockly.utils.math.toRadians(Turtle.heading);
-    const tipX = Turtle.x + (radius + HEAD_TIP) * Math.sin(radians);
-    const tipY = Turtle.y - (radius + HEAD_TIP) * Math.cos(radians);
+    let radians = Blockly.utils.math.toRadians(turtleHeading);
+    const tipX = turtleX + (radius + HEAD_TIP) * Math.sin(radians);
+    const tipY = turtleY - (radius + HEAD_TIP) * Math.cos(radians);
     radians -= WIDTH;
-    const leftX = Turtle.x + (radius + ARROW_TIP) * Math.sin(radians);
-    const leftY = Turtle.y - (radius + ARROW_TIP) * Math.cos(radians);
+    const leftX = turtleX + (radius + ARROW_TIP) * Math.sin(radians);
+    const leftY = turtleY - (radius + ARROW_TIP) * Math.cos(radians);
     radians += WIDTH / 2;
-    const leftControlX = Turtle.x + (radius + BEND) * Math.sin(radians);
-    const leftControlY = Turtle.y - (radius + BEND) * Math.cos(radians);
+    const leftControlX = turtleX + (radius + BEND) * Math.sin(radians);
+    const leftControlY = turtleY - (radius + BEND) * Math.cos(radians);
     radians += WIDTH;
-    const rightControlX = Turtle.x + (radius + BEND) * Math.sin(radians);
-    const rightControlY = Turtle.y - (radius + BEND) * Math.cos(radians);
+    const rightControlX = turtleX + (radius + BEND) * Math.sin(radians);
+    const rightControlY = turtleY - (radius + BEND) * Math.cos(radians);
     radians += WIDTH / 2;
-    const rightX = Turtle.x + (radius + ARROW_TIP) * Math.sin(radians);
-    const rightY = Turtle.y - (radius + ARROW_TIP) * Math.cos(radians);
-    Turtle.ctxDisplay.beginPath();
-    Turtle.ctxDisplay.moveTo(tipX, tipY);
-    Turtle.ctxDisplay.lineTo(leftX, leftY);
-    Turtle.ctxDisplay.bezierCurveTo(leftControlX, leftControlY,
+    const rightX = turtleX + (radius + ARROW_TIP) * Math.sin(radians);
+    const rightY = turtleY - (radius + ARROW_TIP) * Math.cos(radians);
+    ctxDisplay.beginPath();
+    ctxDisplay.moveTo(tipX, tipY);
+    ctxDisplay.lineTo(leftX, leftY);
+    ctxDisplay.bezierCurveTo(leftControlX, leftControlY,
         rightControlX, rightControlY, rightX, rightY);
-    Turtle.ctxDisplay.closePath();
-    Turtle.ctxDisplay.fill();
+    ctxDisplay.closePath();
+    ctxDisplay.fill();
   }
-};
+}
 
 /**
  * Click the run button.  Start the program.
  * @param {!Event} e Mouse or touch event.
  */
-Turtle.runButtonClick = function(e) {
+function runButtonClick(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -546,14 +551,14 @@ Turtle.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   document.getElementById('spinner').style.visibility = 'visible';
-  Turtle.execute();
-};
+  execute();
+}
 
 /**
  * Click the reset button.  Reset the Turtle.
  * @param {!Event} e Mouse or touch event.
  */
-Turtle.resetButtonClick = function(e) {
+function resetButtonClick(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -563,77 +568,77 @@ Turtle.resetButtonClick = function(e) {
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
   BlocklyInterface.workspace.highlightBlock(null);
-  Turtle.reset();
+  reset();
 
   // Image cleared; prevent user from submitting to gallery.
-  Turtle.canSubmit = false;
-};
+  canSubmit = false;
+}
 
 /**
  * Inject the Turtle API into a JavaScript interpreter.
  * @param {!Interpreter} interpreter The JS-Interpreter.
  * @param {!Interpreter.Object} globalObject Global object.
  */
-Turtle.initInterpreter = function(interpreter, globalObject) {
+function initInterpreter(interpreter, globalObject) {
   // API
   let wrapper;
   wrapper = function(distance, id) {
-    Turtle.move(distance, id);
+    move(distance, id);
   };
   wrap('moveForward');
 
   wrapper = function(distance, id) {
-    Turtle.move(-distance, id);
+    move(-distance, id);
   };
   wrap('moveBackward');
 
   wrapper = function(angle, id) {
-    Turtle.turn(angle, id);
+    turn(angle, id);
   };
   wrap('turnRight');
 
   wrapper = function(angle, id) {
-    Turtle.turn(-angle, id);
+    turn(-angle, id);
   };
   wrap('turnLeft');
 
   wrapper = function(id) {
-    Turtle.penDown(false, id);
+    penDown(false, id);
   };
   wrap('penUp');
 
   wrapper = function(id) {
-    Turtle.penDown(true, id);
+    penDown(true, id);
   };
   wrap('penDown');
 
   wrapper = function(width, id) {
-    Turtle.penWidth(width, id);
+    penWidth(width, id);
   };
   wrap('penWidth');
 
   wrapper = function(colour, id) {
-    Turtle.penColour(colour, id);
+    penColour(colour, id);
   };
   wrap('penColour');
 
   wrapper = function(id) {
-    Turtle.isVisible(false, id);
+    isVisible(false, id);
   };
   wrap('hideTurtle');
 
   wrapper = function(id) {
-    Turtle.isVisible(true, id);
+    isVisible(true, id);
   };
   wrap('showTurtle');
 
   wrapper = function(text, id) {
-    Turtle.drawPrint(text, id);
+    drawPrint(text, id);
   };
   wrap('print');
 
   wrapper = function(font, size, style, id) {
-    Turtle.drawFont(font, size, style, id);
+    drawFont(font, size, style, id);
   };
   wrap('font');
 
@@ -641,167 +646,166 @@ Turtle.initInterpreter = function(interpreter, globalObject) {
     interpreter.setProperty(globalObject, name,
         interpreter.createNativeFunction(wrapper));
   }
-};
+}
 
 /**
  * Execute the user's code.  Heaven help us...
  */
-Turtle.execute = function() {
+function execute() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Turtle.execute, 99);
+    setTimeout(execute, 99);
     return;
   }
 
-  Turtle.reset();
+  reset();
   Blockly.selected && Blockly.selected.unselect();
   const code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
-  Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
-  Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
-};
+  interpreter = new Interpreter(code, initInterpreter);
+  pidList.push(setTimeout(executeChunk_, 100));
+}
 
 /**
  * Execute a bite-sized chunk of the user's code.
  * @private
  */
-Turtle.executeChunk_ = function() {
+function executeChunk_() {
   // All tasks should be complete now.  Clean up the PID list.
-  Turtle.pidList.length = 0;
-  Turtle.pause = 0;
+  pidList.length = 0;
+  pause = 0;
   let go;
   do {
     try {
-      go = Turtle.interpreter.step();
+      go = interpreter.step();
     } catch (e) {
       // User error, terminate in shame.
       alert(e);
       go = false;
     }
-    if (go && Turtle.pause) {
+    if (go && pause) {
       // The last executed command requested a pause.
       go = false;
-      Turtle.pidList.push(
-          setTimeout(Turtle.executeChunk_, Turtle.pause));
+      pidList.push(setTimeout(executeChunk_, pause));
     }
   } while (go);
   // Wrap up if complete.
-  if (!Turtle.pause) {
+  if (!pause) {
     document.getElementById('spinner').style.visibility = 'hidden';
     BlocklyInterface.workspace.highlightBlock(null);
-    Turtle.checkAnswer();
+    checkAnswer();
     // Image complete; allow the user to submit this image to gallery.
-    Turtle.canSubmit = true;
+    canSubmit = true;
   }
-};
+}
 
 /**
  * Highlight a block and pause.
  * @param {string|undefined} id ID of block.
  */
-Turtle.animate = function(id) {
+function animate(id) {
   // No need for a full render if there's no block ID,
   // since that's the signature of just pre-drawing the answer layer.
   if (id) {
-    Turtle.display();
+    display();
     BlocklyInterface.highlight(id);
     // Scale the speed non-linearly, to give better precision at the fast end.
-    const stepSpeed = 1000 * Math.pow(1 - Turtle.speedSlider.getValue(), 2);
-    Turtle.pause = Math.max(1, stepSpeed);
+    const stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);
+    pause = Math.max(1, stepSpeed);
   }
-};
+}
 
 /**
  * Move the turtle forward or backward.
  * @param {number} distance Pixels to move.
  * @param {string=} opt_id ID of block.
  */
-Turtle.move = function(distance, opt_id) {
-  if (Turtle.penDownValue) {
-    Turtle.ctxScratch.beginPath();
-    Turtle.ctxScratch.moveTo(Turtle.x, Turtle.y);
+function move(distance, opt_id) {
+  if (isPenDown) {
+    ctxScratch.beginPath();
+    ctxScratch.moveTo(turtleX, turtleY);
   }
   let bump = 0;
   if (distance) {
-    const radians = Blockly.utils.math.toRadians(Turtle.heading);
-    Turtle.x += distance * Math.sin(radians);
-    Turtle.y -= distance * Math.cos(radians);
+    const radians = Blockly.utils.math.toRadians(turtleHeading);
+    turtleX += distance * Math.sin(radians);
+    turtleY -= distance * Math.cos(radians);
   } else {
     // WebKit (unlike Gecko) draws nothing for a zero-length line.
     bump = 0.1;
   }
-  if (Turtle.penDownValue) {
-    Turtle.ctxScratch.lineTo(Turtle.x, Turtle.y + bump);
-    Turtle.ctxScratch.stroke();
+  if (isPenDown) {
+    ctxScratch.lineTo(turtleX, turtleY + bump);
+    ctxScratch.stroke();
   }
-  Turtle.animate(opt_id);
-};
+  animate(opt_id);
+}
 
 /**
  * Turn the turtle left or right.
  * @param {number} angle Degrees to turn clockwise.
  * @param {string=} opt_id ID of block.
  */
-Turtle.turn = function(angle, opt_id) {
-  Turtle.heading = BlocklyGames.normalizeAngle(Turtle.heading + angle);
-  Turtle.animate(opt_id);
-};
+function turn(angle, opt_id) {
+  turtleHeading = BlocklyGames.normalizeAngle(turtleHeading + angle);
+  animate(opt_id);
+}
 
 /**
  * Lift or lower the pen.
  * @param {boolean} down True if down, false if up.
  * @param {string=} opt_id ID of block.
  */
-Turtle.penDown = function(down, opt_id) {
-  Turtle.penDownValue = down;
-  Turtle.animate(opt_id);
-};
+function penDown(down, opt_id) {
+  isPenDown = down;
+  animate(opt_id);
+}
 
 /**
  * Change the thickness of lines.
  * @param {number} width New thickness in pixels.
  * @param {string=} opt_id ID of block.
  */
-Turtle.penWidth = function(width, opt_id) {
-  Turtle.ctxScratch.lineWidth = width;
-  Turtle.animate(opt_id);
-};
+function penWidth(width, opt_id) {
+  ctxScratch.lineWidth = width;
+  animate(opt_id);
+}
 
 /**
  * Change the colour of the pen.
  * @param {string} colour CSS colour string.
  * @param {string=} opt_id ID of block.
  */
-Turtle.penColour = function(colour, opt_id) {
-  Turtle.ctxScratch.strokeStyle = colour;
-  Turtle.ctxScratch.fillStyle = colour;
-  Turtle.animate(opt_id);
-};
+function penColour(colour, opt_id) {
+  ctxScratch.strokeStyle = colour;
+  ctxScratch.fillStyle = colour;
+  animate(opt_id);
+}
 
 /**
  * Make the turtle visible or invisible.
  * @param {boolean} visible True if visible, false if invisible.
  * @param {string=} opt_id ID of block.
  */
-Turtle.isVisible = function(visible, opt_id) {
-  Turtle.visible = visible;
-  Turtle.animate(opt_id);
-};
+function isVisible(visible, opt_id) {
+  visible = visible;
+  animate(opt_id);
+}
 
 /**
  * Print some text.
  * @param {string} text Text to print.
  * @param {string=} opt_id ID of block.
  */
-Turtle.drawPrint = function(text, opt_id) {
-  Turtle.ctxScratch.save();
-  Turtle.ctxScratch.translate(Turtle.x, Turtle.y);
-  Turtle.ctxScratch.rotate(Blockly.utils.math.toRadians(Turtle.heading - 90));
-  Turtle.ctxScratch.fillText(text, 0, 0);
-  Turtle.ctxScratch.restore();
-  Turtle.animate(opt_id);
-};
+function drawPrint(text, opt_id) {
+  ctxScratch.save();
+  ctxScratch.translate(turtleX, turtleY);
+  ctxScratch.rotate(Blockly.utils.math.toRadians(turtleHeading - 90));
+  ctxScratch.fillText(text, 0, 0);
+  ctxScratch.restore();
+  animate(opt_id);
+}
 
 /**
  * Change the typeface of printed text.
@@ -810,22 +814,20 @@ Turtle.drawPrint = function(text, opt_id) {
  * @param {string} style Font style (e.g. 'italic').
  * @param {string=} opt_id ID of block.
  */
-Turtle.drawFont = function(font, size, style, opt_id) {
-  Turtle.ctxScratch.font = style + ' ' + size + 'pt ' + font;
-  Turtle.animate(opt_id);
-};
+function drawFont(font, size, style, opt_id) {
+  ctxScratch.font = style + ' ' + size + 'pt ' + font;
+  animate(opt_id);
+}
 
 /**
  * Verify if the answer is correct.
  * If so, move on to next level.
  */
-Turtle.checkAnswer = function() {
+function checkAnswer() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
-  const userImage =
-      Turtle.ctxScratch.getImageData(0, 0, Turtle.WIDTH, Turtle.HEIGHT);
-  const answerImage =
-      Turtle.ctxAnswer.getImageData(0, 0, Turtle.WIDTH, Turtle.HEIGHT);
+  const userImage = ctxScratch.getImageData(0, 0, WIDTH, HEIGHT);
+  const answerImage = ctxAnswer.getImageData(0, 0, WIDTH, HEIGHT);
   const len = Math.min(userImage.data.length, answerImage.data.length);
   let delta = 0;
   // Pixels are in RGBA format.  Only check the Alpha bytes.
@@ -835,7 +837,7 @@ Turtle.checkAnswer = function() {
       delta++;
     }
   }
-  if (Turtle.isCorrect(delta)) {
+  if (isCorrect(delta)) {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
@@ -843,15 +845,15 @@ Turtle.checkAnswer = function() {
       BlocklyDialogs.congratulations();
     }
   } else {
-    Turtle.penColour('#ff0000');
+    penColour('#ff0000');
   }
-};
+}
 
 /**
  * Send an image of the canvas to gallery.
  */
-Turtle.submitToGallery = function() {
-  if (!Turtle.canSubmit) {
+function submitToGallery() {
+  if (!canSubmit) {
     alert(BlocklyGames.Msg['Turtle.submitDisabled']);
     return;
   }
@@ -859,10 +861,199 @@ Turtle.submitToGallery = function() {
   const thumbnail = document.getElementById('thumbnail');
   const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
-  ctxThumb.drawImage(Turtle.ctxDisplay.canvas, 0, 0, 200, 200);
+  ctxThumb.drawImage(ctxDisplay.canvas, 0, 0, 200, 200);
   const thumbData = thumbnail.toDataURL('image/png');
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
   BlocklyGallery.showGalleryForm();
-};
+}
+
+/**
+ * Sample solutions for each level.
+ * To create an answer, just solve the level in Blockly, then paste the
+ * resulting JavaScript here, moving any functions to the beginning of
+ * this function, and renaming the API functions (e.g. moveForward -> move).
+ */
+function answer() {
+  // Helper functions.
+  function drawStar(length) {
+    for (let count = 0; count < 5; count++) {
+      move(length);
+      turn(144);
+    }
+  }
+
+  switch (BlocklyGames.LEVEL) {
+    case 1:
+      // Square.
+      for (let count = 0; count < 4; count++) {
+        move(100);
+        turn(90);
+      }
+      break;
+    case 2:
+      // Pentagon.
+      for (let count = 0; count < 5; count++) {
+        move(100);
+        turn(72);
+      }
+      break;
+    case 3:
+      // Star.
+      penColour('#ffff00');
+      drawStar(100);
+      break;
+    case 4:
+      // Pen up/down.
+      penColour('#ffff00');
+      drawStar(50);
+      penDown(false);
+      move(150);
+      penDown(true);
+      move(20);
+      break;
+    case 5:
+      // Four stars.
+      penColour('#ffff00');
+      for (let count = 0; count < 4; count++) {
+        penDown(false);
+        move(150);
+        turn(90);
+        penDown(true);
+        drawStar(50);
+      }
+      break;
+    case 6:
+      // Three stars and a line.
+      penColour('#ffff00');
+      for (let count = 0; count < 3; count++) {
+        penDown(false);
+        move(150);
+        turn(120);
+        penDown(true);
+        drawStar(50);
+      }
+      penDown(false);
+      turn(-90);
+      move(100);
+      penDown(true);
+      penColour('#ffffff');
+      move(50);
+      break;
+    case 7:
+      // Three stars and 4 lines.
+      penColour('#ffff00');
+      for (let count = 0; count < 3; count++) {
+        penDown(false);
+        move(150);
+        turn(120);
+        penDown(true);
+        drawStar(50);
+      }
+      penDown(false);
+      turn(-90);
+      move(100);
+      penDown(true);
+      penColour('#ffffff');
+      for (let count = 0; count < 4; count++) {
+        move(50);
+        move(-50);
+        turn(45);
+      }
+      break;
+    case 8:
+      // Three stars and a circle.
+      penColour('#ffff00');
+      for (let count = 0; count < 3; count++) {
+        penDown(false);
+        move(150);
+        turn(120);
+        penDown(true);
+        drawStar(50);
+      }
+      penDown(false);
+      turn(-90);
+      move(100);
+      penDown(true);
+      penColour('#ffffff');
+      for (let count = 0; count < 360; count++) {
+        move(50);
+        move(-50);
+        turn(1);
+      }
+      break;
+    case 9:
+      // Three stars and a crescent.
+      penColour('#ffff00');
+      for (let count = 0; count < 3; count++) {
+        penDown(false);
+        move(150);
+        turn(120);
+        penDown(true);
+        drawStar(50);
+      }
+      penDown(false);
+      turn(-90);
+      move(100);
+      penDown(true);
+      penColour('#ffffff');
+      for (let count = 0; count < 360; count++) {
+        move(50);
+        move(-50);
+        turn(1);
+      }
+      turn(120);
+      move(20);
+      penColour('#000000');
+      for (let count = 0; count < 360; count++) {
+        move(50);
+        move(-50);
+        turn(1);
+      }
+      break;
+  }
+}
+
+/**
+ * Validate whether the user's answer is correct.
+ * @param {number} pixelErrors Number of pixels that are wrong.
+ * @returns {boolean} True if the level is solved, false otherwise.
+ */
+function isCorrect(pixelErrors) {
+  if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
+    // Any non-null answer is correct.
+    return BlocklyInterface.workspace.getAllBlocks().length > 1;
+  }
+  console.log('Pixel errors: ' + pixelErrors);
+  // There's an alternate solution for level 9 that has the moon rotated by
+  // 12 degrees.  Allow that one to pass.
+  // https://groups.google.com/forum/#!topic/blockly-games/xMwt-JHnZGY
+  // There's also an alternate solution for level 8 that has multiple
+  // redraws.  Allow that one to pass too.
+  // https://groups.google.com/g/blockly-games/c/aOq4F5FIK64
+  if (pixelErrors > (BlocklyGames.LEVEL === 9 ? 600 :
+      (BlocklyGames.LEVEL === 8 ? 150 : 100))) {
+    // Too many errors.
+    return false;
+  }
+  const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
+  if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
+      (BlocklyGames.LEVEL === 3 && blockCount > 4) ||
+      (BlocklyGames.LEVEL === 5 && blockCount > 10)) {
+    // Use a loop, dummy.
+    const content = document.getElementById('helpUseLoop');
+    const style = {
+      'width': '30%',
+      'left': '35%',
+      'top': '12em',
+    };
+    BlocklyDialogs.showDialog(content, null, false, true, style,
+        BlocklyDialogs.stopDialogKeyDown);
+    BlocklyDialogs.startDialogKeyDown();
+    return false;
+  }
+  return true;
+}
+
+window.addEventListener('load', init);

@@ -26,7 +26,6 @@ goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
-goog.require('Movie.Answers');
 goog.require('Movie.Blocks');
 goog.require('Movie.html');
 goog.require('Scrubber');
@@ -34,38 +33,42 @@ goog.require('Scrubber');
 
 BlocklyGames.NAME = 'movie';
 
-Movie.HEIGHT = 400;
-Movie.WIDTH = 400;
+const HEIGHT = 400;
+const WIDTH = 400;
 
 /**
  * Number of frames in the animation.
  * First level has only one frame (#0).  The rest have 101 (#0-#100).
  * @type number
  */
-Movie.FRAMES = BlocklyGames.LEVEL === 1 ? 0 : 100;
+const FRAMES = BlocklyGames.LEVEL === 1 ? 0 : 100;
 
 /**
  * Array of pixel errors, one per frame.
  */
-Movie.pixelErrors = new Array(Movie.FRAMES);
+let pixelErrors = new Array(FRAMES);
 
 /**
  * Has the level been solved once?
  */
-Movie.success = false;
+let success = false;
 
 /**
  * Current frame being shown.
  */
-Movie.frameNumber = 0;
+let frameNumber = 0;
+
+let ctxDisplay;
+let ctxScratch;
+let frameScrubber;
 
 /**
  * Initialize Blockly and the movie.  Called on page load.
  */
-Movie.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Movie.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
@@ -111,33 +114,33 @@ Movie.init = function() {
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
 
   if (document.getElementById('submitButton')) {
-    BlocklyGames.bindClick('submitButton', Movie.submitToGallery);
+    BlocklyGames.bindClick('submitButton', submitToGallery);
   }
 
   const defaultXml = '<xml></xml>';
   BlocklyInterface.loadBlocks(defaultXml, true);
 
-  Movie.ctxDisplay = document.getElementById('display').getContext('2d');
-  Movie.ctxDisplay.globalCompositeOperation = 'source-over';
-  Movie.ctxScratch = document.getElementById('scratch').getContext('2d');
-  Movie.renderHatching_();
+  ctxDisplay = document.getElementById('display').getContext('2d');
+  ctxDisplay.globalCompositeOperation = 'source-over';
+  ctxScratch = document.getElementById('scratch').getContext('2d');
+  renderHatching_();
   // Render the frame zero answer because we need it right now.
-  Movie.renderAnswer_(0);
+  renderAnswer_(0);
   // Remaining answers may be computed later without slowing down page load.
   function renderRemainingAnswers() {
-    for (let f = 1; f <= Movie.FRAMES; f++) {
-      Movie.renderAnswer_(f);
+    for (let f = 1; f <= FRAMES; f++) {
+      renderAnswer_(f);
     }
   }
   setTimeout(renderRemainingAnswers, 1);
-  Movie.renderAxies_();
-  Movie.codeChange();
-  BlocklyInterface.workspace.addChangeListener(Movie.codeChange);
-  Movie.display();
+  renderAxies_();
+  codeChange();
+  BlocklyInterface.workspace.addChangeListener(codeChange);
+  display();
 
   // Initialize the scrubber.
   const scrubberSvg = document.getElementById('scrubber');
-  Movie.frameScrubber = new Scrubber(scrubberSvg, Movie.display);
+  frameScrubber = new Scrubber(scrubberSvg, display, checkAnswers);
   if (BlocklyGames.LEVEL === 1) {
     scrubberSvg.style.display = 'none';
   }
@@ -150,39 +153,39 @@ Movie.init = function() {
   // Lazy-load the syntax-highlighting.
   BlocklyInterface.importPrettify();
 
-  BlocklyGames.bindClick('helpButton', Movie.showHelp);
+  BlocklyGames.bindClick('helpButton', showHelp);
   if (location.hash.length < 2 &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)) {
-    setTimeout(Movie.showHelp, 1000);
+    setTimeout(showHelp, 1000);
   }
 
-  visualization.addEventListener('mouseover', Movie.showCoordinates);
-  visualization.addEventListener('mouseout', Movie.hideCoordinates);
-  visualization.addEventListener('mousemove', Movie.updateCoordinates);
-};
+  visualization.addEventListener('mouseover', showCoordinates);
+  visualization.addEventListener('mouseout', hideCoordinates);
+  visualization.addEventListener('mousemove', updateCoordinates);
+}
 
 /**
  * Show the x/y coordinates.
  * @param {!Event} e Mouse over event.
  */
-Movie.showCoordinates = function(e) {
+function showCoordinates(e) {
   document.getElementById('coordinates').style.display = 'block';
-};
+}
 
 /**
  * Hide the x/y coordinates.
  * @param {Event} e Mouse out event.
  */
-Movie.hideCoordinates = function(e) {
+function hideCoordinates(e) {
   document.getElementById('coordinates').style.display = 'none';
-};
+}
 
 /**
  * Update the x/y coordinates.
  * @param {!Event} e Mouse move event.
  */
-Movie.updateCoordinates = function(e) {
+function updateCoordinates(e) {
   // Get the coordinates of the mouse.
   const rtl = BlocklyGames.IS_RTL;
   let x = e.clientX;
@@ -218,14 +221,14 @@ Movie.updateCoordinates = function(e) {
     document.getElementById('x').textContent = 'x = ' + x;
     document.getElementById('y').textContent = 'y = ' + y;
   } else {
-    Movie.hideCoordinates();
+    hideCoordinates();
   }
-};
+}
 
 /**
  * Show the help pop-up.
  */
-Movie.showHelp = function() {
+function showHelp() {
   const help = document.getElementById('help');
   const button = document.getElementById('helpButton');
   const style = {
@@ -239,67 +242,67 @@ Movie.showHelp = function() {
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   }
 
-  BlocklyDialogs.showDialog(help, button, true, true, style, Movie.hideHelp);
+  BlocklyDialogs.showDialog(help, button, true, true, style, hideHelp);
   BlocklyDialogs.startDialogKeyDown();
-};
+}
 
 /**
  * Hide the help pop-up.
  */
-Movie.hideHelp = function() {
+function hideHelp() {
   BlocklyDialogs.stopDialogKeyDown();
-};
+}
 
 /**
  * On startup draw the expected answers and save it to answer canvases.
  * @param {number} f Frame number (0-100).
  * @private
  */
-Movie.renderAnswer_ = function(f) {
+function renderAnswer_(f) {
   const div = document.getElementById('visualization');
-  Movie.ctxScratch.strokeStyle = '#000';
-  Movie.ctxScratch.fillStyle = '#000';
+  ctxScratch.strokeStyle = '#000';
+  ctxScratch.fillStyle = '#000';
   // Create a new canvas object for each answer.
   // <canvas id="answer1" width="400" height="400" style="display: none">
   // </canvas>
   const canvas = document.createElement('canvas');
   canvas.id = 'answer' + f;
-  canvas.width = Movie.WIDTH;
-  canvas.height = Movie.HEIGHT;
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
   canvas.style.display = 'none';
   div.appendChild(canvas);
 
   // Clear the scratch canvas.
-  Movie.ctxScratch.canvas.width = Movie.ctxScratch.canvas.width;
+  ctxScratch.canvas.width = ctxScratch.canvas.width;
   // Render the answer.
-  Movie.answer(f);
+  answer(f);
   // Copy the scratch canvas to the answer canvas.
   const ctx = canvas.getContext('2d');
   ctx.globalCompositeOperation = 'copy';
-  ctx.drawImage(Movie.ctxScratch.canvas, 0, 0);
-};
+  ctx.drawImage(ctxScratch.canvas, 0, 0);
+}
 
 /**
  * On startup draw hatching that will be displayed across the answers.
  * @private
  */
-Movie.renderHatching_ = function() {
+function renderHatching_() {
   const ctx = document.getElementById('hatching').getContext('2d');
   ctx.strokeStyle = '#fff';
   ctx.lineWidth = 1;
-  for (let i = -Movie.HEIGHT; i < Movie.HEIGHT; i += 4) {
+  for (let i = -HEIGHT; i < HEIGHT; i += 4) {
     ctx.beginPath();
     ctx.moveTo(i, -i);
-    ctx.lineTo(i + Movie.HEIGHT, -i + Movie.WIDTH);
+    ctx.lineTo(i + HEIGHT, -i + WIDTH);
     ctx.stroke();
   }
-};
+}
 
 /**
  * On startup draw the axis scales and save it to the axies canvas.
  * @private
  */
-Movie.renderAxies_ = function() {
+function renderAxies_() {
   const ctx = document.getElementById('axies').getContext('2d');
   ctx.lineWidth = 1;
   ctx.strokeStyle = '#bba';
@@ -310,35 +313,35 @@ Movie.renderAxies_ = function() {
   for (let i = 0.1; i < 0.9; i += 0.1) {
     // Bottom edge.
     ctx.beginPath();
-    ctx.moveTo(i * Movie.WIDTH, Movie.HEIGHT);
-    ctx.lineTo(i * Movie.WIDTH, Movie.HEIGHT - TICK_LENGTH * major);
+    ctx.moveTo(i * WIDTH, HEIGHT);
+    ctx.lineTo(i * WIDTH, HEIGHT - TICK_LENGTH * major);
     ctx.stroke();
     // Left edge.
     ctx.beginPath();
-    ctx.moveTo(0, i * Movie.HEIGHT);
-    ctx.lineTo(TICK_LENGTH * major, i * Movie.HEIGHT);
+    ctx.moveTo(0, i * HEIGHT);
+    ctx.lineTo(TICK_LENGTH * major, i * HEIGHT);
     ctx.stroke();
     if (major === 2) {
-      ctx.fillText(Math.round(i * 100), i * Movie.WIDTH + 2, Movie.HEIGHT - 4);
-      ctx.fillText(Math.round(100 - i * 100), 3, i * Movie.HEIGHT - 2);
+      ctx.fillText(Math.round(i * 100), i * WIDTH + 2, HEIGHT - 4);
+      ctx.fillText(Math.round(100 - i * 100), 3, i * HEIGHT - 2);
     }
     major = (major === 1) ? 2 : 1;
   }
-};
+}
 
 /**
  * Draw one frame of the movie.
  * @param {!Interpreter} interpreter A JS-Interpreter loaded with user code.
  * @private
  */
-Movie.drawFrame_ = function(interpreter) {
+function drawFrame_(interpreter) {
   // Clear the canvas.
-  Movie.ctxScratch.canvas.width = Movie.ctxScratch.canvas.width;
-  Movie.ctxScratch.strokeStyle = '#000';
-  Movie.ctxScratch.fillStyle = '#000';
+  ctxScratch.canvas.width = ctxScratch.canvas.width;
+  ctxScratch.strokeStyle = '#000';
+  ctxScratch.fillStyle = '#000';
   // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
   // Level 10 should be opaque so that the movie is clean.
-  Movie.ctxScratch.globalAlpha =
+  ctxScratch.globalAlpha =
       (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) ? 1 : 0.9;
 
   let go = true;
@@ -351,13 +354,13 @@ Movie.drawFrame_ = function(interpreter) {
       go = false;
     }
   }
-};
+}
 
 /**
  * Generate new JavaScript if the code has changed.
  * @param {!Blockly.Events.Abstract=} opt_e Change event.
  */
-Movie.codeChange = function(opt_e) {
+function codeChange(opt_e) {
   if (opt_e && opt_e.isUiEvent) {
     return;
   }
@@ -370,102 +373,100 @@ Movie.codeChange = function(opt_e) {
     return;
   }
   // Code has changed, clear all recorded frame info.
-  Movie.pixelErrors = new Array(Movie.FRAMES);
+  pixelErrors = new Array(FRAMES);
   BlocklyInterface.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
-  Movie.display();
-};
+  display();
+}
 
 /**
  * Copy the scratch canvas to the display canvas.
  * @param {number=} opt_frameNumber Which frame to draw (0-100).
  *     If not defined, draws the current frame.
  */
-Movie.display = function(opt_frameNumber) {
+function display(opt_frameNumber) {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Movie.display, 99, opt_frameNumber);
+    setTimeout(display, 99, opt_frameNumber);
     return;
   }
   if (typeof opt_frameNumber === 'number') {
-    Movie.frameNumber = opt_frameNumber;
+    frameNumber = opt_frameNumber;
   }
-  const frameNumber = Movie.frameNumber;
 
   // Clear the display with white.
-  Movie.ctxDisplay.beginPath();
-  Movie.ctxDisplay.rect(0, 0,
-      Movie.ctxDisplay.canvas.width, Movie.ctxDisplay.canvas.height);
-  Movie.ctxDisplay.fillStyle = '#fff';
-  Movie.ctxDisplay.fill();
+  ctxDisplay.beginPath();
+  ctxDisplay.rect(0, 0, ctxDisplay.canvas.width, ctxDisplay.canvas.height);
+  ctxDisplay.fillStyle = '#fff';
+  ctxDisplay.fill();
 
   // Copy the answer.
   const answer = document.getElementById('answer' + frameNumber);
   if (answer) {
-    Movie.ctxDisplay.globalAlpha = 0.2;
-    Movie.ctxDisplay.drawImage(answer, 0, 0);
-    Movie.ctxDisplay.globalAlpha = 1;
+    ctxDisplay.globalAlpha = 0.2;
+    ctxDisplay.drawImage(answer, 0, 0);
+    ctxDisplay.globalAlpha = 1;
   }
 
   // Copy the hatching.
   const hatching = document.getElementById('hatching');
-  Movie.ctxDisplay.drawImage(hatching, 0, 0);
+  ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
   const code = BlocklyInterface.executedJsCode;
   let interpreter;
   try {
-    interpreter = new Interpreter(code, Movie.initInterpreter);
+    interpreter = new Interpreter(code, initInterpreter);
   } catch (e) {
     // Trap syntax errors: break outside a loop, or return outside a function.
     console.error(e);
   }
   if (interpreter) {
-    Movie.drawFrame_(interpreter);
+    drawFrame_(interpreter);
   } else {
     // In the event of a syntax error, clear the canvas.
-    Movie.ctxScratch.canvas.width = Movie.ctxScratch.canvas.width;
+    ctxScratch.canvas.width = ctxScratch.canvas.width;
   }
-  Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
+  ctxDisplay.drawImage(ctxScratch.canvas, 0, 0);
 
   // Copy the axies.
-  Movie.ctxDisplay.drawImage(document.getElementById('axies'), 0, 0);
-  Movie.checkFrameAnswer();
+  ctxDisplay.drawImage(document.getElementById('axies'), 0, 0);
+  checkFrameAnswer();
   if (BlocklyGames.LEVEL === 1) {
-    setTimeout(Movie.checkAnswers, 1000);
+    setTimeout(checkAnswers, 1000);
   }
-};
+}
 
 /**
  * Inject the Movie API into a JavaScript interpreter.
  * @param {!Interpreter} interpreter The JS-Interpreter.
  * @param {!Interpreter.Object} globalObject Global object.
  */
-Movie.initInterpreter = function(interpreter, globalObject) {
+function initInterpreter(interpreter, globalObject) {
   // API
   let wrapper;
   wrapper = function(x, y, radius) {
-    Movie.circle(x, y, radius);
+    circle(x, y, radius);
   };
   wrap('circle');
 
   wrapper = function(x, y, w, h) {
-    Movie.rect(x, y, w, h);
+    rect(x, y, w, h);
   };
   wrap('rect');
 
   wrapper = function(x1, y1, x2, y2, w) {
-    Movie.line(x1, y1, x2, y2, w);
+    line(x1, y1, x2, y2, w);
   };
   wrap('line');
 
   wrapper = function(colour) {
-    Movie.penColour(colour);
+    penColour(colour);
   };
   wrap('penColour');
 
   wrapper = function() {
-    return Movie.frameNumber;
+    return frameNumber;
   };
   wrap('time');
 
@@ -473,12 +474,12 @@ Movie.initInterpreter = function(interpreter, globalObject) {
     interpreter.setProperty(globalObject, name,
         interpreter.createNativeFunction(wrapper));
   }
-};
+}
 
 /**
  * Convert from ideal 0-100 coordinates to canvas's 0-400 coordinates.
  */
-Movie.SCALE = 400 / 100;
+const SCALE = 400 / 100;
 
 /**
  * Draw a circle.
@@ -486,15 +487,15 @@ Movie.SCALE = 400 / 100;
  * @param {number} y Vertical location of centre (0-100).
  * @param {number} radius Radius of circle.
  */
-Movie.circle = function(x, y, radius) {
+function circle(x, y, radius) {
   y = 100 - y;
-  x *= Movie.SCALE;
-  y *= Movie.SCALE;
-  radius = Math.max(radius * Movie.SCALE, 0);
-  Movie.ctxScratch.beginPath();
-  Movie.ctxScratch.arc(x, y, radius, 0, 2 * Math.PI, false);
-  Movie.ctxScratch.fill();
-};
+  x *= SCALE;
+  y *= SCALE;
+  radius = Math.max(radius * SCALE, 0);
+  ctxScratch.beginPath();
+  ctxScratch.arc(x, y, radius, 0, 2 * Math.PI, false);
+  ctxScratch.fill();
+}
 
 /**
  * Draw a rectangle.
@@ -503,16 +504,16 @@ Movie.circle = function(x, y, radius) {
  * @param {number} width Width of rectangle.
  * @param {number} height Height of rectangle.
  */
-Movie.rect = function(x, y, width, height) {
+function rect(x, y, width, height) {
   y = 100 - y;
-  x *= Movie.SCALE;
-  y *= Movie.SCALE;
-  width = Math.max(width * Movie.SCALE, 0);
-  height = Math.max(height * Movie.SCALE, 0);
-  Movie.ctxScratch.beginPath();
-  Movie.ctxScratch.rect(x - width / 2, y - height / 2, width, height);
-  Movie.ctxScratch.fill();
-};
+  x *= SCALE;
+  y *= SCALE;
+  width = Math.max(width * SCALE, 0);
+  height = Math.max(height * SCALE, 0);
+  ctxScratch.beginPath();
+  ctxScratch.rect(x - width / 2, y - height / 2, width, height);
+  ctxScratch.fill();
+}
 
 /**
  * Draw a rectangle.
@@ -522,44 +523,44 @@ Movie.rect = function(x, y, width, height) {
  * @param {number} y2 Vertical location of end (0-100).
  * @param {number} width Width of line.
  */
-Movie.line = function(x1, y1, x2, y2, width) {
+function line(x1, y1, x2, y2, width) {
   y1 = 100 - y1;
   y2 = 100 - y2;
-  x1 *= Movie.SCALE;
-  y1 *= Movie.SCALE;
-  x2 *= Movie.SCALE;
-  y2 *= Movie.SCALE;
-  width *= Movie.SCALE;
-  Movie.ctxScratch.beginPath();
-  Movie.ctxScratch.moveTo(x1, y1);
-  Movie.ctxScratch.lineTo(x2, y2);
-  Movie.ctxScratch.lineWidth = Math.max(width, 0);
-  Movie.ctxScratch.stroke();
-};
+  x1 *= SCALE;
+  y1 *= SCALE;
+  x2 *= SCALE;
+  y2 *= SCALE;
+  width *= SCALE;
+  ctxScratch.beginPath();
+  ctxScratch.moveTo(x1, y1);
+  ctxScratch.lineTo(x2, y2);
+  ctxScratch.lineWidth = Math.max(width, 0);
+  ctxScratch.stroke();
+}
 
 /**
  * Change the colour of the pen.
  * @param {string} colour CSS colour string.
  */
-Movie.penColour = function(colour) {
-  Movie.ctxScratch.strokeStyle = colour;
-  Movie.ctxScratch.fillStyle = colour;
-};
+function penColour(colour) {
+  ctxScratch.strokeStyle = colour;
+  ctxScratch.fillStyle = colour;
+}
 
 /**
  * Verify if the answer to this frame is correct.
  */
-Movie.checkFrameAnswer = function() {
+function checkFrameAnswer() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
-  const answer = document.getElementById('answer' + Movie.frameNumber);
+  const answer = document.getElementById('answer' + frameNumber);
   if (!answer) {
     return;
   }
   const ctxAnswer = answer.getContext('2d');
-  const answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
+  const answerImage = ctxAnswer.getImageData(0, 0, WIDTH, HEIGHT);
   const userImage =
-      Movie.ctxScratch.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
+      ctxScratch.getImageData(0, 0, WIDTH, HEIGHT);
   const len = Math.min(userImage.data.length, answerImage.data.length);
   let delta = 0;
   // Pixels are in RGBA format.  Only check the Alpha bytes.
@@ -569,20 +570,20 @@ Movie.checkFrameAnswer = function() {
       delta++;
     }
   }
-  Movie.pixelErrors[Movie.frameNumber] = delta;
-};
+  pixelErrors[frameNumber] = delta;
+}
 
 /**
  * Verify if all the answers are correct.
  * If so, move on to next level.
  */
-Movie.checkAnswers = function() {
-  if (BlocklyGames.LEVEL > 1 && Movie.frameNumber !== Movie.FRAMES) {
+function checkAnswers() {
+  if (BlocklyGames.LEVEL > 1 && frameNumber !== FRAMES) {
     // Only check answers at the end of the run.
     return;
   }
-  if (Movie.isCorrect() && !Movie.success) {
-    Movie.success = true;
+  if (isCorrect() && !success) {
+    success = true;
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
@@ -590,37 +591,240 @@ Movie.checkAnswers = function() {
       BlocklyDialogs.congratulations();
     }
   }
-};
+}
 
 /**
  * Send an image of the canvas to gallery.
  */
-Movie.submitToGallery = function() {
+function submitToGallery() {
   const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   const code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || !code.includes('time()')) {
-    alert(BlocklyGames.Msg['Movie.submitDisabled']);
+    alert(BlocklyGames.Msg['submitDisabled']);
     return;
   }
   // Draw and copy the user layer.
-  const interpreter = new Interpreter(code, Movie.initInterpreter);
-  const frameNumber = Movie.frameNumber;
+  const interpreter = new Interpreter(code, initInterpreter);
+  const backupFrameNumber = frameNumber;
   try {
-    Movie.frameNumber = Math.round(Movie.FRAMES / 2);
-    Movie.drawFrame_(interpreter);
+    frameNumber = Math.round(FRAMES / 2);
+    drawFrame_(interpreter);
   } finally {
-    Movie.frameNumber = frameNumber;
+    frameNumber = backupFrameNumber;
   }
   // Encode the thumbnail.
   const thumbnail = document.getElementById('thumbnail');
   const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
-  ctxThumb.drawImage(Movie.ctxScratch.canvas, 0, 0, 200, 200);
+  ctxThumb.drawImage(ctxScratch.canvas, 0, 0, 200, 200);
   const thumbData = thumbnail.toDataURL('image/png');
   document.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
   BlocklyGallery.showGalleryForm();
-};
+}
 
-window.addEventListener('load', Movie.init);
+/**
+ * Sample solutions for each level.
+ * To create an answer, just solve the level in Blockly, then paste the
+ * resulting JavaScript here, moving any functions to the beginning of
+ * this function.
+ * @param {number} f Frame number (0-100).
+ */
+function answer(f) {
+  function time() {
+    return f;
+  }
+  switch (BlocklyGames.LEVEL) {
+    case 1:
+      // Static person.
+      penColour('#ff0000');
+      circle(50, 70, 10);
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 70, 5);
+      line(60, 50, 80, 70, 5);
+      break;
+    case 2:
+      // Right hand moving up.
+      penColour('#ff0000');
+      circle(50, 70, 10);
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 70, 5);
+      line(60, 50, 80, time(), 5);
+      break;
+    case 3:
+      // Left hand moving down.
+      penColour('#ff0000');
+      circle(50, 70, 10);
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, time(), 5);
+      break;
+    case 4:
+      // Legs cross.
+      penColour('#ff0000');
+      circle(50, 70, 10);
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, time(), 5);
+      line(40, 20, time(), 0, 5);
+      line(60, 20, 100 - time(), 0, 5);
+      break;
+    case 5:
+      // Right arm parabola.
+      penColour('#ff0000');
+      circle(50, 70, 10);
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      line(40, 20, time(), 0, 5);
+      line(60, 20, 100 - time(), 0, 5);
+      break;
+    case 6:
+      // Hands.
+      penColour('#ff0000');
+      circle(50, 70, 10);
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      line(40, 20, time(), 0, 5);
+      line(60, 20, 100 - time(), 0, 5);
+      penColour('#ff0000');
+      circle(20, 100 - time(), 5);
+      circle(80, Math.pow((time() - 50) / 5, 2), 5);
+      break;
+    case 7:
+      // Head.
+      penColour('#ff0000');
+      if (time() < 50) {
+        circle(50, 70, 10);
+      } else {
+        circle(50, 80, 20);
+      }
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      line(40, 20, time(), 0, 5);
+      line(60, 20, 100 - time(), 0, 5);
+      penColour('#ff0000');
+      circle(20, 100 - time(), 5);
+      circle(80, Math.pow((time() - 50) / 5, 2), 5);
+      break;
+    case 8:
+      // Legs reverse.
+      penColour('#ff0000');
+      if (time() < 50) {
+        circle(50, 70, 10);
+      } else {
+        circle(50, 80, 20);
+      }
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      if (time() < 50) {
+        line(40, 20, time(), 0, 5);
+        line(60, 20, 100 - time(), 0, 5);
+      } else {
+        line(40, 20, 100 - time(), 0, 5);
+        line(60, 20, time(), 0, 5);
+      }
+      penColour('#ff0000');
+      circle(20, 100 - time(), 5);
+      circle(80, Math.pow((time() - 50) / 5, 2), 5);
+      break;
+    case 9:
+      // Background.
+      penColour('#00ff00');
+      circle(50, time() / 2, time() / 2);
+      penColour('#ff0000');
+      if (time() < 50) {
+        circle(50, 70, 10);
+      } else {
+        circle(50, 80, 20);
+      }
+      penColour('#3333ff');
+      rect(50, 40, 20, 40);
+      penColour('#000000');
+      line(40, 50, 20, 100 - time(), 5);
+      line(60, 50, 80, Math.pow((time() - 50) / 5, 2), 5);
+      if (time() < 50) {
+        line(40, 20, time(), 0, 5);
+        line(60, 20, 100 - time(), 0, 5);
+      } else {
+        line(40, 20, 100 - time(), 0, 5);
+        line(60, 20, time(), 0, 5);
+      }
+      penColour('#ff0000');
+      circle(20, 100 - time(), 5);
+      circle(80, Math.pow((time() - 50) / 5, 2), 5);
+      break;
+  }
+}
+
+/**
+ * Validate whether the user's answer is correct.
+ * @returns {boolean} True if the level is solved, false otherwise.
+ */
+function isCorrect() {
+  if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
+    // Any non-null answer is correct.
+    return BlocklyInterface.workspace.getAllBlocks().length > 1;
+  }
+  // Check the already recorded pixel errors on every frame.
+  for (let f = 0; f <= FRAMES; f++) {
+    if (f === 50) {
+      // Don't check the middle frame.  Makes pesky off-by-one errors go away.
+      // E.g. if (time < 50) vs if (time <= 50)
+      continue;
+    } else if (pixelErrors[f] === undefined) {
+      // Not rendered yet.
+      return false;
+    } else if (pixelErrors[f] > 100) {
+      // Too many errors.
+      console.log('Pixel errors (frame ' + f + '): ' + pixelErrors[f]);
+      return false;
+    }
+  }
+  if (BlocklyGames.LEVEL === 9) {
+    // Ensure that the background is behind the figure, not in front.
+    const blocks = BlocklyInterface.workspace.getAllBlocks(true);
+    for (const block of blocks) {
+      if (block.type === 'movie_circle') {
+        // Check that the radius on the first circle block is connected to a
+        // division block.
+        if (block.getInputTargetBlock('RADIUS').type !== 'math_arithmetic') {
+          const content = document.getElementById('helpLayer');
+          const style = {
+            'width': '30%',
+            'left': '35%',
+            'top': '12em',
+          };
+          BlocklyDialogs.showDialog(content, null, false, true, style,
+              BlocklyDialogs.stopDialogKeyDown);
+          BlocklyDialogs.startDialogKeyDown();
+          return false;
+        }
+        break;
+      }
+    }
+  }
+  return true;
+}
+
+window.addEventListener('load', init);

@@ -28,19 +28,35 @@ goog.require('BlocklyInterface');
 
 BlocklyGames.NAME = 'bird';
 
+const BIRD_ICON_SIZE = 120;
+const NEST_ICON_SIZE = 100;
+const WORM_ICON_SIZE = 100;
+const MAP_SIZE = 400;
+const WALL_THICKNESS = 10;
+const FLAP_SPEED = 100; // ms.
+
 /**
  * Milliseconds between each animation frame.
  */
-Bird.stepSpeed;
+let stepSpeed;
+let pos;
+let angle;
+let currentAngle;
+let hasWorm;
 
-Bird.BIRD_ICON_SIZE = 120;
-Bird.NEST_ICON_SIZE = 100;
-Bird.WORM_ICON_SIZE = 100;
-Bird.MAP_SIZE = 400;
-Bird.WALL_THICKNESS = 10;
-Bird.FLAP_SPEED = 100; // ms.
+/**
+ * Log of duck's moves.  Recorded during execution, played back for animation.
+ * @type !Array<!Array>
+ */
+const log = [];
 
-Bird.Line = class {
+/**
+ * PIDs of animation tasks currently executing.
+ * @type !Array<number>
+ */
+const pidList = [];
+
+class Line {
   /**
    * Object representing a line.
    * Copied from goog.math.Line
@@ -102,9 +118,9 @@ Bird.Line = class {
     }
     return Blockly.utils.Coordinate.distance(xy, closestPoint);
   }
-};
+}
 
-Bird.MAP = [
+const MAP = [
   // Level 0.
   undefined,
   // Level 1.
@@ -121,7 +137,7 @@ Bird.MAP = [
     startAngle: 0,
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(80, 80),
-    walls: [new Bird.Line(0, 50, 60, 50)]
+    walls: [new Line(0, 50, 60, 50)]
   },
   // Level 3.
   {
@@ -129,7 +145,7 @@ Bird.MAP = [
     startAngle: 270,
     worm: new Blockly.utils.Coordinate(50, 20),
     nest: new Blockly.utils.Coordinate(80, 70),
-    walls: [new Bird.Line(50, 50, 50, 100)]
+    walls: [new Line(50, 50, 50, 100)]
   },
   // Level 4.
   {
@@ -137,7 +153,7 @@ Bird.MAP = [
     startAngle: 0,
     worm: null,
     nest: new Blockly.utils.Coordinate(80, 20),
-    walls: [new Bird.Line(0, 0, 65, 65)]
+    walls: [new Line(0, 0, 65, 65)]
   },
   // Level 5.
   {
@@ -145,7 +161,7 @@ Bird.MAP = [
     startAngle: 270,
     worm: null,
     nest: new Blockly.utils.Coordinate(20, 20),
-    walls: [new Bird.Line(0, 100, 65, 35)]
+    walls: [new Line(0, 100, 65, 35)]
   },
   // Level 6.
   {
@@ -153,7 +169,7 @@ Bird.MAP = [
     startAngle: 0,
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(20, 80),
-    walls: [new Bird.Line(0, 59, 50, 59)]
+    walls: [new Line(0, 59, 50, 59)]
   },
   // Level 7.
   {
@@ -162,8 +178,8 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(20, 20),
     walls: [
-      new Bird.Line(0, 70, 40, 70),
-      new Bird.Line(70, 50, 100, 50)
+      new Line(0, 70, 40, 70),
+      new Line(70, 50, 100, 50)
     ]
   },
   // Level 8.
@@ -173,10 +189,10 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(80, 25),
     nest: new Blockly.utils.Coordinate(80, 75),
     walls: [
-      new Bird.Line(50, 0, 50, 25),
-      new Bird.Line(75, 50, 100, 50),
-      new Bird.Line(50, 100, 50, 75),
-      new Bird.Line(0, 50, 25, 50)
+      new Line(50, 0, 50, 25),
+      new Line(75, 50, 100, 50),
+      new Line(50, 100, 50, 75),
+      new Line(0, 50, 25, 50)
     ]
   },
   // Level 9.
@@ -186,9 +202,9 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(20, 20),
     nest: new Blockly.utils.Coordinate(80, 20),
     walls: [
-      new Bird.Line(0, 69, 31, 100),
-      new Bird.Line(40, 50, 71, 0),
-      new Bird.Line(80, 50, 100, 50)
+      new Line(0, 69, 31, 100),
+      new Line(40, 50, 71, 0),
+      new Line(80, 50, 100, 50)
     ]
   },
   // Level 10.
@@ -198,23 +214,18 @@ Bird.MAP = [
     worm: new Blockly.utils.Coordinate(80, 50),
     nest: new Blockly.utils.Coordinate(20, 20),
     walls: [
-      new Bird.Line(40, 60, 60, 60),
-      new Bird.Line(40, 60, 60, 30),
-      new Bird.Line(60, 30, 100, 30)
+      new Line(40, 60, 60, 60),
+      new Line(40, 60, 60, 30),
+      new Line(60, 30, 100, 30)
     ]
   }
 ][BlocklyGames.LEVEL];
 
 /**
- * PIDs of animation tasks currently executing.
- */
-Bird.pidList = [];
-
-/**
  * Behaviour for the bird.
  * @enum {number}
  */
-Bird.Pose = {
+const Pose = {
   SOAR: 1,
   FLAP: 2,
   SIT: 3,
@@ -223,27 +234,27 @@ Bird.Pose = {
 /**
  * Create and layout all the nodes for the walls, nest, worm, and bird.
  */
-Bird.drawMap = function() {
+function drawMap() {
   const svg = document.getElementById('svgBird');
 
   // Add four surrounding walls.
-  const edge0 = -Bird.WALL_THICKNESS / 2;
-  const edge1 = 100 + Bird.WALL_THICKNESS / 2;
-  Bird.MAP.walls.push(
-      new Bird.Line(edge0, edge0, edge0, edge1),
-      new Bird.Line(edge0, edge1, edge1, edge1),
-      new Bird.Line(edge1, edge1, edge1, edge0),
-      new Bird.Line(edge1, edge0, edge0, edge0));
+  const edge0 = -WALL_THICKNESS / 2;
+  const edge1 = 100 + WALL_THICKNESS / 2;
+  MAP.walls.push(
+      new Line(edge0, edge0, edge0, edge1),
+      new Line(edge0, edge1, edge1, edge1),
+      new Line(edge1, edge1, edge1, edge0),
+      new Line(edge1, edge0, edge0, edge0));
 
   // Draw the walls.
-  for (const wall of Bird.MAP.walls) {
+  for (const wall of MAP.walls) {
     Blockly.utils.dom.createSvgElement('line', {
-        'x1': wall.x0 / 100 * Bird.MAP_SIZE,
-        'y1': (1 - wall.y0 / 100) * Bird.MAP_SIZE,
-        'x2': wall.x1 / 100 * Bird.MAP_SIZE,
-        'y2': (1 - wall.y1 / 100) * Bird.MAP_SIZE,
+        'x1': wall.x0 / 100 * MAP_SIZE,
+        'y1': (1 - wall.y0 / 100) * MAP_SIZE,
+        'x2': wall.x1 / 100 * MAP_SIZE,
+        'y2': (1 - wall.y1 / 100) * MAP_SIZE,
         'stroke': '#CCB',
-        'stroke-width': Bird.WALL_THICKNESS,
+        'stroke-width': WALL_THICKNESS,
         'stroke-linecap': 'round',
       }, svg);
   }
@@ -251,38 +262,38 @@ Bird.drawMap = function() {
   // Add nest.
   const nestImage = Blockly.utils.dom.createSvgElement('image', {
       'id': 'nest',
-      'height': Bird.NEST_ICON_SIZE,
-      'width': Bird.NEST_ICON_SIZE,
+      'height': NEST_ICON_SIZE,
+      'width': NEST_ICON_SIZE,
     }, svg);
   nestImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'bird/nest.png');
 
   // Add worm.
-  if (Bird.MAP.worm) {
+  if (MAP.worm) {
     const wormImage = Blockly.utils.dom.createSvgElement('image', {
         'id': 'worm',
-        'height': Bird.WORM_ICON_SIZE,
-        'width': Bird.WORM_ICON_SIZE,
+        'height': WORM_ICON_SIZE,
+        'width': WORM_ICON_SIZE,
       }, svg);
     wormImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         'bird/worm.png');
   }
 
-  // Bird's clipPath element, whose (x, y) is reset by Bird.displayBird
+  // Bird's clipPath element, whose (x, y) is reset by displayBird
   const birdClip = Blockly.utils.dom.createSvgElement('clipPath', {
       'id': 'birdClipPath'
     }, svg);
   Blockly.utils.dom.createSvgElement('rect', {
       'id': 'clipRect',
-      'height': Bird.BIRD_ICON_SIZE,
-      'width': Bird.BIRD_ICON_SIZE,
+      'height': BIRD_ICON_SIZE,
+      'width': BIRD_ICON_SIZE,
     }, birdClip);
 
   // Add bird.
   const birdIcon = Blockly.utils.dom.createSvgElement('image', {
       'id': 'bird',
-      'height': Bird.BIRD_ICON_SIZE * 4,  // 120 * 4 = 480
-      'width': Bird.BIRD_ICON_SIZE * 12,  // 120 * 12 = 1440
+      'height': BIRD_ICON_SIZE * 4,  // 120 * 4 = 480
+      'width': BIRD_ICON_SIZE * 12,  // 120 * 12 = 1440
       'clip-path': 'url(#birdClipPath)',
     }, svg);
   birdIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
@@ -291,8 +302,8 @@ Bird.drawMap = function() {
   // Draw the outer square.
   Blockly.utils.dom.createSvgElement('rect', {
       'class': 'edges',
-      'height': Bird.MAP_SIZE,
-      'width': Bird.MAP_SIZE,
+      'height': MAP_SIZE,
+      'width': MAP_SIZE,
     }, svg);
 
   const xAxis = BlocklyGames.LEVEL > 3;
@@ -305,10 +316,10 @@ Bird.drawMap = function() {
       // Bottom edge.
       Blockly.utils.dom.createSvgElement('line', {
           'class': 'edges',
-          'x1': i * Bird.MAP_SIZE,
-          'y1': Bird.MAP_SIZE,
-          'x2': i * Bird.MAP_SIZE,
-          'y2': Bird.MAP_SIZE - TICK_LENGTH * major,
+          'x1': i * MAP_SIZE,
+          'y1': MAP_SIZE,
+          'x2': i * MAP_SIZE,
+          'y2': MAP_SIZE - TICK_LENGTH * major,
         }, svg);
     }
     if (yAxis) {
@@ -316,9 +327,9 @@ Bird.drawMap = function() {
       Blockly.utils.dom.createSvgElement('line', {
           'class': 'edges',
           'x1': 0,
-          'y1': i * Bird.MAP_SIZE,
+          'y1': i * MAP_SIZE,
           'x2': i * TICK_LENGTH * major,
-          'y2': i * Bird.MAP_SIZE,
+          'y2': i * MAP_SIZE,
         }, svg);
     }
     if (major === 2) {
@@ -326,8 +337,8 @@ Bird.drawMap = function() {
         // X axis.
         const number = Blockly.utils.dom.createSvgElement('text', {
             'class': 'edgeX',
-            'x': i * Bird.MAP_SIZE + 2,
-            'y': Bird.MAP_SIZE - 4,
+            'x': i * MAP_SIZE + 2,
+            'y': MAP_SIZE - 4,
           }, svg);
         number.appendChild(document.createTextNode(Math.round(i * 100)));
       }
@@ -336,22 +347,22 @@ Bird.drawMap = function() {
         const number = Blockly.utils.dom.createSvgElement('text', {
             'class': 'edgeY',
             'x': 3,
-            'y': i * Bird.MAP_SIZE - 2,
+            'y': i * MAP_SIZE - 2,
           }, svg);
         number.appendChild(document.createTextNode(Math.round(100 - i * 100)));
       }
     }
     major = (major === 1) ? 2 : 1;
   }
-};
+}
 
 /**
  * Initialize Blockly and the bird.  Called on page load.
  */
-Bird.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Bird.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
@@ -395,7 +406,7 @@ Bird.init = function() {
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');
 
-  Bird.drawMap();
+  drawMap();
 
   let blockType;
   if (BlocklyGames.LEVEL === 1) {
@@ -408,16 +419,16 @@ Bird.init = function() {
   BlocklyInterface.loadBlocks(
       `<xml><block type="${blockType}" x="70" y="70"></block></xml>`, false);
 
-  Bird.reset(true);
+  reset(true);
 
-  BlocklyGames.bindClick('runButton', Bird.runButtonClick);
-  BlocklyGames.bindClick('resetButton', Bird.resetButtonClick);
+  BlocklyGames.bindClick('runButton', runButtonClick);
+  BlocklyGames.bindClick('resetButton', resetButtonClick);
 
   // Open interactive help.  But wait 5 seconds for the
   // user to think a bit before they are told what to do.
   setTimeout(function() {
-    BlocklyInterface.workspace.addChangeListener(Bird.levelHelp);
-    Bird.levelHelp();
+    BlocklyInterface.workspace.addChangeListener(levelHelp);
+    levelHelp();
   }, 5000);
   if (BlocklyGames.LEVEL > 8) {
     setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
@@ -427,20 +438,18 @@ Bird.init = function() {
   BlocklyInterface.importInterpreter();
   // Lazy-load the syntax-highlighting.
   BlocklyInterface.importPrettify();
-};
-
-window.addEventListener('load', Bird.init);
+}
 
 /**
  * PID of task to poll the mutator's state in level 5.
  * @private
  */
-Bird.mutatorHelpPid_ = 0;
+let mutatorHelpPid_ = 0;
 
 /**
  * When the workspace changes, update the help as needed.
  */
-Bird.levelHelp = function() {
+function levelHelp() {
   if (BlocklyInterface.workspace.isDragging()) {
     // Don't change helps during drags.
     return;
@@ -478,9 +487,9 @@ Bird.levelHelp = function() {
       origin = toolbar[2].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL === 5) {
-    if (!Bird.mutatorHelpPid_) {
+    if (!mutatorHelpPid_) {
       // Keep polling the mutator's state.
-      Bird.mutatorHelpPid_ = setInterval(Bird.levelHelp, 100);
+      mutatorHelpPid_ = setInterval(levelHelp, 100);
     }
     if (!userBlocks.includes('mutation else')) {
       const blocks = BlocklyInterface.workspace.getTopBlocks(false);
@@ -533,33 +542,33 @@ Bird.levelHelp = function() {
   } else {
     BlocklyDialogs.hideDialog(false);
   }
-};
+}
 
 /**
  * Reset the bird to the start position and kill any pending animation tasks.
  * @param {boolean} first True if an opening animation is to be played.
  */
-Bird.reset = function(first) {
+function reset(first) {
   // Kill all tasks.
-  Bird.pidList.forEach(clearTimeout);
-  Bird.pidList = [];
+  pidList.forEach(clearTimeout);
+  pidList.length = 0;
 
   // Move Bird into position.
-  Bird.pos = new Blockly.utils.Coordinate(Bird.MAP.start.x, Bird.MAP.start.y);
-  Bird.angle = Bird.MAP.startAngle;
-  Bird.currentAngle = Bird.angle;
-  Bird.hasWorm = !Bird.MAP.worm;
+  pos = new Blockly.utils.Coordinate(MAP.start.x, MAP.start.y);
+  angle = MAP.startAngle;
+  currentAngle = angle;
+  hasWorm = !MAP.worm;
   if (first) {
     // Opening animation.
-    Bird.displayBird(Bird.Pose.SIT);
-    Bird.pidList.push(setTimeout(function() {
-      Bird.displayBird(Bird.Pose.FLAP);
-      Bird.pidList.push(setTimeout(function() {
-        Bird.displayBird(Bird.Pose.SOAR);
+    displayBird(Pose.SIT);
+    pidList.push(setTimeout(function() {
+      displayBird(Pose.FLAP);
+      pidList.push(setTimeout(function() {
+        displayBird(Pose.SOAR);
       }, 400));
     }, 400));
   } else {
-    Bird.displayBird(Bird.Pose.SOAR);
+    displayBird(Pose.SOAR);
   }
 
 
@@ -567,24 +576,24 @@ Bird.reset = function(first) {
   const wormImage = document.getElementById('worm');
   if (wormImage) {
     wormImage.setAttribute('x',
-        Bird.MAP.worm.x / 100 * Bird.MAP_SIZE - Bird.WORM_ICON_SIZE / 2);
+        MAP.worm.x / 100 * MAP_SIZE - WORM_ICON_SIZE / 2);
     wormImage.setAttribute('y',
-        (1 - Bird.MAP.worm.y / 100) * Bird.MAP_SIZE - Bird.WORM_ICON_SIZE / 2);
+        (1 - MAP.worm.y / 100) * MAP_SIZE - WORM_ICON_SIZE / 2);
     wormImage.style.visibility = 'visible';
   }
   // Move the nest into position.
   const nestImage = document.getElementById('nest');
   nestImage.setAttribute('x',
-      Bird.MAP.nest.x / 100 * Bird.MAP_SIZE - Bird.NEST_ICON_SIZE / 2);
+      MAP.nest.x / 100 * MAP_SIZE - NEST_ICON_SIZE / 2);
   nestImage.setAttribute('y',
-      (1 - Bird.MAP.nest.y / 100) * Bird.MAP_SIZE - Bird.NEST_ICON_SIZE / 2);
-};
+      (1 - MAP.nest.y / 100) * MAP_SIZE - NEST_ICON_SIZE / 2);
+}
 
 /**
  * Click the run button.  Start the program.
  * @param {!Event} e Mouse or touch event.
  */
-Bird.runButtonClick = function(e) {
+function runButtonClick(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -597,15 +606,15 @@ Bird.runButtonClick = function(e) {
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  Bird.reset(false);
-  Bird.execute();
-};
+  reset(false);
+  execute();
+}
 
 /**
  * Click the reset button.  Reset the bird.
  * @param {!Event} e Mouse or touch event.
  */
-Bird.resetButtonClick = function(e) {
+function resetButtonClick(e) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -614,13 +623,13 @@ Bird.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   BlocklyInterface.workspace.highlightBlock(null);
-  Bird.reset(false);
-};
+  reset(false);
+}
 
 /**
  * Outcomes of running the user program.
  */
-Bird.ResultType = {
+const ResultType = {
   UNSET: 0,
   SUCCESS: 1,
   FAILURE: -1,
@@ -633,26 +642,26 @@ Bird.ResultType = {
  * @param {!Interpreter} interpreter The JS-Interpreter.
  * @param {!Interpreter.Object} globalObject Global object.
  */
-Bird.initInterpreter = function(interpreter, globalObject) {
+function initInterpreter(interpreter, globalObject) {
   // API
   let wrapper;
   wrapper = function(angle, id) {
-    Bird.heading(angle, id);
+    heading(angle, id);
   };
   wrap('heading');
 
   wrapper = function() {
-    return !Bird.hasWorm;
+    return !hasWorm;
   };
   wrap('noWorm');
 
   wrapper = function() {
-    return Bird.pos.x;
+    return pos.x;
   };
   wrap('getX');
 
   wrapper = function() {
-    return Bird.pos.y;
+    return pos.y;
   };
   wrap('getY');
 
@@ -660,19 +669,19 @@ Bird.initInterpreter = function(interpreter, globalObject) {
     interpreter.setProperty(globalObject, name,
         interpreter.createNativeFunction(wrapper));
   }
-};
+}
 
 /**
  * Execute the user's code.  Heaven help us...
  */
-Bird.execute = function() {
+function execute() {
   if (!('Interpreter' in window)) {
     // Interpreter lazy loads and hasn't arrived yet.  Try again later.
-    setTimeout(Bird.execute, 99);
+    setTimeout(execute, 99);
     return;
   }
 
-  Bird.log = [];
+  log.length = 0;
   Blockly.selected && Blockly.selected.unselect();
   let code = BlocklyInterface.getJsCode();
   BlocklyInterface.executedJsCode = code;
@@ -684,8 +693,8 @@ Bird.execute = function() {
     code = code.substring(start, end + 2);
   }
   code = 'while(true) {\n' + code + '}';
-  let result = Bird.ResultType.UNSET;
-  const interpreter = new Interpreter(code, Bird.initInterpreter);
+  let result = ResultType.UNSET;
+  const interpreter = new Interpreter(code, initInterpreter);
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If bird reaches the finish [SUCCESS], true is thrown.
@@ -701,40 +710,40 @@ Bird.execute = function() {
         throw Infinity;
       }
     }
-    result = Bird.ResultType.FAILURE;
+    result = ResultType.FAILURE;
   } catch (e) {
     // A boolean is thrown for normal termination.
     // Abnormal termination is a user error.
     if (e === Infinity) {
-      result = Bird.ResultType.TIMEOUT;
+      result = ResultType.TIMEOUT;
     } else if (e === true) {
-      result = Bird.ResultType.SUCCESS;
+      result = ResultType.SUCCESS;
     } else if (e === false) {
-      result = Bird.ResultType.ERROR;
+      result = ResultType.ERROR;
     } else {
       // Syntax error, can't happen.
-      result = Bird.ResultType.ERROR;
+      result = ResultType.ERROR;
       window.alert(e);
     }
   }
 
   // Fast animation if execution is successful.  Slow otherwise.
-  Bird.stepSpeed = (result === Bird.ResultType.SUCCESS) ? 10 : 15;
+  stepSpeed = (result === ResultType.SUCCESS) ? 10 : 15;
 
-  // Bird.log now contains a transcript of all the user's actions.
+  // log now contains a transcript of all the user's actions.
   // Reset the bird and animate the transcript.
-  Bird.reset(false);
-  Bird.pidList.push(setTimeout(Bird.animate, 1));
-};
+  reset(false);
+  pidList.push(setTimeout(animate, 1));
+}
 
 /**
  * Iterate through the recorded path and animate the bird's actions.
  */
-Bird.animate = function() {
+function animate() {
   // All tasks should be complete now.  Clean up the PID list.
-  Bird.pidList = [];
+  pidList.length = 0;
 
-  const action = Bird.log.shift();
+  const action = log.shift();
   if (!action) {
     BlocklyInterface.highlight(null);
     return;
@@ -742,121 +751,121 @@ Bird.animate = function() {
   BlocklyInterface.highlight(action.pop());
 
   if (action[0] === 'move' || action[0] === 'goto') {
-    [, Bird.pos.x, Bird.pos.y, Bird.angle] = action;
-    Bird.displayBird(action[0] === 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR);
+    [, pos.x, pos.y, angle] = action;
+    displayBird(action[0] === 'move' ? Pose.FLAP : Pose.SOAR);
   } else if (action[0] === 'worm') {
     const worm = document.getElementById('worm');
     worm.style.visibility = 'hidden';
   } else if (action[0] === 'finish') {
-    Bird.displayBird(Bird.Pose.SIT);
+    displayBird(Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
   } else if (action[0] === 'play') {
     BlocklyInterface.workspace.getAudioManager().play(action[1], 0.5);
   }
 
-  Bird.pidList.push(setTimeout(Bird.animate, Bird.stepSpeed * 5));
-};
+  pidList.push(setTimeout(animate, stepSpeed * 5));
+}
 
 /**
  * Display bird at the current location, facing the current angle.
- * @param {!Bird.Pose} pose Set new pose.
+ * @param {!Pose} pose Set new pose.
  */
-Bird.displayBird = function(pose) {
-  let diff = BlocklyGames.normalizeAngle(Bird.currentAngle - Bird.angle);
+function displayBird(pose) {
+  let diff = BlocklyGames.normalizeAngle(currentAngle - angle);
   if (diff > 180) {
     diff -= 360;
   }
   const step = 10;
   if (Math.abs(diff) <= step) {
-    Bird.currentAngle = Bird.angle;
+    currentAngle = angle;
   } else {
-    Bird.currentAngle = BlocklyGames.normalizeAngle(Bird.currentAngle +
+    currentAngle = BlocklyGames.normalizeAngle(currentAngle +
         (diff < 0 ? step : -step));
   }
   // Divide into 12 quads.
-  const quad = (14 - Math.round(Bird.currentAngle / 360 * 12)) % 12;
+  const quad = (14 - Math.round(currentAngle / 360 * 12)) % 12;
   const quadAngle = 360 / 12;  // 30.
-  let remainder = Bird.currentAngle % quadAngle;
+  let remainder = currentAngle % quadAngle;
   if (remainder >= quadAngle / 2) {
     remainder -= quadAngle;
   }
   remainder *= -1;
 
   let row;
-  if (pose === Bird.Pose.SOAR) {
+  if (pose === Pose.SOAR) {
     row = 0;
-  } else if (pose === Bird.Pose.SIT) {
+  } else if (pose === Pose.SIT) {
     row = 3;
-  } else if (pose === Bird.Pose.FLAP) {
-    row = Math.round(Date.now() / Bird.FLAP_SPEED) % 3;
+  } else if (pose === Pose.FLAP) {
+    row = Math.round(Date.now() / FLAP_SPEED) % 3;
   } else {
     throw Error('Unknown pose.');
   }
 
-  const x = Bird.pos.x / 100 * Bird.MAP_SIZE - Bird.BIRD_ICON_SIZE / 2;
-  const y = (1 - Bird.pos.y / 100) * Bird.MAP_SIZE - Bird.BIRD_ICON_SIZE / 2;
+  const x = pos.x / 100 * MAP_SIZE - BIRD_ICON_SIZE / 2;
+  const y = (1 - pos.y / 100) * MAP_SIZE - BIRD_ICON_SIZE / 2;
   const birdIcon = document.getElementById('bird');
-  birdIcon.setAttribute('x', x - quad * Bird.BIRD_ICON_SIZE);
-  birdIcon.setAttribute('y', y - row * Bird.BIRD_ICON_SIZE);
+  birdIcon.setAttribute('x', x - quad * BIRD_ICON_SIZE);
+  birdIcon.setAttribute('y', y - row * BIRD_ICON_SIZE);
   birdIcon.setAttribute('transform', 'rotate(' + remainder + ', ' +
-      (x + Bird.BIRD_ICON_SIZE / 2) + ', ' +
-      (y + Bird.BIRD_ICON_SIZE / 2) + ')');
+      (x + BIRD_ICON_SIZE / 2) + ', ' +
+      (y + BIRD_ICON_SIZE / 2) + ')');
 
   const clipRect = document.getElementById('clipRect');
   clipRect.setAttribute('x', x);
   clipRect.setAttribute('y', y);
-};
+}
 
 /**
  * Has the bird intersected the nest?
  * @returns {boolean} True if the bird found the nest, false otherwise.
  */
-Bird.intersectNest = function() {
-  const accuracy = 0.5 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
-  return Blockly.utils.Coordinate.distance(Bird.pos, Bird.MAP.nest) < accuracy;
-};
+function intersectNest() {
+  const accuracy = 0.5 * BIRD_ICON_SIZE / MAP_SIZE * 100;
+  return Blockly.utils.Coordinate.distance(pos, MAP.nest) < accuracy;
+}
 
 /**
  * Has the bird intersected the worm?
  * @returns {boolean} True if the bird found the worm, false otherwise.
  */
-Bird.intersectWorm = function() {
-  if (Bird.MAP.worm) {
-    const accuracy = 0.5 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
-    return Blockly.utils.Coordinate.distance(Bird.pos, Bird.MAP.worm) < accuracy;
+function intersectWorm() {
+  if (MAP.worm) {
+    const accuracy = 0.5 * BIRD_ICON_SIZE / MAP_SIZE * 100;
+    return Blockly.utils.Coordinate.distance(pos, MAP.worm) < accuracy;
   }
   return false;
-};
+}
 
 /**
  * Has the bird intersected a wall?
  * @returns {boolean} True if the bird hit a wall, false otherwise.
  */
-Bird.intersectWall = function() {
-  const accuracy = 0.2 * Bird.BIRD_ICON_SIZE / Bird.MAP_SIZE * 100;
-  for (const wall of Bird.MAP.walls) {
-    if (wall.distance(Bird.pos) < accuracy) {
+function intersectWall() {
+  const accuracy = 0.2 * BIRD_ICON_SIZE / MAP_SIZE * 100;
+  for (const wall of MAP.walls) {
+    if (wall.distance(pos) < accuracy) {
       return true;
     }
   }
   return false;
-};
+}
 
 /**
  * Move the bird to the given point.
  * @param {!Blockly.utils.Coordinate} p Coordinate of point.
  */
-Bird.gotoPoint = function(p) {
-  const steps = Math.round(Blockly.utils.Coordinate.distance(Bird.pos, p));
-  const angleDegrees = Bird.pointsToAngle(Bird.pos.x, Bird.pos.y, p.x, p.y);
+function gotoPoint(p) {
+  const steps = Math.round(Blockly.utils.Coordinate.distance(pos, p));
+  const angleDegrees = pointsToAngle(pos.x, pos.y, p.x, p.y);
   const angleRadians = Blockly.utils.math.toRadians(angleDegrees);
   for (let i = 0; i < steps; i++) {
-    Bird.pos.x += Math.cos(angleRadians);
-    Bird.pos.y += Math.sin(angleRadians);
-    Bird.log.push(['goto', Bird.pos.x, Bird.pos.y, angleDegrees, null]);
+    pos.x += Math.cos(angleRadians);
+    pos.y += Math.sin(angleRadians);
+    log.push(['goto', pos.x, pos.y, angleDegrees, null]);
   }
-};
+}
 
 /**
  * Computes the angle between two points (x1,y1) and (x2,y2).
@@ -870,10 +879,10 @@ Bird.gotoPoint = function(p) {
  * @returns {number} Standardized angle in degrees of the vector from
  *     x1,y1 to x2,y2.
  */
-Bird.pointsToAngle = function(x1, y1, x2, y2) {
+function pointsToAngle(x1, y1, x2, y2) {
   const angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
   return BlocklyGames.normalizeAngle(angle);
-};
+}
 
 /**
  * Attempt to move the bird in the specified direction.
@@ -882,27 +891,29 @@ Bird.pointsToAngle = function(x1, y1, x2, y2) {
  * @throws {true} If the nest is reached.
  * @throws {false} If the bird collides with a wall.
  */
-Bird.heading = function(angle, id) {
+function heading(angle, id) {
   const angleRadians = Blockly.utils.math.toRadians(angle);
-  Bird.pos.x += Math.cos(angleRadians);
-  Bird.pos.y += Math.sin(angleRadians);
-  Bird.angle = angle;
-  Bird.log.push(['move', Bird.pos.x, Bird.pos.y, Bird.angle, id]);
-  if (Bird.hasWorm && Bird.intersectNest()) {
+  pos.x += Math.cos(angleRadians);
+  pos.y += Math.sin(angleRadians);
+  angle = angle;
+  log.push(['move', pos.x, pos.y, angle, id]);
+  if (hasWorm && intersectNest()) {
     // Finished.  Terminate the user's program.
-    Bird.log.push(['play', 'quack', null]);
-    Bird.gotoPoint(Bird.MAP.nest);
-    Bird.log.push(['finish', null]);
+    log.push(['play', 'quack', null]);
+    gotoPoint(MAP.nest);
+    log.push(['finish', null]);
     throw true;
   }
-  if (!Bird.hasWorm && Bird.intersectWorm()) {
-    Bird.gotoPoint(Bird.MAP.worm);
-    Bird.log.push(['worm', null]);
-    Bird.log.push(['play', 'worm', null]);
-    Bird.hasWorm = true;
+  if (!hasWorm && intersectWorm()) {
+    gotoPoint(MAP.worm);
+    log.push(['worm', null]);
+    log.push(['play', 'worm', null]);
+    hasWorm = true;
   }
-  if (Bird.intersectWall()) {
-    Bird.log.push(['play', 'whack', null]);
+  if (intersectWall()) {
+    log.push(['play', 'whack', null]);
     throw false;
   }
-};
+}
+
+window.addEventListener('load', init);

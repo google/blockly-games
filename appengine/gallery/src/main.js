@@ -21,134 +21,136 @@ goog.require('Gallery.html');
 BlocklyGames.NAME = 'gallery';
 
 /**
+ * One of 'turtle', 'movie', 'music', or 'admin'.
+ * @type string
+ */
+let app;
+
+/**
  * Initialize gallery.  Called on page load.
  */
-Gallery.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Gallery.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
-  Gallery.app = BlocklyGames.getStringParamFromUrl('app', '');
-  const isAdmin = (Gallery.app === 'admin');
-  if (!isAdmin && !['turtle', 'movie', 'music'].includes(Gallery.app)) {
-    throw Error('Unknown app: ' + Gallery.app);
+  app = BlocklyGames.getStringParamFromUrl('app', '');
+  const isAdmin = (app === 'admin');
+  if (!isAdmin && !['turtle', 'movie', 'music'].includes(app)) {
+    throw Error('Unknown app: ' + app);
   }
   if (isAdmin) {
     document.body.className = 'admin';
   }
   // Render the HTML.
-  const appName = isAdmin ?
-      '' : (BlocklyGames.Msg['Games.' + Gallery.app] + ' : ');
+  const appName = isAdmin ? '' : (BlocklyGames.Msg['Games.' + app] + ' : ');
   document.body.innerHTML += Gallery.html.start(
       {lang: BlocklyGames.LANG,
        appName: appName,
        html: BlocklyGames.IS_HTML});
 
-  Gallery.loadMore();
+  loadMore();
   BlocklyGames.init(BlocklyGames.Msg['Gallery']);
 
   const languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
   // Poll for needing more records.
-  setInterval(Gallery.needMore, 200);
-};
+  setInterval(needMore, 200);
+}
 
 /**
  * Flag for whether the server has more rows of data.
  */
-Gallery.hasMore = true;
+let hasMore = true;
 
 /**
  * Flag for whether gallery is waiting on loading request.
  */
-Gallery.loadRequested_ = false;
+let loadRequested_ = false;
 
 /**
  * Opaque key to current data loading cursor.
  */
-Gallery.cursor = '';
+let cursor = '';
 
 /**
  * Load more entries.
  */
-Gallery.loadMore = function() {
-  if (Gallery.loadRequested_ || !Gallery.hasMore) {
+function loadMore() {
+  if (loadRequested_ || !hasMore) {
     return;
   }
 
   document.getElementById('loading').style.visibility = 'visible';
-  let url = '/gallery-api/view?app=' + encodeURIComponent(Gallery.app);
-  if (Gallery.cursor) {
-    url += '&cursor=' + encodeURIComponent(Gallery.cursor);
+  let url = '/gallery-api/view?app=' + encodeURIComponent(app);
+  if (cursor) {
+    url += '&cursor=' + encodeURIComponent(cursor);
   }
   const onFailure = function() {
     console.warn('Load returned status ' + this.status);
-    Gallery.loadRequested_ = false;
-    Gallery.hasMore = false;
+    loadRequested_ = false;
+    hasMore = false;
     if (this.status === 401) {
       // User isn't logged in.  Bounce to the admin page.
       location = '/admin';
     }
   };
-  BlocklyStorage.makeRequest(url, '', Gallery.receiveMore, onFailure, 'GET');
-  Gallery.loadRequested_ = true;
-};
+  BlocklyStorage.makeRequest(url, '', receiveMore, onFailure, 'GET');
+  loadRequested_ = true;
+}
 
 /**
  * Receive entries from the Gallery server.
  */
-Gallery.receiveMore = function() {
-  Gallery.loadRequested_ = false;
+function receiveMore() {
+  loadRequested_ = false;
   document.getElementById('loading').style.visibility = 'hidden';
   const meta = JSON.parse(this.responseText);
   if (!meta['more']) {
-    Gallery.hasMore = false;
+    hasMore = false;
   }
-  Gallery.cursor = meta['cursor'];
+  cursor = meta['cursor'];
 
-  meta['data'].forEach(Gallery.display);
-};
+  meta['data'].forEach(display);
+}
 
 /**
  * Display one more record to the gallery.
  * @param {!Object} record One art record.
  */
-Gallery.display = function(record) {
+function display(record) {
   const block = document.createElement('div');
   block.innerHTML = Gallery.html.record(record['app'], record['uuid'],
       record['thumb'], record['title'], record['public'], record['key']);
   document.getElementById('gallery').appendChild(block);
-};
+}
 
 /**
  * Publish or unpublish a record.
  * @param {!Element} element Checkbox element.
  */
-Gallery.publish = function(element) {
+function publish(element) {
   const key = element.id.substring(8);
   const publish = Number(element.checked);
   const url = '/gallery-api/admin';
   const data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
   BlocklyStorage.makeRequest(url, data);
-};
+}
 
 /**
  * Automatically load more records if the screen is scrolled to the bottom.
  */
-Gallery.needMore = function() {
+function needMore() {
   const rect = document.getElementById('loading').getBoundingClientRect();
   if (rect.top <=
       (window.innerHeight || document.documentElement.clientHeight)) {
-    Gallery.loadMore();
+    loadMore();
   }
-};
+}
 
-window.addEventListener('load', Gallery.init);
+window.addEventListener('load', init);
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-if (!window['Gallery']) {
-  window['Gallery'] = {};
-}
-window['Gallery']['publish'] = Gallery.publish;
+window['publish'] = publish;

@@ -17,6 +17,7 @@ goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
+goog.require('Puzzle.data');
 
 
 /**
@@ -34,6 +35,23 @@ Puzzle.Blocks.PICTURE_HUE = 30;
  */
 Puzzle.Blocks.TRAIT_HUE = 290;
 
+/**
+ * Return a list of all legs.
+ * @returns {!Array<!Array<string>>} Array of human-readable and
+ *   language-neutral tuples.
+ */
+Puzzle.Blocks.legs = function() {
+  const data = Puzzle.data.getData();
+  const padding = '\xa0\xa0';
+  const list = [[BlocklyGames.Msg['Puzzle.legsChoose'], '0']];
+  for (let i = 0; i < data.length; i++) {
+    list[i + 1] = [padding + data[i].legs + padding, String(i + 1)];
+  }
+  // Sort numerically.
+  list.sort(function(a, b) {return a[0] - b[0];});
+  return list;
+};
+
 Blockly.Blocks['animal'] = {
   /**
    * Block to represent an animal.
@@ -49,7 +67,7 @@ Blockly.Blocks['animal'] = {
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(BlocklyGames.Msg['Puzzle.legs'])
-        .appendField(new Blockly.FieldDropdown(Puzzle.legs), 'LEGS');
+        .appendField(new Blockly.FieldDropdown(Puzzle.Blocks.legs), 'LEGS');
     this.appendStatementInput('TRAITS')
         .appendField(BlocklyGames.Msg['Puzzle.traits']);
     this.setInputsInline(false);
@@ -79,9 +97,10 @@ Blockly.Blocks['animal'] = {
    * @this {Blockly.Block}
    */
   populate: function(n) {
+    const data = Puzzle.data.getData();
     this.animal = n;
-    this.setFieldValue(Puzzle.data[n - 1].name, 'NAME');
-    this.helpUrl = Puzzle.data[n - 1].helpUrl;
+    this.setFieldValue(data[n - 1].name, 'NAME');
+    this.helpUrl = data[n - 1].helpUrl;
   },
   /**
    * Evaluate the correctness of this block.
@@ -113,9 +132,10 @@ Blockly.Blocks['picture'] = {
    */
   populate: function(n) {
     this.animal = n;
-    const pic = 'puzzle/' + Puzzle.data[n - 1].pic;
-    const picHeight = Puzzle.data[n - 1].picHeight;
-    const picWidth = Puzzle.data[n - 1].picWidth;
+    const data = Puzzle.data.getData();
+    const pic = 'puzzle/' + data[n - 1].pic;
+    const picHeight = data[n - 1].picHeight;
+    const picWidth = data[n - 1].picWidth;
     this.getInput('PIC')
         .appendField(new Blockly.FieldImage(pic, picWidth, picHeight));
   },
@@ -172,7 +192,8 @@ Blockly.Blocks['trait'] = {
     this.animal = n;
     this.trait = m;
     // Set the trait name.
-    this.setFieldValue(Puzzle.data[n - 1].traits[m - 1], 'NAME');
+    const data = Puzzle.data.getData();
+    this.setFieldValue(data[n - 1].traits[m - 1], 'NAME');
   },
   /**
    * Evaluate the correctness of this block.

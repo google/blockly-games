@@ -17,20 +17,19 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Index.html');
 
-
 /**
  * Array of application names.
  */
-Index.APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
+const APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
               'pond-tutor', 'pond-duck'];
 
 /**
  * Initialize Blockly and the maze.  Called on page load.
  */
-Index.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Index.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
@@ -47,10 +46,10 @@ Index.init = function() {
 
   let storedData = false;
   const levelsDone = [];
-  for (let i = 0; i < Index.APPS.length; i++) {
+  for (let i = 0; i < APPS.length; i++) {
     levelsDone[i] = 0;
     for (let j = 1; j <= BlocklyGames.MAX_LEVEL; j++) {
-      if (BlocklyGames.loadFromLocalStorage(Index.APPS[i], j)) {
+      if (BlocklyGames.loadFromLocalStorage(APPS[i], j)) {
         storedData = true;
         levelsDone[i]++;
       }
@@ -59,24 +58,22 @@ Index.init = function() {
   if (storedData) {
     const clearButtonPara = document.getElementById('clearDataPara');
     clearButtonPara.style.visibility = 'visible';
-    BlocklyGames.bindClick('clearData', Index.clearData_);
+    BlocklyGames.bindClick('clearData', clearData);
   }
 
   for (let i = 0; i < levelsDone.length; i++) {
-    const app = Index.APPS[i];
+    const app = APPS[i];
     const denominator = (i === 0) ? 1 : BlocklyGames.MAX_LEVEL;
     const angle = levelsDone[i] / denominator * 270;
     if (angle) {
-      setTimeout(Index.animateGauge, 1500, app, 0, angle);
+      setTimeout(animateGauge, 1500, app, 0, angle);
     } else {
       // Remove gauge if zero, since IE renders a stub.
       const path = document.getElementById('gauge-' + app);
       path.parentNode.removeChild(path);
     }
   }
-};
-
-window.addEventListener('load', Index.init, false);
+}
 
 /**
  * Animate a gauge from zero to a target value.
@@ -84,21 +81,21 @@ window.addEventListener('load', Index.init, false);
  * @param {number} cur Current angle of gauge in degrees.
  * @param {number} max Final angle of gauge in degrees.
  */
-Index.animateGauge = function(app, cur, max) {
+function animateGauge(app, cur, max) {
   const step = 4;
   cur += step;
-  Index.drawGauge(app, Math.min(cur, max));
+  drawGauge(app, Math.min(cur, max));
   if (cur < max) {
-    setTimeout(Index.animateGauge, 10, app, cur, max);
+    setTimeout(animateGauge, 10, app, cur, max);
   }
-};
+}
 
 /**
  * Draw the gauge for an app.
  * @param {string} app Name of application.
  * @param {number} angle Angle of gauge in degrees.
  */
-Index.drawGauge = function(app, angle) {
+function drawGauge(app, angle) {
   const xOffset = 150;
   const yOffset = 60;
   const radius = 52.75;
@@ -112,21 +109,22 @@ Index.drawGauge = function(app, angle) {
   const my = yOffset - Math.sin(theta1) * radius;
   const path = document.getElementById('gauge-' + app);
   path.setAttribute('d',
-      ['M', mx, my, 'A', radius, radius, 0, flag, 1, x, y].join(' '));
-};
+      ['M ' + mx + ',' + my + ' A', radius, radius, 0, flag, 1, x, y].join(' '));
+}
 
 /**
  * Clear all stored data.
- * @private
  */
-Index.clearData_ = function() {
+function clearData() {
   if (!confirm(BlocklyGames.Msg['Index.clear'])) {
     return;
   }
-  for (let i = 0; i < Index.APPS.length; i++) {
+  for (let i = 0; i < APPS.length; i++) {
     for (let j = 1; j <= BlocklyGames.MAX_LEVEL; j++) {
-      delete window.localStorage[Index.APPS[i] + j];
+      delete window.localStorage[APPS[i] + j];
     }
   }
   location.reload();
-};
+}
+
+window.addEventListener('load', init);

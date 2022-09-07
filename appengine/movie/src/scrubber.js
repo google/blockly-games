@@ -21,16 +21,18 @@ Scrubber = class {
   /**
    * Object representing a horizontal scrubber widget.
    * @param {!Element} svgParent The SVG element to append the slider to.
-   * @param {Function} opt_changeFunc Optional callback function that will be
-   *     called when the scrubber is moved.  The current value is passed.
-   */
-  constructor(svgParent, opt_changeFunc) {
+   * @param {!Function} changeFunc Callback function that will be called
+   *     when the scrubber is moved.  The current value is passed.
+   * @param {!Function} stopFunc Callback function that will be called
+   *     when the scrubber stops moving.   */
+  constructor(svgParent, changeFunc, stopFunc) {
     this.KNOB_MIN_X_ = 42;
     this.KNOB_MAX_X_ = 328;
     this.HEIGHT_ = 11.5;
     this.TARGET_OVERHANG_ = 12;
     this.value_ = 0;
-    this.changeFunc_ = opt_changeFunc;
+    this.changeFunc_ = changeFunc;
+    this.stopFunc_ = stopFunc;
     this.animationTasks_ = [];
     this.progressRects_ = [];
     const SVG_NS = Blockly.utils.dom.SVG_NS;
@@ -254,7 +256,7 @@ Scrubber = class {
       this.play_.setAttribute('x', 5 - 21);
       clearTimeout(this.playPid_);
       this.playPid_ = 0;
-      Movie.checkAnswers();
+      this.stopFunc_();
     } else {
       // Start the playback.
       this.play_.setAttribute('x', 5);
@@ -339,7 +341,7 @@ Scrubber = class {
     const textNode = document.createTextNode('time = ' + frame);
     this.text_.appendChild(textNode);
 
-    this.changeFunc_ && this.changeFunc_(frame);
+    this.changeFunc_(frame);
   }
 
   /**

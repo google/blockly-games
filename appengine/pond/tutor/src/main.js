@@ -30,10 +30,10 @@ BlocklyGames.NAME = 'pond-tutor';
 /**
  * Initialize Blockly xor Ace, and the pond.  Called on page load.
  */
-Pond.Tutor.init = function() {
+function init() {
   if (!Object.keys(BlocklyGames.Msg).length) {
     // Messages haven't arrived yet.  Try again later.
-    setTimeout(Pond.Tutor.init, 99);
+    setTimeout(init, 99);
     return;
   }
 
@@ -139,11 +139,11 @@ Pond.Tutor.init = function() {
     BlocklyAce.importBabel();
   }
 
-  BlocklyGames.bindClick('runButton', Pond.Tutor.runButtonClick);
+  BlocklyGames.bindClick('runButton', runButtonClick);
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  const avatarData = Pond.Tutor.getAvatarData();
+  const avatarData = getAvatarData();
   for (const avatarDatum of avatarData) {
     const avatar = new Pond.Avatar(avatarDatum.name, avatarDatum.start,
         avatarDatum.damage, !avatarDatum.code, Pond.Battle);
@@ -156,26 +156,23 @@ Pond.Tutor.init = function() {
     }
   }
   Pond.reset();
-};
-
-window.addEventListener('load', Pond.Tutor.init);
-
+}
 
 /**
  * Click the run button.  Save the code for the end of level dialog and save.
  * This runs in parallel with Pond.runButtonClick on a separate event handler.
  * @param {!Event} e Mouse or touch event.
  */
-Pond.Tutor.runButtonClick = function(e) {
+function runButtonClick(e) {
   BlocklyInterface.executedJsCode = BlocklyInterface.getJsCode();
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
-};
+}
 
 /**
  * Get the data for the avatars to be loaded into the current level.
  * @param {!Array<!Object>}
  */
-Pond.Tutor.getAvatarData = function() {
+function getAvatarData() {
   const playerName = BlocklyGames.Msg['Pond.playerName'];
   const targetName = BlocklyGames.Msg['Pond.targetName'];
   const pendulumName = BlocklyGames.Msg['Pond.pendulumName'];
@@ -335,7 +332,7 @@ Pond.Tutor.getAvatarData = function() {
       }
     ]
   ][BlocklyGames.LEVEL];
-};
+}
 
 /**
  * Callback function for when a game ends.
@@ -371,3 +368,5 @@ Pond.endBattle = function(survivors) {
     // Timeout.
   }
 };
+
+window.addEventListener('load', init);

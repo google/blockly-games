@@ -44,7 +44,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Gallery'], '', false, false,
  */
 Gallery.html.record = function(app, uuid, thumb, title, published, key) {
   const checkbox = key ?
-      `<input type="checkbox" id="publish-${key}" ${published ? ' checked ' : ''} onchange="Gallery.publish(this)"></input>` :
+      `<input type="checkbox" id="publish-${key}" ${published ? ' checked ' : ''} onchange="publish(this)"></input>` :
       ''
   return `
 <div class="galleryThumb">

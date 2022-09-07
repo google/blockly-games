@@ -168,7 +168,7 @@ Blockly.Blocks['maze_forever'] = {
     this.setColour(Maze.Blocks.LOOPS_HUE);
     this.appendDummyInput()
         .appendField(BlocklyGames.Msg['Maze.repeatUntil'])
-        .appendField(new Blockly.FieldImage(Maze.SKIN.marker, 12, 16));
+        .appendField(new Blockly.FieldImage('maze/marker.png', 12, 16));
     this.appendStatementInput('DO')
         .appendField(BlocklyGames.Msg['Maze.doCode']);
     this.setPreviousStatement(true);
