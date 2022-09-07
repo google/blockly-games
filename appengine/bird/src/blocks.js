@@ -20,6 +20,7 @@ goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.math');
+goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 

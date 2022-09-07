@@ -29,6 +29,7 @@ goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
+goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('CustomFields.FieldPitch');

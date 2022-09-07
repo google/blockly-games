@@ -12,6 +12,7 @@
 
 goog.provide('BlocklyGames');
 
+goog.require('Blockly.Msg');
 goog.require('BlocklyGames.Msg');
 
 

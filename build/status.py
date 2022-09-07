@@ -18,7 +18,7 @@
 
 """Produce a table showing the translation status of each app by language.
 From the /json directory, run:
-python ../i18n/status.py --key_file qqq.json --output html *.json > status.html
+python ../build/status.py --key_file qqq.json --output html *.json > status.html
 
 @author Ellen Spertus (ellen.spertus@gmail.com)
 """

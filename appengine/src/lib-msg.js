@@ -16,8 +16,6 @@
  */
 goog.provide('BlocklyGames.Msg');
 
-goog.require('Blockly.Msg');
-
 
 /**
  * Exported so that if BlocklyGames is compiled with ADVANCED_COMPILATION,

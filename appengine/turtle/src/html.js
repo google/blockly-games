@@ -12,9 +12,11 @@
 
 goog.provide('Turtle.html');
 
+goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
 goog.require('BlocklyGames.Msg');
+
 
 /**
  * Web page structure.
