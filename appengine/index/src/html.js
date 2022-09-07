@@ -13,7 +13,6 @@
 goog.provide('Index.html');
 
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -25,8 +24,8 @@ Index.html.start = function(ij) {
   return `
 <div id="header">
   <img id="banner" src="index/title-beta.png" height=51 width=244 alt="Blockly Games">
-  <div id="subtitle">${BlocklyGames.esc(BlocklyGames.Msg['Index.subTitle'])}&nbsp;
-    <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.esc(BlocklyGames.Msg['Index.moreInfo'])}</a>
+  <div id="subtitle">${BlocklyGames.getMsg('Index.subTitle', true)}&nbsp;
+    <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.getMsg('Index.moreInfo', true)}</a>
   </div>
 </div>
 <svg height="100%" width="100%" version="1.1"
@@ -42,20 +41,20 @@ Index.html.start = function(ij) {
         ${ij.rtl ? 'transform="translate(100) scale(-1, 1)"' : ''}
       />
     </svg>
-    ${Index.html.appLink_(ij, 'puzzle', 10, 15, BlocklyGames.Msg['Games.puzzle'])}
-    ${Index.html.appLink_(ij, 'maze', 16, 45, BlocklyGames.Msg['Games.maze'])}
-    ${Index.html.appLink_(ij, 'bird', 26, 69, BlocklyGames.Msg['Games.bird'])}
-    ${Index.html.appLink_(ij, 'turtle', 41, 80, BlocklyGames.Msg['Games.turtle'])}
-    ${Index.html.appLink_(ij, 'movie', 55, 61, BlocklyGames.Msg['Games.movie'])}
-    ${Index.html.appLink_(ij, 'music', 69, 43, BlocklyGames.Msg['Games.music'])}
-    ${Index.html.appLink_(ij, 'pond-tutor', 83, 55, BlocklyGames.Msg['Games.pondTutor'])}
-    ${Index.html.appLink_(ij, 'pond-duck', 90, 85, BlocklyGames.Msg['Games.pond'])}
+    ${Index.html.appLink_(ij, 'puzzle', 10, 15, BlocklyGames.getMsg('Games.puzzle', true))}
+    ${Index.html.appLink_(ij, 'maze', 16, 45, BlocklyGames.getMsg('Games.maze', true))}
+    ${Index.html.appLink_(ij, 'bird', 26, 69, BlocklyGames.getMsg('Games.bird', true))}
+    ${Index.html.appLink_(ij, 'turtle', 41, 80, BlocklyGames.getMsg('Games.turtle', true))}
+    ${Index.html.appLink_(ij, 'movie', 55, 61, BlocklyGames.getMsg('Games.movie', true))}
+    ${Index.html.appLink_(ij, 'music', 69, 43, BlocklyGames.getMsg('Games.music', true))}
+    ${Index.html.appLink_(ij, 'pond-tutor', 83, 55, BlocklyGames.getMsg('Games.pondTutor', true))}
+    ${Index.html.appLink_(ij, 'pond-duck', 90, 85, BlocklyGames.getMsg('Games.pond', true))}
   </g>
 </svg>
 <select id="languageMenu"></select>
 <p id="clearDataPara" style="visibility: hidden">
-  ${BlocklyGames.esc(BlocklyGames.Msg['Index.startOver'])}
-  <button class="secondary" id="clearData">${BlocklyGames.esc(BlocklyGames.Msg['Index.clearData'])}</button>
+  ${BlocklyGames.getMsg('Index.startOver', true)}
+  <button class="secondary" id="clearData">${BlocklyGames.getMsg('Index.clearData', true)}</button>
 </p>
 `;
 };
@@ -66,7 +65,7 @@ Index.html.start = function(ij) {
  * @param {string} app Name of application.
  * @param {number} x Horizontal position of link as percentage.
  * @param {number} y Vertical position of link as percentage.
- * @param {string} contentText Text content to place in link (unsafe text).
+ * @param {string} contentText Text content to place in link.
  * @returns {string} HTML.
  * @private
  */
@@ -83,7 +82,7 @@ Index.html.appLink_ = function(ij, app, x, y, contentText) {
     <a xlink:href="${app}${ij.html ? '.html' : ''}?lang=${ij.lang}">
       <circle cx=150 cy=60 r=50 class="iconBorder" />
       <path class="gaugeFront" id="gauge-${app}" />
-      <text x=150 y=135>${BlocklyGames.esc(contentText)}</text>
+      <text x=150 y=135>${contentText}</text>
     </a>
   </g>
 </svg>

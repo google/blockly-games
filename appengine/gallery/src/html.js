@@ -14,16 +14,16 @@ goog.provide('Gallery.html');
 
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
-goog.require('BlocklyGames.Msg');
 
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
+ * @param {string} appName A title like 'Turtle : Gallery'.
  * @returns {string} HTML.
  */
-Gallery.html.start = function(ij) {
+Gallery.html.start = function(ij, appName) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Gallery'], '', false, false, '')}
+${BlocklyGames.html.headerBar(ij, appName, '', false, false, '')}
 <div id="gallery">
 </div>
 <div id="loading">

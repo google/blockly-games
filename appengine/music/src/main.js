@@ -22,7 +22,6 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('CustomFields.FieldPitch');
 goog.require('Music.Blocks');
@@ -110,7 +109,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.Msg['Games.music']);
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.music', false));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = document.getElementById('blockly');
@@ -370,8 +369,7 @@ function showHelp() {
             '</next>' +
           '</block>' +
         '</xml>';
-    const firstPart = BlocklyGames.Msg['Music.firstPart'];
-    xml = xml.replace(/%1/g, BlocklyGames.esc(firstPart));
+    xml = xml.replace(/%1/g, BlocklyGames.getMsg('Music.firstPart', true));
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   } else if (BlocklyGames.LEVEL === 6) {
     const xml = '<xml><block type="music_instrument" x="5" y="10"></block></xml>';
@@ -1041,7 +1039,7 @@ function transform10(xml) {
  */
 function submitToGallery() {
   if (!canSubmit || !startCount) {
-    alert(BlocklyGames.Msg['submitDisabled']);
+    alert(BlocklyGames.getMsg('submitDisabled', false));
     return;
   }
   // Encode the thumbnail.

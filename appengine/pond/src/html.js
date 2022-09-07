@@ -13,7 +13,6 @@
 goog.provide('Pond.html');
 
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 
 /**
  * Canvas, health bars, and buttons.
@@ -36,16 +35,16 @@ Pond.html.visualization = function() {
 <table width=400>
   <tr>
     <td style="width: 190px; text-align: center; vertical-align: top;">
-      <button id="docsButton" title="${BlocklyGames.esc(BlocklyGames.Msg['Pond.docsTooltip'])}">
-        ${BlocklyGames.esc(BlocklyGames.Msg['Pond.documentation'])}
+      <button id="docsButton" title="${BlocklyGames.getMsg('Pond.docsTooltip', true)}">
+        ${BlocklyGames.getMsg('Pond.documentation', true)}
       </button>
     </td>
     <td>
-      <button id="runButton" class="primary" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.runTooltip'])}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Games.runProgram'])}
+      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.resetTooltip'])}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Games.resetProgram'])}
+      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>

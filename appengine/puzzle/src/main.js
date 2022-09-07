@@ -15,7 +15,6 @@ goog.provide('Puzzle');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Puzzle.data');
 goog.require('Puzzle.html');
@@ -33,7 +32,7 @@ function init() {
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.Msg['Games.puzzle']);
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.puzzle', false));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = document.getElementById('blockly');
@@ -194,13 +193,13 @@ function checkAnswers() {
   let messages;
   // Safe from HTML injection due to createTextNode below.
   if (errors === 1) {
-    messages = [BlocklyGames.Msg['Puzzle.error1'],
-                BlocklyGames.Msg['Puzzle.tryAgain']];
+    messages = [BlocklyGames.getMsg('Puzzle.error1', false),
+                BlocklyGames.getMsg('Puzzle.tryAgain', false)];
   } else if (errors) {
-    messages = [BlocklyGames.Msg['Puzzle.error2'].replace('%1', errors),
-                BlocklyGames.Msg['Puzzle.tryAgain']];
+    messages = [BlocklyGames.getMsg('Puzzle.error2', false).replace('%1', errors),
+                BlocklyGames.getMsg('Puzzle.tryAgain', false)];
   } else {
-    messages = [BlocklyGames.Msg['Puzzle.error0'].replace(
+    messages = [BlocklyGames.getMsg('Puzzle.error0', false).replace(
         '%1', blocks.length)];
     BlocklyInterface.executedCode = BlocklyInterface.getCode();
     BlocklyInterface.saveToLocalStorage();

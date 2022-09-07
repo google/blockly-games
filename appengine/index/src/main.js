@@ -13,7 +13,6 @@
 goog.provide('Index');
 
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('Index.html');
 
 /**
@@ -119,7 +118,7 @@ function toRadians(angleDegrees) {
  * Clear all stored data.
  */
 function clearData() {
-  if (!confirm(BlocklyGames.Msg['Index.clear'])) {
+  if (!confirm(BlocklyGames.getMsg('Index.clear', false))) {
     return;
   }
   for (let i = 0; i < APPS.length; i++) {

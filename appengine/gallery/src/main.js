@@ -13,7 +13,6 @@
 goog.provide('Gallery');
 
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyStorage');
 goog.require('Gallery.html');
 
@@ -31,22 +30,25 @@ let app;
  */
 function init() {
   app = BlocklyGames.getStringParamFromUrl('app', '');
-  const isAdmin = (app === 'admin');
-  if (!isAdmin && !['turtle', 'movie', 'music'].includes(app)) {
+  const appName = {
+    'admin': '',
+    'turtle': BlocklyGames.getMsg('Games.turtle', true) + ' : ',
+    'movie': BlocklyGames.getMsg('Games.movie', true) + ' : ',
+    'music': BlocklyGames.getMsg('Games.music', true) + ' : ',
+  }[app];
+  if (appName === undefined) {
     throw Error('Unknown app: ' + app);
   }
-  if (isAdmin) {
+  if (app === 'admin') {
     document.body.className = 'admin';
   }
   // Render the HTML.
-  const appName = isAdmin ? '' : (BlocklyGames.Msg['Games.' + app] + ' : ');
   document.body.innerHTML += Gallery.html.start(
-      {lang: BlocklyGames.LANG,
-       appName: appName,
-       html: BlocklyGames.IS_HTML});
+      {lang: BlocklyGames.LANG, html: BlocklyGames.IS_HTML},
+      appName + BlocklyGames.getMsg('Gallery', true));
 
   loadMore();
-  BlocklyGames.init(BlocklyGames.Msg['Gallery']);
+  BlocklyGames.init(BlocklyGames.getMsg('Gallery', false));
 
   const languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);

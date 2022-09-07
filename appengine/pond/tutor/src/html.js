@@ -14,7 +14,6 @@ goog.provide('Pond.Tutor.html');
 
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
-goog.require('BlocklyGames.Msg');
 goog.require('Pond.html');
 
 /**
@@ -24,7 +23,7 @@ goog.require('Pond.html');
  */
 Pond.Tutor.html.start = function(ij) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Games.pondTutor'], '', true, true, '')}
+${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.pondTutor', true), '', true, true, '')}
 
 ${Pond.html.visualization()}
 
@@ -74,7 +73,7 @@ Pond.Tutor.html.toolbox = function(level) {
   const stopBlock = level >= 9 ? '<block type="pond_stop"></block>' : '';
   const getXYBlocks = level >= 9 ? '<block type="pond_getX"></block><block type="pond_getY"></block>' : '';
   xml = `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.pond'])}">
+<category name="${BlocklyGames.getMsg('Games.pond', true)}">
   <block type="pond_cannon">
     <value name="DEGREE">
       <shadow type="pond_math_number">
@@ -99,18 +98,18 @@ Pond.Tutor.html.toolbox = function(level) {
     const ifBlock = level >= 9 ? '<block type="controls_if"></block>' : '';
     const compareBlock = level >= 9 ? '<block type="logic_compare"></block>' : '';
     xml += `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLogic'])}">
+<category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
   ${ifBlock}
   ${compareBlock}
   <block type="logic_boolean"></block>
 </category>
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLoops'])}">
+<category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
   <block type="controls_whileUntil"></block>
 </category>
 `;
   }
   xml += `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catMath'])}">
+<category name="${BlocklyGames.getMsg('Games.catMath', true)}">
   <block type="pond_math_number">
     <mutation angle_field="false"></mutation>
   </block>
@@ -129,7 +128,7 @@ Pond.Tutor.html.helpDialogs = function(level) {
   switch (level) {
     case 1:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText1'])}
+${BlocklyGames.getMsg('Pond.helpText1', true)}
 <br><br>
 <svg height=41 width=250 class="geras-renderer classic-theme">
   <g>
@@ -165,13 +164,13 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText1'])}
       break;
     case 2:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText1'])}
+${BlocklyGames.getMsg('Pond.helpText1', true)}
 <pre>cannon(0, 70);</pre>
 `;
       break;
     case 3:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText2'])}
+${BlocklyGames.getMsg('Pond.helpText2', true)}
 <br><br>
 <svg height=92 width=250 class="geras-renderer classic-theme">
   <g>
@@ -197,7 +196,7 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText2'])}
       break;
     case 4:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText2'])}
+${BlocklyGames.getMsg('Pond.helpText2', true)}
 <pre>while (true) {
 &nbsp;&nbsp;...
 }</pre>
@@ -205,7 +204,7 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText2'])}
       break;
     case 5:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3a'])}
+${BlocklyGames.getMsg('Pond.helpText3a', true)}
 <br><br>
 <svg height=37 width=250 class="geras-renderer classic-theme">
   <g transform="translate(8,0)">
@@ -228,19 +227,19 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3a'])}
   </g>
 </svg>
 <br><br>
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3b'])}
+${BlocklyGames.getMsg('Pond.helpText3b', true)}
 `;
       break;
     case 6:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3a'])}
+${BlocklyGames.getMsg('Pond.helpText3a', true)}
 <pre>scan(0)</pre>
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText3b'])}
+${BlocklyGames.getMsg('Pond.helpText3b', true)}
 `;
       break;
     case 7:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText4'])}
+${BlocklyGames.getMsg('Pond.helpText4', true)}
 <br><br>
 <svg height=41 width=250 class="geras-renderer classic-theme">
   <g>
@@ -266,13 +265,13 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText4'])}
       break;
     case 8:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText4'])}
+${BlocklyGames.getMsg('Pond.helpText4', true)}
 <pre>swim(0);</pre>
 `;
       break;
     case 9:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText5'])}
+${BlocklyGames.getMsg('Pond.helpText5', true)}
 <br><br>
 <svg height=37 width=250 class="geras-renderer classic-theme">
   <g transform="translate(8,0)">
@@ -318,7 +317,7 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText5'])}
       break;
     case 10:
       content = `
-${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText6'])}
+${BlocklyGames.getMsg('Pond.helpText6', true)}
 <pre>getX() &lt; 50</pre>
 <pre>stop();</pre>
 `;
@@ -328,7 +327,7 @@ ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpText6'])}
 <!-- Help dialog for idiotic level 5+6 solution. -->
 <div id="helpUseScan" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
-    ${BlocklyGames.esc(BlocklyGames.Msg['Pond.helpUseScan'])}
+    ${BlocklyGames.getMsg('Pond.helpUseScan', true)}
   </div>
   ${BlocklyGames.html.ok()}
 </div>

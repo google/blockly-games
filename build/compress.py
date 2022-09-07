@@ -82,13 +82,12 @@ def filterMessages(gameName):
     print("Unable to find any Blockly messages.")
   blocklyMessageNames.sort()
 
-  # Locate what BlocklyGames.Msg has compiled into (e.g. t.G)
-  m = re.search('BlocklyGames\.Msg=([\w.$]+)', js)
+  # Locate what BlocklyGames.getMsg has compiled into (e.g. C)
+  m = re.search('BlocklyGamesGetMsg=([\w.$]+)', js)
   if m:
-    blocklyGamesMsg = m.group(1)
-    blocklyGamesMsg = blocklyGamesMsg.replace('.', '\\.').replace('$', '\\$')
-    msgs = re.findall('\W' + blocklyGamesMsg + '\["([^"]+)"\]', js)
-    msgs += re.findall('\W' + blocklyGamesMsg + '\.([\w$]+)', js)
+    blocklyGamesGetMsg = m.group(1)
+    blocklyGamesGetMsg = blocklyGamesGetMsg.replace('.', '\\.').replace('$', '\\$')
+    msgs = re.findall('\W' + blocklyGamesGetMsg + '\("([^"]+)",', js)
     blocklyGamesMessageNames = list(set(msgs))
     print("Found %d Blockly Games messages." % len(blocklyGamesMessageNames))
   else:

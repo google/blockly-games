@@ -13,7 +13,6 @@
 goog.provide('BlocklyStorage');
 
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -82,7 +81,7 @@ BlocklyStorage.makeRequest =
     } else if (opt_onFailure) {
       opt_onFailure.call(xhr);
     } else {
-      BlocklyStorage.alert_(BlocklyGames.Msg['Games.httpRequestError'] +
+      BlocklyStorage.alert_(BlocklyGames.getMsg('Games.httpRequestError', false) +
           '\nXHR status: ' + xhr.status);
     }
     BlocklyStorage.xhrs_.delete(url);
@@ -102,7 +101,7 @@ BlocklyStorage.makeRequest =
 BlocklyStorage.handleLinkResponse_ = function() {
   const data = this.responseText.trim();
   window.location.hash = data;
-  BlocklyStorage.alert_(BlocklyGames.Msg['Games.linkAlert'].replace('%1',
+  BlocklyStorage.alert_(BlocklyGames.getMsg('Games.linkAlert', false).replace('%1',
       window.location.href));
   BlocklyStorage.startCode = BlocklyStorage.getCode();
 };
@@ -115,7 +114,7 @@ BlocklyStorage.handleLinkResponse_ = function() {
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
   const data = this.responseText.trim();
   if (!data.length) {
-    BlocklyStorage.alert_(BlocklyGames.Msg['Games.hashError'].replace('%1',
+    BlocklyStorage.alert_(BlocklyGames.getMsg('Games.hashError', false).replace('%1',
         window.location.hash));
   } else {
     BlocklyStorage.setCode(data);

@@ -15,7 +15,6 @@ goog.provide('BlocklyDialogs');
 goog.require('Blockly');
 goog.require('Blockly.utils.style');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 
 
@@ -395,9 +394,9 @@ BlocklyDialogs.congratulations = function() {
     }
     let locMsg;
     if (lineCount === 1) {
-      locMsg = BlocklyGames.Msg['Games.linesOfCode1'];
+      locMsg = BlocklyGames.getMsg('Games.linesOfCode1', false);
     } else {
-      locMsg = BlocklyGames.Msg['Games.linesOfCode2']
+      locMsg = BlocklyGames.getMsg('Games.linesOfCode2', false)
           .replace('%1', String(lineCount));
     }
     linesText.appendChild(document.createTextNode(locMsg));
@@ -405,10 +404,10 @@ BlocklyDialogs.congratulations = function() {
 
   let levelMsg;
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    levelMsg = BlocklyGames.Msg['Games.nextLevel']
+    levelMsg = BlocklyGames.getMsg('Games.nextLevel', false)
         .replace('%1', String(BlocklyGames.LEVEL + 1));
   } else {
-    levelMsg = BlocklyGames.Msg['Games.finalLevel'];
+    levelMsg = BlocklyGames.getMsg('Games.finalLevel', false);
   }
 
   const cancel = document.getElementById('doneCancel');

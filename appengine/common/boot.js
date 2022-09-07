@@ -76,7 +76,7 @@ if (location.host === 'blockly-games.appspot.com') {
   // Load the chosen game.
   var script = document.createElement('script');
   if (debug) {
-    script.src = appName + '/src/main.js';
+    script.src = appName + '/generated/uncompressed.js';
   } else {
     script.src = appName + '/generated/compressed.js';
   }

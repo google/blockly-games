@@ -31,7 +31,6 @@ goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
 goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('CustomFields.FieldPitch');
 
 
@@ -50,7 +49,7 @@ Blockly.Blocks['music_pitch'] = {
         .appendField(new CustomFields.FieldPitch('7'), 'PITCH');
     this.setOutput(true, 'Number');
     this.setColour(Blockly.Msg['MATH_HUE']);
-    this.setTooltip(BlocklyGames.Msg['Music.pitchTooltip']);
+    this.setTooltip(BlocklyGames.getMsg('Music.pitchTooltip', false));
   }
 };
 
@@ -83,7 +82,7 @@ Blockly.Blocks['music_note'] = {
       options.pop();
     }
     this.jsonInit({
-      "message0": BlocklyGames.Msg['Music.playNote'],
+      "message0": BlocklyGames.getMsg('Music.playNote', false),
       "args0": [
         {
           "type": "field_dropdown",
@@ -100,7 +99,7 @@ Blockly.Blocks['music_note'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.playNoteTooltip'],
+      "tooltip": BlocklyGames.getMsg('Music.playNoteTooltip', false),
     });
   }
 };
@@ -119,7 +118,7 @@ Blockly.Blocks['music_rest_whole'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.Msg['Music.rest'],
+      "message0": BlocklyGames.getMsg('Music.rest', false),
       "args0": [
         {
           "type": "field_image",
@@ -133,7 +132,7 @@ Blockly.Blocks['music_rest_whole'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.restWholeTooltip'],
+      "tooltip": BlocklyGames.getMsg('Music.restWholeTooltip', false),
    });
   }
 };
@@ -149,7 +148,7 @@ Blockly.Blocks['music_rest'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.Msg['Music.rest'],
+      "message0": BlocklyGames.getMsg('Music.rest', false),
       "args0": [
         {
           "type": "field_dropdown",
@@ -172,7 +171,7 @@ Blockly.Blocks['music_rest'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.restTooltip'],
+      "tooltip": BlocklyGames.getMsg('Music.restTooltip', false),
    });
   }
 };
@@ -189,20 +188,20 @@ Blockly.Blocks['music_instrument'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.Msg['Music.setInstrument'],
+      "message0": BlocklyGames.getMsg('Music.setInstrument', false),
       "args0": [
         {
           "type": "field_dropdown",
           "name": "INSTRUMENT",
           "options": [
-            [BlocklyGames.Msg['Music.piano'], "piano"],
-            [BlocklyGames.Msg['Music.trumpet'], "trumpet"],
-            [BlocklyGames.Msg['Music.banjo'], "banjo"],
-            [BlocklyGames.Msg['Music.violin'], "violin"],
-            [BlocklyGames.Msg['Music.guitar'], "guitar"],
-            [BlocklyGames.Msg['Music.flute'], "flute"],
-            [BlocklyGames.Msg['Music.drum'], "drum"],
-            [BlocklyGames.Msg['Music.choir'], "choir"],
+            [BlocklyGames.getMsg('Music.piano', false), "piano"],
+            [BlocklyGames.getMsg('Music.trumpet', false), "trumpet"],
+            [BlocklyGames.getMsg('Music.banjo', false), "banjo"],
+            [BlocklyGames.getMsg('Music.violin', false), "violin"],
+            [BlocklyGames.getMsg('Music.guitar', false), "guitar"],
+            [BlocklyGames.getMsg('Music.flute', false), "flute"],
+            [BlocklyGames.getMsg('Music.drum', false), "drum"],
+            [BlocklyGames.getMsg('Music.choir', false), "choir"],
           ]
         }
       ],
@@ -210,7 +209,7 @@ Blockly.Blocks['music_instrument'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Music.Blocks.HUE,
-      "tooltip": BlocklyGames.Msg['Music.setInstrumentTooltip'],
+      "tooltip": BlocklyGames.getMsg('Music.setInstrumentTooltip', false),
     });
   }
 };
@@ -227,7 +226,7 @@ Blockly.Blocks['music_start'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.Msg['Music.start'],
+      "message0": BlocklyGames.getMsg('Music.start', false),
       "args0": [
         {
           "type": "field_image",
@@ -245,7 +244,7 @@ Blockly.Blocks['music_start'] = {
         }
       ],
       "colour": 0,
-      "tooltip": BlocklyGames.Msg['Music.startTooltip'],
+      "tooltip": BlocklyGames.getMsg('Music.startTooltip', false),
     });
   }
 };

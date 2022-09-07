@@ -14,12 +14,12 @@ goog.provide('BlocklyGames.html');
 
 goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 
 
 /**
  * Top toolbar for page
- * @param {string} appName Name of application (unsafe text).
+ * @param {!Object} ij Injected options.
+ * @param {string} appName Name of application.
  * @param {string} levelLinkSuffix Any extra parameters for links.
  * @param {boolean} hasLinkButton Whether the page has a link button.
  * @param {boolean} hasHelpButton Whether the page has a help button.
@@ -32,7 +32,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
   if (hasLinkButton) {
     linkButton = `
 &nbsp;
-<button id="linkButton" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.linkTooltip'])}">
+<button id="linkButton" title="${BlocklyGames.getMsg('Games.linkTooltip', true)}">
   <img src="common/1x1.gif" class="link icon21">
 </button>
 `;
@@ -41,7 +41,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
   if (hasHelpButton) {
     helpButton = `
 &nbsp;
-<button id="helpButton">${BlocklyGames.esc(BlocklyGames.Msg['Games.help'])}</button>
+<button id="helpButton">${BlocklyGames.getMsg('Games.help', true)}</button>
 `;
   }
   if (farLeftHtml) {
@@ -70,13 +70,13 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
 /**
  * Print the title span (Blockly Games : AppName).
  * @param {!Object} ij Injected options.
- * @param {string} appName Name of application (unsafe text).
+ * @param {string} appName Name of application.
  * @returns {string} HTML.
  */
 BlocklyGames.html.titleSpan = function(ij, appName) {
   return `
 <span id="title">
-  <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}">${BlocklyGames.esc(BlocklyGames.Msg['Games.name'])}</a> : ${BlocklyGames.esc(appName)}
+  <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}">${BlocklyGames.getMsg('Games.name', true)}</a> : ${appName}
 </span>
 `;
 };
@@ -125,7 +125,7 @@ BlocklyGames.html.dialog = function() {
 BlocklyGames.html.doneDialog = function() {
   return `
 <div id="dialogDone" class="dialogHiddenContent">
-  <div style="font-size: large; margin: 1em;">${BlocklyGames.esc(BlocklyGames.Msg['Games.congratulations'])}</div>
+  <div style="font-size: large; margin: 1em;">${BlocklyGames.getMsg('Games.congratulations', true)}</div>
   <div id="dialogLinesText" style="font-size: large; margin: 1em;"></div>
   <pre id="containerCode"></pre>
   <div id="dialogDoneText" style="font-size: large; margin: 1em;"></div>
@@ -144,7 +144,7 @@ BlocklyGames.html.doneDialog = function() {
 BlocklyGames.html.abortDialog = function() {
   return `
 <div id="dialogAbort" class="dialogHiddenContent">
-  ${BlocklyGames.esc(BlocklyGames.Msg['Games.helpAbort'])}
+  ${BlocklyGames.getMsg('Games.helpAbort', true)}
   <div class="farSide" style="padding: 1ex 3ex 0">
     <button id="abortCancel">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
     <button id="abortOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>

@@ -16,7 +16,6 @@ goog.require('Blockly');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('Puzzle.data');
 
 
@@ -43,7 +42,7 @@ Puzzle.Blocks.TRAIT_HUE = 290;
 Puzzle.Blocks.legs = function() {
   const data = Puzzle.data.getData();
   const padding = '\xa0\xa0';
-  const list = [[BlocklyGames.Msg['Puzzle.legsChoose'], '0']];
+  const list = [[BlocklyGames.getMsg('Puzzle.legsChoose', false), '0']];
   for (let i = 0; i < data.length; i++) {
     list[i + 1] = [padding + data[i].legs + padding, String(i + 1)];
   }
@@ -63,13 +62,13 @@ Blockly.Blocks['animal'] = {
         .appendField('', 'NAME');
     this.appendValueInput('PIC')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.Msg['Puzzle.picture']);
+        .appendField(BlocklyGames.getMsg('Puzzle.picture', false));
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.Msg['Puzzle.legs'])
+        .appendField(BlocklyGames.getMsg('Puzzle.legs', false))
         .appendField(new Blockly.FieldDropdown(Puzzle.Blocks.legs), 'LEGS');
     this.appendStatementInput('TRAITS')
-        .appendField(BlocklyGames.Msg['Puzzle.traits']);
+        .appendField(BlocklyGames.getMsg('Puzzle.traits', false));
     this.setInputsInline(false);
   },
   /**

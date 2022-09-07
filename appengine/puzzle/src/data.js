@@ -12,7 +12,7 @@
 
 goog.provide('Puzzle.data');
 
-goog.require('BlocklyGames.Msg');
+goog.require('BlocklyGames');
 
 
 /**
@@ -22,52 +22,52 @@ goog.require('BlocklyGames.Msg');
 Puzzle.data.getData = function() {
   return [
     {
-      name: BlocklyGames.Msg['Puzzle.animal1'],
+      name: BlocklyGames.getMsg('Puzzle.animal1', false),
       pic: 'duck.jpg',
       picHeight: 70,
       picWidth: 100,
       legs: 2,
       traits: [
-        BlocklyGames.Msg['Puzzle.animal1Trait1'],
-        BlocklyGames.Msg['Puzzle.animal1Trait2']
+        BlocklyGames.getMsg('Puzzle.animal1Trait1', false),
+        BlocklyGames.getMsg('Puzzle.animal1Trait2', false)
       ],
-      helpUrl: BlocklyGames.Msg['Puzzle.animal1HelpUrl']
+      helpUrl: BlocklyGames.getMsg('Puzzle.animal1HelpUrl', false)
     },
     {
-      name: BlocklyGames.Msg['Puzzle.animal2'],
+      name: BlocklyGames.getMsg('Puzzle.animal2', false),
       pic: 'cat.jpg',
       picHeight: 70,
       picWidth: 100,
       legs: 4,
       traits: [
-        BlocklyGames.Msg['Puzzle.animal2Trait1'],
-        BlocklyGames.Msg['Puzzle.animal2Trait2']
+        BlocklyGames.getMsg('Puzzle.animal2Trait1', false),
+        BlocklyGames.getMsg('Puzzle.animal2Trait2', false)
       ],
-      helpUrl: BlocklyGames.Msg['Puzzle.animal2HelpUrl']
+      helpUrl: BlocklyGames.getMsg('Puzzle.animal2HelpUrl', false)
     },
     {
-      name: BlocklyGames.Msg['Puzzle.animal3'],
+      name: BlocklyGames.getMsg('Puzzle.animal3', false),
       pic: 'bee.jpg',
       picHeight: 70,
       picWidth: 100,
       legs: 6,
       traits: [
-        BlocklyGames.Msg['Puzzle.animal3Trait1'],
-        BlocklyGames.Msg['Puzzle.animal3Trait2']
+        BlocklyGames.getMsg('Puzzle.animal3Trait1', false),
+        BlocklyGames.getMsg('Puzzle.animal3Trait2', false)
       ],
-      helpUrl: BlocklyGames.Msg['Puzzle.animal3HelpUrl']
+      helpUrl: BlocklyGames.getMsg('Puzzle.animal3HelpUrl', false)
     },
     {
-      name: BlocklyGames.Msg['Puzzle.animal4'],
+      name: BlocklyGames.getMsg('Puzzle.animal4', false),
       pic: 'snail.jpg',
       picHeight: 70,
       picWidth: 100,
       legs: 0,
       traits: [
-        BlocklyGames.Msg['Puzzle.animal4Trait1'],
-        BlocklyGames.Msg['Puzzle.animal4Trait2']
+        BlocklyGames.getMsg('Puzzle.animal4Trait1', false),
+        BlocklyGames.getMsg('Puzzle.animal4Trait2', false)
       ],
-      helpUrl: BlocklyGames.Msg['Puzzle.animal4HelpUrl']
+      helpUrl: BlocklyGames.getMsg('Puzzle.animal4HelpUrl', false)
     },
   ];
 };

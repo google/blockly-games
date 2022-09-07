@@ -24,7 +24,6 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Movie.Blocks');
 goog.require('Movie.html');
@@ -73,7 +72,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.Msg['Games.movie']);
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.movie', false));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = document.getElementById('blockly');
@@ -594,7 +593,7 @@ function submitToGallery() {
   const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
   const code = BlocklyInterface.getJsCode();
   if (blockCount < 4 || !code.includes('time()')) {
-    alert(BlocklyGames.Msg['submitDisabled']);
+    alert(BlocklyGames.getMsg('submitDisabled', false));
     return;
   }
   // Draw and copy the user layer.

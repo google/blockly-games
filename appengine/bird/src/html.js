@@ -14,7 +14,6 @@ goog.provide('Bird.html');
 
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
-goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -24,7 +23,7 @@ goog.require('BlocklyGames.Msg');
  */
 Bird.html.start = function(ij) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Games.bird'], '', true, false, '')}
+${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', true, false, '')}
 
 <div id="visualization">
   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px">
@@ -36,11 +35,11 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Games.bird'], '', true, fals
     <td style="width: 190px;">
     </td>
     <td>
-      <button id="runButton" class="primary" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.runTooltip'])}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Games.runProgram'])}
+      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.esc(BlocklyGames.Msg['Games.resetTooltip'])}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Games.resetProgram'])}
+      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
@@ -120,14 +119,14 @@ Bird.html.helpDialogs = function() {
   </td><td>
     <div class="farSide"><img src="bird/help_heading.png" class="mirrorImg" height=27 width=141></div>
   </td></tr><tr><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpHeading'])}
+    ${BlocklyGames.getMsg('Bird.helpHeading', true)}
   </td></tr></table>
 </div>
 <div id="dialogHelp2" class="dialogHiddenContent">
   <table><tr><td>
     <img src="common/help.png">
   </td><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpHasWorm'])}
+    ${BlocklyGames.getMsg('Bird.helpHasWorm', true)}
   </td><td>
     <img src="bird/help_up.png">
   </td></tr></table>
@@ -136,7 +135,7 @@ Bird.html.helpDialogs = function() {
   <table><tr><td>
     <img src="common/help.png">
   </td><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpX'])}
+    ${BlocklyGames.getMsg('Bird.helpX', true)}
   </td><td>
     <img src="bird/help_up.png">
   </td></tr></table>
@@ -145,7 +144,7 @@ Bird.html.helpDialogs = function() {
   <table><tr><td>
     <img src="bird/help_up.png">
   </td><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpElse'])}
+    ${BlocklyGames.getMsg('Bird.helpElse', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -154,7 +153,7 @@ Bird.html.helpDialogs = function() {
   <table><tr><td>
     <img src="bird/help_up.png">
   </td><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpElseIf'])}
+    ${BlocklyGames.getMsg('Bird.helpElseIf', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -163,7 +162,7 @@ Bird.html.helpDialogs = function() {
   <table><tr><td>
     <img src="bird/help_up.png">
   </td><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpAnd'])}
+    ${BlocklyGames.getMsg('Bird.helpAnd', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -172,7 +171,7 @@ Bird.html.helpDialogs = function() {
   <table><tr><td>
     <img src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
   </td><td>
-    ${BlocklyGames.esc(BlocklyGames.Msg['Bird.helpMutator'])}
+    ${BlocklyGames.getMsg('Bird.helpMutator', true)}
   </td></tr></table>
 </div>
 `;

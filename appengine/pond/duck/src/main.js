@@ -19,7 +19,6 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
@@ -72,7 +71,7 @@ function init() {
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML});
 
-  Pond.init(BlocklyGames.Msg['Games.pond']);
+  Pond.init(BlocklyGames.getMsg('Games.pond', false));
 
   // Setup the tabs.
   function tabHandler(selectedIndex) {
@@ -138,7 +137,7 @@ function init() {
   for (let i = 0; i < duckData.length; i++) {
     const duckDatum = duckData[i];
     if (duckDatum['name'] === null) {
-      duckDatum['name'] = BlocklyGames.Msg['Pond.playerName'];
+      duckDatum['name'] = BlocklyGames.getMsg('Pond.playerName', false);
     }
     const option = new Option(duckDatum['name'], duckDatum['id']);
     avatarSelect.add(option);
@@ -256,7 +255,7 @@ function editorChanged() {
     }
   } else {
     if (!BlocklyInterface.workspace.getTopBlocks(false).length ||
-        confirm(BlocklyGames.Msg['Games.breakLink'])) {
+        confirm(BlocklyGames.getMsg('Games.breakLink', false))) {
       // Break link between blocks and JS.
       setBlocksDisabled(true);
     } else {

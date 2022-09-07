@@ -14,7 +14,6 @@ goog.provide('BlocklyGallery');
 
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyStorage');
 
 
@@ -107,7 +106,7 @@ BlocklyGallery.gallerySubmit_ = function() {
 
   const form = document.getElementById('galleryForm');
   const onSuccess = function() {
-    BlocklyDialogs.storageAlert(null, BlocklyGames.Msg['Games.submitted']);
+    BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games.submitted', false));
   };
   BlocklyGallery.makeFormRequest_(form, onSuccess);
   BlocklyDialogs.hideDialog(true);

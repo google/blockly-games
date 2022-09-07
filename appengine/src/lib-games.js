@@ -13,7 +13,6 @@
 goog.provide('BlocklyGames');
 
 goog.require('Blockly.Msg');
-goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -224,7 +223,7 @@ BlocklyGames.LEVEL =
  * @param {string} title Text for the page title.
  */
 BlocklyGames.init = function(title) {
-  document.title = BlocklyGames.esc(BlocklyGames.Msg['Games.name']) +
+  document.title = BlocklyGames.getMsg('Games.name', false) +
       (title && ' : ') + title;
 
   // Set the HTML's language and direction.
@@ -295,7 +294,6 @@ BlocklyGames.callWhenLoaded = function(init) {
       setTimeout(go, 99);
       return;
     }
-    BlocklyGames.Msg = window["BlocklyGamesMsg"];
     if (window["BlocklyMsg"]) {
       Blockly.Msg = window["BlocklyMsg"];
     }
@@ -378,6 +376,22 @@ BlocklyGames.normalizeAngle = function(angle) {
   }
   return angle;
 };
+
+/**
+ * Get a message from the language pack loaded into BlocklyGamesMsg.
+ * @param {string} name Name of message (e.g. 'Index.startOver').
+ * @param {boolean} escape Perform HTML escaping, if true.
+ * @returns {string} Message string (e.g. 'Want to start over?').
+ */
+BlocklyGames.getMsg = function(name, escape) {
+  let msg = window["BlocklyGamesMsg"][name];
+  if (msg === undefined) {
+    msg = '[Unknown message: ${name}]';
+  }
+  return escape ? BlocklyGames.esc(msg) : msg;
+};
+//
+window["BlocklyGamesGetMsg"] = BlocklyGames.getMsg;
 
 /**
  * Escape HTML to make the text safe.

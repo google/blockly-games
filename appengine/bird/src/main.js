@@ -22,7 +22,6 @@ goog.require('Blockly.utils.style');
 goog.require('Blockly.VerticalFlyout');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 
 
@@ -367,7 +366,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.Msg['Games.bird']);
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.bird', false));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = document.getElementById('blockly');

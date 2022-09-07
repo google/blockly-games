@@ -22,7 +22,6 @@ goog.require('Blockly.JavaScript.logic');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -44,10 +43,10 @@ Blockly.Blocks['bird_noWorm'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.Msg['Bird.noWorm'],
+      "message0": BlocklyGames.getMsg('Bird.noWorm', false),
       "output": "Boolean",
       "colour": Bird.Blocks.VARIABLES_HUE,
-      "tooltip": BlocklyGames.Msg['Bird.noWormTooltip'],
+      "tooltip": BlocklyGames.getMsg('Bird.noWormTooltip', false),
     });
   }
 };
@@ -65,10 +64,10 @@ Blockly.Blocks['bird_heading'] = {
   init: function() {
     this.setColour(Bird.Blocks.MOVEMENT_HUE);
     this.appendDummyInput()
-        .appendField(BlocklyGames.Msg['Bird.heading'])
+        .appendField(BlocklyGames.getMsg('Bird.heading', false))
         .appendField(new Blockly.FieldAngle('90'), 'ANGLE');
     this.setPreviousStatement(true);
-    this.setTooltip(BlocklyGames.Msg['Bird.headingTooltip']);
+    this.setTooltip(BlocklyGames.getMsg('Bird.headingTooltip', false));
   }
 };
 
@@ -95,7 +94,7 @@ Blockly.Blocks['bird_position'] = {
       ],
       "output": "Number",
       "colour": Bird.Blocks.VARIABLES_HUE,
-      "tooltip": BlocklyGames.Msg['Bird.positionTooltip'],
+      "tooltip": BlocklyGames.getMsg('Bird.positionTooltip', false),
     });
   }
 };

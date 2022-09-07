@@ -20,7 +20,6 @@ goog.require('Blockly.utils.string');
 goog.require('Blockly.VerticalFlyout');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Maze.Blocks');
 goog.require('Maze.html');
@@ -433,7 +432,7 @@ function init() {
        skin: SKIN_ID,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.Msg['Games.maze']);
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.maze', false));
 
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');
@@ -696,9 +695,9 @@ function levelHelp(opt_event) {
       span.className = 'helpMenuFake';
       // Safe from HTML injection due to createTextNode below.
       const options =
-          [BlocklyGames.Msg['Maze.pathAhead'],
-           BlocklyGames.Msg['Maze.pathLeft'],
-           BlocklyGames.Msg['Maze.pathRight']];
+          [BlocklyGames.getMsg('Maze.pathAhead', false),
+           BlocklyGames.getMsg('Maze.pathLeft', false),
+           BlocklyGames.getMsg('Maze.pathRight', false)];
       const prefix = Blockly.utils.string.commonWordPrefix(options);
       const suffix = Blockly.utils.string.commonWordSuffix(options);
       let option;
@@ -902,11 +901,11 @@ function updateCapacity() {
     // Safe from HTML injection due to createTextNode below.
     let msg;
     if (cap === 0) {
-      msg = BlocklyGames.Msg['Maze.capacity0'];
+      msg = BlocklyGames.getMsg('Maze.capacity0', false);
     } else if (cap === 1) {
-      msg = BlocklyGames.Msg['Maze.capacity1'];
+      msg = BlocklyGames.getMsg('Maze.capacity1', false);
     } else {
-      msg = BlocklyGames.Msg['Maze.capacity2'];
+      msg = BlocklyGames.getMsg('Maze.capacity2', false);
     }
     const parts = msg.split(/%\d/);
     for (let i = 0; i < parts.length; i++) {

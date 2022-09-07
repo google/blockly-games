@@ -14,7 +14,6 @@ goog.provide('Pond.Duck.html');
 
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
-goog.require('BlocklyGames.Msg');
 goog.require('Pond.html');
 
 /**
@@ -24,14 +23,14 @@ goog.require('Pond.html');
  */
 Pond.Duck.html.start = function(ij) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Games.pond'], '', false, false, '')}
+${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.pond', true), '', false, false, '')}
 
 ${Pond.html.visualization()}
 
 <div id="tabarea">
   <div id="editorBar" class="tab-bar">
     <div><select id="avatar-select"></select></div>
-    <div class="tab tab-selected">${BlocklyGames.esc(BlocklyGames.Msg['Games.blocks'])}</div>
+    <div class="tab tab-selected">${BlocklyGames.getMsg('Games.blocks', true)}</div>
     <div class="tab">JavaScript</div>
   </div>
   <div class="tab-bar-clear"></div>
@@ -53,7 +52,7 @@ ${BlocklyGames.html.dialog()}
 Pond.Duck.html.toolbox = function() {
   return `
 <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
-  <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.pond'])}">
+  <category name="${BlocklyGames.getMsg('Games.pond', true)}">
     <block type="pond_cannon">
       <value name="DEGREE">
         <shadow type="pond_math_number">
@@ -98,16 +97,16 @@ Pond.Duck.html.toolbox = function() {
       </value>
     </block>
   </category>
-  <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLogic'])}">
+  <category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
     <block type="controls_if"></block>
     <block type="logic_compare"></block>
     <block type="logic_operation"></block>
     <block type="logic_boolean"></block>
   </category>
-  <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLoops'])}">
+  <category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
     <block type="controls_whileUntil"></block>
   </category>
-  <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catMath'])}">
+  <category name="${BlocklyGames.getMsg('Games.catMath', true)}">
     <block type="pond_math_number">
       <mutation angle_field="false"></mutation>
     </block>
@@ -133,8 +132,8 @@ Pond.Duck.html.toolbox = function() {
     <block type="math_random_float"></block>
   </category>
   <sep></sep>
-  <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catVariables'])}" custom="VARIABLE"></category>
-  <category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catProcedures'])}" custom="PROCEDURE"></category>
+  <category name="${BlocklyGames.getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
+  <category name="${BlocklyGames.getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
 </xml>
 `;
 };

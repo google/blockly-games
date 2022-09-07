@@ -23,7 +23,6 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Slider');
 goog.require('Turtle.Blocks');
@@ -85,7 +84,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.Msg['Games.turtle']);
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.turtle', false));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = document.getElementById('blockly');
@@ -848,7 +847,7 @@ function checkAnswer() {
  */
 function submitToGallery() {
   if (!canSubmit) {
-    alert(BlocklyGames.Msg['Turtle.submitDisabled']);
+    alert(BlocklyGames.getMsg('Turtle.submitDisabled', false));
     return;
   }
   // Encode the thumbnail.

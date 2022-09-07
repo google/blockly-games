@@ -22,7 +22,6 @@ goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.JsBlocks');
-goog.require('BlocklyGames.Msg');
 
 
 /**
@@ -51,7 +50,7 @@ Blockly.Blocks['pond_scan'] = {
       "inputsInline": true,
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.scanTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.scanTooltip', false),
     });
   }
 };
@@ -89,7 +88,7 @@ Blockly.Blocks['pond_cannon'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.cannonTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.cannonTooltip', false),
     });
   }
 };
@@ -123,7 +122,7 @@ Blockly.Blocks['pond_swim'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.swimTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.swimTooltip', false),
     });
   }
 };
@@ -147,7 +146,7 @@ Blockly.Blocks['pond_stop'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.stopTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.stopTooltip', false),
     });
   }
 };
@@ -168,7 +167,7 @@ Blockly.Blocks['pond_health'] = {
       "args0": ["health", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.healthTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.healthTooltip', false),
     });
   }
 };
@@ -189,7 +188,7 @@ Blockly.Blocks['pond_speed'] = {
       "args0": ["speed", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.speedTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.speedTooltip', false),
     });
   }
 };
@@ -210,7 +209,7 @@ Blockly.Blocks['pond_getX'] = {
       "args0": ["getX", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.locXTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.locXTooltip', false),
     });
   }
 };
@@ -231,7 +230,7 @@ Blockly.Blocks['pond_getY'] = {
       "args0": ["getY", ""],
       "output": "Number",
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.locYTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.locYTooltip', false),
     });
   }
 };
@@ -260,7 +259,7 @@ Blockly.Blocks['pond_log'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Pond.Blocks.POND_HUE,
-      "tooltip": BlocklyGames.Msg['Pond.logTooltip'],
+      "tooltip": BlocklyGames.getMsg('Pond.logTooltip', false),
     });
   }
 };

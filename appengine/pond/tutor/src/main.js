@@ -16,7 +16,6 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
-goog.require('BlocklyGames.Msg');
 goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
@@ -38,7 +37,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  Pond.init(BlocklyGames.Msg['Games.pondTutor']);
+  Pond.init(BlocklyGames.getMsg('Games.pondTutor', false));
 
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
   if (location.hash.length < 2 &&
@@ -167,10 +166,10 @@ function runButtonClick(e) {
  * @param {!Array<!Object>}
  */
 function getAvatarData() {
-  const playerName = BlocklyGames.Msg['Pond.playerName'];
-  const targetName = BlocklyGames.Msg['Pond.targetName'];
-  const pendulumName = BlocklyGames.Msg['Pond.pendulumName'];
-  const scaredName = BlocklyGames.Msg['Pond.scaredName'];
+  const playerName = BlocklyGames.getMsg('Pond.playerName', false);
+  const targetName = BlocklyGames.getMsg('Pond.targetName', false);
+  const pendulumName = BlocklyGames.getMsg('Pond.pendulumName', false);
+  const scaredName = BlocklyGames.getMsg('Pond.scaredName', false);
 
   return [
     // Level 0.

@@ -15,7 +15,6 @@ goog.provide('Movie.html');
 goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
-goog.require('BlocklyGames.Msg');
 
 /**
  * Web page structure.
@@ -24,7 +23,7 @@ goog.require('BlocklyGames.Msg');
  */
 Movie.html.start = function(ij) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.Msg['Games.movie'], '', true, true, '')}
+${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.movie', true), '', true, true, '')}
 
 <div id="visualization">
   <div id="coordinates">
@@ -73,27 +72,27 @@ Movie.html.gallery = function(lang) {
       <form action="/gallery" target="movie-gallery">
         <input type="hidden" name="app" value="movie">
         <input type="hidden" name="lang" value="{$ij.lang}">
-        <button type="submit" title="${BlocklyGames.esc(BlocklyGames.Msg['Movie.galleryTooltip'])}">
-          <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Movie.galleryMsg'])}
+        <button type="submit" title="${BlocklyGames.getMsg('Movie.galleryTooltip', true)}">
+          <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Movie.galleryMsg', true)}
         </button>
       </form>
     </td>
     <td style="text-align: center;">
-      <button id="submitButton" title="${BlocklyGames.esc(BlocklyGames.Msg['Movie.submitTooltip'])}">
-        <img src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.esc(BlocklyGames.Msg['Movie.submitMsg'])}
+      <button id="submitButton" title="${BlocklyGames.getMsg('Movie.submitTooltip', true)}">
+        <img src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Movie.submitMsg', true)}
       </button>
     </td>
   </tr>
 </table>
 <div id="galleryDialog" class="dialogHiddenContent">
     <form id="galleryForm" action="/gallery-api/submit" method="post" onsubmit="return false">
-    <header>${BlocklyGames.esc(BlocklyGames.Msg['Movie.submitTooltip'])}</header>
+    <header>${BlocklyGames.getMsg('Movie.submitTooltip', true)}</header>
     <canvas id="thumbnail" width=200 height=200></canvas>
     <input type="hidden" name="app" value="movie">
     <input id="galleryThumb" type="hidden" name="thumb">
     <input id="galleryXml" type="hidden" name="xml">
     <div>
-      ${BlocklyGames.esc(BlocklyGames.Msg['Games.submitTitle'])}
+      ${BlocklyGames.getMsg('Games.submitTitle', true)}
       <input id="galleryTitle" type="text" name="title" required>
     </div>
 
@@ -113,7 +112,7 @@ Movie.html.gallery = function(lang) {
  */
 Movie.html.toolbox = function(level) {
   let xml = `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.movie'])}">
+<category name="${BlocklyGames.getMsg('Games.movie', true)}">
   <block type="movie_circle">
     <value name="X">
       <shadow type="math_number">
@@ -186,7 +185,7 @@ Movie.html.toolbox = function(level) {
   }
   xml += `
 </category>
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catColour'])}">
+<category name="${BlocklyGames.getMsg('Games.catColour', true)}">
   <block type="movie_colour">
     <value name="COLOUR">
       <shadow type="colour_picker"></shadow>
@@ -235,7 +234,7 @@ Movie.html.toolbox = function(level) {
   xml += '</category>';
   if (level > 6) {
     xml += `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLogic'])}">
+<category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
   <block type="controls_if">
 `;
     if (level < 10) {
@@ -257,7 +256,7 @@ Movie.html.toolbox = function(level) {
   }
   if (level === 10) {
     xml += `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLoops'])}">
+<category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
   <block type="controls_whileUntil"></block>
   <block type="controls_for">
     <value name="FROM">
@@ -282,7 +281,7 @@ Movie.html.toolbox = function(level) {
   }
   if (level > 2) {
     xml += `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catMath'])}">
+<category name="${BlocklyGames.getMsg('Games.catMath', true)}">
   <block type="math_number"></block>
   <block type="math_arithmetic">
     <value name="A">
@@ -363,7 +362,7 @@ Movie.html.toolbox = function(level) {
   }
   if (level === 10) {
     xml += `
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catLists'])}">
+<category name="${BlocklyGames.getMsg('Games.catLists', true)}">
   <block type="lists_create_with">
     <mutation items="0"></mutation>
   </block>
@@ -409,8 +408,8 @@ Movie.html.toolbox = function(level) {
   <block type="lists_reverse"></block>
 </category>
 <sep></sep>
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catVariables'])}" custom="VARIABLE"></category>
-<category name="${BlocklyGames.esc(BlocklyGames.Msg['Games.catProcedures'])}" custom="PROCEDURE"></category>
+<category name="${BlocklyGames.getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
+<category name="${BlocklyGames.getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
 `;
   }
   return `<xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">${xml}</xml>`;
@@ -426,49 +425,49 @@ Movie.html.helpDialogs = function(level, isHtml) {
   let content = '';
   switch (level) {
     case 1:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText1']);
+      content = BlocklyGames.getMsg('Movie.helpText1', true);
       break;
     case 2:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText2a']) +
+      content = BlocklyGames.getMsg('Movie.helpText2a', true) +
           '<div id="sampleHelp2" class="readonly"></div>' +
-          BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText2b']);
+          BlocklyGames.getMsg('Movie.helpText2b', true);
       break;
     case 3:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText3']);
+      content = BlocklyGames.getMsg('Movie.helpText3', true);
       break;
     case 4:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText4']);
+      content = BlocklyGames.getMsg('Movie.helpText4', true);
       break;
     case 5:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText5']) +
+      content = BlocklyGames.getMsg('Movie.helpText5', true) +
 `<br><br>
 <code class="ltr">y = ((time - 50) &divide; 5) ^ 2</code>
 <code class="rtl">&lrm;2 ^ (5 &divide; (50 - time)) = y&lrm;</code>`;
       break;
     case 6:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText6']);
+      content = BlocklyGames.getMsg('Movie.helpText6', true);
       break;
     case 7:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText7']);
+      content = BlocklyGames.getMsg('Movie.helpText7', true);
       break;
     case 8:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText8']);
+      content = BlocklyGames.getMsg('Movie.helpText8', true);
       break;
     case 9:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText9']);
+      content = BlocklyGames.getMsg('Movie.helpText9', true);
       break;
     case 10:
-      content = BlocklyGames.esc(BlocklyGames.Msg['Movie.helpText10']);
+      content = BlocklyGames.getMsg('Movie.helpText10', true);
       if (!isHtml) {
         content += '<br><br>' +
-            BlocklyGames.esc(BlocklyGames.Msg['Turtle.helpText10Reddit']);
+            BlocklyGames.getMsg('Turtle.helpText10Reddit', true);
       }
       break;
   }
   return `
 <div id="helpLayer" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
-    ${BlocklyGames.esc(BlocklyGames.Msg['Movie.helpLayer'])}
+    ${BlocklyGames.getMsg('Movie.helpLayer', true)}
   </div>
   ${BlocklyGames.html.ok()}
 </div>
