@@ -527,7 +527,7 @@ function init() {
   }
   if (BlocklyGames.LEVEL === 10) {
     if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
-                                          BlocklyGames.LEVEL)) {
+                                           BlocklyGames.LEVEL)) {
       // Level 10 gets an introductory modal dialog.
       // Skip the dialog if the user has already won.
       const content = document.getElementById('dialogHelpWallFollow');

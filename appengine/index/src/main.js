@@ -12,7 +12,6 @@
 
 goog.provide('Index');
 
-goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Index.html');
@@ -93,17 +92,27 @@ function drawGauge(app, angle) {
   const xOffset = 150;
   const yOffset = 60;
   const radius = 52.75;
-  const theta0 = Blockly.utils.math.toRadians(angle - 45);
+  const theta0 = toRadians(angle - 45);
   const x = xOffset - Math.cos(theta0) * radius;
   const y = yOffset - Math.sin(theta0) * radius;
   const flag = angle > 180 ? 1 : 0;
   // The starting point is at angle zero.
-  const theta1 = Blockly.utils.math.toRadians(0 - 45);
+  const theta1 = toRadians(0 - 45);
   const mx = xOffset - Math.cos(theta1) * radius;
   const my = yOffset - Math.sin(theta1) * radius;
   const path = document.getElementById('gauge-' + app);
   path.setAttribute('d',
       ['M ' + mx + ',' + my + ' A', radius, radius, 0, flag, 1, x, y].join(' '));
+}
+
+/**
+ * Converts degrees to radians.
+ * Copied from Closure's goog.math.toRadians.
+ * @param {number} angleDegrees Angle in degrees.
+ * @return {number} Angle in radians.
+ */
+function toRadians(angleDegrees) {
+  return angleDegrees * Math.PI / 180;
 }
 
 /**

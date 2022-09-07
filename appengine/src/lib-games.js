@@ -12,7 +12,6 @@
 
 goog.provide('BlocklyGames');
 
-goog.require('Blockly.utils.math');
 goog.require('BlocklyGames.Msg');
 
 
@@ -199,8 +198,7 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  */
 BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
   const val = Math.floor(Number(BlocklyGames.getStringParamFromUrl(name, 'NaN')));
-  return isNaN(val) ? minValue :
-      Blockly.utils.math.clamp(minValue, val, maxValue);
+  return isNaN(val) ? minValue : Math.max(minValue, Math.min(val, maxValue));
 };
 
 /**

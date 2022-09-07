@@ -17,16 +17,15 @@
 goog.provide('BlocklyGames.Msg');
 
 goog.require('Blockly.Msg');
-goog.require('Blockly.utils.global');
 
 
 /**
  * Exported so that if BlocklyGames is compiled with ADVANCED_COMPILATION,
  * the BlocklyGames.Msg object exists for message files included in script tags.
  */
-if (!Blockly.utils.global['BlocklyGames']) {
-  Blockly.utils.global['BlocklyGames'] = {};
+if (!window['BlocklyGames']) {
+  window['BlocklyGames'] = {};
 }
-if (!Blockly.utils.global['BlocklyGames']['Msg']) {
-  Blockly.utils.global['BlocklyGames']['Msg'] = BlocklyGames.Msg;
+if (!window['BlocklyGames']['Msg']) {
+  window['BlocklyGames']['Msg'] = BlocklyGames.Msg;
 }
