@@ -87,7 +87,7 @@ Blockly.Blocks['animal'] = {
    * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
-    this.populate(parseInt(xmlElement.getAttribute('animal'), 10));
+    this.populate(parseInt(xmlElement.getAttribute('animal')));
   },
   animal: 0,
   /**
@@ -176,8 +176,8 @@ Blockly.Blocks['trait'] = {
    * @this {Blockly.Block}
    */
   domToMutation: function(xmlElement) {
-    this.populate(parseInt(xmlElement.getAttribute('animal'), 10),
-                  parseInt(xmlElement.getAttribute('trait'), 10));
+    this.populate(parseInt(xmlElement.getAttribute('animal')),
+                  parseInt(xmlElement.getAttribute('trait')));
   },
   animal: 0,
   trait: 0,

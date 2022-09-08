@@ -57,7 +57,7 @@ Blockly.Blocks['maze_moveForward'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Maze.Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('Maze.moveForwardTooltip', false)
+      "tooltip": BlocklyGames.getMsg('Maze.moveForwardTooltip', false),
     });
   }
 };
@@ -74,17 +74,22 @@ Blockly.Blocks['maze_turn'] = {
    */
   init: function() {
     const DIRECTIONS =
-        [[BlocklyGames.getMsg('Maze.turnLeft', false), 'turnLeft'],
-         [BlocklyGames.getMsg('Maze.turnRight', false), 'turnRight']];
-    // Append arrows to direction messages.
-    DIRECTIONS[0][0] += Maze.Blocks.LEFT_TURN;
-    DIRECTIONS[1][0] += Maze.Blocks.RIGHT_TURN;
-    this.setColour(Maze.Blocks.MOVEMENT_HUE);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Maze.turnTooltip', false));
+        [[BlocklyGames.getMsg('Maze.turnLeft', false) + Maze.Blocks.LEFT_TURN, 'turnLeft'],
+         [BlocklyGames.getMsg('Maze.turnRight', false) + Maze.Blocks.RIGHT_TURN, 'turnRight']];
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "DIR",
+          "options": DIRECTIONS,
+        },
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Maze.Blocks.MOVEMENT_HUE,
+      "tooltip": BlocklyGames.getMsg('Maze.turnTooltip', false),
+    });
   }
 };
 
@@ -101,19 +106,29 @@ Blockly.Blocks['maze_if'] = {
   init: function() {
     const DIRECTIONS =
         [[BlocklyGames.getMsg('Maze.pathAhead', false), 'isPathForward'],
-         [BlocklyGames.getMsg('Maze.pathLeft', false), 'isPathLeft'],
-         [BlocklyGames.getMsg('Maze.pathRight', false), 'isPathRight']];
-    // Append arrows to direction messages.
-    DIRECTIONS[1][0] += Maze.Blocks.LEFT_TURN;
-    DIRECTIONS[2][0] += Maze.Blocks.RIGHT_TURN;
-    this.setColour(Maze.Blocks.LOGIC_HUE);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
-    this.appendStatementInput('DO')
-        .appendField(BlocklyGames.getMsg('Maze.doCode', false));
-    this.setTooltip(BlocklyGames.getMsg('Maze.ifTooltip', false));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+         [BlocklyGames.getMsg('Maze.pathLeft', false) + Maze.Blocks.LEFT_TURN, 'isPathLeft'],
+         [BlocklyGames.getMsg('Maze.pathRight', false) + Maze.Blocks.RIGHT_TURN, 'isPathRight']];
+    this.jsonInit({
+      "message0": `%1%2${BlocklyGames.getMsg('Maze.doCode', false)}%3`,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "DIR",
+          "options": DIRECTIONS,
+        },
+        {
+          "type": "input_dummy",
+        },
+        {
+          "type": "input_statement",
+          "name": "DO",
+        },
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Maze.Blocks.LOGIC_HUE,
+      "tooltip": BlocklyGames.getMsg('Maze.ifTooltip', false),
+    });
   }
 };
 
@@ -126,27 +141,39 @@ Blockly.JavaScript['maze_if'] = function(block) {
 
 Blockly.Blocks['maze_ifElse'] = {
   /**
-   * Block for 'if/else' conditional if there is a path.
+   * Block for conditional "if there is a path, else".
    * @this {Blockly.Block}
    */
   init: function() {
     const DIRECTIONS =
         [[BlocklyGames.getMsg('Maze.pathAhead', false), 'isPathForward'],
-         [BlocklyGames.getMsg('Maze.pathLeft', false), 'isPathLeft'],
-         [BlocklyGames.getMsg('Maze.pathRight', false), 'isPathRight']];
-    // Append arrows to direction messages.
-    DIRECTIONS[1][0] += Maze.Blocks.LEFT_TURN;
-    DIRECTIONS[2][0] += Maze.Blocks.RIGHT_TURN;
-    this.setColour(Maze.Blocks.LOGIC_HUE);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
-    this.appendStatementInput('DO')
-        .appendField(BlocklyGames.getMsg('Maze.doCode', false));
-    this.appendStatementInput('ELSE')
-        .appendField(BlocklyGames.getMsg('Maze.elseCode', false));
-    this.setTooltip(BlocklyGames.getMsg('Maze.ifelseTooltip', false));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+         [BlocklyGames.getMsg('Maze.pathLeft', false) + Maze.Blocks.LEFT_TURN, 'isPathLeft'],
+         [BlocklyGames.getMsg('Maze.pathRight', false) + Maze.Blocks.RIGHT_TURN, 'isPathRight']];
+    this.jsonInit({
+      "message0": `%1%2${BlocklyGames.getMsg('Maze.doCode', false)}%3${BlocklyGames.getMsg('Maze.elseCode', false)}%4`,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "DIR",
+          "options": DIRECTIONS,
+        },
+        {
+          "type": "input_dummy",
+        },
+        {
+          "type": "input_statement",
+          "name": "DO",
+        },
+        {
+          "type": "input_statement",
+          "name": "ELSE",
+        },
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Maze.Blocks.LOGIC_HUE,
+      "tooltip": BlocklyGames.getMsg('Maze.ifelseTooltip', false),
+    });
   }
 };
 
@@ -164,14 +191,27 @@ Blockly.Blocks['maze_forever'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setColour(Maze.Blocks.LOOPS_HUE);
-    this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Maze.repeatUntil', false))
-        .appendField(new Blockly.FieldImage('maze/marker.png', 12, 16));
-    this.appendStatementInput('DO')
-        .appendField(BlocklyGames.getMsg('Maze.doCode', false));
-    this.setPreviousStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Maze.whileTooltip', false));
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('Maze.repeatUntil', false) + "%1%2%3",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "maze/marker.png",
+          "width": 12,
+          "height": 16,
+        },
+        {
+          "type": "input_dummy",
+        },
+        {
+          "type": "input_statement",
+          "name": "DO",
+        }
+      ],
+      "previousStatement": null,
+      "colour": Maze.Blocks.LOOPS_HUE,
+      "tooltip": BlocklyGames.getMsg('Maze.whileTooltip', false),
+    });
   }
 };
 

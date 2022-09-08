@@ -391,7 +391,7 @@ BlocklyGames.getMsg = function(name, escape) {
   }
   return escape ? BlocklyGames.esc(msg) : msg;
 };
-//
+// Assign this function to a known name so compress.py can find all calls to it.
 window["BlocklyGamesGetMsg"] = BlocklyGames.getMsg;
 
 /**
