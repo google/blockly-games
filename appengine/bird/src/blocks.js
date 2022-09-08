@@ -62,12 +62,20 @@ Blockly.Blocks['bird_heading'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setColour(Bird.Blocks.MOVEMENT_HUE);
-    this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Bird.heading', false))
-        .appendField(new Blockly.FieldAngle('90'), 'ANGLE');
-    this.setPreviousStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Bird.headingTooltip', false));
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('Bird.heading', false) + "%1",
+      "args0": [
+        {
+          "type": "field_angle",
+          "name": "ANGLE",
+          "angle": 90,
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Bird.Blocks.MOVEMENT_HUE,
+      "tooltip": BlocklyGames.getMsg('Bird.headingTooltip', false),
+    });
   }
 };
 
@@ -111,24 +119,36 @@ Blockly.Blocks['bird_compare'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
-    const OPERATORS = [['\u200F<', 'LT'], ['\u200F>', 'GT']];
-    this.setColour(Blockly.Msg['LOGIC_HUE']);
-    this.setOutput(true, 'Boolean');
-    this.appendValueInput('A')
-        .setCheck('Number');
-    this.appendValueInput('B')
-        .setCheck('Number')
-        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-    this.setInputsInline(true);
-    this.setTooltip(() => {
-      const op = this.getFieldValue('OP');
-      const TOOLTIPS = {
+    this.jsonInit({
+      "message0": `%1%2%3`,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "A",
+          "check": "Number",
+        },
+        {
+          "type": "field_dropdown",
+          "name": "OP",
+          "options": [['\u200F<', 'LT'], ['\u200F>', 'GT']],
+        },
+        {
+          "type": "input_value",
+          "name": "B",
+          "check": "Number",
+        },
+      ],
+      "inputsInline": true,
+      "output": "Boolean",
+      "colour": Blockly.Msg['LOGIC_HUE'],
+      "helpUrl": Blockly.Msg['LOGIC_COMPARE_HELPURL'],
+    });
+    this.setTooltip(() => (
+      {
         'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
         'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],
-      };
-      return TOOLTIPS[op];
-    });
+      }[this.getFieldValue('OP')]
+    ));
   }
 };
 
@@ -148,16 +168,26 @@ Blockly.Blocks['bird_and'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg['LOGIC_OPERATION_HELPURL']);
-    this.setColour(Blockly.Msg['LOGIC_HUE']);
-    this.setOutput(true, 'Boolean');
-    this.appendValueInput('A')
-        .setCheck('Boolean');
-    this.appendValueInput('B')
-        .setCheck('Boolean')
-        .appendField(Blockly.Msg['LOGIC_OPERATION_AND']);
-    this.setInputsInline(true);
-    this.setTooltip(Blockly.Msg['LOGIC_OPERATION_TOOLTIP_AND']);
+    this.jsonInit({
+      "message0": `%1${Blockly.Msg['LOGIC_OPERATION_AND']}%2`,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "A",
+          "check": "Boolean",
+        },
+        {
+          "type": "input_value",
+          "name": "B",
+          "check": "Boolean",
+        },
+      ],
+      "inputsInline": true,
+      "output": "Boolean",
+      "colour": Blockly.Msg['LOGIC_HUE'],
+      "tooltip": Blockly.Msg['LOGIC_OPERATION_TOOLTIP_AND'],
+      "helpUrl": Blockly.Msg['LOGIC_OPERATION_HELPURL'],
+    });
   }
 };
 
@@ -189,17 +219,27 @@ Blockly.Blocks['bird_ifElse'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg['CONTROLS_IF_HELPURL']);
-    this.setColour(Blockly.Msg['LOGIC_HUE']);
-    this.appendValueInput('CONDITION')
-        .appendField(Blockly.Msg['CONTROLS_IF_MSG_IF'])
-        .setCheck('Boolean');
-    this.appendStatementInput('DO')
-        .appendField(Blockly.Msg['CONTROLS_IF_MSG_THEN']);
-    this.appendStatementInput('ELSE')
-        .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSE']);
-    this.setDeletable(false);
-    this.setTooltip(Blockly.Msg['CONTROLS_IF_TOOLTIP_2']);
+    this.jsonInit({
+      "message0": `${Blockly.Msg['CONTROLS_IF_MSG_IF']}%1${Blockly.Msg['CONTROLS_IF_MSG_THEN']}%2${Blockly.Msg['CONTROLS_IF_MSG_ELSE']}%3`,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean",
+        },
+        {
+          "type": "input_statement",
+          "name": "DO",
+        },
+        {
+          "type": "input_statement",
+          "name": "ELSE",
+        },
+      ],
+      "colour": Blockly.Msg['LOGIC_HUE'],
+      "tooltip": Blockly.Msg['CONTROLS_IF_TOOLTIP_2'],
+      "helpUrl": Blockly.Msg['CONTROLS_IF_HELPURL'],
+    });
   }
 };
 
@@ -223,5 +263,4 @@ Blockly.Blocks['controls_if'].init = function() {
   this.oldInit();
   this.setPreviousStatement(false);
   this.setNextStatement(false);
-  this.setDeletable(false);
 };

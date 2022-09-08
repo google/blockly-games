@@ -128,7 +128,7 @@ const MAP = [
     startAngle: 90,
     worm: new Blockly.utils.Coordinate(50, 50),
     nest: new Blockly.utils.Coordinate(80, 80),
-    walls: []
+    walls: [],
   },
   // Level 2.
   {
@@ -136,7 +136,7 @@ const MAP = [
     startAngle: 0,
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(80, 80),
-    walls: [new Line(0, 50, 60, 50)]
+    walls: [new Line(0, 50, 60, 50)],
   },
   // Level 3.
   {
@@ -144,7 +144,7 @@ const MAP = [
     startAngle: 270,
     worm: new Blockly.utils.Coordinate(50, 20),
     nest: new Blockly.utils.Coordinate(80, 70),
-    walls: [new Line(50, 50, 50, 100)]
+    walls: [new Line(50, 50, 50, 100)],
   },
   // Level 4.
   {
@@ -152,7 +152,7 @@ const MAP = [
     startAngle: 0,
     worm: null,
     nest: new Blockly.utils.Coordinate(80, 20),
-    walls: [new Line(0, 0, 65, 65)]
+    walls: [new Line(0, 0, 65, 65)],
   },
   // Level 5.
   {
@@ -160,7 +160,7 @@ const MAP = [
     startAngle: 270,
     worm: null,
     nest: new Blockly.utils.Coordinate(20, 20),
-    walls: [new Line(0, 100, 65, 35)]
+    walls: [new Line(0, 100, 65, 35)],
   },
   // Level 6.
   {
@@ -168,7 +168,7 @@ const MAP = [
     startAngle: 0,
     worm: new Blockly.utils.Coordinate(80, 20),
     nest: new Blockly.utils.Coordinate(20, 80),
-    walls: [new Line(0, 59, 50, 59)]
+    walls: [new Line(0, 59, 50, 59)],
   },
   // Level 7.
   {
@@ -178,8 +178,8 @@ const MAP = [
     nest: new Blockly.utils.Coordinate(20, 20),
     walls: [
       new Line(0, 70, 40, 70),
-      new Line(70, 50, 100, 50)
-    ]
+      new Line(70, 50, 100, 50),
+    ],
   },
   // Level 8.
   {
@@ -191,8 +191,8 @@ const MAP = [
       new Line(50, 0, 50, 25),
       new Line(75, 50, 100, 50),
       new Line(50, 100, 50, 75),
-      new Line(0, 50, 25, 50)
-    ]
+      new Line(0, 50, 25, 50),
+    ],
   },
   // Level 9.
   {
@@ -203,8 +203,8 @@ const MAP = [
     walls: [
       new Line(0, 69, 31, 100),
       new Line(40, 50, 71, 0),
-      new Line(80, 50, 100, 50)
-    ]
+      new Line(80, 50, 100, 50),
+    ],
   },
   // Level 10.
   {
@@ -215,8 +215,8 @@ const MAP = [
     walls: [
       new Line(40, 60, 60, 60),
       new Line(40, 60, 60, 30),
-      new Line(60, 30, 100, 30)
-    ]
+      new Line(60, 30, 100, 30),
+    ],
   }
 ][BlocklyGames.LEVEL];
 
@@ -410,7 +410,7 @@ function init() {
     blockType = 'controls_if';
   }
   BlocklyInterface.loadBlocks(
-      `<xml><block type="${blockType}" x="70" y="70"></block></xml>`, false);
+      `<xml><block type="${blockType}" x="70" y="70" deletable="false"></block></xml>`, false);
 
   reset(true);
 
