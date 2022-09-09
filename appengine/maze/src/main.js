@@ -424,6 +424,8 @@ function drawMap() {
  * Initialize Blockly and the maze.  Called on page load.
  */
 function init() {
+  Maze.Blocks.init();
+
   // Render the HTML.
   document.body.innerHTML = Maze.html.start(
       {lang: BlocklyGames.LANG,
