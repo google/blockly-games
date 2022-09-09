@@ -46,14 +46,14 @@ Turtle.Blocks.init = function() {
   const HUE = 160;
 
   /**
-   * Left turn arrow to be appended to messages.
+   * Counterclockwise arrow to be appended to left turn option.
    */
-  const LEFT_TURN = ' \u21BA';
+  const LEFT_TURN = ' ↺';
 
   /**
-   * Left turn arrow to be appended to messages.
+   * Clockwise arrow to be appended to right turn option.
    */
-  const RIGHT_TURN = ' \u21BB';
+  const RIGHT_TURN = ' ↻';
 
   const MOVE_OPTIONS = [
     [BlocklyGames.getMsg('Turtle.moveForward', false), 'moveForward'],

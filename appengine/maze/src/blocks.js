@@ -39,14 +39,14 @@ Maze.Blocks.init = function() {
   const LOGIC_HUE = 210;
 
   /**
-   * Left turn arrow to be appended to messages.
+   * Counterclockwise arrow to be appended to left turn option.
    */
-  const LEFT_TURN = ' \u21BA';
+  const LEFT_TURN = ' ↺';
 
   /**
-   * Left turn arrow to be appended to messages.
+   * Clockwise arrow to be appended to right turn option.
    */
-  const RIGHT_TURN = ' \u21BB';
+  const RIGHT_TURN = ' ↻';
 
   const TURN_DIRECTIONS = [
     [BlocklyGames.getMsg('Maze.turnLeft', false) + LEFT_TURN, 'turnLeft'],
@@ -142,7 +142,7 @@ Maze.Blocks.init = function() {
     // Block for repeat loop.
     {
       "type": "maze_forever",
-      "message0": BlocklyGames.getMsg('Maze.repeatUntil', false) + "%1%2%3",
+      "message0": `${BlocklyGames.getMsg('Maze.repeatUntil', false)}%1%2${BlocklyGames.getMsg('Maze.doCode', false)}%3`,
       "args0": [
         {
           "type": "field_image",

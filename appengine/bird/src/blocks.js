@@ -15,6 +15,7 @@ goog.provide('Bird.Blocks');
 goog.require('Blockly');
 goog.require('Blockly.Constants.Logic');
 goog.require('Blockly.Constants.Math');
+goog.require('Blockly.Extensions');
 goog.require('Blockly.FieldAngle');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
