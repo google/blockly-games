@@ -77,6 +77,8 @@ let isPenDown;
  * Initialize Blockly and the turtle.  Called on page load.
  */
 function init() {
+  Turtle.Blocks.init();
+
   // Render the HTML.
   document.body.innerHTML = Turtle.html.start(
       {lang: BlocklyGames.LANG,

@@ -25,44 +25,32 @@ goog.require('BlocklyGames');
 
 
 /**
- * Common HSV hue for all variable blocks.
+ * Construct custom bird block types.  Called on page load.
  */
-Bird.Blocks.VARIABLES_HUE = 330;
-
-/**
- * HSV hue for movement block.
- */
-Bird.Blocks.MOVEMENT_HUE = 290;
-
-// Extensions to Blockly's existing blocks and JavaScript generator.
-
-Blockly.Blocks['bird_noWorm'] = {
+Bird.Blocks.init = function() {
   /**
-   * Block for no worm condition.
-   * @this {Blockly.Block}
+   * Common HSV hue for all variable blocks.
    */
-  init: function() {
-    this.jsonInit({
+  const VARIABLES_HUE = 330;
+
+  /**
+   * HSV hue for movement block.
+   */
+  const MOVEMENT_HUE = 290;
+
+  Blockly.defineBlocksWithJsonArray([
+    // Block for no worm condition.
+    {
+      "type": "bird_noWorm",
       "message0": BlocklyGames.getMsg('Bird.noWorm', false),
       "output": "Boolean",
-      "colour": Bird.Blocks.VARIABLES_HUE,
+      "colour": VARIABLES_HUE,
       "tooltip": BlocklyGames.getMsg('Bird.noWormTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['bird_noWorm'] = function(block) {
-  // Generate JavaScript for no worm condition.
-  return ['noWorm()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['bird_heading'] = {
-  /**
-   * Block for moving bird in a direction.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for moving bird in a direction.
+    {
+      "type": "bird_heading",
       "message0": BlocklyGames.getMsg('Bird.heading', false) + "%1",
       "args0": [
         {
@@ -73,25 +61,13 @@ Blockly.Blocks['bird_heading'] = {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Bird.Blocks.MOVEMENT_HUE,
+      "colour": MOVEMENT_HUE,
       "tooltip": BlocklyGames.getMsg('Bird.headingTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['bird_heading'] = function(block) {
-  // Generate JavaScript for moving bird in a direction.
-  const dir = Number(block.getFieldValue('ANGLE'));
-  return `heading(${dir}, 'block_id_${block.id}');\n`;
-};
-
-Blockly.Blocks['bird_position'] = {
-  /**
-   * Block for getting bird's x or y position.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for getting bird's x or y position.
+    {
+      "type": "bird_position",
       "message0": "%1",
       "args0": [
         {
@@ -101,25 +77,13 @@ Blockly.Blocks['bird_position'] = {
         }
       ],
       "output": "Number",
-      "colour": Bird.Blocks.VARIABLES_HUE,
+      "colour": VARIABLES_HUE,
       "tooltip": BlocklyGames.getMsg('Bird.positionTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['bird_position'] = function(block) {
-  // Generate JavaScript for getting bird's x or y position.
-  const code = `get${block.getFieldValue('XY').charAt(0)}()`;
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['bird_compare'] = {
-  /**
-   * Block for comparing bird's x or y position with a number.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for comparing bird's x or y position with a number.
+    {
+      "type": "bird_compare",
       "message0": `%1%2%3`,
       "args0": [
         {
@@ -140,36 +104,15 @@ Blockly.Blocks['bird_compare'] = {
       ],
       "inputsInline": true,
       "output": "Boolean",
-      "colour": Blockly.Msg['LOGIC_HUE'],
-      "helpUrl": Blockly.Msg['LOGIC_COMPARE_HELPURL'],
-    });
-    this.setTooltip(() => (
-      {
-        'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
-        'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],
-      }[this.getFieldValue('OP')]
-    ));
-  }
-};
+      "colour": "%{BKY_LOGIC_HUE}",
+      "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
+      "extensions": ["bird_compare_tooltip"],
+    },
 
-Blockly.JavaScript['bird_compare'] = function(block) {
-  // Generate JavaScript for comparing bird's x or y position with a number.
-  const operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
-  const order = Blockly.JavaScript.ORDER_RELATIONAL;
-  const argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
-  const argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
-  const code = argument0 + ' ' + operator + ' ' + argument1;
-  return [code, order];
-};
-
-Blockly.Blocks['bird_and'] = {
-  /**
-   * Block for logical operator 'and'.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": `%1${Blockly.Msg['LOGIC_OPERATION_AND']}%2`,
+    // Block for logical operator 'and'.
+    {
+      "type": "bird_and",
+      "message0": "%1%{BKY_LOGIC_OPERATION_AND}%2",
       "args0": [
         {
           "type": "input_value",
@@ -184,11 +127,70 @@ Blockly.Blocks['bird_and'] = {
       ],
       "inputsInline": true,
       "output": "Boolean",
-      "colour": Blockly.Msg['LOGIC_HUE'],
-      "tooltip": Blockly.Msg['LOGIC_OPERATION_TOOLTIP_AND'],
-      "helpUrl": Blockly.Msg['LOGIC_OPERATION_HELPURL'],
-    });
-  }
+      "colour": "%{BKY_LOGIC_HUE}",
+      "tooltip": "%{BKY_LOGIC_OPERATION_TOOLTIP_AND}",
+      "helpUrl": "%{BKY_LOGIC_OPERATION_HELPURL}",
+    },
+
+    // Block for 'if/else'.
+    {
+      "type": "bird_ifElse",
+      "message0": "%{BKY_CONTROLS_IF_MSG_IF}%1%{BKY_CONTROLS_IF_MSG_THEN}%2%{BKY_CONTROLS_IF_MSG_ELSE}%3",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean",
+        },
+        {
+          "type": "input_statement",
+          "name": "DO",
+        },
+        {
+          "type": "input_statement",
+          "name": "ELSE",
+        },
+      ],
+      "colour": "%{BKY_LOGIC_HUE}",
+      "tooltip": "%{BKY_CONTROLS_IF_TOOLTIP_2}",
+      "helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
+    },
+  ]);
+
+  Blockly.Extensions.register('bird_compare_tooltip',
+      Blockly.Extensions.buildTooltipForDropdown('OP',
+          {
+            'LT': '%{BKY_LOGIC_COMPARE_TOOLTIP_LT}',
+            'GT': '%{BKY_LOGIC_COMPARE_TOOLTIP_GT}',
+          }));
+};
+
+
+Blockly.JavaScript['bird_noWorm'] = function(block) {
+  // Generate JavaScript for no worm condition.
+  return ['noWorm()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['bird_heading'] = function(block) {
+  // Generate JavaScript for moving bird in a direction.
+  const dir = Number(block.getFieldValue('ANGLE'));
+  return `heading(${dir}, 'block_id_${block.id}');\n`;
+};
+
+Blockly.JavaScript['bird_position'] = function(block) {
+  // Generate JavaScript for getting bird's x or y position.
+  const code = `get${block.getFieldValue('XY').charAt(0)}()`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['bird_compare'] = function(block) {
+  // Generate JavaScript for comparing bird's x or y position with a number.
+  const operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
+  const order = Blockly.JavaScript.ORDER_RELATIONAL;
+  const argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
+  const argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
+  const code = argument0 + ' ' + operator + ' ' + argument1;
+  return [code, order];
 };
 
 Blockly.JavaScript['bird_and'] = function(block) {
@@ -211,36 +213,6 @@ Blockly.JavaScript['bird_and'] = function(block) {
   }
   const code = argument0 + ' && ' + argument1;
   return [code, order];
-};
-
-Blockly.Blocks['bird_ifElse'] = {
-  /**
-   * Block for 'if/else'.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": `${Blockly.Msg['CONTROLS_IF_MSG_IF']}%1${Blockly.Msg['CONTROLS_IF_MSG_THEN']}%2${Blockly.Msg['CONTROLS_IF_MSG_ELSE']}%3`,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "CONDITION",
-          "check": "Boolean",
-        },
-        {
-          "type": "input_statement",
-          "name": "DO",
-        },
-        {
-          "type": "input_statement",
-          "name": "ELSE",
-        },
-      ],
-      "colour": Blockly.Msg['LOGIC_HUE'],
-      "tooltip": Blockly.Msg['CONTROLS_IF_TOOLTIP_2'],
-      "helpUrl": Blockly.Msg['CONTROLS_IF_HELPURL'],
-    });
-  }
 };
 
 Blockly.JavaScript['bird_ifElse'] = function(block) {

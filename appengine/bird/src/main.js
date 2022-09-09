@@ -359,6 +359,8 @@ function drawMap() {
  * Initialize Blockly and the bird.  Called on page load.
  */
 function init() {
+  Bird.Blocks.init();
+
   // Render the HTML.
   document.body.innerHTML = Bird.html.start(
       {lang: BlocklyGames.LANG,
