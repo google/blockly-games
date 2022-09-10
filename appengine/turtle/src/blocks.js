@@ -21,6 +21,7 @@ goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.Constants.Text');
 goog.require('Blockly.Constants.Variables');
+goog.require('Blockly.Extensions');
 goog.require('Blockly.FieldColour');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
@@ -61,9 +62,17 @@ Turtle.Blocks.init = function() {
   ];
 
   const TURN_OPTIONS = [
-    [BlocklyGames.getMsg('Turtle.turnRight', false) + RIGHT_TURN, 'turnRight'],
-    [BlocklyGames.getMsg('Turtle.turnLeft', false) + LEFT_TURN, 'turnLeft'],
+    [BlocklyGames.getMsg('Turtle.turnRight', false), 'turnRight'],
+    [BlocklyGames.getMsg('Turtle.turnLeft', false), 'turnLeft'],
   ];
+
+  // Add arrows to turn options after prefix/suffix have been separated.
+  Blockly.Extensions.register('turtle_turn_arrows',
+      function() {
+        const options = this.getField('DIR').getOptions();
+        options[0][0] += LEFT_TURN;
+        options[1][0] += RIGHT_TURN;
+      });
 
   Blockly.defineBlocksWithJsonArray([
     // Block for moving forward or backwards (external distance).
@@ -135,6 +144,7 @@ Turtle.Blocks.init = function() {
       "nextStatement": null,
       "colour": HUE,
       "tooltip": BlocklyGames.getMsg('Turtle.turnTooltip', false),
+      "extensions": ["turtle_turn_arrows"],
     },
 
     // Block for turning left or right (internal angle).
@@ -164,6 +174,7 @@ Turtle.Blocks.init = function() {
       "nextStatement": null,
       "colour": HUE,
       "tooltip": BlocklyGames.getMsg('Turtle.turnTooltip', false),
+      "extensions": ["turtle_turn_arrows"],
     },
 
     // Block for setting the width.

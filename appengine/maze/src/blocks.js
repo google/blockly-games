@@ -14,6 +14,7 @@ goog.provide('Maze.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.Extensions');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldImage');
 goog.require('BlocklyGames');
@@ -49,15 +50,23 @@ Maze.Blocks.init = function() {
   const RIGHT_TURN = ' ↻';
 
   const TURN_DIRECTIONS = [
-    [BlocklyGames.getMsg('Maze.turnLeft', false) + LEFT_TURN, 'turnLeft'],
-    [BlocklyGames.getMsg('Maze.turnRight', false) + RIGHT_TURN, 'turnRight']
+    [BlocklyGames.getMsg('Maze.turnLeft', false), 'turnLeft'],
+    [BlocklyGames.getMsg('Maze.turnRight', false), 'turnRight']
   ];
 
   const PATH_DIRECTIONS = [
     [BlocklyGames.getMsg('Maze.pathAhead', false), 'isPathForward'],
-    [BlocklyGames.getMsg('Maze.pathLeft', false) + LEFT_TURN, 'isPathLeft'],
-    [BlocklyGames.getMsg('Maze.pathRight', false) + RIGHT_TURN, 'isPathRight']
+    [BlocklyGames.getMsg('Maze.pathLeft', false), 'isPathLeft'],
+    [BlocklyGames.getMsg('Maze.pathRight', false), 'isPathRight']
   ];
+
+  // Add arrows to turn options after prefix/suffix have been separated.
+  Blockly.Extensions.register('maze_turn_arrows',
+      function() {
+        const options = this.getField('DIR').getOptions();
+        options[options.length - 2][0] += LEFT_TURN;
+        options[options.length - 1][0] += RIGHT_TURN;
+      });
 
   Blockly.defineBlocksWithJsonArray([
     // Block for moving forward.
@@ -85,6 +94,7 @@ Maze.Blocks.init = function() {
       "nextStatement": null,
       "colour": MOVEMENT_HUE,
       "tooltip": BlocklyGames.getMsg('Maze.turnTooltip', false),
+      "extensions": ["maze_turn_arrows"],
     },
 
     // Block for conditional "if there is a path".
@@ -109,6 +119,7 @@ Maze.Blocks.init = function() {
       "nextStatement": null,
       "colour": LOGIC_HUE,
       "tooltip": BlocklyGames.getMsg('Maze.ifTooltip', false),
+      "extensions": ["maze_turn_arrows"],
     },
 
     // Block for conditional "if there is a path, else".
@@ -137,6 +148,7 @@ Maze.Blocks.init = function() {
       "nextStatement": null,
       "colour": LOGIC_HUE,
       "tooltip": BlocklyGames.getMsg('Maze.ifelseTooltip', false),
+      "extensions": ["maze_turn_arrows"],
     },
 
     // Block for repeat loop.

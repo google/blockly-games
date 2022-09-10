@@ -176,7 +176,7 @@ Blockly.Blocks['movie_time'] = {
   init: function() {
     this.setColour(Blockly.Msg['VARIABLES_HUE']);
     this.appendDummyInput()
-        .appendField('time (0\u2192100)');
+        .appendField('time (0→100)');
     this.setOutput(true, 'Number');
     this.setTooltip(BlocklyGames.getMsg('Movie.timeTooltip', false));
   }
