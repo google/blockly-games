@@ -32,9 +32,12 @@ import re
 import subprocess
 import sys
 
+
+if sys.version_info[0] < 3:
+    raise Exception("Must be using Python 3")
+
 # Define a warning message for all the generated files.
 WARNING = '// Automatically generated file.  Do not edit!\n'
-
 
 blocklyMessageNames = []
 blocklyGamesMessageNames = []

@@ -42,8 +42,12 @@ import codecs
 import json
 import os
 import re
+import sys
 from datetime import datetime
 
+
+if sys.version_info[0] < 3:
+    raise Exception("Must be using Python 3")
 
 def main():
   # Set up argument parser.

@@ -22,6 +22,10 @@ import glob
 import json
 import os
 import re
+import sys
+
+if sys.version_info[0] < 3:
+    raise Exception("Must be using Python 3")
 
 def main():
   """Generate .js files defining Blockly Games messages."""
