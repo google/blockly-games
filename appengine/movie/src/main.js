@@ -65,6 +65,8 @@ let frameScrubber;
  * Initialize Blockly and the movie.  Called on page load.
  */
 function init() {
+  Movie.Blocks.init();
+
   // Render the HTML.
   document.body.innerHTML = Movie.html.start(
       {lang: BlocklyGames.LANG,

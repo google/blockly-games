@@ -311,7 +311,7 @@ Turtle.Blocks.init = function() {
           "name": "FONTSIZE",
           "value": 18,
           "min": 1,
-          "max": 1000
+          "max": 1000,
         },
         {
           "type": "input_dummy",
