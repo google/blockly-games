@@ -49,6 +49,8 @@ common:
 	python build/messages_to_json.py
 	@echo "Converting JSON from Translatewiki to message files."
 	python build/json_to_js.py
+	@echo "Transpiling TypeScript to JavaScript."
+	npx tsc
 	@echo
 
 deps:
@@ -130,7 +132,7 @@ offline: clean-offline
 clean: clean-games clean-offline clean-deps
 
 clean-games:
-	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond,pond/tutor,pond/duck,gallery}/generated
+	rm -rf appengine/{.,index,puzzle,maze,bird,turtle,movie,music,pond,pond/tutor,pond/duck,gallery}/{generated,src}
 
 clean-offline:
 	rm -rf offline/

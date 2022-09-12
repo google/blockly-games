@@ -4,6 +4,9 @@
 appengine/generated/
 appengine/*/generated/
 appengine/*/*/generated/
+appengine/src/
+appengine/*/src/
+appengine/*/*/src/
 appengine/third-party/
 third-party-downloads/*
 /offline

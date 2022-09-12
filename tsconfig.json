@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "outDir": "./appengine",
+    "allowJs": true,
+    "target": "es6"
+  },
+  "include": ["./typescript/**/*"]
+}
