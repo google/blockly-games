@@ -66,6 +66,8 @@ const tabIndex = {
  */
 function init() {
   duckData = window['DUCKS'];
+  Pond.Blocks.init();
+
   // Render the HTML.
   document.body.innerHTML = Pond.Duck.html.start(
       {lang: BlocklyGames.LANG,

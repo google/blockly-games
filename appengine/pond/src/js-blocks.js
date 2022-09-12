@@ -100,40 +100,46 @@ Blockly.Blocks['controls_if'].updateShape_ = function() {
 };
 
 /**
- * Comparison operator.
+ * Block for comparison operator.
  * @this {Blockly.Block}
  */
 Blockly.Blocks['logic_compare'].init = function() {
-  const OPERATORS = [
-    ['==', 'EQ'],
-    ['!=', 'NEQ'],
-    ['<', 'LT'],
-    ['<=', 'LTE'],
-    ['>', 'GT'],
-    ['>=', 'GTE'],
-  ];
-  this.setHelpUrl(Blockly.Msg['LOGIC_COMPARE_HELPURL']);
-  this.setColour(Blockly.Msg['LOGIC_HUE']);
-  this.setOutput(true, 'Boolean');
-  this.appendValueInput('A');
-  this.appendValueInput('B')
-      .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-  this.setInputsInline(true);
-  this.setTooltip(() => {
-    const op = this.getFieldValue('OP');
-    const TOOLTIPS = {
-      'EQ': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_EQ'],
-      'NEQ': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_NEQ'],
-      'LT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LT'],
-      'LTE': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_LTE'],
-      'GT': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GT'],
-      'GTE': Blockly.Msg['LOGIC_COMPARE_TOOLTIP_GTE'],
-    };
-    return TOOLTIPS[op];
+  this.jsonInit({
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["==", "EQ"],
+          ["!=", "NEQ"],
+          ["\u200F<", "LT"],
+          ["\u200F<=", "LTE"],
+          ["\u200F>", "GT"],
+          ["\u200F>=", "GTE"],
+        ],
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
+    "extensions": ["logic_compare", "logic_op_tooltip"],
   });
-  this.prevBlocks_ = [null, null];
 };
 
+/**
+ * Block for boolean data type: true and false.
+ * @this {Blockly.Block}
+ */
 Blockly.Blocks['logic_boolean'].init = function() {
   this.jsonInit({
     "message0": "%1",
@@ -144,8 +150,8 @@ Blockly.Blocks['logic_boolean'].init = function() {
         "options": [
           ["true", "TRUE"],
           ["false", "FALSE"],
-        ]
-      }
+        ],
+      },
     ],
     "output": "Boolean",
     "style": "logic_blocks",
@@ -154,6 +160,10 @@ Blockly.Blocks['logic_boolean'].init = function() {
   });
 };
 
+/**
+ * Block for logical operations: 'and', 'or'.
+ * @this {Blockly.Block}
+ */
 Blockly.Blocks['logic_operation'].init = function() {
   this.jsonInit({
     "message0": "%1 %2 %3",
@@ -169,13 +179,13 @@ Blockly.Blocks['logic_operation'].init = function() {
         "options": [
           ["&&", "AND"],
           ["||", "OR"],
-        ]
+        ],
       },
       {
         "type": "input_value",
         "name": "B",
-        "check": "Boolean"
-      }
+        "check": "Boolean",
+      },
     ],
     "inputsInline": true,
     "output": "Boolean",
@@ -196,22 +206,22 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
       {
         "type": "input_value",
         "name": "BOOL",
-        "check": "Boolean"
+        "check": "Boolean",
       },
       {
-        "type": "input_dummy"
+        "type": "input_dummy",
       },
       {
         "type": "input_statement",
-        "name": "DO"
+        "name": "DO",
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": Blockly.Msg['LOOPS_HUE'],
-    "tooltip": Blockly.Msg['CONTROLS_WHILEUNTIL_TOOLTIP_WHILE'],
-    "helpUrl": Blockly.Msg['CONTROLS_WHILEUNTIL_HELPURL'],
+    "style": "loop_blocks",
+    "tooltip": "%{BKY_CONTROLS_WHILEUNTIL_TOOLTIP_WHILE}",
+    "helpUrl": "%{BKY_CONTROLS_WHILEUNTIL_HELPURL}",
   });
 };
 
@@ -226,7 +236,7 @@ Blockly.Blocks['math_arithmetic'].init = function() {
       {
         "type": "input_value",
         "name": "A",
-        "check": "Number"
+        "check": "Number",
       },
       {
         "type": "field_dropdown",
@@ -235,29 +245,20 @@ Blockly.Blocks['math_arithmetic'].init = function() {
           ["+", "ADD"],
           ["-", "MINUS"],
           ["*", "MULTIPLY"],
-          ["/", "DIVIDE"]
+          ["/", "DIVIDE"],
         ]
       },
       {
         "type": "input_value",
         "name": "B",
-        "check": "Number"
-      }
+        "check": "Number",
+      },
     ],
     "inputsInline": true,
     "output": "Number",
-    "colour": Blockly.Msg['MATH_HUE'],
-    "helpUrl": Blockly.Msg['MATH_ARITHMETIC_HELPURL']
-  });
-  this.setTooltip(() => {
-    const mode = this.getFieldValue('OP');
-    const TOOLTIPS = {
-      'ADD': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_ADD'],
-      'MINUS': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MINUS'],
-      'MULTIPLY': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_MULTIPLY'],
-      'DIVIDE': Blockly.Msg['MATH_ARITHMETIC_TOOLTIP_DIVIDE'],
-    };
-    return TOOLTIPS[mode];
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_MATH_ARITHMETIC_HELPURL}",
+    "extensions": ["math_op_tooltip"],
   });
 };
 
@@ -272,23 +273,20 @@ Blockly.Blocks['math_change'].init = function() {
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "name"
+        "variable": "name",
       },
       {
         "type": "input_value",
         "name": "DELTA",
-        "check": "Number"
-      }
+        "check": "Number",
+      },
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": Blockly.Msg['VARIABLES_HUE'],
-    "helpUrl": Blockly.Msg['MATH_CHANGE_HELPURL']
-  });
-  this.setTooltip(() => {
-    return Blockly.Msg['MATH_CHANGE_TOOLTIP'].replace('%1',
-        this.getField('VAR').getVariable().name);
+    "style": "variable_blocks",
+    "helpUrl": "%{BKY_MATH_CHANGE_HELPURL}",
+    "extensions": ["math_change_tooltip"],
   });
 };
 
@@ -319,27 +317,10 @@ Blockly.Blocks['math_random_float'].init = function() {
 };
 
 /**
- * Variable getter.
- * @this {Blockly.Block}
- */
-Blockly.Blocks['variables_get'].init = function() {
-  this.setHelpUrl(Blockly.Msg['VARIABLES_GET_HELPURL']);
-  this.setColour(Blockly.Msg['VARIABLES_HUE']);
-  this.appendDummyInput()
-      .appendField(new Blockly.FieldVariable('name'), 'VAR');
-  this.setOutput(true);
-  this.setTooltip(Blockly.Msg['VARIABLES_GET_TOOLTIP']);
-  this.contextMenuMsg_ = Blockly.Msg['VARIABLES_GET_CREATE_SET'];
-  this.contextMenuType_ = 'variables_set';
-};
-
-/**
- * Variable setter.
+ * Block for variable setter.
  * @this {Blockly.Block}
  */
 Blockly.Blocks['variables_set'].init = function() {
-  this.setHelpUrl(Blockly.Msg['VARIABLES_SET_HELPURL']);
-  this.setColour(Blockly.Msg['VARIABLES_HUE']);
   this.appendValueInput('VALUE')
       .appendField('var')
       .appendField(new Blockly.FieldVariable('name'), 'VAR')
@@ -349,7 +330,9 @@ Blockly.Blocks['variables_set'].init = function() {
   this.setInputsInline(true);
   this.setPreviousStatement(true);
   this.setNextStatement(true);
+  this.setColour(Blockly.Msg['VARIABLES_HUE']);
   this.setTooltip(Blockly.Msg['VARIABLES_SET_TOOLTIP']);
+  this.setHelpUrl(Blockly.Msg['VARIABLES_SET_HELPURL']);
   this.contextMenuMsg_ = Blockly.Msg['VARIABLES_SET_CREATE_GET'];
   this.contextMenuType_ = 'variables_get';
 };
@@ -422,8 +405,6 @@ Blockly.Msg['PROCEDURES_BEFORE_PARAMS'] = '';
  * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_callnoreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLNORETURN_HELPURL']);
-  this.setColour(Blockly.Msg['PROCEDURES_HUE']);
   this.appendDummyInput()
       .appendField('', 'NAME')
       .appendField('(');
@@ -432,7 +413,9 @@ Blockly.Blocks['procedures_callnoreturn'].init = function() {
   this.setInputsInline(true);
   this.setPreviousStatement(true);
   this.setNextStatement(true);
+  this.setColour(Blockly.Msg['PROCEDURES_HUE']);
   this.setTooltip(Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP']);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLNORETURN_HELPURL']);
   this.arguments_ = [];
   this.quarkConnections_ = {};
   this.quarkArguments_ = null;
@@ -469,8 +452,6 @@ Blockly.Blocks['procedures_callnoreturn'].updateShape_ = function() {
  * @this {Blockly.Block}
  */
 Blockly.Blocks['procedures_callreturn'].init = function() {
-  this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLRETURN_HELPURL']);
-  this.setColour(Blockly.Msg['PROCEDURES_HUE']);
   this.appendDummyInput()
       .appendField('', 'NAME')
       .appendField('(');
@@ -478,7 +459,9 @@ Blockly.Blocks['procedures_callreturn'].init = function() {
       .appendField(')');
   this.setInputsInline(true);
   this.setOutput(true);
+  this.setColour(Blockly.Msg['PROCEDURES_HUE']);
   this.setTooltip(Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP']);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_CALLRETURN_HELPURL']);
   this.arguments_ = [];
   this.quarkConnections_ = {};
   this.quarkArguments_ = null;

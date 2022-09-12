@@ -25,19 +25,18 @@ goog.require('BlocklyGames.JsBlocks');
 
 
 /**
- * Common HSV hue for all pond blocks.
+ * Construct custom turtle block types.  Called on page load.
  */
-Pond.Blocks.POND_HUE = 290;
-
-// Extensions to Blockly's existing blocks and JavaScript generator.
-
-Blockly.Blocks['pond_scan'] = {
+Pond.Blocks.init = function() {
   /**
-   * Block for scanning the pond.
-   * @this {Blockly.Block}
+   * Common HSV hue for all pond blocks.
    */
-  init: function() {
-    this.jsonInit({
+  const POND_HUE = 290;
+
+  Blockly.defineBlocksWithJsonArray([
+    // Block for scanning the pond.
+    {
+      "type": "pond_scan",
       "message0": "%1(%2)",
       "args0": [
         "scan",
@@ -49,27 +48,13 @@ Blockly.Blocks['pond_scan'] = {
       ],
       "inputsInline": true,
       "output": "Number",
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.scanTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_scan'] = function(block) {
-  // Generate JavaScript for scanning the pond.
-  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_NONE) || 0;
-  const code = `scan(${value_degree})`;
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['pond_cannon'] = {
-  /**
-   * Block for shooting.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for shooting the cannon.
+    {
+      "type": "pond_cannon",
       "message0": "%1(%2, %3);",
       "args0": [
         "cannon",
@@ -87,28 +72,13 @@ Blockly.Blocks['pond_cannon'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.cannonTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_cannon'] = function(block) {
-  // Generate JavaScript for shooting.
-  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  const value_range = Blockly.JavaScript.valueToCode(block, 'RANGE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  return `cannon(${value_degree}, ${value_range});\n`;
-};
-
-Blockly.Blocks['pond_swim'] = {
-  /**
-   * Block for swimming.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for swimming.
+    {
+      "type": "pond_swim",
       "message0": "%1(%2);",
       "args0": [
           "swim",
@@ -121,132 +91,64 @@ Blockly.Blocks['pond_swim'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.swimTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_swim'] = function(block) {
-  // Generate JavaScript for swimming.
-  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_NONE) || 0;
-  return `swim(${value_degree});\n`;
-};
-
-Blockly.Blocks['pond_stop'] = {
-  /**
-   * Block for stopping.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for stopping.
+    {
+      "type": "pond_stop",
       "message0": "%1(%2);",
       "args0": ["stop", ""],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.stopTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_stop'] = function(block) {
-  // Generate JavaScript for stopping.
-  return 'stop();\n';
-};
-
-Blockly.Blocks['pond_health'] = {
-  /**
-   * Block for avatar health.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for avatar health.
+    {
+      "type": "pond_health",
       "message0": "%1(%2)",
       "args0": ["health", ""],
       "output": "Number",
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.healthTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_health'] = function(block) {
-  // Generate JavaScript for avatar health.
-  return ['health()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['pond_speed'] = {
-  /**
-   * Block for avatar speed.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for avatar speed.
+    {
+      "type": "pond_speed",
       "message0": "%1(%2)",
       "args0": ["speed", ""],
       "output": "Number",
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.speedTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_speed'] = function(block) {
-  // Generate JavaScript for avatar speed.
-  return ['speed()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['pond_getX'] = {
-  /**
-   * Block for X coordinate.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for X coordinate.
+    {
+      "type": "pond_getX",
       "message0": "%1(%2)",
       "args0": ["getX", ""],
       "output": "Number",
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.locXTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_getX'] = function(block) {
-  // Generate JavaScript for X coordinate.
-  return ['getX()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['pond_getY'] = {
-  /**
-   * Block for Y coordinate.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for Y coordinate.
+    {
+      "type": "pond_getY",
       "message0": "%1(%2)",
       "args0": ["getY", ""],
       "output": "Number",
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.locYTooltip', false),
-    });
-  }
-};
+    },
 
-Blockly.JavaScript['pond_getY'] = function(block) {
-  // Generate JavaScript for Y coordinate.
-  return ['getY()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.Blocks['pond_log'] = {
-  /**
-   * Block for log statement.
-   * @this {Blockly.Block}
-   */
-  init: function() {
-    this.jsonInit({
+    // Block for log statement.
+    {
+      "type": "pond_log",
       "message0": "%1(%2);",
       "args0": [
         "log",
@@ -258,10 +160,59 @@ Blockly.Blocks['pond_log'] = {
       "inputsInline": true,
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Pond.Blocks.POND_HUE,
+      "colour": POND_HUE,
       "tooltip": BlocklyGames.getMsg('Pond.logTooltip', false),
-    });
-  }
+    },
+  ]);
+};
+
+Blockly.JavaScript['pond_scan'] = function(block) {
+  // Generate JavaScript for scanning the pond.
+  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
+      Blockly.JavaScript.ORDER_NONE) || 0;
+  const code = `scan(${value_degree})`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['pond_cannon'] = function(block) {
+  // Generate JavaScript for shooting the cannon.
+  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
+      Blockly.JavaScript.ORDER_COMMA) || 0;
+  const value_range = Blockly.JavaScript.valueToCode(block, 'RANGE',
+      Blockly.JavaScript.ORDER_COMMA) || 0;
+  return `cannon(${value_degree}, ${value_range});\n`;
+};
+
+Blockly.JavaScript['pond_swim'] = function(block) {
+  // Generate JavaScript for swimming.
+  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
+      Blockly.JavaScript.ORDER_NONE) || 0;
+  return `swim(${value_degree});\n`;
+};
+
+Blockly.JavaScript['pond_stop'] = function(block) {
+  // Generate JavaScript for stopping.
+  return 'stop();\n';
+};
+
+Blockly.JavaScript['pond_health'] = function(block) {
+  // Generate JavaScript for avatar health.
+  return ['health()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['pond_speed'] = function(block) {
+  // Generate JavaScript for avatar speed.
+  return ['speed()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['pond_getX'] = function(block) {
+  // Generate JavaScript for X coordinate.
+  return ['getX()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['pond_getY'] = function(block) {
+  // Generate JavaScript for Y coordinate.
+  return ['getY()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript['pond_log'] = function(block) {
@@ -278,12 +229,19 @@ Blockly.Blocks['pond_math_number'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg['MATH_NUMBER_HELPURL']);
-    this.setColour(Blockly.Msg['MATH_HUE']);
-    this.appendDummyInput('DUMMY')
-        .appendField(new Blockly.FieldNumber(0), 'NUM');
-    this.setOutput(true, 'Number');
-    this.setTooltip(Blockly.Msg['MATH_NUMBER_TOOLTIP']);
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [{
+        "type": "field_number",
+        "name": "NUM",
+        "value": 0,
+      }],
+      "output": "Number",
+      "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
+      "style": "math_blocks",
+      "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
+      "extensions": ["parent_tooltip_when_inline"]
+    });
   },
   /**
    * Create XML to represent whether the 'NUM' field is an angle.
@@ -340,7 +298,8 @@ Blockly.Blocks['pond_math_number'] = {
    */
   updateField_: function(isAngle) {
     Blockly.Events.disable();
-    const input = this.getInput('DUMMY');
+    // The implicitly-created dummy input.
+    const input = this.inputList[0];
     let field = this.getField('NUM');
     const value = field.getValue();
     if (isAngle) {
@@ -356,7 +315,7 @@ Blockly.Blocks['pond_math_number'] = {
       this.render();
     }
     Blockly.Events.enable();
-  }
+  },
 };
 
 Blockly.Blocks['pond_math_single'] = {
@@ -380,30 +339,19 @@ Blockly.Blocks['pond_math_single'] = {
             ["Math.asin_deg", "ASIN"],
             ["Math.acos_deg", "ACOS"],
             ["Math.atan_deg", "ATAN"],
-          ]
+          ],
         },
         {
           "type": "input_value",
           "name": "NUM",
           "check": "Number",
-        }
+        },
       ],
       "inputsInline": true,
       "output": "Number",
-      "colour": Blockly.Msg['MATH_HUE'],
-      "helpUrl": Blockly.Msg['MATH_SINGLE_HELPURL'],
-    });
-    this.setTooltip(() => {
-      return {
-        'ROOT': Blockly.Msg['MATH_SINGLE_TOOLTIP_ROOT'],
-        'ABS':  Blockly.Msg['MATH_SINGLE_TOOLTIP_ABS'],
-        'SIN':  Blockly.Msg['MATH_TRIG_TOOLTIP_SIN'],
-        'COS':  Blockly.Msg['MATH_TRIG_TOOLTIP_COS'],
-        'TAN':  Blockly.Msg['MATH_TRIG_TOOLTIP_TAN'],
-        'ASIN': Blockly.Msg['MATH_TRIG_TOOLTIP_ASIN'],
-        'ACOS': Blockly.Msg['MATH_TRIG_TOOLTIP_ACOS'],
-        'ATAN': Blockly.Msg['MATH_TRIG_TOOLTIP_ATAN'],
-      }[this.getFieldValue('OP')];
+      "style": "math_blocks",
+      "helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
+      "extensions": ["math_op_tooltip"],
     });
   }
 };
