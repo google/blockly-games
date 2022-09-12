@@ -68,28 +68,33 @@ def main():
   # Read and parse input file.
   data = loadJson(args.input_file)
 
+  # Fetch existing authors from qqq.json.
+  old_qqq = loadJson(os.path.join(args.output_dir, 'qqq.json'))
+  old_qqq_metadata = old_qqq['@metadata']
+
+  # Fetch existing timestamp from <language_file>.json.
+  old_lang = loadJson(os.path.join(args.output_dir, args.lang + '.json'))
+  old_lang_metadata = old_lang['@metadata']
+
   # Split the input data into two separate data structures.
   qqq = {
-    '@metadata': {
-      'authors': ['']
-    }
+    '@metadata': old_qqq_metadata
   }
   lang = {
-    '@metadata': {
-      'lastupdated': str(datetime.now()),
-      'locale': args.lang,
-      'messagedocumentation': 'qqq'
-    }
+    '@metadata': old_lang_metadata
   }
   for (key, datum) in data.items():
     qqq[key] = datum['desc']
     lang[key] = datum['msg']
 
   # Create qqq.json.
-  saveJson(args.output_dir, 'qqq', qqq)
+  if (json.dumps(old_qqq) != json.dumps(qqq)):
+    saveJson(args.output_dir, 'qqq', qqq)
 
   # Create <lang_file>.json.
-  saveJson(args.output_dir, args.lang, lang)
+  if (json.dumps(old_lang) != json.dumps(lang)):
+    lang['@metadata']['lastupdated'] = str(datetime.now())
+    saveJson(args.output_dir, args.lang, lang)
 
 
 def loadJson(filename):
@@ -102,7 +107,7 @@ def loadJson(filename):
 def saveJson(output_dir, lang_name, json_data):
   data = json.dumps(json_data, indent=4, ensure_ascii=False)
   data = re.sub('    ', '\t', data)
-  filename = os.path.join(os.curdir, output_dir, lang_name + '.json')
+  filename = os.path.join(output_dir, lang_name + '.json')
   file = codecs.open(filename, 'w', 'utf-8')
   print('Created file: ' + filename)
   file.write(data + '\n')
