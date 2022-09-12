@@ -17,12 +17,13 @@ goog.require('Blockly.Msg');
 
 /**
  * Lookup for names of languages.  Keys should be in ISO 639 format.
+ * @private
  */
-BlocklyGames.LANGUAGE_NAME = {
-//  'ace': 'بهسا اچيه',
+BlocklyGames.LANGUAGE_NAME_ = {
+//  'ace': 'بهسا اچيه',  // RTL
 //  'af': 'Afrikaans',
   'am': 'አማርኛ',
-  'ar': 'العربية',
+  'ar': 'العربية',  // RTL
 //  'az': 'Azərbaycanca',
   'be': 'беларускі',
   'be-tarask': 'Taraškievica',
@@ -39,7 +40,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'eo': 'Esperanto',
   'es': 'Español',
   'eu': 'Euskara',
-  'fa': 'فارسی',
+  'fa': 'فارسی',  // RTL
   'fi': 'Suomi',
   'fo': 'Føroyskt',
   'fr': 'Français',
@@ -47,7 +48,7 @@ BlocklyGames.LANGUAGE_NAME = {
   'gl': 'Galego',
   'ha': 'Hausa',
 //  'hak': '客家話',
-  'he': 'עברית',
+  'he': 'עברית',  // RTL
   'hi': 'हिन्दी',
   'hr': 'Hrvatski',
 //  'hrx': 'Hunsrik',
@@ -76,14 +77,14 @@ BlocklyGames.LANGUAGE_NAME = {
 //  'mr': 'मराठी',
   'ms': 'Bahasa Melayu',
   'my': 'မြန်မာစာ',
-//  'mzn': 'مازِرونی',
+//  'mzn': 'مازِرونی',  // RTL
   'nb': 'Norsk Bokmål',
   'nl': 'Nederlands, Vlaams',
 //  'oc': 'Lenga d\'òc',
 //  'pa': 'पंजाबी',
   'pl': 'Polski',
   'pms': 'Piemontèis',
-//  'ps': 'پښتو',
+//  'ps': 'پښتو',  // RTL
   'pt': 'Português',
   'pt-br': 'Português Brasileiro',
   'ro': 'Română',
@@ -104,7 +105,7 @@ BlocklyGames.LANGUAGE_NAME = {
 //  'tl': 'Tagalog',
   'tr': 'Türkçe',
   'uk': 'Українська',
-  'ur': 'اُردُو‬',
+  'ur': 'اُردُو‬',  // RTL
   'vi': 'Tiếng Việt',
   'yo': 'Èdè Yorùbá',
   'zh-hans': '简体中文',
@@ -113,8 +114,9 @@ BlocklyGames.LANGUAGE_NAME = {
 
 /**
  * List of RTL languages.
+ * @private
  */
-BlocklyGames.LANGUAGE_RTL = ['ace', 'ar', 'fa', 'he', 'mzn', 'ps', 'ur'];
+BlocklyGames.LANGUAGE_RTL_ = [/*'ace',*/ 'ar', 'fa', 'he', /*'mzn',*/ /*'ps',*/ 'ur'];
 
 /**
  * User's language (e.g. "en").
@@ -125,14 +127,15 @@ BlocklyGames.LANG = window['BlocklyGamesLang'];
 /**
  * List of languages supported by this app.  Values should be in ISO 639 format.
  * @type !Array<string>
+ * @private
  */
-BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
+BlocklyGames.LANGUAGES_ = window['BlocklyGamesLanguages'];
 
 /**
  * Is the current language (BlocklyGames.LANG) an RTL language?
  * @type boolean
  */
-BlocklyGames.IS_RTL = BlocklyGames.LANGUAGE_RTL.includes(BlocklyGames.LANG);
+BlocklyGames.IS_RTL = BlocklyGames.LANGUAGE_RTL_.includes(BlocklyGames.LANG);
 
 /**
  * Is the site being served as raw HTML files, as opposed to on App Engine.
@@ -143,16 +146,17 @@ BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
 /**
  * Report client-side errors back to the server.
  * @param {!ErrorEvent} event Error event.
+ * @private
  */
-BlocklyGames.errorReporter = function(event) {
+BlocklyGames.errorReporter_ = function(event) {
   try {
     //if (Math.random() > 0.5) return;
     // 3rd party script errors (likely plugins) have no useful info.
     if (!event.lineno && !event.colno) return;
     // Rate-limit the reports to once every 10 seconds.
     const now = Date.now();
-    if (BlocklyGames.errorReporter.lastHit_ + 10 * 1000 > now) return;
-    BlocklyGames.errorReporter.lastHit_ = now;
+    if (BlocklyGames.errorReporter_.lastHit_ + 10 * 1000 > now) return;
+    BlocklyGames.errorReporter_.lastHit_ = now;
     const req = new XMLHttpRequest();
     // Try to use the experimental 'event.error.stack',
     // otherwise, use standard properties.
@@ -169,9 +173,9 @@ BlocklyGames.errorReporter = function(event) {
     console.log(event.error);
   }
 };
-BlocklyGames.errorReporter.lastHit_ = 0;
+BlocklyGames.errorReporter_.lastHit_ = 0;
 if (!BlocklyGames.IS_HTML) {
-  window.addEventListener('error', BlocklyGames.errorReporter);
+  window.addEventListener('error', BlocklyGames.errorReporter_);
 }
 
 /**
@@ -236,8 +240,8 @@ BlocklyGames.init = function(title) {
   if (languageMenu) {
     // Sort languages alphabetically.
     const languages = [];
-    for (const lang of BlocklyGames.LANGUAGES) {
-      languages.push([BlocklyGames.LANGUAGE_NAME[lang], lang]);
+    for (const lang of BlocklyGames.LANGUAGES_) {
+      languages.push([BlocklyGames.LANGUAGE_NAME_[lang], lang]);
     }
     const comp = function(a, b) {
       // Sort based on first argument ('English', 'Русский', '简体字', etc).
@@ -290,13 +294,13 @@ BlocklyGames.init = function(title) {
  */
 BlocklyGames.callWhenLoaded = function(init) {
   function go() {
-    if (!window["BlocklyGamesMsg"]) {
+    if (!window['BlocklyGamesMsg']) {
       // Messages haven't arrived yet.  Try again later.
       setTimeout(go, 99);
       return;
     }
-    if (window["BlocklyMsg"]) {
-      Blockly.Msg = window["BlocklyMsg"];
+    if (window['BlocklyMsg']) {
+      Blockly.Msg = window['BlocklyMsg'];
     }
     init();
   }
@@ -385,14 +389,14 @@ BlocklyGames.normalizeAngle = function(angle) {
  * @returns {string} Message string (e.g. 'Want to start over?').
  */
 BlocklyGames.getMsg = function(name, escape) {
-  let msg = window["BlocklyGamesMsg"][name];
+  let msg = window['BlocklyGamesMsg'][name];
   if (msg === undefined) {
     msg = '[Unknown message: ${name}]';
   }
   return escape ? BlocklyGames.esc(msg) : msg;
 };
 // Assign this function to a known name so compress.py can find all calls to it.
-window["BlocklyGamesGetMsg"] = BlocklyGames.getMsg;
+window['BlocklyGamesGetMsg'] = BlocklyGames.getMsg;
 
 /**
  * Escape HTML to make the text safe.
