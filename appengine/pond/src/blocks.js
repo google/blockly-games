@@ -238,7 +238,7 @@ Blockly.Blocks['pond_math_number'] = {
       }],
       "output": "Number",
       "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
-      "style": "math_blocks",
+      "colour": "%{BKY_MATH_HUE}",
       "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
       "extensions": ["parent_tooltip_when_inline"]
     });
@@ -349,7 +349,7 @@ Blockly.Blocks['pond_math_single'] = {
       ],
       "inputsInline": true,
       "output": "Number",
-      "style": "math_blocks",
+      "colour": "%{BKY_MATH_HUE}",
       "helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
       "extensions": ["math_op_tooltip"],
     });

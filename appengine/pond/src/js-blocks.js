@@ -130,7 +130,7 @@ Blockly.Blocks['logic_compare'].init = function() {
     ],
     "inputsInline": true,
     "output": "Boolean",
-    "style": "logic_blocks",
+    "colour": "%{BKY_LOGIC_HUE}",
     "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
     "extensions": ["logic_compare", "logic_op_tooltip"],
   });
@@ -154,7 +154,7 @@ Blockly.Blocks['logic_boolean'].init = function() {
       },
     ],
     "output": "Boolean",
-    "style": "logic_blocks",
+    "colour": "%{BKY_LOGIC_HUE}",
     "tooltip": "%{BKY_LOGIC_BOOLEAN_TOOLTIP}",
     "helpUrl": "%{BKY_LOGIC_BOOLEAN_HELPURL}",
   });
@@ -189,7 +189,7 @@ Blockly.Blocks['logic_operation'].init = function() {
     ],
     "inputsInline": true,
     "output": "Boolean",
-    "style": "logic_blocks",
+    "colour": "%{BKY_LOGIC_HUE}",
     "helpUrl": "%{BKY_LOGIC_OPERATION_HELPURL}",
     "extensions": ["logic_op_tooltip"],
   });
@@ -219,7 +219,7 @@ Blockly.Blocks['controls_whileUntil'].init = function() {
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "tooltip": "%{BKY_CONTROLS_WHILEUNTIL_TOOLTIP_WHILE}",
     "helpUrl": "%{BKY_CONTROLS_WHILEUNTIL_HELPURL}",
   });
@@ -256,7 +256,7 @@ Blockly.Blocks['math_arithmetic'].init = function() {
     ],
     "inputsInline": true,
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_ARITHMETIC_HELPURL}",
     "extensions": ["math_op_tooltip"],
   });
@@ -284,7 +284,7 @@ Blockly.Blocks['math_change'].init = function() {
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "style": "variable_blocks",
+    "colour": "%{BKY_VARIABLES_HUE}",
     "helpUrl": "%{BKY_MATH_CHANGE_HELPURL}",
     "extensions": ["math_change_tooltip"],
   });
@@ -310,7 +310,7 @@ Blockly.Blocks['math_random_float'].init = function() {
   this.jsonInit({
     "message0": "Math.random  (  )",
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_RANDOM_FLOAT_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_RANDOM_FLOAT_HELPURL}",
   });
