@@ -70,7 +70,6 @@ deps:
 	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
 	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
 	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/externs/ $(APP_ENGINE_THIRD_PARTY)/blockly/externs
 	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
 	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
 	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
