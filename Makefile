@@ -2,8 +2,6 @@
 # Definitions
 ##############################
 
-APP_ENGINE_THIRD_PARTY = appengine/third-party
-
 REQUIRED_BINS = svn wget java python sed
 
 ##############################
@@ -62,32 +60,28 @@ deps:
 	wget -N https://unpkg.com/google-closure-compiler-java/compiler.jar; \
 	mv -f compiler.jar closure-compiler.jar; \
 
-	mkdir -p $(APP_ENGINE_THIRD_PARTY)
+	mkdir -p appengine/third-party
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
-	mv babel.min.js $(APP_ENGINE_THIRD_PARTY)/
+	mv babel.min.js appengine/third-party/
 	@# GitHub doesn't support git archive, so download files using svn.
-	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ $(APP_ENGINE_THIRD_PARTY)/ace
-	mkdir -p $(APP_ENGINE_THIRD_PARTY)/blockly
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/blocks/ $(APP_ENGINE_THIRD_PARTY)/blockly/blocks
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/core/ $(APP_ENGINE_THIRD_PARTY)/blockly/core
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/generators/ $(APP_ENGINE_THIRD_PARTY)/blockly/generators
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/media/ $(APP_ENGINE_THIRD_PARTY)/blockly/media
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/msg/ $(APP_ENGINE_THIRD_PARTY)/blockly/msg
-	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ $(APP_ENGINE_THIRD_PARTY)/SoundJS
-	cp third-party/base.js $(APP_ENGINE_THIRD_PARTY)/
-	cp -R third-party/soundfonts $(APP_ENGINE_THIRD_PARTY)/
+	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ appengine/third-party/ace
+	mkdir -p appengine/third-party/blockly
+	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/ appengine/third-party/blockly
+	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ appengine/third-party/SoundJS
+	cp third-party/base.js appengine/third-party/
+	cp -R third-party/soundfonts appengine/third-party/
 
-	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter
+	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ appengine/third-party/JS-Interpreter
 	@# Remove @license tag so compiler will strip Google's license.
-	sed 's/@license//' $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter.js > $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
+	sed 's/@license//' appengine/third-party/JS-Interpreter/interpreter.js > appengine/third-party/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\
 	  --language_in ECMASCRIPT5\
-	  --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/acorn.js\
-	  --js $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js\
-	  --js_output_file $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/compressed.js
-	rm $(APP_ENGINE_THIRD_PARTY)/JS-Interpreter/interpreter_.js
+	  --js appengine/third-party/JS-Interpreter/acorn.js\
+	  --js appengine/third-party/JS-Interpreter/interpreter_.js\
+	  --js_output_file appengine/third-party/JS-Interpreter/compressed.js
+	rm appengine/third-party/JS-Interpreter/interpreter_.js
 
 offline: clean-offline
 	mkdir offline
@@ -137,7 +131,7 @@ clean-offline:
 	rm -rf offline/
 
 clean-deps:
-	rm -rf $(APP_ENGINE_THIRD_PARTY)
+	rm -rf appengine/third-party
 	rm -rf third-party-downloads
 
 # Prevent non-traditional rules from exiting with no changes.
