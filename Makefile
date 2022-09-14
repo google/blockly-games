@@ -52,11 +52,9 @@ common:
 deps:
 	$(foreach bin,$(REQUIRED_BINS),\
 	    $(if $(shell command -v $(bin) 2> /dev/null),$(info Found `$(bin)`),$(error Please install `$(bin)`)))
-	mkdir -p third-party-downloads
-	@# All following commands are in third-party-downloads, use backslashes to keep them on the same line as the cd command.
-	cd third-party-downloads; \
-	wget -N https://unpkg.com/google-closure-compiler-java/compiler.jar; \
-	mv -f compiler.jar closure-compiler.jar; \
+	mkdir -p build/third-party-downloads
+	wget -N https://unpkg.com/google-closure-compiler-java/compiler.jar;
+	mv -f compiler.jar build/third-party-downloads/closure-compiler.jar;
 
 	mkdir -p appengine/third-party
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
@@ -73,7 +71,7 @@ deps:
 	@# Remove @license tag so compiler will strip Google's license.
 	sed 's/@license//' appengine/third-party/JS-Interpreter/interpreter.js > appengine/third-party/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
-	java -jar third-party-downloads/closure-compiler.jar\
+	java -jar build/third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\
 	  --language_in ECMASCRIPT5\
 	  --js appengine/third-party/JS-Interpreter/acorn.js\
@@ -130,7 +128,7 @@ clean-offline:
 
 clean-deps:
 	rm -rf appengine/third-party
-	rm -rf third-party-downloads
+	rm -rf build/third-party-downloads
 
 # Prevent non-traditional rules from exiting with no changes.
 .PHONY: deps
