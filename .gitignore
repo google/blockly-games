@@ -8,6 +8,6 @@ appengine/src/
 appengine/*/src/
 appengine/*/*/src/
 appengine/third-party/
-third-party-downloads/*
+build/third-party-downloads/
 /offline
 /node_modules

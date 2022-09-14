@@ -140,8 +140,7 @@ def generate_uncompressed(gameName):
       '--root=appengine/generated/',
       '--root=appengine/src/',
       '--exclude=',
-      '--namespace=%s' % gameName.replace('/', '.').title(),
-      '--output_mode=list']
+      '--namespace=%s' % gameName.replace('/', '.').title()]
   directory = gameName
   while directory:
     subdir = 'appengine/%s/generated/' % directory
@@ -198,7 +197,7 @@ window.CLOSURE_NO_DEPS = true;
 def generate_compressed(gameName):
   cmd = [
     'java',
-    '-jar', 'third-party-downloads/closure-compiler.jar',
+    '-jar', 'build/third-party-downloads/closure-compiler.jar',
     '--generate_exports',
     '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
     '--dependency_mode=PRUNE',

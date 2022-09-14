@@ -38,7 +38,6 @@ import os
 import sys
 
 import depstree
-import jscompiler
 import source
 import treescan
 
@@ -73,45 +72,11 @@ def _GetOptionsParser():
                     default=[],
                     help='The paths that should be traversed to build the '
                     'dependencies.')
-  parser.add_option(
-      '-e',
-      '--exclude',
-      dest='excludes',
-      action='append',
-      help='Files to exclude from the --root flag.')
-  parser.add_option('-o',
-                    '--output_mode',
-                    dest='output_mode',
-                    type='choice',
-                    action='store',
-                    choices=['list', 'script', 'compiled'],
-                    default='list',
-                    help='The type of output to generate from this script. '
-                    'Options are "list" for a list of filenames, "script" '
-                    'for a single script containing the contents of all the '
-                    'files, or "compiled" to produce compiled output with '
-                    'the Closure Compiler.  Default is "list".')
-  parser.add_option('-c',
-                    '--compiler_jar',
-                    dest='compiler_jar',
-                    action='store',
-                    help='The location of the Closure compiler .jar file.')
-  parser.add_option('-f',
-                    '--compiler_flags',
-                    dest='compiler_flags',
-                    default=[],
+  parser.add_option('-e',
+                    '--exclude',
+                    dest='excludes',
                     action='append',
-                    help='Additional flags to pass to the Closure compiler. '
-                    'To pass multiple flags, --compiler_flags has to be '
-                    'specified multiple times.')
-  parser.add_option('-j',
-                    '--jvm_flags',
-                    dest='jvm_flags',
-                    default=[],
-                    action='append',
-                    help='Additional flags to pass to the JVM compiler. '
-                    'To pass multiple flags, --jvm_flags has to be '
-                    'specified multiple times.')
+                    help='Files to exclude from the --root flag.')
   parser.add_option('--output_file',
                     dest='output_file',
                     action='store',
@@ -257,45 +222,7 @@ def main():
   base = _GetClosureBaseFile(sources)
   deps = [base] + tree.GetDependencies(input_namespaces)
 
-  output_mode = options.output_mode
-  if output_mode == 'list':
-    out.writelines([js_source.GetPath() + '\n' for js_source in deps])
-  elif output_mode == 'script':
-    for js_source in deps:
-      src = js_source.GetSource()
-      if js_source.is_goog_module:
-        src = _WrapGoogModuleSource(src)
-      out.write(src.encode('utf-8') + b'\n')
-  elif output_mode == 'compiled':
-    logging.warning("""\
-Closure Compiler now natively understands and orders Closure dependencies and
-is preferred over using this script for performing JavaScript compilation.
-
-Please migrate your codebase.
-
-See:
-https://github.com/google/closure-compiler/wiki/Managing-Dependencies
-""")
-
-    # Make sure a .jar is specified.
-    if not options.compiler_jar:
-      logging.error('--compiler_jar flag must be specified if --output is '
-                    '"compiled"')
-      sys.exit(2)
-
-    # Will throw an error if the compilation fails.
-    compiled_source = jscompiler.Compile(options.compiler_jar,
-                                         [js_source.GetPath()
-                                          for js_source in deps],
-                                         jvm_flags=options.jvm_flags,
-                                         compiler_flags=options.compiler_flags)
-
-    logging.info('JavaScript compilation succeeded.')
-    out.write(compiled_source.encode('utf-8'))
-
-  else:
-    logging.error('Invalid value for --output flag.')
-    sys.exit(2)
+  out.writelines([js_source.GetPath() + '\n' for js_source in deps])
 
 
 if __name__ == '__main__':
