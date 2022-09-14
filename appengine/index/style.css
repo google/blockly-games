@@ -166,7 +166,6 @@ a:hover > text {
 @keyframes pop {
   from {
     transform: translate(150px, 50px) scale(0);
-    visibility: visible;
   }
   to {
     transform: translate(0, 0) scale(1);

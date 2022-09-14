@@ -269,11 +269,13 @@ function drawMap() {
 
   // Add worm.
   if (MAP.worm) {
-    const wormImage = Blockly.utils.dom.createSvgElement('image', {
+    const wormGroup = Blockly.utils.dom.createSvgElement('g', {
         'id': 'worm',
+      }, svg);
+    const wormImage = Blockly.utils.dom.createSvgElement('image', {
         'height': WORM_ICON_SIZE,
         'width': WORM_ICON_SIZE,
-      }, svg);
+      }, wormGroup);
     wormImage.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         'bird/worm.png');
   }
@@ -568,13 +570,12 @@ function reset(first) {
 
 
   // Move the worm into position.
-  const wormImage = document.getElementById('worm');
-  if (wormImage) {
-    wormImage.setAttribute('x',
-        MAP.worm.x / 100 * MAP_SIZE - WORM_ICON_SIZE / 2);
-    wormImage.setAttribute('y',
-        (1 - MAP.worm.y / 100) * MAP_SIZE - WORM_ICON_SIZE / 2);
-    wormImage.style.visibility = 'visible';
+  const wormGroup = document.getElementById('worm');
+  if (wormGroup) {
+    const x = MAP.worm.x / 100 * MAP_SIZE - WORM_ICON_SIZE / 2;
+    const y = (1 - MAP.worm.y / 100) * MAP_SIZE - WORM_ICON_SIZE / 2;
+    wormGroup.setAttribute('transform', `translate(${x} ${y})`);
+    Blockly.utils.dom.removeClass(wormGroup, 'eaten');
   }
   // Move the nest into position.
   const nestImage = document.getElementById('nest');
@@ -749,8 +750,7 @@ function animate() {
     [, pos.x, pos.y, angle] = action;
     displayBird(action[0] === 'move' ? Pose.FLAP : Pose.SOAR);
   } else if (action[0] === 'worm') {
-    const worm = document.getElementById('worm');
-    worm.style.visibility = 'hidden';
+    Blockly.utils.dom.addClass(document.getElementById('worm'), 'eaten');
   } else if (action[0] === 'finish') {
     displayBird(Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
