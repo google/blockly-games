@@ -28,6 +28,19 @@ img[src$="help_up.png"] {
   width: 23px;
 }
 
+@keyframes eat {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(50px, 50px) scale(0);
+  }
+}
+
+#worm.eaten>image {
+  animation: eat .2s linear forwards;
+}
+
 /* Buttons */
 button.primary {
   /* Can't use "text-align: start" due to IE. */

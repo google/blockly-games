@@ -85,7 +85,7 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
                            BlocklyDialogs.dialogMouseDown_);
   }
   dialog.appendChild(content);
-  content.className = content.className.replace('dialogHiddenContent', '');
+  content.classList.remove('dialogHiddenContent');
 
   function endResult() {
     // Check that the dialog wasn't closed during opening.
@@ -238,7 +238,7 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
   }
   while (dialog.firstChild) {
     const content = dialog.firstChild;
-    content.className += ' dialogHiddenContent';
+    content.classList.add('dialogHiddenContent');
     document.body.appendChild(content);
   }
 };

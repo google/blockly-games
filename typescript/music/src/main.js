@@ -313,7 +313,7 @@ function drawNote(i, time, pitch, duration, className) {
   const img = document.createElement('img');
   const name = (pitch === REST ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
-  img.className = className + ' ' + name;
+  img.classList.add(name);
   img.style.top = top + 'px';
   img.style.left = left + 'px';
   if (pitch !== REST) {
@@ -332,8 +332,7 @@ function drawNote(i, time, pitch, duration, className) {
   if (pitch === '0' || pitch === '12') {
     const line = document.createElement('img');
     line.src = 'music/black1x1.gif';
-    line.className = className +
-        (duration === 1 ? ' ledgerLineWide' : ' ledgerLine');
+    line.classList.add(duration === 1 ? ' ledgerLineWide' : ' ledgerLine');
     line.style.top = (top + 32) + 'px';
     line.style.left = (left - 5) + 'px';
     musicContainer.appendChild(line);
