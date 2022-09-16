@@ -104,7 +104,6 @@ offline: clean-offline
 	mv offline/soundjs.min.js offline/blockly-games/third-party/SoundJS/
 
 	mv offline/blockly-games/third-party/blockly/media/ offline/
-	rm -f offline/media/{pilcrow.png,sprites.svg}
 	rm -rf offline/blockly-games/third-party/blockly/*
 	mv offline/media/ offline/blockly-games/third-party/blockly/
 
