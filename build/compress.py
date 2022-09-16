@@ -114,11 +114,11 @@ def language(gameName, lang):
   bMsgs = []
   bgMsgs = []
   for msg in msgs:
-    m = re.search('window\["BlocklyMsg"\]\["([^"]+)"\] = (.*);\s*', msg)
+    m = re.search('BlocklyMsg\["([^"]+)"\] = (.*);\s*', msg)
     if m and m.group(1) in blocklyMessageNames:
       # Blockly message names are all alphabetic, no need to quote.
       bMsgs.append('%s:%s' % (m.group(1), m.group(2)))
-    m = re.search('window\["BlocklyGamesMsg"\]\["([^"]+)"\] = (.*);\s*', msg)
+    m = re.search('BlocklyGamesMsg\["([^"]+)"\] = (.*);\s*', msg)
     if m and m.group(1) in blocklyGamesMessageNames:
       # Blockly Games message names contain dots, quotes required.
       bgMsgs.append('"%s":%s' % (m.group(1), m.group(2)))
@@ -128,9 +128,9 @@ def language(gameName, lang):
   f = open('appengine/%s/generated/msg/%s.js' % (gameName, lang), 'w')
   f.write(WARNING)
   if bMsgs:
-    f.write('window["BlocklyMsg"]={%s}\n' % ','.join(bMsgs))
+    f.write('var BlocklyMsg={%s}\n' % ','.join(bMsgs))
   if bgMsgs:
-    f.write('window["BlocklyGamesMsg"]={%s}\n' % ','.join(bgMsgs))
+    f.write('var BlocklyGamesMsg={%s}\n' % ','.join(bgMsgs))
   f.close()
 
 
