@@ -57,17 +57,19 @@ def get_prefix_counts(filename):
   prefixes = {}
   f = open(filename)
   keys = json.load(f)
+  if '@metadata' in keys:
+    del keys['@metadata']
   total = 0
   for key in keys:
-    prefix = key.split('.')[0]
-    if prefix != '@metadata':
+    if key.endswith('Tooltip'):
+      weight = .2
+    elif key.endswith('HelpUrl'):
+      weight = .1
+    else:
       weight = 1
-      if key.endswith('Tooltip'):
-        weight = .2
-      elif key.endswith('HelpUrl'):
-        weight = .1
-      prefixes[prefix] = prefixes.get(prefix, 0) + weight
-      total += weight
+    prefix = key.split('.')[0]
+    prefixes[prefix] = prefixes.get(prefix, 0) + weight
+    total += weight
   f.close()
   prefixes['ALL'] = total
   return prefixes
