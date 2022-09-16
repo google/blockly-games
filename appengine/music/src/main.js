@@ -437,7 +437,7 @@ function disableExtraStarts(e) {
   const maxStarts = expectedAnswer ? expectedAnswer.length : 4;
   const oldStartCount = Music.startCount.get();
 
-  if (e instanceof Blockly.Events.Create) {
+  if (e instanceof Blockly.Events.BlockCreate) {
     const startBlocks = [];
     const blocks = BlocklyInterface.workspace.getTopBlocks(false);
     for (const block of blocks) {
@@ -463,7 +463,7 @@ function disableExtraStarts(e) {
     } else {
       Music.startCount.set(startBlocks.length);
     }
-  } else if (e instanceof Blockly.Events.Delete) {
+  } else if (e instanceof Blockly.Events.BlockDelete) {
     const startBlocksEnabled = [];
     const startBlocksDisabled = [];
     const blocks = BlocklyInterface.workspace.getTopBlocks(true);
