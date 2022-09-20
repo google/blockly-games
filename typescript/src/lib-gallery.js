@@ -103,7 +103,8 @@ BlocklyGallery.gallerySubmit_ = function() {
 
   const form = BlocklyGames.getElementById('galleryForm');
   const onSuccess = function() {
-    BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games.submitted', false));
+    BlocklyDialogs.storageAlert(null,
+        BlocklyGames.getMsg('Games.submitted', false));
   };
   BlocklyGallery.makeFormRequest_(form, onSuccess);
   BlocklyDialogs.hideDialog(true);

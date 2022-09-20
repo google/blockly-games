@@ -15,6 +15,7 @@ goog.provide('Movie');
 goog.require('Blockly.Comment');
 goog.require('Blockly.FieldColour');
 goog.require('Blockly.FlyoutButton');
+goog.require('Blockly.JavaScript');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.Coordinate');
@@ -59,7 +60,6 @@ let frameNumber = 0;
 
 let ctxDisplay;
 let ctxScratch;
-let frameScrubber;
 
 /**
  * Initialize Blockly and the movie.  Called on page load.
@@ -135,7 +135,7 @@ function init() {
 
   // Initialize the scrubber.
   const scrubberSvg = BlocklyGames.getElementById('scrubber');
-  frameScrubber = new Scrubber(scrubberSvg, display, checkAnswers);
+  new Scrubber(scrubberSvg, display, checkAnswers);
   if (BlocklyGames.LEVEL === 1) {
     scrubberSvg.style.display = 'none';
   }

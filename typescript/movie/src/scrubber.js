@@ -15,6 +15,7 @@ goog.provide('Scrubber');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
 goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 
 
 Scrubber = class {
@@ -24,7 +25,8 @@ Scrubber = class {
    * @param {!Function} changeFunc Callback function that will be called
    *     when the scrubber is moved.  The current value is passed.
    * @param {!Function} stopFunc Callback function that will be called
-   *     when the scrubber stops moving.   */
+   *     when the scrubber stops moving.
+   */
   constructor(svgParent, changeFunc, stopFunc) {
     this.KNOB_MIN_X_ = 42;
     this.KNOB_MAX_X_ = 328;
@@ -237,7 +239,7 @@ Scrubber = class {
       Scrubber.touchToMouse_(e);
     }
     const x = this.mouseToSvg_(e).x;
-    this.animateValue((x - this.KNOB_MIN_X_) /
+    this.animateValue_((x - this.KNOB_MIN_X_) /
         (this.KNOB_MAX_X_ - this.KNOB_MIN_X_));
   }
 
@@ -263,14 +265,15 @@ Scrubber = class {
       if (this.getValue() >= 1) {
         this.setValue(0);
       }
-      this.nextFrame();
+      this.nextFrame_();
     }
   };
 
   /**
    * Start the visualization running.
+   * @private
    */
-  nextFrame() {
+  nextFrame_() {
     const value = this.getValue();
     if (value >= 1) {
       this.playPause_();
@@ -281,7 +284,7 @@ Scrubber = class {
     const now = Date.now();
     const workTime = now - this.lastFrame_ - this.lastDelay_;
     const delay = Math.max(1, (1000 / this.FPS) - workTime);
-    this.playPid_ = setTimeout(() => this.nextFrame(), delay);
+    this.playPid_ = setTimeout(() => this.nextFrame_(), delay);
     this.lastFrame_ = now;
     this.lastDelay_ = delay;
   }
@@ -297,8 +300,9 @@ Scrubber = class {
   /**
    * Animates the slider's value (0.0 - 1.0).
    * @param {number} value New value.
+   * @private
    */
-  animateValue(value) {
+  animateValue_(value) {
     // Clear any ongoing animations.
     this.animationTasks_.forEach(clearTimeout);
     this.animationTasks_ = [];
@@ -376,6 +380,7 @@ Scrubber = class {
   /**
    * Map the touch event's properties to be compatible with a mouse event.
    * @param {TouchEvent} e Event to modify.
+   * @private
    */
   static touchToMouse_(e) {
     const touchPoint = e.changedTouches[0];

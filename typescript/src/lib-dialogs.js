@@ -78,7 +78,8 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     throw TypeError('Content not found: ' + content);
   }
   const buttons = content.getElementsByClassName('addHideHandler');
-  for (const button of buttons) {
+  var button;
+  while ((button = buttons[0])) {
     button.addEventListener('click', BlocklyDialogs.hideDialog, true);
     button.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
     button.classList.remove('addHideHandler');
