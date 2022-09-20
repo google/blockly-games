@@ -6,7 +6,7 @@
  */
 
 /**
- * @fileoverview Music pitch input field. Borrowed from Blockly Games.
+ * @fileoverview Music pitch input field.  Shared with Blockly Samples.
  * @author fraser@google.com (Neil Fraser)
  * @author samelh@google.com (Sam El-Husseini)
  */
@@ -17,6 +17,7 @@ goog.provide('CustomFields.FieldPitch');
 goog.require('Blockly.FieldTextInput');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.object');
+
 
 var CustomFields = CustomFields || {};
 

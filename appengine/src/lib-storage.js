@@ -131,7 +131,7 @@ BlocklyStorage.alert_ = function(message) {
   // Try to use a nice dialog.
   // Fall back to browser's alert() if BlocklyDialogs is not part of build.
   if (typeof BlocklyDialogs === 'object') {
-    const linkButton = document.getElementById('linkButton');
+    const linkButton = BlocklyGames.getElementById('linkButton');
     BlocklyDialogs.storageAlert(linkButton, message);
   } else {
     alert(message);

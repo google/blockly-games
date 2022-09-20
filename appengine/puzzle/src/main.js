@@ -13,6 +13,7 @@
 goog.provide('Puzzle');
 
 goog.require('Blockly.utils.math');
+goog.require('Blockly.Xml');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -35,7 +36,7 @@ function init() {
   BlocklyInterface.init(BlocklyGames.getMsg('Games.puzzle', false));
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
   const onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
@@ -184,7 +185,7 @@ function checkAnswers() {
     }
   }
 
-  const graphValue = document.getElementById('graphValue');
+  const graphValue = BlocklyGames.getElementById('graphValue');
   setTimeout(function() {
       graphValue.style.width =
           (100 * (blocks.length - errors) / blocks.length) + 'px';
@@ -204,7 +205,7 @@ function checkAnswers() {
     BlocklyInterface.executedCode = BlocklyInterface.getCode();
     BlocklyInterface.saveToLocalStorage();
   }
-  const textDiv = document.getElementById('answerMessage');
+  const textDiv = BlocklyGames.getElementById('answerMessage');
   textDiv.textContent = '';
   for (const message of messages) {
     const line = document.createElement('div');
@@ -212,8 +213,8 @@ function checkAnswers() {
     textDiv.appendChild(line);
   }
 
-  const content = document.getElementById('answers');
-  const button = document.getElementById('checkButton');
+  const content = BlocklyGames.getElementById('answers');
+  const button = BlocklyGames.getElementById('checkButton');
   const style = {
     width: '25%',
     left: BlocklyGames.IS_RTL ? '5%' : '70%',
@@ -378,8 +379,8 @@ function showHelp(animate) {
       '</xml>'];
   BlocklyInterface.injectReadonly('sample', xml);
 
-  const help = document.getElementById('help');
-  const button = document.getElementById('helpButton');
+  const help = BlocklyGames.getElementById('help');
+  const button = BlocklyGames.getElementById('helpButton');
   const style = {
     width: '50%',
     left: '25%',

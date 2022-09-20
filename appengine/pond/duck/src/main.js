@@ -15,6 +15,7 @@ goog.provide('Pond.Duck');
 goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
+goog.require('Blockly.Xml');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyAce');
 goog.require('BlocklyDialogs');
@@ -92,10 +93,10 @@ function init() {
   }
 
   const rtl = BlocklyGames.IS_RTL;
-  const visualization = document.getElementById('visualization');
-  const tabDiv = document.getElementById('tabarea');
-  const blocklyDiv = document.getElementById('blockly');
-  const editorDiv = document.getElementById('editor');
+  const visualization = BlocklyGames.getElementById('visualization');
+  const tabDiv = BlocklyGames.getElementById('tabarea');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const editorDiv = BlocklyGames.getElementById('editor');
   const divs = [blocklyDiv, editorDiv];
   const onresize = function(e) {
     const top = visualization.offsetTop;
@@ -135,7 +136,7 @@ function init() {
     new Blockly.utils.Coordinate(20, 20),
     new Blockly.utils.Coordinate(80, 20),
   ];
-  const avatarSelect = document.getElementById('avatar-select');
+  const avatarSelect = BlocklyGames.getElementById('avatar-select');
   for (let i = 0; i < duckData.length; i++) {
     const duckDatum = duckData[i];
     if (duckDatum['name'] === null) {
@@ -168,7 +169,7 @@ function init() {
 function changeAvatar() {
   ignoreEditorChanges_ = true;
 
-  const avatarSelect = document.getElementById('avatar-select');
+  const avatarSelect = BlocklyGames.getElementById('avatar-select');
   const i = avatarSelect.selectedIndex;
   if (Pond.currentAvatar === Pond.Battle.AVATARS[i]) {
     return;
@@ -219,15 +220,15 @@ function changeTab(index) {
   // Show the correct tab contents.
   const names = ['blockly', 'editor'];
   for (let i = 0; i < names.length; i++) {
-    const div = document.getElementById(names[i]);
+    const div = BlocklyGames.getElementById(names[i]);
     div.style.visibility = (i === index) ? 'visible' : 'hidden';
   }
   Blockly.hideChaff(false);
   // Synchronize the documentation popup.
-  document.getElementById('docsButton').disabled = false;
+  BlocklyGames.getElementById('docsButton').disabled = false;
   BlocklyGames.LEVEL = (index === tabIndex.BLOCKS) ? 11 : 12;
   if (Pond.isDocsVisible_) {
-    document.getElementById('frameDocs').src =
+    BlocklyGames.getElementById('frameDocs').src =
         `pond/docs.html?lang=${BlocklyGames.LANG}&mode=${BlocklyGames.LEVEL}`;
   }
   // Synchronize the JS editor.

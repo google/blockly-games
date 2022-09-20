@@ -49,9 +49,9 @@ function init() {
   }
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
-  const editorDiv = document.getElementById('editor');
-  const visualization = document.getElementById('visualization');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const editorDiv = BlocklyGames.getElementById('editor');
+  const visualization = BlocklyGames.getElementById('visualization');
   let onresize;
 
   if (blocklyDiv) {
@@ -110,7 +110,7 @@ function init() {
   if (editorDiv) {
     BlocklyInterface.blocksDisabled = true;
     // Remove the container for source code in the 'done' dialog.
-    const containerCode = document.getElementById('containerCode');
+    const containerCode = BlocklyGames.getElementById('containerCode');
     containerCode.parentNode.removeChild(containerCode);
 
     let defaultCode;
@@ -143,7 +143,7 @@ function init() {
     const avatar = new Pond.Avatar(avatarDatum.name, avatarDatum.start,
         avatarDatum.damage, !avatarDatum.code, Pond.Battle);
     if (avatarDatum.code) {
-      const div = document.getElementById(avatarDatum.code);
+      const div = BlocklyGames.getElementById(avatarDatum.code);
       const code = div.textContent;
       avatar.setCode(undefined, code, code);
     } else {
@@ -345,7 +345,7 @@ Pond.endBattle = function(survivors) {
           Pond.Battle.ticks > 200000) {
         // Avatar just pinged Pendulum to death with fixed range.
         // Use 'scan', dummy.
-        const content = document.getElementById('helpUseScan');
+        const content = BlocklyGames.getElementById('helpUseScan');
         const style = {
           'width': '30%',
           'left': '35%',

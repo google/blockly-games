@@ -45,7 +45,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', t
   </tr>
 </table>
 
-${Bird.html.toolbox(ij.level)}
+${Bird.html.toolbox_(ij.level)}
 <div id="blockly"></div>
 
 ${BlocklyGames.html.dialog()}
@@ -53,7 +53,7 @@ ${BlocklyGames.html.doneDialog()}
 ${BlocklyGames.html.abortDialog()}
 ${BlocklyGames.html.storageDialog()}
 
-${Bird.html.helpDialogs()}
+${Bird.html.helpDialogs_()}
 `;
 };
 
@@ -61,8 +61,9 @@ ${Bird.html.helpDialogs()}
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
  * @returns {string} HTML.
+ * @private
  */
-Bird.html.toolbox = function(level) {
+Bird.html.toolbox_ = function(level) {
   let xml = '<block type="bird_heading"></block>\n';
   if (level >= 2) {
     xml += `<block type="bird_noWorm" disabled="${level === 4 || level === 5}"></block>\n`;
@@ -110,8 +111,9 @@ Bird.html.toolbox = function(level) {
 /**
  * Help dialogs for each level.
  * @returns {string} HTML.
+ * @private
  */
-Bird.html.helpDialogs = function() {
+Bird.html.helpDialogs_ = function() {
     return `
 <div id="dialogHelp1" class="dialogHiddenContent">
   <table><tr><td rowspan=2>

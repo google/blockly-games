@@ -144,6 +144,12 @@ BlocklyGames.IS_RTL = BlocklyGames.LANGUAGE_RTL_.includes(BlocklyGames.LANG);
 BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
 
 /**
+ * 'document.getElementById' can't be compressed by the compiler,
+ * so centralize all such calls here.  Saves 1-2 KB per game.
+ */
+BlocklyGames.getElementById = document.getElementById;
+
+/**
  * Report client-side errors back to the server.
  * @param {!ErrorEvent} event Error event.
  * @private
@@ -236,7 +242,7 @@ BlocklyGames.init = function(title) {
   document.head.parentElement.setAttribute('lang', BlocklyGames.LANG);
 
   // Populate the language selection menu.
-  const languageMenu = document.getElementById('languageMenu');
+  const languageMenu = BlocklyGames.getElementById('languageMenu');
   if (languageMenu) {
     // Sort languages alphabetically.
     const languages = [];
@@ -266,7 +272,7 @@ BlocklyGames.init = function(title) {
 
   // Highlight levels that have been completed.
   for (let i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
-    const link = document.getElementById('level' + i);
+    const link = BlocklyGames.getElementById('level' + i);
     const done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, i);
     if (link && done) {
       link.className += ' level_done';
@@ -312,7 +318,7 @@ BlocklyGames.callWhenLoaded = function(init) {
  * Reload with a different language.
  */
 BlocklyGames.changeLanguage = function() {
-  const languageMenu = document.getElementById('languageMenu');
+  const languageMenu = BlocklyGames.getElementById('languageMenu');
   const newLang = encodeURIComponent(
       languageMenu.options[languageMenu.selectedIndex].value);
   let search = window.location.search;
@@ -357,7 +363,7 @@ BlocklyGames.bindClick = function(el, func) {
     throw TypeError('Element not found: ' + el);
   }
   if (typeof el === 'string') {
-    el = document.getElementById(el);
+    el = BlocklyGames.getElementById(el);
   }
   el.addEventListener('click', func, true);
   function touchFunc(e) {
