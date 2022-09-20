@@ -116,7 +116,7 @@ BlocklyGames.LANGUAGE_NAME_ = {
  * List of RTL languages.
  * @private
  */
-BlocklyGames.LANGUAGE_RTL_ = [/*'ace',*/ 'ar', 'fa', 'he', /*'mzn',*/ /*'ps',*/ 'ur'];
+BlocklyGames.LANGUAGE_RTL_ = [/*'ace',*/ 'ar', 'fa', 'he', /*'mzn', 'ps',*/ 'ur'];
 
 /**
  * User's language (e.g. "en").

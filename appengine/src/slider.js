@@ -179,7 +179,7 @@ Slider = class {
       Slider.touchToMouse_(e);
     }
     const x = this.mouseToSvg_(e).x;
-    this.animateValue((x - this.KNOB_MIN_X_) /
+    this.animateValue_((x - this.KNOB_MIN_X_) /
         (this.KNOB_MAX_X_ - this.KNOB_MIN_X_));
   }
 
@@ -194,8 +194,9 @@ Slider = class {
   /**
    * Animates the slider's value (0.0 - 1.0).
    * @param {number} value New value.
+   * @private
    */
-  animateValue(value) {
+  animateValue_(value) {
     // Clear any ongoing animations.
     this.animationTasks_.forEach(clearTimeout);
     this.animationTasks_ = [];
@@ -260,6 +261,7 @@ Slider = class {
   /**
    * Map the touch event's properties to be compatible with a mouse event.
    * @param {TouchEvent} e Event to modify.
+   * @private
    */
   touchToMouse_(e) {
     const touchPoint = e.changedTouches[0];

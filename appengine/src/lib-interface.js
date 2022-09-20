@@ -15,6 +15,7 @@ goog.provide('BlocklyInterface');
 goog.require('Blockly');
 goog.require('Blockly.ContextMenuItems');
 goog.require('Blockly.geras.Renderer');
+goog.require('Blockly.JavaScript');
 goog.require('Blockly.ShortcutItems');
 goog.require('Blockly.Xml');
 goog.require('BlocklyGames');
@@ -104,7 +105,8 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   }
 
   const savedLevel =
-      BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, BlocklyGames.LEVEL);
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
+                                        BlocklyGames.LEVEL);
   let inherited = inherit &&
       BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
                                         BlocklyGames.LEVEL - 1);

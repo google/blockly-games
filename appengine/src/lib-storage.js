@@ -114,8 +114,8 @@ BlocklyStorage.handleLinkResponse_ = function() {
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
   const data = this.responseText.trim();
   if (!data.length) {
-    BlocklyStorage.alert_(BlocklyGames.getMsg('Games.hashError', false).replace('%1',
-        window.location.hash));
+    BlocklyStorage.alert_(BlocklyGames.getMsg('Games.hashError', false)
+        .replace('%1', window.location.hash));
   } else {
     BlocklyStorage.setCode(data);
   }
