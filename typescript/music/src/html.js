@@ -68,9 +68,9 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.music', true), '', 
   </tr>
 </table>
 
-${(ij.level === 10 && !ij.html) ? Music.html.gallery(ij.lang) : ''}
+${(ij.level === 10 && !ij.html) ? Music.html.gallery_(ij.lang) : ''}
 
-${Music.html.toolbox(ij.level)}
+${Music.html.toolbox_(ij.level)}
 <div id="blockly"></div>
 
 ${BlocklyGames.html.dialog()}
@@ -78,7 +78,7 @@ ${BlocklyGames.html.doneDialog()}
 ${BlocklyGames.html.abortDialog()}
 ${BlocklyGames.html.storageDialog()}
 
-${Music.html.helpDialogs(ij.level, ij.html)}
+${Music.html.helpDialogs_(ij.level, ij.html)}
 `;
 };
 
@@ -86,8 +86,9 @@ ${Music.html.helpDialogs(ij.level, ij.html)}
  * Gallery view button and submission form.
  * @param {string} lang ISO language code.
  * @returns {string} HTML.
+ * @private
  */
-Music.html.gallery = function(lang) {
+Music.html.gallery_ = function(lang) {
   return `
 <table style="padding-top: 1em; width: 400px;">
   <tr>
@@ -132,8 +133,9 @@ Music.html.gallery = function(lang) {
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
  * @returns {string} HTML.
+ * @private
  */
-Music.html.toolbox = function(level) {
+Music.html.toolbox_ = function(level) {
   let xml;
   if (level === 10) {
     xml = `
@@ -347,8 +349,9 @@ ${procedureCat}
  * @param {number} level Level 1-10.
  * @param {boolean} isHtml True if served as raw HTML files.
  * @returns {string} HTML.
+ * @private
  */
-Music.html.helpDialogs = function(level, isHtml) {
+Music.html.helpDialogs_ = function(level, isHtml) {
   let content = '';
   switch (level) {
     case 1:

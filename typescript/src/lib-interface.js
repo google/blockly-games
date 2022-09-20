@@ -14,8 +14,9 @@ goog.provide('BlocklyInterface');
 
 goog.require('Blockly');
 goog.require('Blockly.ContextMenuItems');
-goog.require('Blockly.ShortcutItems');
 goog.require('Blockly.geras.Renderer');
+goog.require('Blockly.ShortcutItems');
+goog.require('Blockly.Xml');
 goog.require('BlocklyGames');
 goog.require('BlocklyStorage');
 
@@ -59,7 +60,7 @@ BlocklyInterface.init = function(title) {
   BlocklyGames.init(title);
 
   // Disable the link button if page isn't backed by App Engine storage.
-  const linkButton = document.getElementById('linkButton');
+  const linkButton = BlocklyGames.getElementById('linkButton');
   if (linkButton) {
     if (!BlocklyGames.IS_HTML) {
       BlocklyStorage.getCode = BlocklyInterface.getCode;
@@ -70,7 +71,7 @@ BlocklyInterface.init = function(title) {
     }
   }
 
-  const languageMenu = document.getElementById('languageMenu');
+  const languageMenu = BlocklyGames.getElementById('languageMenu');
   if (languageMenu) {
     languageMenu.addEventListener('change',
         BlocklyInterface.changeLanguage, true);
@@ -193,7 +194,7 @@ BlocklyInterface.codeChanged = function() {
  * @param {!Object} options Dictionary of Blockly options.
  */
 BlocklyInterface.injectBlockly = function(options) {
-  const toolbox = document.getElementById('toolbox');
+  const toolbox = BlocklyGames.getElementById('toolbox');
   if (toolbox) {
     options['toolbox'] = toolbox;
   }
@@ -278,7 +279,7 @@ BlocklyInterface.highlight = function(id, opt_state) {
  * @param {string|!Array<string>} xml XML string(s) describing blocks.
  */
 BlocklyInterface.injectReadonly = function(id, xml) {
-  const div = document.getElementById(id);
+  const div = BlocklyGames.getElementById(id);
   if (!div.firstChild) {
     const workspace =
         Blockly.inject(div, {'rtl': BlocklyGames.IS_RTL, 'readOnly': true});

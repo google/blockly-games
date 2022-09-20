@@ -12,12 +12,16 @@
 
 goog.provide('Maze');
 
+goog.require('Blockly');
+goog.require('Blockly.browserEvents');
 goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.JavaScript');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.string');
 goog.require('Blockly.VerticalFlyout');
+goog.require('Blockly.Xml');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -308,7 +312,7 @@ const log = [];
  * Create and layout all the nodes for the path, scenery, Pegman, and goal.
  */
 function drawMap() {
-  const svg = document.getElementById('svgMaze');
+  const svg = BlocklyGames.getElementById('svgMaze');
   const scale = Math.max(ROWS, COLS) * SQUARE_SIZE;
   svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
 
@@ -439,7 +443,7 @@ function init() {
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');
   pegmanImg.style.backgroundImage = 'url(' + SKIN.sprite + ')';
-  const pegmanMenu = document.getElementById('pegmanMenu');
+  const pegmanMenu = BlocklyGames.getElementById('pegmanMenu');
   const handlerFactory = function(n) {
     return function() {
       changePegman(n);
@@ -455,18 +459,18 @@ function init() {
     img.style.backgroundImage = 'url(' + SKINS[i].sprite + ')';
     div.appendChild(img);
     pegmanMenu.appendChild(div);
-    Blockly.bindEvent_(div, 'mousedown', null, handlerFactory(i));
+    Blockly.browserEvents.bind(div, 'mousedown', null, handlerFactory(i));
   }
-  Blockly.bindEvent_(window, 'resize', null, hidePegmanMenu);
-  const pegmanButton = document.getElementById('pegmanButton');
-  Blockly.bindEvent_(pegmanButton, 'mousedown', null, showPegmanMenu);
-  const pegmanButtonArrow = document.getElementById('pegmanButtonArrow');
+  Blockly.browserEvents.bind(window, 'resize', null, hidePegmanMenu);
+  const pegmanButton = BlocklyGames.getElementById('pegmanButton');
+  Blockly.browserEvents.bind(pegmanButton, 'mousedown', null, showPegmanMenu);
+  const pegmanButtonArrow = BlocklyGames.getElementById('pegmanButtonArrow');
   const arrow = document.createTextNode(Blockly.FieldDropdown.ARROW_CHAR);
   pegmanButtonArrow.appendChild(arrow);
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
-  const visualization = document.getElementById('visualization');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const visualization = BlocklyGames.getElementById('visualization');
   const onresize = function(e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
@@ -531,7 +535,7 @@ function init() {
                                            BlocklyGames.LEVEL)) {
       // Level 10 gets an introductory modal dialog.
       // Skip the dialog if the user has already won.
-      const content = document.getElementById('dialogHelpWallFollow');
+      const content = BlocklyGames.getElementById('dialogHelpWallFollow');
       const style = {
         'width': '30%',
         'left': '35%',
@@ -553,7 +557,7 @@ function init() {
 
   // Add the spinning Pegman icon to the done dialog.
   // <img id="pegSpin" src="common/1x1.gif">
-  const buttonDiv = document.getElementById('dialogDoneButtons');
+  const buttonDiv = BlocklyGames.getElementById('dialogDoneButtons');
   const pegSpin = document.createElement('img');
   pegSpin.id = 'pegSpin';
   pegSpin.src = 'common/1x1.gif';
@@ -592,7 +596,7 @@ function levelHelp(opt_event) {
   let style = null;
   if (BlocklyGames.LEVEL === 1) {
     if (BlocklyInterface.workspace.getAllBlocks().length < 2) {
-      content = document.getElementById('dialogHelpStack');
+      content = BlocklyGames.getElementById('dialogHelpStack');
       style = {'width': '370px', 'top': '130px'};
       style[rtl ? 'right' : 'left'] = '215px';
       origin = toolbar[0].getSvgRoot();
@@ -608,35 +612,35 @@ function levelHelp(opt_event) {
               '</block>',
             '</xml>'];
         BlocklyInterface.injectReadonly('sampleOneTopBlock', xml);
-        content = document.getElementById('dialogHelpOneTopBlock');
+        content = BlocklyGames.getElementById('dialogHelpOneTopBlock');
         style = {'width': '360px', 'top': '120px'};
         style[rtl ? 'right' : 'left'] = '225px';
         origin = topBlocks[0].getSvgRoot();
       } else if (result === ResultType.UNSET) {
         // Show run help dialog.
-        content = document.getElementById('dialogHelpRun');
+        content = BlocklyGames.getElementById('dialogHelpRun');
         style = {'width': '360px', 'top': '410px'};
         style[rtl ? 'right' : 'left'] = '400px';
-        origin = document.getElementById('runButton');
+        origin = BlocklyGames.getElementById('runButton');
       }
     }
   } else if (BlocklyGames.LEVEL === 2) {
     if (result !== ResultType.UNSET &&
-        document.getElementById('runButton').style.display === 'none') {
-      content = document.getElementById('dialogHelpReset');
+        BlocklyGames.getElementById('runButton').style.display === 'none') {
+      content = BlocklyGames.getElementById('dialogHelpReset');
       style = {'width': '360px', 'top': '410px'};
       style[rtl ? 'right' : 'left'] = '400px';
-      origin = document.getElementById('resetButton');
+      origin = BlocklyGames.getElementById('resetButton');
     }
   } else if (BlocklyGames.LEVEL === 3) {
     if (!userBlocks.includes('maze_forever')) {
       if (!BlocklyInterface.workspace.remainingCapacity()) {
-        content = document.getElementById('dialogHelpCapacity');
+        content = BlocklyGames.getElementById('dialogHelpCapacity');
         style = {'width': '430px', 'top': '310px'};
         style[rtl ? 'right' : 'left'] = '50px';
-        origin = document.getElementById('capacityBubble');
+        origin = BlocklyGames.getElementById('capacityBubble');
       } else {
-        content = document.getElementById('dialogHelpRepeat');
+        content = BlocklyGames.getElementById('dialogHelpRepeat');
         style = {'width': '360px', 'top': '360px'};
         style[rtl ? 'right' : 'left'] = '425px';
         origin = toolbar[3].getSvgRoot();
@@ -646,10 +650,10 @@ function levelHelp(opt_event) {
     if (!BlocklyInterface.workspace.remainingCapacity() &&
         (!userBlocks.includes('maze_forever') ||
          BlocklyInterface.workspace.getTopBlocks(false).length > 1)) {
-      content = document.getElementById('dialogHelpCapacity');
+      content = BlocklyGames.getElementById('dialogHelpCapacity');
       style = {'width': '430px', 'top': '310px'};
       style[rtl ? 'right' : 'left'] = '50px';
-      origin = document.getElementById('capacityBubble');
+      origin = BlocklyGames.getElementById('capacityBubble');
     } else {
       let showHelp = true;
       // Only show help if there is not a loop with two nested blocks.
@@ -670,7 +674,7 @@ function levelHelp(opt_event) {
         }
       }
       if (showHelp) {
-        content = document.getElementById('dialogHelpRepeatMany');
+        content = BlocklyGames.getElementById('dialogHelpRepeatMany');
         style = {'width': '360px', 'top': '360px'};
         style[rtl ? 'right' : 'left'] = '425px';
         origin = toolbar[3].getSvgRoot();
@@ -678,14 +682,14 @@ function levelHelp(opt_event) {
     }
   } else if (BlocklyGames.LEVEL === 5) {
     if (SKIN_ID === 0 && !showPegmanMenu.activatedOnce) {
-      content = document.getElementById('dialogHelpSkins');
+      content = BlocklyGames.getElementById('dialogHelpSkins');
       style = {'width': '360px', 'top': '60px'};
       style[rtl ? 'left' : 'right'] = '20px';
-      origin = document.getElementById('pegmanButton');
+      origin = BlocklyGames.getElementById('pegmanButton');
     }
   } else if (BlocklyGames.LEVEL === 6) {
     if (!userBlocks.includes('maze_if')) {
-      content = document.getElementById('dialogHelpIf');
+      content = BlocklyGames.getElementById('dialogHelpIf');
       style = {'width': '360px', 'top': '430px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[4].getSvgRoot();
@@ -711,7 +715,7 @@ function levelHelp(opt_event) {
       // Add dropdown arrow: "option ▾" (LTR) or "▾ אופציה" (RTL)
       span.textContent = option + ' ' + Blockly.FieldDropdown.ARROW_CHAR;
       // Inject fake dropdown into message.
-      const container = document.getElementById('helpMenuText');
+      const container = BlocklyGames.getElementById('helpMenuText');
       const msg = container.textContent;
       container.textContent = '';
       const parts = msg.split(/%\d/);
@@ -726,21 +730,21 @@ function levelHelp(opt_event) {
     // The hint says to change from 'ahead', but keep the hint visible
     // until the user chooses 'right'.
     if (!userBlocks.includes('isPathRight')) {
-      content = document.getElementById('dialogHelpMenu');
+      content = BlocklyGames.getElementById('dialogHelpMenu');
       style = {'width': '360px', 'top': '430px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[4].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL === 9) {
     if (!userBlocks.includes('maze_ifElse')) {
-      content = document.getElementById('dialogHelpIfElse');
+      content = BlocklyGames.getElementById('dialogHelpIfElse');
       style = {'width': '360px', 'top': '305px'};
       style[rtl ? 'right' : 'left'] = '425px';
       origin = toolbar[5].getSvgRoot();
     }
   }
   if (content) {
-    if (content.parentNode !== document.getElementById('dialog')) {
+    if (content.parentNode !== BlocklyGames.getElementById('dialog')) {
       BlocklyDialogs.showDialog(content, origin, true, false, style, null);
     }
   } else {
@@ -766,7 +770,7 @@ let pegmanMenuMouse_;
  * @param {!Event} e Mouse, touch, or resize event.
  */
 function showPegmanMenu(e) {
-  const menu = document.getElementById('pegmanMenu');
+  const menu = BlocklyGames.getElementById('pegmanMenu');
   if (menu.style.display === 'block') {
     // Menu is already open.  Close it.
     hidePegmanMenu(e);
@@ -776,15 +780,15 @@ function showPegmanMenu(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const button = document.getElementById('pegmanButton');
+  const button = BlocklyGames.getElementById('pegmanButton');
   button.classList.add('buttonHover');
   menu.style.top = (button.offsetTop + button.offsetHeight) + 'px';
   menu.style.left = button.offsetLeft + 'px';
   menu.style.display = 'block';
   pegmanMenuMouse_ =
-      Blockly.bindEvent_(document.body, 'mousedown', null, hidePegmanMenu);
+      Blockly.browserEvents.bind(document.body, 'mousedown', null, hidePegmanMenu);
   // Close the skin-changing hint if open.
-  const hint = document.getElementById('dialogHelpSkins');
+  const hint = BlocklyGames.getElementById('dialogHelpSkins');
   if (hint && hint.className !== 'dialogHiddenContent') {
     BlocklyDialogs.hideDialog(false);
   }
@@ -800,10 +804,10 @@ function hidePegmanMenu(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  document.getElementById('pegmanMenu').style.display = 'none';
-  document.getElementById('pegmanButton').classList.remove('buttonHover');
+  BlocklyGames.getElementById('pegmanMenu').style.display = 'none';
+  BlocklyGames.getElementById('pegmanButton').classList.remove('buttonHover');
   if (pegmanMenuMouse_) {
-    Blockly.unbindEvent_(pegmanMenuMouse_);
+    Blockly.browserEvents.unbind(pegmanMenuMouse_);
     pegmanMenuMouse_ = undefined;
   }
 }
@@ -837,14 +841,14 @@ function reset(first) {
   }
 
   // Move the finish icon into position.
-  const finishIcon = document.getElementById('finish');
+  const finishIcon = BlocklyGames.getElementById('finish');
   finishIcon.setAttribute('x', SQUARE_SIZE * (finish_.x + 0.5) -
       finishIcon.getAttribute('width') / 2);
   finishIcon.setAttribute('y', SQUARE_SIZE * (finish_.y + 0.6) -
       finishIcon.getAttribute('height'));
 
   // Make 'look' icon invisible and promote to top.
-  const lookIcon = document.getElementById('look');
+  const lookIcon = BlocklyGames.getElementById('look');
   lookIcon.style.display = 'none';
   lookIcon.parentNode.appendChild(lookIcon);
   const paths = lookIcon.getElementsByTagName('path');
@@ -872,8 +876,8 @@ function runButtonClick(e) {
     levelHelp();
     return;
   }
-  const runButton = document.getElementById('runButton');
-  const resetButton = document.getElementById('resetButton');
+  const runButton = BlocklyGames.getElementById('runButton');
+  const resetButton = BlocklyGames.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
@@ -891,7 +895,7 @@ function runButtonClick(e) {
  */
 function updateCapacity() {
   const cap = BlocklyInterface.workspace.remainingCapacity();
-  const p = document.getElementById('capacity');
+  const p = BlocklyGames.getElementById('capacity');
   if (cap === Infinity) {
     p.style.display = 'none';
   } else {
@@ -928,9 +932,9 @@ function resetButtonClick(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
+  const runButton = BlocklyGames.getElementById('runButton');
   runButton.style.display = 'inline';
-  document.getElementById('resetButton').style.display = 'none';
+  BlocklyGames.getElementById('resetButton').style.display = 'none';
   BlocklyInterface.workspace.highlightBlock(null);
   reset(false);
   levelHelp();
@@ -1133,11 +1137,11 @@ function animate() {
  * @private
  */
 function updatePegSpin_(e) {
-  if (document.getElementById('dialogDone').className ===
+  if (BlocklyGames.getElementById('dialogDone').className ===
       'dialogHiddenContent') {
     return;
   }
-  const pegSpin = document.getElementById('pegSpin');
+  const pegSpin = BlocklyGames.getElementById('pegSpin');
   const bBox = BlocklyDialogs.getBBox_(pegSpin);
   const x = bBox.x + bBox.width / 2 - window.pageXOffset;
   const y = bBox.y + bBox.height / 2 - window.pageYOffset;
@@ -1290,7 +1294,7 @@ function scheduleFinish(sound) {
  * @param {number=} opt_angle Optional angle (in degrees) to rotate Pegman.
  */
 function displayPegman(x, y, d, opt_angle) {
-  const pegmanIcon = document.getElementById('pegman');
+  const pegmanIcon = BlocklyGames.getElementById('pegman');
   pegmanIcon.setAttribute('x', x * SQUARE_SIZE - d * PEGMAN_WIDTH + 1);
   pegmanIcon.setAttribute('y', SQUARE_SIZE * (y + 0.5) - PEGMAN_HEIGHT / 2 - 8);
   if (opt_angle) {
@@ -1301,7 +1305,7 @@ function displayPegman(x, y, d, opt_angle) {
     pegmanIcon.setAttribute('transform', 'rotate(0, 0, 0)');
   }
 
-  const clipRect = document.getElementById('clipRect');
+  const clipRect = BlocklyGames.getElementById('clipRect');
   clipRect.setAttribute('x', x * SQUARE_SIZE + 1);
   clipRect.setAttribute('y', pegmanIcon.getAttribute('y'));
 }
@@ -1334,7 +1338,7 @@ function scheduleLook(d) {
   y *= SQUARE_SIZE;
   const deg = d * 90 - 45;
 
-  const lookIcon = document.getElementById('look');
+  const lookIcon = BlocklyGames.getElementById('look');
   lookIcon.setAttribute('transform',
       'translate(' + x + ', ' + y + ') ' +
       'rotate(' + deg + ' 0 0) scale(.4)');

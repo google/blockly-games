@@ -15,6 +15,7 @@ goog.provide('Pond.Visualization');
 goog.require('Blockly');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.userAgent');
+goog.require('BlocklyGames');
 goog.require('Pond.Battle');
 
 
@@ -50,9 +51,9 @@ Pond.Visualization.SOUNDS_ = new Map();
  */
 Pond.Visualization.init = function() {
   // Configure the canvas elements.
-  const ctxScratch = document.getElementById('scratch').getContext('2d');
+  const ctxScratch = BlocklyGames.getElementById('scratch').getContext('2d');
   Pond.Visualization.ctxScratch_ = ctxScratch;
-  const ctxDisplay = document.getElementById('display').getContext('2d');
+  const ctxDisplay = BlocklyGames.getElementById('display').getContext('2d');
   Pond.Visualization.ctxDisplay_ = ctxDisplay;
   Pond.Visualization.CANVAS_SIZE = ctxDisplay.canvas.width;
   ctxDisplay.globalCompositeOperation = 'copy';
@@ -91,13 +92,13 @@ Pond.Visualization.reset = function() {
   Pond.Visualization.stop();
   Pond.Visualization.EXPLOSIONS.length = 0;
   // Clear out the avatar status row.
-  const row1 = document.getElementById('avatarStatRow1');
+  const row1 = BlocklyGames.getElementById('avatarStatRow1');
   row1.innerHTML = '';
-  const row2 = document.getElementById('avatarStatRow2');
+  const row2 = BlocklyGames.getElementById('avatarStatRow2');
   row2.innerHTML = '';
   const nameDivs = [];
   const healthDivs = [];
-  const avatarSelect = document.getElementById('avatar-select');
+  const avatarSelect = BlocklyGames.getElementById('avatar-select');
   for (let i = 0; i < Pond.Battle.AVATARS.length; i++) {
     const avatar = Pond.Battle.AVATARS[i];
     // Players 0+1 on first row, 2+3 on second, 4+5 on first, etc.
@@ -333,8 +334,10 @@ Pond.Visualization.display_ = function() {
     } else if (event['type'] === 'SCAN') {
       // Show a sensor scan beam.
       const halfResolution = Math.max(event['resolution'] / 2, 0.5);
-      const angle1 = -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
-      const angle2 = -Blockly.utils.math.toRadians(event['degree'] - halfResolution);
+      const angle1 =
+          -Blockly.utils.math.toRadians(event['degree'] + halfResolution);
+      const angle2 =
+          -Blockly.utils.math.toRadians(event['degree'] - halfResolution);
       ctx.beginPath();
       const x = Pond.Visualization.canvasCoordinate(avatar.loc.x);
       const y = Pond.Visualization.canvasCoordinate(100 - avatar.loc.y);

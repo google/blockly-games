@@ -50,7 +50,7 @@ function init() {
   loadMore();
   BlocklyGames.init(BlocklyGames.getMsg('Gallery', false));
 
-  const languageMenu = document.getElementById('languageMenu');
+  const languageMenu = BlocklyGames.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
   // Poll for needing more records.
   setInterval(needMore, 200);
@@ -79,7 +79,7 @@ function loadMore() {
     return;
   }
 
-  document.getElementById('loading').style.visibility = 'visible';
+  BlocklyGames.getElementById('loading').style.visibility = 'visible';
   let url = '/gallery-api/view?app=' + encodeURIComponent(app);
   if (cursor) {
     url += '&cursor=' + encodeURIComponent(cursor);
@@ -102,7 +102,7 @@ function loadMore() {
  */
 function receiveMore() {
   loadRequested_ = false;
-  document.getElementById('loading').style.visibility = 'hidden';
+  BlocklyGames.getElementById('loading').style.visibility = 'hidden';
   const meta = JSON.parse(this.responseText);
   if (!meta['more']) {
     hasMore = false;
@@ -120,7 +120,7 @@ function display(record) {
   const block = document.createElement('div');
   block.innerHTML = Gallery.html.record(record['app'], record['uuid'],
       record['thumb'], record['title'], record['public'], record['key']);
-  document.getElementById('gallery').appendChild(block);
+  BlocklyGames.getElementById('gallery').appendChild(block);
 }
 
 /**
@@ -139,7 +139,7 @@ function publish(element) {
  * Automatically load more records if the screen is scrolled to the bottom.
  */
 function needMore() {
-  const rect = document.getElementById('loading').getBoundingClientRect();
+  const rect = BlocklyGames.getElementById('loading').getBoundingClientRect();
   if (rect.top <=
       (window.innerHeight || document.documentElement.clientHeight)) {
     loadMore();

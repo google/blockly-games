@@ -19,6 +19,7 @@ goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.VerticalFlyout');
+goog.require('Blockly.Xml');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
@@ -89,8 +90,8 @@ function init() {
   BlocklyInterface.init(BlocklyGames.getMsg('Games.turtle', false));
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
-  const visualization = document.getElementById('visualization');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const visualization = BlocklyGames.getElementById('visualization');
   const onresize = function(e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
@@ -122,12 +123,12 @@ function init() {
       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
       'hideTurtle,showTurtle,print,font');
 
-  if (document.getElementById('submitButton')) {
+  if (BlocklyGames.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', submitToGallery);
   }
 
   // Initialize the slider.
-  const sliderSvg = document.getElementById('slider');
+  const sliderSvg = BlocklyGames.getElementById('slider');
   speedSlider = new Slider(10, 35, 130, sliderSvg);
 
   let defaultXml;
@@ -153,9 +154,9 @@ function init() {
   BlocklyInterface.loadBlocks(defaultXml,
       BlocklyGames.LEVEL !== BlocklyGames.MAX_LEVEL || transform10);
 
-  ctxDisplay = document.getElementById('display').getContext('2d');
-  ctxAnswer = document.getElementById('answer').getContext('2d');
-  ctxScratch = document.getElementById('scratch').getContext('2d');
+  ctxDisplay = BlocklyGames.getElementById('display').getContext('2d');
+  ctxAnswer = BlocklyGames.getElementById('answer').getContext('2d');
+  ctxScratch = BlocklyGames.getElementById('scratch').getContext('2d');
   drawAnswer();
   reset();
 
@@ -352,8 +353,8 @@ function nextNode(node) {
  * Show the help pop-up.
  */
 function showHelp() {
-  const help = document.getElementById('help');
-  const button = document.getElementById('helpButton');
+  const help = BlocklyGames.getElementById('help');
+  const button = BlocklyGames.getElementById('helpButton');
   const style = {
     width: '50%',
     left: '25%',
@@ -392,7 +393,7 @@ function showCategoryHelp() {
   if (categoryClicked_ || BlocklyDialogs.isDialogVisible_) {
     return;
   }
-  const help = document.getElementById('helpToolbox');
+  const help = BlocklyGames.getElementById('helpToolbox');
   const style = {
     width: '25%',
     top: '3.3em',
@@ -402,7 +403,7 @@ function showCategoryHelp() {
   } else {
     style.left = '525px';
   }
-  const origin = document.getElementById(':0');  // Toolbox's tree root.
+  const origin = BlocklyGames.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
 }
 
@@ -537,15 +538,15 @@ function runButtonClick(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
-  const resetButton = document.getElementById('resetButton');
+  const runButton = BlocklyGames.getElementById('runButton');
+  const resetButton = BlocklyGames.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  document.getElementById('spinner').style.visibility = 'visible';
+  BlocklyGames.getElementById('spinner').style.visibility = 'visible';
   execute();
 }
 
@@ -558,10 +559,10 @@ function resetButtonClick(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
+  const runButton = BlocklyGames.getElementById('runButton');
   runButton.style.display = 'inline';
-  document.getElementById('resetButton').style.display = 'none';
-  document.getElementById('spinner').style.visibility = 'hidden';
+  BlocklyGames.getElementById('resetButton').style.display = 'none';
+  BlocklyGames.getElementById('spinner').style.visibility = 'hidden';
   BlocklyInterface.workspace.highlightBlock(null);
   reset();
 
@@ -687,7 +688,7 @@ function executeChunk_() {
   } while (go);
   // Wrap up if complete.
   if (!pause) {
-    document.getElementById('spinner').style.visibility = 'hidden';
+    BlocklyGames.getElementById('spinner').style.visibility = 'hidden';
     BlocklyInterface.workspace.highlightBlock(null);
     checkAnswer();
     // Image complete; allow the user to submit this image to gallery.
@@ -853,12 +854,12 @@ function submitToGallery() {
     return;
   }
   // Encode the thumbnail.
-  const thumbnail = document.getElementById('thumbnail');
+  const thumbnail = BlocklyGames.getElementById('thumbnail');
   const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
   ctxThumb.drawImage(ctxDisplay.canvas, 0, 0, 200, 200);
   const thumbData = thumbnail.toDataURL('image/png');
-  document.getElementById('galleryThumb').value = thumbData;
+  BlocklyGames.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
   BlocklyGallery.showGalleryForm();
@@ -1037,7 +1038,7 @@ function isCorrect(pixelErrors) {
       (BlocklyGames.LEVEL === 3 && blockCount > 4) ||
       (BlocklyGames.LEVEL === 5 && blockCount > 10)) {
     // Use a loop, dummy.
-    const content = document.getElementById('helpUseLoop');
+    const content = BlocklyGames.getElementById('helpUseLoop');
     const style = {
       'width': '30%',
       'left': '35%',

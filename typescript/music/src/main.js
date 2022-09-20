@@ -110,10 +110,10 @@ function init() {
   BlocklyInterface.init(BlocklyGames.getMsg('Games.music', false));
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
-  const paddingBox = document.getElementById('paddingBox');
-  const staveBox = document.getElementById('staveBox');
-  const musicBox = document.getElementById('musicBox');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const paddingBox = BlocklyGames.getElementById('paddingBox');
+  const staveBox = BlocklyGames.getElementById('staveBox');
+  const musicBox = BlocklyGames.getElementById('musicBox');
   const onresize = function(e) {
     const top = paddingBox.offsetTop;
     staveBox.style.top = top + 'px';
@@ -146,12 +146,12 @@ function init() {
       'start0,start1,start2,start3,start4,start5,start6,start7,start8,start9');
   // Only start1-4 are used, but no harm in being safe.
 
-  if (document.getElementById('submitButton')) {
+  if (BlocklyGames.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', submitToGallery);
   }
 
   // Initialize the slider.
-  const sliderSvg = document.getElementById('slider');
+  const sliderSvg = BlocklyGames.getElementById('slider');
   speedSlider = new Slider(10, 35, 130, sliderSvg, sliderChange);
 
   const defaultXml =
@@ -255,7 +255,7 @@ function sliderChange() {
  */
 function drawStave(n) {
   staveCount = n;
-  const staveBox = document.getElementById('staveBox');
+  const staveBox = BlocklyGames.getElementById('staveBox');
   // <img src="music/stave.png" class="stave" style="top: 100px">
   for (let i = 1; i <= n; i++) {
     const top = staveTop_(i, n);
@@ -309,7 +309,7 @@ function drawNote(i, time, pitch, duration, className) {
   const LEFT_PADDING = 10;
   const WHOLE_WIDTH = 256;
   const left = Math.round(time * WHOLE_WIDTH + LEFT_PADDING);
-  const musicContainer = document.getElementById('musicContainer');
+  const musicContainer = BlocklyGames.getElementById('musicContainer');
   const img = document.createElement('img');
   const name = (pitch === REST ? 'rest' : 'note');
   img.src = 'music/' + name + duration + '.png';
@@ -343,8 +343,8 @@ function drawNote(i, time, pitch, duration, className) {
  * Show the help pop-up.
  */
 function showHelp() {
-  const help = document.getElementById('help');
-  const button = document.getElementById('helpButton');
+  const help = BlocklyGames.getElementById('help');
+  const button = BlocklyGames.getElementById('helpButton');
   const style = {
     width: '50%',
     left: '25%',
@@ -376,15 +376,9 @@ function showHelp() {
     BlocklyInterface.injectReadonly('sampleHelp7', xml);
   }
 
-  BlocklyDialogs.showDialog(help, button, true, true, style, hideHelp);
+  BlocklyDialogs.showDialog(help, button, true, true, style,
+      BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
-}
-
-/**
- * Hide the help pop-up.
- */
-function hideHelp() {
-  BlocklyDialogs.stopDialogKeyDown();
 }
 
 /**
@@ -392,8 +386,8 @@ function hideHelp() {
  */
 function drawAnswer() {
   // Clear all content.
-  document.getElementById('staveBox').innerHTML = '';
-  const musicContainer = document.getElementById('musicContainer');
+  BlocklyGames.getElementById('staveBox').innerHTML = '';
+  const musicContainer = BlocklyGames.getElementById('musicContainer');
   musicContainer.innerHTML = '';
   barCount = 0;
   // Add spacer to allow scrollbar to scroll past last note/rest.
@@ -429,8 +423,8 @@ function drawAnswer() {
  * @param {!Blockly.Events.Abstract} e Change event.
  */
 function disableExtraStarts(e) {
-  const toolbox = document.getElementById('toolbox');
-  const toolboxStart = document.getElementById('music_start');
+  const toolbox = BlocklyGames.getElementById('toolbox');
+  const toolboxStart = BlocklyGames.getElementById('music_start');
   if (!toolboxStart) {
     return;
   }
@@ -529,15 +523,15 @@ function runButtonClick(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
-  const resetButton = document.getElementById('resetButton');
+  const runButton = BlocklyGames.getElementById('runButton');
+  const resetButton = BlocklyGames.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
-  document.getElementById('spinner').style.visibility = 'visible';
+  BlocklyGames.getElementById('spinner').style.visibility = 'visible';
   execute();
 }
 
@@ -550,10 +544,10 @@ function resetButtonClick(opt_e) {
   if (opt_e && BlocklyInterface.eventSpam(opt_e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
+  const runButton = BlocklyGames.getElementById('runButton');
   runButton.style.display = 'inline';
-  document.getElementById('resetButton').style.display = 'none';
-  document.getElementById('spinner').style.visibility = 'hidden';
+  BlocklyGames.getElementById('resetButton').style.display = 'none';
+  BlocklyGames.getElementById('spinner').style.visibility = 'hidden';
   BlocklyInterface.workspace.highlightBlock(null);
   reset();
 }
@@ -655,7 +649,7 @@ function tick() {
         BlocklyDialogs.congratulations();
       }
     }
-    document.getElementById('spinner').style.visibility = 'hidden';
+    BlocklyGames.getElementById('spinner').style.visibility = 'hidden';
     BlocklyInterface.workspace.highlightBlock(null);
     // Playback complete; allow the user to submit this music to gallery.
     canSubmit = true;
@@ -723,9 +717,9 @@ function stopSound(thread) {
  * Scroll the music display horizontally to the current time.
  */
 function autoScroll() {
-  const musicBox = document.getElementById('musicBox');
-  const musicContainer = document.getElementById('musicContainer');
-  const musicContainerWidth = document.getElementById('musicContainerWidth');
+  const musicBox = BlocklyGames.getElementById('musicBox');
+  const musicContainer = BlocklyGames.getElementById('musicContainer');
+  const musicContainerWidth = BlocklyGames.getElementById('musicContainerWidth');
 
   // Ensure a half-screenfull of blank music to the right of last note.
   const LEFT_PADDING = 10;
@@ -969,7 +963,7 @@ function checkAnswer() {
     if (((BlocklyGames.LEVEL === 7 || BlocklyGames.LEVEL === 8) &&
          instruments < 1) || (BlocklyGames.LEVEL === 9 && instruments < 3)) {
       console.log('Not enough instruments.  Found: ' + instruments);
-      const content = document.getElementById('helpUseInstruments');
+      const content = BlocklyGames.getElementById('helpUseInstruments');
       const style = {
         'width': '30%',
         'left': '35%',
@@ -1007,7 +1001,7 @@ function checkAnswer() {
   if (maxCount && (blockCount > maxCount)) {
     console.log('Too many blocks.  Found: ' + blockCount + ' Max: ' + maxCount);
     // Use a function, dummy.
-    const content = document.getElementById('helpUseFunctions');
+    const content = BlocklyGames.getElementById('helpUseFunctions');
     const style = {
       'width': '30%',
       'left': '35%',
@@ -1048,7 +1042,7 @@ function submitToGallery() {
     'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAAAAABVicqIAAAB4ElEQVRo3u2aPVKDUBCAl4ytA7U6k1hZQio7SUorMuMBoicgOQG5AXKC4AGcxMoyuQFJaQWeAGbsXYvEwPuBBxkZR2e3y9t979tfMnlEQ2hfOkAQghCEIASRyonS4vXjSq54Oz0rU9xyK6iSYXPPHe4IKjxBfnNO4PxOvv58cV2iaA65+Qzkiu1gVqKwqPAEIQhBCEIQghCEIAQhCEEIQpA/DcmeHi41TesH2Y/+jmcQ0+Xu8M3ksS1IMMv9T9qBZNPwuJo0gGTDTfuFP5rRADI5mlGVrmwLYBqHOovXOCN+IXkHsBtAkmCZAAAMvP2C2LE2exn0Eq4zADBGnnia9Jo2GuQGPRsREXvCzqi4I8z1Rs/jjpNCJqzHO0Ne/BKnAKAGJOXuxOSQcZFhQCWkU3ccuuxHtzCXy77qOSYEYgkFRkTEeXFJX1XEUSNdYm/sEzPOEV5a6RUsFJBYjPXb64UDAADOnEGwIe4yiwqIL2wxC9rVKhbSK/a2p4LY1eMgSlzpVc1XG3OrWi98rehh4weke68w4FtLX1vKFna5OJQvipAdoK4su0J36cXsRmoG211uijUgGB0o3RphsJPllDglTnzq2wC67UVYV2LXBDAdPy4z0OiPGAQhCEEI8t8hX5wfXfFkGIkcAAAAAElFTkSuQmCC',
     'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAAAAABVicqIAAACU0lEQVRo3u2aTY7aQBCFnyMWkRLJZjkrs8rWzlwAcwLgBMAJ4AYWJwBOYOYEkBPYXCD2Ohs7J7AjJcomUmXhAf90N+OMbWmkVG2A6nZ/7q56JSijEfq3d2AIQxjy/0AGUu/w93v59B8fBooBXe7/84sATVq7hll32yAOPKdw1R4e5P6vnz4qBh7l/p/fAIBkNnZJbvBVAwq/DyLiwDOEIQxhCEMYwhCGMIQhDGEIQ97iT+ymdgkCwJhNjd4g2eGYAADOxq4vyHZ/a1hlq34g2STqPfDR5xoj6R6STOqL9gCZC/3DUeeQvRAPszUkOUyGmqbNn66OgzBlc3eBl1tR4ew22clbUb6wipnea0W9mMLZdl98CCovJTsabXQSrZrIwXPaiDGayNrQ9SB7yzZiTKQMLCs9c9NftlL8XNFOPxdvdTdy/rHUJ9+BcRFOIR56vqATbi75LjYzlUAuhXjKkC/HIANgONfCvVXKwQ6SIIEzUhCSp3MEAPbSqurkVFxgjFwiori5HCqWlmJko9TPTasH68o1FzZheEZd7YN7qSrIwW4waXVUlJWwLljZcemnJvtYSgAgIoqFopDXrkXZZcVNGGuoIGKi5zedWkXIvSYISRitZ4gnjOjXLHItADAXjU6KiMSUdp8hDuSnle/G91Nqar78dkFEr5SDxFxhqR0pHm3oZ6OrL6iLjaJA6nu7K8Z4f8sws8oI6dVWS6FF6THRqTwwTamFWVLxonoDU59aWaEs001rD7zitQWY011Mrc2b6tDH64qwNP5zDEMYwpBu7S/9DO5PRs/ScgAAAABJRU5ErkJggg=='
   ][startCount];
-  const thumbnail = document.getElementById('thumbnail');
+  const thumbnail = BlocklyGames.getElementById('thumbnail');
   const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
   const image = new Image();
@@ -1056,7 +1050,7 @@ function submitToGallery() {
     ctxThumb.drawImage(image, 0, 0, 200, 200);
   };
   image.src = thumb;
-  document.getElementById('galleryThumb').value = thumb;
+  BlocklyGames.getElementById('galleryThumb').value = thumb;
 
   // Show the dialog.
   BlocklyGallery.showGalleryForm();

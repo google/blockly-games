@@ -27,18 +27,18 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.pondTutor', true), 
 
 ${Pond.html.visualization()}
 
-${Pond.Tutor.html.toolbox(ij.level)}
+${Pond.Tutor.html.toolbox_(ij.level)}
 <div id="${ij.level % 2 ? 'blockly' : 'editor'}"></div>
 
-${Pond.Tutor.html.playerTarget()}
-${Pond.Tutor.html.playerPendulum()}
-${Pond.Tutor.html.playerScared()}
+${Pond.Tutor.html.playerTarget_()}
+${Pond.Tutor.html.playerPendulum_()}
+${Pond.Tutor.html.playerScared_()}
 
 ${BlocklyGames.html.dialog()}
 ${BlocklyGames.html.doneDialog()}
 ${BlocklyGames.html.storageDialog()}
 
-${Pond.Tutor.html.helpDialogs(ij.level)}
+${Pond.Tutor.html.helpDialogs_(ij.level)}
 `;
 };
 
@@ -47,8 +47,9 @@ ${Pond.Tutor.html.helpDialogs(ij.level)}
  * Toolbox.
  * @param {number} level Level 1-10.
  * @returns {string} HTML.
+ * @private
  */
-Pond.Tutor.html.toolbox = function(level) {
+Pond.Tutor.html.toolbox_ = function(level) {
   let xml;
   const scanBlock = level >= 5 ? `
   <block type="pond_scan">
@@ -122,8 +123,9 @@ Pond.Tutor.html.toolbox = function(level) {
  * Help dialogs for each level.
  * @param {number} level Level 1-10.
  * @returns {string} HTML.
+ * @private
  */
-Pond.Tutor.html.helpDialogs = function(level) {
+Pond.Tutor.html.helpDialogs_ = function(level) {
   let content = '';
   switch (level) {
     case 1:
@@ -343,8 +345,9 @@ ${BlocklyGames.getMsg('Pond.helpText6', true)}
 /**
  * Target.
  * @returns {string} HTML.
+ * @private
  */
-Pond.Tutor.html.playerTarget = function() {
+Pond.Tutor.html.playerTarget_ = function() {
   return `
 <div id="playerTarget" style="display: none">
 </div>
@@ -354,8 +357,9 @@ Pond.Tutor.html.playerTarget = function() {
 /**
  * Pendulum.
  * @returns {string} HTML.
+ * @private
  */
-Pond.Tutor.html.playerPendulum = function() {
+Pond.Tutor.html.playerPendulum_ = function() {
   return `
 <div id="playerPendulum" style="display: none">
 /* Slowly moves east and west.  Does not fire. */
@@ -385,8 +389,9 @@ while (true) {
 /**
  * Scared.
  * @returns {string} HTML.
+ * @private
  */
-Pond.Tutor.html.playerScared = function() {
+Pond.Tutor.html.playerScared_ = function() {
   return `
 <div id="playerScared" style="display: none">
 /* Moves south-west when hit.  Does not fire. */

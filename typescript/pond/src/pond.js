@@ -65,9 +65,9 @@ Pond.docsButtonClick = function() {
   if (Pond.isDocsVisible_) {
     return;
   }
-  const origin = document.getElementById('docsButton');
-  const dialog = document.getElementById('dialogDocs');
-  const frame = document.getElementById('frameDocs');
+  const origin = BlocklyGames.getElementById('docsButton');
+  const dialog = BlocklyGames.getElementById('dialogDocs');
+  const frame = BlocklyGames.getElementById('frameDocs');
   const src = 'pond/docs.html?lang=' + BlocklyGames.LANG +
       '&mode=' + BlocklyGames.LEVEL;
   if (frame.src !== src) {
@@ -76,7 +76,7 @@ Pond.docsButtonClick = function() {
 
   function endResult() {
     dialog.style.visibility = 'visible';
-    const border = document.getElementById('dialogBorder');
+    const border = BlocklyGames.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   Pond.isDocsVisible_ = true;
@@ -93,11 +93,11 @@ Pond.docsCloseClick = function() {
   if (!Pond.isDocsVisible_) {
     return;
   }
-  const origin = document.getElementById('docsButton');
-  const dialog = document.getElementById('dialogDocs');
+  const origin = BlocklyGames.getElementById('docsButton');
+  const dialog = BlocklyGames.getElementById('dialogDocs');
 
   function endResult() {
-    const border = document.getElementById('dialogBorder');
+    const border = BlocklyGames.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   Pond.isDocsVisible_ = false;
@@ -138,8 +138,8 @@ Pond.runButtonClick = function(e) {
     return;
   }
   Pond.saveAvatar();
-  const runButton = document.getElementById('runButton');
-  const resetButton = document.getElementById('resetButton');
+  const runButton = BlocklyGames.getElementById('runButton');
+  const resetButton = BlocklyGames.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
@@ -158,9 +158,9 @@ Pond.resetButtonClick = function(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
+  const runButton = BlocklyGames.getElementById('runButton');
   runButton.style.display = 'inline';
-  document.getElementById('resetButton').style.display = 'none';
+  BlocklyGames.getElementById('resetButton').style.display = 'none';
   Pond.reset();
 };
 
@@ -191,8 +191,8 @@ Pond.reset = function() {
  * Show the help pop-up.
  */
 Pond.showHelp = function() {
-  const help = document.getElementById('help');
-  const button = document.getElementById('helpButton');
+  const help = BlocklyGames.getElementById('help');
+  const button = BlocklyGames.getElementById('helpButton');
   const style = {
     width: '50%',
     left: '25%',

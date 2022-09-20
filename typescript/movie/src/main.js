@@ -77,8 +77,8 @@ function init() {
   BlocklyInterface.init(BlocklyGames.getMsg('Games.movie', false));
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
-  const visualization = document.getElementById('visualization');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const visualization = BlocklyGames.getElementById('visualization');
   const onresize = function(e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
@@ -108,16 +108,16 @@ function init() {
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
 
-  if (document.getElementById('submitButton')) {
+  if (BlocklyGames.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', submitToGallery);
   }
 
   const defaultXml = '<xml></xml>';
   BlocklyInterface.loadBlocks(defaultXml, true);
 
-  ctxDisplay = document.getElementById('display').getContext('2d');
+  ctxDisplay = BlocklyGames.getElementById('display').getContext('2d');
   ctxDisplay.globalCompositeOperation = 'source-over';
-  ctxScratch = document.getElementById('scratch').getContext('2d');
+  ctxScratch = BlocklyGames.getElementById('scratch').getContext('2d');
   renderHatching_();
   // Render the frame zero answer because we need it right now.
   renderAnswer_(0);
@@ -134,7 +134,7 @@ function init() {
   display();
 
   // Initialize the scrubber.
-  const scrubberSvg = document.getElementById('scrubber');
+  const scrubberSvg = BlocklyGames.getElementById('scrubber');
   frameScrubber = new Scrubber(scrubberSvg, display, checkAnswers);
   if (BlocklyGames.LEVEL === 1) {
     scrubberSvg.style.display = 'none';
@@ -165,7 +165,7 @@ function init() {
  * @param {!Event} e Mouse over event.
  */
 function showCoordinates(e) {
-  document.getElementById('coordinates').style.display = 'block';
+  BlocklyGames.getElementById('coordinates').style.display = 'block';
 }
 
 /**
@@ -173,7 +173,7 @@ function showCoordinates(e) {
  * @param {Event} e Mouse out event.
  */
 function hideCoordinates(e) {
-  document.getElementById('coordinates').style.display = 'none';
+  BlocklyGames.getElementById('coordinates').style.display = 'none';
 }
 
 /**
@@ -189,7 +189,7 @@ function updateCoordinates(e) {
     x -= window.innerWidth;
   }
   // Compensate for the location of the visualization.
-  const viz = document.getElementById('visualization');
+  const viz = BlocklyGames.getElementById('visualization');
   const position = Blockly.utils.style.getPageOffset(viz);
   const scroll = Blockly.utils.style.getViewportPageOffset();
   const offset = Blockly.utils.Coordinate.difference(position, scroll);
@@ -213,8 +213,8 @@ function updateCoordinates(e) {
     y = Math.round(y / 10) * 10;
   }
   if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
-    document.getElementById('x').textContent = 'x = ' + x;
-    document.getElementById('y').textContent = 'y = ' + y;
+    BlocklyGames.getElementById('x').textContent = 'x = ' + x;
+    BlocklyGames.getElementById('y').textContent = 'y = ' + y;
   } else {
     hideCoordinates();
   }
@@ -224,8 +224,8 @@ function updateCoordinates(e) {
  * Show the help pop-up.
  */
 function showHelp() {
-  const help = document.getElementById('help');
-  const button = document.getElementById('helpButton');
+  const help = BlocklyGames.getElementById('help');
+  const button = BlocklyGames.getElementById('helpButton');
   const style = {
     width: '50%',
     left: '25%',
@@ -237,15 +237,9 @@ function showHelp() {
     BlocklyInterface.injectReadonly('sampleHelp2', xml);
   }
 
-  BlocklyDialogs.showDialog(help, button, true, true, style, hideHelp);
+  BlocklyDialogs.showDialog(help, button, true, true, style,
+      BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
-}
-
-/**
- * Hide the help pop-up.
- */
-function hideHelp() {
-  BlocklyDialogs.stopDialogKeyDown();
 }
 
 /**
@@ -254,7 +248,7 @@ function hideHelp() {
  * @private
  */
 function renderAnswer_(f) {
-  const div = document.getElementById('visualization');
+  const div = BlocklyGames.getElementById('visualization');
   ctxScratch.strokeStyle = '#000';
   ctxScratch.fillStyle = '#000';
   // Create a new canvas object for each answer.
@@ -282,7 +276,7 @@ function renderAnswer_(f) {
  * @private
  */
 function renderHatching_() {
-  const ctx = document.getElementById('hatching').getContext('2d');
+  const ctx = BlocklyGames.getElementById('hatching').getContext('2d');
   ctx.strokeStyle = '#fff';
   ctx.lineWidth = 1;
   for (let i = -HEIGHT; i < HEIGHT; i += 4) {
@@ -298,7 +292,7 @@ function renderHatching_() {
  * @private
  */
 function renderAxies_() {
-  const ctx = document.getElementById('axies').getContext('2d');
+  const ctx = BlocklyGames.getElementById('axies').getContext('2d');
   ctx.lineWidth = 1;
   ctx.strokeStyle = '#bba';
   ctx.fillStyle = '#bba';
@@ -396,7 +390,7 @@ function display(opt_frameNumber) {
   ctxDisplay.fill();
 
   // Copy the answer.
-  const answer = document.getElementById('answer' + frameNumber);
+  const answer = BlocklyGames.getElementById('answer' + frameNumber);
   if (answer) {
     ctxDisplay.globalAlpha = 0.2;
     ctxDisplay.drawImage(answer, 0, 0);
@@ -404,7 +398,7 @@ function display(opt_frameNumber) {
   }
 
   // Copy the hatching.
-  const hatching = document.getElementById('hatching');
+  const hatching = BlocklyGames.getElementById('hatching');
   ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
@@ -425,7 +419,7 @@ function display(opt_frameNumber) {
   ctxDisplay.drawImage(ctxScratch.canvas, 0, 0);
 
   // Copy the axies.
-  ctxDisplay.drawImage(document.getElementById('axies'), 0, 0);
+  ctxDisplay.drawImage(BlocklyGames.getElementById('axies'), 0, 0);
   checkFrameAnswer();
   if (BlocklyGames.LEVEL === 1) {
     setTimeout(checkAnswers, 1000);
@@ -548,7 +542,7 @@ function penColour(colour) {
 function checkFrameAnswer() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
-  const answer = document.getElementById('answer' + frameNumber);
+  const answer = BlocklyGames.getElementById('answer' + frameNumber);
   if (!answer) {
     return;
   }
@@ -608,12 +602,12 @@ function submitToGallery() {
     frameNumber = backupFrameNumber;
   }
   // Encode the thumbnail.
-  const thumbnail = document.getElementById('thumbnail');
+  const thumbnail = BlocklyGames.getElementById('thumbnail');
   const ctxThumb = thumbnail.getContext('2d');
   ctxThumb.globalCompositeOperation = 'copy';
   ctxThumb.drawImage(ctxScratch.canvas, 0, 0, 200, 200);
   const thumbData = thumbnail.toDataURL('image/png');
-  document.getElementById('galleryThumb').value = thumbData;
+  BlocklyGames.getElementById('galleryThumb').value = thumbData;
 
   // Show the dialog.
   BlocklyGallery.showGalleryForm();
@@ -804,7 +798,7 @@ function isCorrect() {
         // Check that the radius on the first circle block is connected to a
         // division block.
         if (block.getInputTargetBlock('RADIUS').type !== 'math_arithmetic') {
-          const content = document.getElementById('helpLayer');
+          const content = BlocklyGames.getElementById('helpLayer');
           const style = {
             'width': '30%',
             'left': '35%',

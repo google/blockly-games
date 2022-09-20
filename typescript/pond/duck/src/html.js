@@ -38,7 +38,7 @@ ${Pond.html.visualization()}
   <div id="editor"></div>
 </div>
 
-${Pond.Duck.html.toolbox()}
+${Pond.Duck.html.toolbox_()}
 
 ${BlocklyGames.html.dialog()}
 `;
@@ -48,8 +48,9 @@ ${BlocklyGames.html.dialog()}
 /**
  * Toolbox.
  * @returns {string} HTML.
+ * @private
  */
-Pond.Duck.html.toolbox = function() {
+Pond.Duck.html.toolbox_ = function() {
   return `
 <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
   <category name="${BlocklyGames.getMsg('Games.pond', true)}">

@@ -52,8 +52,8 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
   <tr>
     <td>
       <h1>
-        ${BlocklyGames.html.titleSpan(ij, appName)}
-        ${ij.level ? BlocklyGames.html.levelLinks(ij, levelLinkSuffix) : ''}
+        ${BlocklyGames.html.titleSpan_(ij, appName)}
+        ${ij.level ? BlocklyGames.html.levelLinks_(ij, levelLinkSuffix) : ''}
       </h1>
     </td>
     <td id="header_cta" class="farSide">
@@ -72,8 +72,9 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
  * @param {!Object} ij Injected options.
  * @param {string} appName Name of application.
  * @returns {string} HTML.
+ * @private
  */
-BlocklyGames.html.titleSpan = function(ij, appName) {
+BlocklyGames.html.titleSpan_ = function(ij, appName) {
   return `
 <span id="title">
   <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}">${BlocklyGames.getMsg('Games.name', true)}</a> : ${appName}
@@ -86,8 +87,9 @@ BlocklyGames.html.titleSpan = function(ij, appName) {
  * @param {!Object} ij Injected options.
  * @param {string} suffix Any extra parameters for links.
  * @returns {string} HTML.
+ * @private
  */
-BlocklyGames.html.levelLinks = function(ij, suffix) {
+BlocklyGames.html.levelLinks_ = function(ij, suffix) {
   let html = ' &nbsp ';
   for (let i = 1; i <= ij.maxLevel; i++) {
     let url = `?lang=${ij.lang}&level=${i}`;

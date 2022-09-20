@@ -20,6 +20,7 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.style');
 goog.require('Blockly.VerticalFlyout');
+goog.require('Blockly.Xml');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -234,7 +235,7 @@ const Pose = {
  * Create and layout all the nodes for the walls, nest, worm, and bird.
  */
 function drawMap() {
-  const svg = document.getElementById('svgBird');
+  const svg = BlocklyGames.getElementById('svgBird');
 
   // Add four surrounding walls.
   const edge0 = -WALL_THICKNESS / 2;
@@ -373,8 +374,8 @@ function init() {
   BlocklyInterface.init(BlocklyGames.getMsg('Games.bird', false));
 
   const rtl = BlocklyGames.IS_RTL;
-  const blocklyDiv = document.getElementById('blockly');
-  const visualization = document.getElementById('visualization');
+  const blocklyDiv = BlocklyGames.getElementById('blockly');
+  const visualization = BlocklyGames.getElementById('visualization');
   const onresize = function(_e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
@@ -459,7 +460,7 @@ function levelHelp() {
   const userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
   const toolbar = BlocklyInterface.workspace.flyout_.workspace_.getTopBlocks(true);
-  let content = document.getElementById('dialogHelp' + BlocklyGames.LEVEL);
+  let content = BlocklyGames.getElementById('dialogHelp' + BlocklyGames.LEVEL);
   let origin = null;
   let style = null;
   if (BlocklyGames.LEVEL === 1) {
@@ -502,7 +503,7 @@ function levelHelp() {
         style.left = (xy.x - (rtl ? 280 : 0)) + 'px';
         origin = block.getSvgRoot();
       } else {
-        content = document.getElementById('dialogMutatorHelp');
+        content = BlocklyGames.getElementById('dialogMutatorHelp');
         // Second help box should be below the 'else' block in the mutator.
         // Really fragile code.  There is no public API for this.
         origin = block.mutator.workspace_.flyout_.mats_[1];
@@ -533,7 +534,7 @@ function levelHelp() {
     }
   }
   if (content && style) {
-    if (content.parentNode !== document.getElementById('dialog')) {
+    if (content.parentNode !== BlocklyGames.getElementById('dialog')) {
       BlocklyDialogs.showDialog(content, origin, true, false, style, null);
     }
   } else {
@@ -570,7 +571,7 @@ function reset(first) {
 
 
   // Move the worm into position.
-  const wormGroup = document.getElementById('worm');
+  const wormGroup = BlocklyGames.getElementById('worm');
   if (wormGroup) {
     const x = MAP.worm.x / 100 * MAP_SIZE - WORM_ICON_SIZE / 2;
     const y = (1 - MAP.worm.y / 100) * MAP_SIZE - WORM_ICON_SIZE / 2;
@@ -578,7 +579,7 @@ function reset(first) {
     Blockly.utils.dom.removeClass(wormGroup, 'eaten');
   }
   // Move the nest into position.
-  const nestImage = document.getElementById('nest');
+  const nestImage = BlocklyGames.getElementById('nest');
   nestImage.setAttribute('x',
       MAP.nest.x / 100 * MAP_SIZE - NEST_ICON_SIZE / 2);
   nestImage.setAttribute('y',
@@ -594,8 +595,8 @@ function runButtonClick(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
-  const resetButton = document.getElementById('resetButton');
+  const runButton = BlocklyGames.getElementById('runButton');
+  const resetButton = BlocklyGames.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
     resetButton.style.minWidth = runButton.offsetWidth + 'px';
@@ -615,9 +616,9 @@ function resetButtonClick(e) {
   if (BlocklyInterface.eventSpam(e)) {
     return;
   }
-  const runButton = document.getElementById('runButton');
+  const runButton = BlocklyGames.getElementById('runButton');
   runButton.style.display = 'inline';
-  document.getElementById('resetButton').style.display = 'none';
+  BlocklyGames.getElementById('resetButton').style.display = 'none';
   BlocklyInterface.workspace.highlightBlock(null);
   reset(false);
 }
@@ -750,7 +751,7 @@ function animate() {
     [, pos.x, pos.y, angle] = action;
     displayBird(action[0] === 'move' ? Pose.FLAP : Pose.SOAR);
   } else if (action[0] === 'worm') {
-    Blockly.utils.dom.addClass(document.getElementById('worm'), 'eaten');
+    Blockly.utils.dom.addClass(BlocklyGames.getElementById('worm'), 'eaten');
   } else if (action[0] === 'finish') {
     displayBird(Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
@@ -800,14 +801,14 @@ function displayBird(pose) {
 
   const x = pos.x / 100 * MAP_SIZE - BIRD_ICON_SIZE / 2;
   const y = (1 - pos.y / 100) * MAP_SIZE - BIRD_ICON_SIZE / 2;
-  const birdIcon = document.getElementById('bird');
+  const birdIcon = BlocklyGames.getElementById('bird');
   birdIcon.setAttribute('x', x - quad * BIRD_ICON_SIZE);
   birdIcon.setAttribute('y', y - row * BIRD_ICON_SIZE);
   birdIcon.setAttribute('transform', 'rotate(' + remainder + ', ' +
       (x + BIRD_ICON_SIZE / 2) + ', ' +
       (y + BIRD_ICON_SIZE / 2) + ')');
 
-  const clipRect = document.getElementById('clipRect');
+  const clipRect = BlocklyGames.getElementById('clipRect');
   clipRect.setAttribute('x', x);
   clipRect.setAttribute('y', y);
 }

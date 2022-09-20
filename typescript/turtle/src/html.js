@@ -70,9 +70,9 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.turtle', true), '',
   </tr>
 </table>
 
-${(ij.level === 10 && !ij.html) ? Turtle.html.gallery(ij.lang) : ''}
+${(ij.level === 10 && !ij.html) ? Turtle.html.gallery_(ij.lang) : ''}
 
-${Turtle.html.toolbox(ij.level)}
+${Turtle.html.toolbox_(ij.level)}
 <div id="blockly"></div>
 
 ${BlocklyGames.html.dialog()}
@@ -80,7 +80,7 @@ ${BlocklyGames.html.doneDialog()}
 ${BlocklyGames.html.abortDialog()}
 ${BlocklyGames.html.storageDialog()}
 
-${Turtle.html.helpDialogs(ij.level, ij.html)}
+${Turtle.html.helpDialogs_(ij.level, ij.html)}
 `;
 };
 
@@ -88,8 +88,9 @@ ${Turtle.html.helpDialogs(ij.level, ij.html)}
  * Gallery view button and submission form.
  * @param {string} lang ISO language code.
  * @returns {string} HTML.
+ * @private
  */
-Turtle.html.gallery = function(lang) {
+Turtle.html.gallery_ = function(lang) {
   return `
 <table style="padding-top: 1em; width: 400px;">
   <tr>
@@ -134,8 +135,9 @@ Turtle.html.gallery = function(lang) {
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
  * @returns {string} HTML.
+ * @private
  */
-Turtle.html.toolbox = function(level) {
+Turtle.html.toolbox_ = function(level) {
   let xml;
   if (level === 10) {
     xml = `
@@ -417,8 +419,9 @@ ${colourCat}
  * @param {number} level Level 1-10.
  * @param {boolean} isHtml True if served as raw HTML files.
  * @returns {string} HTML.
+ * @private
  */
-Turtle.html.helpDialogs = function(level, isHtml) {
+Turtle.html.helpDialogs_ = function(level, isHtml) {
   let content = '';
   switch (level) {
     case 1:

@@ -13,6 +13,7 @@
 goog.provide('BlocklyDialogs');
 
 goog.require('Blockly');
+goog.require('Blockly.browserEvents');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.style');
 goog.require('BlocklyGames');
@@ -40,6 +41,27 @@ BlocklyDialogs.dialogOrigin_ = null;
 BlocklyDialogs.dialogDispose_ = null;
 
 /**
+ * Binding data that can be passed to unbind.
+ * @type Blockly.browserEvents.Data
+ * @private
+ */
+BlocklyDialogs.dialogMouseDownWrapper_ = null;
+
+/**
+ * Binding data that can be passed to unbind.
+ * @type Blockly.browserEvents.Data
+ * @private
+ */
+BlocklyDialogs.dialogMouseUpWrapper_ = null;
+
+/**
+ * Binding data that can be passed to unbind.
+ * @type Blockly.browserEvents.Data
+ * @private
+ */
+BlocklyDialogs.dialogMouseMoveWrapper_ = null;
+
+/**
  * Show the dialog pop-up.
  * @param {Element} content DOM element to display in the dialog.
  * @param {Element} origin Animate the dialog opening/closing from/to this
@@ -65,9 +87,9 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
   BlocklyDialogs.isDialogVisible_ = true;
   BlocklyDialogs.dialogOrigin_ = origin;
   BlocklyDialogs.dialogDispose_ = disposeFunc;
-  const dialog = document.getElementById('dialog');
-  const shadow = document.getElementById('dialogShadow');
-  const border = document.getElementById('dialogBorder');
+  const dialog = BlocklyGames.getElementById('dialog');
+  const shadow = BlocklyGames.getElementById('dialogShadow');
+  const border = BlocklyGames.getElementById('dialogBorder');
 
   // Copy all the specified styles to the dialog.
   for (const name in style) {
@@ -81,7 +103,7 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     header.id = 'dialogHeader';
     dialog.appendChild(header);
     BlocklyDialogs.dialogMouseDownWrapper_ =
-        Blockly.bindEvent_(header, 'mousedown', null,
+        Blockly.browserEvents.bind(header, 'mousedown', null,
                            BlocklyDialogs.dialogMouseDown_);
   }
   dialog.appendChild(content);
@@ -147,13 +169,13 @@ BlocklyDialogs.dialogMouseDown_ = function(e) {
   }
   // Left click (or middle click).
   // Record the starting offset between the current location and the mouse.
-  const dialog = document.getElementById('dialog');
+  const dialog = BlocklyGames.getElementById('dialog');
   BlocklyDialogs.dialogStartX_ = dialog.offsetLeft - e.clientX;
   BlocklyDialogs.dialogStartY_ = dialog.offsetTop - e.clientY;
 
-  BlocklyDialogs.dialogMouseUpWrapper_ = Blockly.bindEvent_(document,
+  BlocklyDialogs.dialogMouseUpWrapper_ = Blockly.browserEvents.bind(document,
       'mouseup', null, BlocklyDialogs.dialogUnbindDragEvents_);
-  BlocklyDialogs.dialogMouseMoveWrapper_ = Blockly.bindEvent_(document,
+  BlocklyDialogs.dialogMouseMoveWrapper_ = Blockly.browserEvents.bind(document,
       'mousemove', null, BlocklyDialogs.dialogMouseMove_);
   // This event has been handled.  No need to bubble up to the document.
   e.stopPropagation();
@@ -165,7 +187,7 @@ BlocklyDialogs.dialogMouseDown_ = function(e) {
  * @private
  */
 BlocklyDialogs.dialogMouseMove_ = function(e) {
-  const dialog = document.getElementById('dialog');
+  const dialog = BlocklyGames.getElementById('dialog');
   let dialogLeft = BlocklyDialogs.dialogStartX_ + e.clientX;
   let dialogTop = BlocklyDialogs.dialogStartY_ + e.clientY;
   dialogTop = Math.max(dialogTop, 0);
@@ -182,11 +204,11 @@ BlocklyDialogs.dialogMouseMove_ = function(e) {
  */
 BlocklyDialogs.dialogUnbindDragEvents_ = function() {
   if (BlocklyDialogs.dialogMouseUpWrapper_) {
-    Blockly.unbindEvent_(BlocklyDialogs.dialogMouseUpWrapper_);
+    Blockly.browserEvents.unbind(BlocklyDialogs.dialogMouseUpWrapper_);
     BlocklyDialogs.dialogMouseUpWrapper_ = null;
   }
   if (BlocklyDialogs.dialogMouseMoveWrapper_) {
-    Blockly.unbindEvent_(BlocklyDialogs.dialogMouseMoveWrapper_);
+    Blockly.browserEvents.unbind(BlocklyDialogs.dialogMouseMoveWrapper_);
     BlocklyDialogs.dialogMouseMoveWrapper_ = null;
   }
 };
@@ -202,7 +224,7 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
   }
   BlocklyDialogs.dialogUnbindDragEvents_();
   if (BlocklyDialogs.dialogMouseDownWrapper_) {
-    Blockly.unbindEvent_(BlocklyDialogs.dialogMouseDownWrapper_);
+    Blockly.browserEvents.unbind(BlocklyDialogs.dialogMouseDownWrapper_);
     BlocklyDialogs.dialogMouseDownWrapper_ = null;
   }
 
@@ -210,15 +232,15 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
   BlocklyDialogs.dialogDispose_ && BlocklyDialogs.dialogDispose_();
   BlocklyDialogs.dialogDispose_ = null;
   const origin = opt_animate ? BlocklyDialogs.dialogOrigin_ : null;
-  const dialog = document.getElementById('dialog');
-  const shadow = document.getElementById('dialogShadow');
+  const dialog = BlocklyGames.getElementById('dialog');
+  const shadow = BlocklyGames.getElementById('dialogShadow');
 
   shadow.style.opacity = 0;
 
   function endResult() {
     shadow.style.zIndex = -1;
     shadow.style.visibility = 'hidden';
-    const border = document.getElementById('dialogBorder');
+    const border = BlocklyGames.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   if (origin && dialog) {
@@ -232,7 +254,7 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
   }
   dialog.style.visibility = 'hidden';
   dialog.style.zIndex = -1;
-  const header = document.getElementById('dialogHeader');
+  const header = BlocklyGames.getElementById('dialogHeader');
   if (header) {
     header.parentNode.removeChild(header);
   }
@@ -254,7 +276,7 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
   if (!element) {
     return;
   }
-  const border = document.getElementById('dialogBorder');
+  const border = BlocklyGames.getElementById('dialogBorder');
   const bBox = BlocklyDialogs.getBBox_(element);
   function change() {
     border.style.width = bBox.width + 'px';
@@ -304,7 +326,7 @@ BlocklyDialogs.getBBox_ = function(element) {
  * @param {string} message Text to alert.
  */
 BlocklyDialogs.storageAlert = function(origin, message) {
-  const container = document.getElementById('containerStorage');
+  const container = BlocklyGames.getElementById('containerStorage');
   container.textContent = '';
   const lines = message.split('\n');
   for (const line of lines) {
@@ -313,7 +335,7 @@ BlocklyDialogs.storageAlert = function(origin, message) {
     container.appendChild(p);
   }
 
-  const content = document.getElementById('dialogStorage');
+  const content = BlocklyGames.getElementById('dialogStorage');
   const style = {
     width: '50%',
     left: '25%',
@@ -340,26 +362,26 @@ BlocklyDialogs.abortOffer = function() {
     return;
   }
 
-  const content = document.getElementById('dialogAbort');
+  const content = BlocklyGames.getElementById('dialogAbort');
   const style = {
     width: '40%',
     left: '30%',
     top: '3em',
   };
 
-  const cancel = document.getElementById('abortCancel');
+  const cancel = BlocklyGames.getElementById('abortCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-  const ok = document.getElementById('abortOk');
+  const ok = BlocklyGames.getElementById('abortOk');
   ok.addEventListener('click', BlocklyInterface.indexPage, true);
   ok.addEventListener('touchend', BlocklyInterface.indexPage, true);
 
   BlocklyDialogs.showDialog(content, null, false, true, style,
       function() {
         document.body.removeEventListener('keydown',
-            BlocklyDialogs.abortKeyDown, true);
+            BlocklyDialogs.abortKeyDown_, true);
         });
-  document.body.addEventListener('keydown', BlocklyDialogs.abortKeyDown, true);
+  document.body.addEventListener('keydown', BlocklyDialogs.abortKeyDown_, true);
 };
 
 /**
@@ -367,7 +389,7 @@ BlocklyDialogs.abortOffer = function() {
  * direct them to the next level, if available.
  */
 BlocklyDialogs.congratulations = function() {
-  const content = document.getElementById('dialogDone');
+  const content = BlocklyGames.getElementById('dialogDone');
   const style = {
     width: '40%',
     left: '30%',
@@ -376,7 +398,7 @@ BlocklyDialogs.congratulations = function() {
 
   // Add the user's code.
   if (BlocklyInterface.workspace) {
-    const linesText = document.getElementById('dialogLinesText');
+    const linesText = BlocklyGames.getElementById('dialogLinesText');
     linesText.textContent = '';
     let code = BlocklyInterface.executedJsCode;
     code = BlocklyInterface.stripCode(code);
@@ -386,7 +408,7 @@ BlocklyDialogs.congratulations = function() {
     noComments = noComments.replace(/\n+/g, '\n');  // Blank lines.
     noComments = noComments.trim();
     const lineCount = noComments.split('\n').length;
-    const pre = document.getElementById('containerCode');
+    const pre = BlocklyGames.getElementById('containerCode');
     pre.textContent = code;
     if (typeof prettyPrintOne === 'function') {
       code = pre.innerHTML;
@@ -411,22 +433,22 @@ BlocklyDialogs.congratulations = function() {
     levelMsg = BlocklyGames.getMsg('Games.finalLevel', false);
   }
 
-  const cancel = document.getElementById('doneCancel');
+  const cancel = BlocklyGames.getElementById('doneCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-  const ok = document.getElementById('doneOk');
+  const ok = BlocklyGames.getElementById('doneOk');
   ok.addEventListener('click', BlocklyInterface.nextLevel, true);
   ok.addEventListener('touchend', BlocklyInterface.nextLevel, true);
 
   BlocklyDialogs.showDialog(content, null, false, true, style,
       function() {
         document.body.removeEventListener('keydown',
-            BlocklyDialogs.congratulationsKeyDown, true);
+            BlocklyDialogs.congratulationsKeyDown_, true);
         });
   document.body.addEventListener('keydown',
-      BlocklyDialogs.congratulationsKeyDown, true);
+      BlocklyDialogs.congratulationsKeyDown_, true);
 
-  document.getElementById('dialogDoneText').textContent = levelMsg;
+  BlocklyGames.getElementById('dialogDoneText').textContent = levelMsg;
 };
 
 /**
@@ -464,8 +486,9 @@ BlocklyDialogs.stopDialogKeyDown = function() {
  * If the user presses enter, escape, or space, hide the dialog.
  * Enter and space move to the next level, escape does not.
  * @param {!Event} e Keyboard event.
+ * @private
  */
-BlocklyDialogs.congratulationsKeyDown = function(e) {
+BlocklyDialogs.congratulationsKeyDown_ = function(e) {
   BlocklyDialogs.dialogKeyDown_(e);
   if (e.keyCode === 13 || e.keyCode === 32) {
     BlocklyInterface.nextLevel();
@@ -476,8 +499,9 @@ BlocklyDialogs.congratulationsKeyDown = function(e) {
  * If the user presses enter, escape, or space, hide the dialog.
  * Enter and space move to the index page, escape does not.
  * @param {!Event} e Keyboard event.
+ * @private
  */
-BlocklyDialogs.abortKeyDown = function(e) {
+BlocklyDialogs.abortKeyDown_ = function(e) {
   BlocklyDialogs.dialogKeyDown_(e);
   if (e.keyCode === 13 || e.keyCode === 32) {
     BlocklyInterface.indexPage();
@@ -486,5 +510,5 @@ BlocklyDialogs.abortKeyDown = function(e) {
 
 // Export symbols that would otherwise be renamed by Closure compiler.
 window['BlocklyDialogs'] = BlocklyDialogs;
-// template.soy has a hardcoded onclick="BlocklyDialogs.hidedialogs()".
+// BlocklyGames.html.ok has a hardcoded onclick="BlocklyDialogs.hidedialogs()".
 BlocklyDialogs['hideDialog'] = BlocklyDialogs.hideDialog;

@@ -22,9 +22,9 @@ goog.require('BlocklyStorage');
  */
 BlocklyGallery.showGalleryForm = function() {
   // Encode the XML.
-  document.getElementById('galleryXml').value = BlocklyInterface.getCode();
+  BlocklyGames.getElementById('galleryXml').value = BlocklyInterface.getCode();
 
-  const content = document.getElementById('galleryDialog');
+  const content = BlocklyGames.getElementById('galleryDialog');
   const style = {
     width: '40%',
     left: '30%',
@@ -32,16 +32,16 @@ BlocklyGallery.showGalleryForm = function() {
   };
 
   if (!BlocklyGallery.showGalleryForm.runOnce_) {
-    const cancel = document.getElementById('galleryCancel');
+    const cancel = BlocklyGames.getElementById('galleryCancel');
     cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
     cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
-    const ok = document.getElementById('galleryOk');
+    const ok = BlocklyGames.getElementById('galleryOk');
     ok.addEventListener('click', BlocklyGallery.gallerySubmit_, true);
     ok.addEventListener('touchend', BlocklyGallery.gallerySubmit_, true);
     // Only bind the buttons once.
     BlocklyGallery.showGalleryForm.runOnce_ = true;
   }
-  const origin = document.getElementById('submitButton');
+  const origin = BlocklyGames.getElementById('submitButton');
   BlocklyDialogs.showDialog(content, origin, true, true, style,
       function() {
         document.body.removeEventListener('keydown',
@@ -51,7 +51,7 @@ BlocklyGallery.showGalleryForm = function() {
       true);
   // Wait for the opening animation to complete, then focus the title field.
   setTimeout(function() {
-    document.getElementById('galleryTitle').focus();
+    BlocklyGames.getElementById('galleryTitle').focus();
   }, 250);
 };
 
@@ -97,14 +97,14 @@ BlocklyGallery.makeFormRequest_ =
  */
 BlocklyGallery.gallerySubmit_ = function() {
   // Check that there is a title.
-  const title = document.getElementById('galleryTitle');
+  const title = BlocklyGames.getElementById('galleryTitle');
   if (!title.value.trim()) {
     title.value = '';
     title.focus();
     return;
   }
 
-  const form = document.getElementById('galleryForm');
+  const form = BlocklyGames.getElementById('galleryForm');
   const onSuccess = function() {
     BlocklyDialogs.storageAlert(null, BlocklyGames.getMsg('Games.submitted', false));
   };

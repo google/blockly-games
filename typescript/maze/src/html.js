@@ -53,7 +53,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true), '', t
   </tr>
 </table>
 
-${Maze.html.toolbox(ij.level)}
+${Maze.html.toolbox_(ij.level)}
 <div id="blockly"></div>
 
 <div id="pegmanMenu"></div>
@@ -63,7 +63,7 @@ ${BlocklyGames.html.doneDialog()}
 ${BlocklyGames.html.abortDialog()}
 ${BlocklyGames.html.storageDialog()}
 
-${Maze.html.helpDialogs()}
+${Maze.html.helpDialogs_()}
 `;
 };
 
@@ -71,8 +71,9 @@ ${Maze.html.helpDialogs()}
  * Toolboxes for each level.
  * @param {number} level Level 1-10.
  * @returns {string} HTML.
+ * @private
  */
-Maze.html.toolbox = function(level) {
+Maze.html.toolbox_ = function(level) {
   let xml = `
 <block type="maze_moveForward"></block>
 <block type="maze_turn"><field name="DIR">turnLeft</field></block>
@@ -95,8 +96,9 @@ Maze.html.toolbox = function(level) {
 /**
  * Help dialogs for each level.
  * @returns {string} HTML.
+ * @private
  */
- Maze.html.helpDialogs = function() {
+ Maze.html.helpDialogs_ = function() {
    return `
 <div id="dialogHelpStack" class="dialogHiddenContent">
   <table><tr><td>

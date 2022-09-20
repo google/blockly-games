@@ -33,7 +33,7 @@ function init() {
 
   BlocklyGames.init('');
 
-  const languageMenu = document.getElementById('languageMenu');
+  const languageMenu = BlocklyGames.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
 
   let storedData = false;
@@ -48,7 +48,7 @@ function init() {
     }
   }
   if (storedData) {
-    const clearButtonPara = document.getElementById('clearDataPara');
+    const clearButtonPara = BlocklyGames.getElementById('clearDataPara');
     clearButtonPara.style.visibility = 'visible';
     BlocklyGames.bindClick('clearData', clearData);
   }
@@ -61,7 +61,7 @@ function init() {
       setTimeout(animateGauge, 1500, app, 0, angle);
     } else {
       // Remove gauge if zero, since IE renders a stub.
-      const path = document.getElementById('gauge-' + app);
+      const path = BlocklyGames.getElementById('gauge-' + app);
       path.parentNode.removeChild(path);
     }
   }
@@ -99,7 +99,7 @@ function drawGauge(app, angle) {
   const theta1 = toRadians(0 - 45);
   const mx = xOffset - Math.cos(theta1) * radius;
   const my = yOffset - Math.sin(theta1) * radius;
-  const path = document.getElementById('gauge-' + app);
+  const path = BlocklyGames.getElementById('gauge-' + app);
   path.setAttribute('d',
       ['M ' + mx + ',' + my + ' A', radius, radius, 0, flag, 1, x, y].join(' '));
 }
