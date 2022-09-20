@@ -20,6 +20,7 @@ goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
@@ -178,9 +179,9 @@ function init() {
   BlocklyGames.bindClick('resetButton', resetButtonClick);
 
   // Lazy-load the JavaScript interpreter.
-  BlocklyInterface.importInterpreter();
+  BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  BlocklyInterface.importPrettify();
+  BlocklyCode.importPrettify();
   // Lazy-load the sounds.
   setTimeout(importSounds, 1);
 
@@ -601,8 +602,8 @@ function execute() {
   // For safety, recompute startCount in the generator.
   Music.startCount.set(0);
   // Create an interpreter whose global scope will be the cross-thread global.
-  const code = BlocklyInterface.getJsCode();
-  BlocklyInterface.executedJsCode = code;
+  const code = BlocklyCode.getJsCode();
+  BlocklyCode.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   const startCount = Music.startCount.get();
   if (startCount === 0) {  // Blank workspace.
@@ -647,7 +648,7 @@ function tick() {
       if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
         // No congrats for last level, it is open ended.
         Music.startCount.set(0);
-        BlocklyDialogs.congratulations();
+        BlocklyCode.congratulations();
       }
     }
     BlocklyGames.getElementById('spinner').style.visibility = 'hidden';
@@ -694,7 +695,7 @@ function executeChunk_(thread) {
   // Thread complete.  Wrap up.
   stopSound(thread);
   if (thread.highlighedBlock) {
-    BlocklyInterface.highlight(thread.highlighedBlock, false);
+    BlocklyCode.highlight(thread.highlighedBlock, false);
     thread.highlighedBlock = null;
   }
   thread.done = true;
@@ -759,9 +760,9 @@ function autoScroll() {
 function animate(id) {
   if (id) {
     if (activeThread.highlighedBlock) {
-      BlocklyInterface.highlight(activeThread.highlighedBlock, false);
+      BlocklyCode.highlight(activeThread.highlighedBlock, false);
     }
-    BlocklyInterface.highlight(id, true);
+    BlocklyCode.highlight(id, true);
     activeThread.highlighedBlock = id;
   }
 }
@@ -943,7 +944,7 @@ function checkAnswer() {
 
   if (BlocklyGames.LEVEL >= 6) {
     // Count the number of distinct non-pianos.
-    const code = BlocklyInterface.executedJsCode;
+    const code = BlocklyCode.executedJsCode;
     const instrumentList = code.match(/setInstrument\('\w+'\)/g) || [];
     // Yes, you can cheat with a comment.  In this case I don't care.
     // Remove duplicates.

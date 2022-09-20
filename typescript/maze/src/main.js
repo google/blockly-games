@@ -22,6 +22,7 @@ goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.string');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.Xml');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -565,9 +566,9 @@ function init() {
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
 
   // Lazy-load the JavaScript interpreter.
-  BlocklyInterface.importInterpreter();
+  BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  BlocklyInterface.importPrettify();
+  BlocklyCode.importPrettify();
 }
 
 /**
@@ -1011,8 +1012,8 @@ function execute() {
 
   log.length = 0;
   Blockly.selected && Blockly.selected.unselect();
-  const code = BlocklyInterface.getJsCode();
-  BlocklyInterface.executedJsCode = code;
+  const code = BlocklyCode.getJsCode();
+  BlocklyCode.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   result = ResultType.UNSET;
   const interpreter = new Interpreter(code, initInterpreter);
@@ -1067,11 +1068,11 @@ function execute() {
 function animate() {
   const action = log.shift();
   if (!action) {
-    BlocklyInterface.highlight(null);
+    BlocklyCode.highlight(null);
     levelHelp();
     return;
   }
-  BlocklyInterface.highlight(action[1]);
+  BlocklyCode.highlight(action[1]);
 
   switch (action[0]) {
     case 'north':
@@ -1125,7 +1126,7 @@ function animate() {
     case 'finish':
       scheduleFinish(true);
       BlocklyInterface.saveToLocalStorage();
-      setTimeout(BlocklyDialogs.congratulations, 1000);
+      setTimeout(BlocklyCode.congratulations, 1000);
   }
 
   pidList.push(setTimeout(animate, stepSpeed * 5));

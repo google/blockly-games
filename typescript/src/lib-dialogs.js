@@ -389,75 +389,10 @@ BlocklyDialogs.abortOffer = function() {
 };
 
 /**
- * Congratulates the user for completing the level and offers to
- * direct them to the next level, if available.
- */
-BlocklyDialogs.congratulations = function() {
-  const content = BlocklyGames.getElementById('dialogDone');
-  const style = {
-    width: '40%',
-    left: '30%',
-    top: '3em',
-  };
-
-  // Add the user's code.
-  if (BlocklyInterface.workspace) {
-    const linesText = BlocklyGames.getElementById('dialogLinesText');
-    linesText.textContent = '';
-    let code = BlocklyInterface.executedJsCode;
-    code = BlocklyInterface.stripCode(code);
-    let noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
-    noComments = noComments.replace(/\/\*.*\*\//g, '');  /* Block comments. */
-    noComments = noComments.replace(/[ \t]+\n/g, '\n');  // Trailing spaces.
-    noComments = noComments.replace(/\n+/g, '\n');  // Blank lines.
-    noComments = noComments.trim();
-    const lineCount = noComments.split('\n').length;
-    const pre = BlocklyGames.getElementById('containerCode');
-    pre.textContent = code;
-    if (typeof prettyPrintOne === 'function') {
-      code = pre.innerHTML;
-      code = prettyPrintOne(code, 'js');
-      pre.innerHTML = code;
-    }
-    let locMsg;
-    if (lineCount === 1) {
-      locMsg = BlocklyGames.getMsg('Games.linesOfCode1', false);
-    } else {
-      locMsg = BlocklyGames.getMsg('Games.linesOfCode2', false)
-          .replace('%1', String(lineCount));
-    }
-    linesText.appendChild(document.createTextNode(locMsg));
-  }
-
-  let levelMsg;
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    levelMsg = BlocklyGames.getMsg('Games.nextLevel', false)
-        .replace('%1', String(BlocklyGames.LEVEL + 1));
-  } else {
-    levelMsg = BlocklyGames.getMsg('Games.finalLevel', false);
-  }
-
-  const ok = BlocklyGames.getElementById('doneOk');
-  ok.addEventListener('click', BlocklyInterface.nextLevel, true);
-  ok.addEventListener('touchend', BlocklyInterface.nextLevel, true);
-
-  BlocklyDialogs.showDialog(content, null, false, true, style,
-      function() {
-        document.body.removeEventListener('keydown',
-            BlocklyDialogs.congratulationsKeyDown_, true);
-        });
-  document.body.addEventListener('keydown',
-      BlocklyDialogs.congratulationsKeyDown_, true);
-
-  BlocklyGames.getElementById('dialogDoneText').textContent = levelMsg;
-};
-
-/**
  * If the user presses enter, escape, or space, hide the dialog.
  * @param {!Event} e Keyboard event.
- * @private
  */
-BlocklyDialogs.dialogKeyDown_ = function(e) {
+BlocklyDialogs.dialogKeyDown = function(e) {
   if (BlocklyDialogs.isDialogVisible_) {
     if (e.keyCode === 13 || e.keyCode === 27 || e.keyCode === 32) {
       BlocklyDialogs.hideDialog(true);
@@ -468,32 +403,19 @@ BlocklyDialogs.dialogKeyDown_ = function(e) {
 };
 
 /**
- * Start listening for BlocklyDialogs.dialogKeyDown_.
+ * Start listening for BlocklyDialogs.dialogKeyDown.
  */
 BlocklyDialogs.startDialogKeyDown = function() {
   document.body.addEventListener('keydown',
-      BlocklyDialogs.dialogKeyDown_, true);
+      BlocklyDialogs.dialogKeyDown, true);
 };
 
 /**
- * Stop listening for BlocklyDialogs.dialogKeyDown_.
+ * Stop listening for BlocklyDialogs.dialogKeyDown.
  */
 BlocklyDialogs.stopDialogKeyDown = function() {
   document.body.removeEventListener('keydown',
-      BlocklyDialogs.dialogKeyDown_, true);
-};
-
-/**
- * If the user presses enter, escape, or space, hide the dialog.
- * Enter and space move to the next level, escape does not.
- * @param {!Event} e Keyboard event.
- * @private
- */
-BlocklyDialogs.congratulationsKeyDown_ = function(e) {
-  BlocklyDialogs.dialogKeyDown_(e);
-  if (e.keyCode === 13 || e.keyCode === 32) {
-    BlocklyInterface.nextLevel();
-  }
+      BlocklyDialogs.dialogKeyDown, true);
 };
 
 /**
@@ -503,7 +425,7 @@ BlocklyDialogs.congratulationsKeyDown_ = function(e) {
  * @private
  */
 BlocklyDialogs.abortKeyDown_ = function(e) {
-  BlocklyDialogs.dialogKeyDown_(e);
+  BlocklyDialogs.dialogKeyDown(e);
   if (e.keyCode === 13 || e.keyCode === 32) {
     BlocklyInterface.indexPage();
   }

@@ -16,7 +16,9 @@ goog.require('Blockly.Comment');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.VerticalFlyout');
+goog.require('BlocklyCode');
 goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 goog.require('Pond.Battle');
 goog.require('Pond.Visualization');
 
@@ -41,9 +43,9 @@ Pond.init = function(title) {
   BlocklyGames.bindClick('closeDocs', Pond.docsCloseClick);
 
   // Lazy-load the JavaScript interpreter.
-  BlocklyInterface.importInterpreter();
+  BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  BlocklyInterface.importPrettify();
+  BlocklyCode.importPrettify();
 };
 
 /**
@@ -115,7 +117,7 @@ Pond.saveAvatar = function() {
   const avatar = Pond.currentAvatar;
   if (!avatar) return;
   const code = BlocklyInterface.getCode();
-  let compiled = BlocklyInterface.getJsCode();
+  let compiled = BlocklyCode.getJsCode();
   if (BlocklyInterface.blocksDisabled) {
     try {
       compiled = BlocklyAce.transpileToEs5(compiled) || compiled;

@@ -15,6 +15,7 @@ goog.provide('Pond.Tutor');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.utils.Coordinate');
 goog.require('BlocklyAce');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -160,7 +161,7 @@ function init() {
  * @param {!Event} e Mouse or touch event.
  */
 function runButtonClick(e) {
-  BlocklyInterface.executedJsCode = BlocklyInterface.getJsCode();
+  BlocklyCode.executedJsCode = BlocklyCode.getJsCode();
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
 }
 
@@ -357,7 +358,7 @@ Pond.endBattle = function(survivors) {
         BlocklyDialogs.startDialogKeyDown();
       } else {
         BlocklyInterface.saveToLocalStorage();
-        BlocklyDialogs.congratulations();
+        BlocklyCode.congratulations();
       }
     }
   } else {
