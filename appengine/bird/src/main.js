@@ -22,6 +22,7 @@ goog.require('Blockly.utils.math');
 goog.require('Blockly.utils.style');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.Xml');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -434,9 +435,9 @@ function init() {
   }
 
   // Lazy-load the JavaScript interpreter.
-  BlocklyInterface.importInterpreter();
+  BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  BlocklyInterface.importPrettify();
+  BlocklyCode.importPrettify();
 }
 
 /**
@@ -681,8 +682,8 @@ function execute() {
 
   log.length = 0;
   Blockly.selected && Blockly.selected.unselect();
-  let code = BlocklyInterface.getJsCode();
-  BlocklyInterface.executedJsCode = code;
+  let code = BlocklyCode.getJsCode();
+  BlocklyCode.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   const start = code.indexOf('if (');
   const end = code.indexOf('}\n');
@@ -743,10 +744,10 @@ function animate() {
 
   const action = log.shift();
   if (!action) {
-    BlocklyInterface.highlight(null);
+    BlocklyCode.highlight(null);
     return;
   }
-  BlocklyInterface.highlight(action.pop());
+  BlocklyCode.highlight(action.pop());
 
   if (action[0] === 'move' || action[0] === 'goto') {
     [, pos.x, pos.y, angle] = action;
@@ -756,7 +757,7 @@ function animate() {
   } else if (action[0] === 'finish') {
     displayBird(Pose.SIT);
     BlocklyInterface.saveToLocalStorage();
-    BlocklyDialogs.congratulations();
+    BlocklyCode.congratulations();
   } else if (action[0] === 'play') {
     BlocklyInterface.workspace.getAudioManager().play(action[1], 0.5);
   }

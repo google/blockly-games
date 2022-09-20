@@ -14,6 +14,7 @@ goog.provide('BlocklyGallery');
 
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyInterface');
 goog.require('BlocklyStorage');
 
 

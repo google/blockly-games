@@ -22,6 +22,7 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.style');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
@@ -144,9 +145,9 @@ function init() {
   BlocklyInterface.workspace.getAudioManager().load(
       ['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
-  BlocklyInterface.importInterpreter();
+  BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  BlocklyInterface.importPrettify();
+  BlocklyCode.importPrettify();
 
   BlocklyGames.bindClick('helpButton', showHelp);
   if (location.hash.length < 2 &&
@@ -357,13 +358,13 @@ function codeChange(opt_e) {
     // Don't update code during a drag (insertion markers mess everything up).
     return;
   }
-  const code = BlocklyInterface.getJsCode();
-  if (BlocklyInterface.executedJsCode === code) {
+  const code = BlocklyCode.getJsCode();
+  if (BlocklyCode.executedJsCode === code) {
     return;
   }
   // Code has changed, clear all recorded frame info.
   pixelErrors = new Array(FRAMES);
-  BlocklyInterface.executedJsCode = code;
+  BlocklyCode.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   display();
 }
@@ -402,7 +403,7 @@ function display(opt_frameNumber) {
   ctxDisplay.drawImage(hatching, 0, 0);
 
   // Draw and copy the user layer.
-  const code = BlocklyInterface.executedJsCode;
+  const code = BlocklyCode.executedJsCode;
   let interpreter;
   try {
     interpreter = new Interpreter(code, initInterpreter);
@@ -577,7 +578,7 @@ function checkAnswers() {
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
       BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
-      BlocklyDialogs.congratulations();
+      BlocklyCode.congratulations();
     }
   }
 }
@@ -587,7 +588,7 @@ function checkAnswers() {
  */
 function submitToGallery() {
   const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
-  const code = BlocklyInterface.getJsCode();
+  const code = BlocklyCode.getJsCode();
   if (blockCount < 4 || !code.includes('time()')) {
     alert(BlocklyGames.getMsg('submitDisabled', false));
     return;

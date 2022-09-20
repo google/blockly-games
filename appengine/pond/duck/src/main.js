@@ -18,6 +18,7 @@ goog.require('Blockly.utils.dom');
 goog.require('Blockly.Xml');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyAce');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
@@ -249,7 +250,7 @@ function editorChanged() {
   if (ignoreEditorChanges_) {
     return;
   }
-  const code = BlocklyInterface.getJsCode();
+  const code = BlocklyCode.getJsCode();
   if (BlocklyInterface.blocksDisabled) {
     if (!code.trim()) {
       // Reestablish link between blocks and JS.

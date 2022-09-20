@@ -15,7 +15,6 @@ goog.provide('BlocklyInterface');
 goog.require('Blockly');
 goog.require('Blockly.ContextMenuItems');
 goog.require('Blockly.geras.Renderer');
-goog.require('Blockly.JavaScript');
 goog.require('Blockly.ShortcutItems');
 goog.require('Blockly.Xml');
 goog.require('BlocklyGames');
@@ -46,12 +45,6 @@ BlocklyInterface.blocksDisabled = false;
  * @type string
  */
 BlocklyInterface.executedCode = '';
-
-/**
- * User's JavaScript code from previous execution.
- * @type string
- */
-BlocklyInterface.executedJsCode = '';
 
 /**
  * Common startup tasks for all apps.
@@ -166,19 +159,6 @@ BlocklyInterface.getCode = function() {
 };
 
 /**
- * Get the user's executable code as JS from the editor (Blockly or ACE).
- * @returns {string} JS code.
- */
-BlocklyInterface.getJsCode = function() {
-  if (BlocklyInterface.blocksDisabled) {
-    // Text editor.
-    return BlocklyInterface.editor['getValue']();
-  }
-  // Blockly editor.
-  return Blockly.JavaScript.workspaceToCode(BlocklyInterface.workspace);
-};
-
-/**
  * Monitor the block or JS editor.  If a change is made that changes the code,
  * clear the key from the URL.
  */
@@ -259,23 +239,6 @@ BlocklyInterface.nextLevel = function() {
 };
 
 /**
- * Highlight the block (or clear highlighting).
- * @param {?string} id ID of block that triggered this action.
- * @param {boolean=} opt_state If undefined, highlight specified block and
- * automatically unhighlight all others.  If true or false, manually
- * highlight/unhighlight the specified block.
- */
-BlocklyInterface.highlight = function(id, opt_state) {
-  if (id) {
-    const m = id.match(/^block_id_([^']+)$/);
-    if (m) {
-      id = m[1];
-    }
-  }
-  BlocklyInterface.workspace.highlightBlock(id, opt_state);
-};
-
-/**
  * Inject readonly Blockly.  Only inserts once.
  * @param {string} id ID of div to be injected into.
  * @param {string|!Array<string>} xml XML string(s) describing blocks.
@@ -290,17 +253,6 @@ BlocklyInterface.injectReadonly = function(id, xml) {
     }
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
   }
-};
-
-/**
- * Convert the user's code to raw JavaScript.
- * @param {string} code Generated code.
- * @returns {string} The code without serial numbers.
- */
-BlocklyInterface.stripCode = function(code) {
-  // Strip out serial numbers.
-  code = code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')');
-  return code.replace(/\s+$/, '');
 };
 
 /**
@@ -336,40 +288,3 @@ BlocklyInterface.eventSpam = function(e) {
 
 BlocklyInterface.eventSpam.previousType_ = null;
 BlocklyInterface.eventSpam.previousDate_ = 0;
-
-/**
- * Load the JavaScript interpreter.
- * Defer loading until page is loaded and responsive.
- */
-BlocklyInterface.importInterpreter = function() {
-  function load() {
-    //<script type="text/javascript"
-    //  src="third-party/JS-Interpreter/compressed.js"></script>
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'third-party/JS-Interpreter/compressed.js';
-    document.head.appendChild(script);
-  }
-  setTimeout(load, 1);
-};
-
-/**
- * Load the Prettify CSS and JavaScript.
- * Defer loading until page is loaded and responsive.
- */
-BlocklyInterface.importPrettify = function() {
-  function load() {
-    //<link rel="stylesheet" type="text/css" href="common/prettify.css">
-    //<script type="text/javascript" src="common/prettify.js"></script>
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'common/prettify.css';
-    document.head.appendChild(link);
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'common/prettify.js';
-    document.head.appendChild(script);
-  }
-  setTimeout(load, 1);
-};

@@ -22,6 +22,7 @@ goog.require('Blockly.utils.math');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.Xml');
 goog.require('Blockly.ZoomControls');
+goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
@@ -168,9 +169,9 @@ function init() {
   BlocklyInterface.workspace.getAudioManager().load(
       ['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
-  BlocklyInterface.importInterpreter();
+  BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
-  BlocklyInterface.importPrettify();
+  BlocklyCode.importPrettify();
 
   BlocklyGames.bindClick('helpButton', showHelp);
   if (location.hash.length < 2 &&
@@ -657,8 +658,8 @@ function execute() {
 
   reset();
   Blockly.selected && Blockly.selected.unselect();
-  const code = BlocklyInterface.getJsCode();
-  BlocklyInterface.executedJsCode = code;
+  const code = BlocklyCode.getJsCode();
+  BlocklyCode.executedJsCode = code;
   BlocklyInterface.executedCode = BlocklyInterface.getCode();
   interpreter = new Interpreter(code, initInterpreter);
   pidList.push(setTimeout(executeChunk_, 100));
@@ -706,7 +707,7 @@ function animate(id) {
   // since that's the signature of just pre-drawing the answer layer.
   if (id) {
     display();
-    BlocklyInterface.highlight(id);
+    BlocklyCode.highlight(id);
     // Scale the speed non-linearly, to give better precision at the fast end.
     const stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);
     pause = Math.max(1, stepSpeed);
@@ -839,7 +840,7 @@ function checkAnswer() {
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
       BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
-      BlocklyDialogs.congratulations();
+      BlocklyCode.congratulations();
     }
   } else {
     penColour('#ff0000');
