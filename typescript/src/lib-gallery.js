@@ -32,9 +32,6 @@ BlocklyGallery.showGalleryForm = function() {
   };
 
   if (!BlocklyGallery.showGalleryForm.runOnce_) {
-    const cancel = BlocklyGames.getElementById('galleryCancel');
-    cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
-    cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
     const ok = BlocklyGames.getElementById('galleryOk');
     ok.addEventListener('click', BlocklyGallery.gallerySubmit_, true);
     ok.addEventListener('touchend', BlocklyGallery.gallerySubmit_, true);

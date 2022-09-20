@@ -121,7 +121,7 @@ Music.html.gallery_ = function(lang) {
     </div>
 
     <div class="farSide">
-      <button id="galleryCancel" type="button">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
+      <button class="addHideHandler" type="button">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
       <button id="galleryOk" class="secondary" type="submit">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
     </div>
   </form>

@@ -147,7 +147,7 @@ BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
  * 'document.getElementById' can't be compressed by the compiler,
  * so centralize all such calls here.  Saves 1-2 KB per game.
  */
-BlocklyGames.getElementById = document.getElementById;
+BlocklyGames.getElementById = document.getElementById.bind(document);
 
 /**
  * Report client-side errors back to the server.

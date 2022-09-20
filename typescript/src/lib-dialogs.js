@@ -77,6 +77,12 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
   if (!content) {
     throw TypeError('Content not found: ' + content);
   }
+  const buttons = content.getElementsByClassName('addHideHandler');
+  for (const button of buttons) {
+    button.addEventListener('click', BlocklyDialogs.hideDialog, true);
+    button.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+    button.classList.remove('addHideHandler');
+  }
   if (BlocklyDialogs.isDialogVisible_) {
     BlocklyDialogs.hideDialog(false);
   }
@@ -369,9 +375,6 @@ BlocklyDialogs.abortOffer = function() {
     top: '3em',
   };
 
-  const cancel = BlocklyGames.getElementById('abortCancel');
-  cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
-  cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
   const ok = BlocklyGames.getElementById('abortOk');
   ok.addEventListener('click', BlocklyInterface.indexPage, true);
   ok.addEventListener('touchend', BlocklyInterface.indexPage, true);
@@ -433,9 +436,6 @@ BlocklyDialogs.congratulations = function() {
     levelMsg = BlocklyGames.getMsg('Games.finalLevel', false);
   }
 
-  const cancel = BlocklyGames.getElementById('doneCancel');
-  cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
-  cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
   const ok = BlocklyGames.getElementById('doneOk');
   ok.addEventListener('click', BlocklyInterface.nextLevel, true);
   ok.addEventListener('touchend', BlocklyInterface.nextLevel, true);
@@ -510,5 +510,3 @@ BlocklyDialogs.abortKeyDown_ = function(e) {
 
 // Export symbols that would otherwise be renamed by Closure compiler.
 window['BlocklyDialogs'] = BlocklyDialogs;
-// BlocklyGames.html.ok has a hardcoded onclick="BlocklyDialogs.hidedialogs()".
-BlocklyDialogs['hideDialog'] = BlocklyDialogs.hideDialog;
