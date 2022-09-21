@@ -103,7 +103,7 @@ Music.Blocks.init = function() {
         }
       ],
       "output": "Number",
-      "colour": Blockly.Msg['MATH_HUE'],
+      "colour": "%{BKY_MATH_HUE}",
       "tooltip": BlocklyGames.getMsg('Music.pitchTooltip', false),
     },
 

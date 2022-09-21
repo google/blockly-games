@@ -14,6 +14,7 @@ goog.provide('BlocklyCode');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
+goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
