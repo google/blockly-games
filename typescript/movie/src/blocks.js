@@ -28,7 +28,6 @@ goog.require('Blockly.JavaScript.loops');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.variables');
-goog.require('Blockly.Msg');
 goog.require('BlocklyGames');
 
 
@@ -109,7 +108,7 @@ Movie.Blocks.init = function() {
       "type": "movie_time",
       "message0": "time (0→100)",
       "output": null,
-      "colour": Blockly.Msg['VARIABLES_HUE'],
+      "colour": "%{BKY_VARIABLES_HUE}",
       "tooltip": BlocklyGames.getMsg('Movie.timeTooltip', false),
     },
 
@@ -126,7 +125,7 @@ Movie.Blocks.init = function() {
       ],
       "previousStatement": null,
       "nextStatement": null,
-      "colour": Blockly.Msg['COLOUR_HUE'],
+      "colour": "%{BKY_COLOUR_HUE}",
       "tooltip": BlocklyGames.getMsg('Movie.colourTooltip', false),
     },
   ]);

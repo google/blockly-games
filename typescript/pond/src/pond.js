@@ -17,6 +17,7 @@ goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.VerticalFlyout');
 goog.require('BlocklyCode');
+goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Pond.Battle');
