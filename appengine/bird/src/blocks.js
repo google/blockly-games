@@ -162,13 +162,13 @@ Bird.Blocks.init = function() {
       "args0": [{
         "type": "field_number",
         "name": "NUM",
-        "value": 0
+        "value": 0,
       }],
       "output": "Number",
       "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
       "colour": "%{BKY_MATH_HUE}",
       "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
-      "extensions": ["parent_tooltip_when_inline"]
+      "extensions": ["parent_tooltip_when_inline"],
     },
   ]);
 
@@ -254,8 +254,8 @@ Blockly.Blocks['controls_if'].init = function() {
 
 Blockly.JavaScript['math_number'] = function(block) {
   // Numeric value.
-  var code = Number(block.getFieldValue('NUM'));
-  var order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
-              Blockly.JavaScript.ORDER_UNARY_NEGATION;
+  const code = Number(block.getFieldValue('NUM'));
+  const order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
+      Blockly.JavaScript.ORDER_UNARY_NEGATION;
   return [code, order];
 };

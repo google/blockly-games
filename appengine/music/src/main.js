@@ -24,7 +24,7 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
-goog.require('CustomFields.FieldPitch');
+goog.require('FieldPitch');
 goog.require('Music.Blocks');
 goog.require('Music.html');
 goog.require('Music.startCount');
@@ -234,9 +234,8 @@ function registerSounds() {
 
   const sounds = [];
   for (let i = 0; i < instruments.length; i++) {
-    for (let j = 0; j < CustomFields.FieldPitch.NOTES.length; j++) {
-      sounds.push({'src': instruments[i] + '/' +
-                       CustomFields.FieldPitch.NOTES[j] + '.mp3',
+    for (let j = 0; j < FieldPitch.NOTES.length; j++) {
+      sounds.push({'src': instruments[i] + '/' + FieldPitch.NOTES[j] + '.mp3',
                    id: instruments[i] + j});
     }
   }
@@ -318,7 +317,7 @@ function drawNote(i, time, pitch, duration, className) {
   img.style.top = top + 'px';
   img.style.left = left + 'px';
   if (pitch !== REST) {
-    img.title = CustomFields.FieldPitch.NOTES[pitch];
+    img.title = FieldPitch.NOTES[pitch];
   }
   musicContainer.appendChild(img);
   if (!className) {
