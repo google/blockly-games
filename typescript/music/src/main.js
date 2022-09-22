@@ -17,7 +17,6 @@ goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
-goog.require('Blockly.utils.dom');
 goog.require('Blockly.VerticalFlyout');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyCode');
@@ -329,7 +328,7 @@ function drawNote(i, time, pitch, duration, className) {
     // Wait 0 ms to trigger the CSS Transition.
     setTimeout(function() {splash.className = 'splash ' + name;}, 0);
     // Garbage collect the now-invisible note.
-    setTimeout(function() {Blockly.utils.dom.removeNode(splash);}, 1000);
+    setTimeout(function() {musicContainer.removeChild(splash);}, 1000);
   }
   if (pitch === '0' || pitch === '12') {
     const line = document.createElement('img');
