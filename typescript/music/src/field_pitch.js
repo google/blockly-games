@@ -12,14 +12,12 @@
  */
 'use strict';
 
-goog.provide('CustomFields.FieldPitch');
+goog.provide('FieldPitch');
 
 goog.require('Blockly.browserEvents');
 goog.require('Blockly.FieldTextInput');
 goog.require('Blockly.utils.math');
 
-
-var CustomFields = CustomFields || {};
 
 /**
  * Class for an editable pitch field.
@@ -27,7 +25,7 @@ var CustomFields = CustomFields || {};
  * @extends {Blockly.FieldTextInput}
  * @constructor
  */
-class FieldPitch extends Blockly.FieldTextInput {
+FieldPitch = class extends Blockly.FieldTextInput {
   constructor(text) {
     super(text);
 
@@ -238,9 +236,7 @@ class FieldPitch extends Blockly.FieldTextInput {
 
 Blockly.fieldRegistry.register('field_pitch', FieldPitch);
 
-CustomFields.FieldPitch = FieldPitch;
-
 /**
  * All pitches available for the picker.
  */
-CustomFields.FieldPitch.NOTES = 'C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4'.split(/ /);
+FieldPitch.NOTES = 'C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4'.split(/ /);
