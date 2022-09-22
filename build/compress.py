@@ -49,6 +49,7 @@ def main(gameName):
   generate_uncompressed(gameName)
   generate_compressed(gameName)
   filterMessages(gameName)
+
   # Extract the list of supported languages from boot.js.
   # This is a bit fragile.
   boot = open('appengine/common/boot.js', 'r')
@@ -60,6 +61,7 @@ def main(gameName):
   langs = m.group(1)
   langs = langs.replace("'", '"')
   langs = json.loads(langs)
+
   for lang in langs:
     language(gameName, lang)
   print("")
@@ -68,33 +70,26 @@ def main(gameName):
 def filterMessages(gameName):
   global blocklyMessageNames, blocklyGamesMessageNames
   # Identify all the Blockly messages used.
+  # Load the compiled game.
   f = open('appengine/%s/generated/compressed.js' % gameName, 'r')
   js = f.read()
   f.close()
-
-  # Locate what Blockly.Msg has compiled into (e.g. h.Y)
-  m = re.search('Blockly\.Msg=([\w.$]+)', js)
-  if m:
-    blocklyMsg = m.group(1)
-    blocklyMsg = blocklyMsg.replace('.', '\\.').replace('$', '\\$')
-    msgs1 = re.findall('\W' + blocklyMsg + '\.([A-Z0-9_]+)', js)
-    msgs2 = re.findall('\WBKY_([A-Z0-9_]+)', js)
-    blocklyMessageNames = list(set(msgs1 + msgs2))
-    print("Found %d Blockly messages." % len(blocklyMessageNames))
-  else:
-    print("Unable to find any Blockly messages.")
+  # Load any language file (they all should have the same keys).
+  msgs = getMessages('en')
+  for msg in msgs:
+    m = re.search('BlocklyMsg\["([^"]+)"\] = ', msg)
+    if m:
+      if (('"' + m.group(1) + '"') in js or
+          ('.' + m.group(1)) in js or
+          ('%{BKY_' + m.group(1) + '}') in js):
+        blocklyMessageNames.append(m.group(1))
+    m = re.search('BlocklyGamesMsg\["([^"]+)"\] = ', msg)
+    if m:
+      if ('"' + m.group(1) + '"') in js or ('.' + m.group(1)) in js:
+        blocklyGamesMessageNames.append(m.group(1))
+  print("Found %d Blockly messages." % len(blocklyMessageNames))
   blocklyMessageNames.sort()
-
-  # Locate what BlocklyGames.getMsg has compiled into (e.g. C)
-  m = re.search('BlocklyGamesGetMsg=([\w.$]+)', js)
-  if m:
-    blocklyGamesGetMsg = m.group(1)
-    blocklyGamesGetMsg = blocklyGamesGetMsg.replace('.', '\\.').replace('$', '\\$')
-    msgs = re.findall('\W' + blocklyGamesGetMsg + '\("([^"]+)",', js)
-    blocklyGamesMessageNames = list(set(msgs))
-    print("Found %d Blockly Games messages." % len(blocklyGamesMessageNames))
-  else:
-    print("Unable to find any Blockly Games messages.")
+  print("Found %d Blockly Games messages." % len(blocklyGamesMessageNames))
   blocklyGamesMessageNames.sort()
 
 
