@@ -14,13 +14,12 @@ goog.provide('Bird.Blocks');
 
 goog.require('Blockly');
 goog.require('Blockly.Constants.Logic');
-goog.require('Blockly.Constants.Math');
 goog.require('Blockly.Extensions');
 goog.require('Blockly.FieldAngle');
 goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldNumber');
 goog.require('Blockly.JavaScript');
 goog.require('Blockly.JavaScript.logic');
-goog.require('Blockly.JavaScript.math');
 goog.require('BlocklyGames');
 
 
@@ -155,6 +154,22 @@ Bird.Blocks.init = function() {
       "tooltip": "%{BKY_CONTROLS_IF_TOOLTIP_2}",
       "helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
     },
+
+    // Block for numeric value.
+    {
+      "type": "math_number",
+      "message0": "%1",
+      "args0": [{
+        "type": "field_number",
+        "name": "NUM",
+        "value": 0
+      }],
+      "output": "Number",
+      "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
+      "colour": "%{BKY_MATH_HUE}",
+      "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
+      "extensions": ["parent_tooltip_when_inline"]
+    },
   ]);
 
   Blockly.Extensions.register('bird_compare_tooltip',
@@ -235,4 +250,12 @@ Blockly.Blocks['controls_if'].init = function() {
   this.oldInit();
   this.setPreviousStatement(false);
   this.setNextStatement(false);
+};
+
+Blockly.JavaScript['math_number'] = function(block) {
+  // Numeric value.
+  var code = Number(block.getFieldValue('NUM'));
+  var order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
+              Blockly.JavaScript.ORDER_UNARY_NEGATION;
+  return [code, order];
 };
