@@ -220,7 +220,7 @@ function registerSounds() {
     const instances = this['_soundInstances'][src];
     this['_audioSources'][src] = result;
 
-    if (instances && instances.length > 0) {
+    if (instances) {
       for (const instance of instances) {
         instance['playbackResource'] = result;
       }
