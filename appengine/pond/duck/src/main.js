@@ -14,7 +14,6 @@ goog.provide('Pond.Duck');
 
 goog.require('Blockly.FlyoutButton');
 goog.require('Blockly.utils.Coordinate');
-goog.require('Blockly.utils.dom');
 goog.require('Blockly.Xml');
 goog.require('Blockly.ZoomControls');
 goog.require('BlocklyAce');
@@ -79,7 +78,7 @@ function init() {
   // Setup the tabs.
   function tabHandler(selectedIndex) {
     return function() {
-      if (Blockly.utils.dom.hasClass(tabs[selectedIndex], 'tab-disabled')) {
+      if (tabs[selectedIndex].classList.contains('tab-disabled')) {
         return;
       }
       changeTab(selectedIndex);
@@ -212,9 +211,9 @@ function changeTab(index) {
   // Change highlighting.
   for (let i = 0; i < editorTabs.length; i++) {
     if (index === i) {
-      Blockly.utils.dom.addClass(editorTabs[i], 'tab-selected');
+      editorTabs[i].classList.add('tab-selected');
     } else {
-      Blockly.utils.dom.removeClass(editorTabs[i], 'tab-selected');
+      editorTabs[i].classList.remove('tab-selected');
     }
   }
   // Show the correct tab contents.
@@ -280,9 +279,9 @@ function setBlocksDisabled(disabled) {
   BlocklyInterface.blocksDisabled = disabled;
   const tab = editorTabs[tabIndex.BLOCKS];
   if (disabled) {
-    Blockly.utils.dom.addClass(tab, 'tab-disabled');
+    tab.classList.add('tab-disabled');
   } else {
-    Blockly.utils.dom.removeClass(tab, 'tab-disabled');
+    tab.classList.remove('tab-disabled');
   }
 }
 
