@@ -8,11 +8,7 @@
  * @fileoverview HTML for index page.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-
-goog.provide('Index.html');
-
-goog.require('BlocklyGames');
+import * as BlocklyGames from '../../src/lib-games.js';
 
 
 /**
@@ -20,7 +16,7 @@ goog.require('BlocklyGames');
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Index.html.start = function(ij) {
+export function start(ij: any): string {
   return `
 <div id="header">
   <img id="banner" src="index/title-beta.png" height=51 width=244 alt="Blockly Games">
@@ -41,14 +37,14 @@ Index.html.start = function(ij) {
         ${ij.rtl ? 'transform="translate(100) scale(-1, 1)"' : ''}
       />
     </svg>
-    ${Index.html.appLink_(ij, 'puzzle', 10, 15, BlocklyGames.getMsg('Games.puzzle', true))}
-    ${Index.html.appLink_(ij, 'maze', 16, 45, BlocklyGames.getMsg('Games.maze', true))}
-    ${Index.html.appLink_(ij, 'bird', 26, 69, BlocklyGames.getMsg('Games.bird', true))}
-    ${Index.html.appLink_(ij, 'turtle', 41, 80, BlocklyGames.getMsg('Games.turtle', true))}
-    ${Index.html.appLink_(ij, 'movie', 55, 61, BlocklyGames.getMsg('Games.movie', true))}
-    ${Index.html.appLink_(ij, 'music', 69, 43, BlocklyGames.getMsg('Games.music', true))}
-    ${Index.html.appLink_(ij, 'pond-tutor', 83, 55, BlocklyGames.getMsg('Games.pondTutor', true))}
-    ${Index.html.appLink_(ij, 'pond-duck', 90, 85, BlocklyGames.getMsg('Games.pond', true))}
+    ${appLink_(ij, 'puzzle', 10, 15, BlocklyGames.getMsg('Games.puzzle', true))}
+    ${appLink_(ij, 'maze', 16, 45, BlocklyGames.getMsg('Games.maze', true))}
+    ${appLink_(ij, 'bird', 26, 69, BlocklyGames.getMsg('Games.bird', true))}
+    ${appLink_(ij, 'turtle', 41, 80, BlocklyGames.getMsg('Games.turtle', true))}
+    ${appLink_(ij, 'movie', 55, 61, BlocklyGames.getMsg('Games.movie', true))}
+    ${appLink_(ij, 'music', 69, 43, BlocklyGames.getMsg('Games.music', true))}
+    ${appLink_(ij, 'pond-tutor', 83, 55, BlocklyGames.getMsg('Games.pondTutor', true))}
+    ${appLink_(ij, 'pond-duck', 90, 85, BlocklyGames.getMsg('Games.pond', true))}
   </g>
 </svg>
 <select id="languageMenu"></select>
@@ -57,7 +53,7 @@ Index.html.start = function(ij) {
   <button class="secondary" id="clearData">${BlocklyGames.getMsg('Index.clearData', true)}</button>
 </p>
 `;
-};
+}
 
 /**
  * Create a link to an app.
@@ -69,7 +65,7 @@ Index.html.start = function(ij) {
  * @returns {string} HTML.
  * @private
  */
-Index.html.appLink_ = function(ij, app, x, y, contentText) {
+function appLink_(ij: any, app: string, x: number, y: number, contentText: string): string {
   return `
 <svg height=150 width=300 version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -87,4 +83,4 @@ Index.html.appLink_ = function(ij, app, x, y, contentText) {
   </g>
 </svg>
 `;
-};
+}

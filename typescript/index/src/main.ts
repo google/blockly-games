@@ -10,10 +10,8 @@
  */
 'use strict';
 
-goog.provide('Index');
-
-goog.require('BlocklyGames');
-goog.require('Index.html');
+import * as BlocklyGames from '../../src/lib-games.js';
+import {start} from './html.js';
 
 /**
  * Array of application names.
@@ -26,7 +24,7 @@ const APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
  */
 function init() {
   // Render the HTML.
-  document.body.innerHTML = Index.html.start(
+  document.body.innerHTML = start(
     {lang: BlocklyGames.LANG,
      html: BlocklyGames.IS_HTML,
      rtl: BlocklyGames.IS_RTL});
@@ -87,7 +85,7 @@ function animateGauge(app, cur, max) {
  * @param {string} app Name of application.
  * @param {number} angle Angle of gauge in degrees.
  */
-function drawGauge(app, angle) {
+function drawGauge(app: string, angle: number) {
   const xOffset = 150;
   const yOffset = 60;
   const radius = 52.75;
@@ -110,7 +108,7 @@ function drawGauge(app, angle) {
  * @param {number} angleDegrees Angle in degrees.
  * @return {number} Angle in radians.
  */
-function toRadians(angleDegrees) {
+function toRadians(angleDegrees: number): number {
   return angleDegrees * Math.PI / 180;
 }
 

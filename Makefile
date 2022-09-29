@@ -63,8 +63,10 @@ deps:
 	mv babel.min.js appengine/third-party/
 	@# GitHub doesn't support git archive, so download files using svn.
 	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ appengine/third-party/ace
+	mkdir -p typescript/third-party/blockly
+	svn export --force https://github.com/google/blockly/branches/develop/ typescript/third-party/blockly
 	mkdir -p appengine/third-party/blockly
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/ appengine/third-party/blockly
+	cp -R typescript/third-party/blockly/media appengine/third-party/blockly/media
 	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ appengine/third-party/SoundJS
 	cp third-party/base.js appengine/third-party/
 	cp -R third-party/soundfonts appengine/third-party/
@@ -130,6 +132,7 @@ clean-offline:
 
 clean-deps:
 	rm -rf appengine/third-party
+	rm -rf typescript/third-party
 	rm -rf build/third-party-downloads
 
 # Prevent non-traditional rules from exiting with no changes.

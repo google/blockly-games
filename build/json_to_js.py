@@ -37,7 +37,7 @@ def main():
                       default='en',
                       help='Missing translations will come from this language.')
   parser.add_argument('--blockly_msg_dir',
-                      default=os.path.join('appengine', 'third-party', 'blockly', 'msg', 'json'),
+                      default=os.path.join('typescript', 'third-party', 'blockly', 'msg', 'json'),
                       help='Relative directory for Blockly\'s message .json files.')
   parser.add_argument('--blocklygames_msg_dir',
                       default='json',

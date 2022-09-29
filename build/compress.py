@@ -15,16 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This script generates two files:
-#   compressed.js
-#   uncompressed.js
+# This script generates compressed.js
 # The compressed file is a concatenation of all the relevant JavaScript which
 # has then been run through Google's Closure Compiler.
-# The uncompressed file is a script that loads in each JavaScript file
-# one by one.  This takes much longer for a browser to load, but is useful
-# when debugging code since line numbers are meaningful and variables haven't
-# been renamed.  The uncompressed file also allows for a faster development
-# cycle since there is no need to rebuild or recompile, just reload.
 
 import json
 import os.path
@@ -46,7 +39,6 @@ def main(gameName):
   print('Compressing %s' % gameName.title())
   if not os.path.exists('appengine/%s/generated' % gameName):
     os.mkdir('appengine/%s/generated' % gameName)
-  generate_uncompressed(gameName)
   generate_compressed(gameName)
   filterMessages(gameName)
 
@@ -129,66 +121,6 @@ def language(gameName, lang):
   f.close()
 
 
-def generate_uncompressed(gameName):
-  cmd = ['third-party/closurebuilder/closurebuilder.py',
-      '--root=appengine/third-party/',
-      '--root=appengine/generated/',
-      '--root=appengine/src/',
-      '--exclude=',
-      '--namespace=%s' % gameName.replace('/', '.').title()]
-  directory = gameName
-  while directory:
-    subdir = 'appengine/%s/generated/' % directory
-    if os.path.isdir(subdir):
-      cmd.append('--root=%s' % subdir)
-    subdir = 'appengine/%s/src/' % directory
-    if os.path.isdir(subdir):
-      cmd.append('--root=%s' % subdir)
-    (directory, sep, fragment) = directory.rpartition(os.path.sep)
-  try:
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-  except:
-    raise Exception("Failed to Popen: %s" % ' '.join(cmd))
-  files = readStdout(proc)
-
-  if gameName == 'pond/docs':
-    path = '../'
-  else:
-    path = ''
-  prefix = 'appengine/'
-  srcs = []
-  for file in files:
-    file = file.strip()
-    if file[:len(prefix)] == prefix:
-      file = file[len(prefix):]
-    else:
-      raise Exception('"%s" is not in "%s".' % (file, prefix))
-    srcs.append('"%s%s"' % (path, file))
-  f = open('appengine/%s/generated/uncompressed.js' % gameName, 'w')
-  f.write("""%s
-window.CLOSURE_NO_DEPS = true;
-
-(function() {
-  var srcs = [
-      %s
-  ];
-  function loadScript() {
-    var src = srcs.shift();
-    if (src) {
-      var script = document.createElement('script');
-      script.src = src;
-      script.type = 'text/javascript';
-      script.onload = loadScript;
-      document.head.appendChild(script);
-    }
-  }
-  loadScript();
-})();
-""" % (WARNING, ',\n      '.join(srcs)))
-  f.close()
-  print('Found %d dependencies.' % len(srcs))
-
-
 def generate_compressed(gameName):
   cmd = [
     'java',
@@ -205,7 +137,8 @@ def generate_compressed(gameName):
     #'--language_in', 'STABLE',
     '--language_out', 'ECMASCRIPT5',
     '--entry_point=appengine/%s/src/main' % gameName,
-    "--js='appengine/third-party/**.js'",
+    "--js='appengine/third-party/blockly/**.js'",
+    "--js='!appengine/third-party/blockly/closure/goog/base.js'",
     "--js='appengine/src/*.js'",
     '--warning_level', 'QUIET',
   ]

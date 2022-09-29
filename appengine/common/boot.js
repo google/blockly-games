@@ -76,10 +76,11 @@ if (location.host === 'blockly-games.appspot.com') {
   // Load the code bundle for the chosen game.
   var script = document.createElement('script');
   if (debug) {
-    script.src = appName + '/generated/uncompressed.js';
+    script.src = appName + '/src/main.js';
+    script.type = 'module';
   } else {
     script.src = appName + '/generated/compressed.js';
+    script.type = 'text/javascript';
   }
-  script.type = 'text/javascript';
   document.head.appendChild(script);
 })();

@@ -1,8 +1,30 @@
 {
+  "include": [
+    "./typescript/**/*"
+  ],
+  "exclude": [
+    "./typescript/third-party/blockly/*.js",
+    "./typescript/third-party/blockly/appengine/**/*",
+    "./typescript/third-party/blockly/demos/**/*",
+    "./typescript/third-party/blockly/generators/dart.js",
+    "./typescript/third-party/blockly/generators/dart/**/*",
+    "./typescript/third-party/blockly/generators/lua.js",
+    "./typescript/third-party/blockly/generators/lua/**/*",
+    "./typescript/third-party/blockly/generators/php.js",
+    "./typescript/third-party/blockly/generators/php/**/*",
+    "./typescript/third-party/blockly/generators/python.js",
+    "./typescript/third-party/blockly/generators/python/**/*",
+    "./typescript/third-party/blockly/media/**/*",
+    "./typescript/third-party/blockly/msg/**/*",
+    "./typescript/third-party/blockly/scripts/**/*",
+    "./typescript/third-party/blockly/typings/**/*",
+    "./typescript/third-party/blockly/tests/**/*",
+    "./typescript/third-party/blockly/**/variables_dynamic.js",
+  ],
   "compilerOptions": {
     "outDir": "./appengine",
     "allowJs": true,
-    "target": "es6"
-  },
-  "include": ["./typescript/**/*"]
+    "moduleResolution": "node",
+    "target": "ES2020",
+  }
 }

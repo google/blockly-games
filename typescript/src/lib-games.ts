@@ -8,18 +8,14 @@
  * @fileoverview Common support code for all games and the index.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-
-goog.provide('BlocklyGames');
-
-goog.require('Blockly.Msg');
+import {Msg} from '../third-party/blockly/core/msg.js';
 
 
 /**
  * Lookup for names of languages.  Keys should be in ISO 639 format.
  * @private
  */
-BlocklyGames.LANGUAGE_NAME_ = {
+const LANGUAGE_NAME_ = {
 //  'ace': 'بهسا اچيه',  // RTL
 //  'af': 'Afrikaans',
   'am': 'አማርኛ',
@@ -116,60 +112,60 @@ BlocklyGames.LANGUAGE_NAME_ = {
  * List of RTL languages.
  * @private
  */
-BlocklyGames.LANGUAGE_RTL_ = [/*'ace',*/ 'ar', 'fa', 'he', /*'mzn', 'ps',*/ 'ur'];
+const LANGUAGE_RTL_ = [/*'ace',*/ 'ar', 'fa', 'he', /*'mzn', 'ps',*/ 'ur'];
 
 /**
  * User's language (e.g. "en").
  * @type string
  */
-BlocklyGames.LANG = window['BlocklyGamesLang'];
+export const LANG: string = window['BlocklyGamesLang'];
 
 /**
  * List of languages supported by this app.  Values should be in ISO 639 format.
  * @type !Array<string>
  * @private
  */
-BlocklyGames.LANGUAGES_ = window['BlocklyGamesLanguages'];
+const LANGUAGES_: Array<string> = window['BlocklyGamesLanguages'];
 
 /**
- * Is the current language (BlocklyGames.LANG) an RTL language?
+ * Is the current language (LANG) an RTL language?
  * @type boolean
  */
-BlocklyGames.IS_RTL = BlocklyGames.LANGUAGE_RTL_.includes(BlocklyGames.LANG);
+export const IS_RTL: boolean = LANGUAGE_RTL_.includes(LANG);
 
 /**
  * Is the site being served as raw HTML files, as opposed to on App Engine.
  * @type boolean
  */
-BlocklyGames.IS_HTML = /\.html$/.test(window.location.pathname);
+export const IS_HTML: boolean = /\.html$/.test(window.location.pathname);
 
 /**
  * 'document.getElementById' can't be compressed by the compiler,
  * so centralize all such calls here.  Saves 1-2 KB per game.
  */
-BlocklyGames.getElementById = document.getElementById.bind(document);
+export const getElementById = document.getElementById.bind(document);
 
 /**
  * Report client-side errors back to the server.
  * @param {!ErrorEvent} event Error event.
  * @private
  */
-BlocklyGames.errorReporter_ = function(event) {
+function errorReporter_(event: ErrorEvent) {
   try {
     //if (Math.random() > 0.5) return;
     // 3rd party script errors (likely plugins) have no useful info.
     if (!event.lineno && !event.colno) return;
     // Rate-limit the reports to once every 10 seconds.
     const now = Date.now();
-    if (BlocklyGames.errorReporter_.lastHit_ + 10 * 1000 > now) return;
-    BlocklyGames.errorReporter_.lastHit_ = now;
+    if (lastHit_ + 10 * 1000 > now) return;
+    lastHit_ = now;
     const req = new XMLHttpRequest();
     // Try to use the experimental 'event.error.stack',
     // otherwise, use standard properties.
     const report = (event.error && event.error.stack) ||
         `${event.message} ${event.filename} ${event.lineno}:${event.colno}`;
     const params = "error=" + encodeURIComponent(report) +
-        '&amp;url=' + encodeURIComponent(window.location);
+        '&amp;url=' + encodeURIComponent(String(window.location));
     req.open("POST", "/errorReporter");
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(params);
@@ -178,10 +174,10 @@ BlocklyGames.errorReporter_ = function(event) {
     // Error in error reporter.  Do NOT recursively call the error reporter.
     console.log(event.error);
   }
-};
-BlocklyGames.errorReporter_.lastHit_ = 0;
-if (!BlocklyGames.IS_HTML) {
-  window.addEventListener('error', BlocklyGames.errorReporter_);
+}
+let lastHit_ = 0;
+if (!IS_HTML) {
+  window.addEventListener('error', errorReporter_);
 }
 
 /**
@@ -191,11 +187,11 @@ if (!BlocklyGames.IS_HTML) {
  * @param {string} defaultValue Value to return if parameter not found.
  * @returns {string} The parameter value or the default value if not found.
  */
-BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
+function getStringParamFromUrl(name: string, defaultValue: string): string {
   const val =
       window.location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
   return val ? decodeURIComponent(val[1].replace(/\+/g, '%20')) : defaultValue;
-};
+}
 
 /**
  * Extracts an integer parameter from the URL.
@@ -206,50 +202,48 @@ BlocklyGames.getStringParamFromUrl = function(name, defaultValue) {
  * @param {number} maxValue The maximum legal value.
  * @returns {number} A number in the range [min_value, max_value].
  */
-BlocklyGames.getIntegerParamFromUrl = function(name, minValue, maxValue) {
-  const val = Math.floor(Number(BlocklyGames.getStringParamFromUrl(name, 'NaN')));
+function getIntegerParamFromUrl(name: string, minValue: number, maxValue: number): number {
+  const val = Math.floor(Number(getStringParamFromUrl(name, 'NaN')));
   return isNaN(val) ? minValue : Math.max(minValue, Math.min(val, maxValue));
-};
+}
 
 /**
  * Name of app ('maze', 'bird', ...) for use in local storage.
  * @type string
  */
-BlocklyGames.storageName;
+export let storageName: string;
 
 /**
  * Maximum number of levels.  Common to all apps.
  */
-BlocklyGames.MAX_LEVEL = 10;
+export const MAX_LEVEL = 10;
 
 /**
  * User's level (e.g. 5).
  * @type number
  */
-BlocklyGames.LEVEL =
-    BlocklyGames.getIntegerParamFromUrl('level', 1, BlocklyGames.MAX_LEVEL);
+export const LEVEL: number = getIntegerParamFromUrl('level', 1, MAX_LEVEL);
 
 /**
  * Common startup tasks for all apps.
  * @param {string} title Text for the page title.
  */
-BlocklyGames.init = function(title) {
-  document.title = BlocklyGames.getMsg('Games.name', false) +
-      (title && ' : ') + title;
+export function init(title: string) {
+  document.title = getMsg('Games.name', false) + (title && ' : ') + title;
 
   // Set the HTML's language and direction.
-  document.dir = BlocklyGames.IS_RTL ? 'rtl' : 'ltr';
-  document.head.parentElement.setAttribute('lang', BlocklyGames.LANG);
+  document.dir = IS_RTL ? 'rtl' : 'ltr';
+  document.head.parentElement.setAttribute('lang', LANG);
 
   // Populate the language selection menu.
-  const languageMenu = BlocklyGames.getElementById('languageMenu');
+  const languageMenu = getElementById('languageMenu');
   if (languageMenu) {
     // Sort languages alphabetically.
     const languages = [];
-    for (const lang of BlocklyGames.LANGUAGES_) {
-      languages.push([BlocklyGames.LANGUAGE_NAME_[lang], lang]);
+    for (const lang of LANGUAGES_) {
+      languages.push([LANGUAGE_NAME_[lang], lang]);
     }
-    const comp = function(a, b) {
+    const comp = function(a: [string, string], b: [string, string]) {
       // Sort based on first argument ('English', 'Русский', '简体字', etc).
       if (a[0] > b[0]) return 1;
       if (a[0] < b[0]) return -1;
@@ -259,7 +253,7 @@ BlocklyGames.init = function(title) {
     languageMenu.options.length = 0;
     for (const [name, iso639] of languages) {
       const option = new Option(name, iso639);
-      if (iso639 === BlocklyGames.LANG) {
+      if (iso639 === LANG) {
         option.selected = true;
       }
       languageMenu.options.add(option);
@@ -271,9 +265,9 @@ BlocklyGames.init = function(title) {
   }
 
   // Highlight levels that have been completed.
-  for (let i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
-    const link = BlocklyGames.getElementById('level' + i);
-    const done = !!BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, i);
+  for (let i = 1; i <= MAX_LEVEL; i++) {
+    const link = getElementById('level' + i);
+    const done = !!loadFromLocalStorage(storageName, i);
     if (link && done) {
       link.className += ' level_done';
     }
@@ -287,18 +281,18 @@ BlocklyGames.init = function(title) {
   }
 
   // Lazy-load Google Analytics.
-  if (!BlocklyGames.IS_HTML) {
-    setTimeout(BlocklyGames.importAnalytics3_, 1);
-    setTimeout(BlocklyGames.importAnalytics4_, 1);
+  if (!IS_HTML) {
+    setTimeout(importAnalytics3_, 1);
+    setTimeout(importAnalytics4_, 1);
   }
-};
+}
 
 /**
  * Once the page is fully loaded, move the messages to their expected locations,
  * then call the game's init function.
  * @param {!Function} init Initialization function to call.
  */
-BlocklyGames.callWhenLoaded = function(init) {
+export function callWhenLoaded(init: Function) {
   function go() {
     if (!window['BlocklyGamesMsg']) {
       // Messages haven't arrived yet.  Try again later.
@@ -306,19 +300,19 @@ BlocklyGames.callWhenLoaded = function(init) {
       return;
     }
     if (window['BlocklyMsg']) {
-      Blockly.Msg = window['BlocklyMsg'];
+      Object.assign(Msg, window['BlocklyMsg']);
     }
     init();
   }
 
   window.addEventListener('load', go);
-};
+}
 
 /**
  * Reload with a different language.
  */
-BlocklyGames.changeLanguage = function() {
-  const languageMenu = BlocklyGames.getElementById('languageMenu');
+export function changeLanguage() {
+  const languageMenu = getElementById('languageMenu');
   const newLang = encodeURIComponent(
       languageMenu.options[languageMenu.selectedIndex].value);
   let search = window.location.search;
@@ -330,9 +324,9 @@ BlocklyGames.changeLanguage = function() {
     search = search.replace(/\?/, '?lang=' + newLang + '&');
   }
 
-  window.location = window.location.protocol + '//' +
-      window.location.host + window.location.pathname + search;
-};
+  window.location.assign(window.location.protocol + '//' +
+      window.location.host + window.location.pathname + search);
+}
 
 /**
  * Attempt to fetch the saved blocks for a level.
@@ -341,8 +335,8 @@ BlocklyGames.changeLanguage = function() {
  * @param {number} level Level (1-10).
  * @returns {string|undefined} Serialized XML, or undefined.
  */
-BlocklyGames.loadFromLocalStorage = function(name, level) {
-  let xml;
+export function loadFromLocalStorage(name: string, level: number): string | undefined {
+  let xml: string;
   try {
     xml = window.localStorage[name + level];
   } catch (e) {
@@ -350,29 +344,33 @@ BlocklyGames.loadFromLocalStorage = function(name, level) {
     // Restarting Firefox fixes this, so it looks like a bug.
   }
   return xml;
-};
+}
 
 /**
  * Bind a function to a button's click event.
  * On touch-enabled browsers, ontouchend is treated as equivalent to onclick.
- * @param {Element|string} el Button element or ID thereof.
+ * @param {EventTarget|string} button Button element or ID thereof.
  * @param {!Function} func Event handler to bind.
  */
-BlocklyGames.bindClick = function(el, func) {
-  if (!el) {
-    throw TypeError('Element not found: ' + el);
+export function bindClick(button: EventTarget | string, func: Function) {
+  let el: EventTarget;
+  if (typeof button === 'string') {
+    el = getElementById(button);
+  } else {
+    el = button;
   }
-  if (typeof el === 'string') {
-    el = BlocklyGames.getElementById(el);
+  function mouseFunc(e: Event) {
+    // Wrapper because TypeScript is dumb.
+    func(e);
   }
-  el.addEventListener('click', func, true);
-  function touchFunc(e) {
+  el.addEventListener('click', mouseFunc, true);
+  function touchFunc(e: Event) {
     // Prevent code from being executed twice on touchscreens.
     e.preventDefault();
     func(e);
   }
   el.addEventListener('touchend', touchFunc, true);
-};
+}
 
 /**
  * Normalizes an angle to be in range [0-360]. Angles outside this range will
@@ -380,13 +378,13 @@ BlocklyGames.bindClick = function(el, func) {
  * @param {number} angle Angle in degrees.
  * @returns {number} Standardized angle.
  */
-BlocklyGames.normalizeAngle = function(angle) {
+export function normalizeAngle(angle: number): number {
   angle %= 360;
   if (angle < 0) {
     angle += 360;
   }
   return angle;
-};
+}
 
 /**
  * Get a message from the language pack loaded into BlocklyGamesMsg.
@@ -394,64 +392,63 @@ BlocklyGames.normalizeAngle = function(angle) {
  * @param {boolean} escape Perform HTML escaping, if true.
  * @returns {string} Message string (e.g. 'Want to start over?').
  */
-BlocklyGames.getMsg = function(name, escape) {
+export function getMsg(name: string, escape: boolean): string {
   let msg = window['BlocklyGamesMsg'][name];
   if (msg === undefined) {
     msg = '[Unknown message: ${name}]';
   }
-  return escape ? BlocklyGames.esc(msg) : msg;
-};
+  return escape ? esc(msg) : msg;
+}
 
 /**
  * Escape HTML to make the text safe.
  * @param {string} text Unsafe text, possibly with HTML tags.
  * @returns {string} Safe text, with <>&'" escaped.
  */
-BlocklyGames.esc = function(text) {
+export function esc(text: string): string {
   return text.replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
-};
+}
 
 /**
  * Load the Google Analytics 3.
  * Delete this in July 1, 2023.
  * @private
  */
-BlocklyGames.importAnalytics3_ = function() {
+function importAnalytics3_() {
   const gaName = 'GoogleAnalyticsFunction';
   window['GoogleAnalyticsObject'] = gaName;
   /**
    * Load command onto Google Analytics queue.
-   * @param {...string} var_args Commands.
    */
-  const gaObject = function(var_args) {
-    (gaObject['q'] = gaObject['q'] || []).push(arguments);
+  const gaObject = function(...args: string[]) {
+    (gaObject['q'] = gaObject['q'] || []).push(args);
   };
   window[gaName] = gaObject;
-  gaObject['l'] = 1 * new Date();
+  gaObject['l'] = Number(new Date());
   const script = document.createElement('script');
-  script.async = 1;
+  script.async = true;
   script.src = '//www.google-analytics.com/analytics.js';
   document.head.appendChild(script);
 
   gaObject('create', 'UA-50448074-1', 'auto');
   gaObject('send', 'pageview');
-};
+}
 
 /**
  * Load the Google Analytics 4.
  * @private
  */
-BlocklyGames.importAnalytics4_ = function() {
+function importAnalytics4_() {
   const script = document.createElement('script');
-  script.async = 1;
+  script.async = true;
   script.src = 'https://www.googletagmanager.com/gtag/js?id=G-TBYKRK7JYW';
   document.head.appendChild(script);
   window['dataLayer'] = window['dataLayer'] || [];
-  function gtag(){window['dataLayer'].push(arguments);}
+  function gtag(...args: any){window['dataLayer'].push(args);}
   gtag('js', new Date());
   gtag('config', 'G-TBYKRK7JYW');
-};
+}

@@ -11,3 +11,4 @@ appengine/third-party/
 build/third-party-downloads/
 /offline
 /node_modules
+/typescript/third-party
