@@ -41,14 +41,14 @@ Index.html.start = function(ij) {
         ${ij.rtl ? 'transform="translate(100) scale(-1, 1)"' : ''}
       />
     </svg>
-    ${Index.html.appLink_(ij, 'puzzle', 10, 15, BlocklyGames.getMsg('Games.puzzle', true))}
-    ${Index.html.appLink_(ij, 'maze', 16, 45, BlocklyGames.getMsg('Games.maze', true))}
-    ${Index.html.appLink_(ij, 'bird', 26, 69, BlocklyGames.getMsg('Games.bird', true))}
-    ${Index.html.appLink_(ij, 'turtle', 41, 80, BlocklyGames.getMsg('Games.turtle', true))}
-    ${Index.html.appLink_(ij, 'movie', 55, 61, BlocklyGames.getMsg('Games.movie', true))}
-    ${Index.html.appLink_(ij, 'music', 69, 43, BlocklyGames.getMsg('Games.music', true))}
-    ${Index.html.appLink_(ij, 'pond-tutor', 83, 55, BlocklyGames.getMsg('Games.pondTutor', true))}
-    ${Index.html.appLink_(ij, 'pond-duck', 90, 85, BlocklyGames.getMsg('Games.pond', true))}
+    ${Index.html.appLink_(ij, 'puzzle', 10, 15, 'Games.puzzle')}
+    ${Index.html.appLink_(ij, 'maze', 16, 45, 'Games.maze')}
+    ${Index.html.appLink_(ij, 'bird', 26, 69, 'Games.bird')}
+    ${Index.html.appLink_(ij, 'turtle', 41, 80, 'Games.turtle')}
+    ${Index.html.appLink_(ij, 'movie', 55, 61, 'Games.movie')}
+    ${Index.html.appLink_(ij, 'music', 69, 43, 'Games.music')}
+    ${Index.html.appLink_(ij, 'pond-tutor', 83, 55, 'Games.pondTutor')}
+    ${Index.html.appLink_(ij, 'pond-duck', 90, 85, 'Games.pond')}
   </g>
 </svg>
 <select id="languageMenu"></select>
@@ -65,7 +65,7 @@ Index.html.start = function(ij) {
  * @param {string} app Name of application.
  * @param {number} x Horizontal position of link as percentage.
  * @param {number} y Vertical position of link as percentage.
- * @param {string} contentText Text content to place in link.
+ * @param {string} msgName Name of text content to place in link.
  * @returns {string} HTML.
  * @private
  */
@@ -82,7 +82,7 @@ Index.html.appLink_ = function(ij, app, x, y, contentText) {
     <a xlink:href="${app}${ij.html ? '.html' : ''}?lang=${ij.lang}">
       <circle cx=150 cy=60 r=50 class="iconBorder" />
       <path class="gaugeFront" id="gauge-${app}" />
-      <text x=150 y=135>${contentText}</text>
+      <text x=150 y=135>${BlocklyGames.getMsg(msgName, true)}</text>
     </a>
   </g>
 </svg>
