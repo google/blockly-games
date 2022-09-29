@@ -37,14 +37,14 @@ export function start(ij: any): string {
         ${ij.rtl ? 'transform="translate(100) scale(-1, 1)"' : ''}
       />
     </svg>
-    ${appLink_(ij, 'puzzle', 10, 15, BlocklyGames.getMsg('Games.puzzle', true))}
-    ${appLink_(ij, 'maze', 16, 45, BlocklyGames.getMsg('Games.maze', true))}
-    ${appLink_(ij, 'bird', 26, 69, BlocklyGames.getMsg('Games.bird', true))}
-    ${appLink_(ij, 'turtle', 41, 80, BlocklyGames.getMsg('Games.turtle', true))}
-    ${appLink_(ij, 'movie', 55, 61, BlocklyGames.getMsg('Games.movie', true))}
-    ${appLink_(ij, 'music', 69, 43, BlocklyGames.getMsg('Games.music', true))}
-    ${appLink_(ij, 'pond-tutor', 83, 55, BlocklyGames.getMsg('Games.pondTutor', true))}
-    ${appLink_(ij, 'pond-duck', 90, 85, BlocklyGames.getMsg('Games.pond', true))}
+    ${appLink_(ij, 'puzzle', 10, 15, 'Games.puzzle')}
+    ${appLink_(ij, 'maze', 16, 45, 'Games.maze')}
+    ${appLink_(ij, 'bird', 26, 69, 'Games.bird')}
+    ${appLink_(ij, 'turtle', 41, 80, 'Games.turtle')}
+    ${appLink_(ij, 'movie', 55, 61, 'Games.movie')}
+    ${appLink_(ij, 'music', 69, 43, 'Games.music')}
+    ${appLink_(ij, 'pond-tutor', 83, 55, 'Games.pondTutor')}
+    ${appLink_(ij, 'pond-duck', 90, 85, 'Games.pond')}
   </g>
 </svg>
 <select id="languageMenu"></select>
@@ -61,11 +61,11 @@ export function start(ij: any): string {
  * @param {string} app Name of application.
  * @param {number} x Horizontal position of link as percentage.
  * @param {number} y Vertical position of link as percentage.
- * @param {string} contentText Text content to place in link.
+ * @param {string} msgName Name of text content to place in link.
  * @returns {string} HTML.
  * @private
  */
-function appLink_(ij: any, app: string, x: number, y: number, contentText: string): string {
+function appLink_(ij: any, app: string, x: number, y: number, msgName: string): string {
   return `
 <svg height=150 width=300 version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@ function appLink_(ij: any, app: string, x: number, y: number, contentText: strin
     <a xlink:href="${app}${ij.html ? '.html' : ''}?lang=${ij.lang}">
       <circle cx=150 cy=60 r=50 class="iconBorder" />
       <path class="gaugeFront" id="gauge-${app}" />
-      <text x=150 y=135>${contentText}</text>
+      <text x=150 y=135>${BlocklyGames.getMsg(msgName, true)}</text>
     </a>
   </g>
 </svg>

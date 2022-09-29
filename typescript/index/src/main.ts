@@ -5,11 +5,9 @@
  */
 
 /**
- * @fileoverview JavaScript for index page.
+ * @fileoverview TypeScript for index page.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-
 import * as BlocklyGames from '../../src/lib-games.js';
 import {start} from './html.js';
 
@@ -20,7 +18,7 @@ const APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
               'pond-tutor', 'pond-duck'];
 
 /**
- * Initialize Blockly and the maze.  Called on page load.
+ * Render the index page and load any progress data.  Called on page load.
  */
 function init() {
   // Render the HTML.
@@ -71,7 +69,7 @@ function init() {
  * @param {number} cur Current angle of gauge in degrees.
  * @param {number} max Final angle of gauge in degrees.
  */
-function animateGauge(app, cur, max) {
+function animateGauge(app: string, cur: number, max: number) {
   const step = 4;
   cur += step;
   drawGauge(app, Math.min(cur, max));
@@ -99,7 +97,7 @@ function drawGauge(app: string, angle: number) {
   const my = yOffset - Math.sin(theta1) * radius;
   const path = BlocklyGames.getElementById('gauge-' + app);
   path.setAttribute('d',
-      ['M ' + mx + ',' + my + ' A', radius, radius, 0, flag, 1, x, y].join(' '));
+      ['M', mx, my, 'A', radius, radius, 0, flag, 1, x, y].join(' '));
 }
 
 /**
