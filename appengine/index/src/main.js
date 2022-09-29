@@ -22,7 +22,7 @@ const APPS = ['puzzle', 'maze', 'bird', 'turtle', 'movie', 'music',
               'pond-tutor', 'pond-duck'];
 
 /**
- * Initialize Blockly and the maze.  Called on page load.
+ * Render the page and load any progress data.  Called on page load.
  */
 function init() {
   // Render the HTML.
