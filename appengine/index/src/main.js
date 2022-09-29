@@ -101,7 +101,7 @@ function drawGauge(app, angle) {
   const my = yOffset - Math.sin(theta1) * radius;
   const path = BlocklyGames.getElementById('gauge-' + app);
   path.setAttribute('d',
-      ['M ' + mx + ',' + my + ' A', radius, radius, 0, flag, 1, x, y].join(' '));
+      ['M', mx, my, 'A', radius, radius, 0, flag, 1, x, y].join(' '));
 }
 
 /**
