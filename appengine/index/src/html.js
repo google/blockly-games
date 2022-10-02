@@ -69,7 +69,7 @@ Index.html.start = function(ij) {
  * @returns {string} HTML.
  * @private
  */
-Index.html.appLink_ = function(ij, app, x, y, contentText) {
+Index.html.appLink_ = function(ij, app, x, y, msgName) {
   return `
 <svg height=150 width=300 version="1.1"
     xmlns="http://www.w3.org/2000/svg"
