@@ -214,6 +214,14 @@ function getIntegerParamFromUrl(name: string, minValue: number, maxValue: number
 export let storageName: string;
 
 /**
+ * Setter for storageName.
+ * @param newName New name.
+ */
+export function setStorageName(newName: string) {
+  storageName = newName;
+}
+
+/**
  * Maximum number of levels.  Common to all apps.
  */
 export const MAX_LEVEL = 10;

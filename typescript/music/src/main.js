@@ -31,7 +31,7 @@ goog.require('Music.startCount');
 goog.require('Slider');
 
 
-BlocklyGames.storageName = 'music';
+BlocklyGames.setStorageName('music');
 
 const HEIGHT = 400;
 const WIDTH = 400;

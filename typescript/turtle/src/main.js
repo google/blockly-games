@@ -32,7 +32,7 @@ goog.require('Turtle.Blocks');
 goog.require('Turtle.html');
 
 
-BlocklyGames.storageName = 'turtle';
+BlocklyGames.setStorageName('turtle');
 
 const HEIGHT = 400;
 const WIDTH = 400;

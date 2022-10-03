@@ -28,7 +28,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
 
-BlocklyGames.storageName = 'bird';
+BlocklyGames.setStorageName('bird');
 
 const BIRD_ICON_SIZE = 120;
 const NEST_ICON_SIZE = 100;

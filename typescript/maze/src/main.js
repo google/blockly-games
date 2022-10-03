@@ -30,7 +30,7 @@ goog.require('Maze.Blocks');
 goog.require('Maze.html');
 
 
-BlocklyGames.storageName = 'maze';
+BlocklyGames.setStorageName('maze');
 
 /**
  * Go to the next level.  Add skin parameter.

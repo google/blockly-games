@@ -8,7 +8,7 @@
  * @fileoverview HTML for index page.
  * @author fraser@google.com (Neil Fraser)
  */
-import * as BlocklyGames from '../../src/lib-games.js';
+import {getMsg} from '../../src/lib-games.js';
 
 
 /**
@@ -20,8 +20,8 @@ export function start(ij: any): string {
   return `
 <div id="header">
   <img id="banner" src="index/title-beta.png" height=51 width=244 alt="Blockly Games">
-  <div id="subtitle">${BlocklyGames.getMsg('Index.subTitle', true)}&nbsp;
-    <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.getMsg('Index.moreInfo', true)}</a>
+  <div id="subtitle">${getMsg('Index.subTitle', true)}&nbsp;
+    <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${getMsg('Index.moreInfo', true)}</a>
   </div>
 </div>
 <svg height="100%" width="100%" version="1.1"
@@ -49,8 +49,8 @@ export function start(ij: any): string {
 </svg>
 <select id="languageMenu"></select>
 <p id="clearDataPara" style="visibility: hidden">
-  ${BlocklyGames.getMsg('Index.startOver', true)}
-  <button class="secondary" id="clearData">${BlocklyGames.getMsg('Index.clearData', true)}</button>
+  ${getMsg('Index.startOver', true)}
+  <button class="secondary" id="clearData">${getMsg('Index.clearData', true)}</button>
 </p>
 `;
 }
@@ -78,7 +78,7 @@ function appLink_(ij: any, app: string, x: number, y: number, msgName: string): 
     <a xlink:href="${app}${ij.html ? '.html' : ''}?lang=${ij.lang}">
       <circle cx=150 cy=60 r=50 class="iconBorder" />
       <path class="gaugeFront" id="gauge-${app}" />
-      <text x=150 y=135>${BlocklyGames.getMsg(msgName, true)}</text>
+      <text x=150 y=135>${getMsg(msgName, true)}</text>
     </a>
   </g>
 </svg>

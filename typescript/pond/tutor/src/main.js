@@ -26,7 +26,7 @@ goog.require('Pond.Tutor.html');
 goog.require('Pond.Visualization');
 
 
-BlocklyGames.storageName = 'pond-tutor';
+BlocklyGames.setStorageName('pond-tutor');
 
 /**
  * Initialize Blockly xor Ace, and the pond.  Called on page load.

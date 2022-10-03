@@ -32,7 +32,7 @@ goog.require('Movie.html');
 goog.require('Scrubber');
 
 
-BlocklyGames.storageName = 'movie';
+BlocklyGames.setStorageName('movie');
 
 const HEIGHT = 400;
 const WIDTH = 400;

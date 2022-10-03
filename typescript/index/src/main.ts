@@ -8,8 +8,10 @@
  * @fileoverview TypeScript for index page.
  * @author fraser@google.com (Neil Fraser)
  */
-import * as BlocklyGames from '../../src/lib-games.js';
 import {start} from './html.js';
+
+import * as BlocklyGames from '../../src/lib-games.js';
+
 
 /**
  * Array of application names.
