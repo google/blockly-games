@@ -64,7 +64,7 @@ BlocklyStorage.xhrs_ = new Map();
  * @param {?Function=} opt_onSuccess Function to call after request completes
  *    successfully.
  * @param {?Function=} opt_onFailure Function to call after request completes
- *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
+ *    unsuccessfully.  Defaults to BlocklyStorage alert of request status.
  * @param {string=} method The HTTP request method to use.  Default to POST.
  */
 BlocklyStorage.makeRequest =
@@ -95,7 +95,6 @@ BlocklyStorage.makeRequest =
 
 /**
  * Callback function for link AJAX call.
- * @param {string} responseText Response to request.
  * @private
  */
 BlocklyStorage.handleLinkResponse_ = function() {
@@ -108,7 +107,6 @@ BlocklyStorage.handleLinkResponse_ = function() {
 
 /**
  * Callback function for retrieve XML AJAX call.
- * @param {string} responseText Response to request.
  * @private
  */
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
