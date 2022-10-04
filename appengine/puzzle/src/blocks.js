@@ -184,7 +184,7 @@ Blockly.Blocks['trait'] = {
   /**
    * Set the animal and trait.
    * @param {number} n Animal number.
-   * @param {string} m Trait number.
+   * @param {number} m Trait number.
    * @this {Blockly.Block}
    */
   populate: function(n, m) {
