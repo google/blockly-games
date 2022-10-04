@@ -163,11 +163,10 @@ BlocklyInterface.getCode = function() {
  * clear the key from the URL.
  */
 BlocklyInterface.codeChanged = function() {
-  if (typeof BlocklyStorage === 'object' && BlocklyStorage.startCode !== null) {
-    if (BlocklyStorage.startCode !== BlocklyInterface.getCode()) {
-      window.location.hash = '';
-      BlocklyStorage.startCode = null;
-    }
+  if (BlocklyStorage.startCode !== null &&
+      BlocklyStorage.startCode !== BlocklyInterface.getCode()) {
+    window.location.hash = '';
+    BlocklyStorage.startCode = null;
   }
 };
 
