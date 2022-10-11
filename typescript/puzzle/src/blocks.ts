@@ -8,67 +8,66 @@
  * @fileoverview Blocks for Puzzle game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {getData} from './data.js';
 
-goog.provide('Puzzle.Blocks');
+import {getMsg} from '../../src/lib-games.js';
 
-goog.require('Blockly');
-goog.require('Blockly.FieldDropdown');
-goog.require('Blockly.FieldImage');
-goog.require('BlocklyGames');
-goog.require('Puzzle.data');
+import {ALIGN_RIGHT} from '../../third-party/blockly/core/blockly.js';
+import {Blocks} from '../../third-party/blockly/core/blocks.js';
+import {FieldDropdown} from '../../third-party/blockly/core/field_dropdown.js';
+import {FieldImage} from '../../third-party/blockly/core/field_image.js';
 
 
 /**
  * Common HSV hue for all animal blocks.
  */
-Puzzle.Blocks.ANIMAL_HUE = 120;
+const ANIMAL_HUE = 120;
 
 /**
  * Common HSV hue for all picture blocks.
  */
-Puzzle.Blocks.PICTURE_HUE = 30;
+const PICTURE_HUE = 30;
 
 /**
  * Common HSV hue for all trait blocks.
  */
-Puzzle.Blocks.TRAIT_HUE = 290;
+const TRAIT_HUE = 290;
 
 /**
  * Return a list of all legs.
  * @returns {!Array<!Array<string>>} Array of human-readable and
  *   language-neutral tuples.
  */
-Puzzle.Blocks.legs = function() {
-  const data = Puzzle.data.getData();
+function legs_(): Array<Array<string>> {
+  const data = getData();
   const padding = '\xa0\xa0';
-  const list = [[BlocklyGames.getMsg('Puzzle.legsChoose', false), '0']];
+  const list = [[getMsg('Puzzle.legsChoose', false), '0']];
   for (let i = 0; i < data.length; i++) {
     list[i + 1] = [padding + data[i].legs + padding, String(i + 1)];
   }
   // Sort numerically.
-  list.sort(function(a, b) {return a[0] - b[0];});
+  list.sort(function(a, b) {return Number(a[0]) - Number(b[0]);});
   return list;
 };
 
-Blockly.Blocks['animal'] = {
+Blocks['animal'] = {
   /**
    * Block to represent an animal.
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setColour(Puzzle.Blocks.ANIMAL_HUE);
+    this.setColour(ANIMAL_HUE);
     this.appendDummyInput()
         .appendField('', 'NAME');
     this.appendValueInput('PIC')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Puzzle.picture', false));
+        .setAlign(ALIGN_RIGHT)
+        .appendField(getMsg('Puzzle.picture', false));
     this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Puzzle.legs', false))
-        .appendField(new Blockly.FieldDropdown(Puzzle.Blocks.legs), 'LEGS');
+        .setAlign(ALIGN_RIGHT)
+        .appendField(getMsg('Puzzle.legs', false))
+        .appendField(new FieldDropdown(legs_), 'LEGS');
     this.appendStatementInput('TRAITS')
-        .appendField(BlocklyGames.getMsg('Puzzle.traits', false));
+        .appendField(getMsg('Puzzle.traits', false));
     this.setInputsInline(false);
   },
   /**
@@ -76,7 +75,7 @@ Blockly.Blocks['animal'] = {
    * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
-  mutationToDom: function() {
+  mutationToDom: function(): Element {
     const container = document.createElement('mutation');
     container.setAttribute('animal', this.animal);
     return container;
@@ -86,7 +85,7 @@ Blockly.Blocks['animal'] = {
    * @param {!Element} xmlElement XML storage element.
    * @this {Blockly.Block}
    */
-  domToMutation: function(xmlElement) {
+  domToMutation: function(xmlElement: Element) {
     this.populate(parseInt(xmlElement.getAttribute('animal')));
   },
   animal: 0,
@@ -95,8 +94,8 @@ Blockly.Blocks['animal'] = {
    * @param {number} n Animal number.
    * @this {Blockly.Block}
    */
-  populate: function(n) {
-    const data = Puzzle.data.getData();
+  populate: function(n: number) {
+    const data = getData();
     this.animal = n;
     this.setFieldValue(data[n - 1].name, 'NAME');
     this.helpUrl = data[n - 1].helpUrl;
@@ -110,33 +109,33 @@ Blockly.Blocks['animal'] = {
   }
 };
 
-Blockly.Blocks['picture'] = {
+Blocks['picture'] = {
   /**
    * Block to represent a picture.
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setColour(Puzzle.Blocks.PICTURE_HUE);
+    this.setColour(PICTURE_HUE);
     this.appendDummyInput('PIC');
     this.setOutput(true);
     this.setTooltip('');
   },
-  mutationToDom: Blockly.Blocks['animal'].mutationToDom,
-  domToMutation: Blockly.Blocks['animal'].domToMutation,
+  mutationToDom: Blocks['animal'].mutationToDom,
+  domToMutation: Blocks['animal'].domToMutation,
   animal: 0,
   /**
    * Set the animal and picture.
    * @param {number} n Animal number.
    * @this {Blockly.Block}
    */
-  populate: function(n) {
+  populate: function(n: number) {
     this.animal = n;
-    const data = Puzzle.data.getData();
+    const data = getData();
     const pic = 'puzzle/' + data[n - 1].pic;
     const picHeight = data[n - 1].picHeight;
     const picWidth = data[n - 1].picWidth;
     this.getInput('PIC')
-        .appendField(new Blockly.FieldImage(pic, picWidth, picHeight));
+        .appendField(new FieldImage(pic, picWidth, picHeight));
   },
   /**
    * Evaluate the correctness of this block.
@@ -148,13 +147,13 @@ Blockly.Blocks['picture'] = {
   }
 };
 
-Blockly.Blocks['trait'] = {
+Blocks['trait'] = {
   /**
    * Block to represent a trait.
    * @this {Blockly.Block}
    */
   init: function() {
-    this.setColour(Puzzle.Blocks.TRAIT_HUE);
+    this.setColour(TRAIT_HUE);
     this.appendDummyInput().appendField('', 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -164,7 +163,7 @@ Blockly.Blocks['trait'] = {
    * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
-  mutationToDom: function() {
+  mutationToDom: function(): Element {
     const container = document.createElement('mutation');
     container.setAttribute('animal', this.animal);
     container.setAttribute('trait', this.trait);
@@ -175,7 +174,7 @@ Blockly.Blocks['trait'] = {
    * @param {!Element} xmlElement XML storage element.
    * @this {Blockly.Block}
    */
-  domToMutation: function(xmlElement) {
+  domToMutation: function(xmlElement: Element) {
     this.populate(parseInt(xmlElement.getAttribute('animal')),
                   parseInt(xmlElement.getAttribute('trait')));
   },
@@ -184,14 +183,14 @@ Blockly.Blocks['trait'] = {
   /**
    * Set the animal and trait.
    * @param {number} n Animal number.
-   * @param {string} m Trait number.
+   * @param {number} m Trait number.
    * @this {Blockly.Block}
    */
-  populate: function(n, m) {
+  populate: function(n: number, m: number) {
     this.animal = n;
     this.trait = m;
     // Set the trait name.
-    const data = Puzzle.data.getData();
+    const data = getData();
     this.setFieldValue(data[n - 1].traits[m - 1], 'NAME');
   },
   /**

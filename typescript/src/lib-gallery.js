@@ -56,13 +56,13 @@ BlocklyGallery.showGalleryForm = function() {
 /**
  * If the user presses enter, or escape, hide the dialog.
  * Enter submits the form, escape does not.
- * @param {!Event} e Keyboard event.
+ * @param {!KeyboardEvent} e Keyboard event.
  * @private
  */
 BlocklyGallery.galleryKeyDown_ = function(e) {
-  if (e.keyCode === 27) {
+  if (e.code === 'Escape') {
     BlocklyDialogs.hideDialog(true);
-  } else if (e.keyCode === 13) {
+  } else if (e.code === 'Enter') {
     BlocklyGallery.gallerySubmit_();
   }
 };

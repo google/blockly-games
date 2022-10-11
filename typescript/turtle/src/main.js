@@ -392,7 +392,7 @@ function hideHelp() {
  * Show the help pop-up to encourage clicking on the toolbox categories.
  */
 function showCategoryHelp() {
-  if (categoryClicked_ || BlocklyDialogs.isDialogVisible_) {
+  if (categoryClicked_ || BlocklyDialogs.isDialogVisible) {
     return;
   }
   const help = BlocklyGames.getElementById('helpToolbox');

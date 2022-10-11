@@ -8,36 +8,33 @@
  * @fileoverview HTML for Puzzle game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {headerBar, dialog, ok} from '../../src/html.js';
 
-goog.provide('Puzzle.html');
-
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
+import {getMsg} from '../../src/lib-games.js';
 
 
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
  */
-Puzzle.html.start = function(ij) {
+export function start(ij: any) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.puzzle', true), '', false, true,
-    `<button id="checkButton" class="primary">${BlocklyGames.getMsg('Puzzle.checkAnswers', true)}</button>`)}
+${headerBar(ij, getMsg('Games.puzzle', true), '', false, true,
+    `<button id="checkButton" class="primary">${getMsg('Puzzle.checkAnswers', true)}</button>`)}
 
 <div id="blockly"></div>
 
-${BlocklyGames.html.dialog()}
+${dialog()}
 <div id="help" class="dialogHiddenContent">
-  <div style="padding-bottom: 0.7ex">${BlocklyGames.getMsg('Puzzle.helpText', true)}</div>
+  <div style="padding-bottom: 0.7ex">${getMsg('Puzzle.helpText', true)}</div>
   <div id="sample" class="readonly"></div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 <div id="answers" class="dialogHiddenContent">
   <div id="answerMessage">
   </div>
   <div id="graph"><div id="graphValue"></div></div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 `;
 };

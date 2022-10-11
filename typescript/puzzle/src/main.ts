@@ -8,28 +8,27 @@
  * @fileoverview JavaScript for Puzzle game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {start} from './html.js';
+import {getData} from './data.js';
+import './blocks.js';
 
-goog.provide('Puzzle');
+import * as BlocklyGames from '../../src/lib-games.js';
+import * as BlocklyDialogs from '../../src/lib-dialogs.js';
+import * as BlocklyInterface from '../../src/lib-interface.js';
 
-goog.require('Blockly.utils.math');
-goog.require('Blockly.Xml');
-goog.require('BlocklyDialogs');
-goog.require('BlocklyGames');
-goog.require('BlocklyInterface');
-goog.require('Puzzle.data');
-goog.require('Puzzle.html');
-goog.require('Puzzle.Blocks');
+import {svgResize, getSelected} from '../../third-party/blockly/core/blockly.js';
+import {toRadians, toDegrees} from '../../third-party/blockly/core/utils/math.js';
+import {textToDom, domToWorkspace} from '../../third-party/blockly/core/xml.js';
 
 
-BlocklyGames.storageName = 'puzzle';
+BlocklyGames.setStorageName('puzzle');
 
 /**
  * Initialize Blockly and the puzzle.  Called on page load.
  */
 function init() {
   // Render the HTML.
-  document.body.innerHTML = Puzzle.html.start(
+  document.body.innerHTML = start(
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML});
 
@@ -63,17 +62,17 @@ function init() {
   }
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
-    const xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    const xml = textToDom(loadOnce);
+    domToWorkspace(xml, BlocklyInterface.workspace);
   } else if (savedBlocks) {
-    const xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(xml, BlocklyInterface.workspace);
+    const xml = textToDom(savedBlocks);
+    domToWorkspace(xml, BlocklyInterface.workspace);
   } else {
     // Create one of every block.
     const blocksAnimals = [];
     const blocksPictures = [];
     const blocksTraits = [];
-    const data = Puzzle.data.getData();
+    const data = getData();
     for (let i = 0; i < data.length; i++) {
       const animalBlock = BlocklyInterface.workspace.newBlock('animal');
       animalBlock.populate(i + 1);
@@ -111,7 +110,7 @@ function init() {
     }
     // Position the blocks randomly.
     const MARGIN = 50;
-    Blockly.svgResize(BlocklyInterface.workspace);
+    svgResize(BlocklyInterface.workspace);
     const workspaceBox = BlocklyInterface.workspace.getCachedParentSvgSize();
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
@@ -145,8 +144,8 @@ function init() {
   }
 
   // Make connecting blocks easier for beginners.
-  Blockly.SNAP_RADIUS *= 2;
-  Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
+  //Blockly.SNAP_RADIUS *= 2;
+  //Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   // Preload the win sound.
   BlocklyInterface.workspace.getAudioManager().load(
       ['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
@@ -197,12 +196,13 @@ function checkAnswers() {
     messages = [BlocklyGames.getMsg('Puzzle.error1', false),
                 BlocklyGames.getMsg('Puzzle.tryAgain', false)];
   } else if (errors) {
-    messages = [BlocklyGames.getMsg('Puzzle.error2', false).replace('%1', errors),
+    messages = [BlocklyGames.getMsg('Puzzle.error2', false)
+                    .replace('%1', String(errors)),
                 BlocklyGames.getMsg('Puzzle.tryAgain', false)];
   } else {
     messages = [BlocklyGames.getMsg('Puzzle.error0', false).replace(
         '%1', blocks.length)];
-    BlocklyInterface.executedCode = BlocklyInterface.getCode();
+    BlocklyInterface.setExecutedCode(BlocklyInterface.getCode());
     BlocklyInterface.saveToLocalStorage();
   }
   const textDiv = BlocklyGames.getElementById('answerMessage');
@@ -231,7 +231,7 @@ function checkAnswers() {
     const badBlock = badBlocks[0];
     const blink = function() {
       badBlock.select();
-      if (BlocklyDialogs.isDialogVisible_) {
+      if (BlocklyDialogs.isDialogVisible) {
         setTimeout(function() {badBlock.unselect();}, 150);
         setTimeout(blink, 300);
       }
@@ -239,8 +239,9 @@ function checkAnswers() {
     blink();
   } else {
     setTimeout(endDance, 2000);
-    if (Blockly.selected) {
-      Blockly.selected.unselect();
+    const selected = getSelected();
+    if (selected) {
+      selected.unselect();
     }
   }
 }
@@ -268,7 +269,7 @@ function endDance() {
  * @param {number} angleOffset Degrees offset in circle.
  */
 function animate(block, angleOffset) {
-  if (!BlocklyDialogs.isDialogVisible_) {
+  if (!BlocklyDialogs.isDialogVisible) {
     // Firefox can navigate 'back' to this page with the animation running
     // but the dialog gone.
     return;
@@ -319,7 +320,7 @@ function animate(block, angleOffset) {
  * @returns {number} The x-distance for the angle and radius.
  */
 function angleDx(degrees, radius) {
-  return radius * Math.cos(Blockly.utils.math.toRadians(degrees));
+  return radius * Math.cos(toRadians(degrees));
 }
 
 /**
@@ -330,7 +331,7 @@ function angleDx(degrees, radius) {
  * @returns {number} The y-distance for the angle and radius.
  */
 function angleDy(degrees, radius) {
-  return radius * Math.sin(Blockly.utils.math.toRadians(degrees));
+  return radius * Math.sin(toRadians(degrees));
 }
 
 /**
@@ -346,7 +347,7 @@ function angleDy(degrees, radius) {
  *     x1,y1 to x2,y2.
  */
 function pointsToAngle(x1, y1, x2, y2) {
-  const angle = Blockly.utils.math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+  const angle = toDegrees(Math.atan2(y2 - y1, x2 - x1));
   return BlocklyGames.normalizeAngle(angle);
 }
 

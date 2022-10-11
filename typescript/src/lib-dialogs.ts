@@ -8,58 +8,53 @@
  * @fileoverview Common support code for dialogs.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {getElementById, loadFromLocalStorage, storageName, LEVEL} from './lib-games.js';
+import {workspace, indexPage} from './lib-interface.js';
 
-goog.provide('BlocklyDialogs');
-
-goog.require('Blockly');
-goog.require('Blockly.browserEvents');
-goog.require('Blockly.utils');
-goog.require('Blockly.utils.style');
-goog.require('BlocklyGames');
-goog.require('BlocklyInterface');
+import {hideChaff} from '../third-party/blockly/core/blockly.js';
+import {bind, unbind, isRightButton, Data} from '../third-party/blockly/core/browser_events.js';
+import {getPageOffset} from '../third-party/blockly/core/utils/style.js';
 
 
 /**
  * Is the dialog currently onscreen?
- * @private
  */
-BlocklyDialogs.isDialogVisible_ = false;
+export let isDialogVisible = false;
 
 /**
  * A closing dialog should animate towards this element.
  * @type Element
  * @private
  */
-BlocklyDialogs.dialogOrigin_ = null;
+let dialogOrigin_: Element = null;
 
 /**
  * A function to call when a dialog closes.
  * @type Function
  * @private
  */
-BlocklyDialogs.dialogDispose_ = null;
+let dialogDispose_: Function = null;
 
 /**
  * Binding data that can be passed to unbind.
  * @type Blockly.browserEvents.Data
  * @private
  */
-BlocklyDialogs.dialogMouseDownWrapper_ = null;
+let dialogMouseDownWrapper_: Data = null;
 
 /**
  * Binding data that can be passed to unbind.
  * @type Blockly.browserEvents.Data
  * @private
  */
-BlocklyDialogs.dialogMouseUpWrapper_ = null;
+let dialogMouseUpWrapper_: Data = null;
 
 /**
  * Binding data that can be passed to unbind.
  * @type Blockly.browserEvents.Data
  * @private
  */
-BlocklyDialogs.dialogMouseMoveWrapper_ = null;
+let dialogMouseMoveWrapper_: Data = null;
 
 /**
  * Show the dialog pop-up.
@@ -72,31 +67,31 @@ BlocklyDialogs.dialogMouseMoveWrapper_ = null;
  * @param {Function} disposeFunc An optional function to call when the dialog
  *     closes.  Normally used for unhooking events.
  */
-BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
-                                     disposeFunc) {
+export function showDialog(content: Element, origin: Element, animate: boolean,
+    modal: boolean, style: object, disposeFunc: Function) {
   if (!content) {
     throw TypeError('Content not found: ' + content);
   }
   const buttons = content.getElementsByClassName('addHideHandler');
   var button;
   while ((button = buttons[0])) {
-    button.addEventListener('click', BlocklyDialogs.hideDialog, true);
-    button.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+    button.addEventListener('click', hideDialog, true);
+    button.addEventListener('touchend', hideDialog, true);
     button.classList.remove('addHideHandler');
   }
-  if (BlocklyDialogs.isDialogVisible_) {
-    BlocklyDialogs.hideDialog(false);
+  if ( isDialogVisible) {
+    hideDialog(false);
   }
-  if (Blockly.getMainWorkspace()) {
+  if (workspace) {
     // Some levels have an editor instead of Blockly.
-    Blockly.hideChaff(true);
+    hideChaff(true);
   }
-  BlocklyDialogs.isDialogVisible_ = true;
-  BlocklyDialogs.dialogOrigin_ = origin;
-  BlocklyDialogs.dialogDispose_ = disposeFunc;
-  const dialog = BlocklyGames.getElementById('dialog');
-  const shadow = BlocklyGames.getElementById('dialogShadow');
-  const border = BlocklyGames.getElementById('dialogBorder');
+   isDialogVisible = true;
+  dialogOrigin_ = origin;
+  dialogDispose_ = disposeFunc;
+  const dialog = getElementById('dialog');
+  const shadow = getElementById('dialogShadow');
+  const border = getElementById('dialogBorder');
 
   // Copy all the specified styles to the dialog.
   for (const name in style) {
@@ -109,16 +104,14 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     const header = document.createElement('div');
     header.id = 'dialogHeader';
     dialog.appendChild(header);
-    BlocklyDialogs.dialogMouseDownWrapper_ =
-        Blockly.browserEvents.bind(header, 'mousedown', null,
-                           BlocklyDialogs.dialogMouseDown_);
+    dialogMouseDownWrapper_ = bind(header, 'mousedown', null, dialogMouseDown_);
   }
   dialog.appendChild(content);
   content.classList.remove('dialogHiddenContent');
 
   function endResult() {
     // Check that the dialog wasn't closed during opening.
-    if (!BlocklyDialogs.isDialogVisible_) {
+    if (! isDialogVisible) {
       return;
     }
     dialog.style.visibility = 'visible';
@@ -133,126 +126,126 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
         buttons = content.getElementsByTagName('button');
       }
     }
-    if (buttons.length) {
+    if (buttons[0] instanceof HTMLElement) {
       buttons[0].focus();
     }
   }
   // The origin (if it exists) might be a button we should lose focus on.
-  try {
-    origin.blur();
-  } catch(e) {}
+  if (origin instanceof HTMLElement) {
+    try {
+      origin.blur();
+    } catch(e) {}
+  }
 
   if (animate && origin) {
-    BlocklyDialogs.matchBorder_(origin, false, 0.2);
-    BlocklyDialogs.matchBorder_(dialog, true, 0.8);
+    matchBorder_(origin, false, 0.2);
+    matchBorder_(dialog, true, 0.8);
     // In 175ms show the dialog and hide the animated border.
     setTimeout(endResult, 175);
   } else {
     // No animation.  Just set the final state.
     endResult();
   }
-};
+}
 
 /**
  * Horizontal start coordinate of dialog drag.
  */
-BlocklyDialogs.dialogStartX_ = 0;
+let dialogStartX_ = 0;
 
 /**
  * Vertical start coordinate of dialog drag.
  */
-BlocklyDialogs.dialogStartY_ = 0;
+let dialogStartY_ = 0;
 
 /**
  * Handle start of drag of dialog.
- * @param {!Event} e Mouse down event.
+ * @param {!MouseEvent} e Mouse down event.
  * @private
  */
-BlocklyDialogs.dialogMouseDown_ = function(e) {
-  BlocklyDialogs.dialogUnbindDragEvents_();
-  if (Blockly.utils.isRightButton(e)) {
+function dialogMouseDown_(e: MouseEvent) {
+  dialogUnbindDragEvents_();
+  if (isRightButton(e)) {
     // Right-click.
     return;
   }
   // Left click (or middle click).
   // Record the starting offset between the current location and the mouse.
-  const dialog = BlocklyGames.getElementById('dialog');
-  BlocklyDialogs.dialogStartX_ = dialog.offsetLeft - e.clientX;
-  BlocklyDialogs.dialogStartY_ = dialog.offsetTop - e.clientY;
+  const dialog = getElementById('dialog');
+  dialogStartX_ = dialog.offsetLeft - e.clientX;
+  dialogStartY_ = dialog.offsetTop - e.clientY;
 
-  BlocklyDialogs.dialogMouseUpWrapper_ = Blockly.browserEvents.bind(document,
-      'mouseup', null, BlocklyDialogs.dialogUnbindDragEvents_);
-  BlocklyDialogs.dialogMouseMoveWrapper_ = Blockly.browserEvents.bind(document,
-      'mousemove', null, BlocklyDialogs.dialogMouseMove_);
+  dialogMouseUpWrapper_ = bind(document, 'mouseup', null, dialogUnbindDragEvents_);
+  dialogMouseMoveWrapper_ = bind(document, 'mousemove', null, dialogMouseMove_);
   // This event has been handled.  No need to bubble up to the document.
   e.stopPropagation();
-};
+}
 
 /**
  * Drag the dialog to follow the mouse.
- * @param {!Event} e Mouse move event.
+ * @param {!MouseEvent} e Mouse move event.
  * @private
  */
-BlocklyDialogs.dialogMouseMove_ = function(e) {
-  const dialog = BlocklyGames.getElementById('dialog');
-  let dialogLeft = BlocklyDialogs.dialogStartX_ + e.clientX;
-  let dialogTop = BlocklyDialogs.dialogStartY_ + e.clientY;
+function dialogMouseMove_(e: MouseEvent) {
+  const dialog = getElementById('dialog');
+  let dialogLeft = dialogStartX_ + e.clientX;
+  let dialogTop = dialogStartY_ + e.clientY;
   dialogTop = Math.max(dialogTop, 0);
   dialogTop = Math.min(dialogTop, window.innerHeight - dialog.offsetHeight);
   dialogLeft = Math.max(dialogLeft, 0);
   dialogLeft = Math.min(dialogLeft, window.innerWidth - dialog.offsetWidth);
   dialog.style.left = dialogLeft + 'px';
   dialog.style.top = dialogTop + 'px';
-};
+}
 
 /**
  * Stop binding to the global mouseup and mousemove events.
  * @private
  */
-BlocklyDialogs.dialogUnbindDragEvents_ = function() {
-  if (BlocklyDialogs.dialogMouseUpWrapper_) {
-    Blockly.browserEvents.unbind(BlocklyDialogs.dialogMouseUpWrapper_);
-    BlocklyDialogs.dialogMouseUpWrapper_ = null;
+function dialogUnbindDragEvents_() {
+  if (dialogMouseUpWrapper_) {
+    unbind(dialogMouseUpWrapper_);
+    dialogMouseUpWrapper_ = null;
   }
-  if (BlocklyDialogs.dialogMouseMoveWrapper_) {
-    Blockly.browserEvents.unbind(BlocklyDialogs.dialogMouseMoveWrapper_);
-    BlocklyDialogs.dialogMouseMoveWrapper_ = null;
+  if (dialogMouseMoveWrapper_) {
+    unbind(dialogMouseMoveWrapper_);
+    dialogMouseMoveWrapper_ = null;
   }
-};
+}
 
 /**
  * Hide the dialog pop-up.
  * @param {boolean} opt_animate Animate the dialog closing.  Defaults to true.
  *     Requires that origin was not null when dialog was opened.
  */
-BlocklyDialogs.hideDialog = function(opt_animate = true) {
-  if (!BlocklyDialogs.isDialogVisible_) {
+export function hideDialog(opt_animate: boolean = true) {
+  if (! isDialogVisible) {
     return;
   }
-  BlocklyDialogs.dialogUnbindDragEvents_();
-  if (BlocklyDialogs.dialogMouseDownWrapper_) {
-    Blockly.browserEvents.unbind(BlocklyDialogs.dialogMouseDownWrapper_);
-    BlocklyDialogs.dialogMouseDownWrapper_ = null;
+  dialogUnbindDragEvents_();
+  if (dialogMouseDownWrapper_) {
+    unbind(dialogMouseDownWrapper_);
+    dialogMouseDownWrapper_ = null;
   }
 
-  BlocklyDialogs.isDialogVisible_ = false;
-  BlocklyDialogs.dialogDispose_ && BlocklyDialogs.dialogDispose_();
-  BlocklyDialogs.dialogDispose_ = null;
-  const origin = opt_animate ? BlocklyDialogs.dialogOrigin_ : null;
-  const dialog = BlocklyGames.getElementById('dialog');
-  const shadow = BlocklyGames.getElementById('dialogShadow');
+   isDialogVisible = false;
+  dialogDispose_ && dialogDispose_();
+  dialogDispose_ = null;
+  const origin = opt_animate ? dialogOrigin_ : null;
+  const dialog = getElementById('dialog');
+  const shadow = getElementById('dialogShadow');
 
   shadow.style.opacity = 0;
 
   function endResult() {
     shadow.style.zIndex = -1;
     shadow.style.visibility = 'hidden';
-    const border = BlocklyGames.getElementById('dialogBorder');
+    const border = getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   if (origin && dialog) {
-    BlocklyDialogs.matchBorder_(dialog, false, 0.8);
-    BlocklyDialogs.matchBorder_(origin, true, 0.2);
+    matchBorder_(dialog, false, 0.8);
+    matchBorder_(origin, true, 0.2);
     // In 175ms hide both the shadow and the animated border.
     setTimeout(endResult, 175);
   } else {
@@ -261,7 +254,7 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
   }
   dialog.style.visibility = 'hidden';
   dialog.style.zIndex = -1;
-  const header = BlocklyGames.getElementById('dialogHeader');
+  const header = getElementById('dialogHeader');
   if (header) {
     header.parentNode.removeChild(header);
   }
@@ -270,6 +263,13 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
     content.classList.add('dialogHiddenContent');
     document.body.appendChild(content);
   }
+}
+
+type Box = {
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 /**
@@ -279,12 +279,12 @@ BlocklyDialogs.hideDialog = function(opt_animate = true) {
  * @param {number} opacity Opacity of border.
  * @private
  */
-BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
+function matchBorder_(element: Element, animate: boolean, opacity: number) {
   if (!element) {
     return;
   }
-  const border = BlocklyGames.getElementById('dialogBorder');
-  const bBox = BlocklyDialogs.getBBox_(element);
+  const border = getElementById('dialogBorder');
+  const bBox = getBBox_(element);
   function change() {
     border.style.width = bBox.width + 'px';
     border.style.height = bBox.height + 'px';
@@ -300,40 +300,42 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
     change();
   }
   border.style.visibility = 'visible';
-};
+}
 
 /**
  * Compute the absolute coordinates and dimensions of an HTML or SVG element.
  * @param {!Element} element Element to match.
- * @returns {!Object} Contains height, width, x, and y properties.
+ * @returns {!Box} Contains height, width, x, and y properties.
  * @private
  */
-BlocklyDialogs.getBBox_ = function(element) {
-  const xy = Blockly.utils.style.getPageOffset(element);
+function getBBox_(element: Element): Box {
+  const xy = getPageOffset(element);
   const box = {
     x: xy.x,
     y: xy.y,
+    height: NaN,
+    width: NaN,
   };
-  if (element.getBBox) {
+  if (element instanceof SVGGraphicsElement) {
     // SVG element.
     const bBox = element.getBBox();
     box.height = bBox.height;
     box.width = bBox.width;
-  } else {
+  } else if (element instanceof HTMLElement) {
     // HTML element.
     box.height = element.offsetHeight;
     box.width = element.offsetWidth;
   }
   return box;
-};
+}
 
 /**
  * Display a storage-related modal dialog.
- * @param {?Element} origin Source of dialog opening animation.
  * @param {string} message Text to alert.
  */
-BlocklyDialogs.storageAlert = function(origin, message) {
-  const container = BlocklyGames.getElementById('containerStorage');
+export function storageAlert(message: string) {
+  const origin = getElementById('linkButton');  // May be null (in Gallery).
+  const container = getElementById('containerStorage');
   container.textContent = '';
   const lines = message.split('\n');
   for (const line of lines) {
@@ -342,94 +344,86 @@ BlocklyDialogs.storageAlert = function(origin, message) {
     container.appendChild(p);
   }
 
-  const content = BlocklyGames.getElementById('dialogStorage');
+  const content = getElementById('dialogStorage');
   const style = {
     width: '50%',
     left: '25%',
     top: '5em',
   };
-  BlocklyDialogs.showDialog(content, origin, true, true, style,
-      BlocklyDialogs.stopDialogKeyDown);
-  BlocklyDialogs.startDialogKeyDown();
-};
+  showDialog(content, origin, true, true, style, stopDialogKeyDown);
+  startDialogKeyDown();
+}
 
 /**
  * Display a dialog suggesting that the user give up.
  */
-BlocklyDialogs.abortOffer = function() {
+export function abortOffer() {
   // If the user has solved the level, all is well.
-  if (BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
-                                        BlocklyGames.LEVEL)) {
+  if (loadFromLocalStorage(storageName, LEVEL)) {
     return;
   }
   // Don't override an existing dialog, or interrupt a drag.
-  if (BlocklyDialogs.isDialogVisible_ ||
-      BlocklyInterface.workspace.isDragging()) {
-    setTimeout(BlocklyDialogs.abortOffer, 15 * 1000);
+  if ( isDialogVisible ||
+      workspace.isDragging()) {
+    setTimeout(abortOffer, 15 * 1000);
     return;
   }
 
-  const content = BlocklyGames.getElementById('dialogAbort');
+  const content = getElementById('dialogAbort');
   const style = {
     width: '40%',
     left: '30%',
     top: '3em',
   };
 
-  const ok = BlocklyGames.getElementById('abortOk');
-  ok.addEventListener('click', BlocklyInterface.indexPage, true);
-  ok.addEventListener('touchend', BlocklyInterface.indexPage, true);
+  const ok = getElementById('abortOk');
+  ok.addEventListener('click', indexPage, true);
+  ok.addEventListener('touchend', indexPage, true);
 
-  BlocklyDialogs.showDialog(content, null, false, true, style,
+  showDialog(content, null, false, true, style,
       function() {
-        document.body.removeEventListener('keydown',
-            BlocklyDialogs.abortKeyDown_, true);
+        document.body.removeEventListener('keydown', abortKeyDown_, true);
         });
-  document.body.addEventListener('keydown', BlocklyDialogs.abortKeyDown_, true);
-};
+  document.body.addEventListener('keydown', abortKeyDown_, true);
+}
 
 /**
  * If the user presses enter, escape, or space, hide the dialog.
- * @param {!Event} e Keyboard event.
+ * @param {!KeyboardEvent} e Keyboard event.
  */
-BlocklyDialogs.dialogKeyDown = function(e) {
-  if (BlocklyDialogs.isDialogVisible_) {
-    if (e.keyCode === 13 || e.keyCode === 27 || e.keyCode === 32) {
-      BlocklyDialogs.hideDialog(true);
+export function dialogKeyDown(e: KeyboardEvent) {
+  if ( isDialogVisible) {
+    if (e.code === 'Enter' || e.code === 'Escape' || e.code === 'Space') {
+      hideDialog(true);
       e.stopPropagation();
       e.preventDefault();
     }
   }
-};
+}
 
 /**
  * Start listening for BlocklyDialogs.dialogKeyDown.
  */
-BlocklyDialogs.startDialogKeyDown = function() {
-  document.body.addEventListener('keydown',
-      BlocklyDialogs.dialogKeyDown, true);
-};
+export function startDialogKeyDown() {
+  document.body.addEventListener('keydown', dialogKeyDown, true);
+}
 
 /**
  * Stop listening for BlocklyDialogs.dialogKeyDown.
  */
-BlocklyDialogs.stopDialogKeyDown = function() {
-  document.body.removeEventListener('keydown',
-      BlocklyDialogs.dialogKeyDown, true);
-};
+export function stopDialogKeyDown() {
+  document.body.removeEventListener('keydown', dialogKeyDown, true);
+}
 
 /**
  * If the user presses enter, escape, or space, hide the dialog.
  * Enter and space move to the index page, escape does not.
- * @param {!Event} e Keyboard event.
+ * @param {!KeyboardEvent} e Keyboard event.
  * @private
  */
-BlocklyDialogs.abortKeyDown_ = function(e) {
-  BlocklyDialogs.dialogKeyDown(e);
-  if (e.keyCode === 13 || e.keyCode === 32) {
-    BlocklyInterface.indexPage();
+function abortKeyDown_(e: KeyboardEvent) {
+  dialogKeyDown(e);
+  if (e.code === 'Enter' || e.code === 'Space') {
+    indexPage();
   }
-};
-
-// Export symbols that would otherwise be renamed by Closure compiler.
-window['BlocklyDialogs'] = BlocklyDialogs;
+}
