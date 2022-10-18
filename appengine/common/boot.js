@@ -27,8 +27,8 @@ if (location.host === 'blockly-games.appspot.com') {
     'el', 'en', 'eo', 'es', 'eu', 'fa', 'fi', 'fo', 'fr', 'gl', 'ha', 'he',
     'hi', 'hr', 'hu', 'hy', 'ia', 'id', 'ig', 'is', 'it', 'ja', 'kab', 'kn',
     'ko', 'lt', 'lv', 'ms', 'my', 'nb', 'nl', 'pl', 'pms', 'pt', 'pt-br',
-    'ro', 'ru', 'sc', 'sk', 'sl', 'sq', 'sr', 'sr-latn', 'sv', 'th', 'ti',
-    'tr', 'uk', 'ur', 'vi', 'yo', 'zh-hans', 'zh-hant'
+    'ro', 'ru', 'sc', 'sk', 'sl', 'smn', 'sq', 'sr', 'sr-latn', 'sv', 'th',
+    'ti', 'tr', 'uk', 'ur', 'vi', 'yo', 'zh-hans', 'zh-hant'
   ];
 
   // Use a series of heuristics that determine the likely language of this user.
