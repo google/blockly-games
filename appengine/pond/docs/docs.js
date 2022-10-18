@@ -19,9 +19,9 @@ function init() {
     var img = document.createElement('img');
     img.src = '../common/1x1.gif';
     header.insertBefore(img, header.firstChild);
-    header.className = 'zippy-header-collapsed';
+    header.classList.add('zippy-header-collapsed');
     var content = document.getElementById(header.id + '-content');
-    content.className = 'zippy-content-collapsed';
+    content.classList.add('zippy-content-collapsed');
     bindClick(header, toggle);
   }
 }
@@ -49,11 +49,15 @@ function bindClick(el, func) {
 function toggle(e) {
   var header = e.currentTarget;
   var content = document.getElementById(header.id + '-content');
-  var isOpen = content.className === 'zippy-content-expanded';
-  header.className =
-      'zippy-header-' + (isOpen ? 'collapsed' : 'expanded');
-  content.className =
-      'zippy-content-' + (isOpen ? 'collapsed' : 'expanded');
+  var isOpen = content.classList.contains('zippy-content-expanded');
+  header.classList.add(
+      'zippy-header-' + (isOpen ? 'collapsed' : 'expanded'));
+  content.classList.add(
+      'zippy-content-' + (isOpen ? 'collapsed' : 'expanded'));
+  header.classList.remove(
+      'zippy-header-' + (isOpen ? 'expanded' : 'collapsed'));
+  content.classList.remove(
+      'zippy-content-' + (isOpen ? 'expanded' : 'collapsed'));
   content.style.maxHeight = isOpen ? 0 : (content.scrollHeight + 'px');
 }
 

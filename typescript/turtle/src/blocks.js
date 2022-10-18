@@ -69,8 +69,8 @@ Turtle.Blocks.init = function() {
   Blockly.Extensions.register('turtle_turn_arrows',
       function() {
         const options = this.getField('DIR').getOptions();
-        options[0][0] += LEFT_TURN;
-        options[1][0] += RIGHT_TURN;
+        options[0][0] += RIGHT_TURN;
+        options[1][0] += LEFT_TURN;
       });
 
   Blockly.defineBlocksWithJsonArray([

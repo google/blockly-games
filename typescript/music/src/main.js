@@ -326,10 +326,13 @@ function drawNote(i, time, pitch, duration, className) {
     musicContainer.appendChild(splash);
     // Wait 0 ms to trigger the CSS Transition.
     setTimeout(function() {splash.className = 'splash ' + name;}, 0);
-    // Garbage collect the now-invisible note.
-    setTimeout(function() {musicContainer.removeChild(splash);}, 1000);
+    // Garbage collect the now-invisible splash note.
+    // It might be already gone if the user hit 'reset'.
+    setTimeout(function() {
+      splash.parentNode && splash.parentNode.removeChild(splash);
+    }, 1000);
   }
-  if (pitch === '0' || pitch === '12') {
+  if (pitch === 0 || pitch === 12) {
     const line = document.createElement('img');
     line.src = 'music/black1x1.gif';
     line.className = className + ' ' +
@@ -413,9 +416,12 @@ function drawAnswer() {
         time += duration;
       }
     }
-    // Both Chrome and FF read musicBox.scrollWidth as too small on some levels
-    // without a setTimeout here.  Unknown why.
-    setTimeout(autoScroll, 0);
+    // Both Chrome and FF fail to recompute musicBox.scrollWidth for a few ms.
+    // The first autoScroll will draw the first couple of bars immediately.
+    // The delayed autoScroll will draw the rest (offscreen) once scrollWidth
+    // has been computed.
+    autoScroll();
+    setTimeout(autoScroll, 100);
   }
 }
 
@@ -824,6 +830,27 @@ function play(duration, pitch, id) {
  * @param {?string} id ID of block.
  */
 function rest(duration, id) {
+  if (activeThread.resting) {
+    // Reorder this thread to the bottom of the resting threads that hasn't
+    // played yet.  Find the max resting thread stave.
+    let maxResting = 0;
+    const unplayedLength = activeThread.transcript[1] || 0;
+    for (const thread of threads) {
+      if (thread.resting && thread.stave > maxResting &&
+          (thread.transcript[1] || 0) <= unplayedLength) {
+        maxResting = thread.stave;
+      }
+    }
+    // Swap this thread and the max-thread's staves.
+    for (const thread of threads) {
+      if (maxResting === thread.stave) {
+        const swapStave = activeThread.stave;
+        activeThread.stave = maxResting;
+        thread.stave = swapStave;
+        break;
+      }
+    }
+  }
   stopSound(activeThread);
   activeThread.pauseUntil64ths = duration * 64 + clock64ths;
   // Make a record of this rest.

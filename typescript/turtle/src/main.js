@@ -673,6 +673,11 @@ function executeChunk_() {
   // All tasks should be complete now.  Clean up the PID list.
   pidList.length = 0;
   pause = 0;
+  // Normally we'll execute until we reach a command that requests a pause
+  // (which means a turtle block), then highlight a block and wait, before
+  // executing the next chunk.  However, put a limit of 1000 steps on each
+  // chunk in case there's a tight loop with no turtle blocks.
+  let ticks = 1000;
   let go;
   do {
     try {
@@ -681,6 +686,9 @@ function executeChunk_() {
       // User error, terminate in shame.
       alert(e);
       go = false;
+    }
+    if (!ticks--) {
+      pause = 1;
     }
     if (go && pause) {
       // The last executed command requested a pause.
@@ -915,22 +923,22 @@ function answer() {
       // Four stars.
       penColour('#ffff00');
       for (let count = 0; count < 4; count++) {
+        drawStar(50);
         penDown(false);
         move(150);
         turn(90);
         penDown(true);
-        drawStar(50);
       }
       break;
     case 6:
       // Three stars and a line.
       penColour('#ffff00');
       for (let count = 0; count < 3; count++) {
+        drawStar(50);
         penDown(false);
         move(150);
         turn(120);
         penDown(true);
-        drawStar(50);
       }
       penDown(false);
       turn(-90);
@@ -943,11 +951,11 @@ function answer() {
       // Three stars and 4 lines.
       penColour('#ffff00');
       for (let count = 0; count < 3; count++) {
+        drawStar(50);
         penDown(false);
         move(150);
         turn(120);
         penDown(true);
-        drawStar(50);
       }
       penDown(false);
       turn(-90);
@@ -964,11 +972,11 @@ function answer() {
       // Three stars and a circle.
       penColour('#ffff00');
       for (let count = 0; count < 3; count++) {
+        drawStar(50);
         penDown(false);
         move(150);
         turn(120);
         penDown(true);
-        drawStar(50);
       }
       penDown(false);
       turn(-90);
@@ -985,11 +993,11 @@ function answer() {
       // Three stars and a crescent.
       penColour('#ffff00');
       for (let count = 0; count < 3; count++) {
+        drawStar(50);
         penDown(false);
         move(150);
         turn(120);
         penDown(true);
-        drawStar(50);
       }
       penDown(false);
       turn(-90);
@@ -1031,7 +1039,7 @@ function isCorrect(pixelErrors) {
   // redraws.  Allow that one to pass too.
   // https://groups.google.com/g/blockly-games/c/aOq4F5FIK64
   if (pixelErrors > (BlocklyGames.LEVEL === 9 ? 600 :
-      (BlocklyGames.LEVEL === 8 ? 150 : 100))) {
+      (BlocklyGames.LEVEL === 8 ? 350 : 100))) {
     // Too many errors.
     return false;
   }
