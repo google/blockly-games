@@ -38,7 +38,7 @@
 	"Games.catColour": "Barva",
 	"Games.catVariables": "Spremenljivke",
 	"Games.catProcedures": "Funkcije",
-	"Games.httpRequestError": "V zvezi z zahtevkom se je pojavila težava.",
+	"Games.httpRequestError": "V zvezi z zahtevkom je prišlo do težave.",
 	"Games.linkAlert": "Delite svoje bloke s povezavo: %1",
 	"Games.hashError": "»%1« se žal ne ujema z nobenim shranjenim programom.",
 	"Games.xmlError": "Shranjene datoteke ne morem naložiti. Mogoče je bila ustvarjena z drugo različico Blocklyja?",
