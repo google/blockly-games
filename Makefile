@@ -45,6 +45,8 @@ games: index puzzle maze bird turtle movie music pond-tutor pond-duck gallery
 common:
 	@echo "Transpiling TypeScript to JavaScript."
 	npx tsc
+	@echo "Tweaking JavaScript for compatibility with Closure Compiler."
+	python build/tsick.py
 	@echo "Converting messages.js to JSON for Translatewiki."
 	python build/messages_to_json.py
 	@echo "Converting JSON from Translatewiki to message files."
