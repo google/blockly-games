@@ -14,6 +14,7 @@ goog.provide('Maze.html');
 
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
+goog.require('BlocklyInterface');
 
 
 /**
@@ -23,7 +24,8 @@ goog.require('BlocklyGames.html');
  */
 Maze.html.start = function(ij) {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true), '', true, false,
+${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true),
+    BlocklyInterface.nextLevelParam, true, false,
     '<button id="pegmanButton"><img src="common/1x1.gif"><span id="pegmanButtonArrow"></span></button>')}
 
 <div id="visualization">

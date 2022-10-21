@@ -32,7 +32,7 @@ goog.require('Maze.html');
 
 BlocklyGames.storageName = 'maze';
 
-const MAX_BLOCKS = [undefined, // Level 0.
+const MAX_BLOCKS = [undefined,  // Level 0.
     Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
 
 // Crash type constants.
@@ -55,7 +55,7 @@ const SKINS = [
     look: '#000',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_pegman.mp3', 'maze/fail_pegman.ogg'],
-    crashType: CRASH_STOP
+    crashType: CRASH_STOP,
   },
   {
     sprite: 'maze/astro.png',
@@ -65,7 +65,7 @@ const SKINS = [
     look: '#fff',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_astro.mp3', 'maze/fail_astro.ogg'],
-    crashType: CRASH_SPIN
+    crashType: CRASH_SPIN,
   },
   {
     sprite: 'maze/panda.png',
@@ -75,8 +75,8 @@ const SKINS = [
     look: '#000',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_panda.mp3', 'maze/fail_panda.ogg'],
-    crashType: CRASH_FALL
-  }
+    crashType: CRASH_FALL,
+  },
 ];
 const SKIN_ID =
     BlocklyGames.getIntegerParamFromUrl('skin', 0, SKINS.length - 1);
@@ -308,7 +308,7 @@ function drawMap() {
       'width': MAZE_WIDTH,
       'fill': '#F1EEE7',
       'stroke-width': 1,
-      'stroke': '#CCB'
+      'stroke': '#CCB',
     }, svg);
 
   if (SKIN.background) {
@@ -316,7 +316,7 @@ function drawMap() {
         'height': MAZE_HEIGHT,
         'width': MAZE_WIDTH,
         'x': 0,
-        'y': 0
+        'y': 0,
       }, svg);
     tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
         SKIN.background);
@@ -364,7 +364,7 @@ function drawMap() {
           'height': SQUARE_SIZE,
           'width': SQUARE_SIZE,
           'x': x * SQUARE_SIZE,
-          'y': y * SQUARE_SIZE
+          'y': y * SQUARE_SIZE,
         }, tileClip);
       // Tile sprite.
       const tile = Blockly.utils.dom.createSvgElement('image', {
@@ -372,7 +372,7 @@ function drawMap() {
           'width': SQUARE_SIZE * 5,
           'clip-path': 'url(#tileClipPath' + tileId + ')',
           'x': (x - left) * SQUARE_SIZE,
-          'y': (y - top) * SQUARE_SIZE
+          'y': (y - top) * SQUARE_SIZE,
         }, svg);
       tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
           SKIN.tiles);
@@ -384,7 +384,7 @@ function drawMap() {
   const finishMarker = Blockly.utils.dom.createSvgElement('image', {
       'id': 'finish',
       'height': 34,
-      'width': 20
+      'width': 20,
     }, svg);
   finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       'maze/marker.png');
@@ -403,7 +403,7 @@ function drawMap() {
   const pegmanIcon = Blockly.utils.dom.createSvgElement('image', {
       'id': 'pegman',
       'height': PEGMAN_HEIGHT,
-      'width': PEGMAN_WIDTH * 21, // 49 * 21 = 1029
+      'width': PEGMAN_WIDTH * 21,  // 49 * 21 = 1029
       'clip-path': 'url(#pegmanClipPath)',
     }, svg);
   pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
@@ -415,6 +415,9 @@ function drawMap() {
  */
 function init() {
   Maze.Blocks.init();
+
+  // Add skin parameter when moving to next level.
+  BlocklyInterface.nextLevelParam = '&skin=' + SKIN_ID;
 
   // Render the HTML.
   document.body.innerHTML = Maze.html.start(
@@ -549,9 +552,6 @@ function init() {
   pegSpin.src = 'common/1x1.gif';
   pegSpin.style.backgroundImage = 'url(' + SKIN.sprite + ')';
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
-
-  // Add skin parameter when moving to next level.
-  BlocklyInterface.nextLevelParam = '&skin=' + SKIN_ID;
 
   // Lazy-load the JavaScript interpreter.
   BlocklyCode.importInterpreter();
@@ -820,7 +820,7 @@ function reset(first) {
     pidList.push(setTimeout(function() {
       stepSpeed = 100;
       schedule([pegmanX, pegmanY, pegmanD * 4],
-                    [pegmanX, pegmanY, pegmanD * 4 - 4]);
+               [pegmanX, pegmanY, pegmanD * 4 - 4]);
       pegmanD++;
     }, stepSpeed * 5));
   } else {
