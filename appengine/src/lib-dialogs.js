@@ -284,7 +284,7 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
     return;
   }
   const border = BlocklyGames.getElementById('dialogBorder');
-  const bBox = BlocklyDialogs.getBBox_(element);
+  const bBox = BlocklyDialogs.getBBox(element);
   function change() {
     border.style.width = bBox.width + 'px';
     border.style.height = bBox.height + 'px';
@@ -306,9 +306,8 @@ BlocklyDialogs.matchBorder_ = function(element, animate, opacity) {
  * Compute the absolute coordinates and dimensions of an HTML or SVG element.
  * @param {!Element} element Element to match.
  * @returns {!Object} Contains height, width, x, and y properties.
- * @private
  */
-BlocklyDialogs.getBBox_ = function(element) {
+BlocklyDialogs.getBBox = function(element) {
   const xy = Blockly.utils.style.getPageOffset(element);
   const box = {
     x: xy.x,

@@ -51,13 +51,13 @@ Maze.Blocks.init = function() {
 
   const TURN_DIRECTIONS = [
     [BlocklyGames.getMsg('Maze.turnLeft', false), 'turnLeft'],
-    [BlocklyGames.getMsg('Maze.turnRight', false), 'turnRight']
+    [BlocklyGames.getMsg('Maze.turnRight', false), 'turnRight'],
   ];
 
   const PATH_DIRECTIONS = [
     [BlocklyGames.getMsg('Maze.pathAhead', false), 'isPathForward'],
     [BlocklyGames.getMsg('Maze.pathLeft', false), 'isPathLeft'],
-    [BlocklyGames.getMsg('Maze.pathRight', false), 'isPathRight']
+    [BlocklyGames.getMsg('Maze.pathRight', false), 'isPathRight'],
   ];
 
   // Add arrows to turn options after prefix/suffix have been separated.

@@ -37,7 +37,7 @@ function init() {
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
-  const onresize = function(e) {
+  const onresize = function(_e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
         (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
@@ -173,7 +173,7 @@ function shuffle(arr) {
  * Count and highlight the errors.
  */
 function checkAnswers() {
-  const blocks = BlocklyInterface.workspace.getAllBlocks();
+  const blocks = BlocklyInterface.workspace.getAllBlocks(false);
   let errors = 0;
   const badBlocks = [];
   for (const block of blocks) {

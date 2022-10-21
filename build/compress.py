@@ -196,7 +196,6 @@ def generate_compressed(gameName):
     '--generate_exports',
     '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
     '--dependency_mode=PRUNE',
-    '--externs', 'externs/gviz-externs.js',
     '--externs', 'externs/interpreter-externs.js',
     '--externs', 'externs/prettify-externs.js',
     '--externs', 'externs/soundJS-externs.js',

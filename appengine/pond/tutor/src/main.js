@@ -57,7 +57,7 @@ function init() {
   let onresize;
 
   if (blocklyDiv) {
-    onresize = function(e) {
+    onresize = function(_e) {
       const top = visualization.offsetTop;
       blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
       blocklyDiv.style.left = rtl ? '10px' : '420px';
@@ -124,7 +124,7 @@ function init() {
     BlocklyAce.makeAceSession();
     BlocklyInterface.loadBlocks(defaultCode + '\n');
 
-    onresize = function(e) {
+    onresize = function(_e) {
       const top = visualization.offsetTop;
       editorDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
       editorDiv.style.left = rtl ? '10px' : '420px';

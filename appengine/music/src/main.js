@@ -115,7 +115,7 @@ function init() {
   const paddingBox = BlocklyGames.getElementById('paddingBox');
   const staveBox = BlocklyGames.getElementById('staveBox');
   const musicBox = BlocklyGames.getElementById('musicBox');
-  const onresize = function(e) {
+  const onresize = function(_e) {
     const top = paddingBox.offsetTop;
     staveBox.style.top = top + 'px';
     musicBox.style.top = top + 'px';
@@ -1019,7 +1019,7 @@ function checkAnswer() {
     undefined,  // Level 10.
   ][BlocklyGames.LEVEL];
   let blockCount = 0;
-  const blocks = BlocklyInterface.workspace.getAllBlocks();
+  const blocks = BlocklyInterface.workspace.getAllBlocks(false);
   for (const block of blocks) {
     if (block.type !== 'music_instrument' &&
         block.isEnabled() && !block.getInheritedDisabled()) {

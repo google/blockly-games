@@ -47,6 +47,12 @@ BlocklyInterface.blocksDisabled = false;
 BlocklyInterface.executedCode = '';
 
 /**
+ * Additional parameter to append when moving to next level.
+ * @type string
+ */
+BlocklyInterface.nextLevelParam = '';
+
+/**
  * Common startup tasks for all apps.
  * @param {string} title Text for the page title.
  */
@@ -229,9 +235,9 @@ BlocklyInterface.changeLanguage = function() {
  */
 BlocklyInterface.nextLevel = function() {
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
+    location = location.protocol + '//' + location.host + location.pathname +
+        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1) +
+        BlocklyInterface.nextLevelParam;
   } else {
     BlocklyInterface.indexPage();
   }

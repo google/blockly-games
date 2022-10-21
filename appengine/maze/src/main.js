@@ -32,21 +32,6 @@ goog.require('Maze.html');
 
 BlocklyGames.storageName = 'maze';
 
-/**
- * Go to the next level.  Add skin parameter.
- * @suppress {duplicate}
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1) +
-        '&skin=' + SKIN_ID;
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
-
 const MAX_BLOCKS = [undefined, // Level 0.
     Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
 
@@ -208,7 +193,7 @@ const map = [
   [0, 1, 1, 1, 1, 1, 1, 0],
   [0, 0, 0, 1, 0, 0, 1, 0],
   [0, 2, 1, 1, 1, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]]
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 ][BlocklyGames.LEVEL];
 
 /**
@@ -472,7 +457,7 @@ function init() {
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
   const visualization = BlocklyGames.getElementById('visualization');
-  const onresize = function(e) {
+  const onresize = function(_e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
@@ -565,6 +550,9 @@ function init() {
   pegSpin.style.backgroundImage = 'url(' + SKIN.sprite + ')';
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
 
+  // Add skin parameter when moving to next level.
+  BlocklyInterface.nextLevelParam = '&skin=' + SKIN_ID;
+
   // Lazy-load the JavaScript interpreter.
   BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
@@ -591,12 +579,13 @@ function levelHelp(opt_event) {
   const rtl = BlocklyGames.IS_RTL;
   const userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
-  const toolbar = BlocklyInterface.workspace.flyout_.workspace_.getTopBlocks(true);
+  const toolbar =
+      BlocklyInterface.workspace.getFlyout().getWorkspace().getTopBlocks(true);
   let content = null;
   let origin = null;
   let style = null;
   if (BlocklyGames.LEVEL === 1) {
-    if (BlocklyInterface.workspace.getAllBlocks().length < 2) {
+    if (BlocklyInterface.workspace.getAllBlocks(false).length < 2) {
       content = BlocklyGames.getElementById('dialogHelpStack');
       style = {'width': '370px', 'top': '130px'};
       style[rtl ? 'right' : 'left'] = '215px';
@@ -658,18 +647,16 @@ function levelHelp(opt_event) {
     } else {
       let showHelp = true;
       // Only show help if there is not a loop with two nested blocks.
-      const blocks = BlocklyInterface.workspace.getAllBlocks();
-      for (let block of blocks) {
-        if (block.type !== 'maze_forever') {
-          continue;
-        }
+      const loopBlocks =
+          BlocklyInterface.workspace.getBlocksByType('maze_forever', false);
+      for (let loopBlock of loopBlocks) {
+        let block = loopBlock.getInputTargetBlock('DO');
         let i = 0;
         while (block) {
-          const kids = block.getChildren();
-          block = kids.length ? kids[0] : null;
-          i++;
+          i++
+          block = block.getNextBlock();
         }
-        if (i > 2) {
+        if (i > 1) {
           showHelp = false;
           break;
         }
@@ -1143,7 +1130,7 @@ function updatePegSpin_(e) {
     return;
   }
   const pegSpin = BlocklyGames.getElementById('pegSpin');
-  const bBox = BlocklyDialogs.getBBox_(pegSpin);
+  const bBox = BlocklyDialogs.getBBox(pegSpin);
   const x = bBox.x + bBox.width / 2 - window.pageXOffset;
   const y = bBox.y + bBox.height / 2 - window.pageYOffset;
   const dx = e.clientX - x;
