@@ -16,7 +16,13 @@ import {ALIGN_RIGHT} from '../../third-party/blockly/core/blockly.js';
 import {Blocks} from '../../third-party/blockly/core/blocks.js';
 import {FieldDropdown} from '../../third-party/blockly/core/field_dropdown.js';
 import {FieldImage} from '../../third-party/blockly/core/field_image.js';
+import type {BlockSvg} from '../../third-party/blockly/core/block_svg.js';
 
+
+export interface PuzzleBlock extends BlockSvg {
+  populate(n: number, m?: number): void;
+  isCorrect(): boolean;
+}
 
 /**
  * Common HSV hue for all animal blocks.

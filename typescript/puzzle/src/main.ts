@@ -10,7 +10,7 @@
  */
 import {start} from './html.js';
 import {getData} from './data.js';
-import './blocks.js';
+import {PuzzleBlock} from './blocks.js';
 
 import * as BlocklyGames from '../../src/lib-games.js';
 import * as BlocklyDialogs from '../../src/lib-dialogs.js';
@@ -19,6 +19,7 @@ import * as BlocklyInterface from '../../src/lib-interface.js';
 import {svgResize, getSelected} from '../../third-party/blockly/core/blockly.js';
 import {toRadians, toDegrees} from '../../third-party/blockly/core/utils/math.js';
 import {textToDom, domToWorkspace} from '../../third-party/blockly/core/xml.js';
+import type {BlockSvg} from '../../third-party/blockly/core/block_svg.js';
 
 
 BlocklyGames.setStorageName('puzzle');
@@ -36,7 +37,7 @@ function init() {
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
-  const onresize = function(e) {
+  const onresize = function(_e: Event) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
         (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
@@ -52,7 +53,7 @@ function init() {
   const savedBlocks =
       BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, BlocklyGames.LEVEL);
   // Add the blocks.
-  let loadOnce;
+  let loadOnce: string;
   try {
     loadOnce = window.sessionStorage.loadOnceBlocks;
   } catch (e) {
@@ -75,14 +76,14 @@ function init() {
     const data = getData();
     for (let i = 0; i < data.length; i++) {
       const animalBlock = BlocklyInterface.workspace.newBlock('animal');
-      animalBlock.populate(i + 1);
+      (animalBlock as PuzzleBlock).populate(i + 1);
       blocksAnimals.push(animalBlock);
       const pictureBlock = BlocklyInterface.workspace.newBlock('picture');
-      pictureBlock.populate(i + 1);
+      (pictureBlock as PuzzleBlock).populate(i + 1);
       blocksPictures.push(pictureBlock);
       for (let j = 0; j < data[i].traits.length; j++) {
         const traitBlock = BlocklyInterface.workspace.newBlock('trait');
-        traitBlock.populate(i + 1, j + 1);
+        (traitBlock as PuzzleBlock).populate(i + 1, j + 1);
         blocksTraits.push(traitBlock);
       }
     }
@@ -119,7 +120,7 @@ function init() {
       const blockBox = block.getSvgRoot().getBBox();
       // Spread the blocks horizontally, grouped by type.
       // Spacing is proportional to block's area.
-      let dx;
+      let dx: number;
       if (rtl) {
         dx = blockBox.width +
                  (countedArea / totalArea) * workspaceBox.width;
@@ -158,7 +159,7 @@ function init() {
  * Based on Closure's goog.array.shuffle.
  * @param {!Array} arr The array to be shuffled.
  */
-function shuffle(arr) {
+function shuffle(arr: Array<any>) {
   for (let i = arr.length - 1; i > 0; i--) {
     // Choose a random array index in [0, i] (inclusive with i).
     const j = Math.floor(Math.random() * (i + 1));
@@ -172,11 +173,11 @@ function shuffle(arr) {
  * Count and highlight the errors.
  */
 function checkAnswers() {
-  const blocks = BlocklyInterface.workspace.getAllBlocks();
+  const blocks = BlocklyInterface.workspace.getAllBlocks(false);
   let errors = 0;
   const badBlocks = [];
   for (const block of blocks) {
-    if (!block.isCorrect()) {
+    if (!(block as PuzzleBlock).isCorrect()) {
       errors++;
       // Bring the offending blocks to the front.
       block.select();
@@ -190,7 +191,7 @@ function checkAnswers() {
           (100 * (blocks.length - errors) / blocks.length) + 'px';
   }, 500);
 
-  let messages;
+  let messages: string[];
   // Safe from HTML injection due to createTextNode below.
   if (errors === 1) {
     messages = [BlocklyGames.getMsg('Puzzle.error1', false),
@@ -201,7 +202,7 @@ function checkAnswers() {
                 BlocklyGames.getMsg('Puzzle.tryAgain', false)];
   } else {
     messages = [BlocklyGames.getMsg('Puzzle.error0', false).replace(
-        '%1', blocks.length)];
+        '%1', String(blocks.length))];
     BlocklyInterface.setExecutedCode(BlocklyInterface.getCode());
     BlocklyInterface.saveToLocalStorage();
   }
@@ -265,10 +266,10 @@ function endDance() {
 
 /**
  * Animate a block moving around after the puzzle is complete.
- * @param {!Blockly.Block} block Block to move.
+ * @param {!BlockSvg} block Block to move.
  * @param {number} angleOffset Degrees offset in circle.
  */
-function animate(block, angleOffset) {
+function animate(block: BlockSvg, angleOffset: number) {
   if (!BlocklyDialogs.isDialogVisible) {
     // Firefox can navigate 'back' to this page with the animation running
     // but the dialog gone.
@@ -299,7 +300,7 @@ function animate(block, angleOffset) {
 
   const distance = Math.sqrt(Math.pow(targetX - blockXY.x, 2) +
                              Math.pow(targetY - blockXY.y, 2));
-  let dx, dy;
+  let dx: number, dy: number;
   if (distance < speed) {
     dx = targetX - blockXY.x;
     dy = targetY - blockXY.y;
@@ -319,7 +320,7 @@ function animate(block, angleOffset) {
  * @param {number} radius Radius.
  * @returns {number} The x-distance for the angle and radius.
  */
-function angleDx(degrees, radius) {
+function angleDx(degrees: number, radius: number): number {
   return radius * Math.cos(toRadians(degrees));
 }
 
@@ -330,7 +331,7 @@ function angleDx(degrees, radius) {
  * @param {number} radius Radius.
  * @returns {number} The y-distance for the angle and radius.
  */
-function angleDy(degrees, radius) {
+function angleDy(degrees: number, radius: number): number {
   return radius * Math.sin(toRadians(degrees));
 }
 
@@ -346,7 +347,7 @@ function angleDy(degrees, radius) {
  * @returns {number} Standardized angle in degrees of the vector from
  *     x1,y1 to x2,y2.
  */
-function pointsToAngle(x1, y1, x2, y2) {
+function pointsToAngle(x1: number, y1: number, x2: number, y2: number): number {
   const angle = toDegrees(Math.atan2(y2 - y1, x2 - x1));
   return BlocklyGames.normalizeAngle(angle);
 }
@@ -355,7 +356,7 @@ function pointsToAngle(x1, y1, x2, y2) {
  * Show the help pop-up.
  * @param {boolean} animate Animate the pop-up opening.
  */
-function showHelp(animate) {
+function showHelp(animate: boolean) {
   const xml = [
       '<xml>',
         '<block type="animal" x="5" y="5">',

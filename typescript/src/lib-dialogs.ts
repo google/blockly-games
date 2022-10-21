@@ -73,10 +73,10 @@ export function showDialog(content: Element, origin: Element, animate: boolean,
     throw TypeError('Content not found: ' + content);
   }
   const buttons = content.getElementsByClassName('addHideHandler');
-  var button;
+  var button: Element;
   while ((button = buttons[0])) {
-    button.addEventListener('click', hideDialog, true);
-    button.addEventListener('touchend', hideDialog, true);
+    (button as EventTarget).addEventListener('click', () => {hideDialog()}, true);
+    (button as EventTarget).addEventListener('touchend', () => {hideDialog()}, true);
     button.classList.remove('addHideHandler');
   }
   if ( isDialogVisible) {
@@ -284,7 +284,7 @@ function matchBorder_(element: Element, animate: boolean, opacity: number) {
     return;
   }
   const border = getElementById('dialogBorder');
-  const bBox = getBBox_(element);
+  const bBox = getBBox(element);
   function change() {
     border.style.width = bBox.width + 'px';
     border.style.height = bBox.height + 'px';
@@ -308,7 +308,7 @@ function matchBorder_(element: Element, animate: boolean, opacity: number) {
  * @returns {!Box} Contains height, width, x, and y properties.
  * @private
  */
-function getBBox_(element: Element): Box {
+export function getBBox(element: Element): Box {
   const xy = getPageOffset(element);
   const box = {
     x: xy.x,

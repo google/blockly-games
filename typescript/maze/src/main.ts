@@ -8,44 +8,21 @@
  * @fileoverview JavaScript for Maze game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {start} from './html.js';
+import {initBlocks} from './blocks.js';
 
-goog.provide('Maze');
+import * as BlocklyGames from '../../src/lib-games.js';
+import * as BlocklyDialogs from '../../src/lib-dialogs.js';
+import * as BlocklyInterface from '../../src/lib-interface.js';
 
-goog.require('Blockly');
-goog.require('Blockly.browserEvents');
-goog.require('Blockly.FieldDropdown');
-goog.require('Blockly.JavaScript');
-goog.require('Blockly.Trashcan');
-goog.require('Blockly.utils.dom');
-goog.require('Blockly.utils.math');
-goog.require('Blockly.utils.string');
-goog.require('Blockly.VerticalFlyout');
-goog.require('Blockly.Xml');
-goog.require('BlocklyCode');
-goog.require('BlocklyDialogs');
-goog.require('BlocklyGames');
-goog.require('BlocklyInterface');
-goog.require('Maze.Blocks');
-goog.require('Maze.html');
+import {svgResize, getSelected} from '../../third-party/blockly/core/blockly.js';
+import {toRadians, toDegrees} from '../../third-party/blockly/core/utils/math.js';
+import {textToDom, domToWorkspace} from '../../third-party/blockly/core/xml.js';
+import type {Abstract} from '../../third-party/blockly/core/events/events_abstract.js';
+import {Interpreter} from '../../typings/interpreter'
 
 
 BlocklyGames.setStorageName('maze');
-
-/**
- * Go to the next level.  Add skin parameter.
- * @suppress {duplicate}
- */
-BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1) +
-        '&skin=' + SKIN_ID;
-  } else {
-    BlocklyInterface.indexPage();
-  }
-};
 
 const MAX_BLOCKS = [undefined, // Level 0.
     Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
@@ -208,7 +185,7 @@ const map = [
   [0, 1, 1, 1, 1, 1, 1, 0],
   [0, 0, 0, 1, 0, 0, 1, 0],
   [0, 2, 1, 1, 1, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]]
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 ][BlocklyGames.LEVEL];
 
 /**
@@ -232,23 +209,23 @@ const PATH_WIDTH = SQUARE_SIZE / 3;
  * in the range 0..3 and that opposites have an absolute difference of 2.
  * @enum {number}
  */
-const DirectionType = {
-  NORTH: 0,
-  EAST: 1,
-  SOUTH: 2,
-  WEST: 3,
-};
+enum DirectionType {
+  NORTH,
+  EAST,
+  SOUTH,
+  WEST,
+}
 
 /**
  * Outcomes of running the user program.
  */
-const ResultType = {
-  UNSET: 0,
-  SUCCESS: 1,
-  FAILURE: -1,
-  TIMEOUT: 2,
-  ERROR: -2,
-};
+enum ResultType {
+  UNSET,
+  SUCCESS,
+  FAILURE,
+  TIMEOUT,
+  ERROR,
+}
 
 /**
  * Result of last execution.
@@ -264,7 +241,7 @@ let startDirection = DirectionType.EAST;
  * PIDs of animation tasks currently executing.
  * @type !Array<number>
  */
-const pidList = [];
+const pidList: number[] = [];
 
 // Map each possible shape to a sprite.
 // Input: Binary string representing Centre/North/West/South/East squares.
@@ -295,19 +272,19 @@ const tile_SHAPES = {
 /**
  * Milliseconds between each animation frame.
  */
-let stepSpeed;
+let stepSpeed: number;
 
-let start_;
-let finish_;
-let pegmanX;
-let pegmanY;
-let pegmanD;
+let start_: { x: number; y: number; };
+let finish_: { x: number; y: number; };
+let pegmanX: number;
+let pegmanY: number;
+let pegmanD: number;
 
 /**
  * Log of Pegman's moves.  Recorded during execution, played back for animation.
  * @type !Array<!Array<string>>
  */
-const log = [];
+const log: string[][] = [];
 
 /**
  * Create and layout all the nodes for the path, scenery, Pegman, and goal.
@@ -429,10 +406,10 @@ function drawMap() {
  * Initialize Blockly and the maze.  Called on page load.
  */
 function init() {
-  Maze.Blocks.init();
+  initBlocks();
 
   // Render the HTML.
-  document.body.innerHTML = Maze.html.start(
+  document.body.innerHTML = start(
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
        maxLevel: BlocklyGames.MAX_LEVEL,
@@ -443,9 +420,9 @@ function init() {
 
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');
-  pegmanImg.style.backgroundImage = 'url(' + SKIN.sprite + ')';
+  (pegmanImg as HTMLElement).style.backgroundImage = 'url(' + SKIN.sprite + ')';
   const pegmanMenu = BlocklyGames.getElementById('pegmanMenu');
-  const handlerFactory = function(n) {
+  const handlerFactory = function(n: number) {
     return function() {
       changePegman(n);
     };
@@ -472,7 +449,7 @@ function init() {
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
   const visualization = BlocklyGames.getElementById('visualization');
-  const onresize = function(e) {
+  const onresize = function(_e: Event) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
@@ -565,6 +542,9 @@ function init() {
   pegSpin.style.backgroundImage = 'url(' + SKIN.sprite + ')';
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
 
+  // Add skin parameter when moving to next level.
+  BlocklyInterface.setNextLevelParam('&skin=' + SKIN_ID);
+
   // Lazy-load the JavaScript interpreter.
   BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
@@ -575,7 +555,7 @@ function init() {
  * When the workspace changes, update the help as needed.
  * @param {Blockly.Events.Abstract=} opt_event Custom data for event.
  */
-function levelHelp(opt_event) {
+function levelHelp(opt_event?: Abstract) {
   if (opt_event && opt_event.isUiEvent) {
     // Just a change to highlighting or somesuch.
     return;
@@ -591,12 +571,13 @@ function levelHelp(opt_event) {
   const rtl = BlocklyGames.IS_RTL;
   const userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
-  const toolbar = BlocklyInterface.workspace.flyout_.workspace_.getTopBlocks(true);
+  const toolbar =
+      BlocklyInterface.workspace.getFlyout().getWorkspace().getTopBlocks(true);
   let content = null;
   let origin = null;
   let style = null;
   if (BlocklyGames.LEVEL === 1) {
-    if (BlocklyInterface.workspace.getAllBlocks().length < 2) {
+    if (BlocklyInterface.workspace.getAllBlocks(false).length < 2) {
       content = BlocklyGames.getElementById('dialogHelpStack');
       style = {'width': '370px', 'top': '130px'};
       style[rtl ? 'right' : 'left'] = '215px';
@@ -658,18 +639,16 @@ function levelHelp(opt_event) {
     } else {
       let showHelp = true;
       // Only show help if there is not a loop with two nested blocks.
-      const blocks = BlocklyInterface.workspace.getAllBlocks();
-      for (let block of blocks) {
-        if (block.type !== 'maze_forever') {
-          continue;
-        }
+      const loopBlocks =
+          BlocklyInterface.workspace.getBlocksByType('maze_forever', false);
+      for (let loopBlock of loopBlocks) {
+        let block = loopBlock.getInputTargetBlock('DO');
         let i = 0;
         while (block) {
-          const kids = block.getChildren();
-          block = kids.length ? kids[0] : null;
-          i++;
+          i++
+          block = block.getNextBlock();
         }
-        if (i > 2) {
+        if (i > 1) {
           showHelp = false;
           break;
         }
@@ -752,16 +731,17 @@ function levelHelp(opt_event) {
     BlocklyDialogs.hideDialog(false);
   }
 }
+levelHelp.initialized7_ = false;
 
 /**
  * Reload with a different Pegman skin.
  * @param {number} newSkin ID of new skin.
  */
-function changePegman(newSkin) {
+function changePegman(newSkin: number) {
   BlocklyInterface.saveToSessionStorage();
-  location = location.protocol + '//' + location.host + location.pathname +
+  location.assign(location.protocol + '//' + location.host + location.pathname +
       '?lang=' + BlocklyGames.LANG + '&level=' + BlocklyGames.LEVEL +
-      '&skin=' + newSkin;
+      '&skin=' + newSkin);
 }
 
 let pegmanMenuMouse_;
@@ -770,7 +750,7 @@ let pegmanMenuMouse_;
  * Display the Pegman skin-change menu.
  * @param {!Event} e Mouse, touch, or resize event.
  */
-function showPegmanMenu(e) {
+function showPegmanMenu(e: Event) {
   const menu = BlocklyGames.getElementById('pegmanMenu');
   if (menu.style.display === 'block') {
     // Menu is already open.  Close it.
@@ -795,12 +775,13 @@ function showPegmanMenu(e) {
   }
   showPegmanMenu.activatedOnce = true;
 }
+showPegmanMenu.activatedOnce = false;
 
 /**
  * Hide the Pegman skin-change menu.
  * @param {!Event} e Mouse, touch, or resize event.
  */
-function hidePegmanMenu(e) {
+function hidePegmanMenu(e: Event) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -817,7 +798,7 @@ function hidePegmanMenu(e) {
  * Reset the maze to the start position and kill any pending animation tasks.
  * @param {boolean} first True if an opening animation is to be played.
  */
-function reset(first) {
+function reset(first: boolean) {
   // Kill all tasks.
   pidList.forEach(clearTimeout);
   pidList.length = 0;
@@ -862,7 +843,7 @@ function reset(first) {
  * Click the run button.  Start the program.
  * @param {!Event} e Mouse or touch event.
  */
-function runButtonClick(e) {
+function runButtonClick(e: Event) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -904,7 +885,7 @@ function updateCapacity() {
     p.innerHTML = '';
     const capSpan = document.createElement('span');
     capSpan.className = 'capacityNumber';
-    capSpan.appendChild(document.createTextNode(Number(cap)));
+    capSpan.appendChild(document.createTextNode(String(cap)));
     // Safe from HTML injection due to createTextNode below.
     let msg;
     if (cap === 0) {
@@ -928,7 +909,7 @@ function updateCapacity() {
  * Click the reset button.  Reset the maze.
  * @param {!Event} e Mouse or touch event.
  */
-function resetButtonClick(e) {
+function resetButtonClick(e: Event) {
   // Prevent double-clicks or double-taps.
   if (BlocklyInterface.eventSpam(e)) {
     return;
@@ -946,45 +927,45 @@ function resetButtonClick(e) {
  * @param {!Interpreter} interpreter The JS-Interpreter.
  * @param {!Interpreter.Object} globalObject Global object.
  */
-function initInterpreter(interpreter, globalObject) {
+function initInterpreter(interpreter: typeof Interpreter, globalObject: Interpreter.Object) {
   // API
-  let wrapper;
-  wrapper = function(id) {
+  let wrapper: Function;
+  wrapper = function(id: string) {
     move(0, id);
   };
   wrap('moveForward');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     move(2, id);
   };
   wrap('moveBackward');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     turn(0, id);
   };
   wrap('turnLeft');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     turn(1, id);
   };
   wrap('turnRight');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     return isPath(0, id);
   };
   wrap('isPathForward');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     return isPath(1, id);
   };
   wrap('isPathRight');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     return isPath(2, id);
   };
   wrap('isPathBackward');
 
-  wrapper = function(id) {
+  wrapper = function(id: string) {
     return isPath(3, id);
   };
   wrap('isPathLeft');
@@ -994,7 +975,7 @@ function initInterpreter(interpreter, globalObject) {
   };
   wrap('notDone');
 
-  function wrap(name) {
+  function wrap(name: string) {
     interpreter.setProperty(globalObject, name,
         interpreter.createNativeFunction(wrapper));
   }
@@ -1014,7 +995,7 @@ function execute() {
   Blockly.selected && Blockly.selected.unselect();
   const code = BlocklyCode.getJsCode();
   BlocklyCode.executedJsCode = code;
-  BlocklyInterface.executedCode = BlocklyInterface.getCode();
+  BlocklyInterface.setExecutedCode(BlocklyInterface.getCode());
   result = ResultType.UNSET;
   const interpreter = new Interpreter(code, initInterpreter);
 
@@ -1134,16 +1115,16 @@ function animate() {
 
 /**
  * Point the congratulations Pegman to face the mouse.
- * @param {Event} e Mouse move event.
+ * @param {MouseEvent} e Mouse move event.
  * @private
  */
-function updatePegSpin_(e) {
+function updatePegSpin_(e: MouseEvent) {
   if (BlocklyGames.getElementById('dialogDone').className ===
       'dialogHiddenContent') {
     return;
   }
   const pegSpin = BlocklyGames.getElementById('pegSpin');
-  const bBox = BlocklyDialogs.getBBox_(pegSpin);
+  const bBox = BlocklyDialogs.getBBox(pegSpin);
   const x = bBox.x + bBox.width / 2 - window.pageXOffset;
   const y = bBox.y + bBox.height / 2 - window.pageYOffset;
   const dx = e.clientX - x;
@@ -1169,7 +1150,7 @@ function updatePegSpin_(e) {
  * @param {!Array<number>} startPos X, Y and direction starting points.
  * @param {!Array<number>} endPos X, Y and direction ending points.
  */
-function schedule(startPos, endPos) {
+function schedule(startPos: Array<number>, endPos: Array<number>) {
   const deltas = [(endPos[0] - startPos[0]) / 4,
                 (endPos[1] - startPos[1]) / 4,
                 (endPos[2] - startPos[2]) / 4];
@@ -1196,7 +1177,7 @@ function schedule(startPos, endPos) {
  * Schedule the animations and sounds for a failed move.
  * @param {boolean} forward True if forward, false if backward.
  */
-function scheduleFail(forward) {
+function scheduleFail(forward: boolean) {
   let deltaX = 0;
   let deltaY = 0;
   switch (pegmanD) {
@@ -1269,7 +1250,7 @@ function scheduleFail(forward) {
  * Schedule the animations and sound for a victory dance.
  * @param {boolean} sound Play the victory sound.
  */
-function scheduleFinish(sound) {
+function scheduleFinish(sound: boolean) {
   const direction16 = constrainDirection16(pegmanD * 4);
   displayPegman(pegmanX, pegmanY, 16);
   if (sound) {
@@ -1294,7 +1275,7 @@ function scheduleFinish(sound) {
  * @param {number} d Direction (0 - 15) or dance (16 - 17).
  * @param {number=} opt_angle Optional angle (in degrees) to rotate Pegman.
  */
-function displayPegman(x, y, d, opt_angle) {
+function displayPegman(x: number, y: number, d: number, opt_angle?: number) {
   const pegmanIcon = BlocklyGames.getElementById('pegman');
   pegmanIcon.setAttribute('x', x * SQUARE_SIZE - d * PEGMAN_WIDTH + 1);
   pegmanIcon.setAttribute('y', SQUARE_SIZE * (y + 0.5) - PEGMAN_HEIGHT / 2 - 8);
@@ -1316,7 +1297,7 @@ function displayPegman(x, y, d, opt_angle) {
  * in the specified direction.
  * @param {!DirectionType} d Direction (0 - 3).
  */
-function scheduleLook(d) {
+function scheduleLook(d: DirectionType) {
   let x = pegmanX;
   let y = pegmanY;
   switch (d) {
@@ -1355,7 +1336,7 @@ function scheduleLook(d) {
  * @param {!Element} path Element to make appear.
  * @param {number} delay Milliseconds to wait before making wave appear.
  */
-function scheduleLookStep(path, delay) {
+function scheduleLookStep(path: HTMLElement, delay: number) {
   pidList.push(setTimeout(function() {
     path.style.display = 'inline';
     setTimeout(function() {
@@ -1369,7 +1350,7 @@ function scheduleLookStep(path, delay) {
  * @param {number} d Potentially out-of-bounds direction value.
  * @returns {number} Legal direction value.
  */
-function constrainDirection4(d) {
+function constrainDirection4(d: number): number {
   d = Math.round(d) % 4;
   if (d < 0) {
     d += 4;
@@ -1382,7 +1363,7 @@ function constrainDirection4(d) {
  * @param {number} d Potentially out-of-bounds direction value.
  * @returns {number} Legal direction value.
  */
-function constrainDirection16(d) {
+function constrainDirection16(d: number): number {
   d = Math.round(d) % 16;
   if (d < 0) {
     d += 16;
@@ -1399,7 +1380,7 @@ function constrainDirection16(d) {
  * @throws {true} If the end of the maze is reached.
  * @throws {false} If Pegman collides with a wall.
  */
-function move(direction, id) {
+function move(direction: number, id: string) {
   if (!isPath(direction, null)) {
     log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
     throw false;
@@ -1433,7 +1414,7 @@ function move(direction, id) {
  * @param {number} direction Direction to turn (0 = left, 1 = right).
  * @param {string} id ID of block that triggered this action.
  */
-function turn(direction, id) {
+function turn(direction: number, id: string) {
   if (direction) {
     // Right turn (clockwise).
     pegmanD++;
@@ -1454,7 +1435,7 @@ function turn(direction, id) {
  *     Null if called as a helper function in move().
  * @returns {boolean} True if there is a path.
  */
-function isPath(direction, id) {
+function isPath(direction: number, id: string | null): boolean {
   const effectiveDirection = pegmanD + direction;
   let square, command;
   switch (constrainDirection4(effectiveDirection)) {
@@ -1485,7 +1466,7 @@ function isPath(direction, id) {
  * Is the player at the finish marker?
  * @returns {boolean} True if not done, false if done.
  */
-function notDone() {
+function notDone(): boolean {
   return pegmanX !== finish_.x || pegmanY !== finish_.y;
 }
 

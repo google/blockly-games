@@ -371,7 +371,7 @@ Scrubber = class {
    * @private
    */
   static bindEvent_(node, name, thisObject, func) {
-    const wrapFunc = function(e) {
+    const wrapFunc = function(_e) {
       func.apply(thisObject, arguments);
     };
     node.addEventListener(name, wrapFunc, false);

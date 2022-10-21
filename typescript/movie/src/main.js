@@ -80,7 +80,7 @@ function init() {
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
   const visualization = BlocklyGames.getElementById('visualization');
-  const onresize = function(e) {
+  const onresize = function(_e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
@@ -587,7 +587,7 @@ function checkAnswers() {
  * Send an image of the canvas to gallery.
  */
 function submitToGallery() {
-  const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
+  const blockCount = BlocklyInterface.workspace.getAllBlocks(false).length;
   const code = BlocklyCode.getJsCode();
   if (blockCount < 4 || !code.includes('time()')) {
     alert(BlocklyGames.getMsg('submitDisabled', false));
@@ -774,7 +774,7 @@ function answer(f) {
 function isCorrect() {
   if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return BlocklyInterface.workspace.getAllBlocks().length > 1;
+    return BlocklyInterface.workspace.getAllBlocks(false).length > 1;
   }
   // Check the already recorded pixel errors on every frame.
   for (let f = 0; f <= FRAMES; f++) {

@@ -97,7 +97,7 @@ function init() {
   const blocklyDiv = BlocklyGames.getElementById('blockly');
   const editorDiv = BlocklyGames.getElementById('editor');
   const divs = [blocklyDiv, editorDiv];
-  const onresize = function(e) {
+  const onresize = function(_e) {
     const top = visualization.offsetTop;
     tabDiv.style.top = (top - window.pageYOffset) + 'px';
     tabDiv.style.left = rtl ? '10px' : '420px';

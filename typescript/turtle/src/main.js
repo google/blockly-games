@@ -94,7 +94,7 @@ function init() {
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
   const visualization = BlocklyGames.getElementById('visualization');
-  const onresize = function(e) {
+  const onresize = function(_e) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
@@ -1029,7 +1029,7 @@ function answer() {
 function isCorrect(pixelErrors) {
   if (BlocklyGames.LEVEL === BlocklyGames.MAX_LEVEL) {
     // Any non-null answer is correct.
-    return BlocklyInterface.workspace.getAllBlocks().length > 1;
+    return BlocklyInterface.workspace.getAllBlocks(false).length > 1;
   }
   console.log('Pixel errors: ' + pixelErrors);
   // There's an alternate solution for level 9 that has the moon rotated by
@@ -1043,7 +1043,7 @@ function isCorrect(pixelErrors) {
     // Too many errors.
     return false;
   }
-  const blockCount = BlocklyInterface.workspace.getAllBlocks().length;
+  const blockCount = BlocklyInterface.workspace.getAllBlocks(false).length;
   if ((BlocklyGames.LEVEL <= 2 && blockCount > 3) ||
       (BlocklyGames.LEVEL === 3 && blockCount > 4) ||
       (BlocklyGames.LEVEL === 5 && blockCount > 10)) {

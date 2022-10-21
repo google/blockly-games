@@ -202,7 +202,7 @@ function getStringParamFromUrl(name: string, defaultValue: string): string {
  * @param {number} maxValue The maximum legal value.
  * @returns {number} A number in the range [min_value, max_value].
  */
-function getIntegerParamFromUrl(name: string, minValue: number, maxValue: number): number {
+export function getIntegerParamFromUrl(name: string, minValue: number, maxValue: number): number {
   const val = Math.floor(Number(getStringParamFromUrl(name, 'NaN')));
   return isNaN(val) ? minValue : Math.max(minValue, Math.min(val, maxValue));
 }

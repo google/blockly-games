@@ -8,12 +8,9 @@
  * @fileoverview HTML for Maze game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {headerBar, dialog, doneDialog, abortDialog, storageDialog, ok} from '../../src/html.js';
 
-goog.provide('Maze.html');
-
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
+import {getMsg} from '../../src/lib-games.js';
 
 
 /**
@@ -21,9 +18,9 @@ goog.require('BlocklyGames.html');
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Maze.html.start = function(ij) {
+export function start(ij: any): string {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true), '', true, false,
+${headerBar(ij, getMsg('Games.maze', true), '', true, false,
     '<button id="pegmanButton"><img src="common/1x1.gif"><span id="pegmanButtonArrow"></span></button>')}
 
 <div id="visualization">
@@ -43,27 +40,27 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true), '', t
   <tr>
     <td style="width: 190px; text-align: center; vertical-align: top;">
     <td>
-      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Maze.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+      <button id="runButton" class="primary" title="${getMsg('Maze.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Maze.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+      <button id="resetButton" class="primary" style="display: none" title="${getMsg('Maze.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
 </table>
 
-${Maze.html.toolbox_(ij.level)}
+${toolbox_(ij.level)}
 <div id="blockly"></div>
 
 <div id="pegmanMenu"></div>
 
-${BlocklyGames.html.dialog()}
-${BlocklyGames.html.doneDialog()}
-${BlocklyGames.html.abortDialog()}
-${BlocklyGames.html.storageDialog()}
+${dialog()}
+${doneDialog()}
+${abortDialog()}
+${storageDialog()}
 
-${Maze.html.helpDialogs_()}
+${helpDialogs_()}
 `;
 };
 
@@ -73,7 +70,7 @@ ${Maze.html.helpDialogs_()}
  * @returns {string} HTML.
  * @private
  */
-Maze.html.toolbox_ = function(level) {
+function toolbox_(level: number): string {
   let xml = `
 <block type="maze_moveForward"></block>
 <block type="maze_turn"><field name="DIR">turnLeft</field></block>
@@ -98,13 +95,13 @@ Maze.html.toolbox_ = function(level) {
  * @returns {string} HTML.
  * @private
  */
- Maze.html.helpDialogs_ = function() {
+ function helpDialogs_(): string {
    return `
 <div id="dialogHelpStack" class="dialogHiddenContent">
   <table><tr><td>
     <img src="common/help.png">
   </td><td>&nbsp;</td><td>
-    ${BlocklyGames.getMsg('Maze.helpStack', true)}
+    ${getMsg('Maze.helpStack', true)}
   </td><td valign="top">
     <img src="maze/help_stack.png" class="mirrorImg" height=63 width=136>
   </td></tr></table>
@@ -113,13 +110,13 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="common/help.png">
   </td><td>&nbsp;</td><td>
-    ${BlocklyGames.getMsg('Maze.helpOneTopBlock', true)}
+    ${getMsg('Maze.helpOneTopBlock', true)}
     <div id="sampleOneTopBlock" class="readonly"></div>
   </td></tr></table>
 </div>
 <div id="dialogHelpRun" class="dialogHiddenContent">
   <table><tr><td>
-    ${BlocklyGames.getMsg('Maze.helpRun', true)}
+    ${getMsg('Maze.helpRun', true)}
   </td><td rowspan=2>
     <img src="common/help.png">
   </td></tr><tr><td>
@@ -128,7 +125,7 @@ Maze.html.toolbox_ = function(level) {
 </div>
 <div id="dialogHelpReset" class="dialogHiddenContent">
   <table><tr><td>
-    ${BlocklyGames.getMsg('Maze.helpReset', true)}
+    ${getMsg('Maze.helpReset', true)}
   </td><td rowspan=2>
     <img src="common/help.png">
   </td></tr><tr><td>
@@ -139,7 +136,7 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="maze/help_up.png">
   </td><td>
-    ${BlocklyGames.getMsg('Maze.helpRepeat', true)}
+    ${getMsg('Maze.helpRepeat', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -148,14 +145,14 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="common/help.png">
   </td><td>&nbsp;</td><td>
-    ${BlocklyGames.getMsg('Maze.helpCapacity', true)}
+    ${getMsg('Maze.helpCapacity', true)}
   </td></tr></table>
 </div>
 <div id="dialogHelpRepeatMany" class="dialogHiddenContent">
   <table><tr><td>
     <img src="maze/help_up.png">
   </td><td>
-    ${BlocklyGames.getMsg('Maze.helpRepeatMany', true)}
+    ${getMsg('Maze.helpRepeatMany', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -164,7 +161,7 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="common/help.png">
   </td><td width="95%">
-    ${BlocklyGames.getMsg('Maze.helpSkins', true)}
+    ${getMsg('Maze.helpSkins', true)}
   </td><td>
     <img src="maze/help_up.png">
   </td></tr></table>
@@ -173,7 +170,7 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="maze/help_up.png">
   </td><td>
-    ${BlocklyGames.getMsg('Maze.helpIf', true)}
+    ${getMsg('Maze.helpIf', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -182,7 +179,7 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="maze/help_up.png">
   </td><td id="helpMenuText">
-    ${BlocklyGames.getMsg('Maze.helpMenu', true)}
+    ${getMsg('Maze.helpMenu', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -191,7 +188,7 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="maze/help_down.png">
   </td><td>
-    ${BlocklyGames.getMsg('Maze.helpIfElse', true)}
+    ${getMsg('Maze.helpIfElse', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -200,8 +197,8 @@ Maze.html.toolbox_ = function(level) {
   <table><tr><td>
     <img src="common/help.png">
   </td><td>&nbsp;</td><td>
-    ${BlocklyGames.getMsg('Maze.helpWallFollow', true)}
-    ${BlocklyGames.html.ok()}
+    ${getMsg('Maze.helpWallFollow', true)}
+    ${ok()}
   </td></tr></table>
 </div>
 `;
