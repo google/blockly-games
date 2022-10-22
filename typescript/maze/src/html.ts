@@ -9,8 +9,8 @@
  * @author fraser@google.com (Neil Fraser)
  */
 import {headerBar, dialog, doneDialog, abortDialog, storageDialog, ok} from '../../src/html.js';
-
 import {getMsg} from '../../src/lib-games.js';
+import {nextLevelParam} from '../../src/lib-interface.js';
 
 
 /**
@@ -20,7 +20,7 @@ import {getMsg} from '../../src/lib-games.js';
  */
 export function start(ij: any): string {
   return `
-${headerBar(ij, getMsg('Games.maze', true), '', true, false,
+${headerBar(ij, getMsg('Games.maze', true), nextLevelParam, true, false,
     '<button id="pegmanButton"><img src="common/1x1.gif"><span id="pegmanButtonArrow"></span></button>')}
 
 <div id="visualization">

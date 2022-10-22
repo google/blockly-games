@@ -10,8 +10,10 @@
  */
 import {getMsg} from '../../src/lib-games.js';
 
+import {defineBlocksWithJsonArray} from '../../third-party/blockly/core/blockly.js';
 import type {Block} from '../../third-party/blockly/core/block.js';
 import type {Generator} from '../../third-party/blockly/core/generator.js';
+import {register} from '../../third-party/blockly/core/extensions.js';
 import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
 // Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
 const JavaScript = javascriptGenerator as any as Generator;
@@ -58,14 +60,14 @@ export function initBlocks() {
   ];
 
   // Add arrows to turn options after prefix/suffix have been separated.
-  Blockly.Extensions.register('maze_turn_arrows',
+  register('maze_turn_arrows',
       function() {
         const options = this.getField('DIR').getOptions();
         options[options.length - 2][0] += LEFT_TURN;
         options[options.length - 1][0] += RIGHT_TURN;
       });
 
-  Blockly.defineBlocksWithJsonArray([
+  defineBlocksWithJsonArray([
     // Block for moving forward.
     {
       "type": "maze_moveForward",

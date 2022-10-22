@@ -642,7 +642,7 @@ function initInterpreter(interpreter, globalObject) {
 
   function wrap(name) {
     interpreter.setProperty(globalObject, name,
-        interpreter.createNativeFunction(wrapper));
+        interpreter.createNativeFunction(wrapper, false));
   }
 }
 

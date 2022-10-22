@@ -371,7 +371,7 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
 
   function wrap(name) {
     interpreter.setProperty(globalObject, name,
-        interpreter.createNativeFunction(wrapper));
+        interpreter.createNativeFunction(wrapper, false));
   }
 
   const myMath = interpreter.getProperty(globalObject, 'Math');
@@ -408,7 +408,7 @@ Pond.Battle.initInterpreter = function(interpreter, globalObject) {
 
     function wrapMath(name) {
       interpreter.setProperty(myMath, name,
-          interpreter.createNativeFunction(wrapper));
+          interpreter.createNativeFunction(wrapper, false));
     }
   }
 };

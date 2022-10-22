@@ -8,8 +8,8 @@
  * @fileoverview Common support code for dialogs.
  * @author fraser@google.com (Neil Fraser)
  */
-import {getElementById, loadFromLocalStorage, storageName, LEVEL} from './lib-games.js';
-import {workspace, indexPage} from './lib-interface.js';
+import * as BlocklyGames from './lib-games.js';
+import * as BlocklyInterface from './lib-interface.js';
 
 import {hideChaff} from '../third-party/blockly/core/blockly.js';
 import {bind, unbind, isRightButton, Data} from '../third-party/blockly/core/browser_events.js';
@@ -82,16 +82,16 @@ export function showDialog(content: Element, origin: Element, animate: boolean,
   if ( isDialogVisible) {
     hideDialog(false);
   }
-  if (workspace) {
+  if (BlocklyInterface.workspace) {
     // Some levels have an editor instead of Blockly.
     hideChaff(true);
   }
    isDialogVisible = true;
   dialogOrigin_ = origin;
   dialogDispose_ = disposeFunc;
-  const dialog = getElementById('dialog');
-  const shadow = getElementById('dialogShadow');
-  const border = getElementById('dialogBorder');
+  const dialog = BlocklyGames.getElementById('dialog');
+  const shadow = BlocklyGames.getElementById('dialogShadow');
+  const border = BlocklyGames.getElementById('dialogBorder');
 
   // Copy all the specified styles to the dialog.
   for (const name in style) {
@@ -171,7 +171,7 @@ function dialogMouseDown_(e: MouseEvent) {
   }
   // Left click (or middle click).
   // Record the starting offset between the current location and the mouse.
-  const dialog = getElementById('dialog');
+  const dialog = BlocklyGames.getElementById('dialog');
   dialogStartX_ = dialog.offsetLeft - e.clientX;
   dialogStartY_ = dialog.offsetTop - e.clientY;
 
@@ -187,7 +187,7 @@ function dialogMouseDown_(e: MouseEvent) {
  * @private
  */
 function dialogMouseMove_(e: MouseEvent) {
-  const dialog = getElementById('dialog');
+  const dialog = BlocklyGames.getElementById('dialog');
   let dialogLeft = dialogStartX_ + e.clientX;
   let dialogTop = dialogStartY_ + e.clientY;
   dialogTop = Math.max(dialogTop, 0);
@@ -232,15 +232,15 @@ export function hideDialog(opt_animate: boolean = true) {
   dialogDispose_ && dialogDispose_();
   dialogDispose_ = null;
   const origin = opt_animate ? dialogOrigin_ : null;
-  const dialog = getElementById('dialog');
-  const shadow = getElementById('dialogShadow');
+  const dialog = BlocklyGames.getElementById('dialog');
+  const shadow = BlocklyGames.getElementById('dialogShadow');
 
   shadow.style.opacity = 0;
 
   function endResult() {
     shadow.style.zIndex = -1;
     shadow.style.visibility = 'hidden';
-    const border = getElementById('dialogBorder');
+    const border = BlocklyGames.getElementById('dialogBorder');
     border.style.visibility = 'hidden';
   }
   if (origin && dialog) {
@@ -254,7 +254,7 @@ export function hideDialog(opt_animate: boolean = true) {
   }
   dialog.style.visibility = 'hidden';
   dialog.style.zIndex = -1;
-  const header = getElementById('dialogHeader');
+  const header = BlocklyGames.getElementById('dialogHeader');
   if (header) {
     header.parentNode.removeChild(header);
   }
@@ -283,7 +283,7 @@ function matchBorder_(element: Element, animate: boolean, opacity: number) {
   if (!element) {
     return;
   }
-  const border = getElementById('dialogBorder');
+  const border = BlocklyGames.getElementById('dialogBorder');
   const bBox = getBBox(element);
   function change() {
     border.style.width = bBox.width + 'px';
@@ -334,8 +334,8 @@ export function getBBox(element: Element): Box {
  * @param {string} message Text to alert.
  */
 export function storageAlert(message: string) {
-  const origin = getElementById('linkButton');  // May be null (in Gallery).
-  const container = getElementById('containerStorage');
+  const origin = BlocklyGames.getElementById('linkButton');  // May be null (in Gallery).
+  const container = BlocklyGames.getElementById('containerStorage');
   container.textContent = '';
   const lines = message.split('\n');
   for (const line of lines) {
@@ -344,7 +344,7 @@ export function storageAlert(message: string) {
     container.appendChild(p);
   }
 
-  const content = getElementById('dialogStorage');
+  const content = BlocklyGames.getElementById('dialogStorage');
   const style = {
     width: '50%',
     left: '25%',
@@ -359,26 +359,25 @@ export function storageAlert(message: string) {
  */
 export function abortOffer() {
   // If the user has solved the level, all is well.
-  if (loadFromLocalStorage(storageName, LEVEL)) {
+  if (BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName, BlocklyGames.LEVEL)) {
     return;
   }
   // Don't override an existing dialog, or interrupt a drag.
-  if ( isDialogVisible ||
-      workspace.isDragging()) {
+  if (isDialogVisible || BlocklyInterface.workspace.isDragging()) {
     setTimeout(abortOffer, 15 * 1000);
     return;
   }
 
-  const content = getElementById('dialogAbort');
+  const content = BlocklyGames.getElementById('dialogAbort');
   const style = {
     width: '40%',
     left: '30%',
     top: '3em',
   };
 
-  const ok = getElementById('abortOk');
-  ok.addEventListener('click', indexPage, true);
-  ok.addEventListener('touchend', indexPage, true);
+  const ok = BlocklyGames.getElementById('abortOk');
+  ok.addEventListener('click', BlocklyInterface.indexPage, true);
+  ok.addEventListener('touchend', BlocklyInterface.indexPage, true);
 
   showDialog(content, null, false, true, style,
       function() {
@@ -424,6 +423,6 @@ export function stopDialogKeyDown() {
 function abortKeyDown_(e: KeyboardEvent) {
   dialogKeyDown(e);
   if (e.code === 'Enter' || e.code === 'Space') {
-    indexPage();
+    BlocklyInterface.indexPage();
   }
 }

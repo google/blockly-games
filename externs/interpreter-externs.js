@@ -116,7 +116,7 @@ Interpreter.prototype.createFunction = function(node, scope) {};
  * @returns {!Interpreter.Object} New function.
  */
 Interpreter.prototype.createNativeFunction =
-    function(nativeFunc, opt_constructor) {};
+    function(nativeFunc, isConstructor) {};
 
 /**
  * Create a new native asynchronous function.

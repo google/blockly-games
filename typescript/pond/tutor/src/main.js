@@ -176,8 +176,6 @@ function getAvatarData() {
   const scaredName = BlocklyGames.getMsg('Pond.scaredName', false);
 
   return [
-    // Level 0.
-    undefined,
     // Level 1.
     [
       {
@@ -328,7 +326,7 @@ function getAvatarData() {
         code: 'playerScared'
       }
     ]
-  ][BlocklyGames.LEVEL];
+  ][BlocklyGames.LEVEL - 1];
 }
 
 /**

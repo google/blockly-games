@@ -11,21 +11,31 @@
 import {start} from './html.js';
 import {initBlocks} from './blocks.js';
 
-import * as BlocklyGames from '../../src/lib-games.js';
+import * as BlocklyCode from '../../src/lib-code.js';
 import * as BlocklyDialogs from '../../src/lib-dialogs.js';
+import * as BlocklyGames from '../../src/lib-games.js';
 import * as BlocklyInterface from '../../src/lib-interface.js';
 
 import {svgResize, getSelected} from '../../third-party/blockly/core/blockly.js';
-import {toRadians, toDegrees} from '../../third-party/blockly/core/utils/math.js';
-import {textToDom, domToWorkspace} from '../../third-party/blockly/core/xml.js';
 import type {Abstract} from '../../third-party/blockly/core/events/events_abstract.js';
-import {Interpreter} from '../../typings/interpreter'
+import {createSvgElement, XLINK_NS} from '../../third-party/blockly/core/utils/dom.js';
+import {toDegrees} from '../../third-party/blockly/core/utils/math.js';
+import {commonWordPrefix, commonWordSuffix} from '../../third-party/blockly/core/utils/string.js';
+import {domToText, workspaceToDom} from '../../third-party/blockly/core/xml.js';
+import {bind, unbind, Data} from '../../third-party/blockly/core/browser_events.js';
+import {FieldDropdown} from '../../third-party/blockly/core/field_dropdown.js';
+import type {Generator} from '../../third-party/blockly/core/generator.js';
+import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
+// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
+const JavaScript = javascriptGenerator as any as Generator;
+
+//import {Interpreter} from '../../typings/interpreter.js';
 
 
 BlocklyGames.setStorageName('maze');
 
-const MAX_BLOCKS = [undefined, // Level 0.
-    Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
+const MAX_BLOCKS = [
+    Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL - 1];
 
 // Crash type constants.
 const CRASH_STOP = 1;
@@ -47,7 +57,7 @@ const SKINS = [
     look: '#000',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_pegman.mp3', 'maze/fail_pegman.ogg'],
-    crashType: CRASH_STOP
+    crashType: CRASH_STOP,
   },
   {
     sprite: 'maze/astro.png',
@@ -57,7 +67,7 @@ const SKINS = [
     look: '#fff',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_astro.mp3', 'maze/fail_astro.ogg'],
-    crashType: CRASH_SPIN
+    crashType: CRASH_SPIN,
   },
   {
     sprite: 'maze/panda.png',
@@ -67,8 +77,8 @@ const SKINS = [
     look: '#000',
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_panda.mp3', 'maze/fail_panda.ogg'],
-    crashType: CRASH_FALL
-  }
+    crashType: CRASH_FALL,
+  },
 ];
 const SKIN_ID =
     BlocklyGames.getIntegerParamFromUrl('skin', 0, SKINS.length - 1);
@@ -89,8 +99,6 @@ const SquareType = {
 // The maze square constants defined above are inlined here
 // for ease of reading and writing the static mazes.
 const map = [
-// Level 0.
- undefined,
 // Level 1.
  [[0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
@@ -186,7 +194,7 @@ const map = [
   [0, 0, 0, 1, 0, 0, 1, 0],
   [0, 2, 1, 1, 1, 0, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
-][BlocklyGames.LEVEL];
+][BlocklyGames.LEVEL - 1];
 
 /**
  * Measure maze dimensions and set sizes.
@@ -241,7 +249,7 @@ let startDirection = DirectionType.EAST;
  * PIDs of animation tasks currently executing.
  * @type !Array<number>
  */
-const pidList: number[] = [];
+const pidList: ReturnType<typeof setTimeout>[] = [];
 
 // Map each possible shape to a sprite.
 // Input: Binary string representing Centre/North/West/South/East squares.
@@ -295,30 +303,29 @@ function drawMap() {
   svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
 
   // Draw the outer square.
-  Blockly.utils.dom.createSvgElement('rect', {
+  createSvgElement('rect', {
       'height': MAZE_HEIGHT,
       'width': MAZE_WIDTH,
       'fill': '#F1EEE7',
       'stroke-width': 1,
-      'stroke': '#CCB'
+      'stroke': '#CCB',
     }, svg);
 
   if (SKIN.background) {
-    const tile = Blockly.utils.dom.createSvgElement('image', {
+    const tile = createSvgElement('image', {
         'height': MAZE_HEIGHT,
         'width': MAZE_WIDTH,
         'x': 0,
-        'y': 0
+        'y': 0,
       }, svg);
-    tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-        SKIN.background);
+    tile.setAttributeNS(XLINK_NS, 'xlink:href', String(SKIN.background));
   }
 
   // Draw the tiles making up the maze map.
 
   // Return a value of '0' if the specified square is wall or out of bounds,
   // '1' otherwise (empty, start, finish).
-  const normalize = function(x, y) {
+  const normalize = function(x: number, y: number) {
     if (x < 0 || x >= COLS || y < 0 || y >= ROWS) {
       return '0';
     }
@@ -349,56 +356,55 @@ function drawMap() {
       const left = tile_SHAPES[tileShape][0];
       const top = tile_SHAPES[tileShape][1];
       // Tile's clipPath element.
-      const tileClip = Blockly.utils.dom.createSvgElement('clipPath', {
+      const tileClip = createSvgElement('clipPath', {
           'id': 'tileClipPath' + tileId
         }, svg);
-      Blockly.utils.dom.createSvgElement('rect', {
+      createSvgElement('rect', {
           'height': SQUARE_SIZE,
           'width': SQUARE_SIZE,
           'x': x * SQUARE_SIZE,
-          'y': y * SQUARE_SIZE
+          'y': y * SQUARE_SIZE,
         }, tileClip);
       // Tile sprite.
-      const tile = Blockly.utils.dom.createSvgElement('image', {
+      const tile = createSvgElement('image', {
           'height': SQUARE_SIZE * 4,
           'width': SQUARE_SIZE * 5,
           'clip-path': 'url(#tileClipPath' + tileId + ')',
           'x': (x - left) * SQUARE_SIZE,
-          'y': (y - top) * SQUARE_SIZE
+          'y': (y - top) * SQUARE_SIZE,
         }, svg);
-      tile.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
+      tile.setAttributeNS(XLINK_NS, 'xlink:href',
           SKIN.tiles);
       tileId++;
     }
   }
 
   // Add finish marker.
-  const finishMarker = Blockly.utils.dom.createSvgElement('image', {
+  const finishMarker = createSvgElement('image', {
       'id': 'finish',
       'height': 34,
-      'width': 20
+      'width': 20,
     }, svg);
-  finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-      'maze/marker.png');
+  finishMarker.setAttributeNS(XLINK_NS, 'xlink:href', 'maze/marker.png');
 
   // Pegman's clipPath element, whose (x, y) is reset by displayPegman
-  const pegmanClip = Blockly.utils.dom.createSvgElement('clipPath', {
+  const pegmanClip = createSvgElement('clipPath', {
       'id': 'pegmanClipPath'
     }, svg);
-  Blockly.utils.dom.createSvgElement('rect', {
+  createSvgElement('rect', {
       'id': 'clipRect',
       'height': PEGMAN_HEIGHT,
       'width': PEGMAN_WIDTH,
     }, pegmanClip);
 
   // Add Pegman.
-  const pegmanIcon = Blockly.utils.dom.createSvgElement('image', {
+  const pegmanIcon = createSvgElement('image', {
       'id': 'pegman',
       'height': PEGMAN_HEIGHT,
-      'width': PEGMAN_WIDTH * 21, // 49 * 21 = 1029
+      'width': PEGMAN_WIDTH * 21,  // 49 * 21 = 1029
       'clip-path': 'url(#pegmanClipPath)',
     }, svg);
-  pegmanIcon.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
+  pegmanIcon.setAttributeNS(XLINK_NS, 'xlink:href',
       SKIN.sprite);
 }
 
@@ -407,6 +413,9 @@ function drawMap() {
  */
 function init() {
   initBlocks();
+
+  // Add skin parameter when moving to next level.
+  BlocklyInterface.setNextLevelParam('&skin=' + SKIN_ID);
 
   // Render the HTML.
   document.body.innerHTML = start(
@@ -437,30 +446,30 @@ function init() {
     img.style.backgroundImage = 'url(' + SKINS[i].sprite + ')';
     div.appendChild(img);
     pegmanMenu.appendChild(div);
-    Blockly.browserEvents.bind(div, 'mousedown', null, handlerFactory(i));
+    bind(div, 'mousedown', null, handlerFactory(i));
   }
-  Blockly.browserEvents.bind(window, 'resize', null, hidePegmanMenu);
+  bind(window, 'resize', null, hidePegmanMenu);
   const pegmanButton = BlocklyGames.getElementById('pegmanButton');
-  Blockly.browserEvents.bind(pegmanButton, 'mousedown', null, showPegmanMenu);
+  bind(pegmanButton, 'mousedown', null, showPegmanMenu);
   const pegmanButtonArrow = BlocklyGames.getElementById('pegmanButtonArrow');
-  const arrow = document.createTextNode(Blockly.FieldDropdown.ARROW_CHAR);
+  const arrow = document.createTextNode(FieldDropdown.ARROW_CHAR);
   pegmanButtonArrow.appendChild(arrow);
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');
   const visualization = BlocklyGames.getElementById('visualization');
-  const onresize = function(_e: Event) {
+  const onresize = function(_e?: Event) {
     const top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
-    onresize(null);
-    Blockly.svgResize(BlocklyInterface.workspace);
+    onresize();
+    svgResize(BlocklyInterface.workspace);
   });
   window.addEventListener('resize', onresize);
-  onresize(null);
+  onresize();
 
   // Scale the workspace so level 1 = 1.3, and level 10 = 1.0.
   const scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
@@ -472,7 +481,7 @@ function init() {
   BlocklyInterface.workspace.getAudioManager().load(SKIN.winSound, 'win');
   BlocklyInterface.workspace.getAudioManager().load(SKIN.crashSound, 'fail');
   // Not really needed, there are no user-defined functions or variables.
-  Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
+  JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
 
   drawMap();
@@ -505,8 +514,8 @@ function init() {
 
   if (BlocklyGames.LEVEL === 1) {
     // Make connecting blocks easier for beginners.
-    Blockly.SNAP_RADIUS *= 2;
-    Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
+    //Blockly.SNAP_RADIUS *= 2;
+    //Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   }
   if (BlocklyGames.LEVEL === 10) {
     if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.storageName,
@@ -542,9 +551,6 @@ function init() {
   pegSpin.style.backgroundImage = 'url(' + SKIN.sprite + ')';
   buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
 
-  // Add skin parameter when moving to next level.
-  BlocklyInterface.setNextLevelParam('&skin=' + SKIN_ID);
-
   // Lazy-load the JavaScript interpreter.
   BlocklyCode.importInterpreter();
   // Lazy-load the syntax-highlighting.
@@ -569,13 +575,12 @@ function levelHelp(opt_event?: Abstract) {
     return;
   }
   const rtl = BlocklyGames.IS_RTL;
-  const userBlocks = Blockly.Xml.domToText(
-      Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
+  const userBlocks = domToText(workspaceToDom(BlocklyInterface.workspace));
   const toolbar =
       BlocklyInterface.workspace.getFlyout().getWorkspace().getTopBlocks(true);
-  let content = null;
-  let origin = null;
-  let style = null;
+  let content: Element;
+  let origin: Element;
+  let style: object;
   if (BlocklyGames.LEVEL === 1) {
     if (BlocklyInterface.workspace.getAllBlocks(false).length < 2) {
       content = BlocklyGames.getElementById('dialogHelpStack');
@@ -684,16 +689,16 @@ function levelHelp(opt_event?: Abstract) {
           [BlocklyGames.getMsg('Maze.pathAhead', false),
            BlocklyGames.getMsg('Maze.pathLeft', false),
            BlocklyGames.getMsg('Maze.pathRight', false)];
-      const prefix = Blockly.utils.string.commonWordPrefix(options);
-      const suffix = Blockly.utils.string.commonWordSuffix(options);
-      let option;
+      const prefix = commonWordPrefix(options);
+      const suffix = commonWordSuffix(options);
+      let option: string;
       if (suffix) {
         option = options[0].slice(prefix, -suffix);
       } else {
         option = options[0].substring(prefix);
       }
       // Add dropdown arrow: "option ▾" (LTR) or "▾ אופציה" (RTL)
-      span.textContent = option + ' ' + Blockly.FieldDropdown.ARROW_CHAR;
+      span.textContent = option + ' ' + FieldDropdown.ARROW_CHAR;
       // Inject fake dropdown into message.
       const container = BlocklyGames.getElementById('helpMenuText');
       const msg = container.textContent;
@@ -744,7 +749,12 @@ function changePegman(newSkin: number) {
       '&skin=' + newSkin);
 }
 
-let pegmanMenuMouse_;
+/**
+ * Binding data that can be passed to unbind.
+ * @type Blockly.browserEvents.Data
+ * @private
+ */
+let pegmanMenuMouse_: Data;
 
 /**
  * Display the Pegman skin-change menu.
@@ -767,7 +777,7 @@ function showPegmanMenu(e: Event) {
   menu.style.left = button.offsetLeft + 'px';
   menu.style.display = 'block';
   pegmanMenuMouse_ =
-      Blockly.browserEvents.bind(document.body, 'mousedown', null, hidePegmanMenu);
+      bind(document.body, 'mousedown', null, hidePegmanMenu);
   // Close the skin-changing hint if open.
   const hint = BlocklyGames.getElementById('dialogHelpSkins');
   if (hint && hint.className !== 'dialogHiddenContent') {
@@ -789,7 +799,7 @@ function hidePegmanMenu(e: Event) {
   BlocklyGames.getElementById('pegmanMenu').style.display = 'none';
   BlocklyGames.getElementById('pegmanButton').classList.remove('buttonHover');
   if (pegmanMenuMouse_) {
-    Blockly.browserEvents.unbind(pegmanMenuMouse_);
+    unbind(pegmanMenuMouse_);
     pegmanMenuMouse_ = undefined;
   }
 }
@@ -814,7 +824,7 @@ function reset(first: boolean) {
     pidList.push(setTimeout(function() {
       stepSpeed = 100;
       schedule([pegmanX, pegmanY, pegmanD * 4],
-                    [pegmanX, pegmanY, pegmanD * 4 - 4]);
+               [pegmanX, pegmanY, pegmanD * 4 - 4]);
       pegmanD++;
     }, stepSpeed * 5));
   } else {
@@ -887,7 +897,7 @@ function updateCapacity() {
     capSpan.className = 'capacityNumber';
     capSpan.appendChild(document.createTextNode(String(cap)));
     // Safe from HTML injection due to createTextNode below.
-    let msg;
+    let msg: string;
     if (cap === 0) {
       msg = BlocklyGames.getMsg('Maze.capacity0', false);
     } else if (cap === 1) {
@@ -927,7 +937,7 @@ function resetButtonClick(e: Event) {
  * @param {!Interpreter} interpreter The JS-Interpreter.
  * @param {!Interpreter.Object} globalObject Global object.
  */
-function initInterpreter(interpreter: typeof Interpreter, globalObject: Interpreter.Object) {
+function initInterpreter(interpreter: any, globalObject: any) {
   // API
   let wrapper: Function;
   wrapper = function(id: string) {
@@ -977,7 +987,7 @@ function initInterpreter(interpreter: typeof Interpreter, globalObject: Interpre
 
   function wrap(name: string) {
     interpreter.setProperty(globalObject, name,
-        interpreter.createNativeFunction(wrapper));
+        interpreter.createNativeFunction(wrapper, false));
   }
 }
 
@@ -992,12 +1002,15 @@ function execute() {
   }
 
   log.length = 0;
-  Blockly.selected && Blockly.selected.unselect();
+  const selected = getSelected();
+  if (selected) {
+    selected.unselect();
+  }
   const code = BlocklyCode.getJsCode();
-  BlocklyCode.executedJsCode = code;
+  BlocklyCode.setExecutedJsCode(code);
   BlocklyInterface.setExecutedCode(BlocklyInterface.getCode());
   result = ResultType.UNSET;
-  const interpreter = new Interpreter(code, initInterpreter);
+  const interpreter = new window['Interpreter'](code, initInterpreter);
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
@@ -1008,7 +1021,7 @@ function execute() {
   //    no error or exception is thrown.
   try {
     let ticks = 10000;  // 10k ticks runs Pegman for about 8 minutes.
-    while (interpreter.step()) {
+    while (interpreter['step']()) {
       if (ticks-- === 0) {
         throw Infinity;
       }
@@ -1129,7 +1142,7 @@ function updatePegSpin_(e: MouseEvent) {
   const y = bBox.y + bBox.height / 2 - window.pageYOffset;
   const dx = e.clientX - x;
   const dy = e.clientY - y;
-  let angle = Blockly.utils.math.toDegrees(Math.atan(dy / dx));
+  let angle = toDegrees(Math.atan(dy / dx));
   // 0: North, 90: East, 180: South, 270: West.
   if (dx > 0) {
     angle += 90;
@@ -1230,7 +1243,7 @@ function scheduleFail(forward: boolean) {
     pidList.push(setTimeout(function() {
       BlocklyInterface.workspace.getAudioManager().play('fail', 0.5);
     }, stepSpeed * 2));
-    const setPosition = function(n) {
+    const setPosition = function(n: number) {
       return function() {
         const direction16 = constrainDirection16(pegmanD * 4 + deltaD * n);
         displayPegman(pegmanX + deltaX * n, pegmanY + deltaY * n,
@@ -1387,7 +1400,7 @@ function move(direction: number, id: string) {
   }
   // If moving backward, flip the effective direction.
   const effectiveDirection = pegmanD + direction;
-  let command;
+  let command = '';
   switch (constrainDirection4(effectiveDirection)) {
     case DirectionType.NORTH:
       pegmanY--;
@@ -1437,7 +1450,8 @@ function turn(direction: number, id: string) {
  */
 function isPath(direction: number, id: string | null): boolean {
   const effectiveDirection = pegmanD + direction;
-  let square, command;
+  let square: number | undefined;
+  let command = '';
   switch (constrainDirection4(effectiveDirection)) {
     case DirectionType.NORTH:
       square = map[pegmanY - 1] && map[pegmanY - 1][pegmanX];

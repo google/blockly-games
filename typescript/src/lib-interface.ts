@@ -55,7 +55,7 @@ export function setExecutedCode(newCode: string) {
  * Additional parameter to append when moving to next level.
  * @type string
  */
-let nextLevelParam: string = '';
+export let nextLevelParam: string = '';
 
 /**
  * Setter for `nextLevelParam`.
