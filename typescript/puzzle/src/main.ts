@@ -145,6 +145,7 @@ function init() {
   }
 
   // Make connecting blocks easier for beginners.
+  // TODO: fix SNAP_RADIUS
   //Blockly.SNAP_RADIUS *= 2;
   //Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   // Preload the win sound.

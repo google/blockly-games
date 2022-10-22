@@ -29,8 +29,6 @@ import {javascriptGenerator} from '../../third-party/blockly/generators/javascri
 // Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
 const JavaScript = javascriptGenerator as any as Generator;
 
-//import {Interpreter} from '../../typings/interpreter.js';
-
 
 BlocklyGames.setStorageName('maze');
 
@@ -514,6 +512,7 @@ function init() {
 
   if (BlocklyGames.LEVEL === 1) {
     // Make connecting blocks easier for beginners.
+    // TODO: fix SNAP_RADIUS
     //Blockly.SNAP_RADIUS *= 2;
     //Blockly.CONNECTING_SNAP_RADIUS = Blockly.SNAP_RADIUS;
   }

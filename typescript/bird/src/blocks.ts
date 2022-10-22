@@ -8,25 +8,20 @@
  * @fileoverview Blocks for Bird game.
  * @author q.neutron@gmail.com (Quynh Neutron)
  */
-'use strict';
+import {getMsg} from '../../src/lib-games.js';
 
-goog.provide('Bird.Blocks');
-
-goog.require('Blockly');
-goog.require('Blockly.Constants.Logic');
-goog.require('Blockly.Extensions');
-goog.require('Blockly.FieldAngle');
-goog.require('Blockly.FieldDropdown');
-goog.require('Blockly.FieldNumber');
-goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.logic');
-goog.require('BlocklyGames');
-
+import {defineBlocksWithJsonArray} from '../../third-party/blockly/core/blockly.js';
+import type {Block} from '../../third-party/blockly/core/block.js';
+import type {Generator} from '../../third-party/blockly/core/generator.js';
+import {register, buildTooltipForDropdown} from '../../third-party/blockly/core/extensions.js';
+import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
+// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
+const JavaScript = javascriptGenerator as any as Generator;
 
 /**
  * Construct custom bird block types.  Called on page load.
  */
-Bird.Blocks.init = function() {
+export function initBlocks() {
   /**
    * Common HSV hue for all variable blocks.
    */
@@ -37,20 +32,20 @@ Bird.Blocks.init = function() {
    */
   const MOVEMENT_HUE = 290;
 
-  Blockly.defineBlocksWithJsonArray([
+  defineBlocksWithJsonArray([
     // Block for no worm condition.
     {
       "type": "bird_noWorm",
-      "message0": BlocklyGames.getMsg('Bird.noWorm', false),
+      "message0": getMsg('Bird.noWorm', false),
       "output": "Boolean",
       "colour": VARIABLES_HUE,
-      "tooltip": BlocklyGames.getMsg('Bird.noWormTooltip', false),
+      "tooltip": getMsg('Bird.noWormTooltip', false),
     },
 
     // Block for moving bird in a direction.
     {
       "type": "bird_heading",
-      "message0": BlocklyGames.getMsg('Bird.heading', false) + "%1",
+      "message0": getMsg('Bird.heading', false) + "%1",
       "args0": [
         {
           "type": "field_angle",
@@ -61,7 +56,7 @@ Bird.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('Bird.headingTooltip', false),
+      "tooltip": getMsg('Bird.headingTooltip', false),
     },
 
     // Block for getting bird's x or y position.
@@ -77,7 +72,7 @@ Bird.Blocks.init = function() {
       ],
       "output": "Number",
       "colour": VARIABLES_HUE,
-      "tooltip": BlocklyGames.getMsg('Bird.positionTooltip', false),
+      "tooltip": getMsg('Bird.positionTooltip', false),
     },
 
     // Block for comparing bird's x or y position with a number.
@@ -172,47 +167,46 @@ Bird.Blocks.init = function() {
     },
   ]);
 
-  Blockly.Extensions.register('bird_compare_tooltip',
-      Blockly.Extensions.buildTooltipForDropdown('OP',
+  register('bird_compare_tooltip', buildTooltipForDropdown('OP',
           {
             'LT': '%{BKY_LOGIC_COMPARE_TOOLTIP_LT}',
             'GT': '%{BKY_LOGIC_COMPARE_TOOLTIP_GT}',
           }));
-};
+}
 
 
-Blockly.JavaScript['bird_noWorm'] = function(block) {
+JavaScript['bird_noWorm'] = function(block: Block) {
   // Generate JavaScript for no worm condition.
-  return ['noWorm()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['noWorm()', JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['bird_heading'] = function(block) {
+JavaScript['bird_heading'] = function(block: Block) {
   // Generate JavaScript for moving bird in a direction.
   const dir = Number(block.getFieldValue('ANGLE'));
   return `heading(${dir}, 'block_id_${block.id}');\n`;
 };
 
-Blockly.JavaScript['bird_position'] = function(block) {
+JavaScript['bird_position'] = function(block: Block) {
   // Generate JavaScript for getting bird's x or y position.
   const code = `get${block.getFieldValue('XY').charAt(0)}()`;
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return [code, JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['bird_compare'] = function(block) {
+JavaScript['bird_compare'] = function(block: Block) {
   // Generate JavaScript for comparing bird's x or y position with a number.
   const operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
-  const order = Blockly.JavaScript.ORDER_RELATIONAL;
-  const argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
-  const argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
+  const order = JavaScript.ORDER_RELATIONAL;
+  const argument0 = JavaScript.valueToCode(block, 'A', order) || '0';
+  const argument1 = JavaScript.valueToCode(block, 'B', order) || '0';
   const code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
 
-Blockly.JavaScript['bird_and'] = function(block) {
+JavaScript['bird_and'] = function(block: Block) {
   // Generate JavaScript for logical operator 'and'.
-  const order = Blockly.JavaScript.ORDER_LOGICAL_AND;
-  let argument0 = Blockly.JavaScript.valueToCode(block, 'A', order);
-  let argument1 = Blockly.JavaScript.valueToCode(block, 'B', order);
+  const order = JavaScript.ORDER_LOGICAL_AND;
+  let argument0 = JavaScript.valueToCode(block, 'A', order);
+  let argument1 = JavaScript.valueToCode(block, 'B', order);
   if (!argument0 && !argument1) {
     // If there are no arguments, then the return value is false.
     argument0 = 'false';
@@ -230,12 +224,12 @@ Blockly.JavaScript['bird_and'] = function(block) {
   return [code, order];
 };
 
-Blockly.JavaScript['bird_ifElse'] = function(block) {
+JavaScript['bird_ifElse'] = function(block: Block) {
   // Generate JavaScript for 'if/else' conditional.
-  const argument = Blockly.JavaScript.valueToCode(block, 'CONDITION',
-                   Blockly.JavaScript.ORDER_NONE) || 'false';
-  const branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
-  const branch1 = Blockly.JavaScript.statementToCode(block, 'ELSE');
+  const argument = JavaScript.valueToCode(block, 'CONDITION',
+                   JavaScript.ORDER_NONE) || 'false';
+  const branch0 = JavaScript.statementToCode(block, 'DO');
+  const branch1 = JavaScript.statementToCode(block, 'ELSE');
   return `if (${argument}) {\n${branch0}} else {\n${branch1}}\n`;
 };
 
@@ -252,10 +246,10 @@ Blockly.Blocks['controls_if'].init = function() {
   this.setNextStatement(false);
 };
 
-Blockly.JavaScript['math_number'] = function(block) {
+JavaScript['math_number'] = function(block: Block) {
   // Numeric value.
   const code = Number(block.getFieldValue('NUM'));
-  const order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
-      Blockly.JavaScript.ORDER_UNARY_NEGATION;
+  const order = code >= 0 ? JavaScript.ORDER_ATOMIC :
+      JavaScript.ORDER_UNARY_NEGATION;
   return [code, order];
 };

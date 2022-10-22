@@ -8,12 +8,8 @@
  * @fileoverview HTML for Bird game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-
-goog.provide('Bird.html');
-
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
+import {headerBar, dialog, doneDialog, abortDialog, storageDialog} from '../../src/html.js';
+import {getMsg} from '../../src/lib-games.js';
 
 
 /**
@@ -21,9 +17,9 @@ goog.require('BlocklyGames.html');
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Bird.html.start = function(ij) {
+export function start(ij: any): string {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', true, false, '')}
+${headerBar(ij, getMsg('Games.bird', true), '', true, false, '')}
 
 <div id="visualization">
   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px">
@@ -35,27 +31,27 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', t
     <td style="width: 190px;">
     </td>
     <td>
-      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+      <button id="runButton" class="primary" title="${getMsg('Games.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+      <button id="resetButton" class="primary" style="display: none" title="${getMsg('Games.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
 </table>
 
-${Bird.html.toolbox_(ij.level)}
+${toolbox_(ij.level)}
 <div id="blockly"></div>
 
-${BlocklyGames.html.dialog()}
-${BlocklyGames.html.doneDialog()}
-${BlocklyGames.html.abortDialog()}
-${BlocklyGames.html.storageDialog()}
+${dialog()}
+${doneDialog()}
+${abortDialog()}
+${storageDialog()}
 
-${Bird.html.helpDialogs_()}
+${helpDialogs_()}
 `;
-};
+}
 
 /**
  * Toolboxes for each level.
@@ -63,7 +59,7 @@ ${Bird.html.helpDialogs_()}
  * @returns {string} HTML.
  * @private
  */
-Bird.html.toolbox_ = function(level) {
+function toolbox_(level: number): string {
   let xml = '<block type="bird_heading"></block>\n';
   if (level >= 2) {
     xml += `<block type="bird_noWorm" disabled="${level === 4 || level === 5}"></block>\n`;
@@ -106,14 +102,14 @@ Bird.html.toolbox_ = function(level) {
     xml += '<block type="bird_and"></block>\n';
   }
   return `<xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">${xml}</xml>`;
-};
+}
 
 /**
  * Help dialogs for each level.
  * @returns {string} HTML.
  * @private
  */
-Bird.html.helpDialogs_ = function() {
+function helpDialogs_(): string {
     return `
 <div id="dialogHelp1" class="dialogHiddenContent">
   <table><tr><td rowspan=2>
@@ -121,14 +117,14 @@ Bird.html.helpDialogs_ = function() {
   </td><td>
     <div class="farSide"><img src="bird/help_heading.png" class="mirrorImg" height=27 width=141></div>
   </td></tr><tr><td>
-    ${BlocklyGames.getMsg('Bird.helpHeading', true)}
+    ${getMsg('Bird.helpHeading', true)}
   </td></tr></table>
 </div>
 <div id="dialogHelp2" class="dialogHiddenContent">
   <table><tr><td>
     <img src="common/help.png">
   </td><td>
-    ${BlocklyGames.getMsg('Bird.helpHasWorm', true)}
+    ${getMsg('Bird.helpHasWorm', true)}
   </td><td>
     <img src="bird/help_up.png">
   </td></tr></table>
@@ -137,7 +133,7 @@ Bird.html.helpDialogs_ = function() {
   <table><tr><td>
     <img src="common/help.png">
   </td><td>
-    ${BlocklyGames.getMsg('Bird.helpX', true)}
+    ${getMsg('Bird.helpX', true)}
   </td><td>
     <img src="bird/help_up.png">
   </td></tr></table>
@@ -146,7 +142,7 @@ Bird.html.helpDialogs_ = function() {
   <table><tr><td>
     <img src="bird/help_up.png">
   </td><td>
-    ${BlocklyGames.getMsg('Bird.helpElse', true)}
+    ${getMsg('Bird.helpElse', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -155,7 +151,7 @@ Bird.html.helpDialogs_ = function() {
   <table><tr><td>
     <img src="bird/help_up.png">
   </td><td>
-    ${BlocklyGames.getMsg('Bird.helpElseIf', true)}
+    ${getMsg('Bird.helpElseIf', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -164,7 +160,7 @@ Bird.html.helpDialogs_ = function() {
   <table><tr><td>
     <img src="bird/help_up.png">
   </td><td>
-    ${BlocklyGames.getMsg('Bird.helpAnd', true)}
+    ${getMsg('Bird.helpAnd', true)}
   </td><td>
     <img src="common/help.png">
   </td></tr></table>
@@ -173,8 +169,8 @@ Bird.html.helpDialogs_ = function() {
   <table><tr><td>
     <img src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
   </td><td>
-    ${BlocklyGames.getMsg('Bird.helpMutator', true)}
+    ${getMsg('Bird.helpMutator', true)}
   </td></tr></table>
 </div>
 `;
-};
+}
