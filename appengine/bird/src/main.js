@@ -459,7 +459,8 @@ function levelHelp() {
   const rtl = BlocklyGames.IS_RTL;
   const userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(BlocklyInterface.workspace));
-  const toolbar = BlocklyInterface.workspace.flyout_.workspace_.getTopBlocks(true);
+  const toolbar =
+      BlocklyInterface.workspace.getFlyout().getWorkspace().getTopBlocks(true);
   let content = BlocklyGames.getElementById('dialogHelp' + BlocklyGames.LEVEL);
   let origin = null;
   let style = null;
@@ -505,8 +506,8 @@ function levelHelp() {
       } else {
         content = BlocklyGames.getElementById('dialogMutatorHelp');
         // Second help box should be below the 'else' block in the mutator.
-        // Really fragile code.  There is no public API for this.
-        origin = block.mutator.workspace_.flyout_.mats_[1];
+        origin = block.mutator.getWorkspace().getFlyout().getWorkspace()
+            .getTopBlocks(true)[1].getSvgRoot();
         const xy = Blockly.utils.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';
