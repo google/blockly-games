@@ -584,7 +584,7 @@ function initInterpreter(interpreter, globalObject) {
 
   function wrap(name) {
     interpreter.setProperty(globalObject, name,
-        interpreter.createNativeFunction(wrapper));
+        interpreter.createNativeFunction(wrapper, false));
   }
 }
 
@@ -905,8 +905,6 @@ function initExpectedAnswer() {
     return levelNotes;
   }
   expectedAnswer = [
-    // Level 0.
-    undefined,
     // Level 1.
     [[7, 0.25, 8, 0.25, 9, 0.25, 7, 0.25]],
     // Level 2.
@@ -935,7 +933,7 @@ function initExpectedAnswer() {
     ],
     // Level 10.
     undefined,
-  ][BlocklyGames.LEVEL];
+  ][BlocklyGames.LEVEL - 1];
 }
 
 /**
@@ -1006,7 +1004,6 @@ function checkAnswer() {
 
   // Functions should be used to reduce note count.
   const maxCount = [
-    undefined,  // Level 0.
     undefined,  // Level 1.
     16,  // Level 2.
     23,  // Level 3.
@@ -1017,7 +1014,7 @@ function checkAnswer() {
     55,  // Level 8.
     71,  // Level 9.
     undefined,  // Level 10.
-  ][BlocklyGames.LEVEL];
+  ][BlocklyGames.LEVEL - 1];
   let blockCount = 0;
   const blocks = BlocklyInterface.workspace.getAllBlocks(false);
   for (const block of blocks) {

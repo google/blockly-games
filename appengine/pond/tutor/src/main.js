@@ -176,21 +176,19 @@ function getAvatarData() {
   const scaredName = BlocklyGames.getMsg('Pond.scaredName', false);
 
   return [
-    // Level 0.
-    undefined,
     // Level 1.
     [
       {
         start: new Blockly.utils.Coordinate(50, 30),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(50, 70),
         damage: 99,
         name: targetName,
-        code: 'playerTarget'
+        code: 'playerTarget',
       }
     ],
     // Level 2.
@@ -199,13 +197,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(70, 50),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(20, 50),
         damage: 99,
         name: targetName,
-        code: 'playerTarget'
+        code: 'playerTarget',
       }
     ],
     // Level 3.
@@ -214,13 +212,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(20, 20),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(20 + 42.4264, 20 + 42.4264),
         damage: 0,
         name: targetName,
-        code: 'playerTarget'
+        code: 'playerTarget',
       }
     ],
     // Level 4.
@@ -229,13 +227,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(50, 80),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(50, 20),
         damage: 0,
         name: targetName,
-        code: 'playerTarget'
+        code: 'playerTarget',
       }
     ],
     // Level 5.
@@ -244,13 +242,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(90, 50),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(50, 50),
         damage: 0,
         name: pendulumName,
-        code: 'playerPendulum'
+        code: 'playerPendulum',
       }
     ],
     // Level 6.
@@ -259,13 +257,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(10, 50),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(50, 50),
         damage: 0,
         name: pendulumName,
-        code: 'playerPendulum'
+        code: 'playerPendulum',
       }
     ],
     // Level 7.
@@ -274,13 +272,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(20, 80),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(80, 20),
         damage: 99,
         name: targetName,
-        code: 'playerTarget'
+        code: 'playerTarget',
       }
     ],
     // Level 8.
@@ -289,13 +287,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(50, 90),
         damage: 0,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(50, 10),
         damage: 99,
         name: pendulumName,
-        code: 'playerPendulum'
+        code: 'playerPendulum',
       }
     ],
     // Level 9.
@@ -304,13 +302,13 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(5, 50),
         damage: 99,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(95, 50),
         damage: 0,
         name: targetName,
-        code: 'playerTarget'
+        code: 'playerTarget',
       }
     ],
     // Level 10.
@@ -319,16 +317,16 @@ function getAvatarData() {
         start: new Blockly.utils.Coordinate(10, 10),
         damage: 50,
         name: playerName,
-        code: null
+        code: null,
       },
       {
         start: new Blockly.utils.Coordinate(40, 40),
         damage: 0,
         name: scaredName,
-        code: 'playerScared'
+        code: 'playerScared',
       }
-    ]
-  ][BlocklyGames.LEVEL];
+    ],
+  ][BlocklyGames.LEVEL - 1];
 }
 
 /**

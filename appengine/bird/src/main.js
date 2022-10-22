@@ -123,8 +123,6 @@ class Line {
 }
 
 const MAP = [
-  // Level 0.
-  undefined,
   // Level 1.
   {
     start: new Blockly.utils.Coordinate(20, 20),
@@ -221,7 +219,7 @@ const MAP = [
       new Line(60, 30, 100, 30),
     ],
   }
-][BlocklyGames.LEVEL];
+][BlocklyGames.LEVEL - 1];
 
 /**
  * Behaviour for the bird.
@@ -666,7 +664,7 @@ function initInterpreter(interpreter, globalObject) {
 
   function wrap(name) {
     interpreter.setProperty(globalObject, name,
-        interpreter.createNativeFunction(wrapper));
+        interpreter.createNativeFunction(wrapper, false));
   }
 }
 

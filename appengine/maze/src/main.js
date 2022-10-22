@@ -32,8 +32,8 @@ goog.require('Maze.html');
 
 BlocklyGames.storageName = 'maze';
 
-const MAX_BLOCKS = [undefined,  // Level 0.
-    Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
+const MAX_BLOCKS =
+    [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL - 1];
 
 // Crash type constants.
 const CRASH_STOP = 1;
@@ -97,8 +97,6 @@ const SquareType = {
 // The maze square constants defined above are inlined here
 // for ease of reading and writing the static mazes.
 const map = [
-// Level 0.
- undefined,
 // Level 1.
  [[0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
@@ -194,7 +192,7 @@ const map = [
   [0, 0, 0, 1, 0, 0, 1, 0],
   [0, 2, 1, 1, 1, 0, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
-][BlocklyGames.LEVEL];
+][BlocklyGames.LEVEL - 1];
 
 /**
  * Measure maze dimensions and set sizes.
@@ -983,7 +981,7 @@ function initInterpreter(interpreter, globalObject) {
 
   function wrap(name) {
     interpreter.setProperty(globalObject, name,
-        interpreter.createNativeFunction(wrapper));
+        interpreter.createNativeFunction(wrapper, false));
   }
 }
 
