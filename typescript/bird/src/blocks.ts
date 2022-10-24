@@ -19,6 +19,7 @@ import {javascriptGenerator} from '../../third-party/blockly/generators/javascri
 const JavaScript = javascriptGenerator as any as Generator;
 // TODO: fix type of JavaScript.
 
+
 /**
  * Construct custom bird block types.  Called on page load.
  */

@@ -8,37 +8,23 @@
  * @fileoverview Blocks for Music game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {getMsg} from '../../src/lib-games.js';
 
-goog.provide('Music.Blocks');
+import {LEVEL, MAX_LEVEL} from '../../src/lib-games.js';
 
-goog.require('Blockly');
-goog.require('Blockly.Constants.Lists');
-goog.require('Blockly.Constants.Logic');
-goog.require('Blockly.Constants.Loops');
-goog.require('Blockly.Constants.Math');
-goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Constants.Variables');
-goog.require('Blockly.FieldDropdown');
-goog.require('Blockly.FieldImage');
-goog.require('Blockly.FieldTextInput');
-goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.lists');
-goog.require('Blockly.JavaScript.logic');
-goog.require('Blockly.JavaScript.loops');
-goog.require('Blockly.JavaScript.math');
-goog.require('Blockly.JavaScript.procedures');
-goog.require('Blockly.JavaScript.variables');
-goog.require('Blockly.Msg');
-goog.require('BlocklyGames');
-goog.require('FieldPitch');
-goog.require('Music.startCount');
+import {defineBlocksWithJsonArray} from '../../third-party/blockly/core/blockly.js';
+import type {Block} from '../../third-party/blockly/core/block.js';
+import type {Generator} from '../../third-party/blockly/core/generator.js';
+import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
+// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
+const JavaScript = javascriptGenerator as any as Generator;
+// TODO: fix type of JavaScript.
 
 
 /**
  * Construct custom music block types.  Called on page load.
  */
-Music.Blocks.init = function() {
+export function initBlocks() {
   /**
    * Common HSV hue for all blocks in this category.
    */
@@ -49,7 +35,7 @@ Music.Blocks.init = function() {
    * @param {number} denominator Inverse duration of note.
    * @returns {!Object} Dropdown option.
    */
-  function noteFactory(denominator) {
+  function noteFactory(denominator: number): object {
     return [
       {
         "src": `music/note${1 / denominator}.png`,
@@ -66,7 +52,7 @@ Music.Blocks.init = function() {
    * @param {number} denominator Inverse duration of rest.
    * @returns {!Object} Dropdown option.
    */
-  function restFactory(denominator) {
+  function restFactory(denominator: number): object {
     return [
       {
         "src": `music/rest${1 / denominator}.png`,
@@ -85,12 +71,12 @@ Music.Blocks.init = function() {
     rests.push(restFactory(denominator));
   }
   // Trim off whole and sixteenth notes for levels 1-9.
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+  if (LEVEL < MAX_LEVEL) {
     notes.shift();
     notes.pop();
   }
 
-  Blockly.defineBlocksWithJsonArray([
+  defineBlocksWithJsonArray([
     // Block for pitch.
     {
       "type": "music_pitch",
@@ -104,13 +90,13 @@ Music.Blocks.init = function() {
       ],
       "output": "Number",
       "colour": "%{BKY_MATH_HUE}",
-      "tooltip": BlocklyGames.getMsg('Music.pitchTooltip', false),
+      "tooltip": getMsg('Music.pitchTooltip', false),
     },
 
     // Block for playing note.
     {
       "type": "music_note",
-      "message0": BlocklyGames.getMsg('Music.playNote', false),
+      "message0": getMsg('Music.playNote', false),
       "args0": [
         {
           "type": "field_dropdown",
@@ -127,13 +113,13 @@ Music.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": HUE,
-      "tooltip": BlocklyGames.getMsg('Music.playNoteTooltip', false),
+      "tooltip": getMsg('Music.playNoteTooltip', false),
     },
 
     // Block for waiting a whole note.
     {
       "type": "music_rest_whole",
-      "message0": BlocklyGames.getMsg('Music.rest', false),
+      "message0": getMsg('Music.rest', false),
       "args0": [
         {
           "type": "field_image",
@@ -147,13 +133,13 @@ Music.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": HUE,
-      "tooltip": BlocklyGames.getMsg('Music.restWholeTooltip', false),
+      "tooltip": getMsg('Music.restWholeTooltip', false),
     },
 
     // Block for waiting.
     {
       "type": "music_rest",
-      "message0": BlocklyGames.getMsg('Music.rest', false),
+      "message0": getMsg('Music.rest', false),
       "args0": [
         {
           "type": "field_dropdown",
@@ -171,26 +157,26 @@ Music.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": HUE,
-      "tooltip": BlocklyGames.getMsg('Music.restTooltip', false),
+      "tooltip": getMsg('Music.restTooltip', false),
     },
 
     // Block for changing instrument.
     {
       "type": "music_instrument",
-      "message0": BlocklyGames.getMsg('Music.setInstrument', false),
+      "message0": getMsg('Music.setInstrument', false),
       "args0": [
         {
           "type": "field_dropdown",
           "name": "INSTRUMENT",
           "options": [
-            [BlocklyGames.getMsg('Music.piano', false), "piano"],
-            [BlocklyGames.getMsg('Music.trumpet', false), "trumpet"],
-            [BlocklyGames.getMsg('Music.banjo', false), "banjo"],
-            [BlocklyGames.getMsg('Music.violin', false), "violin"],
-            [BlocklyGames.getMsg('Music.guitar', false), "guitar"],
-            [BlocklyGames.getMsg('Music.flute', false), "flute"],
-            [BlocklyGames.getMsg('Music.drum', false), "drum"],
-            [BlocklyGames.getMsg('Music.choir', false), "choir"],
+            [getMsg('Music.piano', false), "piano"],
+            [getMsg('Music.trumpet', false), "trumpet"],
+            [getMsg('Music.banjo', false), "banjo"],
+            [getMsg('Music.violin', false), "violin"],
+            [getMsg('Music.guitar', false), "guitar"],
+            [getMsg('Music.flute', false), "flute"],
+            [getMsg('Music.drum', false), "drum"],
+            [getMsg('Music.choir', false), "choir"],
           ],
         },
       ],
@@ -198,13 +184,13 @@ Music.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": HUE,
-      "tooltip": BlocklyGames.getMsg('Music.setInstrumentTooltip', false),
+      "tooltip": getMsg('Music.setInstrumentTooltip', false),
     },
 
     // Block for starting an execution thread.
     {
       "type": "music_start",
-      "message0": BlocklyGames.getMsg('Music.start', false),
+      "message0": getMsg('Music.start', false),
       "args0": [
         {
           "type": "field_image",
@@ -222,48 +208,49 @@ Music.Blocks.init = function() {
         },
       ],
       "colour": 0,
-      "tooltip": BlocklyGames.getMsg('Music.startTooltip', false),
+      "tooltip": getMsg('Music.startTooltip', false),
     }
   ]);
 };
 
-Blockly.JavaScript['music_pitch'] = function(block) {
+JavaScript['music_pitch'] = function(block: Block) {
   return [Number(block.getFieldValue('PITCH')),
-      Blockly.JavaScript.ORDER_ATOMIC];
+      JavaScript.ORDER_ATOMIC];
 };
 
-Blockly.JavaScript['music_note'] = function(block) {
+JavaScript['music_note'] = function(block: Block) {
   const duration = Number(block.getFieldValue('DURATION'));
-  const pitch = Blockly.JavaScript.valueToCode(block, 'PITCH',
-      Blockly.JavaScript.ORDER_COMMA) || '7';
+  const pitch = JavaScript.valueToCode(block, 'PITCH',
+      JavaScript.ORDER_COMMA) || '7';
   return `play(${duration}, ${pitch}, 'block_id_${block.id}');\n`;
 };
 
-Blockly.JavaScript['music_rest_whole'] = function(block) {
+JavaScript['music_rest_whole'] = function(block: Block) {
   return `rest(1, 'block_id_${block.id}');\n`;
 };
 
-Blockly.JavaScript['music_rest'] = function(block) {
+JavaScript['music_rest'] = function(block: Block) {
   const duration = Number(block.getFieldValue('DURATION'));
   return `rest(${duration}, 'block_id_${block.id}');\n`;
 };
 
-Blockly.JavaScript['music_instrument'] = function(block) {
+JavaScript['music_instrument'] = function(block: Block) {
   const instrument = block.getFieldValue('INSTRUMENT');
-  return `setInstrument(${Blockly.JavaScript.quote_(instrument)});\n`;
+  return `setInstrument(${JSON.stringify(instrument)});\n`;
 };
 
-Blockly.JavaScript['music_start'] = function(block) {
+JavaScript['music_start'] = function(block: Block) {
   const startCount = Music.startCount.get() + 1;
   Music.startCount.set(startCount);
-  const statements_stack = Blockly.JavaScript.statementToCode(block, 'STACK');
+  const statements_stack = JavaScript.statementToCode(block, 'STACK');
   const code = `function start${startCount}() {\n${statements_stack}}\n`;
   // Add % so as not to collide with helper functions in definitions list.
-  Blockly.JavaScript.definitions_['%start' + startCount] = code;
+  // TODO: fix this private method.
+  JavaScript.definitions_['%start' + startCount] = code;
   return null;
 };
 
-if (BlocklyGames.LEVEL < 10) {
+if (LEVEL < 10) {
   /**
    * Block for defining a procedure with no return value.
    * Remove comment and mutator.

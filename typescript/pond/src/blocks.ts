@@ -8,31 +8,27 @@
  * @fileoverview Blocks for Pond game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {getMsg} from '../../src/lib-games.js';
 
-goog.provide('Pond.Blocks');
-
-goog.require('Blockly');
-goog.require('Blockly.Constants.Math');
-goog.require('Blockly.FieldAngle');
-goog.require('Blockly.FieldDropdown');
-goog.require('Blockly.FieldNumber');
-goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.math');
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.JsBlocks');
+import {defineBlocksWithJsonArray} from '../../third-party/blockly/core/blockly.js';
+import type {Block} from '../../third-party/blockly/core/block.js';
+import type {Generator} from '../../third-party/blockly/core/generator.js';
+import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
+// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
+const JavaScript = javascriptGenerator as any as Generator;
+// TODO: fix type of JavaScript.
 
 
 /**
  * Construct custom turtle block types.  Called on page load.
  */
-Pond.Blocks.init = function() {
+export function initBlocks() {
   /**
    * Common HSV hue for all pond blocks.
    */
   const POND_HUE = 290;
 
-  Blockly.defineBlocksWithJsonArray([
+  defineBlocksWithJsonArray([
     // Block for scanning the pond.
     {
       "type": "pond_scan",
@@ -48,7 +44,7 @@ Pond.Blocks.init = function() {
       "inputsInline": true,
       "output": "Number",
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.scanTooltip', false),
+      "tooltip": getMsg('Pond.scanTooltip', false),
     },
 
     // Block for shooting the cannon.
@@ -72,7 +68,7 @@ Pond.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.cannonTooltip', false),
+      "tooltip": getMsg('Pond.cannonTooltip', false),
     },
 
     // Block for swimming.
@@ -91,7 +87,7 @@ Pond.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.swimTooltip', false),
+      "tooltip": getMsg('Pond.swimTooltip', false),
     },
 
     // Block for stopping.
@@ -102,7 +98,7 @@ Pond.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.stopTooltip', false),
+      "tooltip": getMsg('Pond.stopTooltip', false),
     },
 
     // Block for avatar health.
@@ -112,7 +108,7 @@ Pond.Blocks.init = function() {
       "args0": ["health", ""],
       "output": "Number",
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.healthTooltip', false),
+      "tooltip": getMsg('Pond.healthTooltip', false),
     },
 
     // Block for avatar speed.
@@ -122,7 +118,7 @@ Pond.Blocks.init = function() {
       "args0": ["speed", ""],
       "output": "Number",
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.speedTooltip', false),
+      "tooltip": getMsg('Pond.speedTooltip', false),
     },
 
     // Block for X coordinate.
@@ -132,7 +128,7 @@ Pond.Blocks.init = function() {
       "args0": ["getX", ""],
       "output": "Number",
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.locXTooltip', false),
+      "tooltip": getMsg('Pond.locXTooltip', false),
     },
 
     // Block for Y coordinate.
@@ -142,7 +138,7 @@ Pond.Blocks.init = function() {
       "args0": ["getY", ""],
       "output": "Number",
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.locYTooltip', false),
+      "tooltip": getMsg('Pond.locYTooltip', false),
     },
 
     // Block for log statement.
@@ -160,64 +156,64 @@ Pond.Blocks.init = function() {
       "previousStatement": null,
       "nextStatement": null,
       "colour": POND_HUE,
-      "tooltip": BlocklyGames.getMsg('Pond.logTooltip', false),
+      "tooltip": getMsg('Pond.logTooltip', false),
     },
   ]);
 };
 
-Blockly.JavaScript['pond_scan'] = function(block) {
+JavaScript['pond_scan'] = function(block: Block) {
   // Generate JavaScript for scanning the pond.
-  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_NONE) || 0;
+  const value_degree = JavaScript.valueToCode(block, 'DEGREE',
+      JavaScript.ORDER_NONE) || 0;
   const code = `scan(${value_degree})`;
-  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return [code, JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['pond_cannon'] = function(block) {
+JavaScript['pond_cannon'] = function(block: Block) {
   // Generate JavaScript for shooting the cannon.
-  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
-  const value_range = Blockly.JavaScript.valueToCode(block, 'RANGE',
-      Blockly.JavaScript.ORDER_COMMA) || 0;
+  const value_degree = JavaScript.valueToCode(block, 'DEGREE',
+      JavaScript.ORDER_COMMA) || 0;
+  const value_range = JavaScript.valueToCode(block, 'RANGE',
+      JavaScript.ORDER_COMMA) || 0;
   return `cannon(${value_degree}, ${value_range});\n`;
 };
 
-Blockly.JavaScript['pond_swim'] = function(block) {
+JavaScript['pond_swim'] = function(block: Block) {
   // Generate JavaScript for swimming.
-  const value_degree = Blockly.JavaScript.valueToCode(block, 'DEGREE',
-      Blockly.JavaScript.ORDER_NONE) || 0;
+  const value_degree = JavaScript.valueToCode(block, 'DEGREE',
+      JavaScript.ORDER_NONE) || 0;
   return `swim(${value_degree});\n`;
 };
 
-Blockly.JavaScript['pond_stop'] = function(block) {
+JavaScript['pond_stop'] = function(block: Block) {
   // Generate JavaScript for stopping.
   return 'stop();\n';
 };
 
-Blockly.JavaScript['pond_health'] = function(block) {
+JavaScript['pond_health'] = function(block: Block) {
   // Generate JavaScript for avatar health.
-  return ['health()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['health()', JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['pond_speed'] = function(block) {
+JavaScript['pond_speed'] = function(block: Block) {
   // Generate JavaScript for avatar speed.
-  return ['speed()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['speed()', JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['pond_getX'] = function(block) {
+JavaScript['pond_getX'] = function(block: Block) {
   // Generate JavaScript for X coordinate.
-  return ['getX()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['getX()', JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['pond_getY'] = function(block) {
+JavaScript['pond_getY'] = function(block: Block) {
   // Generate JavaScript for Y coordinate.
-  return ['getY()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return ['getY()', JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['pond_log'] = function(block) {
+JavaScript['pond_log'] = function(block: Block) {
   // Generate JavaScript for logging.
-  const value_text = Blockly.JavaScript.valueToCode(block, 'VALUE',
-      Blockly.JavaScript.ORDER_NONE) || '\'\'';
+  const value_text = JavaScript.valueToCode(block, 'VALUE',
+      JavaScript.ORDER_NONE) || '\'\'';
   return `log(${value_text});\n`;
 };
 
@@ -247,11 +243,11 @@ Blockly.Blocks['pond_math_number'] = {
    * @returns {!Element} XML storage element.
    * @this {Blockly.Block}
    */
-  mutationToDom: function() {
+  mutationToDom: function(): Element {
     const container = document.createElement('mutation');
     const field = this.getField('NUM');
     const isAngle = field.constructor === Blockly.FieldAngle;
-    container.setAttribute('angle_field', isAngle);
+    container.setAttribute('angle_field', String(isAngle));
     return container;
   },
   /**
@@ -259,7 +255,7 @@ Blockly.Blocks['pond_math_number'] = {
    * @param {!Element} xmlElement XML storage element.
    * @this {Blockly.Block}
    */
-  domToMutation: function(xmlElement) {
+  domToMutation: function(xmlElement: Element) {
     const isAngle = (xmlElement.getAttribute('angle_field') === 'true');
     this.updateField_(isAngle);
   },
@@ -295,7 +291,7 @@ Blockly.Blocks['pond_math_number'] = {
    * @param {boolean} isAngle True if angle, false if number.
    * @private
    */
-  updateField_: function(isAngle) {
+  updateField_: function(isAngle: boolean) {
     Blockly.Events.disable();
     // The implicitly-created dummy input.
     const input = this.inputList[0];
@@ -355,10 +351,10 @@ Blockly.Blocks['pond_math_single'] = {
   }
 };
 
-Blockly.JavaScript['pond_math_single'] = function(block) {
+JavaScript['pond_math_single'] = function(block: Block) {
   // Advanced math operators with single operand.
-  const arg = Blockly.JavaScript.valueToCode(block, 'NUM',
-      Blockly.JavaScript.ORDER_NONE) || '0';
+  const arg = JavaScript.valueToCode(block, 'NUM',
+      JavaScript.ORDER_NONE) || '0';
   const func = {
     'ROOT': 'sqrt',
     'ABS':  'abs',
@@ -369,25 +365,25 @@ Blockly.JavaScript['pond_math_single'] = function(block) {
     'ACOS': 'acos_deg',
     'ATAN': 'atan_deg',
   }[block.getFieldValue('OP')];
-  return [`Math.${func}(${arg})`, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  return [`Math.${func}(${arg})`, JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['pond_math_number'] = Blockly.JavaScript['math_number'];
+JavaScript['pond_math_number'] = JavaScript['math_number'];
 
 
 // Aliases defined to support XML generated before 15 July 2016.
 Blockly.Blocks['pond_loc_x'] = Blockly.Blocks['pond_getX'];
-Blockly.JavaScript['pond_loc_x'] = Blockly.JavaScript['pond_getX'];
+JavaScript['pond_loc_x'] = JavaScript['pond_getX'];
 Blockly.Blocks['pond_loc_y'] = Blockly.Blocks['pond_getY'];
-Blockly.JavaScript['pond_loc_y'] = Blockly.JavaScript['pond_getY'];
+JavaScript['pond_loc_y'] = JavaScript['pond_getY'];
 
 // Pond blocks moved to appengine/src/js-blocks.js and renamed on 6 June 2016.
 // Aliases defined to support XML generated before change.
 Blockly.Blocks['pond_controls_if'] = Blockly.Blocks['controls_if'];
-Blockly.JavaScript['pond_controls_if'] = Blockly.JavaScript['controls_if'];
+JavaScript['pond_controls_if'] = JavaScript['controls_if'];
 Blockly.Blocks['pond_loops_while'] = Blockly.Blocks['controls_whileUntil'];
-Blockly.JavaScript['pond_loops_while'] = Blockly.JavaScript['controls_whileUntil'];
+JavaScript['pond_loops_while'] = JavaScript['controls_whileUntil'];
 Blockly.Blocks['pond_math_arithmetic'] = Blockly.Blocks['math_arithmetic'];
-Blockly.JavaScript['pond_math_arithmetic'] = Blockly.JavaScript['math_arithmetic'];
+JavaScript['pond_math_arithmetic'] = JavaScript['math_arithmetic'];
 Blockly.Blocks['pond_math_change'] = Blockly.Blocks['math_change'];
-Blockly.JavaScript['pond_math_change'] = Blockly.JavaScript['math_change'];
+JavaScript['pond_math_change'] = JavaScript['math_change'];
