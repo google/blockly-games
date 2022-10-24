@@ -16,6 +16,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
 goog.require('Pond.html');
 
+
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
@@ -41,7 +42,6 @@ ${BlocklyGames.html.storageDialog()}
 ${Pond.Tutor.html.helpDialogs_(ij.level)}
 `;
 };
-
 
 /**
  * Toolbox.
@@ -384,7 +384,6 @@ while (true) {
 </div>
 `;
 };
-
 
 /**
  * Scared.

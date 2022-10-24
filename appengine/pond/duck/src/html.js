@@ -16,6 +16,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
 goog.require('Pond.html');
 
+
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
@@ -43,7 +44,6 @@ ${Pond.Duck.html.toolbox_()}
 ${BlocklyGames.html.dialog()}
 `;
 };
-
 
 /**
  * Toolbox.

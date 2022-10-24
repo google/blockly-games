@@ -15,6 +15,7 @@ goog.provide('Gallery.html');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.html');
 
+
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.

@@ -14,6 +14,7 @@ goog.provide('Pond.html');
 
 goog.require('BlocklyGames');
 
+
 /**
  * Canvas, health bars, and buttons.
  * @returns {string} HTML.
