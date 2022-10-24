@@ -8,22 +8,18 @@
  * @fileoverview HTML for Music game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {headerBar, dialog, doneDialog, abortDialog, storageDialog, ok} from '../../src/html.js';
+import {getMsg, esc} from '../../src/lib-games.js';
 
-goog.provide('Music.html');
-
-goog.require('Blockly.Msg');
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
 
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Music.html.start = function(ij) {
+export function start(ij: any): string {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.music', true), '', true, true, '')}
+${headerBar(ij, getMsg('Games.music', true), '', true, true, '')}
 
 <div id="paddingBox"></div>
 <div id="staveBox"></div>
@@ -58,29 +54,29 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.music', true), '', 
       <img id="spinner" style="visibility: hidden;" src="common/loading.gif" height=15 width=15>
     </td>
     <td style="width: 190px; text-align: center">
-      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+      <button id="runButton" class="primary" title="${getMsg('Games.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+      <button id="resetButton" class="primary" style="display: none" title="${getMsg('Games.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
 </table>
 
-${(ij.level === 10 && !ij.html) ? Music.html.gallery_(ij.lang) : ''}
+${(ij.level === 10 && !ij.html) ? gallery_(ij.lang) : ''}
 
-${Music.html.toolbox_(ij.level)}
+${toolbox_(ij.level)}
 <div id="blockly"></div>
 
-${BlocklyGames.html.dialog()}
-${BlocklyGames.html.doneDialog()}
-${BlocklyGames.html.abortDialog()}
-${BlocklyGames.html.storageDialog()}
+${dialog()}
+${doneDialog()}
+${abortDialog()}
+${storageDialog()}
 
-${Music.html.helpDialogs_(ij.level, ij.html)}
+${helpDialogs_(ij.level, ij.html)}
 `;
-};
+}
 
 /**
  * Gallery view button and submission form.
@@ -88,7 +84,7 @@ ${Music.html.helpDialogs_(ij.level, ij.html)}
  * @returns {string} HTML.
  * @private
  */
-Music.html.gallery_ = function(lang) {
+function gallery_(lang: string): string {
   return `
 <table style="padding-top: 1em; width: 400px;">
   <tr>
@@ -96,38 +92,38 @@ Music.html.gallery_ = function(lang) {
       <form action="/gallery" target="music-gallery">
         <input type="hidden" name="app" value="music">
         <input type="hidden" name="lang" value="{$ij.lang}">
-        <button type="submit" title="${BlocklyGames.getMsg('Music.galleryTooltip', true)}">
-          <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Music.galleryMsg', true)}
+        <button type="submit" title="${getMsg('Music.galleryTooltip', true)}">
+          <img src="common/1x1.gif" class="gallery icon21"> ${getMsg('Music.galleryMsg', true)}
         </button>
       </form>
     </td>
     <td style="text-align: center;">
-      <button id="submitButton" title="${BlocklyGames.getMsg('Music.submitTooltip', true)}">
-        <img src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Music.submitMsg', true)}
+      <button id="submitButton" title="${getMsg('Music.submitTooltip', true)}">
+        <img src="common/1x1.gif" class="camera icon21"> ${getMsg('Music.submitMsg', true)}
       </button>
     </td>
   </tr>
 </table>
 <div id="galleryDialog" class="dialogHiddenContent">
     <form id="galleryForm" action="/gallery-api/submit" method="post" onsubmit="return false">
-    <header>${BlocklyGames.getMsg('Music.submitTooltip', true)}</header>
+    <header>${getMsg('Music.submitTooltip', true)}</header>
     <canvas id="thumbnail" width=200 height=200></canvas>
     <input type="hidden" name="app" value="music">
     <input id="galleryThumb" type="hidden" name="thumb">
     <input id="galleryXml" type="hidden" name="xml">
     <div>
-      ${BlocklyGames.getMsg('Games.submitTitle', true)}
+      ${getMsg('Games.submitTitle', true)}
       <input id="galleryTitle" type="text" name="title" required>
     </div>
 
     <div class="farSide">
-      <button class="addHideHandler" type="button">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
-      <button id="galleryOk" class="secondary" type="submit">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
+      <button class="addHideHandler" type="button">${esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
+      <button id="galleryOk" class="secondary" type="submit">${esc(Blockly.Msg['DIALOG_OK'])}</button>
     </div>
   </form>
 </div>
 `;
-};
+}
 
 /**
  * Toolboxes for each level.
@@ -135,11 +131,11 @@ Music.html.gallery_ = function(lang) {
  * @returns {string} HTML.
  * @private
  */
-Music.html.toolbox_ = function(level) {
-  let xml;
+function toolbox_(level: number): string {
+  let xml: string;
   if (level === 10) {
     xml = `
-<category name="${BlocklyGames.getMsg('Games.music', true)}">
+<category name="${getMsg('Games.music', true)}">
   <block type="music_pitch">
     <field name="PITCH">7</field>
   </block>
@@ -155,7 +151,7 @@ Music.html.toolbox_ = function(level) {
   <block type="music_instrument"></block>
   <block type="music_start" id="music_start"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
+<category name="${getMsg('Games.catLogic', true)}">
   <block type="controls_if"></block>
   <block type="logic_compare"></block>
   <block type="logic_operation"></block>
@@ -163,7 +159,7 @@ Music.html.toolbox_ = function(level) {
   <block type="logic_boolean"></block>
   <block type="logic_ternary"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
+<category name="${getMsg('Games.catLoops', true)}">
   <block type="controls_repeat_ext">
     <value name="TIMES">
       <shadow type="math_number">
@@ -192,7 +188,7 @@ Music.html.toolbox_ = function(level) {
   <block type="controls_forEach"></block>
   <block type="controls_flow_statements"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catMath', true)}">
+<category name="${getMsg('Games.catMath', true)}">
   <block type="math_number"></block>
   <block type="math_arithmetic">
     <value name="A">
@@ -270,7 +266,7 @@ Music.html.toolbox_ = function(level) {
   </block>
   <block type="math_random_float"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLists', true)}">
+<category name="${getMsg('Games.catLists', true)}">
   <block type="lists_create_with">
     <mutation items="0"></mutation>
   </block>
@@ -316,16 +312,16 @@ Music.html.toolbox_ = function(level) {
   <block type="lists_reverse"></block>
 </category>
 <sep></sep>
-<category name="${BlocklyGames.getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
-<category name="${BlocklyGames.getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
+<category name="${getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
+<category name="${getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
 `;
   } else {
     const restBlock = level > 6 ? '<block type="music_rest_whole"></block>' : '';
     const instrumentBlock = level > 5 ? '<block type="music_instrument"></block>' : '';
     const startBlock = level > 6 ? '<block type="music_start" id="music_start"></block>' : '';
-    const procedureCat = level > 1 ? `<category name="${BlocklyGames.getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>` : '';
+    const procedureCat = level > 1 ? `<category name="${getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>` : '';
     xml = `
-<category name="${BlocklyGames.getMsg('Games.music', true)}">
+<category name="${getMsg('Games.music', true)}">
   <block type="music_note">
     <field name="DURATION">0.25</field>
     <value name="PITCH">
@@ -342,7 +338,7 @@ ${procedureCat}
 `;
   }
   return `<xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">${xml}</xml>`;
-};
+}
 
 /**
  * Help dialogs for each level.
@@ -351,50 +347,50 @@ ${procedureCat}
  * @returns {string} HTML.
  * @private
  */
-Music.html.helpDialogs_ = function(level, isHtml) {
+function helpDialogs_(level: number, isHtml: boolean): string {
   let content = '';
   switch (level) {
     case 1:
-      content = BlocklyGames.getMsg('Music.helpText1', true) +
+      content = getMsg('Music.helpText1', true) +
           '<p>C4 - D4 - E4 - C4</p>';
       break;
     case 2:
-      content = BlocklyGames.getMsg('Music.helpText2a', true) +
+      content = getMsg('Music.helpText2a', true) +
           '<div id="sampleHelp2" class="readonly"></div>' +
-          BlocklyGames.getMsg('Music.helpText2b', true);
+          getMsg('Music.helpText2b', true);
       break;
     case 3:
-      content = BlocklyGames.getMsg('Music.helpText3', true) +
+      content = getMsg('Music.helpText3', true) +
           '<br><img src="music/note0.5.png" class="sampleNote">';
       break;
     case 4:
-      content = BlocklyGames.getMsg('Music.helpText4', true) +
+      content = getMsg('Music.helpText4', true) +
           '<br><img src="music/note0.125.png" class="sampleNote">';
       break;
     case 5:
-      content = BlocklyGames.getMsg('Music.helpText5', true);
+      content = getMsg('Music.helpText5', true);
       break;
     case 6:
-      content = BlocklyGames.getMsg('Music.helpText6a', true) +
+      content = getMsg('Music.helpText6a', true) +
           '<div id="sampleHelp6" class="readonly"></div>' +
-          BlocklyGames.getMsg('Music.helpText6b', true);
+          getMsg('Music.helpText6b', true);
       break;
     case 7:
-      content = BlocklyGames.getMsg('Music.helpText7a', true) +
+      content = getMsg('Music.helpText7a', true) +
           '<div id="sampleHelp7" class="readonly"></div>' +
-          BlocklyGames.getMsg('Music.helpText7b', true);
+          getMsg('Music.helpText7b', true);
       break;
     case 8:
-      content = BlocklyGames.getMsg('Music.helpText8', true);
+      content = getMsg('Music.helpText8', true);
       break;
     case 9:
-      content = BlocklyGames.getMsg('Music.helpText9', true);
+      content = getMsg('Music.helpText9', true);
       break;
     case 10:
-      content = BlocklyGames.getMsg('Music.helpText10', true);
+      content = getMsg('Music.helpText10', true);
       if (!isHtml) {
         content += '<br><br>' +
-            BlocklyGames.getMsg('Music.helpText10Reddit', true);
+            getMsg('Music.helpText10Reddit', true);
       }
       break;
   }
@@ -402,22 +398,22 @@ Music.html.helpDialogs_ = function(level, isHtml) {
   return `
 <div id="helpUseFunctions" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
-    ${BlocklyGames.getMsg('Music.helpUseFunctions', true)}
+    ${getMsg('Music.helpUseFunctions', true)}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 <div id="helpUseInstruments" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
-    ${BlocklyGames.getMsg('Music.helpUseInstruments', true)}
+    ${getMsg('Music.helpUseInstruments', true)}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 
 <div id="help" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
     ${content}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 `;
-};
+}

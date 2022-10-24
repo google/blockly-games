@@ -8,17 +8,14 @@
  * @fileoverview HTML for shared Pond visualization.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {getMsg} from '../../src/lib-games.js';
 
-goog.provide('Pond.html');
-
-goog.require('BlocklyGames');
 
 /**
  * Canvas, health bars, and buttons.
  * @returns {string} HTML.
  */
-Pond.html.visualization = function() {
+export function visualization(): string {
   return `
 <div id="visualization">
   <canvas id="scratch" width=400 height=400 style="display: none"></canvas>
@@ -35,16 +32,16 @@ Pond.html.visualization = function() {
 <table width=400>
   <tr>
     <td style="width: 190px; text-align: center; vertical-align: top;">
-      <button id="docsButton" title="${BlocklyGames.getMsg('Pond.docsTooltip', true)}">
-        ${BlocklyGames.getMsg('Pond.documentation', true)}
+      <button id="docsButton" title="${getMsg('Pond.docsTooltip', true)}">
+        ${getMsg('Pond.documentation', true)}
       </button>
     </td>
     <td>
-      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+      <button id="runButton" class="primary" title="${getMsg('Games.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+      <button id="resetButton" class="primary" style="display: none" title="${getMsg('Games.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
@@ -55,4 +52,4 @@ Pond.html.visualization = function() {
   <iframe id="frameDocs"></iframe>
 </div>
 `;
-};
+}

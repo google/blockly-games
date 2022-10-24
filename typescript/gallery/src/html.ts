@@ -8,12 +8,8 @@
  * @fileoverview HTML for Gallery.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {headerBar} from '../../src/html.js';
 
-goog.provide('Gallery.html');
-
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
 
 /**
  * Web page structure.
@@ -21,16 +17,16 @@ goog.require('BlocklyGames.html');
  * @param {string} appName A title like 'Turtle : Gallery'.
  * @returns {string} HTML.
  */
-Gallery.html.start = function(ij, appName) {
+export function start(ij: any, appName: string): string {
   return `
-${BlocklyGames.html.headerBar(ij, appName, '', false, false, '')}
+${headerBar(ij, appName, '', false, false, '')}
 <div id="gallery">
 </div>
 <div id="loading">
   <img src="common/loading.gif">
 </div>
 `;
-};
+}
 
 /**
  * One record.
@@ -42,7 +38,7 @@ ${BlocklyGames.html.headerBar(ij, appName, '', false, false, '')}
  * @param {string} key Unique datastore key for this record.
  * @returns {string} HTML.
  */
-Gallery.html.record = function(app, uuid, thumb, title, published, key) {
+export function record(app: string, uuid: string, thumb: string, title: string, published: boolean, key: string): string {
   const checkbox = key ?
       `<input type="checkbox" id="publish-${key}" ${published ? ' checked ' : ''} onchange="publish(this)"></input>` :
       ''
@@ -55,4 +51,4 @@ Gallery.html.record = function(app, uuid, thumb, title, published, key) {
   <a href="/${app}?level=10#${uuid}">${title}</a>
 </div>
 `;
-};
+}

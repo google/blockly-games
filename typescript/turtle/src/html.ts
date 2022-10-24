@@ -8,13 +8,8 @@
  * @fileoverview HTML for Turtle game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-
-goog.provide('Turtle.html');
-
-goog.require('Blockly.Msg');
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
+import {headerBar, dialog, doneDialog, abortDialog, storageDialog, ok} from '../../src/html.js';
+import {getMsg, esc} from '../../src/lib-games.js';
 
 
 /**
@@ -22,9 +17,9 @@ goog.require('BlocklyGames.html');
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Turtle.html.start = function(ij) {
+export function start(ij: any): string {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.turtle', true), '', true, true, '')}
+${headerBar(ij, getMsg('Games.turtle', true), '', true, true, '')}
 
 <div id="visualization">
   <canvas id="scratch" width=400 height=400 style="display: none"></canvas>
@@ -60,29 +55,29 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.turtle', true), '',
       <img id="spinner" style="visibility: hidden;" src="common/loading.gif" height=15 width=15>
     </td>
     <td style="width: 190px; text-align: center">
-      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+      <button id="runButton" class="primary" title="${getMsg('Games.runTooltip', true)}">
+        <img src="common/1x1.gif" class="run icon21"> ${getMsg('Games.runProgram', true)}
       </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+      <button id="resetButton" class="primary" style="display: none" title="${getMsg('Games.resetTooltip', true)}">
+        <img src="common/1x1.gif" class="stop icon21"> ${getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
 </table>
 
-${(ij.level === 10 && !ij.html) ? Turtle.html.gallery_(ij.lang) : ''}
+${(ij.level === 10 && !ij.html) ? gallery_(ij.lang) : ''}
 
-${Turtle.html.toolbox_(ij.level)}
+${toolbox_(ij.level)}
 <div id="blockly"></div>
 
-${BlocklyGames.html.dialog()}
-${BlocklyGames.html.doneDialog()}
-${BlocklyGames.html.abortDialog()}
-${BlocklyGames.html.storageDialog()}
+${dialog()}
+${doneDialog()}
+${abortDialog()}
+${storageDialog()}
 
-${Turtle.html.helpDialogs_(ij.level, ij.html)}
+${helpDialogs_(ij.level, ij.html)}
 `;
-};
+}
 
 /**
  * Gallery view button and submission form.
@@ -90,7 +85,7 @@ ${Turtle.html.helpDialogs_(ij.level, ij.html)}
  * @returns {string} HTML.
  * @private
  */
-Turtle.html.gallery_ = function(lang) {
+function gallery_(lang: string): string {
   return `
 <table style="padding-top: 1em; width: 400px;">
   <tr>
@@ -98,38 +93,38 @@ Turtle.html.gallery_ = function(lang) {
       <form action="/gallery" target="turtle-gallery">
         <input type="hidden" name="app" value="turtle">
         <input type="hidden" name="lang" value="${lang}">
-        <button type="submit" title="${BlocklyGames.getMsg('Turtle.galleryTooltip', true)}">
-          <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Turtle.galleryMsg', true)}
+        <button type="submit" title="${getMsg('Turtle.galleryTooltip', true)}">
+          <img src="common/1x1.gif" class="gallery icon21"> ${getMsg('Turtle.galleryMsg', true)}
         </button>
       </form>
     </td>
     <td style="text-align: center;">
-      <button id="submitButton" title="${BlocklyGames.getMsg('Turtle.submitTooltip', true)}">
-        <img src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Turtle.submitMsg', true)}
+      <button id="submitButton" title="${getMsg('Turtle.submitTooltip', true)}">
+        <img src="common/1x1.gif" class="camera icon21"> ${getMsg('Turtle.submitMsg', true)}
       </button>
     </td>
   </tr>
 </table>
 <div id="galleryDialog" class="dialogHiddenContent">
     <form id="galleryForm" action="/gallery-api/submit" method="post" onsubmit="return false">
-    <header>${BlocklyGames.getMsg('Turtle.submitTooltip', true)}</header>
+    <header>${getMsg('Turtle.submitTooltip', true)}</header>
     <canvas id="thumbnail" width=200 height=200></canvas>
     <input type="hidden" name="app" value="turtle">
     <input id="galleryThumb" type="hidden" name="thumb">
     <input id="galleryXml" type="hidden" name="xml">
     <div>
-      ${BlocklyGames.getMsg('Games.submitTitle', true)}
+      ${getMsg('Games.submitTitle', true)}
       <input id="galleryTitle" type="text" name="title" required>
     </div>
 
     <div class="farSide">
-      <button class="addHideHandler" type="button">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
-      <button id="galleryOk" class="secondary" type="submit">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
+      <button class="addHideHandler" type="button">${esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
+      <button id="galleryOk" class="secondary" type="submit">${esc(Blockly.Msg['DIALOG_OK'])}</button>
     </div>
   </form>
 </div>
 `;
-};
+}
 
 /**
  * Toolboxes for each level.
@@ -137,11 +132,11 @@ Turtle.html.gallery_ = function(lang) {
  * @returns {string} HTML.
  * @private
  */
-Turtle.html.toolbox_ = function(level) {
-  let xml;
+function toolbox_(level: number): string {
+  let xml: string;
   if (level === 10) {
     xml = `
-<category name="${BlocklyGames.getMsg('Games.turtle', true)}">
+<category name="${getMsg('Games.turtle', true)}">
   <block type="turtle_move">
     <value name="VALUE">
       <shadow type="math_number">
@@ -172,7 +167,7 @@ Turtle.html.toolbox_ = function(level) {
   </block>
   <block type="turtle_font"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catColour', true)}">
+<category name="${getMsg('Games.catColour', true)}">
   <block type="turtle_colour">
     <value name="COLOUR">
       <shadow type="colour_picker"></shadow>
@@ -215,7 +210,7 @@ Turtle.html.toolbox_ = function(level) {
     </value>
   </block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
+<category name="${getMsg('Games.catLogic', true)}">
   <block type="controls_if"></block>
   <block type="logic_compare"></block>
   <block type="logic_operation"></block>
@@ -223,7 +218,7 @@ Turtle.html.toolbox_ = function(level) {
   <block type="logic_boolean"></block>
   <block type="logic_ternary"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
+<category name="${getMsg('Games.catLoops', true)}">
   <block type="controls_repeat_ext">
     <value name="TIMES">
       <shadow type="math_number">
@@ -251,7 +246,7 @@ Turtle.html.toolbox_ = function(level) {
   </block>
   <block type="controls_flow_statements"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catMath', true)}">
+<category name="${getMsg('Games.catMath', true)}">
   <block type="math_number"></block>
   <block type="math_arithmetic">
     <value name="A">
@@ -337,7 +332,7 @@ Turtle.html.toolbox_ = function(level) {
   </block>
   <block type="math_random_float"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLists', true)}">
+<category name="${getMsg('Games.catLists', true)}">
   <block type="lists_create_with">
     <mutation items="0"></mutation>
   </block>
@@ -383,18 +378,18 @@ Turtle.html.toolbox_ = function(level) {
   <block type="lists_reverse"></block>
 </category>
 <sep></sep>
-<category name="${BlocklyGames.getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
-<category name="${BlocklyGames.getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
+<category name="${getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
+<category name="${getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
 `;
   } else {
     const penBlock = level > 3 ? '<block type="turtle_pen"></block>' : '';
     const colourCat = level > 2 ? `
-<category name="${BlocklyGames.getMsg('Games.catColour', true)}">
+<category name="${getMsg('Games.catColour', true)}">
   <block type="turtle_colour_internal"></block>
 </category>
 ` : '';
     xml = `
-<category name="${BlocklyGames.getMsg('Games.turtle', true)}">
+<category name="${getMsg('Games.turtle', true)}">
   <block type="turtle_move_internal">
     <field name="VALUE">100</field>
   </block>
@@ -404,7 +399,7 @@ Turtle.html.toolbox_ = function(level) {
   ${penBlock}
 </category>
 ${colourCat}
-<category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
+<category name="${getMsg('Games.catLoops', true)}">
   <block type="turtle_repeat_internal">
     <field name="TIMES">4</field>
   </block>
@@ -412,7 +407,7 @@ ${colourCat}
 `;
   }
   return `<xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">${xml}</xml>`;
-};
+}
 
 /**
  * Help dialogs for each level.
@@ -421,75 +416,75 @@ ${colourCat}
  * @returns {string} HTML.
  * @private
  */
-Turtle.html.helpDialogs_ = function(level, isHtml) {
+function helpDialogs_(level: number, isHtml: boolean): string {
   let content = '';
   switch (level) {
     case 1:
-      content = BlocklyGames.getMsg('Turtle.helpText1', true) +
+      content = getMsg('Turtle.helpText1', true) +
           '<br><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">';
       break;
     case 2:
-      content = BlocklyGames.getMsg('Turtle.helpText2', true);
+      content = getMsg('Turtle.helpText2', true);
       break;
     case 3:
-      content = BlocklyGames.getMsg('Turtle.helpText3a', true) +
+      content = getMsg('Turtle.helpText3a', true) +
       '<div id="sampleHelp3" class="readonly"></div>' +
-      BlocklyGames.getMsg('Turtle.helpText3a', true);
+      getMsg('Turtle.helpText3a', true);
       break;
     case 4:
-      content = BlocklyGames.getMsg('Turtle.helpText4a', true) +
+      content = getMsg('Turtle.helpText4a', true) +
           '<div id="sampleHelp4" class="readonly"></div>' +
-      BlocklyGames.getMsg('Turtle.helpText4a', true);
+      getMsg('Turtle.helpText4a', true);
       break;
     case 5:
-      content = BlocklyGames.getMsg('Turtle.helpText5', true);
+      content = getMsg('Turtle.helpText5', true);
       break;
     case 6:
-      content = BlocklyGames.getMsg('Turtle.helpText6', true);
+      content = getMsg('Turtle.helpText6', true);
       break;
     case 7:
-      content = BlocklyGames.getMsg('Turtle.helpText7', true);
+      content = getMsg('Turtle.helpText7', true);
       break;
     case 8:
-      content = BlocklyGames.getMsg('Turtle.helpText8', true);
+      content = getMsg('Turtle.helpText8', true);
       break;
     case 9:
-      content = BlocklyGames.getMsg('Turtle.helpText9', true);
+      content = getMsg('Turtle.helpText9', true);
       break;
     case 10:
-      content = BlocklyGames.getMsg('Turtle.helpText10', true);
+      content = getMsg('Turtle.helpText10', true);
       if (!isHtml) {
         content += '<br><br>' +
-            BlocklyGames.getMsg('Turtle.helpText10Reddit', true);
+            getMsg('Turtle.helpText10Reddit', true);
       }
       break;
   }
 
   let loopMsg = '';
   if (level < 3) {
-    loopMsg = BlocklyGames.getMsg('Turtle.helpUseLoop3', true);
+    loopMsg = getMsg('Turtle.helpUseLoop3', true);
   } else if (level < 4) {
-    loopMsg = BlocklyGames.getMsg('Turtle.helpUseLoop4', true);
+    loopMsg = getMsg('Turtle.helpUseLoop4', true);
   }
   return `
 <div id="help" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
     ${content}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 
 <div id="helpToolbox" class="dialogHiddenContent">
   <div><img src="turtle/help_left.png" class="mirrorImg" height=23 width=64></div>
-  ${BlocklyGames.getMsg('Turtle.helpToolbox', true)}
+  ${getMsg('Turtle.helpToolbox', true)}
 </div>
 
 <div id="helpUseLoop" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
-    ${BlocklyGames.getMsg('Turtle.helpUseLoop', true)}
+    ${getMsg('Turtle.helpUseLoop', true)}
     ${loopMsg}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 `;
-};
+}

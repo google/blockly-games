@@ -17,6 +17,7 @@ import {register, buildTooltipForDropdown} from '../../third-party/blockly/core/
 import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
 // Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
 const JavaScript = javascriptGenerator as any as Generator;
+// TODO: fix type of JavaScript.
 
 /**
  * Construct custom bird block types.  Called on page load.

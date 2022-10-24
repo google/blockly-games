@@ -514,10 +514,8 @@ function levelHelp() {
       } else {
         content = BlocklyGames.getElementById('dialogMutatorHelp');
         // Second help box should be below the 'else' block in the mutator.
-        // Really fragile code.  There is no public API for this.
-        // TODO: fix mats_ API.
-        //origin = block.mutator.getWorkspace().getFlyout().mats_[1];
-        origin = null;
+        origin = block.mutator.getWorkspace().getFlyout().getWorkspace()
+            .getTopBlocks(true)[1].getSvgRoot();
         const xy = Blockly.utils.style.getPageOffset(origin);
         style = {'width': '340px', 'top': (xy.y + 60) + 'px'};
         style.left = (xy.x - (rtl ? 310 : 0)) + 'px';

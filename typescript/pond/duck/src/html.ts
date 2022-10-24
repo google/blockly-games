@@ -8,29 +8,26 @@
  * @fileoverview HTML for Pond game.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+import {headerBar, dialog} from '../../../src/html.js';
+import {visualization} from '../../src/html.js';
+import {getMsg} from '../../../src/lib-games.js';
 
-goog.provide('Pond.Duck.html');
-
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
-goog.require('Pond.html');
 
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Pond.Duck.html.start = function(ij) {
+export function start(ij: any): string {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.pond', true), '', false, false, '')}
+${headerBar(ij, getMsg('Games.pond', true), '', false, false, '')}
 
-${Pond.html.visualization()}
+${visualization()}
 
 <div id="tabarea">
   <div id="editorBar" class="tab-bar">
     <div><select id="avatar-select"></select></div>
-    <div class="tab tab-selected">${BlocklyGames.getMsg('Games.blocks', true)}</div>
+    <div class="tab tab-selected">${getMsg('Games.blocks', true)}</div>
     <div class="tab">JavaScript</div>
   </div>
   <div class="tab-bar-clear"></div>
@@ -38,9 +35,9 @@ ${Pond.html.visualization()}
   <div id="editor"></div>
 </div>
 
-${Pond.Duck.html.toolbox_()}
+${toolbox_()}
 
-${BlocklyGames.html.dialog()}
+${dialog()}
 `;
 };
 
@@ -50,10 +47,10 @@ ${BlocklyGames.html.dialog()}
  * @returns {string} HTML.
  * @private
  */
-Pond.Duck.html.toolbox_ = function() {
+function toolbox_(): string {
   return `
 <xml id="toolbox" xmlns="https://developers.google.com/blockly/xml">
-  <category name="${BlocklyGames.getMsg('Games.pond', true)}">
+  <category name="${getMsg('Games.pond', true)}">
     <block type="pond_cannon">
       <value name="DEGREE">
         <shadow type="pond_math_number">
@@ -98,16 +95,16 @@ Pond.Duck.html.toolbox_ = function() {
       </value>
     </block>
   </category>
-  <category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
+  <category name="${getMsg('Games.catLogic', true)}">
     <block type="controls_if"></block>
     <block type="logic_compare"></block>
     <block type="logic_operation"></block>
     <block type="logic_boolean"></block>
   </category>
-  <category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
+  <category name="${getMsg('Games.catLoops', true)}">
     <block type="controls_whileUntil"></block>
   </category>
-  <category name="${BlocklyGames.getMsg('Games.catMath', true)}">
+  <category name="${getMsg('Games.catMath', true)}">
     <block type="pond_math_number">
       <mutation angle_field="false"></mutation>
     </block>
@@ -133,8 +130,8 @@ Pond.Duck.html.toolbox_ = function() {
     <block type="math_random_float"></block>
   </category>
   <sep></sep>
-  <category name="${BlocklyGames.getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
-  <category name="${BlocklyGames.getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
+  <category name="${getMsg('Games.catVariables', true)}" custom="VARIABLE"></category>
+  <category name="${getMsg('Games.catProcedures', true)}" custom="PROCEDURE"></category>
 </xml>
 `;
-};
+}

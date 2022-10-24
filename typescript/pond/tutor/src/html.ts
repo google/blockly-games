@@ -8,39 +8,35 @@
  * @fileoverview HTML for Pond tutor.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-
-goog.provide('Pond.Tutor.html');
-
-goog.require('BlocklyGames');
-goog.require('BlocklyGames.html');
-goog.require('Pond.html');
+import {headerBar, dialog, doneDialog, storageDialog, ok} from '../../../src/html.js';
+import {visualization} from '../../src/html.js';
+import {getMsg} from '../../../src/lib-games.js';
 
 /**
  * Web page structure.
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Pond.Tutor.html.start = function(ij) {
+export function start(ij: any): string {
   return `
-${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.pondTutor', true), '', true, true, '')}
+${headerBar(ij, getMsg('Games.pondTutor', true), '', true, true, '')}
 
-${Pond.html.visualization()}
+${visualization()}
 
-${Pond.Tutor.html.toolbox_(ij.level)}
+${toolbox_(ij.level)}
 <div id="${ij.level % 2 ? 'blockly' : 'editor'}"></div>
 
-${Pond.Tutor.html.playerTarget_()}
-${Pond.Tutor.html.playerPendulum_()}
-${Pond.Tutor.html.playerScared_()}
+${playerTarget_()}
+${playerPendulum_()}
+${playerScared_()}
 
-${BlocklyGames.html.dialog()}
-${BlocklyGames.html.doneDialog()}
-${BlocklyGames.html.storageDialog()}
+${dialog()}
+${doneDialog()}
+${storageDialog()}
 
-${Pond.Tutor.html.helpDialogs_(ij.level)}
+${helpDialogs_(ij.level)}
 `;
-};
+}
 
 
 /**
@@ -49,8 +45,8 @@ ${Pond.Tutor.html.helpDialogs_(ij.level)}
  * @returns {string} HTML.
  * @private
  */
-Pond.Tutor.html.toolbox_ = function(level) {
-  let xml;
+function toolbox_(level: number): string {
+  let xml: string;
   const scanBlock = level >= 5 ? `
   <block type="pond_scan">
     <value name="DEGREE">
@@ -74,7 +70,7 @@ Pond.Tutor.html.toolbox_ = function(level) {
   const stopBlock = level >= 9 ? '<block type="pond_stop"></block>' : '';
   const getXYBlocks = level >= 9 ? '<block type="pond_getX"></block><block type="pond_getY"></block>' : '';
   xml = `
-<category name="${BlocklyGames.getMsg('Games.pond', true)}">
+<category name="${getMsg('Games.pond', true)}">
   <block type="pond_cannon">
     <value name="DEGREE">
       <shadow type="pond_math_number">
@@ -99,18 +95,18 @@ Pond.Tutor.html.toolbox_ = function(level) {
     const ifBlock = level >= 9 ? '<block type="controls_if"></block>' : '';
     const compareBlock = level >= 9 ? '<block type="logic_compare"></block>' : '';
     xml += `
-<category name="${BlocklyGames.getMsg('Games.catLogic', true)}">
+<category name="${getMsg('Games.catLogic', true)}">
   ${ifBlock}
   ${compareBlock}
   <block type="logic_boolean"></block>
 </category>
-<category name="${BlocklyGames.getMsg('Games.catLoops', true)}">
+<category name="${getMsg('Games.catLoops', true)}">
   <block type="controls_whileUntil"></block>
 </category>
 `;
   }
   xml += `
-<category name="${BlocklyGames.getMsg('Games.catMath', true)}">
+<category name="${getMsg('Games.catMath', true)}">
   <block type="pond_math_number">
     <mutation angle_field="false"></mutation>
   </block>
@@ -125,12 +121,12 @@ Pond.Tutor.html.toolbox_ = function(level) {
  * @returns {string} HTML.
  * @private
  */
-Pond.Tutor.html.helpDialogs_ = function(level) {
+function helpDialogs_(level: number): string {
   let content = '';
   switch (level) {
     case 1:
       content = `
-${BlocklyGames.getMsg('Pond.helpText1', true)}
+${getMsg('Pond.helpText1', true)}
 <br><br>
 <svg height=41 width=250 class="geras-renderer classic-theme">
   <g>
@@ -166,13 +162,13 @@ ${BlocklyGames.getMsg('Pond.helpText1', true)}
       break;
     case 2:
       content = `
-${BlocklyGames.getMsg('Pond.helpText1', true)}
+${getMsg('Pond.helpText1', true)}
 <pre>cannon(0, 70);</pre>
 `;
       break;
     case 3:
       content = `
-${BlocklyGames.getMsg('Pond.helpText2', true)}
+${getMsg('Pond.helpText2', true)}
 <br><br>
 <svg height=92 width=250 class="geras-renderer classic-theme">
   <g>
@@ -198,7 +194,7 @@ ${BlocklyGames.getMsg('Pond.helpText2', true)}
       break;
     case 4:
       content = `
-${BlocklyGames.getMsg('Pond.helpText2', true)}
+${getMsg('Pond.helpText2', true)}
 <pre>while (true) {
 &nbsp;&nbsp;...
 }</pre>
@@ -206,7 +202,7 @@ ${BlocklyGames.getMsg('Pond.helpText2', true)}
       break;
     case 5:
       content = `
-${BlocklyGames.getMsg('Pond.helpText3a', true)}
+${getMsg('Pond.helpText3a', true)}
 <br><br>
 <svg height=37 width=250 class="geras-renderer classic-theme">
   <g transform="translate(8,0)">
@@ -229,19 +225,19 @@ ${BlocklyGames.getMsg('Pond.helpText3a', true)}
   </g>
 </svg>
 <br><br>
-${BlocklyGames.getMsg('Pond.helpText3b', true)}
+${getMsg('Pond.helpText3b', true)}
 `;
       break;
     case 6:
       content = `
-${BlocklyGames.getMsg('Pond.helpText3a', true)}
+${getMsg('Pond.helpText3a', true)}
 <pre>scan(0)</pre>
-${BlocklyGames.getMsg('Pond.helpText3b', true)}
+${getMsg('Pond.helpText3b', true)}
 `;
       break;
     case 7:
       content = `
-${BlocklyGames.getMsg('Pond.helpText4', true)}
+${getMsg('Pond.helpText4', true)}
 <br><br>
 <svg height=41 width=250 class="geras-renderer classic-theme">
   <g>
@@ -267,13 +263,13 @@ ${BlocklyGames.getMsg('Pond.helpText4', true)}
       break;
     case 8:
       content = `
-${BlocklyGames.getMsg('Pond.helpText4', true)}
+${getMsg('Pond.helpText4', true)}
 <pre>swim(0);</pre>
 `;
       break;
     case 9:
       content = `
-${BlocklyGames.getMsg('Pond.helpText5', true)}
+${getMsg('Pond.helpText5', true)}
 <br><br>
 <svg height=37 width=250 class="geras-renderer classic-theme">
   <g transform="translate(8,0)">
@@ -319,7 +315,7 @@ ${BlocklyGames.getMsg('Pond.helpText5', true)}
       break;
     case 10:
       content = `
-${BlocklyGames.getMsg('Pond.helpText6', true)}
+${getMsg('Pond.helpText6', true)}
 <pre>getX() &lt; 50</pre>
 <pre>stop();</pre>
 `;
@@ -329,37 +325,37 @@ ${BlocklyGames.getMsg('Pond.helpText6', true)}
 <!-- Help dialog for idiotic level 5+6 solution. -->
 <div id="helpUseScan" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
-    ${BlocklyGames.getMsg('Pond.helpUseScan', true)}
+    ${getMsg('Pond.helpUseScan', true)}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 <div id="help" class="dialogHiddenContent">
   <div style="padding-bottom: 0.7ex">
   ${content}
   </div>
-  ${BlocklyGames.html.ok()}
+  ${ok()}
 </div>
 `;
-};
+}
 
 /**
  * Target.
  * @returns {string} HTML.
  * @private
  */
-Pond.Tutor.html.playerTarget_ = function() {
+function playerTarget_(): string {
   return `
 <div id="playerTarget" style="display: none">
 </div>
 `;
-};
+}
 
 /**
  * Pendulum.
  * @returns {string} HTML.
  * @private
  */
-Pond.Tutor.html.playerPendulum_ = function() {
+function playerPendulum_(): string {
   return `
 <div id="playerPendulum" style="display: none">
 /* Slowly moves east and west.  Does not fire. */
@@ -383,15 +379,14 @@ while (true) {
 }
 </div>
 `;
-};
-
+}
 
 /**
  * Scared.
  * @returns {string} HTML.
  * @private
  */
-Pond.Tutor.html.playerScared_ = function() {
+function playerScared_(): string {
   return `
 <div id="playerScared" style="display: none">
 /* Moves south-west when hit.  Does not fire. */
@@ -407,4 +402,4 @@ while (true) {
 }
 </div>
 `;
-};
+}
