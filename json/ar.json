@@ -144,6 +144,7 @@
 	"Turtle.printHelpUrl": "https://ar.wikipedia.org/wiki/طباعة",
 	"Turtle.printTooltip": "رسم/طباعة النص في في موقع اتجاه سلحفاة .",
 	"Turtle.print": "إطبع",
+	"Turtle.fontHelpUrl": "https://ar.wikipedia.org/wiki/خط_(كتابة)",
 	"Turtle.fontTooltip": "يضبط الخط المستخدم بواسطة بلوك الطباعة.",
 	"Turtle.font": "الخط",
 	"Turtle.fontSize": "حجم الخط",
