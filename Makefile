@@ -89,6 +89,7 @@ offline: clean-offline
 	rm -rf offline/blockly-games/{./,*,*/*}/src
 	rm -f offline/blockly-games/{./,*,*/*}/generated/uncompressed.js
 	rm -f offline/blockly-games/index/title.png
+	rm -f offline/blockly-games/index/title-beta.png
 	rm -f offline/blockly-games/pond/crobots.txt
 	rm -rf offline/blockly-games/pond/battle
 	rm -f offline/blockly-games/common/stripes.svg

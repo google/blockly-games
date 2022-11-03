@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="244" height="40" version="1.1" viewBox="0 0 160 26" xmlns="http://www.w3.org/2000/svg">
+  <style>
+.blocklyPathLight {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+text {
+  cursor: default;
+  fill: #fff;
+  font-family: sans-serif;
+  font-size: 11pt;
+}
+  </style>
+  <g>
+    <path transform="translate(1,1)" fill="#496684" d="m 8,0 h 74.435 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 V 25 H 8 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z"></path>
+    <path stroke="none" fill="#5b80a5" d="m 8,0 h 74.435 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 V 25 H 8 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z"></path>
+    <path class="blocklyPathLight" stroke="#8ca6c0" d="m 8,0 m 0.5,0.5 H 81.935 M 82.435,5 m -5,14.3 l 3.68,-2.1 M 8.5,24.5 V 20 v -1.5 m -7.36,-0.5 q -1.52,-5.5 0,-11 m 7.36,1 V 0.5"></path>
+    <g transform="translate(18,5)">
+      <text x="0" y="13">Blockly</text>
+    </g>
+  </g>
+  <g transform="translate(75.435,0)">
+    <path transform="translate(1,1)" fill="#7a4984" d="m 8,0 h 75.251 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 V 25 H 8 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z"></path>
+    <path stroke="none" fill="#995ba5" d="m 8,0 h 75.251 v 5 c 0,10 -8,-8 -8,7.5 s 8,-2.5 8,7.5 V 25 H 8 V 20 c 0,-10 -8,8 -8,-7.5 s 8,2.5 8,-7.5 z"></path>
+    <path class="blocklyPathLight" stroke="#b88cc0" d="m 8,0 m 0.5,0.5 H 82.751 M 83.251,5 m -5,14.3 l 3.68,-2.1 M 8.5,24.5 V 20 v -1.5 m -7.36,-0.5 q -1.52,-5.5 0,-11 m 7.36,1 V 0.5"></path>
+    <g transform="translate(18,5)">
+      <text x="0" y="13">Games</text>
+    </g>
+  </g>
+</svg>

@@ -23,7 +23,7 @@ goog.require('BlocklyGames');
 Index.html.start = function(ij) {
   return `
 <div id="header">
-  <img id="banner" src="index/title-beta.png" height=51 width=244 alt="Blockly Games">
+  <img id="banner" src="index/title.svg" height=40 width=244 alt="Blockly Games">
   <div id="subtitle">${BlocklyGames.getMsg('Index.subTitle', true)}&nbsp;
     <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.getMsg('Index.moreInfo', true)}</a>
   </div>
