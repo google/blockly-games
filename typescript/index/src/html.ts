@@ -19,7 +19,7 @@ import {getMsg} from '../../src/lib-games.js';
 export function start(ij: any): string {
   return `
 <div id="header">
-  <img id="banner" src="index/title-beta.png" height=51 width=244 alt="Blockly Games">
+  <img id="banner" src="index/title.svg" height=40 width=244 alt="Blockly Games">
   <div id="subtitle">${getMsg('Index.subTitle', true)}&nbsp;
     <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${getMsg('Index.moreInfo', true)}</a>
   </div>
