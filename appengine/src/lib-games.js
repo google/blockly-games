@@ -78,7 +78,7 @@ BlocklyGames.LANGUAGE_NAME_ = {
   'ms': 'Bahasa Melayu',
   'my': 'မြန်မာစာ',
 //  'mzn': 'مازِرونی',  // RTL
-  'nb': 'Norsk Bokmål',
+  'nb': 'Norsk (bokmål)',
   'nl': 'Nederlands, Vlaams',
 //  'oc': 'Lenga d\'òc',
 //  'pa': 'पंजाबी',
@@ -94,6 +94,7 @@ BlocklyGames.LANGUAGE_NAME_ = {
 //  'si': 'සිංහල',
   'sk': 'Slovenčina',
   'sl': 'Slovenščina',
+//  'smn': 'Anarâškielâ',
   'sq': 'Shqip',
   'sr': 'Српски',
   'sr-latn': 'Srpski',
