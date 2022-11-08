@@ -290,7 +290,6 @@ BlocklyGames.init = function(title) {
   // Lazy-load Google Analytics.
   if (!BlocklyGames.IS_HTML) {
     setTimeout(BlocklyGames.importAnalytics3_, 1);
-    setTimeout(BlocklyGames.importAnalytics4_, 1);
   }
 };
 
@@ -417,8 +416,8 @@ BlocklyGames.esc = function(text) {
 };
 
 /**
- * Load the Google Analytics 3.
- * Delete this in July 1, 2023.
+ * Load Google Analytics 3 (UA).
+ * Delete this on July 1, 2023.
  * @private
  */
 BlocklyGames.importAnalytics3_ = function() {
@@ -440,19 +439,4 @@ BlocklyGames.importAnalytics3_ = function() {
 
   gaObject('create', 'UA-50448074-1', 'auto');
   gaObject('send', 'pageview');
-};
-
-/**
- * Load the Google Analytics 4.
- * @private
- */
-BlocklyGames.importAnalytics4_ = function() {
-  const script = document.createElement('script');
-  script.async = 1;
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-TBYKRK7JYW';
-  document.head.appendChild(script);
-  window['dataLayer'] = window['dataLayer'] || [];
-  function gtag(){window['dataLayer'].push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TBYKRK7JYW');
 };
