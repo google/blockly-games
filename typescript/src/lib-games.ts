@@ -292,7 +292,6 @@ export function init(title: string) {
   // Lazy-load Google Analytics.
   if (!IS_HTML) {
     setTimeout(importAnalytics3_, 1);
-    setTimeout(importAnalytics4_, 1);
   }
 }
 
@@ -423,8 +422,8 @@ export function esc(text: string): string {
 }
 
 /**
- * Load the Google Analytics 3.
- * Delete this in July 1, 2023.
+ * Load Google Analytics 3 (UA).
+ * Delete this on July 1, 2023.
  * @private
  */
 function importAnalytics3_() {
@@ -445,19 +444,4 @@ function importAnalytics3_() {
 
   gaObject('create', 'UA-50448074-1', 'auto');
   gaObject('send', 'pageview');
-}
-
-/**
- * Load the Google Analytics 4.
- * @private
- */
-function importAnalytics4_() {
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-TBYKRK7JYW';
-  document.head.appendChild(script);
-  window['dataLayer'] = window['dataLayer'] || [];
-  function gtag(...args: any){window['dataLayer'].push(args);}
-  gtag('js', new Date());
-  gtag('config', 'G-TBYKRK7JYW');
 }
