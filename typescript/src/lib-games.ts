@@ -248,7 +248,7 @@ export function init(title: string) {
   const languageMenu = getElementById('languageMenu');
   if (languageMenu) {
     // Sort languages alphabetically.
-    const languages = [];
+    const languages: string[][] = [];
     for (const lang of LANGUAGES_) {
       languages.push([LANGUAGE_NAME_[lang], lang]);
     }
@@ -344,7 +344,7 @@ export function changeLanguage() {
  * @returns {string|undefined} Serialized XML, or undefined.
  */
 export function loadFromLocalStorage(name: string, level: number): string | undefined {
-  let xml: string;
+  let xml = '';
   try {
     xml = window.localStorage[name + level];
   } catch (e) {
