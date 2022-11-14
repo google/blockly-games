@@ -429,7 +429,7 @@ function helpDialogs_(level: number, isHtml: boolean): string {
     case 3:
       content = getMsg('Turtle.helpText3a', true) +
       '<div id="sampleHelp3" class="readonly"></div>' +
-      getMsg('Turtle.helpText3a', true);
+      getMsg('Turtle.helpText3b', true);
       break;
     case 4:
       content = getMsg('Turtle.helpText4a', true) +
