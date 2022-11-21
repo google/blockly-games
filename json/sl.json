@@ -41,7 +41,7 @@
 	"Games.httpRequestError": "V zvezi z zahtevkom je prišlo do težave.",
 	"Games.linkAlert": "Delite svoje bloke s povezavo: %1",
 	"Games.hashError": "»%1« se žal ne ujema z nobenim shranjenim programom.",
-	"Games.xmlError": "Shranjene datoteke ne morem naložiti. Mogoče je bila ustvarjena z drugo različico Blocklyja?",
+	"Games.xmlError": "Vaše shranjene datoteke ni mogoče naložiti. Mogoče je bila ustvarjena z drugo različico Blocklyja?",
 	"Games.submitted": "Hvala za ta program! Če bo našemu osebju usposobljenih opic všeč, ga bomo v nekaj dneh objavili v galeriji.",
 	"Games.listVariable": "seznam",
 	"Games.textVariable": "besedilo",
