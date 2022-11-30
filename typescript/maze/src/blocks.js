@@ -11,12 +11,8 @@
 import {getMsg} from '../../src/lib-games.js';
 
 import {defineBlocksWithJsonArray} from '../../third-party/blockly/core/blockly.js';
-import type {Block} from '../../third-party/blockly/core/block.js';
-import type {Generator} from '../../third-party/blockly/core/generator.js';
 import {register} from '../../third-party/blockly/core/extensions.js';
-import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
-// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
-const JavaScript = javascriptGenerator as any as Generator;
+import {javascriptGenerator as JavaScript} from '../../third-party/blockly/generators/javascript.js';
 
 
 /**
@@ -177,24 +173,24 @@ export function initBlocks() {
 }
 
 
-JavaScript['maze_moveForward'] = function(block: Block) {
+JavaScript['maze_moveForward'] = function(block) {
   // Generate JavaScript for moving forward.
   return `moveForward('block_id_${block.id}');\n`;
 };
 
-JavaScript['maze_turn'] = function(block: Block) {
+JavaScript['maze_turn'] = function(block) {
   // Generate JavaScript for turning left or right.
   return `${block.getFieldValue('DIR')}('block_id_${block.id}');\n`;
 };
 
-JavaScript['maze_if'] = function(block: Block) {
+JavaScript['maze_if'] = function(block) {
   // Generate JavaScript for conditional "if there is a path".
   const argument = `${block.getFieldValue('DIR')}('block_id_${block.id}')`;
   const branch = JavaScript.statementToCode(block, 'DO');
   return `if (${argument}) {\n${branch}}\n`;
 };
 
-JavaScript['maze_ifElse'] = function(block: Block) {
+JavaScript['maze_ifElse'] = function(block) {
   // Generate JavaScript for conditional "if there is a path, else".
   const argument = `${block.getFieldValue('DIR')}('block_id_${block.id}')`;
   const branch0 = JavaScript.statementToCode(block, 'DO');
@@ -202,7 +198,7 @@ JavaScript['maze_ifElse'] = function(block: Block) {
   return `if (${argument}) {\n${branch0}} else {\n${branch1}}\n`;
 };
 
-JavaScript['maze_forever'] = function(block: Block) {
+JavaScript['maze_forever'] = function(block) {
   // Generate JavaScript for repeat loop.
   let branch = JavaScript.statementToCode(block, 'DO');
   if (JavaScript.INFINITE_LOOP_TRAP) {

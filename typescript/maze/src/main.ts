@@ -24,10 +24,7 @@ import {commonWordPrefix, commonWordSuffix} from '../../third-party/blockly/core
 import {domToText, workspaceToDom} from '../../third-party/blockly/core/xml.js';
 import {bind, unbind, Data} from '../../third-party/blockly/core/browser_events.js';
 import {FieldDropdown} from '../../third-party/blockly/core/field_dropdown.js';
-import type {Generator} from '../../third-party/blockly/core/generator.js';
-import {javascriptGenerator} from '../../third-party/blockly/generators/javascript.js';
-// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
-const JavaScript = javascriptGenerator as any as Generator;
+import {javascriptGenerator as JavaScript} from '../../third-party/blockly/generators/javascript.js';
 
 
 BlocklyGames.setStorageName('maze');

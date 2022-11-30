@@ -12,10 +12,7 @@ import * as BlocklyDialogs from './lib-dialogs.js';
 import * as BlocklyGames from './lib-games.js';
 import * as BlocklyInterface from './lib-interface.js';
 
-import type {Generator} from '../third-party/blockly/core/generator.js';
-import {javascriptGenerator} from '../third-party/blockly/generators/javascript.js';
-// Convince TypeScript that Blockly's JS generator is not an ES6 Generator.
-const JavaScript = javascriptGenerator as any as Generator;
+import {javascriptGenerator as JavaScript} from '../third-party/blockly/generators/javascript.js';
 
 
 /**
