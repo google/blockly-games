@@ -116,7 +116,7 @@
 	"Turtle.setWidth": "Aldatu pisua hurrengora",
 	"Turtle.colourTooltip": "Boligrafoaren kolorea aldatzen du.",
 	"Turtle.setColour": "hurrengo kolorera aldatu",
-	"Turtle.penTooltip": "Boligrafoa igotzen ala jaisten du, marrazten hasteko ala marrazteari uzteko.",
+	"Turtle.penTooltip": "Boligrafoa igotzen edo jaisten du, marrazten hasteko edo marrazteari uzteko.",
 	"Turtle.penUp": "Boligrafoa gora",
 	"Turtle.penDown": "Boligrafoa behera",
 	"Turtle.turtleVisibilityTooltip": "Dordoka (borobila eta gezia) ikusgarri ala ikustezin egin du.",
