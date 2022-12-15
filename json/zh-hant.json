@@ -13,7 +13,8 @@
 			"Weather Top Wizard",
 			"Wehwei",
 			"Winston Sung",
-			"Xiplus"
+			"Xiplus",
+			"捍粵者"
 		]
 	},
 	"Games.name": "Blockly 遊戲",
@@ -28,7 +29,7 @@
 	"Games.linesOfCode1": "你用了 1 行 JavaScript 完成關卡：",
 	"Games.linesOfCode2": "你用了 %1 行 JavaScript 完成關卡：",
 	"Games.nextLevel": "準備好要闖第 %1 關了嗎？",
-	"Games.finalLevel": "準備好要進行下一個挑戰了嗎？",
+	"Games.finalLevel": "準備好接受下個挑戰嗎？",
 	"Games.submitTitle": "標題：",
 	"Games.linkTooltip": "儲存並連結到區塊。",
 	"Games.runTooltip": "運行你寫的程式。",

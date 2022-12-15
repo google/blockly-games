@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"ArticleEditor404"
+			"ArticleEditor404",
+			"捍粵者"
 		]
 	},
 	"Games.name": "塊狀遊戲",
@@ -86,7 +87,7 @@
 	"Maze.repeatUntil": "重複，直到",
 	"Maze.moveForwardTooltip": "把玩家向前移動一個空間。",
 	"Maze.turnTooltip": "將播放器向左或向右轉90度。",
-	"Maze.ifTooltip": "如果有特定方向嘅路徑，則進行一些操作。",
+	"Maze.ifTooltip": "如果指定方向有路就做啲嘢",
 	"Maze.ifelseTooltip": "如果在指定方向上有一條路徑，則進行第一個操作塊。 否則，做第二個蚊行動。",
 	"Maze.whileTooltip": "重複封閉嘅操作，直到到達終點。",
 	"Maze.capacity0": "您有%0 塊左。",
