@@ -149,7 +149,7 @@
 	"Turtle.fontNormal": "običajno",
 	"Turtle.fontBold": "krepko",
 	"Turtle.fontItalic": "ležeče",
-	"Turtle.submitDisabled": "Zaženite program. Ko se ustavi, lahko svoj izdelek dodate v galerijo.",
+	"Turtle.submitDisabled": "Zaženite program. Ko se ustavi, lahko svojo risbo dodate v galerijo.",
 	"Turtle.galleryTooltip": "Odprite galerijo risb.",
 	"Turtle.galleryMsg": "Ogled galerije",
 	"Turtle.submitTooltip": "Dodajte svojo risbo v galerijo.",
