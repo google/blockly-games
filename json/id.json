@@ -8,11 +8,12 @@
 			"Hidayatsrf",
 			"Kasimtan",
 			"Mirws",
+			"Veracious",
 			"WongKentir"
 		]
 	},
 	"Games.name": "Permainan Blockly",
-	"Games.puzzle": "Puzzle",
+	"Games.puzzle": "Teka-teki",
 	"Games.maze": "Labirin",
 	"Games.bird": "Burung",
 	"Games.turtle": "Kura-kura",
