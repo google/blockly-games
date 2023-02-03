@@ -65,14 +65,22 @@ Interpreter.prototype.BOOLEAN;
 Interpreter.prototype.value;
 
 /**
- * @type {!Array.<!Interpreter.State>}
+ * Return the state stack.
+ * @return {!Array<!Interpreter.State>} State stack.
  */
-Interpreter.prototype.stateStack;
+Interpreter.prototype.getStateStack = function() {};
 
 /**
- * @type {Interpreter.Scope}
+ * Replace the state stack with a new one.
+ * @param {!Array<!Interpreter.State>} newStack New state stack.
  */
-Interpreter.prototype.globalScope;
+Interpreter.prototype.setStateStack = function(newStack) {};
+
+/**
+ * Return the global scope object.
+ * @return {!Interpreter.Scope} Scope object.
+ */
+Interpreter.prototype.getGlobalScope = function() {};
 
 /**
  * Add more code to the interpreter.

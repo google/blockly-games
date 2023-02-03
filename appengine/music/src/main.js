@@ -619,9 +619,9 @@ function execute() {
   for (let i = 1; i <= startCount; i++) {
     const tempInterpreter = new Interpreter('');
     // Replace this thread's global scope with the cross-thread global.
-    tempInterpreter.stateStack[0].scope = interpreter.globalScope;
+    tempInterpreter.getStateStack()[0].scope = interpreter.getGlobalScope();
     tempInterpreter.appendCode(`start${i}();\n`);
-    threads.push(new Thread(i, tempInterpreter.stateStack));
+    threads.push(new Thread(i, tempInterpreter.getStateStack()));
   }
   setTimeout(tick, 100);
 }
@@ -675,7 +675,7 @@ function tick() {
  */
 function executeChunk_(thread) {
   activeThread = thread;
-  interpreter.stateStack = thread.stateStack;
+  interpreter.setStateStack(thread.stateStack);
   // Switch the interpreter to run the provided thread.
   interpreter.stateStack = thread.stateStack;
   let ticks = 10000;
