@@ -675,9 +675,8 @@ function tick() {
  */
 function executeChunk_(thread) {
   activeThread = thread;
-  interpreter.setStateStack(thread.stateStack);
   // Switch the interpreter to run the provided thread.
-  interpreter.stateStack = thread.stateStack;
+  interpreter.setStateStack(thread.stateStack);
   let ticks = 10000;
   let go;
   do {
@@ -820,7 +819,7 @@ function play(duration, pitch, id) {
     }
   }
   drawNote(activeThread.stave, clock64ths / 64,
-                 pitch, duration, wrong ? 'wrong' : '');
+      pitch, duration, wrong ? 'wrong' : '');
   animate(id);
 }
 
@@ -873,7 +872,7 @@ function rest(duration, id) {
     }
   }
   drawNote(activeThread.stave, clock64ths / 64,
-                 REST, duration, wrong ? 'wrong' : '');
+      REST, duration, wrong ? 'wrong' : '');
   animate(id);
 }
 
