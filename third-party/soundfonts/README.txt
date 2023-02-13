@@ -1,6 +1,9 @@
-These files are included in the Blockly Games repo rather than fetched since we
-only need two octaves from each set.  Also, the piano doesn't come pre-rendered
-with every note.
+Karpeta honetan, 'music' jokoan erabiltzen diren instrumentuen soinuen MP3 fitxategiak biltzen dituzten karpetak daude.
+Karpeten izenek, noski, zein instrumenturen soinuak biltzen dituzten adierazten dute.
+
+Fitxategi hauek Blockly Games errepositorioan daude, beste errepositorioetatik atzitu beharrean,
+instrumentu bakoitzaren bi zortzidun soilik erabiltzen direlako. Gainera, pianoak ez ditu nota
+guztiak erabilgarri.
 
 Soundfont Sources
 
