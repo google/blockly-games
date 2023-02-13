@@ -3,7 +3,8 @@
 		"authors": [
 			"Les Meloures",
 			"Robby",
-			"Soued031"
+			"Soued031",
+			"Volvox"
 		]
 	},
 	"Games.name": "Blockly-Spiller",
@@ -12,6 +13,7 @@
 	"Games.bird": "Vull",
 	"Games.turtle": "Deckelsmouk",
 	"Games.movie": "Film",
+	"Games.music": "Musek",
 	"Games.nextLevel": "Sidd Dir prett fir den Niveau %1?",
 	"Games.finalLevel": "Sidd Dir prett fir déi nächst Erausfuerderung?",
 	"Games.submitTitle": "Titel:",
