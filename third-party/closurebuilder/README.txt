@@ -1,7 +1,7 @@
-These files are the contents of:
+Fitxategi hauek errepositorio honetako edukiak dira:
 https://github.com/google/closure-library/tree/72ca4df39f6130d20b98c20f6e77c50a74e3d9e2/closure/bin/build
 
-As of 21 June 2021, these files were deleted from Google's Closure Library repo.
+2021eko ekainak 21etik aurrera, fitxategi hauek Google's Closure Library errepositoriotik ezabatu dira.
 
-The deprecation warning in closurebuilder.py has been commented out.
-Output modes 'script' and 'compiled' have been removed.
+closurebuilder.py-ko deprekazio oharra iruzkinduta utzi da.
+'script' eta 'compiled' irteera moduak ezabatu dira.
