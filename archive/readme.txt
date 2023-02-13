@@ -1,3 +1,2 @@
-This directory contains archived sources for some of the images or sounds used
-throughout this project.  None of these files are needed by the build system
-or by the games.
+Karpeta honek Blockly Games proiektuan zehar erabili diren irudi eta soinuen fitxategi zaharrak erabiltzen ditu.
+Jada erabiltzen ez direnez, ez dira jokoak eta programa egoki eraikitzeko beharrezkoak.
