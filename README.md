@@ -1,9 +1,9 @@
 ![Blockly Games](https://raw.githubusercontent.com/wiki/google/blockly-games/title.png)
 
-Google's Blockly Games is a series of educational games that teach programming.
-It is based on the [Blockly](https://developers.google.com/blockly/) library.
-All code is free and open source.
+Google-ren Blockly Games programatzen ikasten laguntzen duten joko didaktikoen sorta bat da. 
+[Blockly](https://developers.google.com/blockly/) liburutegia erabiltzen du oinarritzat.
+Kode guztia askea eta 'open source' da.
 
-**The games are available at https://blockly.games/**
+**Jokoak https://blockly.games/ daude atzigai**
 
-**The developer's site is at https://github.com/google/blockly-games/wiki**
+**Garatzailearen webgunea: https://github.com/google/blockly-games/wiki**
