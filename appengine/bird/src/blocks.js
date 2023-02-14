@@ -5,7 +5,7 @@
  */
 
 /**
- * @fileoverview "Bird" jokoarentzako blokeak.
+ * @fileoverview Blocks for Bird game.
  * @author q.neutron@gmail.com (Quynh Neutron)
  */
 'use strict';
@@ -24,27 +24,21 @@ goog.require('BlocklyGames');
 
 
 /**
- * Txoriaren jokorako bloke bereziak eraikitzen dira. Atal honi, jokoaren orria kargatzean deitzen zaio.
+ * Construct custom bird block types.  Called on page load.
  */
 Bird.Blocks.init = function() {
   /**
-   * Aldagaiak adierazten dituzten blokeentzako HSV kolorea. 330 balioa fuksia da.
+   * Common HSV hue for all variable blocks.
    */
   const VARIABLES_HUE = 330;
 
   /**
-   * Mugimendu blokeentzako HSV kolorea. 290 balioa morea da.
+   * HSV hue for movement block.
    */
   const MOVEMENT_HUE = 290;
 
-  /**
-  * Hemendik aurrera, blokeen ezaugarriak finkatzen dira. Blokeak JSON objektuen lista baten bidez definitzen dira, eta lista honetako
-  * bakoitzean blokearen mota (type), pantailan agertzen den textua (message0), jasotzen (args0) eta bueltatzen (output) duen informazioa, 
-  * kolorea (colour) eta laguntza mezua (tooltip) agertzen dira, beste ezaugarri gehigarriekin batera.
-  */
-  
   Blockly.defineBlocksWithJsonArray([
-    // Txoriak zizarea ez edukitzea baldintza bezala duten blokeen definizioa.
+    // Block for no worm condition.
     {
       "type": "bird_noWorm",
       "message0": BlocklyGames.getMsg('Bird.noWorm', false),
@@ -53,7 +47,7 @@ Bird.Blocks.init = function() {
       "tooltip": BlocklyGames.getMsg('Bird.noWormTooltip', false),
     },
 
-    // Txoria norabide zehatz batean mugitzeko balio duten blokeen definizioa.
+    // Block for moving bird in a direction.
     {
       "type": "bird_heading",
       "message0": BlocklyGames.getMsg('Bird.heading', false) + "%1",
@@ -70,7 +64,7 @@ Bird.Blocks.init = function() {
       "tooltip": BlocklyGames.getMsg('Bird.headingTooltip', false),
     },
 
-    // Txoriaren x edo y koordenatuak jasotzeko balio duten blokeen definizioa.
+    // Block for getting bird's x or y position.
     {
       "type": "bird_position",
       "message0": "%1",
@@ -86,7 +80,7 @@ Bird.Blocks.init = function() {
       "tooltip": BlocklyGames.getMsg('Bird.positionTooltip', false),
     },
 
-    // Txoriaren x edo y koordenatuak zenbaki batekin konparatzeko erabiltzen diren blokeen definizioa.
+    // Block for comparing bird's x or y position with a number.
     {
       "type": "bird_compare",
       "message0": `%1%2%3`,
@@ -114,7 +108,7 @@ Bird.Blocks.init = function() {
       "extensions": ["bird_compare_tooltip"],
     },
 
-    // 'and' eragile logikoaren blokearen definizioa.
+    // Block for logical operator 'and'.
     {
       "type": "bird_and",
       "message0": "%1%{BKY_LOGIC_OPERATION_AND}%2",
@@ -137,7 +131,7 @@ Bird.Blocks.init = function() {
       "helpUrl": "%{BKY_LOGIC_OPERATION_HELPURL}",
     },
 
-    // 'if/else' egituraren blokearen definizioa.
+    // Block for 'if/else'.
     {
       "type": "bird_ifElse",
       "message0": "%{BKY_CONTROLS_IF_MSG_IF}%1%{BKY_CONTROLS_IF_MSG_THEN}%2%{BKY_CONTROLS_IF_MSG_ELSE}%3",
@@ -161,7 +155,7 @@ Bird.Blocks.init = function() {
       "helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
     },
 
-    // Zenbakizko balioak adierazten dituzten blokeen definizioa.
+    // Block for numeric value.
     {
       "type": "math_number",
       "message0": "%1",
@@ -186,29 +180,26 @@ Bird.Blocks.init = function() {
           }));
 };
 
-/**
-* Hemendik aurrera, "Blockly" liburutegiko funtzioak erabiltzen dira JSON listako datuak JavaScript kode bihurtzeko eta hauekin beharrezko eragiketak egiteko
-*/
 
 Blockly.JavaScript['bird_noWorm'] = function(block) {
-  // Txoriak zizarea ez edukitzearekin lotura duten baldintzen JavaScript-a sortu.
+  // Generate JavaScript for no worm condition.
   return ['noWorm()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript['bird_heading'] = function(block) {
-  // Txoria mugitzearekin lotutako JavaScript-a sortu.
+  // Generate JavaScript for moving bird in a direction.
   const dir = Number(block.getFieldValue('ANGLE'));
   return `heading(${dir}, 'block_id_${block.id}');\n`;
 };
 
 Blockly.JavaScript['bird_position'] = function(block) {
-  // Txoriaren x edo y koordenatuak lortzearekin lotutako JavaScript-a sortu.
+  // Generate JavaScript for getting bird's x or y position.
   const code = `get${block.getFieldValue('XY').charAt(0)}()`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript['bird_compare'] = function(block) {
-  // Txoriaren x edo y koordenatuak zenbaki batekin alderatzearekin lotutako JavaScript-a sortu.
+  // Generate JavaScript for comparing bird's x or y position with a number.
   const operator = (block.getFieldValue('OP') === 'LT') ? '<' : '>';
   const order = Blockly.JavaScript.ORDER_RELATIONAL;
   const argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
@@ -218,16 +209,16 @@ Blockly.JavaScript['bird_compare'] = function(block) {
 };
 
 Blockly.JavaScript['bird_and'] = function(block) {
-  // 'and' eragile logikoarekin erlazionatutako JavaScript kodea.
+  // Generate JavaScript for logical operator 'and'.
   const order = Blockly.JavaScript.ORDER_LOGICAL_AND;
   let argument0 = Blockly.JavaScript.valueToCode(block, 'A', order);
   let argument1 = Blockly.JavaScript.valueToCode(block, 'B', order);
   if (!argument0 && !argument1) {
-    // Argumenturik ez badaude, false itzultzen da.
+    // If there are no arguments, then the return value is false.
     argument0 = 'false';
     argument1 = 'false';
   } else {
-    // Argumentu bat soilik falta bada, ez du emaitzan eraginik.
+    // Single missing arguments have no effect on the return value.
     if (!argument0) {
       argument0 = 'true';
     }
@@ -240,7 +231,7 @@ Blockly.JavaScript['bird_and'] = function(block) {
 };
 
 Blockly.JavaScript['bird_ifElse'] = function(block) {
-  // 'if/else' baldintzarekin lotutako JavaScript kodea.
+  // Generate JavaScript for 'if/else' conditional.
   const argument = Blockly.JavaScript.valueToCode(block, 'CONDITION',
                    Blockly.JavaScript.ORDER_NONE) || 'false';
   const branch0 = Blockly.JavaScript.statementToCode(block, 'DO');
@@ -262,7 +253,7 @@ Blockly.Blocks['controls_if'].init = function() {
 };
 
 Blockly.JavaScript['math_number'] = function(block) {
-  // Zenbakizko balioa adierazteko beharrezko JavaScript kodea.
+  // Numeric value.
   const code = Number(block.getFieldValue('NUM'));
   const order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
       Blockly.JavaScript.ORDER_UNARY_NEGATION;
