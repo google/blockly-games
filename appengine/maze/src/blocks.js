@@ -68,6 +68,29 @@ Maze.Blocks.init = function() {
         options[options.length - 1][0] += RIGHT_TURN;
       });
 
+  /**
+   * Atal honetan, JSON objektuez osatutako lista bat sortzen da. Objektu hauetako bakoitzean bloke bat osatzeko beharrezko datuak biltzen dira, hainbat
+   * aldagai erabiliz. Aldagaien esanahiak hauek dira:
+   * type: blokearen identifikatzailea.
+   * message0: blokean idatzita agertuko den textua.
+   * args0: blokeak aldagaiak jasotzen dituenean soilik erabiltzen da. Jasotako aldagaien datuak biltzen dituzten JSON objektuen lista da. Objektuen egitura hau da:
+   *         type: aldagaiaren identifikatzailea.
+   *         name: aldagaiaren izena.
+   *         angle: hautazkoa da. Aldagaiak adierazten duen angelua adierazten du.
+   *         value: hautazkoa da. Aldagaiaren balioa adierazten du.
+   *         options: hautazkoa da. Erabiltzaileari eskeintzen zaizkion aukera desberdinak. Bikotetan adierazten dira, lehenengoa blokean idatzita agertzen den ikurra eta bigarrena ikurrari lotutako balioa izanik.
+   *         check: hautazkoa da. Jasotako balioari ezartzen zaion baldintza. Adibidez 'check:number' kasuetan, erabiltzaileak sartutako balioa zenbaki bat dela ziurtatu behar dela esan nahi du.
+   * inputsInLine: args0 existitzen denean soilik erabiltzen den hautazko atala. 'true' balioa ezartzen zaio jaso behar diren aldagai guztiak marra bakarrean adierazteko, bestela aldagai bakoitza marra bakarrean agertzen da. 
+   * output: blokeak balioren bat itzuli behar badu soilik erabiltzen da. Bueltatzen duen balio mota adierazten du.
+   * previousStatement: blokearen aurretik beste blokeak ahal direnean konektatu erabiltzen da. Hasieran 'null' balio du, ez duelako aurretik blokerik konektatuta.
+   * nextStatement: blokearen atzetik beste blokeak ahal direnean konektatu erabiltzen da. Hasieran 'null' balio du, ez duelako atzetik blokerik konektatuta.
+   * colour: blokearen kolorearen HSV balioa.
+   * tooltip: erabiltzaileari blokearen funtzionamendua azaltzeko erabiltzen den textu lagungarria.
+   * helpURL: blokearen funtzionamenduaren inguruko informazio gehigarria duen esteka. Jokoan blokearen gainean arratoiaren eskuineko botoia sakatuta agertzen da.
+   * extensions: blokeari balio gehigarri bat duen beste bloke bat ahal zaionean konektatu erabiltzen da. Atal honen balioak onartzen diren balio gehigarriak adierazten ditu.
+   *
+   */
+  
   Blockly.defineBlocksWithJsonArray([
     // Block for moving forward.
     {
