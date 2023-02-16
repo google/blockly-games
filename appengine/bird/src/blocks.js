@@ -204,6 +204,7 @@ Bird.Blocks.init = function() {
 
 /**
  * Funtzio hauek JSON objektuetatik blokeen informazioa jasotzen dute eta, beharrezko kasuetan, datuekin eragiketak egiten dituzte.
+ * @args JavaScript kode bihurtu behar den blokearen JSON objektua.
  * @returns bi elementuko lista bat. Lehenengo elementua blokean erabiltzen diren aldagaiekin osatutako String bat (code) da (' ' erabiliz banatua),
  *          eta bigarrena egin nahi den eragiketa motarekin lotutako Blockly-ko aldagai bat (order).
  * Blockly-ko aldagaiak honako hauek dira:
