@@ -202,6 +202,25 @@ Bird.Blocks.init = function() {
           }));
 };
 
+/**
+ * Funtzio hauek JSON objektuetatik blokeen informazioa jasotzen dute eta, beharrezko kasuetan, datuekin eragiketak egiten dituzte.
+ * @returns bi elementuko lista bat. Lehenengo elementua blokean erabiltzen diren aldagaiekin osatutako String bat (code) da (' ' erabiliz banatua),
+ *          eta bigarrena egin nahi den eragiketa motarekin lotutako Blockly-ko aldagai bat (order).
+ * Blockly-ko aldagaiak honako hauek dira:
+ *           Blockly.JavaScript.ORDER_FUNCTION_CALL: funtzio gehigarri bati dei egin behar denean erabiltzen dela ematen du. Hau da, blokearen funtzionamendua
+ *                                                   ez da Blockly-k (ez Blockly Games) eskeinitako aukerekin bateragarria eta, ondorioz, JavaScript-a
+ *                                                   sortzeko funtzio gehigarria sortu behar da.
+ *
+ *           Blockly.JavaScript.ORDER_RELATIONAL: blokeak bi aldagai konparatu behar dituenean erabiltzen da. Honek, 'code' atalean zehaztutako konparaketa erabiltzen du.
+ *                                                Konparaketa hau egokia izateko "aldagai1" + ' ' + "konparatzailea" + ' ' + "aldagai2" formatua jarraitu behar da 'code' aldagaiean.
+ *
+ *           Blockly.JavaScript.ORDER_LOGICAL_AND: bloketik lortutako kodean 'AND' logikoa erabili behar denean erabiltzen da. Gainera, hau erabili ezkero, 'code' aldagaiaren formatua
+ *                                                 honako hau izan behar da: "aldagai1" + ' ' + "&&" + ' ' + "aldagai2"
+ *
+ *           Blockly.JavaScript.ORDER_ATOMIC: bloketik lortutako aldagai bat gorde behar denean erabiltzen da (gero beste blokeren batekin lotzean erabiltzeko).
+ *           Blockly.JavaScript.ORDER_UNARY_NEGATION: bloketik lortutako zenbaki bati zeinua aldatu nahi zaionean erabiltzen da. Zeinua aldatu ondoren, aurreko kasuan bezala,
+ *                                                    aldagai berria gordetzen du.
+*/
 
 Blockly.JavaScript['bird_noWorm'] = function(block) {
   // Generate JavaScript for no worm condition.
