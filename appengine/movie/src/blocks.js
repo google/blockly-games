@@ -153,6 +153,21 @@ Movie.Blocks.init = function() {
   ]);
 };
 
+/**
+ * Funtzio hauek JSON objektuetatik blokeen informazioa jasotzen dute eta, beharrezko kasuetan, datuekin eragiketak egiten dituzte.
+ * @args JavaScript kode bihurtu behar den blokearen JSON objektua.
+ * @returns bloketik lortutako JavaScript kodea, String formatuan.
+ * Blockly-ko aldagaiak honako hauek dira:
+ *           Blockly.JavaScript.ORDER_COMMA: 'valueToCode' funtzioan erabiltzen da. Funtzioak jasotzen duen aldagaia beste aldagaiekin batera erabili behar denean erabiltzen da.
+ *
+ *           Blockly.JavaScript.ORDER_ATOMIC: honekin batera bueltatzen den kodea atomikoa denean erabiltzen da. Hau da, kode horren tartean ezin denean kode gehigarririk txertatu (if-else begiztetan ez bezala, adibidez).
+ *
+ *           Blockly.JavaScript.ORDER_NONE: 'valueToCode' funtzioan erabiltzen da. Funtzioak jasotzen duen aldagaia beste aldagaiekin batera ez denean erabiltzen agertzen da.
+ *
+ * Gainera, 'Blockly.JavaScript.valueToCode(blokea, aldagaia, Blockly.JavaScript.'balioa')' funtzioa esanguratsua da. Honek, jasotako blokearen JSON objektuan aldagaia bilatzen du, eta emandako
+ * Blockly.Javascript.'balioa' moduko aldagaiaren laguntzarekin, aldagaiaren JavaScript kodea sortzen du.
+*/
+
 Blockly.JavaScript['movie_circle'] = function(block) {
   // Generate JavaScript for drawing a circle.
   const x = Blockly.JavaScript.valueToCode(block, 'X',
