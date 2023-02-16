@@ -200,6 +200,14 @@ Maze.Blocks.init = function() {
   ]);
 };
 
+/**
+ * Funtzio hauek JSON objektuetatik blokeen informazioa jasotzen dute eta, beharrezko kasuetan, datuekin eragiketak egiten dituzte.
+ * @returns String bat, blokearekin lotutako JavaScript kodea adierazten duena.
+ * Atal honetan Blockly.JavaScript.statementToCode(blokea, atala) funtzioa agertzen da. Honek, blokearen "type" atala eta String bat jasotzen ditu.
+ * Hauek baliatuz, blokearen JSON objektuan String-aren balio bera duen "name" atal bat bilatzen du. Topatu ezkero, atala duen JSON objektuko (blokearen objektua, edo honen azpiobjekturen bat)
+ * "type" balioa JavaScript kode bihurtzen duela dirudi.
+*/
+
 
 Blockly.JavaScript['maze_moveForward'] = function(block) {
   // Generate JavaScript for moving forward.
