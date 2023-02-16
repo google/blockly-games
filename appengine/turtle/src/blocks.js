@@ -364,6 +364,17 @@ Turtle.Blocks.init = function() {
   ]);
 };
 
+/**
+ * Funtzio hauek JSON objektuetatik blokeen informazioa jasotzen dute eta, beharrezko kasuetan, datuekin eragiketak egiten dituzte.
+ * @args JavaScript kode bihurtu behar den blokearen JSON objektua.
+ * @returns bloketik lortutako JavaScript kodea, String formatuan.
+ * Blockly-ko aldagai hau erabili daiteke:
+ *           Blockly.JavaScript.ORDER_COMMA: 'valueToCode' funtzioan erabiltzen da. Funtzioak jasotzen duen aldagaia beste aldagaiekin batera erabili behar denean erabiltzen da.
+ *
+ * Gainera, 'Blockly.JavaScript.valueToCode(blokea, aldagaia, Blockly.JavaScript.'balioa')' funtzioa esanguratsua da. Honek, jasotako blokearen JSON objektuan aldagaia bilatzen du, eta emandako
+ * Blockly.Javascript.'balioa' moduko aldagaiaren laguntzarekin, aldagaiaren JavaScript kodea sortzen du.
+*/
+
 Blockly.JavaScript['turtle_move'] = function(block) {
   // Generate JavaScript for moving forward or backwards (external distance).
   const value = Blockly.JavaScript.valueToCode(block, 'VALUE',
