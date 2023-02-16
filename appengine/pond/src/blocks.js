@@ -10,6 +10,8 @@
  */
 'use strict';
 
+//HAU FITXATEGI ZAHAR BAT DA. BLOKEEN KODEA appengine/src/js-blocks.js FITXATEGIAN TOPA DAITEKE. 
+
 goog.provide('Pond.Blocks');
 
 goog.require('Blockly');
