@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Malikxan",
 			"Nodirbek",
 			"Sociologist"
 		]
@@ -107,5 +108,6 @@
 	"Bird.heading": "sarlavha",
 	"Bird.noWormTooltip": "Qush chuvalchangni olmagan holat.",
 	"Bird.headingTooltip": "Berilgan burchak yo'nalishi bo'yicha harakatlaning: 0 o'ngga, 90 to'g'ri yuqoriga va hk.",
-	"Pond.targetName": "Nishon"
+	"Pond.targetName": "Nishon",
+	"Gallery": "Galereya"
 }
