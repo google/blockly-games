@@ -2,7 +2,7 @@
 # Definitions
 ##############################
 
-REQUIRED_BINS = svn wget java python sed
+REQUIRED_BINS = svn wget java python3 sed
 
 ##############################
 # Rules
@@ -11,42 +11,42 @@ REQUIRED_BINS = svn wget java python sed
 all: deps games
 
 index: common
-	python build/compress.py index
+	python3 build/compress.py index
 
 puzzle: common
-	python build/compress.py puzzle
+	python3 build/compress.py puzzle
 
 maze: common
-	python build/compress.py maze
+	python3 build/compress.py maze
 
 bird: common
-	python build/compress.py bird
+	python3 build/compress.py bird
 
 turtle: common
-	python build/compress.py turtle
+	python3 build/compress.py turtle
 
 movie: common
-	python build/compress.py movie
+	python3 build/compress.py movie
 
 music: common
-	python build/compress.py music
+	python3 build/compress.py music
 
 pond-tutor: common
-	python build/compress.py pond/tutor
+	python3 build/compress.py pond/tutor
 
 pond-duck: common
-	python build/compress.py pond/duck
+	python3 build/compress.py pond/duck
 
 gallery: common
-	python build/compress.py gallery
+	python3 build/compress.py gallery
 
 games: index puzzle maze bird turtle movie music pond-tutor pond-duck gallery
 
 common:
 	@echo "Converting messages.js to JSON for Translatewiki."
-	python build/messages_to_json.py
+	python3 build/messages_to_json.py
 	@echo "Converting JSON from Translatewiki to message files."
-	python build/json_to_js.py
+	python3 build/json_to_js.py
 	@echo
 
 deps:
