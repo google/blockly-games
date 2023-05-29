@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Abijeet Patro",
 			"AnupamM",
 			"Bl707",
 			"Phoenix303",
@@ -169,5 +170,6 @@
 	"Music.galleryMsg": "गैलरी देखें",
 	"Music.submitTooltip": "अपने संगीत को गैलरी में जमा करें।",
 	"Pond.playerName": "खिलाड़ी",
-	"Pond.targetName": "लक्ष्य"
+	"Pond.targetName": "लक्ष्य",
+	"Gallery": "गैलरी"
 }
