@@ -24,6 +24,7 @@ import cgi
 from gallery_api import *
 
 
+print("Access-Control-Allow-Origin: https://blockly.games")
 print("Content-Type: text/plain\n")
 forms = cgi.FieldStorage()
 record_id = int(forms["key"].value)

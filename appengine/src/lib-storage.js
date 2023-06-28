@@ -86,7 +86,7 @@ BlocklyStorage.makeRequest =
     }
     BlocklyStorage.xhrs_.delete(url);
   };
-  xhr.open(method, url);
+  xhr.open(method, 'https://blockly-games.appspot.com' + url);
   if (method === 'POST') {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   }

@@ -42,6 +42,7 @@ isAdmin = (app == "admin")
 if isAdmin and not users.is_current_user_admin():
   print("Status: 401 Unauthorized")
 else:
+  print("Access-Control-Allow-Origin: https://blockly.games")
   print("Content-Type: text/plain\n")
 
   if isAdmin:

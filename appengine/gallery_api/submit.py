@@ -25,6 +25,7 @@ import storage
 from gallery_api import *
 
 
+print("Access-Control-Allow-Origin: https://blockly.games")
 print("Content-Type: text/plain\n")
 forms = cgi.FieldStorage()
 xml = forms["xml"].value
