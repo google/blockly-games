@@ -171,7 +171,7 @@ BlocklyGames.errorReporter_ = function(event) {
         `${event.message} ${event.filename} ${event.lineno}:${event.colno}`;
     const params = "error=" + encodeURIComponent(report) +
         '&amp;url=' + encodeURIComponent(window.location);
-    req.open("POST", "/errorReporter");
+    req.open('POST', 'https://blockly-games.appspot.com/errorReporter');
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(params);
     console.log('Error reported.');
@@ -285,11 +285,6 @@ BlocklyGames.init = function(title) {
   if (viewport && screen.availWidth < 725) {
     viewport.setAttribute('content',
         'width=725, initial-scale=.35, user-scalable=no');
-  }
-
-  // Lazy-load Google Analytics.
-  if (!BlocklyGames.IS_HTML) {
-    setTimeout(BlocklyGames.importAnalytics3_, 1);
   }
 };
 
@@ -413,30 +408,4 @@ BlocklyGames.esc = function(text) {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
-};
-
-/**
- * Load Google Analytics 3 (UA).
- * Delete this on July 1, 2023.
- * @private
- */
-BlocklyGames.importAnalytics3_ = function() {
-  const gaName = 'GoogleAnalyticsFunction';
-  window['GoogleAnalyticsObject'] = gaName;
-  /**
-   * Load command onto Google Analytics queue.
-   * @param {...string} var_args Commands.
-   */
-  const gaObject = function(var_args) {
-    (gaObject['q'] = gaObject['q'] || []).push(arguments);
-  };
-  window[gaName] = gaObject;
-  gaObject['l'] = 1 * new Date();
-  const script = document.createElement('script');
-  script.async = 1;
-  script.src = '//www.google-analytics.com/analytics.js';
-  document.head.appendChild(script);
-
-  gaObject('create', 'UA-50448074-1', 'auto');
-  gaObject('send', 'pageview');
 };

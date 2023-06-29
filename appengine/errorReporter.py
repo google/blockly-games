@@ -25,6 +25,7 @@ import logging
 
 
 if __name__ == "__main__":
+  print("Access-Control-Allow-Origin: https://blockly.games")
   print("Content-Type: text/plain\n")
   forms = cgi.FieldStorage()
   if ("error" in forms) and ("url" in forms):

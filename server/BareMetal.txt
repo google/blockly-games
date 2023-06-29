@@ -3,24 +3,32 @@ How to set up a dedicated Blockly Games server from scratch.
 1. Provision a Linux server.  This document will assume a Debian distro running
 on Google Cloud, but any system will do.
 
-2. SSH to the server.  Issue the following commands:
+2. Use a Bcrypt generator to encrypt the admin password.
+e.g. https://bcrypt-generator.com/
+Use this encrypted password in the 'XXXXXXX...' below.
+
+3. SSH to the server.  Issue the following commands:
 > sudo apt-get update
 > sudo apt-get upgrade
-> sudo apt-get install nginx
-> sudo apt-get install git
 > sudo apt-get install make
+> sudo apt-get install git
 > sudo apt-get install subversion
 > sudo apt-get install default-jre
+> sudo apt-get install nginx
 > sudo apt-get install awstats
-
 > sudo ln -s /usr/bin/python3 /usr/bin/python
+
 > sudo useradd -s /bin/bash -m bg-user
 > sudo su - bg-user
->   git clone https://github.com/google/blockly-games.git
+>   echo 'admin:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' >> .htpasswd
+>   history -c
+>   chmod o-r .htpasswd
+>   git clone -b server-migration https://github.com/google/blockly-games.git
 >   cd blockly-games
 >   make
->   mv
+>   make deploy
 >   exit
+> sudo chgrp www-data /home/bg-user/.htpasswd
 > sudo rm /etc/nginx/sites-enabled/default
 > sudo cp ~bg-user/blockly-games/server/blocklygames.conf /etc/nginx/sites-enabled/
 > sudo nginx -s reload

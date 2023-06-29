@@ -79,6 +79,11 @@ deps:
 	  --js_output_file server/html/third-party/JS-Interpreter/compressed.js
 	rm server/html/third-party/JS-Interpreter/interpreter_.js
 
+deploy:
+	rm -rf html
+	cp -R server/html ../html
+  gzip --best ../html/{*,*/*,*/*/*,*/*/*/*,*/*/*/*/*,*/*/*/*/*/*}.{css,js,html,svg,txt}
+
 offline: clean-offline
 	mkdir offline
 	cp -R server/html offline/blockly-games
