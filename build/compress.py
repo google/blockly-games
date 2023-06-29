@@ -44,15 +44,15 @@ blocklyGamesMessageNames = []
 
 def main(gameName):
   print('Compressing %s' % gameName.title())
-  if not os.path.exists('appengine/%s/generated' % gameName):
-    os.mkdir('appengine/%s/generated' % gameName)
+  if not os.path.exists('server/html/%s/generated' % gameName):
+    os.mkdir('server/html/%s/generated' % gameName)
   generate_uncompressed(gameName)
   generate_compressed(gameName)
   filterMessages(gameName)
 
   # Extract the list of supported languages from boot.js.
   # This is a bit fragile.
-  boot = open('appengine/common/boot.js', 'r')
+  boot = open('server/html/common/boot.js', 'r')
   js = ' '.join(boot.readlines())
   boot.close()
   m = re.search('\[\'BlocklyGamesLanguages\'\] = (\[[-,\'\\s\\w]+\])', js)
@@ -71,7 +71,7 @@ def filterMessages(gameName):
   global blocklyMessageNames, blocklyGamesMessageNames
   # Identify all the Blockly messages used.
   # Load the compiled game.
-  f = open('appengine/%s/generated/compressed.js' % gameName, 'r')
+  f = open('server/html/%s/generated/compressed.js' % gameName, 'r')
   js = f.read()
   f.close()
   # Load any language file (they all should have the same keys).
@@ -95,7 +95,7 @@ def filterMessages(gameName):
 
 def getMessages(lang):
   # Read all messages for this language.
-  blocklyMsgFileName = 'appengine/generated/msg/%s.js' % lang
+  blocklyMsgFileName = 'server/html/generated/msg/%s.js' % lang
   f = open(blocklyMsgFileName, 'r')
   msgs = f.readlines()
   f.close()
@@ -118,9 +118,9 @@ def language(gameName, lang):
       # Blockly Games message names contain dots, quotes required.
       bgMsgs.append('"%s":%s' % (m.group(1), m.group(2)))
 
-  if not os.path.exists('appengine/%s/generated/msg' % gameName):
-    os.mkdir('appengine/%s/generated/msg' % gameName)
-  f = open('appengine/%s/generated/msg/%s.js' % (gameName, lang), 'w')
+  if not os.path.exists('server/html/%s/generated/msg' % gameName):
+    os.mkdir('server/html/%s/generated/msg' % gameName)
+  f = open('server/html/%s/generated/msg/%s.js' % (gameName, lang), 'w')
   f.write(WARNING)
   if bMsgs:
     f.write('var BlocklyMsg={%s}\n' % ','.join(bMsgs))
@@ -131,17 +131,17 @@ def language(gameName, lang):
 
 def generate_uncompressed(gameName):
   cmd = ['third-party/closurebuilder/closurebuilder.py',
-      '--root=appengine/third-party/',
-      '--root=appengine/generated/',
-      '--root=appengine/src/',
+      '--root=server/html/third-party/',
+      '--root=server/html/generated/',
+      '--root=server/html/src/',
       '--exclude=',
       '--namespace=%s' % gameName.replace('/', '.').title()]
   directory = gameName
   while directory:
-    subdir = 'appengine/%s/generated/' % directory
+    subdir = 'server/html/%s/generated/' % directory
     if os.path.isdir(subdir):
       cmd.append('--root=%s' % subdir)
-    subdir = 'appengine/%s/src/' % directory
+    subdir = 'server/html/%s/src/' % directory
     if os.path.isdir(subdir):
       cmd.append('--root=%s' % subdir)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
@@ -155,7 +155,7 @@ def generate_uncompressed(gameName):
     path = '../'
   else:
     path = ''
-  prefix = 'appengine/'
+  prefix = 'server/html/'
   srcs = []
   for file in files:
     file = file.strip()
@@ -164,7 +164,7 @@ def generate_uncompressed(gameName):
     else:
       raise Exception('"%s" is not in "%s".' % (file, prefix))
     srcs.append('"%s%s"' % (path, file))
-  f = open('appengine/%s/generated/uncompressed.js' % gameName, 'w')
+  f = open('server/html/%s/generated/uncompressed.js' % gameName, 'w')
   f.write("""%s
 window.CLOSURE_NO_DEPS = true;
 
@@ -203,15 +203,15 @@ def generate_compressed(gameName):
     '--externs', 'externs/svg-externs.js',
     #'--language_in', 'STABLE',
     '--language_out', 'ECMASCRIPT5',
-    '--entry_point=appengine/%s/src/main' % gameName,
-    "--js='appengine/third-party/base.js'",
-    "--js='appengine/third-party/blockly/**.js'",
-    "--js='appengine/src/*.js'",
+    '--entry_point=server/html/%s/src/main' % gameName,
+    "--js='server/html/third-party/base.js'",
+    "--js='server/html/third-party/blockly/**.js'",
+    "--js='server/html/src/*.js'",
     '--warning_level', 'QUIET',
   ]
   directory = gameName
   while directory:
-    cmd.append("--js='appengine/%s/src/*.js'" % directory)
+    cmd.append("--js='server/html/%s/src/*.js'" % directory)
     (directory, sep, fragment) = directory.rpartition(os.path.sep)
   try:
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
@@ -223,7 +223,7 @@ def generate_compressed(gameName):
   script = trim_licence(script)
   print('Compressed to %d KB.' % (len(script) / 1024))
 
-  f = open('appengine/%s/generated/compressed.js' % gameName, 'w')
+  f = open('server/html/%s/generated/compressed.js' % gameName, 'w')
   f.write(WARNING)
   f.write(script)
   f.close()

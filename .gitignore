@@ -1,10 +1,10 @@
 .DS_Store
 *.pyc
 
-appengine/generated/
-appengine/*/generated/
-appengine/*/*/generated/
-appengine/third-party/
+server/html/generated/
+server/html/*/generated/
+server/html/*/*/generated/
+server/html/third-party/
 build/third-party-downloads/
 /offline
 /node_modules

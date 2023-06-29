@@ -37,13 +37,13 @@ def main():
                       default='en',
                       help='Missing translations will come from this language.')
   parser.add_argument('--blockly_msg_dir',
-                      default=os.path.join('appengine', 'third-party', 'blockly', 'msg', 'json'),
+                      default=os.path.join('server', 'html', 'third-party', 'blockly', 'msg', 'json'),
                       help='Relative directory for Blockly\'s message .json files.')
   parser.add_argument('--blocklygames_msg_dir',
                       default='json',
                       help='Relative directory for Blockly Games\' message .json files.')
   parser.add_argument('--output_dir',
-                      default=os.path.join('appengine', 'generated', 'msg'),
+                      default=os.path.join('server', 'html', 'generated', 'msg'),
                       help='Relative directory for output .js files.')
   args = parser.parse_args()
   if not args.blockly_msg_dir.endswith(os.path.sep):
