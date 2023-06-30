@@ -15,21 +15,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Log a reported error using App Engine.
+"""Log a reported client-side error.
 """
 
 __author__ = "fraser@google.com (Neil Fraser)"
 
 import cgi
 import logging
+logging.basicConfig(filename='../javascript.log', encoding='utf-8',
+                    format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-
-if __name__ == "__main__":
-  print("Access-Control-Allow-Origin: https://blockly.games")
-  print("Content-Type: text/plain\n")
-  forms = cgi.FieldStorage()
-  if ("error" in forms) and ("url" in forms):
-    logging.error(forms["error"].value + '\nURL: ' + forms["url"].value)
-    print("Error logged.")
-  else:
-    print("Missing 'error' or 'url' param.")
+print("Content-Type: text/plain\n")
+forms = cgi.FieldStorage()
+if ("error" in forms) and ("url" in forms):
+  logging.error(forms["error"].value + '\nURL: ' + forms["url"].value + '\n')
+  print("Error logged.")
+else:
+  print("Missing 'error' or 'url' param.")

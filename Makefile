@@ -80,9 +80,16 @@ deps:
 	rm server/html/third-party/JS-Interpreter/interpreter_.js
 
 deploy:
-	rm -rf html
+	rm -rf ../html
 	cp -R server/html ../html
-  gzip --best ../html/{*,*/*,*/*/*,*/*/*/*,*/*/*/*/*,*/*/*/*/*/*}.{css,js,html,svg,txt}
+	find ../html -type f -name "*.css" -exec gzip --best "{}" \;
+	find ../html -type f -name "*.js" -exec gzip --best "{}" \;
+	find ../html -type f -name "*.html" -exec gzip --best "{}" \;
+	find ../html -type f -name "*.svg" -exec gzip --best "{}" \;
+	find ../html -type f -name "*.txt" -exec gzip --best "{}" \;
+	rm -rf ../scripts
+	cp -R server/scripts ../scripts
+	chmod +x ../scripts/errorReporter.py
 
 offline: clean-offline
 	mkdir offline

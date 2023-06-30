@@ -15,6 +15,7 @@ Use this encrypted password in the 'XXXXXXX...' below.
 > sudo apt-get install subversion
 > sudo apt-get install default-jre
 > sudo apt-get install nginx
+> sudo apt-get install fcgiwrap
 > sudo apt-get install awstats
 > sudo ln -s /usr/bin/python3 /usr/bin/python
 
@@ -23,12 +24,14 @@ Use this encrypted password in the 'XXXXXXX...' below.
 >   echo 'admin:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' >> .htpasswd
 >   history -c
 >   chmod o-r .htpasswd
+>   touch javascript.log
 >   git clone -b server-migration https://github.com/google/blockly-games.git
 >   cd blockly-games
 >   make
 >   make deploy
 >   exit
 > sudo chgrp www-data /home/bg-user/.htpasswd
+> sudo chown www-data /home/bg-user/javascript.log
 > sudo rm /etc/nginx/sites-enabled/default
 > sudo cp ~bg-user/blockly-games/server/blocklygames.conf /etc/nginx/sites-enabled/
 > sudo nginx -s reload

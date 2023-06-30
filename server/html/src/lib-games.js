@@ -171,7 +171,7 @@ BlocklyGames.errorReporter_ = function(event) {
         `${event.message} ${event.filename} ${event.lineno}:${event.colno}`;
     const params = "error=" + encodeURIComponent(report) +
         '&amp;url=' + encodeURIComponent(window.location);
-    req.open('POST', 'https://blockly-games.appspot.com/errorReporter');
+    req.open('POST', '/scripts/errorReporter.py');
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(params);
     console.log('Error reported.');
