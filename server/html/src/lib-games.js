@@ -169,8 +169,8 @@ BlocklyGames.errorReporter_ = function(event) {
     // otherwise, use standard properties.
     const report = (event.error && event.error.stack) ||
         `${event.message} ${event.filename} ${event.lineno}:${event.colno}`;
-    const params = "error=" + encodeURIComponent(report) +
-        '&amp;url=' + encodeURIComponent(window.location);
+    const params = "error=" + encodeURIComponent(report.trim()) +
+        '&url=' + encodeURIComponent(window.location);
     req.open('POST', '/scripts/errorReporter.py');
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(params);

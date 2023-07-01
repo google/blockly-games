@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Blockly Games: Error Reporter
 
 Copyright 2021 Google LLC
@@ -28,7 +29,7 @@ logging.basicConfig(filename='../javascript.log', encoding='utf-8',
 print("Content-Type: text/plain\n")
 forms = cgi.FieldStorage()
 if ("error" in forms) and ("url" in forms):
-  logging.error(forms["error"].value + '\nURL: ' + forms["url"].value + '\n')
+  logging.error(forms["url"].value + '\n' + forms["error"].value + '\n')
   print("Error logged.")
 else:
   print("Missing 'error' or 'url' param.")

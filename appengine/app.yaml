@@ -10,11 +10,6 @@ handlers:
   script: storage.py
   secure: always
 
-# Error reporting.
-- url: /errorReporter
-  script: errorReporter.py
-  secure: always
-
 # Gallery API.
 - url: /gallery-api/submit
   script: gallery_api/submit.py
