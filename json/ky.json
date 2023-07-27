@@ -1,9 +1,13 @@
 {
 	"@metadata": {
-		"authors": []
+		"authors": [
+			"Bosogo"
+		]
 	},
 	"Games.puzzle": "Баш катырма.",
 	"Games.help": "Жардам",
+	"Games.catLists": "Тизмелер",
+	"Games.listVariable": "тизме",
 	"Puzzle.legsChoose": "тандаңыз...",
 	"Puzzle.error0": "Мыкты!\nБардык блоктор %1 туура жайгашкан.",
 	"Puzzle.error1": "Аз калды!\nБир блок гана туура эмес жайгашкан.",
