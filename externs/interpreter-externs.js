@@ -28,6 +28,16 @@ Interpreter.Value;
 Interpreter.State = function(node, scope) {};
 
 /**
+ * Class for a scope.
+ * @param {Interpreter.Scope} parentScope Parent scope.
+ * @param {boolean} strict True if "use strict".
+ * @param {!Interpreter.Object} object Object containing scope's variables.
+ * @struct
+ * @constructor
+ */
+Interpreter.Scope = function(parentScope, strict, object) {};
+
+/**
  * Class for an object.
  * @param {Interpreter.Object} proto Prototype object or null.
  * @constructor

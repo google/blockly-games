@@ -56,7 +56,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.music', true), '', 
       </svg>
     </td>
     <td style="width: 15px;">
-      <img id="spinner" style="visibility: hidden;" src="common/loading.gif" height=15 width=15>
+      <img id="spinner" style="visibility: hidden;" src="common/loading.gif" loading="lazy" height=15 width=15>
     </td>
     <td style="width: 190px; text-align: center">
       <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
