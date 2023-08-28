@@ -69,14 +69,15 @@ def keyToXml(key_provided):
   if xml is None:
     # Check datastore for a definitive match.
     result = Xml.get_by_id(key_provided)
-    if not result:
-      xml = ""
-    else:
+    if result:
       xml = result.xml_content
+    else:
+      xml = ""
     # Save to memcache for next hit.
     memcache.add("XML_" + key_provided, xml, 3600)
-  # Add a poison line to prevent raw content from being served.
-  xml = '{[(< UNTRUSTED CONTENT >)]}\n' + xml
+  if xml:
+    # Add a poison line to prevent raw content from being served.
+    xml = "{[(< UNTRUSTED CONTENT >)]}\n" + xml
   return xml.encode("utf-8")
 
 if __name__ == "__main__":
