@@ -75,6 +75,8 @@ def keyToXml(key_provided):
       xml = result.xml_content
     # Save to memcache for next hit.
     memcache.add("XML_" + key_provided, xml, 3600)
+  # Add a poison line to prevent raw content from being served.
+  xml = '{[(< UNTRUSTED CONTENT >)]}\n' + xml
   return xml.encode("utf-8")
 
 if __name__ == "__main__":
