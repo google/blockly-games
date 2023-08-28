@@ -2,7 +2,7 @@
 # Definitions
 ##############################
 
-REQUIRED_BINS = svn wget java python sed
+REQUIRED_BINS = svn wget java python
 
 ##############################
 # Rules
@@ -68,16 +68,13 @@ deps:
 	cp -R third-party/soundfonts server/html/third-party/
 
 	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ server/html/third-party/JS-Interpreter
-	@# Remove @license tag so compiler will strip Google's license.
-	sed 's/@license//' server/html/third-party/JS-Interpreter/interpreter.js > server/html/third-party/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar build/third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\
 	  --language_in ECMASCRIPT5\
 	  --js server/html/third-party/JS-Interpreter/acorn.js\
-	  --js server/html/third-party/JS-Interpreter/interpreter_.js\
+	  --js server/html/third-party/JS-Interpreter/interpreter.js\
 	  --js_output_file server/html/third-party/JS-Interpreter/compressed.js
-	rm server/html/third-party/JS-Interpreter/interpreter_.js
 
 deploy:
 	rm -rf ../html
