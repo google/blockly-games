@@ -71,7 +71,7 @@ deps:
 	@# Remove @license tag so compiler will strip Google's license.
 	sed 's/@license//' appengine/third-party/JS-Interpreter/interpreter.js > appengine/third-party/JS-Interpreter/interpreter_.js
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
-	C:\Users\34688\Downloads\jre-11.0.19\bin\java -jar build/third-party-downloads/closure-compiler.jar\
+	java -jar build/third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\
 	  --language_in ECMASCRIPT5\
 	  --js appengine/third-party/JS-Interpreter/acorn.js\

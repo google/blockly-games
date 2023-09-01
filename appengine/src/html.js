@@ -77,7 +77,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
 BlocklyGames.html.titleSpan_ = function(ij, appName) {
   return `
 <span id="title">
-  <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}">${BlocklyGames.getMsg('Games.name', true)}</a> : ${appName}
+  ${BlocklyGames.getMsg('Games.name', true)} : ${appName}
 </span>
 `;
 };
@@ -130,10 +130,10 @@ BlocklyGames.html.doneDialog = function() {
   <div style="font-size: large; margin: 1em;">${BlocklyGames.getMsg('Games.congratulations', true)}</div>
   <div id="dialogLinesText" style="font-size: large; margin: 1em;"></div>
   <pre id="containerCode"></pre>
-  <div id="dialogDoneText" style="font-size: large; margin: 1em;"></div>
+  <div id="dialogDoneText" hidden style="font-size: large; margin: 1em;"></div>
   <div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0">
     <button class="addHideHandler">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
-    <button id="doneOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
+    <button hidden id="doneOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
   </div>
 </div>
 `;

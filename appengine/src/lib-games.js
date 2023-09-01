@@ -221,7 +221,7 @@ BlocklyGames.storageName;
 /**
  * Maximum number of levels.  Common to all apps.
  */
-BlocklyGames.MAX_LEVEL = 10;
+BlocklyGames.MAX_LEVEL = 1;
 
 /**
  * User's level (e.g. 5).
