@@ -43,12 +43,13 @@ BlocklyStorage.link = function() {
 };
 
 /**
- * Retrieve XML text from database using given key.
+ * Retrieve XML/JS text from database using given key.
+ * @param {string} app Name of application ('maze', 'turtle', ...).
  * @param {string} key Key to XML, obtained from href.
  */
-BlocklyStorage.retrieveXml = function(key) {
-  BlocklyStorage.makeRequest('/storage', 'key=' + encodeURIComponent(key),
-      BlocklyStorage.handleRetrieveXmlResponse_);
+BlocklyStorage.retrieveXml = function(app, key) {
+  BlocklyStorage.makeRequest(`/data/${app}/${key}`, '',
+      BlocklyStorage.handleRetrieveXmlResponse_, null, 'GET');
 };
 
 /**
@@ -86,11 +87,17 @@ BlocklyStorage.makeRequest =
     }
     BlocklyStorage.xhrs_.delete(url);
   };
-  xhr.open(method, 'https://blockly-games.appspot.com' + url);
   if (method === 'POST') {
+    xhr.open(method, url);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+  } else {
+    if (data) {
+      url += '?' + data;
+    }
+    xhr.open(method, url);
+    xhr.send();
   }
-  xhr.send(data);
 };
 
 /**

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blockly Games: Form Test Page</title>
+    <link rel="stylesheet" href="../common/common.css">
+    <style>
+      body {
+        background-image: url("stripes.svg");
+        background-repeat: repeat-y;
+        padding: 1em 8em;
+      }
+      h2 {
+        font-weight: normal;
+      }
+      input[type="text"] {
+        width: 40em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><a class="back" href="../">Blockly Games</a> : <a class="back" href="./">Admin</a> : Form Test Page</h1>
+
+    <h2>/scripts/storage.py</h2>
+    <form action="/scripts/storage.py" method="post">
+      <table>
+        <tr>
+          <td>app:</td>
+          <td><input type="text" name="app" placeholder="maze"></td>
+        </tr>
+        <tr>
+          <td>data:</td>
+          <td><input type="text" name="data" placeholder="Hello world!"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="Store"></td>
+        </tr>
+      </table>
+    </form>
+
+    <h2>/scripts/errorReporter.py</h2>
+    <form action="/scripts/errorReporter.py" method="post">
+      <table>
+        <tr>
+          <td>url:</td>
+          <td><input type="text" name="url" placeholder="" id="urlInput"></td>
+        </tr>
+        <tr>
+          <td>error:</td>
+          <td><input type="text" name="error" placeholder="I'm a teapot!"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="Report"></td>
+        </tr>
+      </table>
+    </form>
+    <script>
+      document.getElementById('urlInput').setAttribute('placeholder', location);
+    </script>
+    <script src="../common/back.js"></script>
+  </body>
+</html>

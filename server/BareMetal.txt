@@ -25,6 +25,8 @@ Use this encrypted password in the 'XXXXXXX...' below.
 >   chmod o-r .htpasswd
 >   touch access.log error.log javascript.log
 >   chmod g+w *.log
+>   mkdir -p data/{maze,bird,turtle,movie,music,pond-tutor,pond-duck}
+>   chmod g+w data/*
 >   git clone -b server-migration https://github.com/google/blockly-games.git
 >   cd blockly-games
 >   make
@@ -40,6 +42,7 @@ Use this encrypted password in the 'XXXXXXX...' below.
 >   exit
 > sudo chgrp www-data /home/bg-user/.htpasswd
 > sudo chown www-data /home/bg-user/*.log
+> sudo chown www-data /home/bg-user/data/*
 > sudo chgrp -R www-data /home/bg-user/awstats/
 > sudo chmod -R g+w /home/bg-user/awstats/
 > sudo rm /etc/nginx/sites-enabled/default

@@ -74,10 +74,9 @@ BlocklyGallery.galleryKeyDown_ = function(e) {
  *    successfully.
  * @param {?Function=} opt_onFailure Function to call after request completes
  *    unsuccessfully. Defaults to BlocklyStorage alert of request status.
- * @param {string=} opt_method The HTTP request method to use.  Default to POST.
  */
 BlocklyGallery.makeFormRequest_ =
-    function(form, opt_onSuccess, opt_onFailure, opt_method) {
+    function(form, opt_onSuccess, opt_onFailure) {
   const data = [];
   for (const element of form.elements) {
     if (element.name) {
@@ -86,7 +85,7 @@ BlocklyGallery.makeFormRequest_ =
     }
   }
   BlocklyStorage.makeRequest(
-      form.action, data.join('&'), opt_onSuccess, opt_onFailure, opt_method);
+      form.action, data.join('&'), opt_onSuccess, opt_onFailure);
 };
 
 /**

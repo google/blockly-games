@@ -2,6 +2,7 @@
 # Definitions
 ##############################
 
+SHELL = /bin/bash
 REQUIRED_BINS = svn wget java python
 
 ##############################
@@ -79,14 +80,10 @@ deps:
 deploy:
 	rm -rf ../html
 	cp -R server/html ../html
-	find ../html -type f -name "*.css" -exec gzip --best "{}" \;
-	find ../html -type f -name "*.js" -exec gzip --best "{}" \;
-	find ../html -type f -name "*.html" -exec gzip --best "{}" \;
-	find ../html -type f -name "*.svg" -exec gzip --best "{}" \;
-	find ../html -type f -name "*.txt" -exec gzip --best "{}" \;
 	rm -rf ../scripts
 	cp -R server/scripts ../scripts
 	chmod +x ../scripts/errorReporter.py
+	chmod +x ../scripts/storage.py
 
 offline: clean-offline
 	mkdir offline

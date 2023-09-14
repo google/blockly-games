@@ -87,7 +87,8 @@ BlocklyInterface.init = function(title) {
 BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   if (!BlocklyGames.IS_HTML && window.location.hash.length > 1) {
     // An href with #key triggers an AJAX call to retrieve saved blocks.
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
+    BlocklyStorage.retrieveXml(BlocklyGames.storageName,
+        window.location.hash.substring(1));
     return;
   }
 
