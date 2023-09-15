@@ -29,6 +29,8 @@ from sys import stdin
 from urllib.parse import unquote
 
 
+PATH = "../data/"
+
 # Parse POST data (e.g. a=1&b=2) into a dictionary (e.g. {"a": 1, "b": 2}).
 # Very minimal parser.  Does not combine repeated names (a=1&a=2), ignores
 # valueless names (a&b), does not support isindex or multipart/form-data.
@@ -73,7 +75,7 @@ if __name__ == "__main__":
   app = ""
   if "app" in forms:
     app = forms["app"]
-  dir = "../data/%s/" % app
+  dir = "%s%s/" % (PATH, app)
   data = ""
   if "data" in forms:
     data = forms["data"]

@@ -48,3 +48,16 @@ Use this encrypted password in the 'XXXXXXX...' below.
 > sudo rm /etc/nginx/sites-enabled/default
 > sudo cp ~bg-user/blockly-games/server/blocklygames.conf /etc/nginx/sites-enabled/
 > sudo nginx -s reload
+
+
+Routine maintenance (suggest monthly)
+
+SSH to the server.  Issue the following commands:
+> sudo apt-get update
+> sudo apt-get upgrade
+> sudo su - bg-user
+>   cd blockly-games
+>   git pull
+>   make
+>   make deploy
+>   exit
