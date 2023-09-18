@@ -95,7 +95,7 @@ function setDebug(debug) {
       Tests
     </p>
     <ul>
-      <li><a href="admin/formTestPage.html">Form Test Page</a></li>
+      <li><a class="adminLink" href="/formTestPage.html">Form Test Page</a></li>
     </ul>
   </fieldset>
 
@@ -148,6 +148,17 @@ function setDebug(debug) {
       </div>
     </div>
   </fieldset>
-  <script src="../common/back.js"></script>
+<script>
+(function () {
+  // Change all admin links to use port 8000.
+  adminLinks = document.getElementsByClassName('adminLink');
+  for (var link in adminLinks) {
+    var u = new URL(link.href);
+    u.port = 8000;
+    link.href = u.toString();
+  }
+})();
+</script>
+
 </body>
 </html>

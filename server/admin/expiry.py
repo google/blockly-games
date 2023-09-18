@@ -26,7 +26,7 @@ import time
 
 
 # Data directory.
-PATH = "../../data/"
+PATH = "../data/"
 # Two years.
 AGE = 60*60*24*365*2
 

@@ -80,7 +80,7 @@ function loadMore() {
   }
 
   BlocklyGames.getElementById('loading').style.visibility = 'visible';
-  let url = '/gallery-api/view?app=' + encodeURIComponent(app);
+  let url = '/scripts/gallery-view?app=' + encodeURIComponent(app);
   if (cursor) {
     url += '&cursor=' + encodeURIComponent(cursor);
   }

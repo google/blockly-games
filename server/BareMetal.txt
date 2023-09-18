@@ -61,3 +61,5 @@ SSH to the server.  Issue the following commands:
 >   make
 >   make deploy
 >   exit
+> sudo cp ~bg-user/blockly-games/server/blocklygames.conf /etc/nginx/sites-enabled/
+> sudo nginx -s reload
