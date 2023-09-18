@@ -60,7 +60,7 @@ def storeData(dir, data):
 
   # Hash the content and generate a key.
   binary_data = data.encode("UTF-8")
-  hash = hashlib.sha1(binary_data).hexdigest()
+  hash = hashlib.sha256(binary_data).hexdigest()
   key = keyGen(hash)
 
   # Save the data to a file.
@@ -76,7 +76,7 @@ if __name__ == "__main__":
   if "app" in forms:
     app = forms["app"]
   dir = "%s%s/" % (PATH, app)
-  data = ""
+  data = None
   if "data" in forms:
     data = forms["data"]
   method = ""
@@ -92,6 +92,10 @@ if __name__ == "__main__":
     # Don't try saving to "../../etc/passwd"
     print("Status: 406 Not Acceptable\n")
     print("That is not a valid directory.")
+  elif data == None:
+    # No data param.
+    print("Status: 406 Not Acceptable\n")
+    print("No data.")
   elif not os.path.exists(dir):
     # Don't try saving to a new directory.
     print("Status: 406 Not Acceptable\n")
