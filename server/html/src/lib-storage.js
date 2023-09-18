@@ -40,7 +40,7 @@ BlocklyStorage.link = function() {
   const code = BlocklyStorage.getCode();
   BlocklyStorage.makeRequest('/scripts/storage.py',
       'app=' + encodeURIComponent(BlocklyGames.storageName) +
-      '&xml=' + encodeURIComponent(code),
+      '&data=' + encodeURIComponent(code),
       BlocklyStorage.handleLinkResponse_);
 };
 
