@@ -151,8 +151,8 @@ function setDebug(debug) {
 <script>
 (function () {
   // Change all admin links to use port 8000.
-  adminLinks = document.getElementsByClassName('adminLink');
-  for (var link in adminLinks) {
+  var adminLinks = document.getElementsByClassName('adminLink');
+  for (var i = 0, link; link = adminLinks[i]; i++) {
     var u = new URL(link.href);
     u.port = 8000;
     link.href = u.toString();
