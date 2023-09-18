@@ -96,7 +96,7 @@ Music.html.gallery_ = function(lang) {
     <td style="text-align: center;">
       <form action="/gallery" target="music-gallery">
         <input type="hidden" name="app" value="music">
-        <input type="hidden" name="lang" value="${ij.lang}">
+        <input type="hidden" name="lang" value="${lang}">
         <button type="submit" title="${BlocklyGames.getMsg('Music.galleryTooltip', true)}">
           <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Music.galleryMsg', true)}
         </button>
