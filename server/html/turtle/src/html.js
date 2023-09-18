@@ -439,7 +439,7 @@ Turtle.html.helpDialogs_ = function(level, isHtml) {
     case 4:
       content = BlocklyGames.getMsg('Turtle.helpText4a', true) +
           '<div id="sampleHelp4" class="readonly"></div>' +
-      BlocklyGames.getMsg('Turtle.helpText4a', true);
+      BlocklyGames.getMsg('Turtle.helpText4b', true);
       break;
     case 5:
       content = BlocklyGames.getMsg('Turtle.helpText5', true);
