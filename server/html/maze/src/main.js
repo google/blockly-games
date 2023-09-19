@@ -425,7 +425,7 @@ function init() {
        skin: SKIN_ID,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.getMsg('Games.maze', false));
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.maze', true));
 
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');

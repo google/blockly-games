@@ -235,7 +235,7 @@ BlocklyGames.LEVEL =
  * @param {string} title Text for the page title.
  */
 BlocklyGames.init = function(title) {
-  document.title = BlocklyGames.getMsg('Games.name', false) +
+  document.title = BlocklyGames.getMsg('Games.name', true) +
       (title && ' : ') + title;
 
   // Set the HTML's language and direction.

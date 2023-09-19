@@ -24,6 +24,9 @@ body {
 #help {
   overflow: hidden;
 }
+#help>div:first-child {
+  padding-bottom: 0.7ex;
+}
 
 #sample {
   height: 205px;

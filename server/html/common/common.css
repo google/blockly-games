@@ -169,6 +169,13 @@ button:hover:not(:disabled) {
   margin-left: 1em;
   margin-right: 1em;
 }
+#dialogDone>large {
+  font-size: large;
+  margin: 1em;
+}
+.farSideButtons {
+  padding: 1ex 3ex 0;
+}
 
 /* Sprited icons. */
 .icon21 {

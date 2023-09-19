@@ -29,7 +29,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.puzzle', true), '',
 
 ${BlocklyGames.html.dialog()}
 <div id="help" class="dialogHiddenContent">
-  <div style="padding-bottom: 0.7ex">${BlocklyGames.getMsg('Puzzle.helpText', true)}</div>
+  <div>${BlocklyGames.getMsg('Puzzle.helpText', true)}</div>
   <div id="sample" class="readonly"></div>
   ${BlocklyGames.html.ok()}
 </div>

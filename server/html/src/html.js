@@ -127,11 +127,11 @@ BlocklyGames.html.dialog = function() {
 BlocklyGames.html.doneDialog = function() {
   return `
 <div id="dialogDone" class="dialogHiddenContent">
-  <div style="font-size: large; margin: 1em;">${BlocklyGames.getMsg('Games.congratulations', true)}</div>
-  <div id="dialogLinesText" style="font-size: large; margin: 1em;"></div>
+  <div class="large">${BlocklyGames.getMsg('Games.congratulations', true)}</div>
+  <div id="dialogLinesText" class="large"></div>
   <pre id="containerCode"></pre>
-  <div id="dialogDoneText" style="font-size: large; margin: 1em;"></div>
-  <div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0">
+  <div id="dialogDoneText" class="large"></div>
+  <div id="dialogDoneButtons" class="farSide farSideButtons">
     <button class="addHideHandler">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
     <button id="doneOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
   </div>
@@ -147,7 +147,7 @@ BlocklyGames.html.abortDialog = function() {
   return `
 <div id="dialogAbort" class="dialogHiddenContent">
   ${BlocklyGames.getMsg('Games.helpAbort', true)}
-  <div class="farSide" style="padding: 1ex 3ex 0">
+  <div class="farSide farSideButtons">
     <button class="addHideHandler">${BlocklyGames.esc(Blockly.Msg['DIALOG_CANCEL'])}</button>
     <button id="abortOk" class="secondary">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
   </div>
@@ -174,7 +174,7 @@ BlocklyGames.html.storageDialog = function() {
  */
 BlocklyGames.html.ok = function() {
   return `
-<div class="farSide" style="padding: 1ex 3ex 0">
+<div class="farSide farSideButtons">
   <button class="secondary addHideHandler">${BlocklyGames.esc(Blockly.Msg['DIALOG_OK'])}</button>
 </div>
 `;

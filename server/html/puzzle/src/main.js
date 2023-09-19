@@ -33,7 +33,7 @@ function init() {
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.getMsg('Games.puzzle', false));
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.puzzle', true));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');

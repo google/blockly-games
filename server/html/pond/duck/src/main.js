@@ -73,7 +73,7 @@ function init() {
       {lang: BlocklyGames.LANG,
        html: BlocklyGames.IS_HTML});
 
-  Pond.init(BlocklyGames.getMsg('Games.pond', false));
+  Pond.init(BlocklyGames.getMsg('Games.pond', true));
 
   // Setup the tabs.
   function tabHandler(selectedIndex) {

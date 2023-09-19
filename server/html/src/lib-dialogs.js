@@ -329,7 +329,7 @@ BlocklyDialogs.getBBox = function(element) {
 /**
  * Display a storage-related modal dialog.
  * @param {?Element} origin Source of dialog opening animation.
- * @param {string} message Text to alert.
+ * @param {string} message Text to alert (possibly with malicious HTML).
  */
 BlocklyDialogs.storageAlert = function(origin, message) {
   const container = BlocklyGames.getElementById('containerStorage');

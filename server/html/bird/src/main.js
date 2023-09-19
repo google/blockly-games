@@ -371,7 +371,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.getMsg('Games.bird', false));
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.bird', true));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');

@@ -136,6 +136,7 @@ BlocklyCode.congratulations = function() {
       pre.innerHTML = code;
     }
     let locMsg;
+    // Safe from HTML injection due to createTextNode below.
     if (lineCount === 1) {
       locMsg = BlocklyGames.getMsg('Games.linesOfCode1', false);
     } else {
@@ -146,6 +147,7 @@ BlocklyCode.congratulations = function() {
   }
 
   let levelMsg;
+  // Safe from HTML injection due to textContent below.
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     levelMsg = BlocklyGames.getMsg('Games.nextLevel', false)
         .replace('%1', String(BlocklyGames.LEVEL + 1));

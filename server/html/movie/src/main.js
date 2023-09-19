@@ -75,7 +75,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  BlocklyInterface.init(BlocklyGames.getMsg('Games.movie', false));
+  BlocklyInterface.init(BlocklyGames.getMsg('Games.movie', true));
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');

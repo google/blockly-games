@@ -41,7 +41,7 @@ function init() {
        maxLevel: BlocklyGames.MAX_LEVEL,
        html: BlocklyGames.IS_HTML});
 
-  Pond.init(BlocklyGames.getMsg('Games.pondTutor', false));
+  Pond.init(BlocklyGames.getMsg('Games.pondTutor', true));
 
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
   if (location.hash.length < 2 &&

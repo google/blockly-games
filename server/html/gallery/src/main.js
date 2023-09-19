@@ -48,7 +48,7 @@ function init() {
       appName + BlocklyGames.getMsg('Gallery', true));
 
   loadMore();
-  BlocklyGames.init(BlocklyGames.getMsg('Gallery', false));
+  BlocklyGames.init(BlocklyGames.getMsg('Gallery', true));
 
   const languageMenu = BlocklyGames.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
