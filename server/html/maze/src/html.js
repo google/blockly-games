@@ -41,19 +41,14 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true),
   </div>
 </div>
 
-<table width=400>
-  <tr>
-    <td style="width: 190px; text-align: center; vertical-align: top;">
-    <td>
-      <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Maze.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
-      </button>
-      <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Maze.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
-      </button>
-    </td>
-  </tr>
-</table>
+<div id="commandDiv">
+  <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Maze.runTooltip', true)}">
+    <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+  </button>
+  <button id="resetButton" class="primary" title="${BlocklyGames.getMsg('Maze.resetTooltip', true)}">
+    <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+  </button>
+</div>
 
 ${Maze.html.toolbox_(ij.level)}
 <div id="blockly"></div>

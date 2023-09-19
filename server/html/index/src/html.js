@@ -52,7 +52,7 @@ Index.html.start = function(ij) {
   </g>
 </svg>
 <select id="languageMenu"></select>
-<p id="clearDataPara" style="visibility: hidden">
+<p id="clearDataPara">
   ${BlocklyGames.getMsg('Index.startOver', true)}
   <button class="secondary" id="clearData">${BlocklyGames.getMsg('Index.clearData', true)}</button>
 </p>

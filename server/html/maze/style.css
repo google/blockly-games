@@ -68,9 +68,9 @@ img[src$="help_down.png"] {
 #look>path {
   display: none;
   fill: none;
-  stroke-width: 10;
   stroke-linecap: round;
   stroke-opacity: .7;
+  stroke-width: 10;
 }
 
 /* Buttons */
@@ -82,6 +82,15 @@ html[dir="RTL"] button.primary {
   text-align: right;
 }
 
+#resetButton {
+  display: none;
+}
+
+#commandDiv {
+  width: 400px;
+  text-align: right;
+}
+
 #pegmanButton {
   padding: 0;
   position: relative;
@@ -90,12 +99,12 @@ html[dir="RTL"] button.primary {
   border: 1px solid #ddd !important;
 }
 #pegmanButton>img {
+  background-position: -980px 0;
   margin-left: -0.5ex;
   margin-right: .5ex;
+  opacity: .8;
   height: 38px;
   width: 49px;
-  background-position: -980px 0;
-  opacity: .8;
 }
 html[dir="RTL"] #pegmanButton>img {
   margin-left: .5ex;
