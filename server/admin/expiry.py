@@ -17,6 +17,7 @@ limitations under the License.
 """
 
 """Delete any record not accessed in a while.
+Can be executed from the web, or from the command line.
 """
 
 __author__ = "fraser@google.com (Neil Fraser)"
@@ -33,6 +34,7 @@ AGE = 60*60*24*365*2
 
 EXPIRY = int(time.time()) - AGE
 
+# Print HTTP header if this is a web request.
 if "REQUEST_METHOD" in os.environ:
   print("Content-Type: text/plain")
   print("Status: 200 OK\n")
@@ -43,7 +45,13 @@ for root, dir_names, file_names in os.walk(PATH):
   print("Scanning %s" % root)
   delete_count = 0
   for name in file_names:
+    if not name.endswith(".blockly"):
+      # Only delete Blockly files.
+      continue
     full_name = root + "/" + name
+    if os.path.exists(full_name[:-len(".blockly")] + ".gallery"):
+      # Don't delete Blockly files that match to a gallery entry.
+      continue
     when = os.path.getatime(full_name)
     if when < EXPIRY:
       os.remove(full_name)

@@ -102,10 +102,19 @@ BlocklyGallery.gallerySubmit_ = function() {
   }
 
   const form = BlocklyGames.getElementById('galleryForm');
+  /**
+   * @this {!XMLHttpRequest}
+   */
   const onSuccess = function() {
     BlocklyDialogs.storageAlert(null,
         BlocklyGames.getMsg('Games.submitted', false));
   };
-  BlocklyGallery.makeFormRequest_(form, onSuccess);
+  /**
+   * @this {!XMLHttpRequest}
+   */
+  const onFailure = function() {
+    console.error(this.responseText);
+  };
+  BlocklyGallery.makeFormRequest_(form, onSuccess, onFailure);
   BlocklyDialogs.hideDialog(true);
 };

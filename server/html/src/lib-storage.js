@@ -50,7 +50,7 @@ BlocklyStorage.link = function() {
  * @param {string} key Key to XML, obtained from href.
  */
 BlocklyStorage.retrieveXml = function(app, key) {
-  BlocklyStorage.makeRequest(`/data/${app}/${key}`, '',
+  BlocklyStorage.makeRequest(`/data/${app}/${key}.blockly`, '',
       BlocklyStorage.handleRetrieveXmlResponse_, null, 'GET');
 };
 
@@ -117,6 +117,7 @@ BlocklyStorage.handleLinkResponse_ = function() {
 /**
  * Callback function for retrieve XML AJAX call.
  * @private
+ * @this {!XMLHttpRequest}
  */
 BlocklyStorage.handleRetrieveXmlResponse_ = function() {
   let data = this.responseText.trim();

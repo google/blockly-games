@@ -111,15 +111,15 @@ Turtle.html.gallery_ = function(lang) {
   </tr>
 </table>
 <div id="galleryDialog" class="dialogHiddenContent">
-    <form id="galleryForm" action="/gallery-api/submit" method="post" onsubmit="return false">
+    <form id="galleryForm" action="/scripts/gallery_submit.py" method="post" onsubmit="return false">
     <header>${BlocklyGames.getMsg('Turtle.submitTooltip', true)}</header>
     <canvas id="thumbnail" width=200 height=200></canvas>
     <input type="hidden" name="app" value="turtle">
     <input id="galleryThumb" type="hidden" name="thumb">
-    <input id="galleryXml" type="hidden" name="xml">
+    <input id="galleryXml" type="hidden" name="data">
     <div>
       ${BlocklyGames.getMsg('Games.submitTitle', true)}
-      <input id="galleryTitle" type="text" name="title" required>
+      <input id="galleryTitle" type="text" name="title" maxlength=32 required>
     </div>
 
     <div class="farSide">

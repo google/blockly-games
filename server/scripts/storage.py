@@ -25,24 +25,7 @@ import hashlib
 import os
 import random
 import re
-from sys import stdin
-from urllib.parse import unquote
-
-
-PATH = "../data/"
-
-# Parse POST data (e.g. a=1&b=2) into a dictionary (e.g. {"a": 1, "b": 2}).
-# Very minimal parser.  Does not combine repeated names (a=1&a=2), ignores
-# valueless names (a&b), does not support isindex or multipart/form-data.
-def parse_post(fp):
-  data = fp.read()
-  parts = data.split("&")
-  dict = {}
-  for part in parts:
-    tuple = part.split("=", 1)
-    if len(tuple) == 2:
-      dict[tuple[0]] = unquote(tuple[1])
-  return dict
+import cgi_utils
 
 
 def keyGen(seed_string):
@@ -54,9 +37,42 @@ def keyGen(seed_string):
   return "".join([CHARS[random.randint(0, max_index)] for x in range(KEY_LEN)])
 
 
-def storeData(dir, data):
+def check(app, data):
+  method = ""
+  if "REQUEST_METHOD" in os.environ:
+    method = os.environ["REQUEST_METHOD"]
+
+  if method != "POST":
+    # GET could be a link.
+    print("Status: 405 Method Not Allowed\n")
+    print("Use POST, not '%s'." % method)
+    return False
+  if not re.match(r"[-\w]+", app):
+    # Don't try saving to "../../etc/passwd"
+    print("Status: 406 Not Acceptable\n")
+    print("That is not a valid directory.")
+    return False
+  if data == None:
+    # No data param.
+    print("Status: 406 Not Acceptable\n")
+    print("No data.")
+    return False
+  if not os.path.exists(cgi_utils.get_dir(app)):
+    # Don't try saving to a new directory.
+    print("Status: 406 Not Acceptable\n")
+    print("That is not a valid app.")
+    return False
+  if len(data) >= 1000000:
+    # One megabyte is too much.
+    print("Status: 413 Payload Too Large\n")
+    print("Your program is too large.")
+    return False
+  return True
+
+
+def store(app, data):
   # Add a poison line to prevent raw content from being served.
-  data = "{[(< UNTRUSTED CONTENT >)]}\n" + data
+  data = cgi_utils.POISON + data
 
   # Hash the content and generate a key.
   binary_data = data.encode("UTF-8")
@@ -64,47 +80,20 @@ def storeData(dir, data):
   key = keyGen(hash)
 
   # Save the data to a file.
-  with open(dir + key, "w") as f:
+  file_name = cgi_utils.get_dir(app) + key + ".blockly"
+  with open(file_name, "w") as f:
     f.write(data)
-
   return key
 
 
 if __name__ == "__main__":
-  forms = parse_post(stdin)
-  app = ""
-  if "app" in forms:
-    app = forms["app"]
-  dir = "%s%s/" % (PATH, app)
-  data = None
-  if "data" in forms:
-    data = forms["data"]
-  method = ""
-  if "REQUEST_METHOD" in os.environ:
-    method = os.environ["REQUEST_METHOD"]
+  forms = cgi_utils.parse_post()
+  cgi_utils.force_exist(forms, "app", "data")
+  app = forms["app"] or ""
+  data = forms["data"]
 
   print("Content-Type: text/plain")
-  if method != "POST":
-    # GET could be a link.
-    print("Status: 405 Method Not Allowed\n")
-    print("Use POST, not '%s'." % method)
-  elif not re.match(r"[-\w]+", app):
-    # Don't try saving to "../../etc/passwd"
-    print("Status: 406 Not Acceptable\n")
-    print("That is not a valid directory.")
-  elif data == None:
-    # No data param.
-    print("Status: 406 Not Acceptable\n")
-    print("No data.")
-  elif not os.path.exists(dir):
-    # Don't try saving to a new directory.
-    print("Status: 406 Not Acceptable\n")
-    print("That is not a valid app.")
-  elif len(data) >= 1000000:
-    # One megabyte is too much.
-    print("Status: 413 Payload Too Large\n")
-    print("Your program is too large.")
-  else:
-    key = storeData(dir, data)
+  if check(app, data):
+    key = store(app, data)
     print("Status: 200 OK\n")
     print(key)
