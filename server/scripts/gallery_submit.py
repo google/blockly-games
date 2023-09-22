@@ -16,13 +16,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Store programs (XML and JS) to disk.
+"""Submit a program for review into a gallery.
 """
 
 __author__ = "fraser@google.com (Neil Fraser)"
 
 import json
 import cgi_utils
+import os
 import storage
 
 
@@ -40,29 +41,33 @@ def check_gallery(title, thumb):
     # by Python vs the browser.
     print("Status: 413 Payload Too Large\n")
     print("Title is too long.")
+    return False
   if not thumb.startswith(THUMB_PREFIX):
     print("Status: 406 Not Acceptable\n")
     print("Thumbnail isn't a base64 PNG.")
+    return False
   if len(thumb) > 250000:
     # A base64 encoded 200x200 pixel PNG of random static is 172,370 bytes.
     # 250kb should be enough to handle anything valid.
     print("Status: 413 Payload Too Large\n")
     print("Thumbnail is too large.")
+    return False
+  return True
 
 
-def store_gallery(key, app, data, title, thumb):
+def store_gallery(key, app, title, thumb):
   obj = {
-    "data": data,
     "title": title,
-    "thumb": thumb
+    "thumb": thumb,
+    "public": False
   }
-  # Add a poison line to prevent raw content from being served.
-  text = cgi_utils.POISON + json.dumps(obj)
+  text = json.dumps(obj)
 
-  # Save the data to a file.
+  # Save the gallery data to a file if one doesn't already exist.
   file_name = cgi_utils.get_dir(app) + key + ".gallery"
-  with open(file_name, "w") as f:
-    f.write(text)
+  if not os.path.exists(file_name):
+    with open(file_name, "w") as f:
+      f.write(text)
 
 
 if __name__ == "__main__":
@@ -76,6 +81,6 @@ if __name__ == "__main__":
   print("Content-Type: text/plain")
   if storage.check(app, data) and check_gallery(title, thumb):
     key = storage.store(app, data)
-    store_gallery(key, app, data, title, thumb)
+    store_gallery(key, app, title, thumb)
     print("Status: 200 OK\n")
     print(key)

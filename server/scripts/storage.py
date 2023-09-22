@@ -28,6 +28,8 @@ import re
 import cgi_utils
 
 
+POISON = "{[(< UNTRUSTED CONTENT >)]}\n"
+
 def keyGen(seed_string):
   random.seed(seed_string)
   # Generate a random string of length KEY_LEN.
@@ -72,7 +74,7 @@ def check(app, data):
 
 def store(app, data):
   # Add a poison line to prevent raw content from being served.
-  data = cgi_utils.POISON + data
+  data = POISON + data
 
   # Hash the content and generate a key.
   binary_data = data.encode("UTF-8")

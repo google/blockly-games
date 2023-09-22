@@ -83,10 +83,13 @@ deploy:
 	rm -rf ../scripts
 	cp -R server/scripts ../scripts
 	chmod +x ../scripts/errorReporter.py
+	chmod +x ../scripts/gallery_submit.py
+	chmod +x ../scripts/gallery_view.py
 	chmod +x ../scripts/storage.py
 	rm -rf ../admin
 	cp -R server/admin ../admin
 	chmod +x ../admin/expiry.py
+	chmod +x ../admin/gallery_view.py
 
 offline: clean-offline
 	mkdir offline

@@ -24,8 +24,7 @@ from urllib.parse import unquote
 from sys import stdin
 
 
-POISON = "{[(< UNTRUSTED CONTENT >)]}\n"
-
+# Relative from both /scripts and /admin
 DATA_PATH = "../data/"
 
 

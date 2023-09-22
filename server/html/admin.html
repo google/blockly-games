@@ -33,20 +33,39 @@
   </style>
 </head>
 <body>
-  <h1><a class="back" href="/">Blockly Games</a> : Admin</h1>
+  <h1><a href="index.html">Blockly Games</a> : Admin</h1>
 
   <fieldset>
-    <legend>Galleries</legend>
+    <legend>Storage</legend>
     <p>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#000">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
       </svg>
-      Moderate new submissions using the <a href="/gallery?app=admin">Gallery Admin</a><br>
-      Delete all <a href="/gallery-api/expire" onclick="return confirm('Permanently delete unpublished submissions?')">unpublished submissions</a> more than an hour old.<br>
-      Public galleries: <a href="/gallery?app=turtle">Turtle</a> -
-      <a href="/gallery?app=movie">Movie</a> -
-      <a href="/gallery?app=music">Music</a>
+      Moderate gallery sumbissions
+    </p>
+    <table>
+      <tr>
+        <td>Turtle</td>
+        <td>Movie</td>
+        <td>Music</td>
+      </tr>
+      <tr>
+        <td><a href="/gallery?app=turtle">View</a></td>
+        <td><a href="/gallery?app=movie">View</a></td>
+        <td><a href="/gallery?app=music">View</a></td>
+      </tr>
+      <tr>
+        <td><a href="/gallery?app=turtle&admin=1">Edit</a></td>
+        <td><a href="/gallery?app=movie&admin=1">Edit</a></td>
+        <td><a href="/gallery?app=music&admin=1">Edit</a></td>
+      </tr>
+    </table>
+
+    <p>Delete all <a href="/gallery-api/expire" onclick="return confirm('Permanently delete unpublished submissions?')">unpublished submissions</a> more than an hour old.</p>
+
+    <p>
+      Delete <a class="adminLink" href="expiry.py">old stored programs</a> which haven't been loaded in two years.
     </p>
   </fieldset>
 

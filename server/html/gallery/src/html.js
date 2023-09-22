@@ -36,24 +36,22 @@ ${BlocklyGames.html.headerBar(ij, appName, '', false, false, '')}
 /**
  * One record.
  * @param {string} app Application this record belongs to (turtle/movie/music)
- * @param {string} uuid Unique datastore key for the code (stored separately).
+ * @param {string} key Unique datastore key for the code (stored separately).
  * @param {string} thumb Base 64-encoded thumbnail.
  * @param {string} title User-provided title.
- * @param {boolean} published Is the record published?
- * @param {string} key Unique datastore key for this record.
+ * @param {boolean=} opt_published Is the record published?
  * @returns {string} HTML.
  */
-Gallery.html.record = function(app, uuid, thumb, title, published, key) {
-  const checkbox = key ?
-      `<input type="checkbox" id="publish-${key}" ${published ? ' checked ' : ''} onchange="publish(this)"></input>` :
-      ''
+Gallery.html.record = function(app, uuid, thumb, title, opt_published) {
+  const checkbox = opt_published === undefined ? '':
+      `<input type="checkbox" id="publish-${key}" ${opt_published ? ' checked ' : ''} onchange="publish(this)"></input>`
   return `
 <div class="galleryThumb">
   ${checkbox}
-  <a href="/${app}?level=10#${uuid}"><img src="${thumb}"></a>
+  <a href="/${app}?level=10#${key}"><img src="${thumb}"></a>
 </div>
 <div class="galleryTitle">
-  <a href="/${app}?level=10#${uuid}">${title}</a>
+  <a href="/${app}?level=10#${key}">${title}</a>
 </div>
 `;
 };

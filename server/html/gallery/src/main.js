@@ -30,8 +30,8 @@ let app;
  */
 function init() {
   app = BlocklyGames.getStringParamFromUrl('app', '');
+  isAdmin = !!BlocklyGames.getStringParamFromUrl('app', '');
   const appName = {
-    'admin': '',
     'turtle': BlocklyGames.getMsg('Games.turtle', true) + ' : ',
     'movie': BlocklyGames.getMsg('Games.movie', true) + ' : ',
     'music': BlocklyGames.getMsg('Games.music', true) + ' : ',
@@ -39,7 +39,7 @@ function init() {
   if (appName === undefined) {
     throw Error('Unknown app: ' + app);
   }
-  if (app === 'admin') {
+  if (admin) {
     document.body.className = 'admin';
   }
   // Render the HTML.
@@ -57,17 +57,14 @@ function init() {
 }
 
 /**
- * Flag for whether the server has more rows of data.
- */
-let hasMore = true;
-
-/**
  * Flag for whether gallery is waiting on loading request.
  */
 let loadRequested_ = false;
 
 /**
- * Opaque key to current data loading cursor.
+ * Key to last record.
+ * Empty string means no records have yet been fetched.
+ * Null means there are no more records to fetch.
  */
 let cursor = '';
 
@@ -75,23 +72,25 @@ let cursor = '';
  * Load more entries.
  */
 function loadMore() {
-  if (loadRequested_ || !hasMore) {
+  if (loadRequested_ || cursor === null) {
     return;
   }
 
   BlocklyGames.getElementById('loading').style.visibility = 'visible';
-  let url = '/scripts/gallery_view.py?app=' + encodeURIComponent(app);
+  let url = '/scripts/gallery_view.py';
+  if (isAdmin) {
+    var u = new URL(location.origin);
+    u.port = 8000;
+    u.pathname = '/gallery_view.py';
+    link.href = u.toString();
+  }
+  url += '?app=' + encodeURIComponent(app);
   if (cursor) {
     url += '&cursor=' + encodeURIComponent(cursor);
   }
   const onFailure = function() {
     console.warn('Load returned status ' + this.status);
     loadRequested_ = false;
-    hasMore = false;
-    if (this.status === 401) {
-      // User isn't logged in.  Bounce to the admin page.
-      location = '/admin';
-    }
   };
   BlocklyStorage.makeRequest(url, '', receiveMore, onFailure, 'GET');
   loadRequested_ = true;
@@ -103,13 +102,10 @@ function loadMore() {
 function receiveMore() {
   loadRequested_ = false;
   BlocklyGames.getElementById('loading').style.visibility = 'hidden';
-  const meta = JSON.parse(this.responseText);
-  if (!meta['more']) {
-    hasMore = false;
-  }
-  cursor = meta['cursor'];
+  const data = JSON.parse(this.responseText);
+  cursor = data.length ? data[data.length - 1]['uuid'] : null;
 
-  meta['data'].forEach(display);
+  data.forEach(display);
 }
 
 /**
@@ -118,7 +114,7 @@ function receiveMore() {
  */
 function display(record) {
   const block = document.createElement('div');
-  block.innerHTML = Gallery.html.record(record['app'], record['uuid'],
+  block.innerHTML = Gallery.html.record(record['app'], record['key'],
       record['thumb'], record['title'], record['public'], record['key']);
   BlocklyGames.getElementById('gallery').appendChild(block);
 }
