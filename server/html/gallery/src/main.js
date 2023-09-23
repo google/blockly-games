@@ -115,8 +115,8 @@ function receiveMore() {
  */
 function display(record) {
   const block = document.createElement('div');
-  block.innerHTML = Gallery.html.record(record['app'], record['key'],
-      record['thumb'], record['title'], record['public'], record['key']);
+  block.innerHTML = Gallery.html.record(app, record['key'],
+      record['thumb'], record['title']);
   BlocklyGames.getElementById('gallery').appendChild(block);
 }
 

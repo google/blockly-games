@@ -34,7 +34,6 @@ import re
 
 # Number of rows per page.
 ROWS_PAGE = 240
-ROWS_PAGE = 4
 
 
 if __name__ == "__main__":
@@ -58,9 +57,13 @@ if __name__ == "__main__":
 
     # Trim off all entries before the cursor.
     if cursor:
-      i = names.index(cursor)
-      if i != -1:
-        names = names[i:]
+      cursor_name = "/%s.gallery" % cursor
+      cursor_index = [i for i, name in enumerate(names) if name.endswith(cursor_name)]
+      if len(cursor_index):
+        names = names[cursor_index[0]:]
+      else:
+        # Can't find the cursor.
+        names = []
     data = [];
     for name in names:
       m = re.search(r"/(\w+)\.gallery$", name)
