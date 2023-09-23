@@ -82,6 +82,13 @@
 
 
     <script>
+/**
+ * Key to last record.
+ * Empty string means no records have yet been fetched.
+ * Null means there are no more records to fetch.
+ */
+let cursor = '';
+
 const m = location.search.match(/[?&]app=(\w+)/);
 const app = m[1];
 // Capitalize the app name.
@@ -143,7 +150,7 @@ function pressPublish(key) {
   row.querySelector('.unpublishButton').disabled = false;
   makeRequest('/gallery_publish.py',
       'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key) +
-      'public=true',
+      '&public=true',
       function() {
         // Success.
         console.log(`Publish ${key}: ${this.responseText}`);
@@ -162,7 +169,7 @@ function pressUnpublish(key) {
   row.querySelector('.unpublishButton').disabled = true;
   makeRequest('/gallery_publish.py',
       'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key) +
-      'public=false',
+      '&public=false',
       function() {
         // Success.
         console.log(`Unpublish ${key}: ${this.responseText}`);
@@ -178,14 +185,19 @@ function pressUnpublish(key) {
 function pressLoad(key) {
   const button = document.getElementById('loadButton');
   button.disabled = true;
+  let cursorComponent = '';
+  if (cursor) {
+    cursorComponent = '&cursor=' + encodeURIComponent(cursor);
+  }
   makeRequest('/gallery_view.py',
-      'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key),
+      'app=' + encodeURIComponent(app) + cursorComponent,
       function() {
         // Success.
         button.disabled = false;
         const data = JSON.parse(this.responseText)
         console.log('Records loaded: ' + data.length);
         data.forEach(display);
+        cursor = data[data.length]['key'];
       },
       function() {
         // Fail.

@@ -40,7 +40,7 @@ if not re.match(r"[-\w]+", app):
   # Don't scanning "../../etc/passwd"
   print("Status: 406 Not Acceptable\n")
   print("That is not a valid directory.")
-elif key and not re.match(r"\w+", cursor):
+elif key and not re.match(r"\w+", key):
   # Don't escape from this directory
   print("Status: 406 Not Acceptable\n")
   print("That is not a valid key.")
