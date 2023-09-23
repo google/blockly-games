@@ -92,9 +92,21 @@ function receiveMore() {
   loadRequested_ = false;
   BlocklyGames.getElementById('loading').style.visibility = 'hidden';
   const data = JSON.parse(this.responseText);
-  cursor = data.length ? data[data.length - 1]['key'] : null;
-
-  data.forEach(display);
+  if (data.length) {
+    const lastDatum = data[data.length - 1];
+    if (lastDatum['cursor']) {
+      // There are more records on the server.
+      cursor = lastDatum['cursor'];
+      data.pop();
+    } else {
+      // This was the last page of records.
+      cursor = null;
+    }
+    data.forEach(display);
+  } else {
+    // No more records.
+    cursor = null;
+  }
 }
 
 /**

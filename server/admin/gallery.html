@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="admin.css">
     <style>
       tr.disabled {
-        opacity: 0.5;
+        opacity: .5;
       }
       td {
         padding: 1em;
@@ -25,7 +25,7 @@
         padding-right: .5em;
        }
       #gallery button:disabled svg {
-        opacity: 0.5;
+        opacity: .5;
        }
     </style>
   </head>
@@ -34,6 +34,8 @@
     <a class="publicLink" href="admin.html">Admin</a> :
     Gallery :
     <span id="app"></span></h1>
+
+    <p>View <a id="publicGallery" class="publicLink" href="gallery">public gallery</a>.</p>
 
     <table>
       <tbody id="gallery"></tbody>
@@ -96,6 +98,8 @@ document.getElementById('app').textContent =
     app.charAt(0).toUpperCase() + app.slice(1);
 document.getElementById('loadButton').addEventListener('click', pressLoad);
 pressLoad();
+// Link the public gallery to the right app.
+document.getElementById('publicGallery').href += '?app=' + app;
 
 /**
  * Display one more record to the gallery.
@@ -193,11 +197,24 @@ function pressLoad(key) {
       'app=' + encodeURIComponent(app) + cursorComponent,
       function() {
         // Success.
-        button.disabled = false;
         const data = JSON.parse(this.responseText)
         console.log('Records loaded: ' + data.length);
-        data.forEach(display);
-        cursor = data[data.length]['key'];
+        if (data.length) {
+          const lastDatum = data[data.length - 1];
+          if (lastDatum['cursor']) {
+            // There are more records on the server.
+            cursor = lastDatum['cursor'];
+            data.pop();
+            button.disabled = false;
+          } else {
+            // This was the last page of records.
+            cursor = null;
+          }
+          data.forEach(display);
+        } else {
+          // No more records.
+          cursor = null;
+        }
       },
       function() {
         // Fail.

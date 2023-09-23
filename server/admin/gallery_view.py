@@ -29,7 +29,7 @@ import re
 
 # Called with two arguments:
 # - app: turtle/movie/music
-# - cursor: Opaque pointer string.
+# - cursor: Key to the next page of results.
 # Returns a JSON object.
 
 # Number of rows per page.
@@ -63,14 +63,19 @@ if __name__ == "__main__":
         names = names[i:]
     data = [];
     for name in names:
-      with open(name) as f:
-        datum = json.load(f)
       m = re.search(r"/(\w+)\.gallery$", name)
       if not m:
         continue
-      datum['key'] = m[1]
-      data.append(datum)
       if len(data) >= ROWS_PAGE:
+        # Last entry is the cursor for the next chunk.
+        data.append({"cursor": m[1]})
         break
+      with open(name) as f:
+        try:
+          datum = json.load(f)
+        except:
+          datum = {"title": "Invalid JSON"}
+      datum["key"] = m[1]
+      data.append(datum)
     print("Status: 200 OK\n")
     print(json.dumps(data))
