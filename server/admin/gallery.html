@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blockly Games : Admin : Gallery</title>
+    <link rel="stylesheet" href="admin.css">
+    <style>
+      tr.disabled {
+        opacity: 0.5;
+      }
+      td {
+        padding: 1em;
+      }
+      #gallery button {
+        display: block;
+        margin-bottom: 2em;
+        width: 10em;
+        text-align: left;
+        padding-left: 1em;
+       }
+      #gallery button span {
+        vertical-align: super;
+       }
+      #gallery button svg {
+        padding-right: .5em;
+       }
+      #gallery button:disabled svg {
+        opacity: 0.5;
+       }
+    </style>
+  </head>
+  <body>
+    <h1><a class="publicLink" href="index.html">Blockly Games</a> :
+    <a class="publicLink" href="admin.html">Admin</a> :
+    Gallery :
+    <span id="app"></span></h1>
+
+    <table>
+      <tbody id="gallery"></tbody>
+    </table>
+    <p style="padding: 1em 0">
+      <button id="loadButton">Load more...</button>
+    </p>
+
+<template id="row">
+  <tr>
+    <td>
+      <div class="galleryThumb">
+        <a target="_blank" href=""><img src=""></a>
+      </div>
+      <div class="galleryTitle">
+        <a target="_blank" href=""></a>
+      </div>
+    </td>
+    <td>
+      <button class="publishButton">
+        <svg height="24" width="24" viewBox="0 -960 960 960" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="480" cy="-480" r="360" style="fill:none;stroke:#000;stroke-width:77" />
+          <path d="m 424,-296 282,-282 -56,-56 -226,226 -114,-114 -56,56 z" />
+        </svg>
+        <span>Publish</span>
+      </button>
+      <button class="unpublishButton">
+        <svg height="24" width="24" viewBox="0 -960 960 960" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="480" cy="-480" r="360" style="fill:none;stroke:#000;stroke-width:77" />
+          <path d="m 225,-734 509,509" style="stroke:#000;stroke-width:77px" />
+        </svg>
+        <span>Unpublish</span>
+      </button>
+      <button class="deleteButton">
+        <svg height="24" width="24" viewBox="0 -960 960 960" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/>
+        </svg>
+        <span>Delete</span>
+      </button>
+    </td>
+    <td>
+      <!-- TODO: add similar records here -->
+    </td>
+  </tr>
+</template>
+
+
+    <script>
+const m = location.search.match(/[?&]app=(\w+)/);
+const app = m[1];
+// Capitalize the app name.
+document.getElementById('app').textContent =
+    app.charAt(0).toUpperCase() + app.slice(1);
+document.getElementById('loadButton').addEventListener('click', pressLoad);
+pressLoad();
+
+/**
+ * Display one more record to the gallery.
+ * @param {!Object} record One art record.
+ */
+function display(record) {
+  const url = new URL(location);
+  url.port = '';
+  url.pathname = app;
+  url.search = '?level=10';
+  url.hash = record['key'];
+
+  const template = document.getElementById('row');
+  const clone = template.content.cloneNode(true);
+  clone.firstElementChild.id = record['key'];
+  clone.querySelector('.galleryThumb img').src = record['thumb'];
+  clone.querySelector('.galleryThumb a').href = url;
+  clone.querySelector('.galleryTitle a').textContent = record['title'];
+  clone.querySelector('.galleryTitle a').href = url;
+
+  const deleteButton = clone.querySelector('.deleteButton');
+  deleteButton.addEventListener('click', pressDelete.bind(null, record['key']));
+  const publishButton = clone.querySelector('.publishButton');
+  publishButton.addEventListener('click', pressPublish.bind(null, record['key']));
+  const unpublishButton = clone.querySelector('.unpublishButton');
+  unpublishButton.addEventListener('click', pressUnpublish.bind(null, record['key']));
+  (record['public'] ? publishButton : unpublishButton).disabled = true;
+  document.getElementById('gallery').appendChild(clone);
+}
+
+function pressDelete(key) {
+  const row = document.getElementById(key);
+  row.className = 'disabled';
+  row.querySelectorAll('button').forEach((e) => e.disabled = true);
+  makeRequest('/gallery_delete.py',
+      'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key),
+      function() {
+        // Success.
+        console.log(`Delete ${key}: ${this.responseText}`);
+      },
+      function() {
+        // Fail.
+        row.className = '';
+        row.querySelectorAll('button').forEach((e) => e.disabled = false);
+      },
+      'POST');
+}
+
+function pressPublish(key) {
+  const row = document.getElementById(key);
+  row.querySelector('.publishButton').disabled = true;
+  row.querySelector('.unpublishButton').disabled = false;
+  makeRequest('/gallery_publish.py',
+      'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key) +
+      'public=true',
+      function() {
+        // Success.
+        console.log(`Publish ${key}: ${this.responseText}`);
+      },
+      function() {
+        // Fail.
+        row.querySelector('.publishButton').disabled = false;
+        row.querySelector('.unpublishButton').disabled = true;
+      },
+      'POST');
+}
+
+function pressUnpublish(key) {
+  const row = document.getElementById(key);
+  row.querySelector('.publishButton').disabled = false;
+  row.querySelector('.unpublishButton').disabled = true;
+  makeRequest('/gallery_publish.py',
+      'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key) +
+      'public=false',
+      function() {
+        // Success.
+        console.log(`Unpublish ${key}: ${this.responseText}`);
+      },
+      function() {
+        // Fail.
+        row.querySelector('.publishButton').disabled = true;
+        row.querySelector('.unpublishButton').disabled = false;
+      },
+      'POST');
+}
+
+function pressLoad(key) {
+  const button = document.getElementById('loadButton');
+  button.disabled = true;
+  makeRequest('/gallery_view.py',
+      'app=' + encodeURIComponent(app) + '&key=' + encodeURIComponent(key),
+      function() {
+        // Success.
+        button.disabled = false;
+        const data = JSON.parse(this.responseText)
+        console.log('Records loaded: ' + data.length);
+        data.forEach(display);
+      },
+      function() {
+        // Fail.
+        button.disabled = false;
+      },
+      'GET');
+}
+
+/**
+ * Fire a new AJAX request.
+ * @param {string} url URL to fetch.
+ * @param {string} data Body of data to be sent in request.
+ * @param {Function} onSuccess Function to call after request completes
+ *    successfully.
+ * @param {Function} onFailure Function to call after request completes
+ *    unsuccessfully.
+ * @param {string} method The HTTP request method to use.
+ */
+function makeRequest(url, data, onSuccess, onFailure, method) {
+  const xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+    if (this.status === 200) {
+      onSuccess && onSuccess.call(xhr);
+    } else {
+      alert('Failed to execute ' + url);
+      console.error(xhr);
+      onFailure && onFailure.call(xhr);
+    }
+  };
+  if (method === 'POST') {
+    xhr.open(method, url);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+  } else {
+    if (data) {
+      url += '?' + data;
+    }
+    xhr.open(method, url);
+    xhr.send();
+  }
+}
+    </script>
+    <script src="back.js"></script>
+  </body>
+</html>

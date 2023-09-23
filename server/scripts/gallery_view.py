@@ -38,7 +38,7 @@ ROWS_PAGE = 4
 
 
 if __name__ == "__main__":
-  forms = cgi_utils.parse_post()
+  forms = cgi_utils.parse_query()
   cgi_utils.force_exist(forms, "app", "cursor")
   app = forms["app"] or ""
   cursor = forms["cursor"] or ""
@@ -63,11 +63,14 @@ if __name__ == "__main__":
         names = names[i:]
     data = [];
     for name in names:
-      with open(dir + name, "w") as f:
+      with open(name) as f:
         datum = json.load(f)
       if datum["public"]:
         del datum["public"]
-        datum['key'] = name[:-len(".gallery")]
+        m = re.search(r"/(\w+)\.gallery$", name)
+        if not m:
+          continue
+        datum['key'] = m[1]
         data.append(datum)
         if len(data) >= ROWS_PAGE:
           break

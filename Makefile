@@ -89,6 +89,8 @@ deploy:
 	rm -rf ../admin
 	cp -R server/admin ../admin
 	chmod +x ../admin/expiry.py
+	chmod +x ../admin/gallery_delete.py
+	chmod +x ../admin/gallery_publish.py
 	chmod +x ../admin/gallery_view.py
 
 offline: clean-offline

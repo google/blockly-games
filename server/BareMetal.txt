@@ -23,7 +23,7 @@ Use this encrypted password in the 'XXXXXXX...' below.
 >   echo 'admin:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' >> .htpasswd
 >   history -c
 >   chmod o-r .htpasswd
->   touch access.log error.log javascript.log
+>   touch access.log error.log access8000.log error8000.log javascript.log
 >   chmod g+w *.log
 >   mkdir -p data/{maze,bird,turtle,movie,music,pond-tutor,pond-duck}
 >   chmod g+w data/*

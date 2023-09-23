@@ -15,11 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""Store programs (XML and JS) to disk.
+"""Parse GET and POST data.
 """
 
 __author__ = "fraser@google.com (Neil Fraser)"
 
+from os import environ
 from urllib.parse import unquote
 from sys import stdin
 
@@ -36,7 +37,17 @@ def get_dir(app):
 # Very minimal parser.  Does not combine repeated names (a=1&a=2), ignores
 # valueless names (a&b), does not support isindex or multipart/form-data.
 def parse_post():
-  data = stdin.read()
+  return _parse(stdin.read())
+
+
+# Parse a query string (e.g. a=1&b=2) into a dictionary (e.g. {"a": 1, "b": 2}).
+# Very minimal parser.  Does not combine repeated names (a=1&a=2), ignores
+# valueless names (a&b), does not support isindex.
+def parse_query():
+  return _parse(environ["QUERY_STRING"])
+
+
+def _parse(data):
   parts = data.split("&")
   dict = {}
   for part in parts:

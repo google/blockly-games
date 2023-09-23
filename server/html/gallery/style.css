@@ -1,9 +1,3 @@
-body.admin {
-  background-image: url("/common/stripes.gif");
-  background-repeat: repeat-y;
-  padding-left: 8em;
-}
-
 #loading {
   text-align: center;
 }

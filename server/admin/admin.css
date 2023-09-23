@@ -1,0 +1,26 @@
+body {
+  background-color: #fff;
+  background-image: url("stripes.svg");
+  background-repeat: repeat-y;
+  font-family: sans-serif;
+  padding: 1em 8em;
+  margin-top: 0;
+}
+
+h1 {
+  font-weight: normal;
+  font-size: 130%;
+}
+
+h1 a {
+  text-decoration: none;
+}
+
+h2 {
+  font-weight: normal;
+}
+
+a:focus,
+a:hover {
+  color: #f00;
+}

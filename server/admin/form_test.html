@@ -3,26 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>Blockly Games: Admin : Form Test</title>
-    <link rel="stylesheet" href="common/common.css">
+    <link rel="stylesheet" href="admin.css">
     <style>
-      body {
-        background-image: url("common/stripes.svg");
-        background-repeat: repeat-y;
-        padding: 1em 8em;
-      }
-      h2 {
-        font-weight: normal;
-      }
       input[type="text"] {
         width: 40em;
       }
     </style>
   </head>
   <body>
-    <h1><a href="index.html">Blockly Games</a> : <a href="admin.html">Admin</a> : Form Test</h1>
+    <h1><a class="publicLink" href="index.html">Blockly Games</a> :
+    <a class="publicLink" href="admin.html">Admin</a> : Form Test</h1>
 
     <h2>/scripts/storage.py</h2>
-    <form action="/scripts/storage.py" method="post">
+    <form class="publicLink" action="/scripts/storage.py" method="post">
       <table>
         <tr>
           <td>app:</td>
@@ -40,7 +33,7 @@
     </form>
 
     <h2>/scripts/errorReporter.py</h2>
-    <form action="/scripts/errorReporter.py" method="post">
+    <form class="publicLink" action="/scripts/errorReporter.py" method="post">
       <table>
         <tr>
           <td>url:</td>
@@ -59,5 +52,6 @@
     <script>
       document.getElementById('urlInput').value = location;
     </script>
+    <script src="back.js"></script>
   </body>
 </html>

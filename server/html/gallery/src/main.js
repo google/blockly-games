@@ -20,7 +20,7 @@ goog.require('Gallery.html');
 BlocklyGames.storageName = 'gallery';
 
 /**
- * One of 'turtle', 'movie', 'music', or 'admin'.
+ * One of 'turtle', 'movie', 'music'.
  * @type string
  */
 let app;
@@ -30,7 +30,6 @@ let app;
  */
 function init() {
   app = BlocklyGames.getStringParamFromUrl('app', '');
-  isAdmin = !!BlocklyGames.getStringParamFromUrl('app', '');
   const appName = {
     'turtle': BlocklyGames.getMsg('Games.turtle', true) + ' : ',
     'movie': BlocklyGames.getMsg('Games.movie', true) + ' : ',
@@ -38,9 +37,6 @@ function init() {
   }[app];
   if (appName === undefined) {
     throw Error('Unknown app: ' + app);
-  }
-  if (admin) {
-    document.body.className = 'admin';
   }
   // Render the HTML.
   document.body.innerHTML += Gallery.html.start(
@@ -77,14 +73,7 @@ function loadMore() {
   }
 
   BlocklyGames.getElementById('loading').style.visibility = 'visible';
-  let url = '/scripts/gallery_view.py';
-  if (isAdmin) {
-    var u = new URL(location.origin);
-    u.port = 8000;
-    u.pathname = '/gallery_view.py';
-    link.href = u.toString();
-  }
-  url += '?app=' + encodeURIComponent(app);
+  let url = '/scripts/gallery_view.py?app=' + encodeURIComponent(app);
   if (cursor) {
     url += '&cursor=' + encodeURIComponent(cursor);
   }
@@ -103,7 +92,7 @@ function receiveMore() {
   loadRequested_ = false;
   BlocklyGames.getElementById('loading').style.visibility = 'hidden';
   const data = JSON.parse(this.responseText);
-  cursor = data.length ? data[data.length - 1]['uuid'] : null;
+  cursor = data.length ? data[data.length - 1]['key'] : null;
 
   data.forEach(display);
 }
@@ -120,18 +109,6 @@ function display(record) {
 }
 
 /**
- * Publish or unpublish a record.
- * @param {!Element} element Checkbox element.
- */
-function publish(element) {
-  const key = element.id.substring(8);
-  const publish = Number(element.checked);
-  const url = '/gallery-api/admin';
-  const data = 'key=' + encodeURIComponent(key) + '&public=' + publish;
-  BlocklyStorage.makeRequest(url, data);
-}
-
-/**
  * Automatically load more records if the screen is scrolled to the bottom.
  */
 function needMore() {
@@ -143,6 +120,3 @@ function needMore() {
 }
 
 BlocklyGames.callWhenLoaded(init);
-
-// Export symbols that would otherwise be renamed by Closure compiler.
-window['publish'] = publish;
