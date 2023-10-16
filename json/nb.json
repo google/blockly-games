@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Cocu",
+			"EdoAug",
 			"Jon Harald Søby",
 			"Kingu",
 			"Osgraven",
@@ -40,6 +41,7 @@
 	"Games.linkAlert": "Del dine blokker med denne lenken:\n\n%1",
 	"Games.hashError": "Beklager, '%1' samsvarer ikke med noe lagret program.",
 	"Games.xmlError": "Kunne ikke laste inn filen. Kanskje den ble laget med en annen versjon av Blockly?",
+	"Games.submitted": "Takk for programmet! Om vårt personale bestående av trente aper liker det, blir det publisert til galleriet innen et par dager.",
 	"Games.listVariable": "Liste",
 	"Games.textVariable": "Tekst",
 	"Games.breakLink": "Når du begynner å redigere JavaScript kan du ikke gå tilbake til redigeringsblokker. Er det greit?",
