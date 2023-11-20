@@ -26,6 +26,7 @@ goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Slider');
 goog.require('Maze.Blocks');
 goog.require('Maze.html');
 
@@ -278,6 +279,16 @@ const tile_SHAPES = {
 /**
  * Milliseconds between each animation frame.
  */
+
+/**
+ * Number of milliseconds that execution should delay.
+ * @type number
+ */
+let pause = 0;
+
+//define speedSlider var for keep speedSlider value
+let speedSlider;
+
 let stepSpeed;
 
 let start_;
@@ -426,6 +437,10 @@ function init() {
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init(BlocklyGames.getMsg('Games.maze', false));
+
+  // Initialize the slider.
+  const sliderSvg = BlocklyGames.getElementById('slider');
+  speedSlider = new Slider(10, 35, 130, sliderSvg);
 
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');
@@ -1113,6 +1128,10 @@ function animate() {
       BlocklyInterface.saveToLocalStorage();
       setTimeout(BlocklyCode.congratulations, 1000);
   }
+
+  // Scale the speed non-linearly, to give better precision at the fast end.
+  const stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);
+  pause = Math.max(1, stepSpeed);
 
   pidList.push(setTimeout(animate, stepSpeed * 5));
 }
