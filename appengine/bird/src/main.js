@@ -45,6 +45,7 @@ let pos;
 let angle;
 let currentAngle;
 let hasWorm;
+let speedSlider;
 
 /**
  * Log of duck's moves.  Recorded during execution, played back for animation.
@@ -544,6 +545,16 @@ function levelHelp() {
 }
 
 /**
+ * Calculate adjusted speed based on the speed value provided.
+ * @param {number} speed - The initial speed value.
+ * @returns {number} - The adjusted speed value.
+ */
+function calculateSpeed(speed) {
+  speed = speed * (-speedSlider.value_ + 1);
+  return speed;
+}
+
+/**
  * Reset the bird to the start position and kill any pending animation tasks.
  * @param {boolean} first True if an opening animation is to be played.
  */
@@ -726,7 +737,7 @@ function execute() {
   }
 
   // Fast animation if execution is successful.  Slow otherwise.
-  stepSpeed = (result === ResultType.SUCCESS) ? 10 : 15;
+  stepSpeed = (result === ResultType.SUCCESS) ? calculateSpeed(10) : calculateSpeed(15);
 
   // log now contains a transcript of all the user's actions.
   // Reset the bird and animate the transcript.
