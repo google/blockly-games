@@ -482,6 +482,11 @@ function init() {
        'zoom': {'startScale': scale}});
   BlocklyInterface.workspace.getAudioManager().load(SKIN.winSound, 'win');
   BlocklyInterface.workspace.getAudioManager().load(SKIN.crashSound, 'fail');
+
+  // Initialize the slider.
+  const sliderSvg = BlocklyGames.getElementById('slider');
+  speedSlider = new Slider(10, 35, 130, sliderSvg);
+
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
