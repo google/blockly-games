@@ -45,6 +45,7 @@ let pos;
 let angle;
 let currentAngle;
 let hasWorm;
+let speedSlider;
 
 /**
  * Log of duck's moves.  Recorded during execution, played back for animation.
@@ -401,6 +402,11 @@ function init() {
   if (BlocklyGames.LEVEL > 1) {
     BlocklyInterface.workspace.addChangeListener(Blockly.Events.disableOrphans);
   }
+
+  // Initialize the slider.
+  const sliderSvg = BlocklyGames.getElementById('slider');
+  speedSlider = new Slider(10, 35, 130, sliderSvg);
+
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');
 
@@ -541,6 +547,16 @@ function levelHelp() {
   } else {
     BlocklyDialogs.hideDialog(false);
   }
+}
+
+/**
+ * Calculate adjusted speed based on the speed value provided.
+ * @param {number} speed - The initial speed value.
+ * @returns {number} - The adjusted speed value.
+ */
+function calculateSpeed(speed) {
+  speed = speed * (-speedSlider.value_ + 1);
+  return speed;
 }
 
 /**
@@ -726,7 +742,7 @@ function execute() {
   }
 
   // Fast animation if execution is successful.  Slow otherwise.
-  stepSpeed = (result === ResultType.SUCCESS) ? 10 : 15;
+  stepSpeed = (result === ResultType.SUCCESS) ? calculateSpeed(10) : calculateSpeed(15);
 
   // log now contains a transcript of all the user's actions.
   // Reset the bird and animate the transcript.

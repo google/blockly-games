@@ -35,3 +35,4 @@ All code is free and open source.
   stroke-linejoin: round;
 }
 ```
+2. Added a new variable into the `./appengine/bird/main.js`, `speedSlider`, and implemented the 'calculateSpeed' function. This function `calculateSpeed` computes a value using specific calculations and assigns it to the `stepSpeed` variable.
