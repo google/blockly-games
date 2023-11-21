@@ -17,3 +17,21 @@ All code is free and open source.
 4. Installing game dependencies using `make deps` and running the `make games` command.
 5. Checked, revised, and updated each sample to use "python3" initially using "python" in `./Makefile` file.
 6. Installing the `git-conventional-commits` package to the repository and included the `git-conventional-commits.yaml` file.
+
+### Coding
+1. Add the following CSS3 styles to the end of the files `./appengine/bird/style.css` and `./appengine/maze/style.css`, insert the code below:
+
+```css
+.sliderTrack {
+  stroke: #aaa;
+  stroke-width: 6px;
+  stroke-linecap: round;
+}
+
+.sliderKnob {
+  fill: #ddd;
+  stroke: #bbc;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+}
+```
