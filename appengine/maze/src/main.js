@@ -26,6 +26,7 @@ goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Slider');
 goog.require('Maze.Blocks');
 goog.require('Maze.html');
 

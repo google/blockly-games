@@ -35,4 +35,6 @@ All code is free and open source.
   stroke-linejoin: round;
 }
 ```
-2. Added a new variable into the `./appengine/bird/main.js`, `speedSlider`, and implemented the 'calculateSpeed' function. This function `calculateSpeed` computes a value using specific calculations and assigns it to the `stepSpeed` variable.
+2. Add new variable into the `./appengine/bird/main.js`, `speedSlider`, and implemented the `calculateSpeed` function. This function `calculateSpeed` computes a value using specific calculations and assigns it to the `stepSpeed` variable.
+3. Add the Slider SVG icon into the `./appengine/bird/html.js` file.
+4. Require Slider into the `bird` and `maze`.
