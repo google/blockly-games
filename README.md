@@ -16,3 +16,4 @@ All code is free and open source.
 3. Setting up game dependencies on macOS using `Homebrew` and `MacPorts`.
 4. Installing game dependencies using `make deps` and running the `make games` command.
 5. Checked, revised, and updated each sample to use "python3" initially using "python" in `./Makefile` file.
+6. Installing the `git-conventional-commits` package to the repository and included the `git-conventional-commits.yaml` file.
