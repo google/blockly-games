@@ -43,7 +43,31 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.maze', true),
 
 <table width=400>
   <tr>
-    <td style="width: 190px; text-align: center; vertical-align: top;">
+    <td>
+      <svg
+        id="slider"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        width=150
+        height=50>
+        <!-- Slow icon. -->
+        <clipPath id="slowClipPath">
+          <rect width=26 height=12 x=5 y=14 />
+        </clipPath>
+        <image xlink:href="common/icons.png" height=63 width=84 x=-21 y=-10
+            clip-path="url(#slowClipPath)" />
+        <!-- Fast icon. -->
+        <clipPath id="fastClipPath">
+          <rect width=26 height=16 x=120 y=10 />
+        </clipPath>
+        <image xlink:href="common/icons.png" height=63 width=84 x=120 y=-11
+            clip-path="url(#fastClipPath)" />
+    </svg>
+  </td>
+  <td style="width: 15px;">
+  </td>
     <td>
       <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Maze.runTooltip', true)}">
         <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
