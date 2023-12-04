@@ -21,29 +21,15 @@ limitations under the License.
 
 __author__ = "fraser@google.com (Neil Fraser)"
 
+import cgi_utils
 import logging
 logging.basicConfig(filename="../javascript.log", encoding="utf-8",
                     format="%(levelname)s: %(message)s", level=logging.DEBUG)
 from os import environ
-from sys import stdin
-from urllib.parse import unquote
-
-
-# Parse POST data (e.g. a=1&b=2) into a dictionary (e.g. {"a": 1, "b": 2}).
-# Very minimal parser.  Does not combine repeated names (a=1&a=2), ignores
-# valueless names (a&b), does not support isindex or multipart/form-data.
-def parse_post(fp):
-  data = fp.read()
-  parts = data.split("&")
-  dict = {}
-  for part in parts:
-    tuple = part.split("=", 1)
-    if len(tuple) == 2:
-      dict[tuple[0]] = unquote(tuple[1])
-  return dict
 
 
 print("Content-Type: text/plain")
+method = ""
 if "REQUEST_METHOD" in environ:
   method = environ["REQUEST_METHOD"]
 if method != "POST":
@@ -51,14 +37,10 @@ if method != "POST":
   print("Status: 405 Method Not Allowed\n")
   print("Use 'POST', not '%s'." % method)
 else:
-  forms = parse_post(stdin)
-  error = ""
-  if "error" in forms:
-    error = forms["error"]
-  url = ""
-  if "url" in forms:
-    url = forms["url"]
-  method = ""
+  forms = cgi_utils.parse_post()
+  cgi_utils.force_exist(forms, "error", "url")
+  error = forms["error"]
+  url = forms["url"]
 
   if not error or not url:
     print("Status: 406 Not Acceptable\n")
