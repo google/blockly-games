@@ -3,7 +3,8 @@
 		"authors": [
 			"Aswn",
 			"ElangoRamanujam",
-			"Ezhillang"
+			"Ezhillang",
+			"Fahimrazick"
 		]
 	},
 	"Games.name": "விளைபாடுகள்",
@@ -98,8 +99,8 @@
 	"Movie.circleDraw": "வட்டம்",
 	"Movie.rectDraw": "நீள் சதுரம்",
 	"Movie.lineDraw": "கோடு",
-	"Movie.galleryTooltip": "காட்சியகப் படங்களைக் காண்க.",
-	"Movie.galleryMsg": "காட்சியகம் காண்க",
+	"Movie.galleryTooltip": "காட்சியகத் திரைப்படங்களைத் திற.",
+	"Movie.galleryMsg": "காட்சியகத்தைப் பார்",
 	"Movie.submitTooltip": "காட்சியகத்தில் தங்களின் படத்தைச் சமர்ப்பிக்கவும்.",
 	"Movie.submitMsg": "காட்சியகத்தில் சமர்ப்பிக்க",
 	"Movie.helpText1": "எளிய வரைபடங்களை வரை",
