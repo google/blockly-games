@@ -12,7 +12,7 @@ Use this encrypted password in the 'XXXXXXX...' below.
 > sudo apt-get upgrade
 > sudo apt-get install make
 > sudo apt-get install git
-> sudo apt-get install subversion
+> sudo apt-get install unzip
 > sudo apt-get install default-jre
 > sudo apt-get install nginx
 > sudo apt-get install fcgiwrap

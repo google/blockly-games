@@ -45,13 +45,13 @@ a {
   bottom: 0;
   position: absolute;
   margin: 1em;
+  visibility: hidden;
 }
 
 #clearData {
   font-size: medium;
   margin: 5px 10px;
   padding: 0 4px;
-  visibility: hidden;
 }
 
 #path {

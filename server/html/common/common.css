@@ -169,7 +169,7 @@ button:hover:not(:disabled) {
   margin-left: 1em;
   margin-right: 1em;
 }
-#dialogDone>large {
+#dialogDone>.large {
   font-size: large;
   margin: 1em;
 }
