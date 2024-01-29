@@ -3,7 +3,7 @@
 ##############################
 
 SHELL = /bin/bash
-REQUIRED_BINS = svn wget java python
+REQUIRED_BINS = unzip wget java python
 
 ##############################
 # Rules
@@ -60,15 +60,31 @@ deps:
 	mkdir -p server/html/third-party
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
 	mv babel.min.js server/html/third-party/
-	@# GitHub doesn't support git archive, so download files using svn.
-	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ server/html/third-party/ace
-	mkdir -p server/html/third-party/blockly
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/ server/html/third-party/blockly
-	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ server/html/third-party/SoundJS
+
+	wget https://github.com/ajaxorg/ace-builds/archive/refs/heads/master.zip
+	unzip -u master.zip
+	rm master.zip
+	mv ace-builds-master/src-noconflict/ server/html/third-party/ace
+	rm -r ace-builds-master/
+
+	wget https://github.com/NeilFraser/blockly-for-BG/archive/refs/heads/master.zip
+	unzip -u master.zip
+	rm master.zip
+	mv blockly-for-BG-master/ server/html/third-party/blockly
+
+	wget https://github.com/CreateJS/SoundJS/archive/refs/heads/master.zip
+	unzip -u master.zip
+	rm master.zip
+	mv SoundJS-master/lib/ server/html/third-party/SoundJS
+	rm -r SoundJS-master/
+
 	cp third-party/base.js server/html/third-party/
 	cp -R third-party/soundfonts server/html/third-party/
 
-	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ server/html/third-party/JS-Interpreter
+	wget https://github.com/NeilFraser/JS-Interpreter/archive/refs/heads/master.zip
+	unzip -u master.zip
+	rm master.zip
+	mv JS-Interpreter-master server/html/third-party/JS-Interpreter
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar build/third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\

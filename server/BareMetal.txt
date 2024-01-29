@@ -42,7 +42,7 @@ Use this encrypted password in the 'XXXXXXX...' below.
 >   exit
 > sudo chgrp www-data /home/bg-user/.htpasswd
 > sudo chown www-data /home/bg-user/*.log
-> sudo chown www-data /home/bg-user/data/*
+> sudo chown -R www-data /home/bg-user/data/
 > sudo chgrp -R www-data /home/bg-user/awstats/
 > sudo chmod -R g+w /home/bg-user/awstats/
 > sudo rm /etc/nginx/sites-enabled/default
