@@ -80,7 +80,6 @@
 	"Maze.turnLeft": "turniĝi maldekstren",
 	"Maze.turnRight": "turniĝi dekstren",
 	"Maze.doCode": "fari",
-	"Maze.elseCode": "alie",
 	"Maze.helpIfElse": "Blokoj 'se / alie' faros ĉu unu aferon ĉu la alian.",
 	"Maze.pathAhead": "se estas vojo antaŭen",
 	"Maze.pathLeft": "se estas vojo maldekstren",

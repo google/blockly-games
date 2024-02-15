@@ -98,7 +98,6 @@
 	"Maze.turnLeft": "skręć w lewo",
 	"Maze.turnRight": "skręć w prawo",
 	"Maze.doCode": "wykonaj",
-	"Maze.elseCode": "w przeciwnym razie",
 	"Maze.helpIfElse": "Klocki \"if-else (jeśli-w przeciwnym razie)\" wykonują jedną czynność, albo drugą.",
 	"Maze.pathAhead": "jeśli ścieżka prowadzi prosto",
 	"Maze.pathLeft": "jeśli ścieżka prowadzi w lewo",

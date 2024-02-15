@@ -90,7 +90,6 @@
 	"Maze.turnLeft": "왼쪽으로 돌기",
 	"Maze.turnRight": "오른쪽으로 돌기",
 	"Maze.doCode": "하기",
-	"Maze.elseCode": "그렇지 않으면",
 	"Maze.helpIfElse": "만약-그렇지 않으면 블록은 한 가지 또는 다른 행동을 합니다.",
 	"Maze.pathAhead": "만약 길이 앞으로 갈 수 있다면",
 	"Maze.pathLeft": "만약 길이 왼쪽으로 갈 수 있다면",

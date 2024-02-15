@@ -37,7 +37,6 @@
 	"Maze.turnLeft": "links abbieche",
 	"Maze.turnRight": "rechts abbieche",
 	"Maze.doCode": "ausfüre",
-	"Maze.elseCode": "sonst",
 	"Maze.helpIfElse": "Wenn-Sonst-Bausten führe das ene orrer das annre aus.",
 	"Maze.pathAhead": "wenn Pad davoar ist",
 	"Maze.pathLeft": "wenn Pad noh links ist",

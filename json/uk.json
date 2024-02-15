@@ -84,7 +84,6 @@
 	"Maze.turnLeft": "повернути ліворуч",
 	"Maze.turnRight": "повернути праворуч",
 	"Maze.doCode": "виконати",
-	"Maze.elseCode": "інакше",
 	"Maze.helpIfElse": "Блоки „якщо-інакше“ дозволяють виконати одне або інше.",
 	"Maze.pathAhead": "якщо шлях попереду",
 	"Maze.pathLeft": "якщо шлях ліворуч",

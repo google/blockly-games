@@ -91,7 +91,6 @@
 	"Maze.turnLeft": "повернуть налево",
 	"Maze.turnRight": "повернуть направо",
 	"Maze.doCode": "выполнять",
-	"Maze.elseCode": "иначе",
 	"Maze.helpIfElse": "Команда \"если-иначе\" выполнит одно или другое действие.",
 	"Maze.pathAhead": "если путь впереди",
 	"Maze.pathLeft": "если путь cлева",

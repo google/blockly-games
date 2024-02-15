@@ -84,7 +84,6 @@
 	"Maze.turnLeft": "sväng vänster",
 	"Maze.turnRight": "sväng höger",
 	"Maze.doCode": "utför",
-	"Maze.elseCode": "annars",
 	"Maze.helpIfElse": "Om-annars-block kommer att göra det ena eller det andra.",
 	"Maze.pathAhead": "om det är en väg framåt",
 	"Maze.pathLeft": "om det är en väg till vänster",

@@ -86,7 +86,6 @@
 	"Maze.turnLeft": "belok kiri",
 	"Maze.turnRight": "belok kanan",
 	"Maze.doCode": "do",
-	"Maze.elseCode": "else",
 	"Maze.helpIfElse": "If-else blok akan melakukan satu hal atau yang lain.",
 	"Maze.pathAhead": "if path ahead",
 	"Maze.pathLeft": "if path to the left",

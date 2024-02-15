@@ -79,7 +79,6 @@
 	"Maze.turnLeft": "pööra vasakule",
 	"Maze.turnRight": "pööra paremale",
 	"Maze.doCode": "käivita",
-	"Maze.elseCode": "vastasel juhul",
 	"Maze.helpIfElse": "If-else plokid lubavad valida kahe erineva tegevuse vahel.",
 	"Maze.pathAhead": "kui rada on otse ees",
 	"Maze.pathLeft": "kui rada läheb vasemale",

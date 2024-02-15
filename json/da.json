@@ -88,7 +88,6 @@
 	"Maze.turnLeft": "drej til venstre",
 	"Maze.turnRight": "drej til højre",
 	"Maze.doCode": "udfør",
-	"Maze.elseCode": "ellers",
 	"Maze.helpIfElse": "Hvis-ellers blokke vil gøre den ene eller den anden ting.",
 	"Maze.pathAhead": "hvis sti foran",
 	"Maze.pathLeft": "hvis sti til venstre",

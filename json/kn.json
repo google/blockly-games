@@ -81,7 +81,6 @@
 	"Maze.turnLeft": "ಎಡಕ್ಕೆ ತಿರುಗಿ",
 	"Maze.turnRight": "ಬಲಕ್ಕೆ ತಿರುಗಿ",
 	"Maze.doCode": "ಮಾಡು",
-	"Maze.elseCode": "ಇಲ್ಲದಿದ್ದರೆ",
 	"Maze.helpIfElse": "'ಆಗಿದ್ದರೆ-ಇಲ್ಲದಿದ್ದರೆ' ಬ್ಲಾಕ್ ಗಳು ಒಂದು ಅಥವಾ ಇನ್ನೊಂದನ್ನು ಮಾಡುತ್ತವೆ.",
 	"Maze.pathAhead": "ಮುಂದೆ ದಾರಿ ಇದ್ದರೆ",
 	"Maze.pathLeft": "ಎಡಕ್ಕೆ ದಾರಿ ಇದ್ದರೆ",

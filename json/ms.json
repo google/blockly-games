@@ -80,7 +80,6 @@
 	"Maze.turnLeft": "belok kiri",
 	"Maze.turnRight": "belok kanan",
 	"Maze.doCode": "lakukan",
-	"Maze.elseCode": "jika tidak",
 	"Maze.helpIfElse": "Blok 'jika-jika tidak' akan memilih salah satu tindakan yang diberikan.",
 	"Maze.pathAhead": "jika ada laluan ke hadapan",
 	"Maze.pathLeft": "jika ada laluan ke kiri",

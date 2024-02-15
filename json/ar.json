@@ -86,7 +86,6 @@
 	"Maze.turnLeft": "استدر إلى اليسار",
 	"Maze.turnRight": "استدر الى اليمين",
 	"Maze.doCode": "افعل",
-	"Maze.elseCode": "والا",
 	"Maze.helpIfElse": "كتل (إذا-وإلا) ستفعل شيئا محددا أو شيئا آخر.",
 	"Maze.pathAhead": "إذا هناك مسار في الأمام",
 	"Maze.pathLeft": "إذا كان المسار إلى اليسار",

@@ -84,7 +84,6 @@
 	"Maze.turnLeft": "наляво",
 	"Maze.turnRight": "надясно",
 	"Maze.doCode": "изпълни",
-	"Maze.elseCode": "иначе",
 	"Maze.helpIfElse": "Ако-иначе блоковете правят едно от двете действия.",
 	"Maze.pathAhead": "ако има път напред",
 	"Maze.pathLeft": "ако има път наляво",

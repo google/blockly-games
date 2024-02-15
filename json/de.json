@@ -86,7 +86,6 @@
 	"Maze.turnLeft": "links drehen",
 	"Maze.turnRight": "rechts drehen",
 	"Maze.doCode": "ausführen",
-	"Maze.elseCode": "sonst",
 	"Maze.helpIfElse": "Wenn-Sonst-Bausteine führen das eine oder das andere aus.",
 	"Maze.pathAhead": "wenn Pfad geradeaus ist",
 	"Maze.pathLeft": "wenn Pfad nach links ist",

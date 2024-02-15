@@ -91,7 +91,6 @@
 	"Maze.turnLeft": "tourner à gauche",
 	"Maze.turnRight": "tourner à droite",
 	"Maze.doCode": "faire",
-	"Maze.elseCode": "sinon",
 	"Maze.helpIfElse": "Un bloc « si–sinon » permet d’exécuter une chose sinon autre chose.",
 	"Maze.pathAhead": "si chemin devant",
 	"Maze.pathLeft": "si chemin vers la gauche",

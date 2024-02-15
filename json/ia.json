@@ -79,7 +79,6 @@
 	"Maze.turnLeft": "girar a sinistra",
 	"Maze.turnRight": "girar a dextra",
 	"Maze.doCode": "face",
-	"Maze.elseCode": "si non",
 	"Maze.helpIfElse": "Un bloco \"si/si non\" face un cosa o le altere.",
 	"Maze.pathAhead": "si ha cammino avante",
 	"Maze.pathLeft": "si ha cammino a sinistra",

@@ -77,7 +77,6 @@
 	"Maze.turnLeft": "Chapga burilish",
 	"Maze.turnRight": "O'ngga burilish",
 	"Maze.doCode": "bajarish",
-	"Maze.elseCode": "aks holda",
 	"Maze.helpIfElse": "If-else bloklari u yoki bu narsani bajaradi.",
 	"Maze.pathAhead": "agar to'g'rida yo'l bo'lsa",
 	"Maze.pathLeft": "agar chap tarafda yo'l bo'lsa",

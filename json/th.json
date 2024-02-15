@@ -85,7 +85,6 @@
 	"Maze.turnLeft": "หันซ้าย",
 	"Maze.turnRight": "หันขวา",
 	"Maze.doCode": "ทำ",
-	"Maze.elseCode": "มิฉะนั้น",
 	"Maze.helpIfElse": "บล็อก \"ถ้า-มิฉะนั้น\" จะทำอย่างใดอย่างหนึ่งเท่านั้น",
 	"Maze.pathAhead": "ถ้ามีทางเดินข้างหน้า",
 	"Maze.pathLeft": "ถ้ามีทางเดินด้านซ้าย",

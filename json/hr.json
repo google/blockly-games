@@ -81,7 +81,6 @@
 	"Maze.turnLeft": "okret ulijevo",
 	"Maze.turnRight": "okret udesno",
 	"Maze.doCode": "radi",
-	"Maze.elseCode": "inače",
 	"Maze.helpIfElse": "Ako-onda blokovi će učiniti jedno ili drugo.",
 	"Maze.pathAhead": "ako je staza ispred",
 	"Maze.pathLeft": "ako je staza lijevo",

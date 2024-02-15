@@ -81,7 +81,6 @@
 	"Maze.turnLeft": "pagriezies pa kreisi",
 	"Maze.turnRight": "pagriezies pa labi",
 	"Maze.doCode": "izpildi",
-	"Maze.elseCode": "citādi",
 	"Maze.helpIfElse": "Pārbaudes komandas 'ja-citādi' izpildīs vai nu vienu, vai otru bloku atkarībā no pārbaudes.",
 	"Maze.pathAhead": "ja priekšā ir brīvs ceļš",
 	"Maze.pathLeft": "ja pa kreisi ir brīvs ceļš",

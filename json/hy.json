@@ -82,7 +82,6 @@
 	"Maze.turnLeft": "թեքվել ձախ",
 	"Maze.turnRight": "թեքվել աջ",
 	"Maze.doCode": "կատարել",
-	"Maze.elseCode": "հակառակ դեպքում",
 	"Maze.helpIfElse": "\"Եթե֊հակառակ դեպքում\" հրամանը կկատարի գործողություններից մեկը։",
 	"Maze.pathAhead": "եթե առջևը ուղի կա",
 	"Maze.pathLeft": "եթե ուղին ձախ կողմում է",

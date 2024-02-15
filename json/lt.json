@@ -87,7 +87,6 @@
 	"Maze.turnLeft": "sukti į kairę",
 	"Maze.turnRight": "sukti į dešinę",
 	"Maze.doCode": "daryti",
-	"Maze.elseCode": "kitas",
 	"Maze.helpIfElse": "Leidžia pasirinkti vieną iš dviejų variantų",
 	"Maze.pathAhead": "jei galima eiti pirmyn",
 	"Maze.pathLeft": "jei yra kelias į kairę",

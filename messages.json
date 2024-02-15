@@ -295,10 +295,6 @@
     "desc": "block text - Imperative or infinitive of a verb preceding one or more commands to a person.  This is part of [https://github.com/google/blockly/wiki/Loops#repeat repeat] and [https://github.com/google/blockly/wiki/IfElse#If_blocks if] blocks.\n{{Identical|Do}}",
     "msg": "do"
   },
-  "Maze.elseCode": {
-    "desc": "block text - Conjunction meaning 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'.  See [https://github.com/google/blockly/wiki/IfElse#If-Else_blocks].\n{{Identical|Else}}",
-    "msg": "else"
-  },
   "Maze.helpIfElse": {
     "desc": "callout - This is shown when the 'if-else' block is introduced.  For 'if-else' concatenate the words for 'if' and 'else/otherwise'.",
     "msg": "If-else blocks will do one thing or the other."

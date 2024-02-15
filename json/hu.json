@@ -89,7 +89,6 @@
 	"Maze.turnLeft": "Fordulj balra",
 	"Maze.turnRight": "Fordulj jobbra",
 	"Maze.doCode": "végrehajt",
-	"Maze.elseCode": "egyébként",
 	"Maze.helpIfElse": "A Ha-egyébként feltétel esetén vagy az egyik, vagy a másik utasítás-csoport kerül végrehajtásra.",
 	"Maze.pathAhead": "Ha szabad az út előtted",
 	"Maze.pathLeft": "Ha szabad az út balra",

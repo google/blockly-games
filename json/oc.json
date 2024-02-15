@@ -81,7 +81,6 @@
 	"Maze.turnLeft": "vira a esquèrra",
 	"Maze.turnRight": "vira a dreita",
 	"Maze.doCode": "far",
-	"Maze.elseCode": "siquenon",
 	"Maze.helpIfElse": "Un blòt 'Se-Siquenon' executa una causa o una autra.",
 	"Maze.pathAhead": "se camin davant",
 	"Maze.pathLeft": "se camin cap a esquèrra",
