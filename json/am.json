@@ -80,7 +80,6 @@
 	"Maze.turnLeft": "ታጠፍ ወደግራ",
 	"Maze.turnRight": "ታጠፍ ወደቀኝ",
 	"Maze.doCode": "አድርግ",
-	"Maze.elseCode": "ካልሆነ",
 	"Maze.helpIfElse": "የ ከሆነ-ካልሆነ ብሎኮች ተፈታኝ ብሎኩ ከሆነ የመጀመሪያውን ካልሆነ ደግሞ ሌላውን ለሚያሰናደር ይረዳሉ",
 	"Maze.pathAhead": "መንገድ ካለ ወደፊት",
 	"Maze.pathLeft": "መንገድ ካለ በስተግራ",

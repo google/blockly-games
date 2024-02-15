@@ -79,7 +79,6 @@
 	"Maze.turnLeft": "vend til vinstru",
 	"Maze.turnRight": "vend til høgru",
 	"Maze.doCode": "ger",
-	"Maze.elseCode": "annars",
 	"Maze.helpIfElse": "If-else blokkar gera eitt ella eitt annað",
 	"Maze.pathAhead": "um rás er fyri framman",
 	"Maze.pathLeft": "um rás er til vinstru",

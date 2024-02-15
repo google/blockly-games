@@ -84,7 +84,6 @@
 	"Maze.turnLeft": "zavij levo",
 	"Maze.turnRight": "zavij desno",
 	"Maze.doCode": "naredi",
-	"Maze.elseCode": "sicer",
 	"Maze.helpIfElse": "Bloki če-potem bodo izvedli eno ali drugo stvar.",
 	"Maze.pathAhead": "če pot naprej",
 	"Maze.pathLeft": "če pot na levo",

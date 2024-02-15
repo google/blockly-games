@@ -83,7 +83,6 @@
 	"Maze.turnLeft": "întoarce la stânga",
 	"Maze.turnRight": "întoarce la dreapta",
 	"Maze.doCode": "execută",
-	"Maze.elseCode": "altfel",
 	"Maze.helpIfElse": "Blocurile „dacă-altfel” vor efectua fie o anumită acțiune, fie pe cealaltă.",
 	"Maze.pathAhead": "dacă o cale înainte",
 	"Maze.pathLeft": "dacă o cale spre stânga",

@@ -83,7 +83,6 @@
 	"Maze.turnLeft": "बाएँ मुड़ें",
 	"Maze.turnRight": "दाएँ मुड़ें",
 	"Maze.doCode": "करें",
-	"Maze.elseCode": "अन्य",
 	"Maze.helpIfElse": "यदि अन्य ब्लाक एक काम या अन्य काम करेंगे।",
 	"Maze.pathAhead": "यदि पथ आगे है तो",
 	"Maze.pathLeft": "यदि पथ बाएं है तो",

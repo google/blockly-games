@@ -44,7 +44,6 @@
 	"Maze.turnLeft": "сврти лево",
 	"Maze.turnRight": "сврти десно",
 	"Maze.doCode": "изведи",
-	"Maze.elseCode": "инаку",
 	"Maze.helpIfElse": "Блокчињата „ако-тогаш“ ќе извршат или едно нешто или друго.",
 	"Maze.pathAhead": "ако има пат напред",
 	"Maze.pathLeft": "ако има пат лево",

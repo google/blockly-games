@@ -125,7 +125,7 @@ Maze.Blocks.init = function() {
     // Block for conditional "if there is a path, else".
     {
       "type": "maze_ifElse",
-      "message0": `%1%2${BlocklyGames.getMsg('Maze.doCode', false)}%3${BlocklyGames.getMsg('Maze.elseCode', false)}%4`,
+      "message0": `%1%2${BlocklyGames.getMsg('Maze.doCode', false)}%3${window['BlocklyMsg']['CONTROLS_IF_MSG_ELSE']}%4`,
       "args0": [
         {
           "type": "field_dropdown",

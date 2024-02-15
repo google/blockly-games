@@ -90,7 +90,6 @@
 	"Maze.turnLeft": "gire para a esquerda",
 	"Maze.turnRight": "gire para a direita",
 	"Maze.doCode": "faça",
-	"Maze.elseCode": "senão",
 	"Maze.helpIfElse": "O comando 'Se-senão' faz uma coisa ou outra.",
 	"Maze.pathAhead": "se existe um caminho em frente",
 	"Maze.pathLeft": "se existe um caminho para a esquerda",

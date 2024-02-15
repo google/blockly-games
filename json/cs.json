@@ -84,7 +84,6 @@
 	"Maze.turnLeft": "otočit doleva",
 	"Maze.turnRight": "otočit doprava",
 	"Maze.doCode": "udělej",
-	"Maze.elseCode": "jinak",
 	"Maze.helpIfElse": "Příkaz 'pokud-jinak' provede buď něco, nebo něco jiného.",
 	"Maze.pathAhead": "pokud cesta vpřed",
 	"Maze.pathLeft": "pokud cesta doleva",

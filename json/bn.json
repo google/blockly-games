@@ -81,7 +81,6 @@
 	"Maze.turnLeft": "বামে যান",
 	"Maze.turnRight": "ডানে যান",
 	"Maze.doCode": "করুন",
-	"Maze.elseCode": "নতুবা",
 	"Maze.helpIfElse": "If-else ব্লকসমূহ একটি কাজ করবে অথবা অন্যটি।",
 	"Maze.pathAhead": "যদি সামনে পথ থাকে",
 	"Maze.pathLeft": "যদি বামে পথ থাকে",

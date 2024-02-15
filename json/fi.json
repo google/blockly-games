@@ -90,7 +90,6 @@
 	"Maze.turnLeft": "käänny vasemmalle",
 	"Maze.turnRight": "käänny oikealle",
 	"Maze.doCode": "tee",
-	"Maze.elseCode": "muutoin",
 	"Maze.helpIfElse": "If-else (joko-tai) -lohko tekee joko yhden tai toisen asian.",
 	"Maze.pathAhead": "jos edessä on polku",
 	"Maze.pathLeft": "jos polku kääntyy vasemmalle",

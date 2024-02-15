@@ -89,7 +89,6 @@
 	"Maze.turnLeft": "左を向く",
 	"Maze.turnRight": "右を向く",
 	"Maze.doCode": "実行",
-	"Maze.elseCode": "それ以外",
 	"Maze.helpIfElse": "「if-else」(もし-それ以外) ブロックでは、一方ともう一方の 2 つのことができます。",
 	"Maze.pathAhead": "もしまっすぐ進めるなら",
 	"Maze.pathLeft": "もし左に進めるなら",

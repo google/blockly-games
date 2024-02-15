@@ -83,7 +83,6 @@
 	"Maze.turnLeft": "biratu ezker",
 	"Maze.turnRight": "biratu eskuin",
 	"Maze.doCode": "egin",
-	"Maze.elseCode": "bestela",
 	"Maze.helpIfElse": "If-else blokeek gauza bat edo bestea egingo dute.",
 	"Maze.pathAhead": "bidea badago aurrera",
 	"Maze.pathLeft": "bidea badago ezkerrera",

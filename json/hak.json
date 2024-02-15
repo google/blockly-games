@@ -28,7 +28,6 @@
 	"Maze.turnLeft": "左彎",
 	"Maze.turnRight": "右彎",
 	"Maze.doCode": "做",
-	"Maze.elseCode": "不過",
 	"Maze.pathAhead": "佬前方有路",
 	"Maze.pathLeft": "佬左邊有路",
 	"Maze.pathRight": "佬右邊有路",

@@ -81,7 +81,6 @@
 	"Maze.turnLeft": "sola dönün",
 	"Maze.turnRight": "sağa dönün",
 	"Maze.doCode": "icra et",
-	"Maze.elseCode": "əks halda",
 	"Maze.pathAhead": "əgər yol qarşıdadısa",
 	"Maze.pathLeft": "əgər yol soldadısa",
 	"Maze.pathRight": "əgər yol sağdadısa",

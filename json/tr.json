@@ -94,7 +94,6 @@
 	"Maze.turnLeft": "sola dön",
 	"Maze.turnRight": "sağa dön",
 	"Maze.doCode": "yap",
-	"Maze.elseCode": "değilse",
 	"Maze.helpIfElse": "İf-else blokları bir şeyi yapar.",
 	"Maze.pathAhead": "eğer yol ileride ise",
 	"Maze.pathLeft": "sola giden yol",

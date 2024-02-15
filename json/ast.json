@@ -80,7 +80,6 @@
 	"Maze.turnLeft": "xirar a la esquierda",
 	"Maze.turnRight": "xirar a la drecha",
 	"Maze.doCode": "faer",
-	"Maze.elseCode": "sinón",
 	"Maze.helpIfElse": "Los bloques 'si-sinón' faen una cosa o la otra",
 	"Maze.pathAhead": "si hai camín enfrente",
 	"Maze.pathLeft": "si hai camín a la esquierda",

@@ -88,7 +88,6 @@
 	"Maze.turnLeft": "окрени се лево",
 	"Maze.turnRight": "скрени десно",
 	"Maze.doCode": "изврши",
-	"Maze.elseCode": "иначе",
 	"Maze.helpIfElse": "Блокови „ако-иначе“ извршиће или једно или друго.",
 	"Maze.pathAhead": "ако постоји пут напред",
 	"Maze.pathLeft": "ако постоји пут лево",

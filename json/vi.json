@@ -86,7 +86,6 @@
 	"Maze.turnLeft": "quay qua trái",
 	"Maze.turnRight": "quay qua phải",
 	"Maze.doCode": "hãy",
-	"Maze.elseCode": "nếu không",
 	"Maze.helpIfElse": "Mảnh 'nếu-nếu không' sẽ thực hiện một trong hai nhóm lệnh đưa ra.",
 	"Maze.pathAhead": "nếu có đường phía trước",
 	"Maze.pathLeft": "nếu có đường bên trái",

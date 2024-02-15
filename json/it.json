@@ -87,7 +87,6 @@
 	"Maze.turnLeft": "svolta a sinistra",
 	"Maze.turnRight": "svolta a destra",
 	"Maze.doCode": "fai",
-	"Maze.elseCode": "altrimenti",
 	"Maze.helpIfElse": "Le istruzioni if-else cercheranno di compiere la prima azione o la seconda.",
 	"Maze.pathAhead": "se c'è strada avanti",
 	"Maze.pathLeft": "se c'è strada a sinistra",

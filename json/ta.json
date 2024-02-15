@@ -73,7 +73,6 @@
 	"Maze.turnLeft": "இடப்பக்கம் திரும்புக",
 	"Maze.turnRight": "வலப்பக்கம் திரும்புக",
 	"Maze.doCode": "செய்க",
-	"Maze.elseCode": "இல்லையெனில்",
 	"Maze.pathAhead": "பாதை முனன்னே இருந்தால்",
 	"Maze.pathLeft": "பாதை இடது பக்கம் இருந்தால்",
 	"Maze.pathRight": "பாதை வலது பக்கம் இருந்தால்",

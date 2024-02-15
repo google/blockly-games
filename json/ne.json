@@ -27,7 +27,6 @@
 	"Maze.turnLeft": "बायाँ मोड्ने",
 	"Maze.turnRight": "दायाँ मोड्ने",
 	"Maze.doCode": "गर्नुहोस्",
-	"Maze.elseCode": "नत्र",
 	"Maze.helpIfElse": "यदि-नत्र ब्लकले पहिलो या दोस्रो कृयाकलाप छान्न सकिन्छ ।",
 	"Maze.pathAhead": "यदि सिधा बाटो छ भने",
 	"Maze.pathLeft": "यदि बायाँ तिर बाटो छ भने",

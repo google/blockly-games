@@ -89,7 +89,6 @@
 	"Maze.turnLeft": "פנה שמאלה",
 	"Maze.turnRight": "פנה ימינה",
 	"Maze.doCode": "תעשה",
-	"Maze.elseCode": "אחרת",
 	"Maze.helpIfElse": "קוביות אם-אז תבצענה אחד משני דברים.",
 	"Maze.pathAhead": "נתיב אם בהמשך",
 	"Maze.pathLeft": "נתיב אם משמאל",

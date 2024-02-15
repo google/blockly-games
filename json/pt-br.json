@@ -98,7 +98,6 @@
 	"Maze.turnLeft": "vire à esquerda",
 	"Maze.turnRight": "vire à direita",
 	"Maze.doCode": "faça",
-	"Maze.elseCode": "senão",
 	"Maze.helpIfElse": "Blocos se-senão farão uma coisa ou outra.",
 	"Maze.pathAhead": "se caminho à frente",
 	"Maze.pathLeft": "se caminho à esquerda",

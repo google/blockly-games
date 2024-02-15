@@ -79,7 +79,6 @@
 	"Maze.turnLeft": "ንፀጋም ተዓፀፍ",
 	"Maze.turnRight": "ንየማን ተዓፀፍ",
 	"Maze.doCode": "ግበር",
-	"Maze.elseCode": "ተዘይኮይኑ",
 	"Maze.helpIfElse": "እንድሕር - ተዘይኮይኑ ሳናዱቅ ሓደ ነገር ወይ ካልእ ይገብሩ።",
 	"Maze.pathAhead": "ንቅድሜኻ መገዲ እንተሃልዩ",
 	"Maze.pathLeft": "ንፀጋምኻ መገዲ እንተሃልዩ",

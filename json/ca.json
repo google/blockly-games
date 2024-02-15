@@ -83,7 +83,6 @@
 	"Maze.turnLeft": "gira esquerra",
 	"Maze.turnRight": "gira dreta",
 	"Maze.doCode": "fes",
-	"Maze.elseCode": "si no",
 	"Maze.helpIfElse": "Les declaracions 'si-si no' faran fer una cosa o una altra.",
 	"Maze.pathAhead": "al davant",
 	"Maze.pathLeft": "si camí a l'esquerra",

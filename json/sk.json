@@ -83,7 +83,6 @@
 	"Maze.turnLeft": "otoč sa vľavo",
 	"Maze.turnRight": "otoč sa vpravo",
 	"Maze.doCode": "urob",
-	"Maze.elseCode": "inak",
 	"Maze.helpIfElse": "Príkaz ak-inak urobí buď jedno alebo druhé.",
 	"Maze.pathAhead": "ak je cesta pred",
 	"Maze.pathLeft": "ak je cesta vľavo",

@@ -80,7 +80,6 @@
 	"Maze.turnLeft": "павярнуць налева",
 	"Maze.turnRight": "павярнуць направа",
 	"Maze.doCode": "выконваць",
-	"Maze.elseCode": "інакш",
 	"Maze.helpIfElse": "Каманда \"калі-інакш\" выканае адно ці другое дзеянне.",
 	"Maze.pathAhead": "калі шлях наперадзе",
 	"Maze.pathLeft": "калі шлях злева",

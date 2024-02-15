@@ -80,7 +80,6 @@
 	"Maze.turnLeft": "snúa til vinstri",
 	"Maze.turnRight": "snúa til hægri",
 	"Maze.doCode": "gera",
-	"Maze.elseCode": "annars",
 	"Maze.helpIfElse": "Ef-annars kubbar gera eitt eða annað.",
 	"Maze.pathAhead": "ef slóð framundan",
 	"Maze.pathLeft": "ef slóð til vinstri",

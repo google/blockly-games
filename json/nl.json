@@ -87,7 +87,6 @@
 	"Maze.turnLeft": "linksaf",
 	"Maze.turnRight": "rechtsaf",
 	"Maze.doCode": "uitvoeren",
-	"Maze.elseCode": "anders",
 	"Maze.helpIfElse": "\"als-dan\"-blokken doen het ene of het andere.",
 	"Maze.pathAhead": "als er een pad rechtdoor is",
 	"Maze.pathLeft": "als er een pad naar links is",

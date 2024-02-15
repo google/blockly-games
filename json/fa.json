@@ -86,7 +86,6 @@
 	"Maze.turnLeft": "بپیچ به چپ",
 	"Maze.turnRight": "بپیچ به راست",
 	"Maze.doCode": "انجام",
-	"Maze.elseCode": "آنگاه",
 	"Maze.helpIfElse": "بلوک‌ها اگر-آنگاه یک کار را انجام می‌دهند یا یک کار دیگر.",
 	"Maze.pathAhead": "اگر مسیر پیش رو",
 	"Maze.pathLeft": "اگر مسیر به سمت چپ",
