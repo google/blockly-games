@@ -26,6 +26,7 @@ goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
+goog.require('Slider');
 goog.require('Maze.Blocks');
 goog.require('Maze.html');
 
@@ -285,6 +286,7 @@ let finish_;
 let pegmanX;
 let pegmanY;
 let pegmanD;
+let speedSlider;
 
 /**
  * Log of Pegman's moves.  Recorded during execution, played back for animation.
@@ -480,6 +482,11 @@ function init() {
        'zoom': {'startScale': scale}});
   BlocklyInterface.workspace.getAudioManager().load(SKIN.winSound, 'win');
   BlocklyInterface.workspace.getAudioManager().load(SKIN.crashSound, 'fail');
+
+  // Initialize the slider.
+  const sliderSvg = BlocklyGames.getElementById('slider');
+  speedSlider = new Slider(10, 35, 130, sliderSvg);
+
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
@@ -739,6 +746,16 @@ function levelHelp(opt_event) {
 }
 
 /**
+ * Calculate adjusted speed based on the speed value provided.
+ * @param {number} speed - The initial speed value.
+ * @returns {number} - The adjusted speed value.
+ */
+function calculateSpeed(speed) {
+    speed = speed * (-speedSlider.value_ + 1);
+    return speed;
+}
+
+/**
  * Reload with a different Pegman skin.
  * @param {number} newSkin ID of new skin.
  */
@@ -816,7 +833,7 @@ function reset(first) {
     pegmanD = startDirection + 1;
     scheduleFinish(false);
     pidList.push(setTimeout(function() {
-      stepSpeed = 100;
+      stepSpeed = calculateSpeed(100);
       schedule([pegmanX, pegmanY, pegmanD * 4],
                [pegmanX, pegmanY, pegmanD * 4 - 4]);
       pegmanD++;
@@ -1035,10 +1052,10 @@ function execute() {
 
   // Fast animation if execution is successful.  Slow otherwise.
   if (result === ResultType.SUCCESS) {
-    stepSpeed = 100;
+    stepSpeed = calculateSpeed(100);
     log.push(['finish', null]);
   } else {
-    stepSpeed = 150;
+    stepSpeed = calculateSpeed(150);
   }
 
   // log now contains a transcript of all the user's actions.
@@ -1260,7 +1277,7 @@ function scheduleFinish(sound) {
   if (sound) {
     BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
   }
-  stepSpeed = 150;  // Slow down victory animation a bit.
+  stepSpeed = calculateSpeed(150);  // Slow down victory animation a bit.
   pidList.push(setTimeout(function() {
       displayPegman(pegmanX, pegmanY, 18);
     }, stepSpeed));
