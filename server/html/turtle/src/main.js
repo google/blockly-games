@@ -791,11 +791,11 @@ function penColour(colour, opt_id) {
 
 /**
  * Make the turtle visible or invisible.
- * @param {boolean} visible True if visible, false if invisible.
+ * @param {boolean} newVisible True if visible, false if invisible.
  * @param {string=} opt_id ID of block.
  */
-function isVisible(visible, opt_id) {
-  visible = visible;
+function isVisible(newVisible, opt_id) {
+  visible = newVisible;
   animate(opt_id);
 }
 
