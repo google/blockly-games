@@ -23,7 +23,7 @@ __author__ = "fraser@google.com (Neil Fraser)"
 
 import cgi_utils
 import logging
-logging.basicConfig(filename="../javascript.log", encoding="utf-8",
+logging.basicConfig(filename="../logs/javascript.log", encoding="utf-8",
                     format="%(levelname)s: %(message)s", level=logging.DEBUG)
 from os import environ
 

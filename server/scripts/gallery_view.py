@@ -44,15 +44,15 @@ if __name__ == "__main__":
 
   print("Content-Type: text/plain")
   if not re.match(r"[-\w]+", app):
-    # Don't scanning "../../etc/passwd"
+    # Don't scan "../../etc/passwd".
     print("Status: 406 Not Acceptable\n")
     print("That is not a valid directory.")
   elif cursor and not re.match(r"\w+", cursor):
-    # Don't escape from this directory
+    # Don't escape from this directory.
     print("Status: 406 Not Acceptable\n")
     print("That is not a valid cursor.")
   else:
-    dir = cgi_utils.get_dir(app)
+    dir = cgi_utils.get_dir(app) + "gallery/"
     names = sorted(glob.glob("%s*.gallery" % dir), key=os.path.getctime)
 
     # Trim off all entries before the cursor.
