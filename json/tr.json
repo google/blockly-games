@@ -17,7 +17,8 @@
 			"Ramona.Stewart",
 			"Sucsuzz",
 			"Trockya",
-			"Velg"
+			"Velg",
+			"zktosu"
 		]
 	},
 	"Games.name": "Blockly Oyunlar",
@@ -95,9 +96,9 @@
 	"Maze.turnRight": "sağa dön",
 	"Maze.doCode": "yap",
 	"Maze.helpIfElse": "İf-else blokları bir şeyi yapar.",
-	"Maze.pathAhead": "eğer yol ileride ise",
-	"Maze.pathLeft": "sola giden yol",
-	"Maze.pathRight": "sağa giden yol",
+	"Maze.pathAhead": "eğer ileri giden yol varsa",
+	"Maze.pathLeft": "eğer sola giden yol varsa",
+	"Maze.pathRight": "eğer sağa giden yol varsa",
 	"Maze.repeatUntil": "kadar tekrar edin",
 	"Maze.moveForwardTooltip": "Oynatıcıyı bir boşluk ileri götürür.",
 	"Maze.turnTooltip": "Oyuncuya 90 derece sola veya sağa çevirir.",
