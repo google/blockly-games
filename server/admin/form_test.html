@@ -11,11 +11,11 @@
     </style>
   </head>
   <body>
-    <h1><a class="publicLink" href="index.html">Blockly Games</a> :
-    <a class="publicLink" href="admin.html">Admin</a> : Form Test</h1>
+    <h1><a class="htmlLink" href="./" data-href="../index.html">Blockly Games</a> :
+    <a class="htmlLink" href="../admin" data-href="../admin.html">Admin</a> : Form Test</h1>
 
     <h2>/scripts/storage.py</h2>
-    <form class="publicLink" action="/scripts/storage.py" method="post">
+    <form action="/scripts/storage.py" method="post">
       <table>
         <tr>
           <td>app:</td>
@@ -33,7 +33,7 @@
     </form>
 
     <h2>/scripts/errorReporter.py</h2>
-    <form class="publicLink" action="/scripts/errorReporter.py" method="post">
+    <form action="/scripts/errorReporter.py" method="post">
       <table>
         <tr>
           <td>url:</td>
@@ -52,6 +52,6 @@
     <script>
       document.getElementById('urlInput').value = location;
     </script>
-    <script src="back.js"></script>
+    <script src="../common/relink.js"></script>
   </body>
 </html>

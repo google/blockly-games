@@ -21,6 +21,7 @@ limitations under the License.
 
 __author__ = "fraser@google.com (Neil Fraser)"
 
+import base64
 import json
 import cgi_utils
 import os
@@ -68,6 +69,13 @@ def store_gallery(key, app, title, thumb):
   if not os.path.exists(file_name):
     with open(file_name, "w") as f:
       f.write(text)
+
+  # Save the gallery image to a file if one doesn't already exist.
+  file_name = cgi_utils.get_dir(app) + "gallery/" + key + ".png"
+  if not os.path.exists(file_name):
+    img = base64.standard_b64decode(thumb[len(THUMB_PREFIX):])
+    with open(file_name, "wb") as f:
+      f.write(img)
 
 
 if __name__ == "__main__":

@@ -19,36 +19,70 @@ Use this encrypted password in the 'XXXXXXX...' below.
 > sudo ln -s /usr/bin/python3 /usr/bin/python
 
 > sudo useradd -s /bin/bash -m bg-user
+> sudo mkdir /home/bg-user/data
+> sudo chgrp bg-user /home/bg-user/data
+> sudo chown bg-user /home/bg-user/data
+> sudo mkdir /home/bg-user/logs
+> sudo chgrp bg-user /home/bg-user/logs
+> sudo chown bg-user /home/bg-user/logs
+
+It is recommended to have separate drives for user data and web logs.
+This way if they fill up, they don't affect the system.
+Here's how to mount these drives:
+> lsblk
+sdb       8:16   0  100G  0 disk
+sdc       8:32   0  120G  0 disk
+> sudo mkfs.ext4 /dev/sdx <- use the correct drive name from lsblk (e.g. sdb)
+> sudo mkfs.ext4 /dev/sdy <- use the correct drive name from lsblk (e.g. sdc)
+> sudo mount /dev/sdx /home/bg-user/data <- use the correct drive name
+> sudo mount /dev/sdy /home/bg-user/logs <- use the correct drive name
+> lsblk
+sdb       8:16   0  100G  0 disk /home/bg-user/data
+sdc       8:32   0  120G  0 disk /home/bg-user/logs
+
 > sudo su - bg-user
 >   echo 'admin:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' >> .htpasswd
 >   history -c
 >   chmod o-r .htpasswd
->   touch access.log error.log access8000.log error8000.log javascript.log
+>   touch logs/access.log logs/error.log logs/javascript.log
 >   chmod g+w *.log
 >   mkdir -p data/{maze,bird,turtle,movie,music,pond-tutor,pond-duck}
->   chmod g+w data/*
+>   mkdir -p data/{turtle,movie,music}/gallery
 >   git clone -b server-migration https://github.com/google/blockly-games.git
 >   cd blockly-games
 >   make
 >   make deploy
->   wget https://prdownloads.sourceforge.net/awstats/awstats-7.9.tar.gz
->   gunzip awstats-7.9.tar.gz
->   tar -xvf awstats-7.9.tar
->   rm awstats-7.9.tar
->   mv awstats-7.9 awstats
->   cp blockly-games/server/awstats.blockly.games.conf awstats/wwwroot/cgi-bin/
->   mkdir awstats/data
->   /home/bg-user/awstats/wwwroot/cgi-bin/awstats.pl -update -config=blockly.games
 >   exit
 > sudo chgrp www-data /home/bg-user/.htpasswd
-> sudo chown www-data /home/bg-user/*.log
+> sudo chown www-data /home/bg-user/logs/*.log
 > sudo chown -R www-data /home/bg-user/data/
-> sudo chgrp -R www-data /home/bg-user/awstats/
-> sudo chmod -R g+w /home/bg-user/awstats/
 > sudo rm /etc/nginx/sites-enabled/default
 > sudo cp ~bg-user/blockly-games/server/blocklygames.conf /etc/nginx/sites-enabled/
 > sudo nginx -s reload
 
+Setting up AWStats
+> wget https://prdownloads.sourceforge.net/awstats/awstats-7.9.tar.gz
+> gunzip awstats-7.9.tar.gz
+> tar -xvf awstats-7.9.tar
+> rm awstats-7.9.tar
+> sudo mv awstats-7.9/ /usr/local/awstats
+> cd /usr/local/awstats/tools
+> ./awstats_configure.pl
+>   Config file path: none
+>   New profile: Yes
+>   Name: blockly.games
+>   Config file: [Enter]
+> pico /etc/awstats/awstats.blockly.games.conf
+>   set log path to /home/bg-user/logs/access.log
+> sudo chown bg-user /etc/awstats/awstats.blockly.games.conf
+> sudo chown -R bg-user /var/lib/awstats
+
+First execution of AWStats, then add it to daily crontab
+> sudo su - bg-user
+>   /usr/lib/cgi-bin/awstats.pl -config=blockly.games
+>   echo "0 2 * * * /usr/lib/cgi-bin/awstats.pl -config=blockly.games" >> crontab.txt
+>   crontab crontab.txt
+> exit
 
 Routine maintenance (suggest monthly)
 
