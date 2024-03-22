@@ -26,11 +26,13 @@ from sys import stdin
 
 
 # Relative from both /scripts and /admin
-DATA_PATH = "../data/"
+DATA_PATH = "../data"
 
 
-def get_dir(app):
-  return "%s%s/" % (DATA_PATH, app)
+# Return a data path for the given app and type.
+# E.g. get_dir("turtle", "storage") -> "../data/turtle/storage/"
+def get_dir(app, type):
+  return "%s/%s/%s/" % (DATA_PATH, app, type)
 
 
 # Parse POST data (e.g. a=1&b=2) into a dictionary (e.g. {"a": 1, "b": 2}).

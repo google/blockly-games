@@ -52,7 +52,7 @@ if __name__ == "__main__":
     print("Status: 406 Not Acceptable\n")
     print("That is not a valid cursor.")
   else:
-    dir = cgi_utils.get_dir(app) + "gallery/"
+    dir = cgi_utils.get_dir(app, "gallery")
     names = sorted(glob.glob("%s*.gallery" % dir), key=os.path.getctime)
 
     # Trim off all entries before the cursor.

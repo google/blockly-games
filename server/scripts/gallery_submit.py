@@ -65,13 +65,13 @@ def store_gallery(key, app, title, thumb):
   text = json.dumps(obj)
 
   # Save the gallery data to a file if one doesn't already exist.
-  file_name = cgi_utils.get_dir(app) + "gallery/" + key + ".gallery"
+  file_name = cgi_utils.get_dir(app, "gallery") + key + ".gallery"
   if not os.path.exists(file_name):
     with open(file_name, "w") as f:
       f.write(text)
 
   # Save the gallery image to a file if one doesn't already exist.
-  file_name = cgi_utils.get_dir(app) + "gallery/" + key + ".png"
+  file_name = cgi_utils.get_dir(app, "gallery") + key + ".png"
   if not os.path.exists(file_name):
     img = base64.standard_b64decode(thumb[len(THUMB_PREFIX):])
     with open(file_name, "wb") as f:

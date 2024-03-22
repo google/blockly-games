@@ -59,7 +59,7 @@ def check(app, data):
     print("Status: 406 Not Acceptable\n")
     print("No data.")
     return False
-  if not os.path.exists(cgi_utils.get_dir(app)):
+  if not os.path.exists(cgi_utils.get_dir(app, "storage")):
     # Don't try saving to a new directory.
     print("Status: 406 Not Acceptable\n")
     print("That is not a valid app.")
@@ -82,7 +82,7 @@ def store(app, data):
   key = keyGen(hash)
 
   # Save the data to a file.
-  file_name = cgi_utils.get_dir(app) + key + ".blockly"
+  file_name = cgi_utils.get_dir(app, "storage") + key + ".blockly"
   with open(file_name, "w") as f:
     f.write(data)
   return key

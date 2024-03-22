@@ -64,18 +64,21 @@ deps:
 	wget https://github.com/ajaxorg/ace-builds/archive/refs/heads/master.zip
 	unzip -u master.zip
 	rm master.zip
-	mv ace-builds-master/src-noconflict/ server/html/third-party/ace
+	rm -rf server/html/third-party/ace/
+	mv ace-builds-master/src-noconflict/ server/html/third-party/ace/
 	rm -r ace-builds-master/
 
 	wget https://github.com/NeilFraser/blockly-for-BG/archive/refs/heads/master.zip
 	unzip -u master.zip
 	rm master.zip
-	mv blockly-for-BG-master/ server/html/third-party/blockly
+	rm -rf server/html/third-party/blockly/
+	mv blockly-for-BG-master/ server/html/third-party/blockly/
 
 	wget https://github.com/CreateJS/SoundJS/archive/refs/heads/master.zip
 	unzip -u master.zip
 	rm master.zip
-	mv SoundJS-master/lib/ server/html/third-party/SoundJS
+	rm -rf server/html/third-party/SoundJS/
+	mv SoundJS-master/lib/ server/html/third-party/SoundJS/
 	rm -r SoundJS-master/
 
 	cp third-party/base.js server/html/third-party/
@@ -84,7 +87,8 @@ deps:
 	wget https://github.com/NeilFraser/JS-Interpreter/archive/refs/heads/master.zip
 	unzip -u master.zip
 	rm master.zip
-	mv JS-Interpreter-master server/html/third-party/JS-Interpreter
+	rm -rf server/html/third-party/JS-Interpreter/
+	mv JS-Interpreter-master/ server/html/third-party/JS-Interpreter/
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar build/third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\
