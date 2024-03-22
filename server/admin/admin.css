@@ -1,6 +1,6 @@
 body {
   background-color: #fff;
-  background-image: url("common/stripes.svg");
+  background-image: url("../common/stripes.svg");
   background-repeat: repeat-y;
   font-family: sans-serif;
   padding: 1em 8em;
