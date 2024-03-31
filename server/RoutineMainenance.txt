@@ -1,0 +1,27 @@
+Care and Feeding of the Blockly Games Server.
+
+Routine system maintenance (suggest monthly):
+SSH to the server (for Googlers, look this up in Pantheon's Virtual Server tab).
+Once connected, issue the following commands:
+> sudo apt-get update
+> sudo apt-get upgrade
+
+To push a new version of Blockly Games:
+> sudo su - bg-user
+>   cd blockly-games
+>   git pull
+>   make  # Watch this step to ensure no errors!
+>   make deploy
+>   exit
+Immediately test http://blockly.games to verify nothing broke.
+
+If there are updates to the web server config:
+> sudo cp ~bg-user/blockly-games/server/blocklygames.conf /etc/nginx/sites-enabled/
+> sudo nginx -s reload
+
+To access the admin page, point a web browser at: https://blockly.games/admin
+Although the admin page doesn't require authentication, many of the pages it
+links to do.  The username is 'admin', and the password (if you are a Googler)
+is found in Valentine.
+
+As of April 2024 the gallery moderation is not usable due to team priorities.
