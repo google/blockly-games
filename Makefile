@@ -2,7 +2,7 @@
 # Definitions
 ##############################
 
-REQUIRED_BINS = svn wget java python
+REQUIRED_BINS = wget java python
 
 ##############################
 # Rules
@@ -60,14 +60,14 @@ deps:
 	wget -N https://unpkg.com/@babel/standalone@7.14.8/babel.min.js
 	mv babel.min.js appengine/third-party/
 	@# GitHub doesn't support git archive, so download files using svn.
-	svn export --force https://github.com/ajaxorg/ace-builds/trunk/src-min-noconflict/ appengine/third-party/ace
-	mkdir -p appengine/third-party/blockly
-	svn export --force https://github.com/NeilFraser/blockly-for-BG/trunk/ appengine/third-party/blockly
-	svn export --force https://github.com/CreateJS/SoundJS/trunk/lib/ appengine/third-party/SoundJS
+	./svn-export-fix.sh ajaxorg ace-builds master appengine/third-party/ace src-min-noconflict 
+	./svn-export-fix.sh NeilFraser blockly-for-BG master appengine/third-party/blockly
+	./svn-export-fix.sh CreateJS SoundJS master appengine/third-party/SoundJS lib
+
 	cp third-party/base.js appengine/third-party/
 	cp -R third-party/soundfonts appengine/third-party/
 
-	svn export --force https://github.com/NeilFraser/JS-Interpreter/trunk/ appengine/third-party/JS-Interpreter
+	./svn-export-fix.sh NeilFraser JS-Interpreter master appengine/third-party/JS-Interpreter
 	@# Compile JS-Interpreter using SIMPLE_OPTIMIZATIONS because the Music game needs to mess with the stack.
 	java -jar build/third-party-downloads/closure-compiler.jar\
 	  --language_out ECMASCRIPT5\
