@@ -21,7 +21,7 @@ goog.require('BlocklyGames.html');
  * @param {!Object} ij Injected options.
  * @returns {string} HTML.
  */
-Bird.html.start = function(ij) {
+Bird.html.start = function (ij) {
   return `
 ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', true, false, '')}
 
@@ -32,7 +32,30 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', t
 
 <table width=400>
   <tr>
-    <td style="width: 190px;">
+  <td style="width: 190px; text-align: center; vertical-align: top;">
+    <svg
+        id="slider"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        width=150
+        height=50>
+        <!-- Slow icon. -->
+        <clipPath id="slowClipPath">
+          <rect width=26 height=12 x=5 y=14 />
+        </clipPath>
+        <image xlink:href="common/icons.png" height=63 width=84 x=-21 y=-10
+            clip-path="url(#slowClipPath)" />
+        <!-- Fast icon. -->
+        <clipPath id="fastClipPath">
+          <rect width=26 height=16 x=120 y=10 />
+        </clipPath>
+        <image xlink:href="common/icons.png" height=63 width=84 x=120 y=-11
+            clip-path="url(#fastClipPath)" />
+      </svg>
+    </td>
+    <td style="width: 15px;">
     </td>
     <td>
       <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
@@ -63,7 +86,7 @@ ${Bird.html.helpDialogs_()}
  * @returns {string} HTML.
  * @private
  */
-Bird.html.toolbox_ = function(level) {
+Bird.html.toolbox_ = function (level) {
   let xml = '<block type="bird_heading"></block>\n';
   if (level >= 2) {
     xml += `<block type="bird_noWorm" disabled="${level === 4 || level === 5}"></block>\n`;
@@ -113,8 +136,8 @@ Bird.html.toolbox_ = function(level) {
  * @returns {string} HTML.
  * @private
  */
-Bird.html.helpDialogs_ = function() {
-    return `
+Bird.html.helpDialogs_ = function () {
+  return `
 <div id="dialogHelp1" class="dialogHiddenContent">
   <table><tr><td rowspan=2>
     <img src="common/help.png">

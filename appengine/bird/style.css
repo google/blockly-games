@@ -49,3 +49,15 @@ button.primary {
 html[dir="RTL"] button.primary {
   text-align: right;
 }
+.sliderTrack {
+  stroke: #aaa;
+  stroke-width: 6px;
+  stroke-linecap: round;
+}
+
+.sliderKnob {
+  fill: #ddd;
+  stroke: #bbc;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+}
